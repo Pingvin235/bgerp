@@ -83,124 +83,6 @@
 			<td width="50%">${parameter.title}</td>
 			<td width="50%">
 				<c:choose>
-					<c:when test="${'file' eq parameter.type}">
-						<c:forEach var="file" items="${item.value}" varStatus="status">
-							<c:set var="value" value="${file.value}" />
-
-							<div>
-								<c:if test="${not readonly}">
-									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
-										<input type="hidden" name="action" value="parameterUpdate" />
-										<html:hidden property="objectType" />
-										<input type="hidden" name="id" value="${id}" />
-										<input type="hidden" name="paramId" value="${parameter.id}" />
-										<input type="hidden" name="position" value="${file.key}" />
-
-										<ui:button type="del" styleClass="btn-small" onclick="
-											$$.ajax.post(this).done(() => {
-												$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
-											})"/>
-									</html:form>
-								</c:if>
-
-								<c:url var="url" value="/user/file.do">
-									<c:param name="id" value="${value.id}" />
-									<c:param name="title" value="${value.title}" />
-									<c:param name="secret" value="${value.secret}" />
-								</c:url>
-								<a href="${url}" ${args} target="_blank" class="preview">${value.title}</a>
-							</div>
-						</c:forEach>
-						<script>
-							$(function () {
-								$('#${viewDivId} .preview').preview();
-							});
-						</script>
-
-						<c:if test="${(multiple or empty item.value) and not readonly}">
-							<c:url var="uploadUrl" value="/user/parameter.do">
-								<c:param name="action" value="parameterUpdate" />
-								<c:param name="id" value="${id}" />
-								<c:param name="paramId" value="${parameter.id}" />
-							</c:url>
-
-							<div style="white-space: nowrap;">
-								<form action="/user/parameter.do" method="POST" enctype="multipart/form-data">
-									<input type="hidden" name="action" value="parameterUpdate" />
-									<input type="hidden" name="responseType" value="json" />
-									<input type="hidden" name="id" value="${id}" />
-									<input type="hidden" name="paramId" value="${parameter.id}" />
-
-									<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.fileUpload(this.form).done(() => {
-										$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
-									});"/>
-									<input type="file" name="file" ${multiple and empty item.value ? "multiple='true'" : ""} style="visibility: hidden; width: 1px; height: 0;"/>
-								</form>
-							</div>
-						</c:if>
-					</c:when>
-
-					<c:when test="${'email' eq parameter.type}">
-						<c:url var="getUrl" value="/user/parameter.do">
-							<c:param name="action" value="parameterGet"/>
-							<c:param name="id" value="${id}"/>
-							<c:param name="paramId" value="${parameter.id}"/>
-						</c:url>
-
-						<c:forEach var="email" items="${item.value}">
-							<c:set var="position" value="${email.key}"/>
-							<c:set var="value" value="${email.value}"/>
-
-							<c:choose>
-								<c:when test="${not readonly}">
-									<html:form action="/user/parameter" style="display:inline;">
-										<input type="hidden" name="action" value="parameterUpdate"/>
-										<html:hidden property="objectType"/>
-										<input type="hidden" name="id" value="${id}"/>
-										<input type="hidden" name="paramId" value="${parameter.id}"/>
-										<input type="hidden" name="position" value="${position}"/>
-
-										<ui:button type="del" styleClass="btn-small"
-											onclick="$$.ajax.post(this).done(() => { $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()) })"/>
-									</html:form>
-
-									<c:set var="editFormId" value="${u:uiid()}"/>
-									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
-										<input type="hidden" name="action" value="parameterGet"/>
-										<html:hidden property="objectType"/>
-										<input type="hidden" name="id" value="${id}"/>
-										<input type="hidden" name="paramId" value="${parameter.id}"/>
-										<input type="hidden" name="position" value="${position}"/>
-										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
-										<input type="hidden" name="tableId" value="${tableId}"/>
-
-										<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
-											${value}
-										</a>
-									</html:form>
-								</c:when>
-								<c:otherwise>${value}</c:otherwise>
-							</c:choose>
-							<br/>
-						</c:forEach>
-
-						<c:if test="${(multiple or empty item.value) and not readonly}">
-							<%-- adding new --%>
-							<html:form action="/user/parameter" style="display: inline;">
-								<input type="hidden" name="action" value="parameterGet"/>
-								<html:hidden property="objectType"/>
-								<input type="hidden" name="id" value="${id}"/>
-								<input type="hidden" name="position" value="-1"/>
-								<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
-								<input type="hidden" name="tableId" value="${tableId}"/>
-								<input type="hidden" name="paramId" value="${parameter.id}"/>
-
-								<ui:button type="add" styleClass="btn-small"
-									onclick="$$.ajax.load(this.form, $('#${editDivId}')).done(() => { ${startEdit} })"/>
-							</html:form>
-						</c:if>
-					</c:when>
-
 					<c:when test="${'address' eq parameter.type}">
 						<c:forEach var="addr" items="${item.value}" varStatus="status">
 							<c:set var="position" value="${addr.key}"/>
@@ -273,8 +155,126 @@
 						</c:if>
 					</c:when>
 
-					<%-- список, дерево, телефон - редактор нужно вызвать --%>
-					<c:when test="${'email, text, blob, date, datetime, list, phone, tree, listcount, money'.contains(parameter.type ) and empty editorType}">
+					<c:when test="${'email' eq parameter.type}">
+						<c:url var="getUrl" value="/user/parameter.do">
+							<c:param name="action" value="parameterGet"/>
+							<c:param name="id" value="${id}"/>
+							<c:param name="paramId" value="${parameter.id}"/>
+						</c:url>
+
+						<c:forEach var="email" items="${item.value}">
+							<c:set var="position" value="${email.key}"/>
+							<c:set var="value" value="${email.value}"/>
+
+							<c:choose>
+								<c:when test="${not readonly}">
+									<html:form action="/user/parameter" style="display:inline;">
+										<input type="hidden" name="action" value="parameterUpdate"/>
+										<html:hidden property="objectType"/>
+										<input type="hidden" name="id" value="${id}"/>
+										<input type="hidden" name="paramId" value="${parameter.id}"/>
+										<input type="hidden" name="position" value="${position}"/>
+
+										<ui:button type="del" styleClass="btn-small"
+											onclick="$$.ajax.post(this).done(() => { $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()) })"/>
+									</html:form>
+
+									<c:set var="editFormId" value="${u:uiid()}"/>
+									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
+										<input type="hidden" name="action" value="parameterGet"/>
+										<html:hidden property="objectType"/>
+										<input type="hidden" name="id" value="${id}"/>
+										<input type="hidden" name="paramId" value="${parameter.id}"/>
+										<input type="hidden" name="position" value="${position}"/>
+										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
+										<input type="hidden" name="tableId" value="${tableId}"/>
+
+										<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
+											${value}
+										</a>
+									</html:form>
+								</c:when>
+								<c:otherwise>${value}</c:otherwise>
+							</c:choose>
+							<br/>
+						</c:forEach>
+
+						<c:if test="${(multiple or empty item.value) and not readonly}">
+							<%-- adding new --%>
+							<html:form action="/user/parameter" style="display: inline;">
+								<input type="hidden" name="action" value="parameterGet"/>
+								<html:hidden property="objectType"/>
+								<input type="hidden" name="id" value="${id}"/>
+								<input type="hidden" name="position" value="-1"/>
+								<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
+								<input type="hidden" name="tableId" value="${tableId}"/>
+								<input type="hidden" name="paramId" value="${parameter.id}"/>
+
+								<ui:button type="add" styleClass="btn-small"
+									onclick="$$.ajax.load(this.form, $('#${editDivId}')).done(() => { ${startEdit} })"/>
+							</html:form>
+						</c:if>
+					</c:when>
+
+					<c:when test="${'file' eq parameter.type}">
+						<c:forEach var="file" items="${item.value}" varStatus="status">
+							<c:set var="value" value="${file.value}" />
+
+							<div>
+								<c:if test="${not readonly}">
+									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
+										<input type="hidden" name="action" value="parameterUpdate" />
+										<html:hidden property="objectType" />
+										<input type="hidden" name="id" value="${id}" />
+										<input type="hidden" name="paramId" value="${parameter.id}" />
+										<input type="hidden" name="position" value="${file.key}" />
+
+										<ui:button type="del" styleClass="btn-small" onclick="
+											$$.ajax.post(this).done(() => {
+												$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
+											})"/>
+									</html:form>
+								</c:if>
+
+								<c:url var="url" value="/user/file.do">
+									<c:param name="id" value="${value.id}" />
+									<c:param name="title" value="${value.title}" />
+									<c:param name="secret" value="${value.secret}" />
+								</c:url>
+								<a href="${url}" ${args} target="_blank" class="preview">${value.title}</a>
+							</div>
+						</c:forEach>
+						<script>
+							$(function () {
+								$('#${viewDivId} .preview').preview();
+							});
+						</script>
+
+						<c:if test="${(multiple or empty item.value) and not readonly}">
+							<c:url var="uploadUrl" value="/user/parameter.do">
+								<c:param name="action" value="parameterUpdate" />
+								<c:param name="id" value="${id}" />
+								<c:param name="paramId" value="${parameter.id}" />
+							</c:url>
+
+							<div style="white-space: nowrap;">
+								<form action="/user/parameter.do" method="POST" enctype="multipart/form-data">
+									<input type="hidden" name="action" value="parameterUpdate" />
+									<input type="hidden" name="responseType" value="json" />
+									<input type="hidden" name="id" value="${id}" />
+									<input type="hidden" name="paramId" value="${parameter.id}" />
+
+									<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.fileUpload(this.form).done(() => {
+										$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
+									});"/>
+									<input type="file" name="file" ${multiple and empty item.value ? "multiple='true'" : ""} style="visibility: hidden; width: 1px; height: 0;"/>
+								</form>
+							</div>
+						</c:if>
+					</c:when>
+
+					<%-- editor has to be called --%>
+					<c:when test="${'text, blob, date, datetime, list, phone, tree, listcount, money'.contains(parameter.type) and empty editorType}">
 						<c:set var="editFormId" value="${u:uiid()}"/>
 						<c:set var="valueTitle" value="${item.valueTitle}"/>
 
@@ -320,7 +320,7 @@
 					</c:when>
 
 					<%-- start of wizard-specific logic 2 --%>
-					<%-- редактор сразу здесь --%>
+					<%-- on-place editor --%>
 					<c:otherwise>
 						<c:set var="editFormId" value="${u:uiid()}"/>
 
