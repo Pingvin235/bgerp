@@ -55,27 +55,14 @@ address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})
 # минимальная длина подстроки в поиске контрагента
 #search.customer.title.min.substring.length=0
 
-# форматирование <<#param-phone, параметра типа "phone">>, общий формат одного номера [[config-param-phone]]
-param.phone.format=(${number})( [${comment}]);
-# форматирование поля ${number} внутри каждого номера, в зависимости от формата
-# форматирование определяет разбиение номера по полям в редакторе, f13 - первый символ в первом поле, далее три во втором
-param.phone.format.number=+X XXX XXX-XX-XX
-param.phone.format.number.f10=+X XXX-XXX-XX-XX
-param.phone.format.number.f13=+X (XXX) XXX-XX-XX
-param.phone.format.number.f14=+X (XXXX) XX-XX-XX
-param.phone.format.number.f15=+X (XXXXX) X-XX-XX
-# количество полей в параметре типа "телефон"
-param.phone.item.count=4
-# префикс по-умолчанию для параметра типа "телефон"
-param.phone.default.prefix=3472
-# ускорение ввода номеров - подстановка 7 в код страны
-param.phone.part.1.default=7
-# переход в третье поле при введение во втором кода российского мобильного, без удаление последнего символа
-param.phone.part.2.jumpRegexp.1.regexp=^9\d{2}
-param.phone.part.2.jumpRegexp.1.moveLastChars=0
-# переход в третье поле с переносом последнего введённого во втором поле при наборе во втором поле 3472
-param.phone.part.2.jumpRegexp.2.regexp=^3472
-param.phone.part.2.jumpRegexp.2.moveLastChars=1
+# formatting for <<#param-phone, parameter type "phone">> [[config-param-phone]]
+# item format
+param.phone.format=(${number})( [${comment}])
+# comma separated number formats
+# Ufa, Russia
+param.phone.format.number=+7 (347) XXX-XX-XX,+7 9XX XXX-XX-XX
+# Munich, Germany
+#param.phone.format.number=017X XXXXXXX,089 XXXXXXX
 
 # при пробросе запросов на сервер с помощью Proxy сервера - имя HTTP заголовка, в котором передаётся адрес клиента
 #header.name.remote.addr=X-Real-IP
@@ -449,11 +436,11 @@ NOTE: Format of address string can be <<config-param-address, configured>>.
 
 Street and house can be choosen and filtered from drop-downs.
 
-image::_res/setup/param/address_edit.png[width="800px"]
+image::_res/setup/param/address_editor.png[width="800px"]
 
 The street search may be performed over multiple substrings as well.
 
-image::_res/setup/param/address_edit_1.png[width="800px"]
+image::_res/setup/param/address_editor_1.png[width="800px"]
 
 The street search mode can be changed to simple substring search in <<config-street-search-mode, configuration>>.
 
@@ -667,16 +654,25 @@ Where:
 [square]
 * *<saveOn>* - save mode, can be *focusLost*, by default stores by pressing *Enter* or *OK* button.
 
+In parameters table.
+
+image::_res/setup/param/money_table.png[]
+
+Editor.
+
+image::_res/setup/param/money_editor.png[]
+
 [[param-phone]]
 === Параметр типа "phone"
-Один или несколько телефонов с комментариями. В конфигурации параметра ничего не указывается.
-Как выглядит в таблице и редактирование.
+Один или несколько телефонов с комментариями. Как выглядит в таблице.
 
-image::_res/i0028.png[]
+image::_res/setup/param/phone_table.png[width=600]
 
-image::_res/i0029.png[]
+Редактирование.
 
-NOTE: Количество записей в параметре и формат строки, отображаемой в таблице, задаётся в <<config-param-phone, конфигурации>>.
+image::_res/setup/param/phone_editor.png[width=600]
+
+Формат строки с номерами задаётся в <<config-param-phone, конфигурации>>.
 
 [[param-text]]
 === Параметр типа "text"

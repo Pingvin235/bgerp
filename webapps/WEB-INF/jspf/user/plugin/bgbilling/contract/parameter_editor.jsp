@@ -137,27 +137,9 @@
 		</c:when>
 
 		<c:when test="${paramType eq 9}"> <!-- phone -->
-			<table class="data mb1" style="width: 100%;">
-				<tr><td>N</td><td colspan="2">код страны</td><td>код города</td><td>номер</td><td>коментарий</td></tr>
-
-				<c:forEach begin="1" end="${setup['param.phone.item.count']}" varStatus="status">
-					<tr>
-						<td width="10">${status.count}.</td>
-						<td width="5">+</td>
-
-						<c:set var="key" value="parts${status.count}"/>
-						<c:set var="parts" value="${data[key]}"/>
-
-						<td width="35"><html:text property="part1${status.count}" size="3" styleClass="paramPhone" value="${parts[0]}"/></td>
-						<td width="55"><html:text property="part2${status.count}" size="5" styleClass="paramPhone" value="${parts[1]}"/></td>
-						<td width="80"><html:text property="part3${status.count}" size="11" styleClass="paramPhone" value="${parts[2]}"/></td>
-
-						<c:set var="key" value="comment${status.count}"/>
-
-						<td><html:text property="${key}" style="width: 100%" value="${data[key]}"/></td>
-					</tr>
-				</c:forEach>
-			</table>
+			<div class="mb1">
+				<%@ include file="/WEB-INF/jspf/user/parameter/edit/phone/editor.jsp"%>
+			</div>
 		</c:when>
 
 		<c:when test="${paramType eq 5 }"> <!-- flag -->
@@ -193,7 +175,7 @@
 	<c:if test="${empty hideButtons}">
 		<div style="display: inline-block;">
 			<button type="button" class="btn-grey" onclick="${saveCommand}">OK</button>
-			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())">Отмена</button>
+			<button type="button" class="btn-white ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())">Отмена</button>
 		</div>
 	</c:if>
 </form>

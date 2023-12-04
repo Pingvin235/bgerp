@@ -457,7 +457,7 @@ public class ProcessParamTest {
     private void paramValuePhone(int processId) throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
 
-        var value = new ParameterPhoneValue(List.of(new ParameterPhoneValueItem("73472333333", "", "Comment 1")));
+        var value = new ParameterPhoneValue(List.of(new ParameterPhoneValueItem("73472333333", "Comment 1")));
         dao.updateParamPhone(processId, paramPhoneId, value);
         Assert.assertEquals(dao.getParamPhone(processId, paramPhoneId), value);
 
@@ -466,17 +466,17 @@ public class ProcessParamTest {
         Assert.assertEquals(dao.getParamPhone(processId, paramPhoneId), value);
 
         value = new ParameterPhoneValue(List.of(
-            new ParameterPhoneValueItem("73472333333", "", "Comment 1"),
-            new ParameterPhoneValueItem("73472333334", "", "Comment 2")));
+            new ParameterPhoneValueItem("73472333333", "Comment 1"),
+            new ParameterPhoneValueItem("79172333334", "Comment 2")));
         dao.updateParamPhone(processId, paramPhoneId, value);
         Assert.assertEquals(dao.getParamPhone(processId, paramPhoneId), value);
 
         var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramPhoneId)), false, new Pageable<>());
         int cnt = 3;
         Assert.assertEquals(log.size(), cnt);
-        Assert.assertEquals(log.get(--cnt).getText(), "+7 347 233-33-33 [Comment 1]");
+        Assert.assertEquals(log.get(--cnt).getText(), "+7 (347) 233-33-33 [Comment 1]");
         Assert.assertEquals(log.get(--cnt).getText(), "");
-        Assert.assertEquals(log.get(--cnt).getText(), "+7 347 233-33-33 [Comment 1], +7 347 233-33-34 [Comment 2]");
+        Assert.assertEquals(log.get(--cnt).getText(), "+7 (347) 233-33-33 [Comment 1], +7 917 233-33-34 [Comment 2]");
     }
 
     private void paramValueTree(int processId) throws Exception {

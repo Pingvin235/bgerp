@@ -692,7 +692,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     /**
      * Gets HTTP request parameter values.
      * @param name the parameter name.
-     * @return not {@code null} set with all the parameter values.
+     * @return not {@code null} set with all the parameter values excluding empty strings.
      */
     public Set<String> getParamValuesStr(String name) {
         final String[] array = param.getArray(name);

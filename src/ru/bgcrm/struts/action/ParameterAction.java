@@ -6,14 +6,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -55,7 +54,6 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.JumpRegexp;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
@@ -228,17 +226,7 @@ public class ParameterAction extends BaseAction {
             // для сторонних систем - значения спискового параметра
             resp.setData("treeValues", treeValues);
         } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
-            ParameterPhoneValue phoneValue = paramDAO.getParamPhone(id, paramId);
-            if (phoneValue != null) {
-                List<ParameterPhoneValueItem> itemList = phoneValue.getItemList();
-
-                int i = 1;
-                for (ParameterPhoneValueItem item : itemList) {
-                    resp.setData("parts" + i, item.getPhoneParts());
-                    resp.setData("comment" + i, item.getComment());
-                    i++;
-                }
-            }
+            resp.setData("value", paramDAO.getParamPhone(id, paramId));
         } else if (Parameter.TYPE_FILE.equals(parameter.getType())) {
             //TODO: Сделать поддержку разных типов.
             response.setContentType("image/jpeg");
@@ -299,21 +287,11 @@ public class ParameterAction extends BaseAction {
             resp.setData("value", paramDAO.getParamBlob(id, paramId));
         }
 
-        Collection<ConfigMap> par = setup.subIndexed("param.phone.part.2.jumpRegexp.").values();
-        List<JumpRegexp> regexpList = new ArrayList<JumpRegexp>();
-
-        for (ConfigMap item : par) {
-            regexpList.add(new JumpRegexp(item.get("regexp"), Utils.parseBoolean(item.get("moveLastChars"))));
-        }
-
-        request.setAttribute("part2Rules", regexpList);
 
         return html(conSet, form, PATH_JSP + "/edit.jsp");
     }
 
     private void listValues(DynActionForm form, Parameter param) {
-        // Parameter param = ParameterCache.getParameter(paramId);
-
         List<IdTitle> listValues = ParameterCache.getListParamValues(param).stream()
             .filter(item -> !item.getTitle().startsWith("@"))
             .collect(Collectors.toList());
@@ -326,8 +304,6 @@ public class ParameterAction extends BaseAction {
                 }
             });
         }
-
-        // form.setAttribute("listValues", listValues);
 
         // for external systems
         form.setResponseData("listValues", listValues);
@@ -512,31 +488,10 @@ public class ParameterAction extends BaseAction {
         } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
             ParameterPhoneValue phoneValue = new ParameterPhoneValue();
 
-            int paramCount = setup.getInt("param.phone.item.count", 4);
-            List<ParameterPhoneValueItem> items = new ArrayList<ParameterPhoneValueItem>();
-            for (int index = 1; index <= paramCount; index++) {
-                ParameterPhoneValueItem item = new ParameterPhoneValueItem();
-                String phonePart = null;
-                StringBuilder phone = new StringBuilder();
-                StringBuilder format = new StringBuilder("");
-                phonePart = form.getParam("part1" + index);
-                phone.append(phonePart);
-                format.append(phonePart.length());
-                phonePart = form.getParam("part2" + index);
-                phone.append(phonePart);
-                format.append(phonePart.length());
-                phonePart = form.getParam("part3" + index);
-                phone.append(phonePart);
-                item.setPhone(phone.toString());
-                item.setFormat(format.toString());
-                item.setComment(form.getParam("comment" + index));
-
-                if (Utils.isBlankString(item.getPhone()))
-                    continue;
-
-                items.add(item);
-            }
-            phoneValue.setItemList(items);
+            Iterator<String> phones = form.getParamValuesListStr("phone").iterator();
+            Iterator<String> comments = form.getParamValuesListStr("comment").iterator();
+            while (phones.hasNext())
+                phoneValue.addItem(new ParameterPhoneValueItem(phones.next(), comments.hasNext() ? comments.next() : ""));
 
             paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
 

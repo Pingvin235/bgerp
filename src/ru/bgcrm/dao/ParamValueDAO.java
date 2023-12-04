@@ -391,34 +391,23 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public ParameterPhoneValue getParamPhone(int id, int paramId) throws SQLException {
-        boolean notEmpty = false;
         ParameterPhoneValue result = new ParameterPhoneValue();
 
-        String query = " SELECT value FROM " + TABLE_PARAM_PHONE + " WHERE id=? AND param_id=? LIMIT 1";
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            notEmpty = true;
-        }
-        ps.close();
+        List<ParameterPhoneValueItem> itemList = new ArrayList<>();
 
-        if (notEmpty) {
-            List<ParameterPhoneValueItem> itemList = new ArrayList<ParameterPhoneValueItem>();
-
-            query = " SELECT phone, format, comment, flags FROM " + TABLE_PARAM_PHONE_ITEM
-                    + "WHERE id=? AND param_id=? ORDER BY n";
-            ps = con.prepareStatement(query.toString());
+        String query = SQL_SELECT + "phone, comment" + SQL_FROM + TABLE_PARAM_PHONE_ITEM
+                + SQL_WHERE + "id=? AND param_id=?"
+                + SQL_ORDER_BY + "n";
+        try (var ps = con.prepareStatement(query.toString())) {
             ps.setInt(1, id);
             ps.setInt(2, paramId);
-            rs = ps.executeQuery();
+            var rs = ps.executeQuery();
             while (rs.next()) {
                 itemList.add(getParamPhoneValueItemFromRs(rs));
             }
             result.setItemList(itemList);
-            ps.close();
         }
+
         return result;
     }
 
@@ -1117,11 +1106,13 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamPhone(int id, int paramId, ParameterPhoneValue value) throws SQLException {
+        String newPhones = null;
+
         if (value == null || value.getItemList().size() == 0) {
             deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE);
             deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
         } else {
-            String newPhones = ParameterPhoneValueItem.toString(value.getItemList());
+            newPhones = value.toString();
 
             updateSimpleParam(id, paramId, newPhones, TABLE_PARAM_PHONE);
 
@@ -1130,7 +1121,7 @@ public class ParamValueDAO extends CommonDAO {
             int index = 1;
 
             String query = "INSERT INTO" + TABLE_PARAM_PHONE_ITEM
-                    + "SET id=?, param_id=?, n=?, phone=?, format=?, comment=?, flags=?";
+                    + "SET id=?, param_id=?, n=?, phone=?, comment=?";
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setInt(index++, id);
             ps.setInt(index++, paramId);
@@ -1140,24 +1131,14 @@ public class ParamValueDAO extends CommonDAO {
                 index = 3;
                 ps.setInt(index++, n++);
                 ps.setString(index++, item.getPhone());
-                ps.setString(index++, item.getFormat());
                 ps.setString(index++, item.getComment());
-                ps.setInt(index++, item.getFlags());
                 ps.executeUpdate();
             }
             ps.close();
         }
 
-        if (history) {
-            String newValue = null;
-
-            ParameterPhoneValue newPhones = getParamPhone(id, paramId);
-            if (newPhones != null) {
-                newValue = ParameterPhoneValueItem.toString(newPhones.getItemList());
-            }
-
-            logParam(id, paramId, userId, newValue);
-        }
+        if (history)
+            logParam(id, paramId, userId, newPhones);
     }
 
     /**
@@ -1367,8 +1348,8 @@ public class ParamValueDAO extends CommonDAO {
 
                 if (Parameter.Type.PHONE == paramType) {
                     query = "INSERT INTO " + TABLE_PARAM_PHONE_ITEM
-                            + " (id, param_id, n, phone, format, comment, flags) "
-                            + "SELECT ?, ?, n, phone, format, comment, flags " + "FROM " + TABLE_PARAM_PHONE_ITEM
+                            + " (id, param_id, n, phone, comment) "
+                            + "SELECT ?, ?, n, phone, comment" + SQL_FROM + TABLE_PARAM_PHONE_ITEM
                             + " WHERE id=? AND param_id=?";
                     psList.add(con.prepareStatement(query));
                 }
@@ -1629,7 +1610,7 @@ public class ParamValueDAO extends CommonDAO {
             query.append(Utils.toString(ids));
             query.append(" ) ORDER BY n");
         } else if (Parameter.TYPE_PHONE.equals(type)) {
-            query.append("SELECT pi.param_id, pi.n, pi.phone, pi.format, pi.comment, pi.flags FROM " + TABLE_PARAM_PHONE_ITEM
+            query.append("SELECT pi.param_id, pi.n, pi.phone, pi.comment " + SQL_FROM + TABLE_PARAM_PHONE_ITEM
                     + "AS pi WHERE pi.id=? AND pi.param_id IN ( ");
             query.append(Utils.toString(ids));
             query.append(" ) ORDER BY pi.n");
@@ -2212,9 +2193,7 @@ public class ParamValueDAO extends CommonDAO {
     public static ParameterPhoneValueItem getParamPhoneValueItemFromRs(ResultSet rs) throws SQLException {
         ParameterPhoneValueItem item = new ParameterPhoneValueItem();
         item.setPhone(rs.getString("phone"));
-        item.setFormat(rs.getString("format"));
         item.setComment(rs.getString("comment"));
-        item.setFlags(rs.getInt("flags"));
         return item;
     }
 

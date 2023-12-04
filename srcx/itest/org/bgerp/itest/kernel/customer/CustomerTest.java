@@ -134,7 +134,7 @@ public class CustomerTest {
 
         int customerId = customerPersonIvan.getId();
         paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_PERS_IVAN_MAIL));
-        paramDao.updateParamPhone(customerId, paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem(CUSTOMER_PERS_IVAN_PHONE, "13", ""))));
+        paramDao.updateParamPhone(customerId, paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem(CUSTOMER_PERS_IVAN_PHONE, ""))));
         paramDao.updateParamDate(customerId, paramBirthDateId, new GregorianCalendar(1983, Calendar.JULY, 1).getTime());
         paramDao.updateParamText(customerId, paramBirthPlaceId, "Uzgala village");
         paramDao.updateParamText(customerId, paramAddressId, "Lenina Street 1, 450000, Ufa Russia");
@@ -145,7 +145,7 @@ public class CustomerTest {
         customerId = customerOrgNs.getId();
         paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_TILL_MAIL, CUSTOMER_ORG_NS_TILL_NAME));
         paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_DOMAIN, "Domain"));
-        paramDao.updateParamPhone(customerId, paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem("666", "", ""))));
+        paramDao.updateParamPhone(customerId, paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem("666", ""))));
         paramDao.updateParamText(customerId, paramOrgTitleId, "Muster");
         paramDao.updateParamList(customerId, paramOrgFormId, Set.of(4));
         paramDao.updateParamText(customerId, paramAddressId, "Musterstraße 12, 12345 Musterstadt, Germany");

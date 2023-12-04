@@ -636,6 +636,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>DB Trace</en><ru>БД Трассировка</ru></p>
 	<p><en>The parameter's type is not supported.</en><ru>Параметры данного типа не поддержаны.</ru></p>
 	<p><en>Select processes in the table for making a report</en><ru>Выберите процессы в таблице для генерации отчёта</ru></p>
+	<p><en>Number</en><ru>Номер</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

@@ -133,8 +133,8 @@
 							</p:check>
 						</c:forEach>
 
+						<%-- adding --%>
 						<c:if test="${(multiple or empty item.value) and not readonly}">
-							<%-- adding --%>
 							<c:set var="editFormId" value="${u:uiid()}"/>
 
 							<html:form action="/user/parameter" styleId="${editFormId}">
@@ -199,8 +199,8 @@
 							<br/>
 						</c:forEach>
 
+						<%-- adding --%>
 						<c:if test="${(multiple or empty item.value) and not readonly}">
-							<%-- adding new --%>
 							<html:form action="/user/parameter" style="display: inline;">
 								<input type="hidden" name="action" value="parameterGet"/>
 								<html:hidden property="objectType"/>
@@ -218,7 +218,7 @@
 
 					<c:when test="${'file' eq parameter.type}">
 						<c:forEach var="file" items="${item.value}" varStatus="status">
-							<c:set var="value" value="${file.value}" />
+							<c:set var="value" value="${file.value}"/>
 
 							<div>
 								<c:if test="${not readonly}">
@@ -250,6 +250,7 @@
 							});
 						</script>
 
+						<%-- adding --%>
 						<c:if test="${(multiple or empty item.value) and not readonly}">
 							<c:url var="uploadUrl" value="/user/parameter.do">
 								<c:param name="action" value="parameterUpdate" />

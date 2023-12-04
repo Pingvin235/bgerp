@@ -1,75 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:if test="${not empty part2Rules}">
-	<script>
-		var index = 0;
-		var jump_regexp = new Array;
-
-		<c:forEach var="item" items="${part2Rules}">
-			jump_regexp[index] = new Object;
-
-			<c:choose>
-				<c:when test="${not item.regexp.startsWith('/')}">
-					<c:choose>
-						<c:when test="${!item.regexp.endsWith('/')}">
-							jump_regexp[index].regexp = /${item.regexp}/;
-						</c:when>
-					</c:choose>
-				</c:when>
-				<c:otherwise>
-					jump_regexp[index].regexp = ${item.regexp};
-				</c:otherwise>
-			</c:choose>
-
-			jump_regexp[index].moveLastChar = ${item.moveLastChar};
-			index++;
-		</c:forEach>
-
-		$("input.paramPhone[name^=part2]").on('keyup',
-				function () {
-					var len = $( this ).val().length;
-					var value = $( this ).val();
-
-					if (len != 0) {
-						for (var i = 0; i < jump_regexp.length; i++) {
-							var expr = jump_regexp[i];
-							var nextInput = $( this ).parent().next().children();
-
-							if (value.match(expr.regexp) != null) {
-								$(nextInput).focus();
-
-								if( expr.moveLastChar == true )
-								{
-									$( nextInput ).val( value.substring( len-1 ) );
-									$( this ).val( value.substring( 0, len - 1 ) );
-								}
-
-								break;
-							}
-						}
-					}
-				});
-
-	</script>
-</c:if>
-
-<c:if test="${not empty setup['param.phone.part.1.default']}">
-	<c:set var="phoneDefault" value="${setup['param.phone.part.1.default']}" />
-
-	<script type="text/javascript">
-		$("input.paramPhone[name^=part1]").on('click',
-			function()
-			{
-				if( $( this ).val().length == 0 )
-				{
-					$( this ).val( ${phoneDefault} );
-					$( this ).parent().next().children().focus();
-				}
-			});
-	</script>
-</c:if>
-
 <c:set var="data" value="${form.response.data}" />
 <c:set var="listValues" value="${form.response.data.listValues}"/>
 <c:set var="hideButtons" value="${form.param.hideButtons}"/>
@@ -324,33 +255,7 @@
 				</c:choose>
 			</c:when>
 			<c:when test="${parameter.type eq 'phone'}">
-				<table class="data">
-					<tr>
-						<td>N</td>
-						<td colspan="2">код страны</td>
-						<td>код города</td>
-						<td>номер</td>
-						<td>коментарий</td>
-					</tr>
-
-					<c:forEach begin="1" end="${setup['param.phone.item.count']}" varStatus="status">
-						<tr>
-							<td width="10">${status.count}.</td>
-							<td width="5">+</td>
-
-							<c:set var="key" value="parts${status.count}" />
-							<c:set var="parts" value="${data[key]}" />
-
-							<td width="35"><html:text property="part1${status.count}" size="3" styleClass="paramPhone" value="${parts[0]}" /></td>
-							<td width="55"><html:text property="part2${status.count}" size="5" styleClass="paramPhone" value="${parts[1]}" /></td>
-							<td width="80"><html:text property="part3${status.count}" size="11" styleClass="paramPhone" value="${parts[2]}" /></td>
-
-							<c:set var="key" value="comment${status.count}" />
-
-							<td><html:text property="${key}" style="width: 100%" value="${data[key]}" /></td>
-						</tr>
-					</c:forEach>
-				</table>
+				<%@ include file="edit/phone/editor.jsp"%>
 			</c:when>
 			<c:when test="${parameter.type eq 'email'}">
 				<c:set var="id" value="${form.id}" />

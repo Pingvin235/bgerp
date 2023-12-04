@@ -68,11 +68,19 @@ public class ParameterPhoneValue {
     }
 
     /**
-     * @return formatted string with phone numbers.
+     * @return formatted comma separated string with phone numbers.
      */
     @Override
     public String toString() {
-        return ParameterPhoneValueItem.toString(itemList);
+        StringBuffer result = new StringBuffer();
+
+        for (ParameterPhoneValueItem item : itemList) {
+            if (!result.isEmpty())
+                result.append(", ");
+            result.append(item.toString());
+        }
+
+        return result.toString();
     }
 
     @Override

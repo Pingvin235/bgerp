@@ -106,11 +106,11 @@ public class MessageRelatedProcessTest {
 
         customer2 = CustomerHelper.addCustomer(0, CustomerTest.paramGroupPersonId, TITLE + " Customer 2");
         paramDao.updateParamPhone(customer2.getId(), CustomerTest.paramPhoneId,
-                new ParameterPhoneValue(List.of(new ParameterPhoneValueItem(CUSTOMER_PHONE_NUMBER, "13", ""))));
+                new ParameterPhoneValue(List.of(new ParameterPhoneValueItem(CUSTOMER_PHONE_NUMBER, ""))));
 
         customer3 = CustomerHelper.addCustomer(0, CustomerTest.paramGroupPersonId, TITLE + " Customer 3");
         paramDao.updateParamPhone(customer3.getId(), CustomerTest.paramPhoneId,
-                new ParameterPhoneValue(List.of(new ParameterPhoneValueItem(CUSTOMER_PHONE_NUMBER, "13", ""))));
+                new ParameterPhoneValue(List.of(new ParameterPhoneValueItem(CUSTOMER_PHONE_NUMBER, ""))));
         paramDao.updateParamAddress(customer3.getId(), CustomerTest.paramServiceAddressId, 0,
                 new ParameterAddressValue().withHouseId(house3.getId()).withFlat("42"));
     }

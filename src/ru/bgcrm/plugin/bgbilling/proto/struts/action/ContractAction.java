@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -212,17 +213,7 @@ public class ContractAction extends BaseAction {
                 break;
             }
             case ParameterType.ContractType.TYPE_PHONE: {
-                ParameterPhoneValue phoneValue = new ParameterPhoneValue(paramDAO.getPhoneParam(contractId, paramId));
-                if (phoneValue != null) {
-                    List<ParameterPhoneValueItem> itemList = phoneValue.getItemList();
-
-                    int i = 1;
-                    for (ParameterPhoneValueItem item : itemList) {
-                        resp.setData("parts" + i, item.getPhoneParts());
-                        resp.setData("comment" + i, item.getComment());
-                        i++;
-                    }
-                }
+                form.setResponseData("value", new ParameterPhoneValue(paramDAO.getPhoneParam(contractId, paramId)));
                 break;
             }
             case ParameterType.ContractType.TYPE_EMAIL: {
@@ -285,51 +276,15 @@ public class ContractAction extends BaseAction {
             case ParameterType.ContractType.TYPE_PHONE: {
                 ParameterPhoneValue phoneValue = new ParameterPhoneValue();
 
-                int paramCount = setup.getInt("param.phone.item.count", 0);
-                List<ParameterPhoneValueItem> items = new ArrayList<ParameterPhoneValueItem>();
-                for (int index = 1; index <= paramCount; index++) {
-                    ParameterPhoneValueItem item = new ParameterPhoneValueItem();
-                    String phonePart = null;
-                    StringBuilder phone = new StringBuilder();
-                    StringBuilder format = new StringBuilder("");
-                    phonePart = form.getParam("part1" + index);
-                    phone.append(phonePart);
-                    format.append(phonePart.length());
-                    phonePart = form.getParam("part2" + index);
-                    phone.append(phonePart);
-                    format.append(phonePart.length());
-                    phonePart = form.getParam("part3" + index);
-                    phone.append(phonePart);
-
-                    if (phone.length() != 0 && phone.length() != 11) {
-                        throw new BGMessageException("Число цифр в телефоне должно быть 11!!");
-                    }
-
-                    item.setPhone(phone.toString());
-                    item.setFormat(format.toString());
-                    item.setComment(form.getParam("comment" + index));
-
-                    items.add(item);
-                }
-                phoneValue.setItemList(items);
+                Iterator<String> phones = form.getParamValuesListStr("phone").iterator();
+                Iterator<String> comments = form.getParamValuesListStr("comment").iterator();
+                while (phones.hasNext())
+                    phoneValue.addItem(new ParameterPhoneValueItem(phones.next(), comments.next()));
 
                 paramDAO.updatePhoneParameter(contractId, paramBillingId, phoneValue);
                 break;
             }
             case ParameterType.ContractType.TYPE_EMAIL: {
-                /*
-                 * ParamEmailValue emailValue = new ParamEmailValue();
-                 *
-                 * List<String> emails = Utils.toList( form.getParam( "emails"
-                 * ), "\n" ); emailValue.setEmails( emails );
-                 *
-                 * emailValue.setEid( form.getParamInt( "eid" ) );
-                 *
-                 * List<String> subscrs = form.getSelectedValuesListStr( "value"
-                 * ); subscrs.removeAll( Arrays.asList( 0, -1 ) );
-                 * emailValue.setSubscrs( subscrs );
-                 */
-
                 List<ParameterEmailValue> emails = new ArrayList<ParameterEmailValue>();
 
                 for (String mail : Utils.toList(form.getParam("emails"), "\n")) {

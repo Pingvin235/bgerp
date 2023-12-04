@@ -1,6 +1,6 @@
 // "use strict";
 
-$$.param = new function() {
+$$.param = new function () {
 	const debug = $$.debug("param");
 
 	const dirChanged = (form, item, $hidden) => {
@@ -9,7 +9,11 @@ $$.param = new function() {
 		$$.ajax.loadContent(form);
 	}
 
-	const listcount = new function () {
+	// public functions
+	this.dirChanged = dirChanged;
+
+	// $$.param.listcount
+	this.listcount = new function () {
 		/**
 		 * Adds a new value in listcount editor.
 		 * @param {jQuery} $table values table selector.
@@ -47,8 +51,33 @@ $$.param = new function() {
 		this.addValue = addValue;
 	}
 
-	// public functions
-	this.dirChanged = dirChanged;
-	// public objects
-	this.listcount = listcount;
+	// $$.param.phone
+	this.phone = new function () {
+		/**
+		 * Adds a new empty value to phone parameter editor.
+		 * @param {HTMLButtonElement} button add button that was clicked.
+		 */
+		const addValue = (button) => {
+			const $tr = $(
+				"<tr>" +
+					"<td><input type='text' name='phone' class='w100p'/></td>" +
+					"<td><input type='text' name='comment' class='w100p'/></td>" +
+					"<td><button class='btn-white btn-small icon' onclick='$$.param.phone.delValue(this)'><i class='ti-trash'></i></button></td>" +
+				"</tr>"
+			);
+			$(button).closest('table').find('tr:last').after($tr);
+			$tr.find("input[name='phone']").focus();
+		}
+		/**
+		 * Deletes a value in phone parameter editor.
+		 * @param {HTMLButtonElement} button deletion button.
+		 */
+		const delValue = (button) => {
+			$(button).closest('tr').remove()
+		}
+
+		// public functions
+		this.addValue = addValue;
+		this.delValue = delValue;
+	}
 }
