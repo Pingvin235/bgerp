@@ -248,7 +248,7 @@ public class ProcessAction extends BaseAction {
         form.getResponse().setData("process", process);
     }
 
-    protected static void doCreateWizard(DynActionForm form, Connection con, Process process, ProcessType type) throws BGException {
+    protected static void doCreateWizard(DynActionForm form, Connection con, Process process, ProcessType type) throws SQLException {
         // временный процесс - с отрицательным кодом
         Wizard wizard = type.getProperties().getCreateWizard();
         if (wizard != null && !wizard.getCreateStepList().isEmpty()) {

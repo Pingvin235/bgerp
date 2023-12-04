@@ -133,7 +133,7 @@ public class SearchDAO extends CommonDAO {
     public void delete(String objectType, int objectId) throws BGException {
         log.debug("Deleted record, objectType: {}; objectId: {}", objectType, objectId);
         try {
-            String query = SQL_DELETE + TABLE + SQL_WHERE + "object_type=? AND object_id=?";
+            String query = SQL_DELETE_FROM + TABLE + SQL_WHERE + "object_type=? AND object_id=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, objectType);
             ps.setInt(2, objectId);

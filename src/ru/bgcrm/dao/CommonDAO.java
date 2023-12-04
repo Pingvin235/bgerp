@@ -37,7 +37,8 @@ public class CommonDAO {
     protected final static String SQL_VALUES = "VALUES ";
     protected final static String SQL_SET = " SET ";
     protected final static String SQL_UPDATE = "UPDATE ";
-    protected final static String SQL_DELETE = "DELETE FROM ";
+    protected final static String SQL_DELETE = "DELETE ";
+    protected final static String SQL_DELETE_FROM = "DELETE FROM ";
     protected final static String SQL_FROM = " FROM ";
     protected final static String SQL_LEFT_JOIN = " LEFT JOIN ";
     protected final static String SQL_INNER_JOIN = " INNER JOIN ";
@@ -315,7 +316,7 @@ public class CommonDAO {
     }
 
     protected void deleteById(String tableName, int id) throws SQLException {
-        String query = SQL_DELETE + tableName + SQL_WHERE + "id=?";
+        String query = SQL_DELETE_FROM + tableName + SQL_WHERE + "id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
         ps.executeUpdate();
@@ -358,7 +359,7 @@ public class CommonDAO {
 
     protected void updateIds(String tableName, String linkColumn, String valueColumn, Object id, Set<Integer> values)
             throws SQLException {
-        var query = SQL_DELETE + tableName + " WHERE " + linkColumn + "=?";
+        var query = SQL_DELETE_FROM + tableName + " WHERE " + linkColumn + "=?";
         var ps = con.prepareStatement(query);
         ps.setObject(1, id);
         ps.executeUpdate();
@@ -377,7 +378,7 @@ public class CommonDAO {
 
     protected void updateIds(String tableName, String linkColumn, String valueColumn, String posColumn, int id,
             List<Integer> values) throws SQLException {
-        var query = SQL_DELETE + tableName + " WHERE " + linkColumn + "=?";
+        var query = SQL_DELETE_FROM + tableName + " WHERE " + linkColumn + "=?";
         var ps = con.prepareStatement(query);
         ps.setInt(1, id);
         ps.executeUpdate();

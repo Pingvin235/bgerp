@@ -67,7 +67,7 @@ public class StatusDAO extends CommonDAO {
         PreparedStatement ps = null;
 
         StringBuilder query = new StringBuilder();
-        query.append(SQL_DELETE);
+        query.append(SQL_DELETE_FROM);
         query.append(TABLE_PROCESS_STATUS_TITLE);
         query.append(SQL_WHERE);
         query.append("id=?");

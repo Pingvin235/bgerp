@@ -261,7 +261,7 @@ public class AnalyticDAO
         PreparedStatement ps = null;
 
         query = new StringBuilder();
-        query.append( SQL_DELETE );
+        query.append( SQL_DELETE_FROM );
         query.append( TABLE_ANALYTIC_HOUSE_CAPACITY );
         query.append( SQL_WHERE );
         query.append( "house_id=?" );

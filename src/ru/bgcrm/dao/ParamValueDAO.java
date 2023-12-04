@@ -13,6 +13,7 @@ import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT_VALUE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST_VALUE;
+import static ru.bgcrm.dao.Tables.TABLE_PARAM_LOG;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_MONEY;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE_ITEM;
@@ -76,10 +77,20 @@ public class ParamValueDAO extends CommonDAO {
 
     public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
 
-    private static final String[] TABLE_NAMES = {TABLE_PARAM_DATE, TABLE_PARAM_DATETIME, TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_ITEM,
-            TABLE_PARAM_TEXT, TABLE_PARAM_BLOB, TABLE_PARAM_EMAIL, TABLE_PARAM_LIST, TABLE_PARAM_LIST_VALUE,
-            TABLE_PARAM_TREE, TABLE_PARAM_TREE_VALUE, TABLE_PARAM_LISTCOUNT, TABLE_PARAM_LISTCOUNT_VALUE,
-            TABLE_PARAM_ADDRESS, TABLE_PARAM_FILE};
+    public static final String[] TABLE_NAMES = {
+        TABLE_PARAM_ADDRESS,
+        TABLE_PARAM_BLOB,
+        TABLE_PARAM_DATE,
+        TABLE_PARAM_DATETIME,
+        TABLE_PARAM_EMAIL,
+        TABLE_PARAM_FILE,
+        TABLE_PARAM_LIST,
+        TABLE_PARAM_LISTCOUNT,
+        TABLE_PARAM_MONEY,
+        TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_ITEM,
+        TABLE_PARAM_TEXT,
+        TABLE_PARAM_TREE
+    };
 
     /** Write param changes history. */
     private boolean history;
@@ -652,7 +663,7 @@ public class ParamValueDAO extends CommonDAO {
         if (value == null) {
             PreparedQuery psDelay = new PreparedQuery(con);
 
-            psDelay.addQuery(SQL_DELETE + TABLE_PARAM_EMAIL + SQL_WHERE + "id=? AND param_id=?");
+            psDelay.addQuery(SQL_DELETE_FROM + TABLE_PARAM_EMAIL + SQL_WHERE + "id=? AND param_id=?");
             psDelay.addInt(id);
             psDelay.addInt(paramId);
 
@@ -887,7 +898,7 @@ public class ParamValueDAO extends CommonDAO {
                 for (var value : currentValue.values())
                     new FileDataDAO(con).delete(value);
 
-                String query = SQL_DELETE + TABLE_PARAM_FILE + SQL_WHERE + "id=? AND param_id=?";
+                String query = SQL_DELETE_FROM + TABLE_PARAM_FILE + SQL_WHERE + "id=? AND param_id=?";
                 try (var pq = new PreparedQuery(con, query)) {
                     pq.addInt(id);
                     pq.addInt(paramId);
@@ -971,19 +982,19 @@ public class ParamValueDAO extends CommonDAO {
         int index = 1;
 
         if (value == null) {
-            PreparedQuery psDelay = new PreparedQuery(con);
+            PreparedQuery pq = new PreparedQuery(con);
 
-            psDelay.addQuery("DELETE FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=? ");
-            psDelay.addInt(id);
-            psDelay.addInt(paramId);
+            pq.addQuery(SQL_DELETE_FROM + TABLE_PARAM_ADDRESS + SQL_WHERE + "id=? AND param_id=? ");
+            pq.addInt(id);
+            pq.addInt(paramId);
 
             if (position > 0) {
-                psDelay.addQuery(" AND n=?");
-                psDelay.addInt(position);
+                pq.addQuery(" AND n=?");
+                pq.addInt(position);
             }
 
-            psDelay.executeUpdate();
-            psDelay.close();
+            pq.executeUpdate();
+            pq.close();
         } else {
             if (value.getValue() == null)
                 value.setValue(AddressUtils.buildAddressValue(value, con));
@@ -1178,23 +1189,24 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void deleteParams(String objectType, int id) throws SQLException {
-        //TODO: Добавить удаление лога изменения параметров
-        for (String tableName : TABLE_NAMES) {
-            StringBuilder query = new StringBuilder();
-            query.append("DELETE param FROM ");
-            query.append(tableName);
-            query.append(" AS param");
-            query.append(SQL_INNER_JOIN);
-            query.append(TABLE_PARAM_PREF);
-            query.append("AS pref ON param.param_id=pref.id AND pref.object=?");
-            query.append(SQL_WHERE);
-            query.append("param.id=?");
+        String query = SQL_DELETE + "pl" + SQL_FROM + TABLE_PARAM_LOG + "AS pl"
+            + SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON pl.param_id=pref.id AND pref.object='" + objectType + "'"
+            + SQL_WHERE + "pl.object_id=?";
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(id);
+            pq.executeUpdate();
+        }
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setString(1, objectType);
-            ps.setInt(2, id);
-            ps.executeUpdate();
-            ps.close();
+        for (String tableName : TABLE_NAMES) {
+            query =  SQL_DELETE + "pv" + SQL_FROM + tableName + " AS pv"
+                + SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON pv.param_id=pref.id AND pref.object=?"
+                + SQL_WHERE + "pv.id=?";
+
+            try (var ps = con.prepareStatement(query)) {
+                ps.setString(1, objectType);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+            }
         }
     }
 
@@ -1206,6 +1218,8 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void objectIdInvert(String objectType, int currentObjectId) throws SQLException {
+        // TODO: Invert records in TABLE_PARAM_LOG
+
         for (String tableName : TABLE_NAMES) {
             StringBuilder query = new StringBuilder();
             query.append("UPDATE ");
@@ -1743,14 +1757,12 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     private void deleteFromParamTable(int id, int paramId, String tableName) throws SQLException {
-        String query = "DELETE FROM " + tableName + " WHERE id=? AND param_id=?";
-
-        var ps = con.prepareStatement(query);
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        ps.executeUpdate();
-
-        ps.close();
+        String query = SQL_DELETE_FROM + tableName + SQL_WHERE + "id=? AND param_id=?";
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ps.setInt(2, paramId);
+            ps.executeUpdate();
+        }
     }
 
     private void addListParamJoin(StringBuilder query, int paramId) throws SQLException {

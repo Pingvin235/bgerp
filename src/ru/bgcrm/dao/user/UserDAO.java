@@ -593,7 +593,7 @@ public class UserDAO extends CommonDAO {
     }
 
     public void removeUserGroup(int userId, int groupId, Date dateFrom, Date dateTo) throws SQLException {
-        String query = SQL_DELETE + TABLE_USER_GROUP + SQL_WHERE + " user_id=" + userId
+        String query = SQL_DELETE_FROM + TABLE_USER_GROUP + SQL_WHERE + " user_id=" + userId
                 + (groupId == -1 ? "" : " AND group_id=" + groupId);
         query += dateFrom != null ? " AND date_from = ? " : " AND date_from IS NULL ";
         query += dateTo != null ? " AND date_to = ? " : " AND date_to IS NULL ";

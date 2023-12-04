@@ -247,7 +247,7 @@ public class QueueDAO extends CommonDAO {
         PreparedStatement ps = null;
 
         StringBuilder query = new StringBuilder();
-        query.append(SQL_DELETE);
+        query.append(SQL_DELETE_FROM);
         query.append(TABLE_QUEUE);
         query.append(SQL_WHERE);
         query.append("id=?");

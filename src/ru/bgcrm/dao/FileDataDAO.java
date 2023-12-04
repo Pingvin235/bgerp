@@ -110,7 +110,7 @@ public class FileDataDAO extends CommonDAO {
 
         getFile(fileData).delete();
 
-        String query = SQL_DELETE + TABLE_FILE_DATA + SQL_WHERE + "id=? AND secret=?";
+        String query = SQL_DELETE_FROM + TABLE_FILE_DATA + SQL_WHERE + "id=? AND secret=?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, fileData.getId());
             ps.setString(2, fileData.getSecret());

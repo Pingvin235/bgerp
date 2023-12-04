@@ -191,7 +191,7 @@ public class MessageDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateMessageTags(int messageId, Set<Integer> tagIds) throws SQLException {
-        String query = SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?";
+        String query = SQL_DELETE_FROM + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, messageId);
         ps.executeUpdate();
@@ -233,7 +233,7 @@ public class MessageDAO extends CommonDAO {
         ps.executeUpdate();
         ps.close();
 
-        ps = con.prepareStatement(SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?");
+        ps = con.prepareStatement(SQL_DELETE_FROM + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?");
         ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();

@@ -208,7 +208,7 @@ public class WorkTypeDAO extends CommonDAO {
             PreparedStatement ps = null;
 
             StringBuilder query = new StringBuilder();
-            query.append(SQL_DELETE);
+            query.append(SQL_DELETE_FROM);
             query.append(org.bgerp.plugin.pln.callboard.dao.Tables.TABLE_WORK_TYPE);
             query.append(SQL_WHERE);
             query.append("id=?");

@@ -235,7 +235,7 @@ public class ConfigDAO extends CommonDAO {
         if (id > 0) {
             int index = 1;
             StringBuilder query = new StringBuilder();
-            query.append(SQL_DELETE);
+            query.append(SQL_DELETE_FROM);
             query.append(TABLE_CONFIG_GLOBAL);
             query.append(SQL_WHERE);
             query.append("active=false AND id=?");

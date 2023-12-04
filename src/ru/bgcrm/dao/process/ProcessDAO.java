@@ -175,7 +175,7 @@ public class ProcessDAO extends CommonDAO {
                 + "LEFT JOIN " + TABLE_PROCESS_STATUS
                 + " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
                 + getIsolationJoin(form, "process")
-                + " WHERE process.id=?";
+                + SQL_WHERE + "process.id=?";
         var ps = con.prepareStatement(query);
         ps.setInt(1, id);
         var rs = ps.executeQuery();
@@ -232,7 +232,7 @@ public class ProcessDAO extends CommonDAO {
 
         updateColumn(TABLE_PROCESS, processId, "groups", ProcessGroup.serialize(processGroups));
 
-        String query = SQL_DELETE + Tables.TABLE_PROCESS_GROUP + " WHERE process_id=?";
+        String query = SQL_DELETE_FROM + Tables.TABLE_PROCESS_GROUP + SQL_WHERE + "process_id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, processId);
         ps.executeUpdate();
@@ -261,7 +261,7 @@ public class ProcessDAO extends CommonDAO {
 
         updateColumn(TABLE_PROCESS, processId, "executors", ProcessExecutor.serialize(processExecutors));
 
-        String query = "DELETE FROM " + Tables.TABLE_PROCESS_EXECUTOR + " WHERE process_id=?";
+        String query = SQL_DELETE_FROM + Tables.TABLE_PROCESS_EXECUTOR + SQL_WHERE + "process_id=?";
 
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, processId);
@@ -299,7 +299,7 @@ public class ProcessDAO extends CommonDAO {
             StringBuilder query = new StringBuilder();
             // раньше была проверка на положительный ID, но он может быть отрицательным в случае, если процесс временный
             if (oldProcess != null) {
-                query.append("UPDATE " + TABLE_PROCESS
+                query.append(SQL_UPDATE + TABLE_PROCESS
                         + " SET status_id=?, status_dt=?, status_user_id=?, description=?, close_dt=?, priority=?, close_user_id=?, type_id=? WHERE id=?");
                 ps = con.prepareStatement(query.toString());
                 ps.setInt(index++, process.getStatusId());
@@ -336,24 +336,19 @@ public class ProcessDAO extends CommonDAO {
         return process;
     }
 
-    public void deleteProcess(int processId) throws BGException {
-        try {
-            deleteProcessData(processId, "DELETE FROM " + TABLE_PROCESS + " WHERE id=?");
-            deleteProcessData(processId, "DELETE FROM " + TABLE_PROCESS_GROUP + " WHERE process_id=?");
-            deleteProcessData(processId, "DELETE FROM " + TABLE_PROCESS_EXECUTOR + " WHERE process_id=?");
+    public void deleteProcess(int processId) throws SQLException {
+        deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS + SQL_WHERE + "id=?");
+        deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS_GROUP + SQL_WHERE + "process_id=?");
+        deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS_EXECUTOR + SQL_WHERE + "process_id=?");
 
-            deleteProcessData(processId, "DELETE FROM " + TABLE_PROCESS_LINK + " WHERE process_id=?");
-            deleteProcessData(processId,
-                    "DELETE FROM " + TABLE_PROCESS_LINK + " WHERE object_id=? AND object_type LIKE 'process%'");
+        deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS_LINK + SQL_WHERE + "process_id=?");
+        deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS_LINK + SQL_WHERE + "object_id=? AND object_type LIKE 'process%'");
 
-            new ParamValueDAO(con).deleteParams(Process.OBJECT_TYPE, processId);
+        new ParamValueDAO(con).deleteParams(Process.OBJECT_TYPE, processId);
 
-            new MessageDAO(con).deleteProcessMessages(processId);
+        new MessageDAO(con).deleteProcessMessages(processId);
 
-            new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).deleteHistory(processId);
-        } catch (SQLException e) {
-            throw new BGException(e);
-        }
+        new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).deleteHistory(processId);
     }
 
     private void deleteProcessData(int processId, String query) throws SQLException {
@@ -363,25 +358,19 @@ public class ProcessDAO extends CommonDAO {
         ps.close();
     }
 
-    public void processIdInvert(Process process) throws BGException {
-        try {
-            int currentProcessId = process.getId();
+    public void processIdInvert(Process process) throws SQLException {
+        int currentProcessId = process.getId();
 
-            updateProcessId(currentProcessId, "UPDATE " + TABLE_PROCESS + " SET id=? WHERE id=?");
-            updateProcessId(currentProcessId, "UPDATE " + TABLE_PROCESS_GROUP + " SET process_id=? WHERE process_id=?");
-            updateProcessId(currentProcessId,
-                    "UPDATE " + TABLE_PROCESS_EXECUTOR + " SET process_id=? WHERE process_id=?");
+        updateProcessId(currentProcessId, SQL_UPDATE + TABLE_PROCESS + " SET id=? WHERE id=?");
+        updateProcessId(currentProcessId, SQL_UPDATE + TABLE_PROCESS_GROUP + " SET process_id=? WHERE process_id=?");
+        updateProcessId(currentProcessId, SQL_UPDATE + TABLE_PROCESS_EXECUTOR + " SET process_id=? WHERE process_id=?");
 
-            updateProcessId(currentProcessId, "UPDATE " + TABLE_PROCESS_LINK + " SET process_id=? WHERE process_id=?");
-            updateProcessId(currentProcessId, "UPDATE " + TABLE_PROCESS_LINK
-                    + " SET object_id=? WHERE object_id=? AND object_type LIKE 'process%'");
+        updateProcessId(currentProcessId, SQL_UPDATE + TABLE_PROCESS_LINK + " SET process_id=? WHERE process_id=?");
+        updateProcessId(currentProcessId, SQL_UPDATE + TABLE_PROCESS_LINK + " SET object_id=? WHERE object_id=? AND object_type LIKE 'process%'");
 
-            new ParamValueDAO(con).objectIdInvert(Process.OBJECT_TYPE, currentProcessId);
+        new ParamValueDAO(con).objectIdInvert(Process.OBJECT_TYPE, currentProcessId);
 
-            process.setId(-currentProcessId);
-        } catch (SQLException e) {
-            throw new BGException(e);
-        }
+        process.setId(-currentProcessId);
     }
 
     private void updateProcessId(int currentProcessId, String query) throws SQLException {
@@ -439,7 +428,7 @@ public class ProcessDAO extends CommonDAO {
             ps.addQuery(
                     " LEFT JOIN " + TABLE_PROCESS_STATUS_TITLE + " AS status ON status.id = process.status_id ");
 
-            ps.addQuery(" WHERE 1>0 ");
+            ps.addQuery(SQL_WHERE + "1>0 ");
             if (typeIds != null && typeIds.size() > 0) {
                 ps.addQuery(" AND process.type_id IN ");
                 ps.addQuery(Utils.toString(typeIds));
@@ -605,9 +594,9 @@ public class ProcessDAO extends CommonDAO {
     private void addOpenFilter(PreparedQuery pq, Boolean open) {
         if (open != null) {
             if (open) {
-                pq.addQuery(" WHERE close_dt IS NULL ");
+                pq.addQuery(SQL_WHERE + "close_dt IS NULL ");
             } else {
-                pq.addQuery(" WHERE close_dt IS NOT NULL ");
+                pq.addQuery(SQL_WHERE + "close_dt IS NOT NULL ");
             }
         }
     }
@@ -695,15 +684,15 @@ public class ProcessDAO extends CommonDAO {
          */
 
         pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt , user_id, 0 , CAST( data AS CHAR), 0 FROM " + TABLE_PROCESS_LOG);
-        pq.addQuery(" WHERE id= ? ");
+        pq.addQuery(SQL_WHERE + "id= ? ");
         pq.addInt(processId);
 
         pq.addQuery(" UNION SELECT dt, user_id, -1, CAST(status_id AS CHAR) , comment FROM " + TABLE_PROCESS_STATUS);
-        pq.addQuery(" WHERE process_id=? ");
+        pq.addQuery(SQL_WHERE + "process_id=? ");
         pq.addInt(processId);
 
         pq.addQuery(" UNION SELECT dt, user_id, param_id, CAST(text AS CHAR), 0 FROM " + TABLE_PARAM_LOG);
-        pq.addQuery(" WHERE object_id=? AND param_id IN  ( "
+        pq.addQuery(SQL_WHERE + "object_id=? AND param_id IN  ( "
                 + Utils.toString(processType.getProperties().getParameterIds(), " 0 ", " , ") + " ) ");
         pq.addInt(processId);
 

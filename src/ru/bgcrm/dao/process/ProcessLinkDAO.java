@@ -124,7 +124,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             //удаление старых привязок
             query = new StringBuilder(200);
 
-            query.append(SQL_DELETE);
+            query.append(SQL_DELETE_FROM);
             query.append(TABLE_PROCESS_LINK);
             query.append(SQL_WHERE);
             query.append("object_id=? AND object_type=?");

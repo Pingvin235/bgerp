@@ -550,7 +550,7 @@ public class AddressDAO extends CommonDAO {
         ps.close();
 
         query.setLength(0);
-        query.append(SQL_DELETE);
+        query.append(SQL_DELETE_FROM);
         query.append(TABLE_ADDRESS_COUNTRY);
         query.append("WHERE id=?");
 
@@ -598,7 +598,7 @@ public class AddressDAO extends CommonDAO {
         checkItem(id, TABLE_ADDRESS_AREA, "районах");
 
         StringBuilder query = new StringBuilder();
-        query.append(SQL_DELETE);
+        query.append(SQL_DELETE_FROM);
         query.append(TABLE_ADDRESS_CITY);
         query.append("WHERE id=?");
 
@@ -699,7 +699,7 @@ public class AddressDAO extends CommonDAO {
         ps.close();
 
         query.setLength(0);
-        query.append(SQL_DELETE);
+        query.append(SQL_DELETE_FROM);
         query.append(tableName);
         query.append(SQL_WHERE);
         query.append("id=?");
@@ -771,7 +771,7 @@ public class AddressDAO extends CommonDAO {
         ps.close();
 
         query.setLength(0);
-        query.append(SQL_DELETE);
+        query.append(SQL_DELETE_FROM);
         query.append(TABLE_ADDRESS_HOUSE);
         query.append("WHERE id=?");
 

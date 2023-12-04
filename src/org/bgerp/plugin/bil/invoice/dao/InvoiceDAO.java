@@ -78,7 +78,7 @@ public class InvoiceDAO extends PeriodicDAO {
             "title CHAR(100) NOT NULL," +
             "KEY invoice_id(invoice_id))");
 
-        var query = SQL_DELETE + positionTable + SQL_WHERE + "invoice_id=?";
+        var query = SQL_DELETE_FROM + positionTable + SQL_WHERE + "invoice_id=?";
         try (var pq = new PreparedQuery(con, query)) {
             pq.addInt(invoice.getId()).executeUpdate();
         }
@@ -119,14 +119,14 @@ public class InvoiceDAO extends PeriodicDAO {
         if (invoice == null)
             return;
 
-        var query = SQL_DELETE + TABLE_INVOICE + SQL_WHERE + "id=?";
+        var query = SQL_DELETE_FROM + TABLE_INVOICE + SQL_WHERE + "id=?";
         try (var pq = new PreparedQuery(con, query)) {
             pq.addInt(id).executeUpdate();
         }
 
         var positionTable = getMonthTableName(TABLE_INVOICE_POSITION_PREFIX, invoice.getDateFrom());
         if (tableExists(positionTable)) {
-            query = SQL_DELETE + positionTable + SQL_WHERE + "invoice_id=?";
+            query = SQL_DELETE_FROM + positionTable + SQL_WHERE + "invoice_id=?";
             try (var pq = new PreparedQuery(con, query)) {
                 pq.addInt(id).executeUpdate();
             }

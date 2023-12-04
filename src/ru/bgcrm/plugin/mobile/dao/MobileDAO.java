@@ -19,7 +19,7 @@ public class MobileDAO extends CommonDAO {
 
     public void registerAccount(Account account) throws BGException {
         try {
-            String query = SQL_DELETE + TABLE_ACCOUNT + " WHERE object_type=? AND object_id=?";
+            String query = SQL_DELETE_FROM + TABLE_ACCOUNT + " WHERE object_type=? AND object_id=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, account.getObjectType());
             ps.setInt(2, account.getObjectId());

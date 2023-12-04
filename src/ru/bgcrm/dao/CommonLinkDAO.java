@@ -274,7 +274,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         try {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_DELETE);
+            query.append(SQL_DELETE_FROM);
             query.append(tableName);
             query.append(SQL_WHERE);
             query.append(columnName);
@@ -295,7 +295,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         try {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_DELETE);
+            query.append(SQL_DELETE_FROM);
             query.append(tableName);
             query.append(SQL_WHERE);
             query.append("object_type=? AND object_id=?");
@@ -314,7 +314,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         try {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_DELETE);
+            query.append(SQL_DELETE_FROM);
             query.append(tableName);
             query.append(SQL_WHERE);
             query.append(columnName);

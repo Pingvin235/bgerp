@@ -96,7 +96,7 @@ public class QueryHistoryDAO extends CommonDAO {
      * @throws SQLException
      */
     public void delete(int userId, int id) throws SQLException {
-        try (var ps = new PreparedQuery(con, SQL_DELETE + QUERY_HISTORY_TABLE + SQL_WHERE + "user_id=? AND id=?")) {
+        try (var ps = new PreparedQuery(con, SQL_DELETE_FROM + QUERY_HISTORY_TABLE + SQL_WHERE + "user_id=? AND id=?")) {
             ps.addInt(userId);
             ps.addInt(id);
 

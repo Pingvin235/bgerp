@@ -155,12 +155,12 @@ public class PartyDAO extends CommonDAO {
      * @throws SQLException
      */
     public void memberDelete(int id) throws SQLException {
-        String query = SQL_DELETE + Tables.TABLE_PARTY_PAYMENT + SQL_WHERE + "member_id=?";
+        String query = SQL_DELETE_FROM + Tables.TABLE_PARTY_PAYMENT + SQL_WHERE + "member_id=?";
         try (var ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         }
-        query = SQL_DELETE + Tables.TABLE_PARTY_MEMBER + SQL_WHERE + "id=?";
+        query = SQL_DELETE_FROM + Tables.TABLE_PARTY_MEMBER + SQL_WHERE + "id=?";
         try (var ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -182,7 +182,7 @@ public class PartyDAO extends CommonDAO {
     }
 
     public void paymentDelete(int id) throws SQLException {
-        String query = SQL_DELETE + Tables.TABLE_PARTY_PAYMENT + SQL_WHERE + "id=?";
+        String query = SQL_DELETE_FROM + Tables.TABLE_PARTY_PAYMENT + SQL_WHERE + "id=?";
         try (var ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             ps.executeUpdate();
