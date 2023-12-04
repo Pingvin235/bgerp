@@ -6,21 +6,16 @@
 	<c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>
 
 	<c:set var="editCommand">
-		$('#${uiid} #show').hide(); $('#${uiid} #editorAdd').hide(); $('#${uiid} #editorChange').show();
-		var $ta = $('#${uiid} #editorChange textarea'); $ta.focus();
-		$ta[0].setSelectionRange( $ta[0].value.length, $ta[0].value.length );
+		$$.process.descriptionEdit('${uiid}');
 		return false;
 	</c:set>
 
 	<script>
-		const callback = function () {
-			${editCommand }
-		};
-		doOnClick($('#${uiid} #show'), '', callback);
+		doOnClick($('#${uiid} #show'), '', () => { ${editCommand} });
 	</script>
 	<c:set var="editStyle">cursor: pointer;</c:set>
 
-	<div class="mt1"id="${uiid}">
+	<div class="mt1" id="${uiid}">
 		<div class="mt1 mb05" >
 			<h2>${l.l('Description')}
 				<span style="font-weight: normal;">

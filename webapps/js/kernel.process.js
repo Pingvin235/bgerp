@@ -47,10 +47,24 @@ $$.process = new function() {
 		});
 	}
 
+	/**
+	 * Opens process description editor.
+	 * @param {*} id CSS id for process description container.
+	 */
+	const descriptionEdit = (id) => {
+		$('#' + id + ' #show').hide();
+		$('#' + id + ' #editorAdd').hide();
+		$('#' + id + ' #editorChange').show();
+		const $ta = $('#' + id + ' #editorChange textarea');
+		$ta.focus();
+		$ta[0].setSelectionRange($ta[0].value.length, $ta[0].value.length);
+	}
+
 	// public functions
 	this.open = open;
 	this.remove = remove;
 	this.hideLeftAreaOnScroll = hideLeftAreaOnScroll;
+	this.descriptionEdit = descriptionEdit;
 };
 
 function updateExecutors($groups, $executors, paramNameGroup, paramNameExecutor, savedExecutors) {
