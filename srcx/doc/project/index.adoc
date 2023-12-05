@@ -541,8 +541,8 @@ jspf/open/../plugin/ppp/.../aaa.jsp
 
 |===
 
-[[mvc-iface-test]]
-===== Test zones
+[[mvc-iface-demo]]
+===== Demo Zones
 For testing MVC framework available special hidden zones.
 
 [cols="10%,20%,35%,35%", options="header"]
@@ -550,16 +550,16 @@ For testing MVC framework available special hidden zones.
 | Interface | Action path, mapping JSP | Action class | JSP path
 
 |user
-|/user/test +
+|/user/demo +
 jspf/user/menu.jsp
-|org.bgerp.action.TestAction
-|jspf/user/test.jsp
+|org.bgerp.action.DemoAction
+|jspf/user/demo.jsp
 
 |open
-|/open/test +
-jspf/open/test/url.jsp
-|org.bgerp.action.open.TestAction
-|jspf/open/test.jsp
+|/open/demo +
+jspf/open/demo/url.jsp
+|org.bgerp.action.open.DemoAction
+|jspf/open/demo.jsp
 
 |===
 
@@ -750,7 +750,7 @@ Components are defined within JSP tags and are declared in `webapps/WEB-INF/tags
 
 image::_res/ide_jsp_tag.png[width='600px']
 
-<<mvc-iface-test, UI test zones>> provide several examples of using JSP tags with user control elements.
+<<mvc-iface-demo, UI Demo Zones>> provide several examples of using JSP tags with user control elements.
 
 For kernel, link:../../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp] file defines menu items which are used to match URL and Java Action. For plugins this is done via <<plugin-ui-menu, extension>> points.
 

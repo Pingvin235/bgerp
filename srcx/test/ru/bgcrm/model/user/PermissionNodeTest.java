@@ -31,10 +31,11 @@ public class PermissionNodeTest {
         Assert.assertFalse(p.isNotLogging());
         Assert.assertEquals("org.bgerp.action.admin.AppAction:status", p.getAction());
 
-        p = node.findPermissionNode("org.bgerp.action.TestAction:null");
+        p = node.findPermissionNode("org.bgerp.action.DemoAction:null");
+        Assert.assertNotNull(p);
         Assert.assertTrue(p.isAllowAll());
         Assert.assertTrue(p.isNotLogging());
-        Assert.assertEquals("org.bgerp.action.TestAction:null", p.getAction());
+        Assert.assertEquals("org.bgerp.action.DemoAction:null", p.getAction());
     }
 
     @Test

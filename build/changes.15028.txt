@@ -1,1 +1,2 @@
 C: First process ID is 1970.
+C: Test Zones renamed to Demo Zones. https://bgerp.org/doc/3.0/manual/project/index.html#mvc-iface-Demo

@@ -6,7 +6,7 @@
 		<div>
 			<b>&lt;ui:tag-box&gt;</b><br/>
 			Lazy loading from AJAX request<br>
-			<ui:tag-box showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="/user/test.do?action=enumValues" style="width: 30em;"/>
+			<ui:tag-box showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="/user/demo.do?action=enumValues" style="width: 30em;"/>
 		</div>
 
 		<form class="in-mb05">
@@ -38,7 +38,7 @@
 	</div>
 </div>
 
-<%@ include file="/WEB-INF/jspf/test.jsp"%>
+<%@ include file="/WEB-INF/jspf/demo.jsp"%>
 
-<shell:title text="Test Title"/>
-<shell:state text="Test State"/>
+<shell:title text="Demo Title"/>
+<shell:state text="Demo State"/>

@@ -340,8 +340,8 @@
 		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Для унифицированного вызова JSP" allowAll="1" notLogging="1"/>
 		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Для пулинга" allowAll="1" notLogging="1"/>
 -
-		<item action="org.bgerp.action.TestAction:null" title="Test" allowAll="1" notLogging="1"/>
-		<item action="org.bgerp.action.TestAction:enumValues" title="Test enumValues" allowAll="1" notLogging="1"/>
+		<item action="org.bgerp.action.DemoAction:null" title="Demo" allowAll="1" notLogging="1"/>
+		<item action="org.bgerp.action.DemoAction:enumValues" title="Demo enumValues" allowAll="1" notLogging="1"/>
 
 		<item action="ru.bgcrm.struts.action.LockAction:add" title="Lock add" allowAll="1" notLogging="1"/>/>
 		<item action="ru.bgcrm.struts.action.LockAction:free" title="Lock free" allowAll="1" notLogging="1"/>/>

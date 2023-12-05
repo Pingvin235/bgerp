@@ -16,9 +16,9 @@
 	<html:form action="/user/empty">
 		<input type="hidden" name="forwardFile" value="${form.forwardFile}"/>
 
-		<div class="mb1">Примеры элементов интерфейса доступны <a href="/test.jsp">здесь</a> (файл /webapps/test.jsp).</div>
+		<div class="mb1">Примеры элементов интерфейса доступны <a href="/demo.jsp">здесь</a> (файл /webapps/demo.jsp).</div>
 		<div class="mb1">
-			В качестве справочников вы можете использовать <a href="http://www.bgcrm.ru/doc/3.0/javadoc/ru/bgcrm/servlet/filter/SetRequestParamsFilter.html#getContextVariables">переменные</a>, установленные из request.<br/><br/>
+			В качестве справочников вы можете использовать <a href="https://www.bgerp.org/doc/3.0/javadoc/ru/bgcrm/servlet/filter/SetRequestParamsFilter.html#getContextVariables">переменные</a>, установленные из request.<br/><br/>
 		</div>
 
 		Дата закрытия:
