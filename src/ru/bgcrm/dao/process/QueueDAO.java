@@ -23,7 +23,6 @@ import org.bgerp.model.Pageable;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.LastModifyDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Page;

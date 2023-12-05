@@ -90,7 +90,7 @@ public class ParameterAction extends BaseAction {
     }
 
     // Used for customers, but not for processes.
-    public ActionForward entityLog(DynActionForm form, ConnectionSet con) throws BGException {
+    public ActionForward entityLog(DynActionForm form, ConnectionSet con) throws Exception {
         int id = form.getId();
         String type = form.getParam("type");
         String table = "";
