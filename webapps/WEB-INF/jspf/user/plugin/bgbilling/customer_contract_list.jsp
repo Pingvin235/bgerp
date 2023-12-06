@@ -60,7 +60,7 @@
 			<c:set var="customerId" value="${form.response.data.customerId}"/>
 
 			<c:set var="liAttrs"> id='${billingId}-${link.linkObjectId}'</c:set>
-			$tabs.tabs('add', '/user/plugin/bgbilling/contract.do?billingId=${billingId}&id=${link.linkObjectId}&inBuffer=0', '${link.linkedObjectTitle}', "${liAttrs}");
+			$tabs.tabs('add', '/user/plugin/bgbilling/contract.do?billingId=${billingId}&id=${link.linkObjectId}&inBuffer=0', '${link.linkObjectTitle}', "${liAttrs}");
 		</c:forEach>
 
 		$tabs.trigger("tabsinit");

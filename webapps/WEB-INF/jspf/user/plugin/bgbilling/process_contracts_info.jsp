@@ -8,7 +8,7 @@
 
 <c:forEach var="link" items="${linkList}">
 	<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':' )}"/>
-	<h1>${link.linkedObjectTitle} [ ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title} ]</h1>
+	<h1>${link.linkObjectTitle} [ ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title} ]</h1>
 
 	<c:url var="url" value="/user/plugin/bgbilling/contract.do">
 		<c:param name="action" value="contractInfo"/>

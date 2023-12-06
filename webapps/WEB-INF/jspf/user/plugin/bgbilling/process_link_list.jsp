@@ -10,7 +10,7 @@
 			<td>Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
 			<c:set var="contractId" value="${item.linkObjectId}" scope="request"/>
-			<td><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle}</a></td>
+			<td><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', ${contractId} ); return false;">${item.linkObjectTitle}</a></td>
 		</tr>
 
 		<c:set var="processTypeConfig" value="${ctxProcessTypeMap[u:int( form.param['processTypeId'] )].properties.configMap}"/>
@@ -28,13 +28,13 @@
 					<c:url var="url" value="/user/process/link.do">
 						<c:param name="action" value="linkedProcessList"/>
 						<c:param name="objectType" value="${item.linkObjectType}"/>
-						<c:param name="objectTitle" value="${item.linkedObjectTitle}"/>
+						<c:param name="objectTitle" value="${item.linkObjectTitle}"/>
 						<c:param name="id" value="${item.linkObjectId}"/>
 					</c:url>
 
 					<%-- проверка, чтобы добавляло только один раз вкладку --%>
-					if ($tabs.find("li:contains('${u:quotEscape(item.linkedObjectTitle)}')").length == 0)
-						$tabs.tabs("add", "${url}", "Процессы договора ${u:quotEscape( item.linkedObjectTitle )}");
+					if ($tabs.find("li:contains('${u:quotEscape(item.linkObjectTitle)}')").length == 0)
+						$tabs.tabs("add", "${url}", "Процессы договора ${u:quotEscape( item.linkObjectTitle )}");
 			  	})
 			</script>
 		</c:if>

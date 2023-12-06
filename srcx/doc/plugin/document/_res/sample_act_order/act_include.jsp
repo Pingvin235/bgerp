@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<p>Акт сдачи-приёмки работ № ${process.id} от ${tu.format(curdate, 'ymd')} по договору: ${contractLink.linkedObjectTitle}</p>
+<p>Акт сдачи-приёмки работ № ${process.id} от ${tu.format(curdate, 'ymd')} по договору: ${contractLink.linkObjectTitle}</p>
 <p>Заказчик: ${contractInfo.comment}</p>
 <p>Адрес: ${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS, 1).value}</p>
 <p>Вид работ: ${ctxProcessTypeMap[process.typeId].title}</p>

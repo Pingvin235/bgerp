@@ -64,5 +64,5 @@
 
 	additionalLinksForAdd.push( {
 		objectType: '${item.linkObjectType}', id: ${item.linkObjectId},
-		title: '${item.linkedObjectTitle.replace("'", "&#8217;").replace("\"", "&#8220;")}', objectTypeTitle: '${title}' } );
+		title: '${item.linkObjectTitle.replace("'", "&#8217;").replace("\"", "&#8220;")}', objectTypeTitle: '${title}' } );
 </c:forEach>

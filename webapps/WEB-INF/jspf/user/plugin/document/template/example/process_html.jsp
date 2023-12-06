@@ -63,7 +63,7 @@ document:processCreateDocumentsAllowedTemplates+=,101
 
 				<c:set var="contractLink" value="${linkDao.getObjectLinksWithType(processId, 'contract%')[0]}"/>
 				<c:set var="contractId" value="${contractLink.linkObjectId}"/>
-				<c:set var="contractTitle" value="${contractLink.linkedObjectTitle}"/>
+				<c:set var="contractTitle" value="${contractLink.linkObjectTitle}"/>
 
 				Пример выбора услуг в модуле Inet.
 				  bgbilling - идентификатор биллинга в конфигурации BGERP

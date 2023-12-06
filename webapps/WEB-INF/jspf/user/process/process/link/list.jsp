@@ -73,7 +73,7 @@
 				<td>${delButton}</td>
 				<td>${item.linkObjectId}</td>
 				<td>${customerLinkRole}</td>
-				<td><ui:customer-link id="${item.linkObjectId}" text="${item.linkedObjectTitle}"/></td>
+				<td><ui:customer-link id="${item.linkObjectId}" text="${item.linkObjectTitle}"/></td>
 			</tr>
 		</c:if>
 

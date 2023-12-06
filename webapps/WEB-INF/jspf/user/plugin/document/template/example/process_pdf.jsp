@@ -78,7 +78,7 @@ processor.6.responseType=file
 
 <c:set var="abonent">
 	<c:forEach var="link" items="${linkDao.getObjectLinksWithType(processId, 'customer')}">
-		${link.linkedObjectTitle}
+		${link.linkObjectTitle}
 	</c:forEach>
 </c:set>
 

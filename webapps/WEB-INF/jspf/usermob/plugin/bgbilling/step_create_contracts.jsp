@@ -13,7 +13,7 @@
 			<c:when test="${not empty stepData.contractLinkList}">
 				<c:forEach var="item" items="${stepData.contractLinkList}">
 						<tr>
-							<td>${item.linkedObjectTitle}</td>
+							<td>${item.linkObjectTitle}</td>
 
 							<c:set var="typeId" value="${item.configMap['typeId']}"/>
 							<c:set var="tariffId" value="${item.configMap['tariffId']}"/>

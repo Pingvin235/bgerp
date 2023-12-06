@@ -7,7 +7,7 @@
 			<td>${delButton}</td>
 			<td>0</td>
 			<td>Slack</td>
-			<td>${item.linkedObjectTitle}</td>
+			<td>${item.linkObjectTitle}</td>
 		</tr>
 	</c:when>
 </c:choose>
