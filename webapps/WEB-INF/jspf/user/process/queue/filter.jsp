@@ -364,7 +364,7 @@
 								<c:set var="paramName" value="status"/>
 								<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 								<ui:combo-check paramName="${paramName}"
-									list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}"
+									list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" available="${filter.availableValues}"
 									values="${empty values ? filter.defaultValues : values}"
 									prefixText="${l.l('Status')}:" widthTextValue="8em"/>
 							</u:sc>
