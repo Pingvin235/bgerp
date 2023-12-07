@@ -86,7 +86,7 @@
 				<div id="${configTextUiid}" style="display: none;">
 					<h2>${l.l('Текст конфигурации опций')}</h2>
 
-					<textarea style="width: 100%; height: 400px; resize: vertical;">${ctxUser.personalizationMap.getDataString()}</textarea>
+					<textarea style="width: 100%; height: 400px; resize: vertical;">${ctxUser.personalizationMap.getDataString().replace('&', '&amp;')}</textarea>
 
 					<button class="btn-grey mt1 icon" type="button" name="reset" title="${l.l('Delete all the stored personalization options')}" onclick="
 						if (!confirm('${l.l('Reset all the user personalizations?')}')) return;

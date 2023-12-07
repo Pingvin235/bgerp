@@ -17444,8 +17444,10 @@ $.widget( "ui.tabs", {
 					ui.tab.data("loaded", true);
 				})
 				.fail(function (jqXHR, textStatus, errorThrown) {
-					const url = ui.tab.find("a").attr("href");
-					ajaxError(url, jqXHR, textStatus, errorThrown);
+					if (textStatus !== 'abort') {
+						const url = ui.tab.find("a").attr("href");
+						ajaxError(url, jqXHR, textStatus, errorThrown);
+					}
 				});
 		};
 		// END PATCH

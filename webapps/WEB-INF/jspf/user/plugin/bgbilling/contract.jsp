@@ -86,11 +86,11 @@
 				</c:otherwise>
 			</c:choose></span>
 
-			<button type="button" class="btn-white btn-small mr1"
+			<ui:button type="edit" styleClass="btn-small mr1"
 					onclick="$('#${showTdId}').hide(); $('#${editTdId}').show();
 							 buildOpenedCustomerList( $('#${editTdId}'), { id : '${customer.id}', title : '${u.escapeXml( customer.title )}' } );
 							 $$.ui.comboSingleInit( $('#${customerSelectUiid}') )"
-					title="Изменить контрагента">*</button>
+					title="Изменить контрагента"/>
 
 			<c:choose>
 				<c:when test="${not empty contract.title}">
@@ -126,14 +126,7 @@
 		</div>
 
 		<div style="width: 100%;" id="${editTdId}">
-			<u:sc>
-				<c:set var="id" value="${customerSelectUiid}"/>
-				<c:set var="hiddenName" value="customerId"/>
-				<%-- <c:set var="value" value="${customer.id}"/> --%>
-				<c:set var="widthTextValue" value="200px"/>
-				<c:set var="prefixText" value="Контрагент:"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+			<ui:combo-single id="${customerSelectUiid}" hiddenName="customerId" widthTextValue="15em" prefixText="Контрагент:"/>
 
 			<c:set var="removeContractTab">
 				var $tabs = $('#${editTdId}').closest( 'div.ui-tabs' );
@@ -169,10 +162,9 @@
 					}
 				}
 			</c:set>
-			<button type="button" class="btn-grey ml1"
-						onclick="${changeCustomerScript}">OK</button>
-			<button type="button" class="btn-grey ml05"
-						onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();">Отмена</button>
+			<button type="button" class="btn-grey ml1" onclick="${changeCustomerScript}">OK</button>
+			<button type="button" class="btn-white ml05"
+				onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();">Отмена</button>
 		</div>
 
 		<c:if test="${not empty contract.title}">

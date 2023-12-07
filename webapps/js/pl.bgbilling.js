@@ -15,43 +15,43 @@ $$.bgbilling = new function () {
 				$$.shell.contentLoad("contract_" + billingId + "#" + contractId);
 			} else {
 				const url = "/user/plugin/bgbilling/contract.do?billingId=" + billingId + "&id=" + contractId;
+				$$.ajax.post(url).done((result) => {
+					if (result.data.customer) {
+						const contractTitle = result.data.contract.title;
+						const customerId = result.data.customer.id;
 
-				const result = sendAJAXCommand(url);
-				if (result.data.customer) {
-					const contractTitle = result.data.contract.title;
-					const customerId = result.data.customer.id;
+						$$.shell.contentLoad("customer#" + customerId).done(() => {
+							const $tabs = $("div#customer-" + customerId + " > #customerViewTabs");
+							$tabs.tabs("showTab", "bgbilling-contracts");
 
-					$$.shell.contentLoad("customer#" + customerId).done(() => {
-						const $tabs = $("div#customer-" + customerId + " > #customerViewTabs");
-						$tabs.tabs("showTab", "bgbilling-contracts");
-
-						// TODO: Wait for contracts tab is loaded.
-						$$.ui.tabsLoaded($tabs, "tabsload", function () {
-							const $customerContractTabs = $("#bgbilling-customerContractList-" + customerId);
-							$$.ui.tabsLoaded($customerContractTabs, "tabsinit", function () {
-								if (!$customerContractTabs.tabs("showTab", billingId + "-" + contractId)) {
-									// договор возможно "спрятан" под субдоговором - поиск субдоговора по префиксу
-									let pos = 0;
-									$customerContractTabs.find("ul li").each(function () {
-										if (contractTitle.startsWith($(this).find("a").text())) {
-											// выделение вкладки субдоговора
-											$customerContractTabs.tabs("option", "active", pos);
-											// на вкладке субдоговора выделение договора
-											const $subContractTabs = $($customerContractTabs.find(">div.ui-tabs-panel")[pos]).find(".ui-tabs");
-											$subContractTabs.one("tabsinit", function () {
-												$subContractTabs.tabs("showTab", billingId + "-" + contractId);
-											});
-											return false;
-										}
-										pos++;
-									});
-								}
+							// TODO: Wait for contracts tab is loaded.
+							$$.ui.tabsLoaded($tabs, "tabsload", function () {
+								const $customerContractTabs = $("#bgbilling-customerContractList-" + customerId);
+								$$.ui.tabsLoaded($customerContractTabs, "tabsinit", function () {
+									if (!$customerContractTabs.tabs("showTab", billingId + "-" + contractId)) {
+										// договор возможно "спрятан" под субдоговором - поиск субдоговора по префиксу
+										let pos = 0;
+										$customerContractTabs.find("ul li").each(function () {
+											if (contractTitle.startsWith($(this).find("a").text())) {
+												// выделение вкладки субдоговора
+												$customerContractTabs.tabs("option", "active", pos);
+												// на вкладке субдоговора выделение договора
+												const $subContractTabs = $($customerContractTabs.find(">div.ui-tabs-panel")[pos]).find(".ui-tabs");
+												$subContractTabs.one("tabsinit", function () {
+													$subContractTabs.tabs("showTab", billingId + "-" + contractId);
+												});
+												return false;
+											}
+											pos++;
+										});
+									}
+								});
 							});
 						});
-					});
-				} else {
-					$$.shell.contentLoad("contract_" + billingId + "#" + contractId);
-				}
+					} else {
+						$$.shell.contentLoad("contract_" + billingId + "#" + contractId);
+					}
+				});
 			}
 		}
 

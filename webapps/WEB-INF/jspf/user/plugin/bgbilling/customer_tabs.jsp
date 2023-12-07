@@ -6,5 +6,4 @@
 	<c:param name="customerId">${customer.id}</c:param>
 </c:url>
 
-$tabs.tabs( "add", "${url}", "Договоры", " id='bgbilling-contracts'", 2 );
-
+$tabs.tabs("add", "${url}", "Договоры", " id='bgbilling-contracts'", 2);

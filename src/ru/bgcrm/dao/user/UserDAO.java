@@ -555,18 +555,16 @@ public class UserDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updatePersonalization(String mapDataBefore, User user) throws SQLException {
-        if (user.getPersonalizationMap().getDataString().equals(mapDataBefore)) {
+        if (user.getPersonalizationMap().getDataString().equals(mapDataBefore))
             return;
-        }
 
         log.debug("Updating personalization {}", user.getId());
 
-        PreparedStatement ps = con.prepareStatement("UPDATE " + TABLE_USER + "SET personalization=? WHERE id=?");
-        ps.setString(1, user.getPersonalizationMap().getDataString());
-        ps.setInt(2, user.getId());
-        ps.executeUpdate();
-
-        ps.close();
+        try (var ps = con.prepareStatement(SQL_UPDATE + TABLE_USER + SQL_SET + "personalization=?" + SQL_WHERE + "id=?")) {
+            ps.setString(1, user.getPersonalizationMap().getDataString());
+            ps.setInt(2, user.getId());
+            ps.executeUpdate();
+        }
     }
 
     public void updatePersonalization(User user, ConfigMap newMap) throws SQLException {

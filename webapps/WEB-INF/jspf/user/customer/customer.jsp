@@ -22,7 +22,7 @@
 
 			const $tabs = $selector.tabs({refreshButton: true});
 
-			<c:url var="url" value="parameter.do">
+			<c:url var="url" value="/user/parameter.do">
 				<c:param name="action" value="parameterList"/>
 				<c:param name="id" value="${customer.id}"/>
 				<c:param name="objectType" value="customer"/>

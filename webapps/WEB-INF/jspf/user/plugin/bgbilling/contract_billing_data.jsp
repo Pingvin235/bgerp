@@ -1,5 +1,3 @@
-<%@page import="ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo"%>
-<%@page import="ru.bgcrm.util.TimeUtils"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 

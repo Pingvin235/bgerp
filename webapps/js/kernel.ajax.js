@@ -650,7 +650,7 @@ function ajaxError(url, jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {
 		$$.shell.login.show();
 	} else {
-		let text = "<b>URL</b>: " + url;
+		let text = "<b>URL</b>: " + url.replaceAll('&', '&amp;');
 		if (jqXHR.responseText)
 			text += "<br/><b>RESPONSE</b>:<br/>" + jqXHR.responseText;
 
