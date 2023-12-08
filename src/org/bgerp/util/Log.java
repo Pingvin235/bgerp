@@ -61,8 +61,8 @@ public class Log {
     /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#DEBUG}
      */
-    public void debug(String pattern, Object... params) {
-        log(Level.DEBUG, pattern, params);
+    public void debug(String message, Object... args) {
+        log(Level.DEBUG, message, args);
     }
 
     /** @return is {@link Level#DEBUG} enabled. */
@@ -80,8 +80,8 @@ public class Log {
     /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#INFO}.
      */
-    public void info(String pattern, Object... params) {
-        log(Level.INFO, pattern, params);
+    public void info(String message, Object... args) {
+        log(Level.INFO, message, args);
     }
 
     /* TODO: Think about commenting in the similar way methods info, error, debug with a single String parameter.
@@ -115,8 +115,8 @@ public class Log {
     /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#ERROR}.
      */
-    public void error(String pattern, Object... params) {
-        log(Level.ERROR, pattern, params);
+    public void error(String message, Object... args) {
+        log(Level.ERROR, message, args);
     }
 
     /**
@@ -139,23 +139,23 @@ public class Log {
     /**
      * Writes log message with possibilities of pattern definitions.
      * @param level log level.
-     * @param pattern format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
+     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
      * @param args parameters for replacements in {@code pattern}.
      */
-    private final void log(Priority level, String pattern, Object... args) {
+    private final void log(Priority level, String message, Object... args) {
         if (logger.isEnabledFor(level)) {
-            logger.log(level, format(pattern, args));
+            logger.log(level, format(message, args));
         }
     }
 
     /**
      * Formats message using pattern with substitutions.
-     * @param pattern format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
+     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
      * @param args parameters for replacements in {@code pattern}.
      * @return
      */
-    public static String format(String pattern, Object... args) {
-        return new FormattedMessage(pattern, args).getFormattedMessage();
+    public static String format(String message, Object... args) {
+        return new FormattedMessage(message, args).getFormattedMessage();
     }
 
     /**
