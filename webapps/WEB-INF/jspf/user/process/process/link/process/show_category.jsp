@@ -82,8 +82,7 @@
 						</c:otherwise>
 					</c:choose>
 				</c:set>
-				<c:set var="maxLength" value="200"/>
-				<%@include file="/WEB-INF/jspf/short_text.jsp"%>
+				<ui:short-text text="${text}" maxLength="200"/>
 			</td>
 		</tr>
 	</c:forEach>

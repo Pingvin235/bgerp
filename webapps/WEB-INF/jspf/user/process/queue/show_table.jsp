@@ -190,8 +190,7 @@ Incoming variables:
 								<c:when test="${0 lt column.cutIfMore}">
 									<c:set var="maxLength" value="${column.cutIfMore}"/>
 									<c:if test="${maxLength gt 0}">
-										<c:set var="text" value="${col}"/>
-										<%@include file="/WEB-INF/jspf/short_text.jsp"%>
+										<ui:short-text text="${col}" maxLength="${maxLength}"/>
 									</c:if>
 								</c:when>
 								<c:when test="${not empty column.showAsLink and not empty col}">

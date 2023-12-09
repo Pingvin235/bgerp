@@ -7,10 +7,6 @@
 	<td ${tdClass}>${ctxProcessTypeMap[process.typeId]}</td>
 	<td ${tdClass}>${ctxProcessStatusMap[process.statusId]}</td>
 	<td ${tdClass}>
-		<u:sc>
-			<c:set var="text" value="${u:htmlEncode(process.description)}"/>
-			<c:set var="maxLength" value="200"/>
-			<%@include file="/WEB-INF/jspf/short_text.jsp"%>
-		</u:sc>
+		<ui:short-text text="${u:htmlEncode(process.description)}" maxLength="200"/>
 	</td>
 </tr>

@@ -56,11 +56,7 @@
 				<td>${u.escapeXml( item.title )}</td>
 				<td>${u.escapeXml( item.comment )}</td>
 				<td>
-					<c:set var="maxLength" value="100"/>
-					<c:if test="${maxLength gt 0}">
-						<c:set var="text" value="${item.config}"/>
-						<%@include file="/WEB-INF/jspf/short_text.jsp"%>
-					</c:if>
+					<ui:short-text text="${item.config}"/>
 				</td>
 
 				<c:if test="${form.param.directoryId eq 'processParameter'}">

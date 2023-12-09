@@ -48,9 +48,7 @@
 			<td>${ctxUserMap[item.userId].title}</td>
 			<td>${item.action}</td>
 			<td>
-				<c:set var="maxLength" value="150"/>
-				<c:set var="text" value="${item.parameters}"/>
-				<%@include file="/WEB-INF/jspf/short_text.jsp"%>
+				<ui:short-text text="${item.parameters}" maxLength="150"/>
 			</td>
 			<td>${item.duration}</td>
 		</tr>
