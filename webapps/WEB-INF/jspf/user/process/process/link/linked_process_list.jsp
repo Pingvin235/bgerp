@@ -117,9 +117,7 @@
 							</td>
 							<td>${ctxProcessTypeMap[process.typeId]}</td>
 							<td>${ctxProcessStatusMap[process.statusId]}</td>
-							<td width="100%">
-								<%@ include file="/WEB-INF/jspf/user/process/reference.jsp"%>
-							</td>
+							<td width="100%">${process.reference().description()}</td>
 						</tr>
 					</c:if>
 				</c:forEach>

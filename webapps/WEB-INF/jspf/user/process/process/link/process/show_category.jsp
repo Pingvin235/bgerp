@@ -70,20 +70,7 @@
 			</td>
 			<td>${ctxProcessTypeMap[process.typeId]}</td>
 			<td>${ctxProcessStatusMap[process.statusId]}</td>
-			<td>
-				<c:set var="text">
-					<c:choose>
-						<c:when test="${not empty process.reference}">
-							${process.reference}
-						</c:when>
-						<c:otherwise>
-							<%-- converts tag symbols and line breaks --%>
-							${u:htmlEncode(process.description)}
-						</c:otherwise>
-					</c:choose>
-				</c:set>
-				<ui:short-text text="${text}" maxLength="200"/>
-			</td>
+			<td>${process.reference().description()}</td>
 		</tr>
 	</c:forEach>
 </table>

@@ -2,9 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <u:sc>
-	<c:set var="title">
-		<%@ include file="process_title_reference.jsp"%>
-	</c:set>
+	<c:set var="title" value="${process.reference().title()}"/>
 
 	<%-- если описание не содержит HTML разметки - оборачиваем его в <span class='title'> --%>
 	<c:if test="${not title.contains( '<' ) }">

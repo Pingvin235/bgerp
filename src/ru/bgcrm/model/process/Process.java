@@ -1,6 +1,5 @@
 package ru.bgcrm.model.process;
 
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,6 +13,8 @@ import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.model.process.Reference;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -361,6 +362,11 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         this.reference = reference;
     }
 
+    @Dynamic
+    public Reference reference() {
+        return new Reference(this);
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -456,7 +462,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         return result;
     }
 
-    public String getChangesLog(Process oldProcess) throws SQLException {
+    public String getChangesLog(Process oldProcess) {
         Localizer l = Localization.getLocalizer();
 
         StringBuilder result = new StringBuilder();

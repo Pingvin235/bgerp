@@ -48,9 +48,7 @@
 			<td class="min">${tu.format(process.closeTime, 'ymdhms')}</td>
 			<td>${ctxProcessTypeMap[process.typeId].title}</td>
 			<td>${ctxProcessStatusMap[process.statusId].title}</td>
-			<td>
-				<%@ include file="/WEB-INF/jspf/user/process/reference.jsp"%>
-			</td>
+			<td>${process.reference().description()}</td>
 		</tr>
 	</c:forEach>
 </table>
