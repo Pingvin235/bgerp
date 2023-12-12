@@ -151,23 +151,7 @@
 			setDayTypeForDate( selectedDate, getSelectedDayType(), false );
 		}
 
-		//сам календарь
-		$( '#${uiid} div.datepicker' ).datepicker(
-		{
-			changeMonth: false,
-			changeYear: false,
-			stepMonths: 0,
-			minDate: new Date( ${year}, 0, 1 ),
-			maxDate: new Date( ${year}, 11, 31 ),
-			/* defaultDate: new Date(), */
-			numberOfMonths: [ 3, 4 ],
-
-			onSelect: function(date, inst)
-			{
-			    inst.inline = false;
-			    onCalendarDateSelect( date );
-			}
-		});
+		$$.callboard.calendar.init('${uiid}', '${year}', onCalendarDateSelect);
 
 		reloadCalendar();
 	})

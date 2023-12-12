@@ -1,76 +1,33 @@
+/*
+ * Plugin Callboard
+ */
+"use strict";
 
-addEventProcessor( 'ru.bgcrm.event.DynamicShiftUserEvent', processShiftUserEvent );
-
-function processShiftUserEvent( e )
-{
-	if( e.dynamicSettingsSet.length == 0 )
-	{
-		return;
-	}
-
-	var point = e.dynamicSettingsSet[0];
-
-	if( $( '#dynamicShiftDialog' ).length == 0 )
-	{
-		var options = "";
-
-		for( var item in point.availableTimeSet ) {
-			options+="<option>"+point.availableTimeSet[item]+"</option>";
+$$.callboard = new function () {
+	// $$.callboard.calendar
+	this.calendar = new function () {
+		/**
+		 * Creates a datapicker for a year.
+		 * @param {String} id the parent HTML element ID.
+		 * @param {String} year the year.
+		 * @param {Function} onCalendarDateSelect callback.
+		 */
+		const init = (id, year, onCalendarDateSelect) => {
+			$(document.getElementById(id)).find('div.datepicker').datepicker({
+				changeMonth: false,
+				changeYear: false,
+				dateFormat: "dd.mm.yy",
+				minDate: new Date(year, 0, 1),
+				maxDate: new Date(year, 11, 31),
+				numberOfMonths: [3, 4],
+				onSelect: function (date, inst) {
+					inst.inline = false;
+					onCalendarDateSelect(date);
+				}
+			});
 		}
-
-		$( "body" ).append( "<div id='dynamicShiftDialog' style='text-align: center;'><span>Укажите точное время для смены:<br><b>"+ point.title +"</b></span> " +
-							"<div style='display: inline-block;'><select>" + options + "</select></div>" +
-							"</div>" );
-
-		$( '#dynamicShiftDialog' ).dialog({
-			modal: true,
-			draggable: false,
-			resizable: false,
-			width: 300,
-			closeOnEscape: false,
-			autoOpen: false,
-		    title: "Назначение времени",
-
-			open:function()
-			{
-				$("#dynamicShiftDialog").parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
-			},
-
-		    close: function()
-		    {
-		    	$('#dynamicShiftDialog').remove();
-		    },
-
-		    buttons:
-	    	{
-		    	'Установить' : function()
-		    	{
-		    		var url = '/admin/plugin/callboard/work.do?action=setDynamicShiftTime&workShiftId='+point.workShift.id+'&userId='+point.workShift.userId+'&graphId='+
-		    				   point.workShift.graphId+'&groupId='+point.workShift.groupId+'&workTypeId='+point.workShift.workTypeTime[0].workTypeId+
-		    				   '&selectedTime='+$(this).find('select option:selected').val();
-
-		    		if( sendAJAXCommand( url ) )
-	    			{
-	    				$( this ).dialog( 'close' );
-	    			}
-		    	}
-	    	},
-			open: function()
-			{
-				$("#dynamicShiftDialog").keypress(function(e)
-				{
-					if (e.keyCode == $.ui.keyCode.ENTER)
-					{
-						$(this).parent().find(".ui-dialog-buttonpane button:first").click();
-					}
-				});
-			}
-		});
-	}
-
-	if( !$("#dynamicShiftDialog").dialog( "isOpen" ) )
-	{
-		$("#dynamicShiftDialog").dialog( "open" ).parent().find( ".ui-dialog-titlebar-close" ).hide();
+		// public functions
+		this.init = init;
 	}
 }
 
