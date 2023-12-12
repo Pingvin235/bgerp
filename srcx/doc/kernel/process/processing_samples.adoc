@@ -2,12 +2,51 @@
 :toc:
 
 == Kernel
+
+[[create-process-and-link]]
+=== Create a process and link int to the existing one
+[source]
+----
+STATUS_IDS=1,4
+PARAM_LIST_ID=49
+PROCESS_TYPE_ID=8
+
+onProcessEvent.{@inc:cnt}.events=statusChanged:{@STATUS_IDS}
+onProcessEvent.{@cnt}.doExpression=<<END
+    processId = event.getProcess().getId();
+
+    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    listValue = u.getFirst(dao.getParamList(processId,{@PARAM_LIST_ID}));
+
+    log.debug("listValue: " + listValue);
+
+    // if the list parameter value is 1
+    if (listValue == 1) {
+        // create a new process
+        dao = new("ru.bgcrm.dao.process.ProcessDAO", conSet.getConnection());
+        process = new("ru.bgcrm.model.process.Process");
+        process.setTypeId({@PROCESS_TYPE_ID});
+        process.setDescription("Created automatically");
+
+        action = ru.bgcrm.struts.action.ProcessAction;
+        action.processCreate(event.getForm(), conSet.getConnection(), process);
+
+        log.debug("Created process: " + process.getId());
+
+        // link it to the current one with relation type 'link'
+        dao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
+        link = new("org.bgerp.model.process.link.ProcessLinkProcess", processId, "processLink", process.getId());
+        dao.addLink(link);
+    }
+END
+----
+
 [[add-process-customer-link]]
 === Add customer link to a created process
 [source]
 ----
-onProcessEvent.1.events=created
-onProcessEvent.1.doExpression=<<END
+onProcessEvent.{@inc:cnt}.events=created
+onProcessEvent.{@cnt}.doExpression=<<END
     customerId = 1;
     customerTitle = "Customer Title";
     dao=new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
@@ -21,12 +60,12 @@ END
 В различных статусах различным группам, исполнителю либо администратору и запрет правки закрытого процесса.
 [source]
 ----
-onProcessEvent.1.checkExpression=process.getStatusId() !~ [9, 13, 36,39] or 8 =~ user.getGroupIds()
-onProcessEvent.1.checkErrorMessage=В этом статусе разрешена правка только сотрудникам КС
-onProcessEvent.2.checkExpression=process.getStatusId() != 9 or user.getId()  =~ process.getExecutorIds() or 33 =~ user.getPermsetIds()
-onProcessEvent.2.checkErrorMessage=В этом статусе разрешена правка только исполнителем процесса либо администратором КС
-onProcessEvent.3.checkExpression=process.getCloseTime() == null
-onProcessEvent.3.checkErrorMessage=Запрещена правка закрытого процесса
+onProcessEvent.{@inc:cnt}.checkExpression=process.getStatusId() !~ [9, 13, 36,39] or 8 =~ user.getGroupIds()
+onProcessEvent.{@cnt}.checkErrorMessage=В этом статусе разрешена правка только сотрудникам КС
+onProcessEvent.{@inc:cnt}.checkExpression=process.getStatusId() != 9 or user.getId()  =~ process.getExecutorIds() or 33 =~ user.getPermsetIds()
+onProcessEvent.{@cnt}.checkErrorMessage=В этом статусе разрешена правка только исполнителем процесса либо администратором КС
+onProcessEvent.{@inc:cnt}.checkExpression=process.getCloseTime() == null
+onProcessEvent.{@cnt}.checkErrorMessage=Запрещена правка закрытого процесса
 ----
 
 [[add-executor]]
@@ -34,8 +73,8 @@ onProcessEvent.3.checkErrorMessage=Запрещена правка закрыт�
 Добавление текущего пользователя в исполнители и установка в статус с кодом 40, если процесс создан как привязанный к другому процессу.
 [source]
 ----
-onProcessEvent.1.events=createdAsLink
-onProcessEvent.1.doExpression=addExecutors({user.getId()});setStatus(40, "")
+onProcessEvent.{@inc:cnt}.events=createdAsLink
+onProcessEvent.{@cnt}.doExpression=addExecutors({user.getId()});setStatus(40, "")
 ----
 
 [[set-status]]
@@ -43,19 +82,18 @@ onProcessEvent.1.doExpression=addExecutors({user.getId()});setStatus(40, "")
 Изменение статуса процесса на 3 при получении в него нового сообщения.
 [source]
 ----
-onProcessEvent.1.events=messageAdded
-onProcessEvent.1.ifExpression=process.getStatusId() != 3
-onProcessEvent.1.doExpression=setStatus(3, "")
-#
+onProcessEvent.{@inc:cnt}.events=messageAdded
+onProcessEvent.{@cnt}.ifExpression=process.getStatusId() != 3
+onProcessEvent.{@cnt}.doExpression=setStatus(3, "")
 ----
 
 [[set-param-text]]
 === Установка значения параметра типа text
 [source]
 ----
-onProcessEvent.2.doExpression=<<END
-  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
-  dao.updateParamText(process.getId(), 63, "тест");
+onProcessEvent.{@inc:cnt}.doExpression=<<END
+    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao.updateParamText(process.getId(), 63, "тест");
 END
 ----
 
@@ -63,20 +101,20 @@ END
 === Установка значения параметра типа list
 [source]
 ----
-onProcessEvent.2.doExpression=<<END
-  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
-  dao.updateParamList(process.getId(), 63, {1});
+onProcessEvent.{@inc:cnt}.doExpression=<<END
+    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao.updateParamList(process.getId(), 63, {1});
 END
 ----
 
 После изменения статуса если списковый параметр процесса 63 не содержит значений с кодами 1, 2 и 3 установка значения 1 в этот параметр.
 [source]
 ----
-onProcessEvent.1.events=statusChanged
-onProcessEvent.1.ifExpression=empty(cu.intersection(processParam.listValueIds(63), {1,2,3}))
-onProcessEvent.1.doExpression=<<END
-  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
-  dao.updateParamList(process.getId(), 63, {1});
+onProcessEvent.{@inc:cnt}.events=statusChanged
+onProcessEvent.{@cnt}.ifExpression=empty(cu.intersection(processParam.listValueIds(63), {1,2,3}))
+onProcessEvent.{@cnt}.doExpression=<<END
+    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao.updateParamList(process.getId(), 63, {1});
 END
 ----
 
@@ -85,9 +123,9 @@ END
 C кодом 2 и группы с кодом 37.
 [source]
 ----
-onProcessEvent.3.doExpression=<<END
-  deleteExecutors({2});
-  deleteGroups({37});
+onProcessEvent.{@inc:cnt}.doExpression=<<END
+    deleteExecutors({2});
+    deleteGroups({37});
 END
 ----
 
@@ -96,18 +134,18 @@ END
 При создании процесса внесение в параметр типа "date" с кодом 51 значения текущей даты + два дня, не учитывая вторников.
 [source]
 ----
-onProcessEvent.1.events=created
-onProcessEvent.1.doExpression=<<END
-  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
-  cal = new("java.util.GregorianCalendar");
-  addDays = 2;
-  while (addDays > 0) {
-      var dw = cal.get(cal.DAY_OF_WEEK);
-      if (dw != cal.TUESDAY)
-          addDays = addDays - 1;
-      cal.add(cal.DAY_OF_YEAR, 1);
-  }
-  dao.updateParamDate(process.getId(), 51, cal.getTime());
+onProcessEvent.{@inc:cnt}.events=created
+onProcessEvent.{@cnt}.doExpression=<<END
+    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    cal = new("java.util.GregorianCalendar");
+    addDays = 2;
+    while (addDays > 0) {
+        var dw = cal.get(cal.DAY_OF_WEEK);
+        if (dw != cal.TUESDAY)
+            addDays = addDays - 1;
+        cal.add(cal.DAY_OF_YEAR, 1);
+    }
+    dao.updateParamDate(process.getId(), 51, cal.getTime());
 END
 ----
 
@@ -116,21 +154,21 @@ END
 Поиск процесса, к которому привязан текущий процесс и если он найден - смена его статуса.
 [source]
 ----
-onProcessEvent.3.events=statusChanged
-onProcessEvent.3.doExpression=<<END
-   pld = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
-   linked = u.getFirst(pld.getLinkedProcessList(process.getId(), null, false, {1}));
-   if (linked != null) {
-        change = new("ru.bgcrm.model.process.StatusChange");
-	change.setDate(new("java.util.Date"));
-	change.setProcessId(linked.getId());
-	change.setUserId(event.getUser().getId());
-	change.setStatusId(9);
+onProcessEvent.{@inc:cnt}.events=statusChanged
+onProcessEvent.{@cnt}.doExpression=<<END
+    pld = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
+    linked = u.getFirst(pld.getLinkedProcessList(process.getId(), null, false, {1}));
+    if (linked != null) {
+         change = new("ru.bgcrm.model.process.StatusChange");
+        change.setDate(new("java.util.Date"));
+        change.setProcessId(linked.getId());
+        change.setUserId(event.getUser().getId());
+        change.setStatusId(9);
         change.setComment("Автоматическая смена статуса");
 
         pa = ru.bgcrm.struts.action.ProcessAction;
         pa.processStatusUpdate(event.getForm(), conSet.getConnection(), linked, change);
-   }
+    }
 END
 ----
 
@@ -138,8 +176,8 @@ END
 === Изменение приоритета процесса при смене статуса
 При смене статуса на 10 или 12 установка приоритета 5.
 ----
-onProcessEvent.4.events=statusChanged:10,12
-onProcessEvent.4.doExpression=setPriority(5);
+onProcessEvent.{@inc:cnt}.events=statusChanged:10,12
+onProcessEvent.{@cnt}.doExpression=setPriority(5);
 ----
 
 [[check-event-class]]
@@ -147,7 +185,7 @@ onProcessEvent.4.doExpression=setPriority(5);
 [source]
 ----
 if (event.getClass().getName() == "ru.bgcrm.event.process.ProcessMessageAddedEvent") {
-   text += '<b>Сообщение</b>: ' + u.maskNull(event.getMessage().getText()) + ';';
+    text += '<b>Сообщение</b>: ' + u.maskNull(event.getMessage().getText()) + ';';
 }
 ----
 
@@ -155,15 +193,15 @@ if (event.getClass().getName() == "ru.bgcrm.event.process.ProcessMessageAddedEve
 === Добавление текста в описание процесса при смене статуса
 [source]
 ----
-onProcessEvent.2.events=statusChanging
-onProcessEvent.2.doExpression=<<END
-  dao = new("ru.bgcrm.dao.process.ProcessDAO", conSet.getConnection());
+onProcessEvent.{@inc:cnt}.events=statusChanging
+onProcessEvent.{@cnt}.doExpression=<<END
+    dao = new("ru.bgcrm.dao.process.ProcessDAO", conSet.getConnection());
 
-  change = event.getStatusChange();
-  change = ctxUserMap[change.getUserId()].getTitle() + " => " + ctxProcessStatusMap[change.getStatusId()].getTitle() + " [" + change.getComment() + "]";
+    change = event.getStatusChange();
+    change = ctxUserMap[change.getUserId()].getTitle() + " => " + ctxProcessStatusMap[change.getStatusId()].getTitle() + " [" + change.getComment() + "]";
 
-  process.setDescription(process.getDescription() + NEW_LINE + change);
-  dao.updateProcess(process);
+    process.setDescription(process.getDescription() + NEW_LINE + change);
+    dao.updateProcess(process);
 END
 ----
 
@@ -189,15 +227,15 @@ COPY_BGBILLING_PARAMS=<<END
     }
 END
 
-onProcessEvent.2.events=linkAdded;createdAsLink
-onProcessEvent.2.doExpression={@COPY_BGBILLING_PARAMS}
+onProcessEvent.{@inc:cnt}.events=linkAdded;createdAsLink
+onProcessEvent.{@cnt}.doExpression={@COPY_BGBILLING_PARAMS}
 ----
 
 При привязке договора - копирование значений параметров с кодами 27 и 12 в описание процесса.
 [source]
 ----
-onProcessEvent.2.events=linkAdded
-onProcessEvent.2.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbilling:linkedContractParamToDescription:bg:12
+onProcessEvent.{@inc:cnt}.events=linkAdded
+onProcessEvent.{@cnt}.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbilling:linkedContractParamToDescription:bg:12
 ----
 
 == Плагин <<../../plugin/msg/sms/index.adoc#, SMS>>
@@ -208,13 +246,13 @@ onProcessEvent.2.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbil
 Номер для СМС получается из параметра с кодом 20 типа Phone.
 [source]
 ----
-onProcessEvent.1.events=createFinished
-onProcessEvent.1.ifExpression=cu.intersection(processParam.listValueIds(26), {1,2,3}).size() > 0
-onProcessEvent.1.doExpression=<<END
-  phone=processParam.getParamPhoneNoFormat(20);
-  if (phone) {
-     sms.sendSms(phone, "Заявка №".concat( process.getId().toString() ).concat(" принята"));
-  }
+onProcessEvent.{@inc:cnt}.events=createFinished
+onProcessEvent.{@cnt}.ifExpression=cu.intersection(processParam.listValueIds(26), {1,2,3}).size() > 0
+onProcessEvent.{@cnt}.doExpression=<<END
+    phone=processParam.getParamPhoneNoFormat(20);
+    if (phone) {
+        sms.sendSms(phone, "Заявка №".concat( process.getId().toString() ).concat(" принята"));
+    }
 END
 ----
 
@@ -225,11 +263,11 @@ END
 Установлена проверка типа работ из параметра list id 26, передаются номер процесса, адрес, телефоны, тип работ, дата и время приема, комментарий.
 [source]
 ----
-onProcessEvent.5.events=createFinished
+onProcessEvent.{@inc:cnt}.events=createFinished
 onProcessEvent.5.ifExpression=cu.intersection(processParam.listValueIds(26), {2,3,7}).size() > 0
 onProcessEvent.5.doExpression=<<END
- body=process.getTypeTitle();
- text="№ " + process.getId().toString() + " Адрес: " + processParam.addressValues(1).toString() + " т. " + processParam.getValue(20) + " " + processParam.listValueTitles(26) + " Принята: " + process.getCreateTime() + " Комментарий: " + process.getDescription() + user.;
- mobile.sendMessageToUsers(body, text, {5});
+    body=process.getTypeTitle();
+    text="№ " + process.getId().toString() + " Адрес: " + processParam.addressValues(1).toString() + " т. " + processParam.getValue(20) + " " + processParam.listValueTitles(26) + " Принята: " + process.getCreateTime() + " Комментарий: " + process.getDescription();
+    mobile.sendMessageToUsers(body, text, {5});
 END
 ----
