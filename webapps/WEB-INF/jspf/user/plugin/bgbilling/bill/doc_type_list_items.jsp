@@ -33,12 +33,7 @@
 	<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 
 	<div style="width: 100%;">
-		<u:sc>
-			<c:set var="list" value="${list.second}"/>
-			<c:set var="hiddenName" value="typeIds"/>
-			<c:set var="style" value="width: 100%;"/>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-		</u:sc>
+		<ui:combo-single list="${list.second}" hiddenName="typeIds" style="width: 100%;"/>
 	</div>
 	<div class="pl1">
 		<button type="button" class="btn-grey" onclick="if( this.form.typeIds.value && sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) }">+</button>

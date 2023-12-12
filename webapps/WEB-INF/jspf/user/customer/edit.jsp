@@ -15,39 +15,32 @@
 	<html:text property="title" value="${customer.title}" disabled="${customer.titlePatternId ne -1}"/>
 
 	<h2>${l.l('Шаблон названия')}</h2>
-	<u:sc>
-		<c:set var="valuesHtml">
+	<ui:combo-single hiddenName="titlePatternId" value="${customer.titlePatternId}" onSelect="
+		var form = $('#${formUiid}')[0];
+		form.elements['title'].disabled = form.elements.titlePatternId.value!=-1;
+		form.elements['titlePattern'].disabled = form.elements.titlePatternId.value!=0;
+	">
+		<jsp:attribute name="valuesHtml">
 			<li value="-1">${l.l('Без шаблона')}</li>
 			<li value="0">${l.l('Персональный шаблон')}</li>
 			<c:forEach var="item" items="${patternList}">
 				<li value="${item.id}">${item.title} (${item.pattern})</li>
 			</c:forEach>
-		</c:set>
-		<c:set var="hiddenName" value="titlePatternId"/>
-		<c:set var="value" value="${customer.titlePatternId}"/>
-		<c:set var="onSelect">
-			var form = $('#${formUiid}')[0];
-			form.elements['title'].disabled = form.elements.titlePatternId.value!=-1;
-			form.elements['titlePattern'].disabled = form.elements.titlePatternId.value!=0;
-		</c:set>
-		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-	</u:sc>
+		</jsp:attribute>
+	</ui:combo-single>
 
 	<h2>${l.l('Персональный шаблон названия')}</h2>
 	<html:text property="titlePattern" disabled="${customer.titlePatternId ne 0}" value="${customer.titlePattern}"/>
 
 	<h2>${l.l('Группа параметров')}</h2>
-	<u:sc>
-		<c:set var="valuesHtml">
+	<ui:combo-single hiddenName="parameterGroupId" value="${customer.paramGroupId}">
+		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('Группа не установлена (все параметры)')}</li>
 			<c:forEach var="item" items="${parameterGroupList}">
 				<li value="${item.id}">${item.title}</li>
 			</c:forEach>
-		</c:set>
-		<c:set var="hiddenName" value="parameterGroupId"/>
-		<c:set var="value" value="${customer.paramGroupId}"/>
-		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-	</u:sc>
+		</jsp:attribute>
+	</ui:combo-single>
 
 	<div class="in-mr05 mt1">
 	 	<c:url var="url" value="customer.do" >

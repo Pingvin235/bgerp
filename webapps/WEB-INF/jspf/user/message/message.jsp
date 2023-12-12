@@ -44,19 +44,8 @@
 						<c:set var="searchResultId" value="${u:uiid()}"/>
 
 						<div class="in-inline-block" id="${searchBlockId}">
-							<u:sc>
-								<c:set var="valuesHtml">
-									<c:forEach var="item" items="${messageType.searchMap}">
-										<li value="${item.key}">${item.value.title}</li>
-									</c:forEach>
-								</c:set>
-								<c:set var="hiddenName" value="searchId"/>
-								<c:set var="value" value="${form.param.searchId}"/>
-								<c:set var="prefixText" value="${l.l('Поиск')}:"/>
-								<c:set var="styleClass" value="mr1"/>
-								<c:set var="onSelect">$('#${searchBlockId} > .filter').hide();$('#${searchBlockId} > .filter#' + $hidden.val() ).show();</c:set>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-							</u:sc>
+							<ui:combo-single hiddenName="searchId" value="${form.param.searchId}" prefixText="${l.l('Поиск')}:" styleClass="mr1"
+								onSelect="$('#${searchBlockId} > .filter').hide();$('#${searchBlockId} > .filter#' + $hidden.val() ).show();"/>
 
 							<c:set var="searchScript">
 								const searchId = this.form.searchId.value;

@@ -23,12 +23,7 @@
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 			<td>
 			<td width="100%" class="pl05">
-				<u:sc>
-					<c:set var="list" value="${form.response.data.availableStatusList}"/>
-					<c:set var="hiddenName" value="statusId"/>
-					<c:set var="style" value="width: 100%;"/>
-					<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-				</u:sc>
+				<ui:combo-single list="${form.response.data.availableStatusList}" hiddenName="statusId" style="width: 100%;"/>
 			</td>
 			<td></td>
 		</tr>

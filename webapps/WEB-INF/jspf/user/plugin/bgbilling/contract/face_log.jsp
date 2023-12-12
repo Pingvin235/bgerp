@@ -9,18 +9,13 @@
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 
-		<u:sc>
-			<c:set var="valuesHtml">
+		<ui:combo-single hiddenName="value" value="${form.response.data.contractInfo.face}" prefixText="Лицо (изменить):" widthTextValue="100px"
+			onSelect="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }">
+			<jsp:attribute name="valuesHtml">
 				<li value="0">Физическое</li>
 				<li value="1">Юридическое</li>
-			</c:set>
-			<c:set var="hiddenName" value="value"/>
-			<c:set var="value" value="${form.response.data.contractInfo.face}"/>
-			<c:set var="prefixText" value="Лицо (изменить):"/>
-			<c:set var="widthTextValue" value="100px"/>
-			<c:set var="onSelect" value="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }"/>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-		</u:sc>
+			</jsp:attribute>
+		</ui:combo-single>
 	</form>
 
 	<html:form action="/user/plugin/bgbilling/proto/contract" style="width: 100%;">

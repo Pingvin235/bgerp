@@ -45,16 +45,11 @@
 	<div id="title">
 		<div id="empty" class="status"></div>
 		<div title="${l.l('Буфер открытых объектов')}">
-			<u:sc>
-				<c:set var="id" value="objectBuffer"/>
-
-				<c:set var="hiddenName" value="object"/>
-				<c:set var="prefixText">
+			<ui:combo-single id="objectBuffer" hiddenName="object">
+				<jsp:attribute name="prefixText">
 					${l.l('Объектов в буфере')}:&nbsp;<span class="object-count">0</span>
-				</c:set>
-
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 		</div>
 	</div>
 

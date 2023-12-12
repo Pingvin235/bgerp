@@ -16,34 +16,21 @@
 			<input type="text" name="id" style="width: 100%" value="${shift.id}" disabled="disabled"/>
 
 			<h2>Категория</h2>
-			<u:sc>
-				<c:set var="list" value="${allowOnlyCategories}"/>
-				<c:set var="hiddenName" value="categoryId"/>
-				<c:if test="${not empty shift}">
-					<c:set var="value" value="${shift.category}"/>
-				</c:if>
-				<c:set var="style" value="width: 100%;"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+			<ui:combo-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${shift.category}" style="width: 100%;"/>
 
 			<h2>${l.l('Title')}</h2>
 			<html:text property="title" style="width: 100%" value="${shift.title}"/>
 
 
 		</div><%--
-   	--%><div style="width: 50%;">
-   			<h2>Использовать цвет смены</h2>
-
-			<u:sc>
-				<c:set var="valuesHtml">
+	--%><div style="width: 50%;">
+			<h2>Использовать цвет смены</h2>
+			<ui:combo-single hiddenName="useOwnColor" value="${shift.useOwnColor ? 1 : 0}" style="width: 100%;">
+				<jsp:attribute name="valuesHtml">
 					<li value="1">Да</li>
 					<li value="0">Нет</li>
-				</c:set>
-				<c:set var="hiddenName" value="useOwnColor"/>
-				<c:set var="value" value="${shift.useOwnColor ? 1 : 0}"/>
-				<c:set var="style" value="width: 100%"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 
 			<h2>Символ смены (не больше 2 символов)</h2>
 			<html:text property="symbol" style="width: 100%" value="${shift.symbol}"/>

@@ -79,34 +79,24 @@
 			</td>
 			<td nowrap="nowrap">
 				<h2>Статус</h2>
-
-				<u:sc>
-					<c:set var="valuesHtml">
+				<ui:combo-single hiddenName="status" value="${service.status}" widthTextValue="150px">
+					<jsp:attribute name="valuesHtml">
 						<li value="0">Открыт</li>
 						<li value="1">Закрыт</li>
 						<li value="2">Заблокирован</li>
-					</c:set>
-					<c:set var="hiddenName" value="status"/>
-					<c:set var="value" value="${service.status}"/>
-					<c:set var="widthTextValue" value="150px"/>
-					<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-				</u:sc>
+					</jsp:attribute>
+				</ui:combo-single>
 			</td>
 			<td nowrap="nowrap" id="sessionCountLimit">
 				<h2>Кол.-во сессий</h2>
-
-				<u:sc>
-					<c:set var="valuesHtml">
+				<ui:combo-single hiddenName="sessions" value="${service.sessionCountLimit}" widthTextValue="100px">
+					<jsp:attribute name="valuesHtml">
 						<li value="0">Неограниченно</li>
 						<c:forEach var="item" begin="1" end="10">
 							<li value="${item}">${item}</li>
 						</c:forEach>
-					</c:set>
-					<c:set var="hiddenName" value="sessions"/>
-					<c:set var="value" value="${service.sessionCountLimit}"/>
-					<c:set var="widthTextValue" value="100px"/>
-					<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-				</u:sc>
+					</jsp:attribute>
+				</ui:combo-single>
 			</td>
 		</tr>
 	</table>

@@ -49,16 +49,8 @@
 		</c:set>
 
 		<div>
-			<u:sc>
-				<c:set var="list" value="${callboardList}"/>
-				<c:set var="hiddenName" value="graphId"/>
-				<c:set var="prefixText" value="График:"/>
-				<c:set var="value" value="${form.param.graphId}"/>
-				<c:set var="widthTextValue" value="100px"/>
-				<c:set var="id" value="callboardSelect-${uiid}"/>
-				<c:set var="onSelect" value="${onSelectGroupScript}"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+			<ui:combo-single list="${callboardList}" hiddenName="graphId" prefixText="График:" value="${form.param.graphId}" widthTextValue="100px"
+				id="callboardSelect-${uiid}" onSelect="${onSelectGroupScript}"/>
 		</div>
 
 		<div id="groupFilter">
@@ -465,20 +457,16 @@
 					</div>
 
 					<div class="pl05">
-						<u:sc>
-							<c:set var="valuesHtml">
+						<ui:combo-single hiddenName="mode" widthTextValue="50px" onSelect="
+							$('#${uiid} #categories').toggle( $hidden.val() == 0 );
+							$('#${uiid} #shiftArea').toggle( $hidden.val() == 0 );
+							$('#${uiid} #teams').toggle( $hidden.val() == 1 );
+						">
+							<jsp:attribute name="valuesHtml">
 								<li value="0">Смены</li>
 								<li value="1">Бригады</li>
-							</c:set>
-							<c:set var="hiddenName" value="mode"/>
-							<c:set var="widthTextValue" value="50px"/>
-							<c:set var="onSelect">
-								$('#${uiid} #categories').toggle( $hidden.val() == 0 );
-								$('#${uiid} #shiftArea').toggle( $hidden.val() == 0 );
-								$('#${uiid} #teams').toggle( $hidden.val() == 1 );
-							</c:set>
-							<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-						</u:sc>
+							</jsp:attribute>
+						</ui:combo-single>
 					</div>
 				</div>
 				<div id="categories">
@@ -488,7 +476,7 @@
 						style="width: 100%;" placeholder="Категория смен"/>
 				</div>
 				<div id="teams" style="display: none;">
-					<input name="team" style="width: 100%; align: center;" placeholder="Бригада"/>
+					<input name="team" style="width: 100%;" placeholder="Бригада"/>
 				</div>
 			</div>
 			<div id="shiftArea" class="pl1">

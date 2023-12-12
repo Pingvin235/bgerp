@@ -229,18 +229,14 @@
 								<ui:select-single list="${listValues}" value="${currentValue}" onSelect="$('#${valueUiid}').val( $hidden.val() ); ${changeScript}" styleClass="w100p"/>
 							</c:when>
 							<c:otherwise>
-								<u:sc>
-									<c:set var="valuesHtml">
+								<ui:combo-single value="${currentValue}" style="width: 100%;" onSelect="$('#${valueUiid}').val($hidden.val()); ${changeScript}">
+									<jsp:attribute name="valuesHtml">
 										<li value="0">-- ${l.l('значение не установлено')} --</li>
 										<c:forEach var="item" items="${listValues}">
 											<li value="${item.id}"	${u:selectedFromCollection( value, item.id )}>${item.title}</li>
 										</c:forEach>
-									</c:set>
-									<c:set var="value" value="${currentValue}"/>
-									<c:set var="style" value="width: 100%;"/>
-									<c:set var="onSelect" value="$('#${valueUiid}').val( $hidden.val() ); ${changeScript}"/>
-									<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-								</u:sc>
+									</jsp:attribute>
+								</ui:combo-single>
 							</c:otherwise>
 						</c:choose>
 

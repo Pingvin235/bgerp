@@ -36,16 +36,8 @@
 		</c:set>
 
 		<div>
-			<u:sc>
-				<c:set var="list" value="${callboardList}"/>
-				<c:set var="hiddenName" value="graphId"/>
-				<c:set var="prefixText" value="План:"/>
-				<c:set var="value" value="${form.param.graphId}"/>
-				<c:set var="widthTextValue" value="100px"/>
-				<c:set var="id" value="callboardSelect-${uiid}"/>
-				<c:set var="onSelect" value="${onSelectGroupScript}"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+			<ui:combo-single list="${callboardList}" hiddenName="graphId" prefixText="План:" value="${form.param.graphId}" widthTextValue="100px" id="callboardSelect-${uiid}"
+				onSelect="${onSelectGroupScript}"/>
 		</div>
 
 		<div id="groupFilter">
@@ -60,7 +52,7 @@
 		 </div>
 
 		<div>
-			<button type="button" class="btn-grey ml05" onclick="$$.ajax.load(this.form, $('#${uiid}').parent())" title="${l.l('Вывести')}">=&gt;</button>
+			<ui:button type="out" styleClass="ml05" onclick="$$.ajax.load(this.form, $('#${uiid}').parent())" title="${l.l('Вывести')}"/>
 		</div>
 	</form>
 
@@ -154,17 +146,13 @@
 		<c:set var="timeList" value="${callboard.planConfig.getDateTimes( date )}"/>
 
 		<div id="mode" class="mb1">
-			<u:sc>
-				<c:set var="valuesHtml">
+			<ui:combo-single hiddenName="mode" widthTextValue="150px" prefixText="Режим:">
+				<jsp:attribute name="valuesHtml">
 					<li value="view">Просмотр</li>
 					<li value="lock">Блокировка</li>
 					<li value="unlock">Разблокировка</li>
-				</c:set>
-				<c:set var="hiddenName" value="mode"/>
-				<c:set var="widthTextValue" value="150px"/>
-				<c:set var="prefixText" value="Режим:"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 		</div>
 
 		<div class="plan">

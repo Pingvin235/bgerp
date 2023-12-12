@@ -19,21 +19,16 @@
 			<html:hidden property="action" value="searchContract"/>
 			<html:hidden property="searchBy"/>
 
-			<u:sc>
-				<c:set var="valuesHtml">
+			<ui:combo-single hiddenName="billingId" prefixText="Биллинг:" onSelect="$('#paramIdsDiv').html('')">
+				<jsp:attribute name="valuesHtml">
 					<c:set var="cityIds" value="${u.toIntegerSet(ctxUser.configMap['cityIds'])}"/>
 					<c:forEach items="${plugin.dbInfoManager.dbInfoList}" var="db">
 						<c:if test="${empty cityIds or empty db.setup['cityId'] or cityIds.contains(u:int(db.setup['cityId']))}">
 							<li value="${db.id}">${db.title}</li>
 						</c:if>
 					</c:forEach>
-				</c:set>
-				<c:set var="hiddenName" value="billingId"/>
-				<c:set var="prefixText" value="Биллинг:"/>
-				<c:set var="onSelect" value="$('#paramIdsDiv').html('')"/>
-
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 
 			<c:set var="loadSearchResult" value="$$.ajax.load(this.form, $('#searchResult'))"/>
 

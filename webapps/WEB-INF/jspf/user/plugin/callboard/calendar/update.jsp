@@ -31,19 +31,15 @@
 <div id="${uiid}" class="in-ml1">
 	<h1 style="display: inline-block;">${calendar.title}</h1>
 
-	<u:sc>
-		<c:set var="valuesHtml">
+	<ui:combo-single hiddenName="year" value="${year}" style="width: 5em;" onSelect="$$.ajax.loadContent('${getUrl}&year='+ $hidden.val());">
+		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" begin="${year-1}" end="${year+1}">
 				<li value="${item}">${item}</li>
 			</c:forEach>
-		</c:set>
-		<c:set var="hiddenName" value="year"/>
-		<c:set var="value" value="${year}"/>
-		<c:set var="style" value="width: 5em;"/>
-		<c:set var="onSelect" value="$$.ajax.loadContent('${getUrl}&year='+ $hidden.val());"/>
-		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-	</u:sc>
-	<button  type="button" class="ml1 btn-white" onClick="$$.ajax.loadContent('${form.returnUrl}')" title="Закрыть">&lt;</button>
+		</jsp:attribute>
+	</ui:combo-single>
+
+	<button  type="button" class="ml1 btn-white icon" onClick="$$.ajax.loadContent('${form.returnUrl}')" title="Закрыть"><i class="ti-close"></i></button>
 </div>
 
 <script>
@@ -61,17 +57,13 @@
 <div style="text-align: center;" id="${uiid}" >
 	<div style="display: inline-block; text-align: left;">
 		<div class="workDaysTypeSelect mb1">
-			<u:sc>
-				<c:set var="valuesHtml">
+			<ui:combo-single hiddenName="dayType" prefixText="Тип дня:" widthTextValue="120px">
+				<jsp:attribute name="valuesHtml">
 					<c:forEach var="type" items="${dayTypes}" >
 						<li value="${type.id}"><span style="color: ${type.color};">${type.title}</span></li>
 					</c:forEach>
-				</c:set>
-				<c:set var="hiddenName" value="dayType"/>
-				<c:set var="prefixText" value="Тип дня:"/>
-				<c:set var="widthTextValue" value="120px"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 		</div>
 
 		<div style="display: inline-block;" class="datepicker"></div>

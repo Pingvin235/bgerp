@@ -17,13 +17,7 @@
 			style="width: 300px;" placeholder="Выберите опцию"/>
 
 		<div class="ml1" style="display: inline-block;">
-			<u:sc>
-				<c:set var="list" value="${form.response.data.activateModeList}"/>
-				<c:set var="hiddenName" value="modeId"/>
-				<c:set var="prefixText" value="Режим активации:"/>
-				<c:set var="widthTextValue" value="200px"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+			<ui:combo-single list="${form.response.data.activateModeList}" hiddenName="modeId" prefixText="Режим активации:" widthTextValue="200px"/>
 		</div>
 	</div>
 

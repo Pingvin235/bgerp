@@ -262,14 +262,8 @@
 			<button onclick="importFilterFromCommons()" title="${l.l('Импорт себе общего фильтра')}" class="btn-white btn-icon"><i class="ti-arrow-left"></i></button>
 			<button onclick="exportFilterToCommons()" title="${l.l('Экспорт своего фильтра в общие')}" class="btn-white btn-icon"><i class="ti-arrow-right"></i></button>
 			<button onclick="deleteFilterFromCommons()" title="${l.l('Удалить общий фильтр')}" class="btn-white btn-icon"><i class="ti-trash"></i></button>
-			<u:sc>
-				<c:set var="hiddenName" value="currentCommonFilter"/>
-				<c:set var="prefixText" value="${l.l('Общий фильтр')}:"/>
-				<c:set var="list" value="${commonConfig.queueSavedCommonFilterSetsMap[queue.id]}"/>
-				<c:set var="style" value="display: inline-block;"/>
-				<c:set var="widthTextValue" value="100px"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+			<ui:combo-single hiddenName="currentCommonFilter" prefixText="${l.l('Общий фильтр')}:" list="${commonConfig.queueSavedCommonFilterSetsMap[queue.id]}"
+				style="display: inline-block;" widthTextValue="100px"/>
 		</div>
 	</div>
 
@@ -333,21 +327,18 @@
 							<u:sc>
 								<span class="dontResetOnHideFilter"></span>
 
-								<c:set var="valuesHtml">
-									<li value="none">${l.l('Все')}</li>
-									<li value="open">${l.l('No')}</li>
-									<li value="close">${l.l('Yes')}</li>
-								</c:set>
-
-								<c:set var="hiddenName" value="openClose"/>
 								<c:set var="value" value="${filter.defaultValue}"/>
 								<c:if test="${not empty savedParamsFilters.get( hiddenName ) }">
 									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
 								</c:if>
-								<c:set var="prefixText" value="${l.l('Closed')}:"/>
-								<c:set var="widthTextValue" value="40px"/>
-								<c:set var="onSelect" value="${sendCommand}"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
+
+								<ui:combo-single value="${value}" hiddenName="openClose" prefixText="${l.l('Closed')}:" widthTextValue="40px" onSelect="${sendCommand}">
+									<jsp:attribute name="valuesHtml">
+										<li value="none">${l.l('Все')}</li>
+										<li value="open">${l.l('No')}</li>
+										<li value="close">${l.l('Yes')}</li>
+									</jsp:attribute>
+								</ui:combo-single>
 							</u:sc>
 						</c:set>
 
@@ -525,14 +516,8 @@
 									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
 								</c:if>
 
-								<c:set var="list" value="${ctxProcessStatusList}"/>
-								<c:set var="map" value="${ctxProcessStatusMap}"/>
-								<c:set var="values" value="${filter.defaultValues}"/>
-								<c:set var="available" value="${filter.availableValues}"/>
-
-								<c:set var="prefixText" value="Дата стат.:"/>
-								<c:set var="widthTextValue" value="100px"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
+								<ui:combo-single hiddenName="${hiddenName}" value="${value}" list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" available="${filter.availableValues}"
+									prefixText="Дата стат.:" widthTextValue="100px"/>
 							</u:sc>
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'dateStatusFrom' ) }">

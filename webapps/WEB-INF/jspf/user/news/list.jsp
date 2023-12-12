@@ -17,18 +17,7 @@
 
 		<input type="text" size="30" onkeypress="if (enterPressed(event)) { ${showCode} }" placeholder="${l.l('Фильтр по тексту')}" name="text" value="${form.param['text']}" class="ml1"/>
 
-		<u:sc>
-			<c:set var="valuesHtml">
-				<li value="0">${l.l('Непрочитанные')}</li>
-				<li value="-1">${l.l('Все')}</li>
-				<li value="1">${l.l('Прочитанные')}</li>
-			</c:set>
-			<c:set var="hiddenName" value="read"/>
-			<c:set var="value" value="${form.param['read']}"/>
-			<c:set var="onSelect" value="${showCode}"/>
-			<c:set var="widthTextValue" value="100px"/>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-		</u:sc>
+		<ui:combo-single hiddenName="read" value="${form.param['read']}" widthTextValue="100px" onSelect="${showCode}"/>
 
 		<button class="btn-grey" onclick="${showCode}">${l.l('Вывести')}</button>
 

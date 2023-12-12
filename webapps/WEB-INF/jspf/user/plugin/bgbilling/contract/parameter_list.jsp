@@ -10,46 +10,29 @@
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
-			<u:sc>
-				<c:set var="valuesHtml">
+			<ui:combo-single hiddenName="showEmptyParameters" value="${form.param.showEmptyParameters}" prefixText="Только заполненные:" widthTextValue="20px"
+				onSelect="$$.ajax.load(this.form, $('#${listUiid}'));">
+				<jsp:attribute name="valuesHtml">
 					<li value="0">Да</li>
 					<li value="1">Нет</li>
-				</c:set>
-				<c:set var="hiddenName" value="showEmptyParameters"/>
-				<c:set var="value" value="${form.param.showEmptyParameters}"/>
-				<c:set var="prefixText" value="Только заполненные:"/>
-				<c:set var="widthTextValue" value="20px"/>
-				<c:set var="onSelect" value="$$.ajax.load(this.form, $('#${listUiid}'));"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 
-			<u:sc>
-				<c:set var="valuesHtml">
+			<ui:combo-single hiddenName="onlyFromGroup" value="${form.param.onlyFromGroup}" prefixText="Только из группы:" widthTextValue="20px"
+				onSelect="$$.ajax.load(this.form, $('#${listUiid}'));">
+				<jsp:attribute name="valuesHtml">
 					<li value="1">Да</li>
 					<li value="0">Нет</li>
-				</c:set>
-				<c:set var="hiddenName" value="onlyFromGroup"/>
-				<c:set var="value" value="${form.param.onlyFromGroup}"/>
-				<c:set var="prefixText" value="Только из группы:"/>
-				<c:set var="widthTextValue" value="20px"/>
-				<c:set var="onSelect" value="$$.ajax.load(this.form, $('#${listUiid}'));"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 		</form>
 		<form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
 			<input type="hidden" name="action" value="parameterGroupUpdate"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
-			<u:sc>
-				<c:set var="list" value="${form.response.data.group.values}"/>
-				<c:set var="hiddenName" value="paramGroupId"/>
-				<c:set var="value" value="${form.response.data.group.id}"/>
-				<c:set var="prefixText" value="Группа параметров (изменить):"/>
-				<c:set var="widthTextValue" value="150px"/>
-				<c:set var="onSelect" value="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${listUiid}')); }"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+			<ui:combo-single list="${form.response.data.group.values}" hiddenName="paramGroupId" value="${form.response.data.group.id}" prefixText="Группа параметров (изменить):"
+				widthTextValue="150px" onSelect="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${listUiid}')); }"/>
 		</form>
 	</c:if>
 

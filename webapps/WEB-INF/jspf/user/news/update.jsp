@@ -28,16 +28,13 @@
 			<span class="hint">${l.l('Через какое количество суток новость будет удалена для всех адресатов.')}</span>
 
 			<h2>${l.l('Тип новости')}</h2>
-			<u:sc>
-				<c:set var="style" value="width: 150px;"/>
-				<c:set var="valuesHtml">
+			<ui:combo-single style="width: 150px;" hiddenName="type">
+				<jsp:attribute name="valuesHtml">
 					<li value="-1">${l.l('----')}</li>
 					<li value="0">${l.l('Обычная')}</li>
 					<li value="1">${l.l('Всплывающая')}</li>
-				</c:set>
-				<c:set var="hiddenName" value="type"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
+				</jsp:attribute>
+			</ui:combo-single>
 		 </div><%--
 	 --%><div style="width: 50%; display: inline-block; vertical-align: top;">
 	 		<c:if test="${not(form.param.requestUserId > 0 )}">

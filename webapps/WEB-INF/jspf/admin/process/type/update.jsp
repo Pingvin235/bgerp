@@ -22,18 +22,13 @@
 	<html:text property="title" style="width: 100%" value="${type.title}"/>
 
 	<h2>${l.l('Наследовать свойства от предка')}</h2>
-	<u:sc>
-		<c:set var="valuesHtml">
+	<ui:combo-single hiddenName="useParent" value="${type.useParentProperties ? 1 : 0}" style="width: 100px;">
+		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('No')}</li>
 			<li value="1">${l.l('Yes')}</li>
-		</c:set>
-		<c:set var="hiddenName" value="useParent"/>
-		<c:if test="${type.useParentProperties}">
-			<c:set var="value" value="1"/>
-		</c:if>
-		<c:set var="style" value="width: 100px;"/>
-		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-	</u:sc>
+		</jsp:attribute>
+	</ui:combo-single>
+
 	<div>
 		<ui:form-ok-cancel styleClass="mt1"/>
 	</div>

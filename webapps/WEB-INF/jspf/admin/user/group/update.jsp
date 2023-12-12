@@ -24,17 +24,12 @@
 				<input type="text" name="comment" style="width: 100%" value="${group.comment}"/>
 
 				<h2>${l.l('Скрытая')}</h2>
-
-				<u:sc>
-					<c:set var="valuesHtml">
+				<ui:combo-single hiddenName="archive" value="${group.archive}" style="width: 100px;">
+					<jsp:attribute name="valuesHtml">
 						<li value="0">${l.l('No')}</li>
 						<li value="1">${l.l('Yes')}</li>
-					</c:set>
-					<c:set var="hiddenName" value="archive"/>
-					<c:set var="value" value="${group.archive}"/>
-					<c:set var="style" value="width: 100px;"/>
-					<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-				</u:sc>
+					</jsp:attribute>
+				</ui:combo-single>
 			</div>
 		</div><%--
 	--%><div style="width: 50%;">
