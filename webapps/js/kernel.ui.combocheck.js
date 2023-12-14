@@ -3,7 +3,7 @@
  */
 "use strict";
 
-$$.ui.comboCheck = new function () {
+$$.ui.combocheck = new function () {
 	const init = ($comboDiv, onChange) => {
 		const $drop = $comboDiv.find('ul.drop');
 
