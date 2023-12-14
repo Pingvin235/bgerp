@@ -264,25 +264,31 @@ tag.3.title=TODO
 tag.3.color=magenta
 ----
 
-[[setup-related-process]]
-=== Related Processes
-NOTE: You can see a sample configurations in <<../install.adoc#demo, Demo System>>.
+[[setup-possible-process]]
+=== Possible Processes
+NOTE: You can see a sample configurations in <<../install.adoc#demo, Demo System>>. For doing that open the message with subject
+*Kernel Message Possible Process Unprocessed message* in <<#usage-queue, queue>>. Server configuration with Possible Processes for that has the name *Kernel Message Possible Process*.
 
-To configure <<usage-queue-related-process, related processes>> to be found during message processing add to configuration following blocks:
+To configure <<usage-queue-possible-process, Possible Processes>> to be found during message processing add to configuration following blocks:
 [source]
 ----
-message.related.process.<id>.type=<type>
-message.related.process.<id>.color=<color>
+message.possible.process.<id>.class=<class>
+message.possible.process.<id>.color=<color>
 ----
 
 Where:
 [square]
 * *<id>* - numeric ID, found processes are sorted by IDs
 * *<color>* - optional HTML color for table rows with found processes
-* *<type>* - search type, one of the following values:
-** *messageFrom* - processes with messages from the same *from* address (E-Mail sender or calling number) as the processed message
-** *foundLink* - processes with the same links as found for the processed message
-** *foundLinkCustomerAddressCity* - processes with a link parameter values, matching to address parameter cities of found customers, that type requires additional parameter set with key *foundLinkCustomerAddressCityProcessParamId*
+* *<class>* - search type, one of the following values:
+** *MessagePossibleProcessSearchMessageFrom* - processes with messages from the same *from* address (E-Mail sender or calling number) as the processed message.
+** *MessagePossibleProcessSearchFoundLinks* - processes with the same links as found for the processed message.
+** *MessagePossibleProcessSearchFoundLinksCustomerAddressCity* - processes with a <<../setup.adoc#param-list, list>> parameter values, matching to city IDs of address parameter of found customers.
+That type requires additional properties set:
+*** *processCityParamId*, ID of the list parameter.
+** *BGBillingMessagePossibleProcessSearchFoundLinksContractAddressCity* - processes with a <<../setup.adoc#param-list, list>> parameter values, matching to city IDs of address parameter of found contracts in BGBilling system. That type requires additional properties set:
+*** *processCityParamId*, ID of the list parameter;
+*** *contractAddressParamId.<billingId>*, ID of address parameter in BGBilling system with ID *<billingId>*.
 
 [[setup-scheduler]]
 === Scheduler
@@ -317,10 +323,10 @@ image::_res/message_process.png[]
 
 image::_res/message_process_email.png[width="800px"]
 
-[[usage-queue-related-process]]
-In the left bottom area during message processing are shown <<setup-related-process, related processes>>, that can be assinged for the message using *set* links.
+[[usage-queue-possible-process]]
+In the left bottom area during message processing are shown <<setup-possible-process, possible processes>>, that can be assinged for the message using *set* links.
 
-image::_res/message_process_related_process.png[width="800px"]
+image::_res/message_process_possible_process.png[width="800px"]
 
 [[usage-process]]
 === Работа в процессе

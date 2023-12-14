@@ -20,22 +20,11 @@ image::../../kernel/_res/setup/param/address_editor_1.png[width="800px"]
 
 image::_res/process_card_layout.png[]
 
-== Improved <<../../kernel/message/index.adoc#usage-queue-related-process, Messages Related Processes>>
+== Improved Messages Related Processes
 
 Configurable search of message related processes during message processing.
 
-image::../../kernel/message/_res/message_process_related_process.png[width="800px"]
-
-[IMPORTANT]
-.To make the feature enabled as before, place to configuration
-====
-[source]
-----
-cnt=0
-message.related.process.{@inc:cnt}.type=messageFrom
-message.related.process.{@inc:cnt}.type=foundLink
-----
-====
+IMPORTANT: The feature is replaced in next releases with <<../../kernel/message/index.adoc#usage-queue-possible-process, Messages Possible Processes>>
 
 == <<../../kernel/setup.adoc#param, Configurable>> Parameter Table Row Background
 

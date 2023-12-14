@@ -1,11 +1,7 @@
 package ru.bgcrm.dao.process;
 
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LOG;
-import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_EXECUTOR;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_GROUP;
@@ -23,15 +19,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.config.IsolationConfig;
@@ -49,12 +40,8 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.config.MessageRelatedProcessConfig;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
@@ -450,113 +437,6 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Searches processes, related to a message using search types from {@link MessageRelatedProcessConfig.Type}.
-     * @param searchResult result list sorted by {@link MessageRelatedProcessConfig.Type} config IDs, {@link Pair#getSecond()} defines type of relation.
-     * @param from message from address.
-     * @param links not {@code null} list with found link objects.
-     * @param open when not {@code null} - filter only opened or closed processes.
-     * @throws SQLException
-     */
-    public void searchProcessListForMessage(Pageable<Pair<Process, MessageRelatedProcessConfig.Type>> searchResult, String from,
-            List<CommonObjectLink> links, Boolean open) throws SQLException {
-        var config = Setup.getSetup().getConfig(MessageRelatedProcessConfig.class);
-        if (config == null)
-            return;
-
-        var typesIt = config.getTypes().entrySet().iterator();
-        var me = typesIt.next();
-
-        if (searchResult != null) {
-            Page page = searchResult.getPage();
-            List<Pair<Process, MessageRelatedProcessConfig.Type>> list = searchResult.getList();
-
-            PreparedQuery pq = new PreparedQuery(con);
-
-            pq.addQuery(SQL_SELECT_COUNT_ROWS + "*" + SQL_FROM + " (");
-
-            addQueryType(pq, me, true, from, links, open);
-            while (typesIt.hasNext())
-                addQueryType(pq, typesIt.next(), false, from, links, open);
-
-            pq.addQuery(") p");
-
-            pq.addQuery(SQL_GROUP_BY + "id");
-            pq.addQuery(SQL_ORDER_BY + "create_dt" + SQL_DESC);
-
-            pq.addQuery(getPageLimit(page));
-
-            ResultSet rs = pq.executeQuery();
-            while (rs.next())
-                list.add(new Pair<>(getProcessFromRs(rs, ""), config.getTypes().get(rs.getInt("type"))));
-
-            setRecordCount(page, pq.getPrepared());
-            pq.close();
-        }
-    }
-
-    private void addQueryType(PreparedQuery pq, Entry<Integer, MessageRelatedProcessConfig.Type> me, boolean first, String from,
-            List<CommonObjectLink> links, Boolean open) {
-        if (me.getValue() == MessageRelatedProcessConfig.Type.MESSAGE_FROM) {
-            if (!first)
-                pq.addQuery(SQL_UNION_ALL);
-
-            pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p ");
-            pq.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE + "AS m ON m.process_id=p.id AND m.from=?");
-            pq.addInt(me.getKey());
-            pq.addString(from);
-
-            addOpenFilter(pq, open);
-        } else if (CollectionUtils.isNotEmpty(links)) {
-            if (!first)
-                pq.addQuery(SQL_UNION_ALL);
-
-            if (me.getValue() == MessageRelatedProcessConfig.Type.FOUND_LINK) {
-                Set<Integer> objectIds = new HashSet<Integer>();
-                StringBuilder objectFilter = new StringBuilder();
-
-                objectFilter.append("(0>1 ");
-
-                for (CommonObjectLink link : links) {
-                    objectIds.add(link.getLinkObjectId());
-                    if (Customer.OBJECT_TYPE.equals(link.getLinkObjectType())) {
-                        objectFilter.append(" OR (pl.object_type LIKE 'customer%' AND pl.object_id="
-                                + link.getLinkObjectId() + ")");
-                    } else {
-                        objectFilter.append(" OR (pl.object_type='" + link.getLinkObjectType() + "' AND pl.object_id="
-                                + link.getLinkObjectId() + ")");
-                    }
-                }
-
-                objectFilter.append(" ) ");
-
-                pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p");
-                pq.addInt(me.getKey());
-                pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK);
-                pq.addQuery("AS pl ON pl.process_id=p.id AND pl.object_id IN (" + Utils.toString(objectIds) + ") AND ");
-                pq.addQuery(objectFilter.toString());
-            } else if (me.getValue() == MessageRelatedProcessConfig.Type.FOUND_LINK_CUSTOMER_ADDRESS_CITY) {
-                String customerIds = links.stream()
-                    .filter(link -> link.getLinkObjectType().startsWith(Customer.OBJECT_TYPE))
-                    .map(link -> String.valueOf(link.getLinkObjectId()))
-                    .collect(Collectors.joining(","));
-
-                if (Utils.isBlankString(customerIds))
-                    customerIds = "0";
-
-                pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p");
-                pq.addInt(me.getKey());
-                pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS pcity ON p.id=pcity.id AND pcity.param_id=?");
-                pq.addInt(me.getValue().getFoundCustomerAddressCityParamCityId());
-                pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_ADDRESS + "AS caddr ON caddr.id IN (" + customerIds + ")");
-                pq.addQuery(SQL_INNER_JOIN + TABLE_ADDRESS_HOUSE + "AS chouse ON caddr.house_id=chouse.id");
-                pq.addQuery(SQL_INNER_JOIN + TABLE_ADDRESS_STREET + "AS cstreet ON chouse.street_id=cstreet.id AND cstreet.city_id=pcity.value");
-            }
-
-            addOpenFilter(pq, open);
-        }
-    }
-
-    /**
      * Searches processes with user as an executor.
      * @param searchResult paged result.
      * @param userId user ID.
@@ -657,7 +537,7 @@ public class ProcessDAO extends CommonDAO {
 
     /** Is not used. */
     @Deprecated
-    public EntityLogItem getLastProcessChangeLog(Process process) throws BGMessageException {
+    public EntityLogItem getLastProcessChangeLog(Process process) throws BGMessageException, SQLException {
         Pageable<EntityLogItem> logItems = new Pageable<EntityLogItem>();
         logItems.getPage().setPageIndex( 1 );
         logItems.getPage().setPageSize( 1 );
@@ -674,7 +554,7 @@ public class ProcessDAO extends CommonDAO {
      * @param result
      * @throws Exception
      */
-    public void searchProcessLog(ProcessType processType, int processId, Pageable<EntityLogItem> result) throws BGException {
+    public void searchProcessLog(ProcessType processType, int processId, Pageable<EntityLogItem> result) throws SQLException {
         PreparedQuery pq = new PreparedQuery(con);
 
         Page page = result.getPage();
@@ -726,8 +606,6 @@ public class ProcessDAO extends CommonDAO {
                 list.add(new EntityLogItem(rs.getTimestamp(1), processId, rs.getInt(2), text));
             }
             setRecordCount(page, pq.getPrepared());
-        } catch (SQLException ex) {
-            throw new BGException(ex);
         }
     }
 }

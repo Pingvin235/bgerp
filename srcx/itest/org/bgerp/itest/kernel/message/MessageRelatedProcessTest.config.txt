@@ -1,9 +1,0 @@
-cnt=0
-
-message.related.process.{@inc:cnt}.type=messageFrom
-message.related.process.{@cnt}.color=#ffbf00
-message.related.process.{@inc:cnt}.type=foundLink
-message.related.process.{@cnt}.color=#40ff00
-message.related.process.{@inc:cnt}.type=foundLinkCustomerAddressCity
-message.related.process.{@cnt}.foundLinkCustomerAddressCityProcessParamId={@PROCESS_CITY_PARAM_ID}
-message.related.process.{@cnt}.color=#00ffbf

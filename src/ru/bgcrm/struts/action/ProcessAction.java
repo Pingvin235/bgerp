@@ -17,11 +17,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
 import org.bgerp.dao.process.ProcessCloneDAO;
+import org.bgerp.dao.process.ProcessMessageDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -43,11 +46,9 @@ import ru.bgcrm.event.process.ProcessRemovedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
-import ru.bgcrm.model.message.config.MessageRelatedProcessConfig;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
@@ -774,27 +775,28 @@ public class ProcessAction extends BaseAction {
         return ProcessLinkAction.linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, groupId);
     }
 
-    public ActionForward messageRelatedProcessList(DynActionForm form, Connection con) throws Exception {
-        restoreRequestParams(con, form, true, true, "open");
+    public ActionForward messagePossibleProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
+        restoreRequestParams(conSet.getConnection(), form, true, true, "open");
 
         String addressFrom = form.getParam("from");
         Boolean open = form.getParamBoolean("open", null);
 
-        List<CommonObjectLink> objects = new ArrayList<CommonObjectLink>();
-        for (String object : form.getParamValuesListStr("object")) {
-            int pos = object.lastIndexOf(':');
-            if (pos <= 0) {
-                log.warn("Incorrect object: " + object);
-                continue;
-            }
+        Iterator<String> linkObjectTypeIt = form.getParamValuesListStr("linkObjectType").iterator();
+        Iterator<Integer> linkObjectIdIt = form.getParamValuesList("linkObjectId").iterator();
 
-            objects.add(new CommonObjectLink(0, object.substring(0, pos), Utils.parseInt(object.substring(pos + 1)), ""));
-        }
+        List<ProcessLink> objects = new ArrayList<>();
 
-        Pageable<Pair<Process, MessageRelatedProcessConfig.Type>> processSearchResult = new Pageable<>(form);
-        new ProcessDAO(con, form).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
+        while (linkObjectTypeIt.hasNext())
+            objects.add(new ProcessLink(0, linkObjectTypeIt.next(), linkObjectIdIt.next(), ""));
 
-        return html(con, form, PATH_JSP + "/message_related_process_list.jsp");
+        Pageable<Pair<Process, MessagePossibleProcessSearch>> processSearchResult = new Pageable<>(form);
+        new ProcessMessageDAO(conSet.getConnection(), form).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
+
+        var conSlave = conSet.getSlaveConnection();
+        for (var pair : processSearchResult.getList())
+            setProcessReference(conSlave, form, pair.getFirst(), "messagePossibleProcess");
+
+        return html(conSet, form, PATH_JSP + "/message_possible_process_list.jsp");
     }
 
     public ActionForward unionLog(DynActionForm form, Connection con) throws Exception {
@@ -851,4 +853,16 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
+    protected void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
+        try {
+            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
+            if (type != null) {
+                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
+                process.setReference(config.getReference(con, form, process, objectType));
+            }
+        } catch (Exception e) {
+            process.setReference(e.getMessage());
+            log.error(e);
+        }
+    }
 }

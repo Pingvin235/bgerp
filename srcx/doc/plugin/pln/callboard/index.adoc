@@ -343,8 +343,8 @@ image::_res/i0150.png[]
 Пример:
 [source]
 ----
-processReference.1.objectTypes=callboard
-processReference.1.stringExpression=u.escapeXml(u.maskNull(u.getFirst(processParam.addressValues(90, 'fromStreet')))) + " : " + process.getDescription()
+processReference.{@inc:cnt}.objectTypes=callboard
+processReference.{@cnt}.stringExpression=u.escapeXml(u.maskNull(u.getFirst(processParam.addressValues(90, 'fromStreet')))) + " : " + process.getDescription()
 ----
 
 Описание процесса для плана генерируется только в момент установки времени процесса и не изменяется в дальнейшем при правке процесса.

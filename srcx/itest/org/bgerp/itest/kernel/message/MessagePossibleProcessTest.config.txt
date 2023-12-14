@@ -1,0 +1,13 @@
+message.possible.process.{@inc:cnt}.class=MessagePossibleProcessSearchMessageFrom
+message.possible.process.{@cnt}.color=#ffbf00
+message.possible.process.{@inc:cnt}.class=MessagePossibleProcessSearchFoundLinks
+message.possible.process.{@cnt}.color=#40ff00
+message.possible.process.{@inc:cnt}.class=MessagePossibleProcessSearchFoundLinksCustomerAddressCity
+message.possible.process.{@cnt}.processCityParamId={@PROCESS_CITY_PARAM_ID}
+message.possible.process.{@cnt}.color=#00ffbf
+# for plugin BGBilling
+#message.possible.process.{@inc:cnt}.class=BGBillingMessagePossibleProcessSearchFoundLinksContractAddressCity
+#message.possible.process.{@cnt}.processCityParamId={@PROCESS_CITY_PARAM_ID}
+#message.possible.process.{@cnt}.contractAddressParamId={@BILLING_DEFAULT_ADDRESS_PARAM_ID}
+#message.possible.process.{@cnt}.contractAddressParamId.{@BILLING_ID}={@BILLING_ADDRESS_PARAM_ID}
+#message.possible.process.{@cnt}.color=#00ff40

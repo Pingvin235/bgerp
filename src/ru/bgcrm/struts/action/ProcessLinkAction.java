@@ -30,7 +30,6 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -132,18 +131,5 @@ public class ProcessLinkAction extends ProcessAction {
         }
 
         return json(con, form);
-    }
-
-    protected void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
-        try {
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            if (type != null) {
-                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                process.setReference(config.getReference(con, form, process, objectType));
-            }
-        } catch (Exception e) {
-            process.setReference(e.getMessage());
-            log.error(e);
-        }
     }
 }

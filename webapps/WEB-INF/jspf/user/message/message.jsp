@@ -25,7 +25,7 @@
 		<c:choose>
 			<%-- процесс ещё не привязан --%>
 			<c:when test="${empty message.process}">
-				<h2>${l.l('Создать новый процесс')}</h2>
+				<h2>${l.l('Set a new process')}</h2>
 
 				<form action="/user/message.do" onsubmit="return false;">
 					<input type="hidden" name="action" value="processCreate"/>
@@ -97,10 +97,11 @@
 
 				<div>
 					<c:url var="url" value="/user/process.do">
-						<c:param name="action" value="messageRelatedProcessList"/>
+						<c:param name="action" value="messagePossibleProcessList"/>
 						<c:param name="from" value="${message.from}"/>
 						<c:forEach var="item" items="${form.response.data.searchedList}">
-							<c:param name="object" value="${item.linkObjectType}:${item.linkObjectId}"/>
+							<c:param name="linkObjectType" value="${item.linkObjectType}"/>
+							<c:param name="linkObjectId" value="${item.linkObjectId}"/>
 						</c:forEach>
 						<%-- parameters for updating processes --%>
 						<c:param name="messageTypeId" value="${form.param.typeId}"/>
@@ -153,7 +154,7 @@
 			</c:otherwise>
 		</c:choose>
 
-		<h2>${l.l('Привязать процесс')}</h2>
+		<h2>${l.l('Set the process by ID')}</h2>
 
 		<html:form action="/user/message" styleClass="mt1 in-table-cell" onsubmit="return false;">
 			<input type="hidden" name="action" value="messageUpdateProcess"/>
@@ -182,7 +183,7 @@
 
 			<%@ include file="process_link_params.jsp"%>
 
-			<button class="btn-grey" type="button" onclick="${linkScript}">${l.l('Привязать')}</button>
+			<button class="btn-grey" type="button" onclick="${linkScript}">${l.l('Set')}</button>
 
 			<div class="hint">
 					${l.l('Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.')}

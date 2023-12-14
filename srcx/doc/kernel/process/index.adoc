@@ -212,27 +212,28 @@ create.in.copyParams=1:3;5:6
 ----
 
 [[setup-type-reference]]
-==== Описание процесса
-Макрос описаний процесса позволяет сгенерировать текст для заголовка вкладки процесса или для перечня процессов.
-Для генерации описаний в конфигурацию типа процесса добавляются записи вида:
+==== Process Reference
+Processe reference macros allows to generate dynamically a description text for a process.
+To define a reference add the following block to process type configuration.
 [source]
 ----
 processReference.<n>.objectTypes=<objectTypes>
 processReference.<n>.stringExpression=<macros>
 ----
 
-Где:
+Where:
 [square]
 * *<n>* - порядковый номер записи;
-* *<objectTypes>* - области, где используется данный макрос через запятую, перечень областей см. далее;
-* *<macros>* - <<../extension.adoc#jexl,JEXL>> выражение, передаваемые объекты см. далее.
+* *<objectTypes>* - areas, there the macros is applicable, see the possible values below;
+* *<macros>* - <<../extension.adoc#jexl,JEXL>> expression, passed objects see below.
 
-Перечень областей:
+Areas:
 [square]
-* *customer* - <<usage-link-process, вкладка>> *Процессы* контрагента;
-* *processCard* - заголовок вкладки процесса;
-* *linkedProcessList* - список процессов к которым привязан данный процесс;
-* *linkProcessList* - список процессов, привязанных к данному;
+* *customer* - <<usage-link-process, Tab>> *Processes* in a customer;
+* *processCard* - title of process' card;
+* *linkedProcessList* - table with parent <<#usage-related-process, related processes>>;
+* *linkProcessList* - table with child <<#usage-related-process, related processes>>;
+* *messagePossibleProcess* - table with <<../message/index.adoc#usage-queue-possible-process, possible processes>> for a message;
 * *open.processCard* - process card in <<../interface.adoc#open-process, open>> interface.
 
 В JEXL процессор передаются объекты:
@@ -245,55 +246,46 @@ processReference.<n>.stringExpression=<macros>
 
 CAUTION: Retrieving parameters may be quite expensive.
 
-Пример конфигурации для генерации описания списке процессов контрагента из адреса и перечня услуг и на вкладке процесса из наименования контрагента и адреса:
+Here is a simple example from our <<../install.adoc#demo, Demo System>>, type configuration of process *Kernel Process Reference*.
+[snippet, from="processReference", to="END"]
+link:../../../itest/org/bgerp/itest/kernel/process/ProcessReferenceTest.process.type.config.txt#L1-L4[Process Type Config Sample]
+
+How does it look in UI like.
+
+image::_res/reference/title.png[]
+
+Some more examples with different retrieved data:
 [source]
 ----
-processReference.1.objectTypes=customer
-processReference.1.stringExpression=u.toString(processParam.addressValues(90, 'fromStreet')) + " : " + u.toString(processParam.listValueTitles(238))
-processReference.2.objectTypes=processCard
-processReference.2.stringExpression="Запрос док. ОИО: " + u.escapeXml(u.toString(processLink:linkTitles("customer"))) + "<br/>" + u.escapeXml(u.toString( processParam.addressValues(90, 'fromStreet'))) + "&nbsp;"
+processReference.{@inc:cnt}.objectTypes=customer
+processReference.{@cnt}.stringExpression=u.toString(processParam.addressValues(90, 'fromStreet')) + " : " + u.toString(processParam.listValueTitles(238))
+processReference.{@inc:cnt}.objectTypes=processCard
+processReference.{@cnt}.stringExpression="Request: " + u.escapeXml(u.toString(processLink.linkTitles("customer"))) + "<br/>" + u.escapeXml(u.toString(processParam.addressValues(90, 'fromStreet'))) + "&nbsp;"
 ----
-
-Пример вывода исполнителей процесса в описании. Выводится в связанных процессах контрагентов и договорах биллинга *bitel*.
-[source]
-----
-processReference.1.objectTypes=customer,contract:bitel
-processReference.1.stringExpression=<<END
-   result = process.getDescription();
-   result += "<br><b>" + u.getObjectTitles(u.getObjectList(ctxUserList, process.getExecutorIds())) + "</b>";
-   return result;
-END
-----
-
-Как выглядит в интерфейсе.
-
-image::_res/conf_title.png[]
-
-image::_res/conf_description.png[]
 
 [[setup-type-reference-sample-type]]
-В описании возможно использование HTML разметки, с выделением части описания жирным шрифтом для отображения в буфере. Например:
+How you could notice, HTML markup can be used in expressions. It is also possible to separate some buffer shown text like that.
+
+image::_res/reference/buffer.png[]
+
+Here is the process configuration for that.
 [source]
 ----
-processReference.1.objectTypes=processCard
-processReference.1.stringExpression="<span class='title'>#" + process.getId() +  " " + process.getTypeTitle() + " " +  "</span><span>" + u.escapeXml(process.getDescription())  + "</span>"
+processReference.{@inc:cnt}.objectTypes=processCard
+processReference.{@cnt}.stringExpression="<span class='title'>#" + process.getId() +  " " + process.getTypeTitle() + " " +  "</span><span>" + u.escapeXml(process.getDescription())  + "</span>"
 ----
-
-При закрытии в буфер, данный процесс будет выглядеть следующим образом:
-
-image::_res/conf_title_buffer.png[]
 
 [[setup-type-related-process]]
 ==== Related Processes
 Process relatinons are *ordered*.
 
-drawio:_res/linked_process/direction.drawio[]
+drawio:_res/related/direction.drawio[]
 
 To distinguish those, we name sometimes a *Parent* process as *Linked* and a *Child* as *Link*.
 
 Relations might have three *types*.
 
-drawio:_res/linked_process/relation_types.drawio[]
+drawio:_res/related/relation_types.drawio[]
 
 Where:
 [square]
@@ -518,11 +510,11 @@ The filters' value is also used when adding (button *1*) exising processes insid
 
 NOTE: The last choosen filters' value is persisted for the current user.
 
-image::_res/linked_process/tab.png[width="800"]
+image::_res/related/tab.png[width="800"]
 
 After pressing the *1* button, the Link existing process editor is opened.
 
-image::_res/linked_process/add_existing.png[]
+image::_res/related/add_existing.png[]
 
 There are suggested to be linked already existing processes, matching to the selected category and not related there yet.
 Prior to horizintal black line are shown processes opened in <<../interface.adoc#user-object, buffer>>.
@@ -533,12 +525,12 @@ IMPORTANT: Is is not allowed to make cyclic relations with type *Link* or *Made*
 When clicking in a process ID within categories table, a separated process card would be opened.
 Clicking on any other place in a process row except ID opens a left area of the process card direct in the table place.
 
-image::_res/linked_process/open_in.png[width="800"]
+image::_res/related/open_in.png[width="800"]
 
 For creating and linking processes there is a button placed right from the filter (*3*).
 Pressing it calls an editor with a drop-down list of <<setup-type-related-process-create-and-link, preconfigured>> values.
 
-image::_res/linked_process/create_and_link.png[width="800"]
+image::_res/related/create_and_link.png[width="800"]
 
 The strikethrough item in the list mark a blocked item, the blocking reason is shown when you try to use it.
 

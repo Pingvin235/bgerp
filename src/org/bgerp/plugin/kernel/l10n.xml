@@ -346,14 +346,14 @@
 	<p><ru>Сбросить выделение</ru><en>Reset selection</en></p>
 	<p><ru>Лог изменений параметров</ru><en>Parameter change log</en></p>
 	<p><ru>Обработка</ru><en>Processing</en></p>
-	<p><ru>Создать новый процесс</ru><en>Create a new process</en></p>
+	<p><en>Set a new process</en><ru>Установить новый процесс</ru></p>
 	<p><ru>Привязать</ru><en>Link</en></p>
 	<p><ru>Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.</ru><en>Provide the code to bind the process. Code "0" - to decouple the message from the process.</en></p>
 	<p><ru>Вложения (можно загрузить только после привязки процесса)</ru><en>Attachments (can only be downloaded after linking the process)</en></p>
 	<p><ru>С номера</ru><en>From number</en></p>
 	<p><ru>На номер</ru><en>To the number</en></p>
 	<p><ru>Время начала</ru><en>Start time</en></p>
-	<p><ru>Привязать процесс</ru><en>Link a process</en></p>
+	<p><en>Set the process by ID</en><ru>Установить процесс по ID</ru></p>
 	<p><ru>Возможные процессы</ru><en>Possible processes</en></p>
 	<p><ru>Выберите тип</ru><en>Select type</en></p>
 	<p><ru>Краткое описание процесса</ru><en>Brief description of the process</en></p>
@@ -639,6 +639,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Number</en><ru>Номер</ru></p>
 	<p><en>Date from</en><ru>Дата с</ru></p>
 	<p><en>Date to</en><ru>Дата по</ru></p>
+	<p><en>Set</en><ru>Установить</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
