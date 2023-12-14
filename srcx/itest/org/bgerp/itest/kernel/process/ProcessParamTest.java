@@ -50,7 +50,7 @@ public class ProcessParamTest {
     private int paramDateTimeId;
     private int paramEmailId;
     private int paramFileId;
-    private int paramListId;
+    static int paramListId;
     private int paramListDirConfigId;
     private int paramListCountId;
     private int paramMoneyId;
