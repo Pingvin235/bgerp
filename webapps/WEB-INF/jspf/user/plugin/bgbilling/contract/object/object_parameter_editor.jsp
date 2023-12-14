@@ -83,12 +83,8 @@
 						</table>
 				</c:when>
 
-				<c:when test="${parameter.getParamType() eq 3}"> <!-- data -->
-					<c:set var="uiid" value="${u:uiid()}"/>
-					<input type="text" name="dateValue" value="${parameter.getValue()}" id="${uiid}"/>
-					<c:set var="selector" value="#${uiid}"/>
-					<c:set var="editable" value="true"/>
-					<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+				<c:when test="${parameter.getParamType() eq 3}"> <!-- date -->
+					<ui:date-time paramName="dateValue" value="${parameter.getValue()}"/>
 				</c:when>
 
 				<c:when test="${parameter.getParamType() eq 2}"> <!-- list -->

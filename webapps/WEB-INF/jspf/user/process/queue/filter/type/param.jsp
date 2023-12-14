@@ -99,34 +99,14 @@
 		<c:when test="${type.startsWith('date')}">
 			<c:set var="code">
 				${title}
-				<c:choose>
-					<c:when test="${not empty savedParamsFilters.get( 'dateTimeParam'.concat(filter.parameter.id).concat('From') ) }">
-						${l.l('с')} <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('From')) }" name="dateTimeParam${filter.parameter.id}From" />
-					</c:when>
-					<c:otherwise>
-						${l.l('с')} <input type="text" name="dateTimeParam${filter.parameter.id}From" />
-					</c:otherwise>
-				</c:choose>
-				<c:choose>
-					<c:when test="${not empty savedParamsFilters.get( 'dateTimeParam'.concat(filter.parameter.id).concat('To') ) }">
-						${l.l('по')} <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('To')) }" name="dateTimeParam${filter.parameter.id}To" />
-					</c:when>
-					<c:otherwise>
-						${l.l('по')} <input type="text" name="dateTimeParam${filter.parameter.id}To" />
-					</c:otherwise>
-				</c:choose>
+				<u:sc>
+					<c:set var="paramNameFrom" value="dateTimeParam${filter.parameter.id}From"/>
+					&nbsp;${l.l('с')}&nbsp;<ui:date-time paramName="${paramNameFrom}" value="${savedParamsFilters.get(paramNameFrom)}"/>
+
+					<c:set var="paramNameTo" value="dateTimeParam${filter.parameter.id}To"/>
+					&nbsp;${l.l('по')}&nbsp;<ui:date-time paramName="${paramNameTo}" value="${savedParamsFilters.get(paramNameTo)}"/>
+				</u:sc>
 			</c:set>
-
-			<u:sc>
-				<c:set var="type" value="ymd" />
-				<c:set var="selector">${selectorForm} input[name='dateTimeParam${filter.parameter.id}From']</c:set>
-				<c:set var="editable" value="1"/>
-				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-				<c:set var="selector">${selectorForm} input[name='dateTimeParam${filter.parameter.id}To']</c:set>
-				<c:set var="editable" value="1"/>
-				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-			</u:sc>
-
 			<%@ include file="../item.jsp"%>
 		</c:when>
 

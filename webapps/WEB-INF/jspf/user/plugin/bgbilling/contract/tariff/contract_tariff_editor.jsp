@@ -52,15 +52,9 @@
 			<input type="text" style="text-align:center; width:50px" name="position" value="${contractTariff.position}"/>
 
 			Период c
-			<c:set var="editable" value="true"/>
-			<input type="text" name="dateFrom" value="${tu.format( contractTariff.dateFrom, 'ymd' )}" id="${uiid}-dateFrom"/>
-			<c:set var="selector" value="#${uiid}-dateFrom"/>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="dateFrom" value="${tu.format(contractTariff.dateFrom, 'ymd')}"/>
 			по
-			<c:set var="editable" value="true"/>
-			<input type="text" name="dateTo" value="${tu.format( contractTariff.dateTo, 'ymd' )}" id="${uiid}-dateTo"/>
-			<c:set var="selector" value="#${uiid}-dateTo"/>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="dateTo" value="${tu.format(contractTariff.dateTo, 'ymd')}"/>
 		</div>
 	</div>
 

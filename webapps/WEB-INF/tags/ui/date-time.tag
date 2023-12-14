@@ -4,7 +4,7 @@
 <%@ attribute name="paramName" description="input's name"%>
 <%@ attribute name="value" description="current value in dd.MM.yyyy format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
 <%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
-<%@ attribute name="selector" description="jQuery element selector"%>
+<%@ attribute name="selector" description="jQuery selector of input element (deprecated)"%>
 <%@ attribute name="styleClass" description="CSS-classes for input"%>
 <%@ attribute name="placeholder" description="placeholder for input"%>
 <%@ attribute name="saveCommand" description="command used to save the value upon closure"%>
@@ -86,8 +86,7 @@
 		</c:forEach>
 	});
 
-	<%-- TODO: Move functions into JS files --%>
-	<%@ include file="/WEB-INF/jspf/datetimepicker_inputmask.jsp"%>
+	$$.ui.datetime.init('${selector}', '${type}', '${tu.getTypeFormat(type)}');
 
 	<c:if test="${value eq '0' or value eq 'last' or value eq 'first'}">
 		var date = new Date();

@@ -442,21 +442,9 @@
 
 						<c:set var="title" value="${l.l('Дата создания')}"/>
 						<c:set var="code">
-							${l.l('Создан с')}: <input type="text" name="dateCreateFrom" value="${dateFrom}"/>
-							${l.l('по')}: <input type="text" name="dateCreateTo" value="${dateTo}"/>
+							${l.l('Создан с')}&nbsp;<ui:date-time paramName="dateCreateFrom" value="${dateFrom}"/>
+							${l.l('по')}&nbsp;<ui:date-time paramName="dateCreateTo" value="${dateTo}"/>
 						</c:set>
-
-						<u:sc>
-							<c:set var="type" value="ymd"/>
-
-							<c:set var="selector">${selectorForm} input[name='dateCreateFrom']</c:set>
-							<c:set var="editable" value="1"/>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-
-							<c:set var="selector">${selectorForm} input[name='dateCreateTo']</c:set>
-							<c:set var="editable" value="1"/>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-						</u:sc>
 
 						<%@ include file="filter/item.jsp"%>
 					</c:if>
@@ -484,22 +472,9 @@
 
 						<c:set var="title" value="${l.l('Дата закрытия')}"/>
 						<c:set var="code">
-							${l.l('Закрыт с')}:
-							<input type="text" name="dateCloseFrom" value="${dateFrom}"/>
-							${l.l('по')} <input type="text" name="dateCloseTo" value="${dateTo}"/>
+							${l.l('Закрыт с')}&nbsp;<ui:date-time paramName="dateCloseFrom" value="${dateFrom}"/>
+							${l.l('по')}&nbsp;<ui:date-time paramName="dateCloseTo" value="${dateTo}"/>
 						</c:set>
-
-						<u:sc>
-							<c:set var="type" value="ymd"/>
-
-							<c:set var="selector">${selectorForm} input[name='dateCloseFrom']</c:set>
-							<c:set var="editable" value="1"/>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-
-							<c:set var="selector">${selectorForm} input[name='dateCloseTo']</c:set>
-							<c:set var="editable" value="1"/>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-						</u:sc>
 
 						<%@ include file="filter/item.jsp"%>
 					</c:if>
@@ -512,42 +487,17 @@
 							<u:sc>
 								<c:set var="hiddenName" value="dateStatusStatus"/>
 
-								<c:if test="${not empty savedParamsFilters.get( hiddenName ) }">
-									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
-								</c:if>
+								<ui:combo-single hiddenName="${hiddenName}" value="${savedParamsFilters.get(hiddenName)}"
+									list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" available="${filter.availableValues}"
+									prefixText="${l.l('Status')}:" widthTextValue="8em"/>
 
-								<ui:combo-single hiddenName="${hiddenName}" value="${value}" list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" available="${filter.availableValues}"
-									prefixText="Дата стат.:" widthTextValue="100px"/>
+								<c:set var="paramName" value="dateStatusFrom"/>
+								&nbsp;${l.l('с')}&nbsp;<ui:date-time paramName="${paramName}" value="${savedParamsFilters.get(paramName)}"/>
+
+								<c:set var="paramName" value="dateStatusTo"/>
+								${l.l('по')}&nbsp;<ui:date-time paramName="${paramName}" value="${savedParamsFilters.get(paramName)}"/>
 							</u:sc>
-							<c:choose>
-								<c:when test="${not empty savedParamsFilters.get( 'dateStatusFrom' ) }">
-									${l.l('с')} <input type="text" value="${savedParamsFilters.get( 'dateStatusFrom' )}" name="dateStatusFrom"/>
-								</c:when>
-								<c:otherwise>
-									${l.l('с')} <input type="text" name="dateStatusFrom"/>
-								</c:otherwise>
-							</c:choose>
-							<c:choose>
-								<c:when test="${not empty savedParamsFilters.get( 'dateStatusTo' ) }">
-									${l.l('по')} <input type="text" value="${savedParamsFilters.get( 'dateStatusTo' )}" name="dateStatusFrom"/>
-								</c:when>
-								<c:otherwise>
-									${l.l('по')} <input type="text" name="dateStatusTo"/>
-								</c:otherwise>
-							</c:choose>
 						</c:set>
-
-						<u:sc>
-							<c:set var="type" value="ymd"/>
-
-							<c:set var="selector">${selectorForm} input[name='dateStatusFrom']</c:set>
-							<c:set var="editable" value="1"/>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-
-							<c:set var="selector">${selectorForm} input[name='dateStatusTo']</c:set>
-							<c:set var="editable" value="1"/>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-						</u:sc>
 
 						<%@ include file="filter/item.jsp"%>
 					</c:if>
@@ -583,26 +533,6 @@
 								prefixText="${title}:" widthTextValue="5em"/>
 						</c:set>
 						<%@ include file="filter/item.jsp"%>
-					</c:if>
-
-					<c:if test="${filterFromList.type.startsWith('date')}">
-						<%@ include file="filter/display.jsp"%>
-						 <div style="width:${leftFilterColumnWidth}px;">
-							<c:set var="type" value="ymd" />
-							<b>
-								<c:choose>
-									<c:when test="${not empty filter.title}">${filter.title}</c:when>
-									<c:otherwise>${filter.parameter.title}:</c:otherwise>
-								</c:choose>
-							</b><br/>
-							с <input type="text" name="dateTimeParam${filter.parameter.id}From" />
-							<c:set var="selector">${selectorForm} input[name='dateTimeParam${filter.parameter.id}From']</c:set>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-
-							по <input type="text" name="dateTimeParam${filter.parameter.id}To" />
-							<c:set var="selector">${selectorForm} input[name='dateTimeParam${filter.parameter.id}To']</c:set>
-							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-						</div>
 					</c:if>
 
 					<c:if test="${filterFromList.getClass().getSimpleName() eq 'FilterParam'}">

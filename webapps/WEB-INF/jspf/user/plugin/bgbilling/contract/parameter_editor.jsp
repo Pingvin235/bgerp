@@ -116,10 +116,7 @@
 		</c:when>
 
 		<c:when test="${paramType eq 6}"> <!-- date -->
-			<input type="text" name="value" value="${form.param.value}" id="${focusFieldUiid}" class="mr1"/>
-			<c:set var="selector" value="#${focusFieldUiid}"/>
-			<c:set var="editable" value="true"/>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="value" value="${form.param.value}" id="${focusFieldUiid}" styleClass="mr1"/>
 			<c:set var="hideButtons" value="1"/>
 		</c:when>
 

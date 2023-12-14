@@ -45,10 +45,7 @@
 		</div>
 
 		<div>
-			 <input id="date${uiid}" name="date" type="text" placeholder="Дата" value="${form.param.date}"/>
-			 <c:set var="selector">#date${uiid}</c:set>
-			 <c:set var="editable" value="1"/>
-			 <%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			 <ui:date-time paramName="date" value="${form.param.date}" placeholder="${l.l('Дата')}"/>
 		 </div>
 
 		<div>

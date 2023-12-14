@@ -20,16 +20,11 @@
 			<c:forEach var="item" items="${groupWithUsersMap}">
 				<option value="${item.key}">${ctxUserGroupMap[item.key]}</option>
 			</c:forEach>
-		</select> <a>&nbsp;Период с: </a> <input id="addGroupDialogFromDate${uiid}"
-			name="fromDate" type="text" />
-		<c:set var="selector">input#addGroupDialogFromDate${uiid}</c:set>
-		<c:set var="initialDate">0</c:set>
-		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-
-		<a>по:</a> <input id="addGroupDialogToDate${uiid}" name="toDate"
-			type="text" />
-		<c:set var="selector">input#addGroupDialogToDate${uiid}</c:set>
-		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+		</select>
+		<a>&nbsp;Период с: </a>
+		<ui:date-time paramName="fromDate" value="0"/>
+		<a>по:</a>
+		<ui:date-time paramName="toDate"/>
 	</div>
 </div>
 
@@ -62,16 +57,10 @@
 		</div>
 		<div style="padding-top: 5px;">
 			<span class="ui-helper-hidden-accessible"><input type="text" /></span>
-			<a><b>Период:</b> с </a> <input
-				id="shiftSetPeriodDialogFromDate${uiid}" name="fromDate"
-				class="fromDate" type="text" />
-			<c:set var="selector">input#shiftSetPeriodDialogFromDate${uiid}</c:set>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-
-			<a>по</a> <input id="shiftSetPeriodDialogToDate${uiid}" name="toDate"
-				type="text" class="toDate" />
-			<c:set var="selector">input#shiftSetPeriodDialogToDate${uiid}</c:set>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<a><b>Период:</b> с </a>
+			<ui:date-time paramName="fromDate" styleClass="fromDate"/>
+			<a>по</a>
+			<ui:date-time paramName="toDate" styleClass="toDate"/>
 		</div>
 	</div>
 	<div style="padding-top: 10px;">
@@ -126,6 +115,6 @@
 	title="Установить время для динамического типа работы"></div>
 
 <div id="dynamicShiftDialog${uiid}" style="text-align: center;">
-	<span>Укажите точное время для смены:<br><b class="shiftTitle"></b></span> 
+	<span>Укажите точное время для смены:<br><b class="shiftTitle"></b></span>
 	<div class="content" style="display: inline-block;"></div>
 </div>

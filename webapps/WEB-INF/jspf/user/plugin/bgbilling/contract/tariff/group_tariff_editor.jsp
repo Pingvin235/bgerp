@@ -19,15 +19,9 @@
 		</div>
 		<div style="white-space:nowrap;" class="pl1">
 			c
-			<c:set var="editable" value="true"/>
-			<input type="text" name="dateFrom" value="${tu.format( tariffGroup.dateFrom, 'ymd' )}" id="${uiid}-dateFrom"/>
-			<c:set var="selector" value="#${uiid}-dateFrom"/>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="dateFrom" value="${tu.format(tariffGroup.dateFrom, 'ymd')}"/>
 			по
-			<c:set var="editable" value="true"/>
-			<input type="text" name="dateTo" value="${tu.format( tariffGroup.dateTo, 'ymd' )}" id="${uiid}-dateTo"/>
-			<c:set var="selector" value="#${uiid}-dateTo"/>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="dateTo" value="${tu.format(tariffGroup.dateTo, 'ymd')}"/>
 		</div>
 	</div>
 

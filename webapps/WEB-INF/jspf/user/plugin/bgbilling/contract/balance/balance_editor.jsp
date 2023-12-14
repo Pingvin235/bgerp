@@ -26,10 +26,7 @@
 		<c:if test="${not empty balanceItem.date}">
 			<c:set var="date" value="${tu.format(balanceItem.date, 'dd.MM.yyyy')}"/>
 		</c:if>
-		<c:set var="editable" value="true"/>
-		<input type="text" name="date" value="${date}" id="${uiid}-date" class="mr1"/>
-		<c:set var="selector" value="#${uiid}-date"/>
-		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+		<ui:date-time paramName="date" value="${date}" styleClass="mr1"/>
 
 		<c:set var="dbInfo" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId]}"/>
 		<c:if test="${dbInfo.pluginSet.contains('ru.bitel.bgbilling.plugins.cashcheck')}">

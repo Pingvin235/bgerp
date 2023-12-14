@@ -17,16 +17,10 @@
 
 	<div style="display:table;width:100%;white-space:nowrap">
 		<div style="display:table-cell;" nowrap="nowrap">
-			Период:  c
-			<c:set var="editable" value="true"/>
-			<input type="text" name="dateFrom" value="${object.dateFrom }" id="${uiid}-dateFrom"/>
-			<c:set var="selector" value="#${uiid}-dateFrom"/>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			Период c
+			<ui:date-time paramName="dateFrom" value="${object.dateFrom}"/>
 			по
-			<c:set var="editable" value="true"/>
-			<input type="text" name="dateTo" value="${object.dateTo }" id="${uiid}-dateTo"/>
-			<c:set var="selector" value="#${uiid}-dateTo"/>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="dateTo" value="${object.dateTo}"/>
 
 			Название:
 		</div>

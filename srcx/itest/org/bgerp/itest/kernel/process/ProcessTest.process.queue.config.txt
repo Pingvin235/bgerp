@@ -7,6 +7,7 @@ filter.{@cnt}.type=executors
 filter.{@inc:cnt}.type=code
 filter.{@inc:cnt}.type=create_date
 filter.{@inc:cnt}.type=close_date
+filter.{@inc:cnt}.type=status_date
 filter.{@inc:cnt}.type=linkedCustomer:title
 filter.{@inc:cnt}.type=description
 filter.{@inc:cnt}.type=create_user

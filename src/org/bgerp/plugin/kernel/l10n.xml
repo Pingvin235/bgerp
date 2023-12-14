@@ -637,6 +637,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>The parameter's type is not supported.</en><ru>Параметры данного типа не поддержаны.</ru></p>
 	<p><en>Select processes in the table for making a report</en><ru>Выберите процессы в таблице для генерации отчёта</ru></p>
 	<p><en>Number</en><ru>Номер</ru></p>
+	<p><en>Date from</en><ru>Дата с</ru></p>
+	<p><en>Date to</en><ru>Дата по</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

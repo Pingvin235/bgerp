@@ -9,15 +9,9 @@
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 
 	c
-	<c:set var="editable" value="true"/>
-	<input type="text" name="dateFrom" value="${form.param.dateFrom}" id="${uiid}-dateFrom"/>
-	<c:set var="selector" value="#${uiid}-dateFrom"/>
-	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+	<ui:date-time paramName="dateFrom" value="${form.param.dateFrom}"/>
 	по
-	<c:set var="editable" value="true"/>
-	<input type="text" name="dateTo" value="${form.param.dateTo}" id="${uiid}-dateTo"/>
-	<c:set var="selector" value="#${uiid}-dateTo"/>
-	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+	<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
 
 	<c:set var="nextCommand" value="; $$.ajax.load(this.form, $(this.form).parent());"/>
 	<button type="button" class="btn-grey ml1" onclick="${nextCommand}">Вывести</button>

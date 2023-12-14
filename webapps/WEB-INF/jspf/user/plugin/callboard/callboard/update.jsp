@@ -23,7 +23,7 @@
 	<c:param name="graphId" value="${form.param.graphId}" />
 </c:url>
 
-<c:set var="perm" value="${ctxUser.getPerm('org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGet')}"/>
+<c:set var="perm" value="${ctxUser.getPerm('org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGet')}"/>
 <c:set var="allowOnlyGroups" value="${u.toIntegerSet(perm['allowOnlyGroups'])}"/>
 
 <div id="${uiid}">
@@ -58,17 +58,11 @@
 		</div>
 
 		<div>
-			<input id="fromDate${uiid}" name="fromDate" type="text" placeholder="Дата с" value="${form.param.fromDate}"/>
-			<c:set var="selector">input#fromDate${uiid}</c:set>
-			<c:set var="initialDate">first</c:set>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="fromDate" value="${u.maskEmpty(form.param.fromDate, 'first')}" placeholder="${l.l('Date from')}"/>
 		</div>
 
 		<div>
-			<input id="toDate${uiid}" name="toDate" type="text" placeholder="Дата по" value="${form.param.toDate}"/>
-			<c:set var="selector">input#toDate${uiid}</c:set>
-			<c:set var="initialDate">last</c:set>
-			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+			<ui:date-time paramName="toDate" value="${u.maskEmpty(form.param.toDate, 'last')}" placeholder="${l.l('Date to')}"/>
 		</div>
 		<div>
 			<ui:button type="out" styleClass="ml05" onclick="$$.ajax.load(this.form, $('#${uiid}').parent(), {control: this})"/>
@@ -506,7 +500,7 @@
 			<table class="hdata minimal">
 				<tr class="header">
 					<td class="shiftUser">
-						<p:check action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGetTabel">
+						<p:check action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGetTabel">
 							<c:if test="${not empty callboard.tabelConfig}">
 								<a href="/user/plugin/callboard/work.do?action=callboardGetTabel&graphId=${form.param.graphId}&fromDate=${form.param.fromDate}&toDate=${form.param.toDate}">Табель</a>
 							</c:if>

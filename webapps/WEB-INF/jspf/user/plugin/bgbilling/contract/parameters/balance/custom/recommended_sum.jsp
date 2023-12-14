@@ -20,9 +20,8 @@
 </c:url>
 
 	<c:set var="type" value="ymd"/>
-	<b>Рекомендуемая сумма по </b></b><input type="text" value="${dateTo}" id="${uiid}-dateTo"/>
-	<c:set var="selector" value="#${uiid}-dateTo"/>
-	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+	<b>Рекомендуемая сумма по </b></b>
+	<ui:date-time id="${uiid}-dateTo" value="${dateTo}"/>
 
 	<input type="button" value="Обновить" onclick="$$.ajax.load('${url}'+'&dateFrom='+$('#${uiid}-dateFrom').val()+'&dateTo='+$('#${uiid}-dateTo').val(), $('#${uiid}'));"/>
 

@@ -13,18 +13,9 @@
 	<c:set var="saveCommand" value="${sendForm}"/>
 
 	Период c
-	<c:set var="editable" value="true"/>
-	<c:set var="dateFrom" value="${tu.format(form.response.data.dateFrom, 'dd.MM.yyyy')}"/>
-	<input type="text" name="dateFrom" value="${dateFrom}" id="${balanceForm}-dateFrom"/>
-	<c:set var="selector" value="#${balanceForm}-dateFrom"/>
-	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+	<ui:date-time paramName="dateFrom" value="${tu.format(form.response.data.dateFrom, 'dd.MM.yyyy')}"/>
 	по
-	<c:set var="editable" value="true"/>
-
-	<c:set var="dateTo" value="${tu.format(form.response.data.dateTo, 'dd.MM.yyyy')}"/>
-	<input type="text" name="dateTo" value="${dateTo}" id="${balanceForm}-dateTo"/>
-	<c:set var="selector" value="#${balanceForm}-dateTo"/>
-	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+	<ui:date-time paramName="dateTo" value="${tu.format(form.response.data.dateTo, 'dd.MM.yyyy')}"/>
 
 	<c:set var="contractInfo" value="${form.response.data.contractInfo}"/>
 	<button type="button" class="btn-white ml1 mr1"
