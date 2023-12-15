@@ -640,6 +640,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Date from</en><ru>Дата с</ru></p>
 	<p><en>Date to</en><ru>Дата по</ru></p>
 	<p><en>Set</en><ru>Установить</ru></p>
+	<p><en>Process ID</en><ru>ID процесса</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

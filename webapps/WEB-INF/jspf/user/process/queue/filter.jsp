@@ -285,7 +285,7 @@
 				<c:forEach var="filterFromList" items="${queue.filterList.filterList}">
 					<c:if test="${filterFromList.type == 'code'}">
 						<c:set var="filter" value="${filterFromList}"/>
-						<c:set var="title" value="ID процесса"/>
+						<c:set var="title" value="${l.l('Process ID')}"/>
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'code' ) }">
@@ -305,12 +305,14 @@
 						<c:set var="title" value="${l.l('Type')}"/>
 						<c:set var="code">
 							<u:sc>
+								<c:set var="paramName" value="type"/>
+
 								<c:set var="values" value="${filter.defaultValues}"/>
 								<c:if test="${not empty savedParamsFilters.getParamValues(paramName)}">
 									<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 								</c:if>
 
-								<ui:combo-check paramName="type" values="${values}"
+								<ui:combo-check paramName="${paramName}" values="${values}"
 									list="${form.response.data.typeList}" map="${ctxProcessTypeMap}" available="${filter.availableValues}"
 									prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 							</u:sc>
@@ -327,12 +329,14 @@
 							<u:sc>
 								<span class="dontResetOnHideFilter"></span>
 
+								<c:set var="hiddenName" value="openClose"/>
+
 								<c:set var="value" value="${filter.defaultValue}"/>
 								<c:if test="${not empty savedParamsFilters.get( hiddenName ) }">
 									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
 								</c:if>
 
-								<ui:combo-single value="${value}" hiddenName="openClose" prefixText="${l.l('Closed')}:" widthTextValue="40px" onSelect="${sendCommand}">
+								<ui:combo-single value="${value}" hiddenName="${hiddenName}" prefixText="${l.l('Closed')}:" widthTextValue="40px" onSelect="${sendCommand}">
 									<jsp:attribute name="valuesHtml">
 										<li value="none">${l.l('Все')}</li>
 										<li value="open">${l.l('No')}</li>
