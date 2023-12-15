@@ -21,7 +21,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="values" type="java.util.Collection" description="current values"%>
 <%@ attribute name="onChange" description="The action to be triggered on onchange"%>
-<%@ attribute name="showFilter" type="java.lang.Boolean"  description="Enable/disable Filter"%>
+<%@ attribute name="showFilter" description="Enable filter"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV class"%>
 <%@ attribute name="styleTextValue" description="current value's DIV style"%>
@@ -38,6 +38,8 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <c:if test="${empty styleTextValue}">
 	<c:set var="styleTextValue">width: 100%;</c:set>
 </c:if>
+
+<c:set var="showFilter" value="${u.parseBoolean(showFilter)}"/>
 
 <c:choose>
 	<c:when test="${not empty id}">

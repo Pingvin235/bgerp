@@ -71,7 +71,7 @@
 		--%><div style="width: 20%;">
 				<h2>${l.l('Наборы прав')}</h2>
 
-				<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${user.permsetIds}" moveOn="${true}" style="width: 100%;" styleClass="layout-height-rest"/>
+				<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${user.permsetIds}" moveOn="1" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
 	--%></c:if><%--
 	--%><c:if test="${empty perm['permDisable']}"><%--

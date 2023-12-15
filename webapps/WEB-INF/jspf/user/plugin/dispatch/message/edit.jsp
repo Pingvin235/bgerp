@@ -42,7 +42,7 @@
 
 	<c:choose>
 		<c:when test="${empty message.sentTime}">
-			<ui:select-mult list="${dispatchList}" hiddenName="dispatchId" values="${message.dispatchIds}" style="width: 100%;" showId="${true}"/>
+			<ui:select-mult list="${dispatchList}" hiddenName="dispatchId" values="${message.dispatchIds}" style="width: 100%;" showId="1"/>
 		</c:when>
 		<c:otherwise>
 			${u:objectTitleList( dispatchList, message.dispatchIds )}

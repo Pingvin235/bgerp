@@ -21,7 +21,7 @@
 		<c:forEach var="clb" items="${callboardList}">
 			<ui:combo-check id="${clb.id}-${uiid}" paramName="groupId"
 				list="${ctxUserGroupList}" available="${ctxUserGroupMap[clb.groupId].childSet}"
-				showFilter="${true}" prefixText="${l.l('Группы')}:" widthTextValue="10em"/>
+				showFilter="1" prefixText="${l.l('Группы')}:" widthTextValue="10em"/>
 	</c:forEach>
 	</div>
 

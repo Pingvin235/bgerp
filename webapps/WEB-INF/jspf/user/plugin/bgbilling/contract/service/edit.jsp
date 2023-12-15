@@ -18,7 +18,7 @@
 		<h2>Услуги</h2>
 		<c:choose>
 			<c:when test="${form.id le 0}">
-				<ui:select-mult list="${pair.second}" hiddenName="serviceId" style="width: 100%;" showId="${true}"/>
+				<ui:select-mult list="${pair.second}" hiddenName="serviceId" style="width: 100%;" showId="1"/>
 			</c:when>
 			<c:otherwise>
 				<input type="hidden" name="serviceId" value="${pair.first.serviceId}"/>

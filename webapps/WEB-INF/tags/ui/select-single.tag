@@ -22,8 +22,8 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="inputAttrs" description="any input field attributes"%>
 <%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 
-<%@ attribute name="showId" type="java.lang.Boolean"  description="show Id (boolean)"%>
-<%@ attribute name="showComment" type="java.lang.Boolean" description="show comments (boolean)"%>
+<%@ attribute name="showId" description="show Id"%>
+<%@ attribute name="showComment" description="show comments"%>
 
 <%@ attribute name="list" type="java.util.List" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
@@ -38,6 +38,9 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 		<c:set var="uiid" value="${u:uiid()}"/>
 	</c:otherwise>
 </c:choose>
+
+<c:set var="showId" value="${u.parseBoolean(showId)}"/>
+<c:set var="showComment" value="${u.parseBoolean(showComment)}"/>
 
 <div class="select ${styleClass}" style="${style}" id="${uiid}">
 	<input type="hidden" name="${hiddenName}" value="${value}"/>

@@ -3,7 +3,7 @@
 
 <%@ attribute name="id" description="Container ID, if empty - will be generated." type="java.lang.String"%>
 <%@ attribute name="rootNode" description="Tree root node" required="true" type="org.bgerp.model.base.tree.IdTitleTreeItem"%>
-<%@ attribute name="selectableFolder" description="Selectable folder nodes" type="java.lang.Boolean"%>
+<%@ attribute name="selectableFolder" description="Selectable folder nodes (enabled by default)"%>
 <%@ attribute name="hiddenName" description="Input type hidden parameter name" required="true" type="java.lang.String"%>
 <%@ attribute name="hiddenNameTitle" description="Optional hidden parameter name for storing node title" type="java.lang.String"%>
 <%@ attribute name="value" description="Current hidden' value" type="java.lang.Object"%>
@@ -13,9 +13,8 @@
 <c:if test="${empty id}">
 	<c:set var="id" value="${u:uiid()}"/>
 </c:if>
-<c:if test="${empty selectableFolder}">
-	<c:set var="selectableFolder" value="${true}"/>
-</c:if>
+
+<c:set var="selectableFolder" value="${u.parseBoolean(selectableFolder, true)}"/>
 
 <div id="${id}" class="tree-single ${styleClass}" style="${style}">
 	<input type="hidden" name="${hiddenName}" value="${value}"/>

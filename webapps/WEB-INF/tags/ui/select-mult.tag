@@ -21,9 +21,9 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
 <%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 
-<%@ attribute name="showId" type="java.lang.Boolean" description="show Id (boolean)"%>
-<%@ attribute name="showComment" type="java.lang.Boolean" description="show comments (boolean)"%>
-<%@ attribute name="moveOn" type="java.lang.Boolean" description="show change in order"%>
+<%@ attribute name="showId" description="show Id"%>
+<%@ attribute name="showComment" description="show comments"%>
+<%@ attribute name="moveOn" description="show change in order"%>
 
 <%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
@@ -38,6 +38,10 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 		<c:set var="uiid" value="${u:uiid()}"/>
 	</c:otherwise>
 </c:choose>
+
+<c:set var="showId" value="${u.parseBoolean(showId)}"/>
+<c:set var="showComment" value="${u.parseBoolean(showComment)}"/>
+<c:set var="moveOn" value="${u.parseBoolean(moveOn)}"/>
 
 <c:set var="upDownIcons">
 	<span class='up ti-angle-up' onClick='$$.ui.selectMult.liUp(this);'></span><span class='down ti-angle-down' onClick='$$.ui.selectMult.liDown(this);'></span>

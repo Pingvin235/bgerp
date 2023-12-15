@@ -34,7 +34,7 @@
 			<ui:combo-check id="${clb.id}-${uiid}" paramName="groupId"
 				list="${ctxUserGroupList}"
 				available="${empty allowOnlyGroups ? ctxUserGroupMap[clb.groupId].childSet : cu.intersection(ctxUserGroupMap[clb.groupId].childSet, allowOnlyGroups)}"
-				showFilter="${true}" prefixText="${l.l('Группы')}:" widthTextValue="7em"/>
+				showFilter="1" prefixText="${l.l('Группы')}:" widthTextValue="7em"/>
 		</c:forEach>
 	</div>
 

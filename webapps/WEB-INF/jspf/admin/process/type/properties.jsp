@@ -35,7 +35,7 @@
 			<div style="min-width: 350px; max-width: 350px;">
 				<h2>Разрешённые статусы</h2>
 				<ui:select-mult hiddenName="status"
-						showId="true" moveOn="true" style="width: 100%;"
+						showId="1" moveOn="true" style="width: 100%;"
 						list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
 
 				<div class="in-table-cell">
@@ -51,7 +51,7 @@
 
 				<h2>Параметры</h2>
 				<ui:select-mult hiddenName="param"
-					showId="true" moveOn="true" showComment="true" style="width: 100%;"
+					showId="1" moveOn="true" showComment="true" style="width: 100%;"
 					list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
 			</div>
 			<div class="w100p pl1">

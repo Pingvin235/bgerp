@@ -51,7 +51,7 @@
 		<div style="width: 50%;">
 			<h2>${l.l('Наборы прав')}</h2>
 
-			<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${group.permsetIds}" moveOn="${true}"/>
+			<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${group.permsetIds}" moveOn="1"/>
 		</div><%--
 	--%><div style="width: 50%;">
 			<h2>${l.l('Очереди процессов')}</h2>

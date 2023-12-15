@@ -415,7 +415,7 @@
 								<ui:combo-check paramName="${paramName}"
 									list="${filter.parameter.listParamValues}" available="${filter.availableValues}"
 									values="${empty values ? filter.defaultValues : values}"
-									showFilter="${true}" prefixText="${title}:" widthTextValue="12em"/>
+									showFilter="1" prefixText="${title}:" widthTextValue="12em"/>
 							</u:sc>
 						</c:set>
 						<%@ include file="filter/item.jsp"%>
