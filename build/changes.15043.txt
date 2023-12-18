@@ -1,2 +1,2 @@
 A: Plugin DBA cleanup queries.
-Delete param log items on object deletion.
+F: Delete param log items on object deletion.
