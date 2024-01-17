@@ -1017,6 +1017,9 @@ public class Utils {
             args = new Object[0];
 
         for (var constr : Bean.getClass(className).getDeclaredConstructors()) {
+            if (constr.getParameters().length != args.length)
+                continue;
+
             Object[] convertedTypes = NewInstanceTag.convertObjectTypes(List.of(args), constr.getParameterTypes());
             if (convertedTypes != null)
                 return constr.newInstance(convertedTypes);
