@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
@@ -36,7 +37,6 @@ public class ProcessIsolationTest {
     private int processType2Id;
 
     private int userGroupId;
-    private User userIsolated;
 
     @Test
     public void userGroup() throws Exception {
@@ -61,71 +61,91 @@ public class ProcessIsolationTest {
     }
 
     @Test(dependsOnMethods = "processType")
-    public void user() throws Exception {
-        userIsolated = UserHelper.addUser(TITLE, "isolated", List.of(new UserGroup(userGroupId, new Date(), null)));
-        UserHelper.addUserProcessQueues(userIsolated.getId(), Set.of(ProcessTest.queueId));
-    }
-
-    @Test(dependsOnMethods = "user")
     public void testIsolationExecutor() throws Exception {
-        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "executor").getDataString());
+        String title = TITLE + " by Executor";
 
-        var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(userIsolated));
+        var user = createUser(title, "isolated.executor");
+        user.setConfig(SimpleConfigMap.of("isolation.process", "executor").getDataString());
+        new UserDAO(DbTest.conRoot).updateUser(user);
 
-        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(TITLE + " by executor"));
+        var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(user));
+
+        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(title));
         Assert.assertNull(dao.getProcess(p.getId()));
 
-        dao.updateProcessExecutors(Set.of(new ProcessExecutor(userIsolated.getId(), userGroupId, 0)), p.getId());
+        dao.updateProcessExecutors(Set.of(new ProcessExecutor(user.getId(), userGroupId, 0)), p.getId());
         Assert.assertNotNull(dao.getProcess(p.getId()));
     }
 
-    @Test(dependsOnMethods = "user")
-    public void testIsolationGroups() throws Exception {
-        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
+    @Test(dependsOnMethods = "processType")
+    public void testIsolationGroup() throws Exception {
+        UserDAO udao = new UserDAO(DbTest.conRoot);
 
-        var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(userIsolated));
+        String title = TITLE + " by Group";
+        var user = createUser(title, "isolated.group");
+        user.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
+        udao.updateUser(user);
 
-        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(TITLE + " by group"));
+        var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(user));
+
+        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(title));
         Assert.assertNull(dao.getProcess(p.getId()));
 
-        var ps = dao.updateProcess(new Process().withTypeId(processTypeSpecialId).withDescription(TITLE + " by group special type"));
+        var ps = dao.updateProcess(new Process().withTypeId(processTypeSpecialId).withDescription(title + " Executor Types"));
         Assert.assertNull(dao.getProcess(ps.getId()));
 
         dao.updateProcessGroups(Set.of(new ProcessGroup(userGroupId)), p.getId());
         Assert.assertNotNull(dao.getProcess(p.getId()));
         Assert.assertNull(dao.getProcess(ps.getId()));
 
-        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "group", "isolation.process.group.executor.typeIds",
-                processTypeSpecialId + ", 0").getDataString());
+        title = title + " Executor Types";
+        user = createUser(title, "isolated.group.executor.types");
+        user.setConfig(SimpleConfigMap.of(
+            "isolation.process", "group",
+            "isolation.process.group.executor.typeIds", processTypeSpecialId + ", 0").getDataString());
+        udao.updateUser(user);
+
+        dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(user));
+
         Assert.assertNotNull(dao.getProcess(p.getId()));
         Assert.assertNull(dao.getProcess(ps.getId()));
 
         dao.updateProcessGroups(Set.of(new ProcessGroup(userGroupId)), ps.getId());
         Assert.assertNull(dao.getProcess(ps.getId()));
 
-        dao.updateProcessExecutors(Set.of(new ProcessExecutor(userIsolated.getId(), userGroupId, 0)), ps.getId());
+        dao.updateProcessExecutors(Set.of(new ProcessExecutor(user.getId(), userGroupId, 0)), ps.getId());
         Assert.assertNotNull(dao.getProcess(ps.getId()));
 
-        dao.updateProcessExecutors(Set.of(new ProcessExecutor(userIsolated.getId(), userGroupId, 0),
+        dao.updateProcessExecutors(Set.of(new ProcessExecutor(user.getId(), userGroupId, 0),
                 new ProcessExecutor(-10, userGroupId, 5), new ProcessExecutor(22, 0, 5)), ps.getId());
         Assert.assertNotNull(dao.getProcess(ps.getId()));
     }
 
-    @Test(dependsOnMethods = { "processType", "user" })
+    @Test(dependsOnMethods = "processType")
     public void testCreateProcessTypes() throws Exception {
-        userIsolated.setGroupIds(Set.of(userGroupId));
+        String title = TITLE + " Create Process Types";
 
-        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
+        var user = createUser(title, "isolated.create");
+        user.setGroupIds(Set.of(userGroupId));
+        user.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
+        new UserDAO(DbTest.conRoot).updateUser(user);
+
         var typeList = ProcessTypeCache.getTypeList(
                 Set.of(ProcessTest.processTypeTestGroupId, processTypeId, processTypeSpecialId, processType1Id, processType11Id, processType2Id));
-        ProcessAction.applyProcessTypePermission(typeList, new DynActionForm(userIsolated));
+        ProcessAction.applyProcessTypePermission(typeList, new DynActionForm(user));
         var ids = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
         Assert.assertEquals(ids, Set.of(ProcessTest.processTypeTestGroupId, processTypeId, processType1Id, processType11Id));
 
-        userIsolated.setConfig("");
+        user.setConfig("");
         typeList = ProcessTypeCache.getTypeList(Set.of(processTypeId, processTypeSpecialId, processType2Id));
-        ProcessAction.applyProcessTypePermission(typeList, new DynActionForm(userIsolated));
+        ProcessAction.applyProcessTypePermission(typeList, new DynActionForm(user));
         ids = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
         Assert.assertEquals(ids, Set.of(processTypeId, processTypeSpecialId, processType2Id));
+    }
+
+    private User createUser(String title, String login) throws Exception {
+        var user = UserHelper.addUser(title, login, List.of(new UserGroup(userGroupId, new Date(), null)));
+        UserHelper.addUserProcessQueues(user.getId(), Set.of(ProcessTest.queueId));
+        return user;
     }
 }
