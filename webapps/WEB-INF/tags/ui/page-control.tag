@@ -25,7 +25,7 @@
 	</c:choose>
 
 	<c:if test="${empty nextCommand}">
-		<c:set var="nextCommand" value="; $$.ajax.loadContent(${pageControlForm})"/>
+		<c:set var="nextCommand" value="; $$.ajax.load(this.form, $(this.form).parent())"/>
 	</c:if>
 
 	<c:set var="command" value="toPage(${pageControlForm},"/>
