@@ -36,7 +36,7 @@ public class UserCache extends Cache<UserCache> {
     public static final UserCache INSTANCE = new UserCache();
 
     private static final CacheHolder<UserCache> HOLDER = new CacheHolder<>(INSTANCE);
-    private static final ConfigMap EMPTY_PERMISSION = new Preferences();
+    public static final ConfigMap EMPTY_PERMISSION = new Preferences();
 
     public static User getUser(final int id) {
         return HOLDER.getInstance().userMapById.get(id);

@@ -25,11 +25,13 @@ import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
+import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamValueSearchDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterSearchedObject;
+import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.PswdUtil;
@@ -459,35 +461,40 @@ public class UserDAO extends CommonDAO {
         return sql.toString();
     }
 
-    public Map<Integer, Map<String, ConfigMap>> getAllPermissions(String tableName, String selectColumn)
-            throws BGException {
-        Map<Integer, Map<String, ConfigMap>> userPerm = new HashMap<Integer, Map<String, ConfigMap>>();
-        try {
-            PreparedStatement ps = con.prepareStatement("SELECT " + selectColumn + ",action,config FROM " + tableName);
+    public Map<Integer, Map<String, ConfigMap>> getAllPermissions(String tableName, String selectColumn) throws SQLException {
+        Map<Integer, Map<String, ConfigMap>> result = new HashMap<>(1000);
+
+        try (var ps = con.prepareStatement(SQL_SELECT + selectColumn + ", action, config" + SQL_FROM + tableName)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int userId = rs.getInt(selectColumn);
                 String action = rs.getString("action");
                 String config = rs.getString("config");
 
-                Map<String, ConfigMap> map = userPerm.get(userId);
-                if (map == null) {
-                    userPerm.put(userId, map = new HashMap<String, ConfigMap>());
-                }
+                Map<String, ConfigMap> map = result.computeIfAbsent(userId, unused -> new HashMap<>(300));
+                var pref = Utils.isBlankString(config) ? UserCache.EMPTY_PERMISSION : new Preferences(config);
+                map.put(action, pref);
 
-                map.put(action, new Preferences(config));
-                //userPerm.get( userId ).put( action, config );
-
+                derivedPermission(map, action, pref);
             }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
 
-        return userPerm;
+        return result;
     }
 
-    public Map<Integer, Map<String, ConfigMap>> getAllUserPerm() throws BGException {
+    private void derivedPermission(Map<String, ConfigMap> map, String action, ConfigMap pref) {
+        var node = PermissionNode.getPermissionNode(action);
+        if (node != null) {
+            var parent = node.getParent();
+            if (parent != null) {
+                String parentAction = parent.getAction();
+                if (Utils.notBlankString(parentAction))
+                    map.putIfAbsent(parentAction, pref);
+            }
+        }
+    }
+
+    public Map<Integer, Map<String, ConfigMap>> getAllUserPerm() throws SQLException {
         return getAllPermissions(Tables.TABLE_USER_PERMISSION, "user_id");
     }
 

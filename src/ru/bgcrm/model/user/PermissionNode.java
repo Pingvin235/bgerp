@@ -7,10 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.annotations.VisibleForTesting;
-
-import javassist.NotFoundException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
@@ -23,6 +19,9 @@ import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.google.common.annotations.VisibleForTesting;
+
+import javassist.NotFoundException;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
@@ -55,12 +54,14 @@ public class PermissionNode {
 
     private String title;
     private String titlePath;
-    /** Semicolon separated action class and method names. */
     private String action;
     private List<String> actions = new ArrayList<>();
+
     private String description = "";
     private boolean allowAll;
     private boolean notLogging;
+
+    private PermissionNode parent;
     private List<PermissionNode> children = new ArrayList<>();
 
     /**
@@ -73,9 +74,9 @@ public class PermissionNode {
         this.title = title;
     }
 
-    @VisibleForTesting
     PermissionNode(PermissionNode parent, Localizer l, Element node) {
         this(node.getAttribute("action"), node.getAttribute("title"));
+        this.parent = parent;
 
         var ltitle = node.getAttribute("ltitle");
         if (Utils.notBlankString(ltitle)) {
@@ -188,6 +189,13 @@ public class PermissionNode {
     }
 
     /**
+     * @return parent node;
+     */
+    public PermissionNode getParent() {
+        return parent;
+    }
+
+    /**
      * @return children nodes.
      */
     public List<PermissionNode> getChildren() {
@@ -209,24 +217,20 @@ public class PermissionNode {
     }
 
     /**
-     * @return the primary node action, identifies that the node is selected in UI.
+     * @return the primary node action, semicolon separated action class and method names.
      */
     public String getAction() {
         return action;
     }
 
     /**
-     * @return node actions.
+     * @return list of primary and synonym actions (semicolon separated action class and method names).
      */
     public List<String> getActions() {
         return actions;
     }
 
-    /**
-     * Sets primary and other actions from comma separated string.
-     * @param action comma separated string.
-     */
-    public void setAction(String action) {
+    private void setAction(String action) {
         List<String> actionList = Utils.toList(action, ";,");
         if (actionList.size() > 1) {
             this.action = actionList.get(0);

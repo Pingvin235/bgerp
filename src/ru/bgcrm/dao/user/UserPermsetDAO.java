@@ -157,7 +157,7 @@ public class UserPermsetDAO extends UserDAO {
         }
     }
 
-    public Map<Integer, Map<String, ConfigMap>> getAllPermsets() throws BGException {
+    public Map<Integer, Map<String, ConfigMap>> getAllPermsets() throws SQLException {
         return getAllPermissions(Tables.TABLE_PERMSET_PERMISSION, "permset_id");
     }
 
