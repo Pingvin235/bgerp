@@ -18,7 +18,7 @@
 <c:if test="${not empty form.param.header}">
 	<div class="mt1 mb05">
 		<h2>${form.param.header}
-			<span style="font-weight: normal;"> [<a href="#" onclick="$$.ajax.load('${paramLogUrl}', $('#${tableId}').parent()); return false;">${l.l('log')}</a>]</span>
+			<span class="normal"> [<a href="#" onclick="$$.ajax.load('${paramLogUrl}', $('#${tableId}').parent()); return false;">${l.l('log')}</a>]</span>
 		</h2>
 	</div>
 </c:if>

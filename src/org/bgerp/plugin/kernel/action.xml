@@ -336,15 +336,22 @@
 		<item title="Справочник пользователей">
 			<item action="ru.bgcrm.struts.action.UserAction:userList" title="Получение списка пользователей"/>
 		</item>
+		<item action="org.bgerp.action.DemoAction:null" title="Demo">
+			<item action="org.bgerp.action.DemoAction:enumValues" title="enumValues"/>
+			<item action="org.bgerp.action.DemoAction:tabContentFirst" title="tabContentFirst"/>
+			<item action="org.bgerp.action.DemoAction:tabContentSecond" title="tabContentSecond"/>
+			<item action="org.bgerp.action.DemoAction:formSend" title="formSend"/>
+			<item title="Entity">
+				<item action="org.bgerp.action.DemoAction:entityList" title="List"/>
+				<item action="org.bgerp.action.DemoAction:entityGet, org.bgerp.action.DemoAction:entityUpdate" title="Edit"/>
+				<item action="org.bgerp.action.DemoAction:entityDelete" title="Delete"/>
+			</item>
+		</item>
 
-		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Для унифицированного вызова JSP" allowAll="1" notLogging="1"/>
-		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Для пулинга" allowAll="1" notLogging="1"/>
--
-		<item action="org.bgerp.action.DemoAction:null" title="Demo" allowAll="1" notLogging="1"/>
-		<item action="org.bgerp.action.DemoAction:enumValues" title="Demo enumValues" allowAll="1" notLogging="1"/>
-
-		<item action="ru.bgcrm.struts.action.LockAction:add" title="Lock add" allowAll="1" notLogging="1"/>/>
-		<item action="ru.bgcrm.struts.action.LockAction:free" title="Lock free" allowAll="1" notLogging="1"/>/>
+		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Unified action call with JSP result only" allowAll="1" notLogging="1"/>
+		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Pooling" allowAll="1" notLogging="1"/>
+		<item action="ru.bgcrm.struts.action.LockAction:add" title="Lock add" allowAll="1" notLogging="1"/>
+		<item action="ru.bgcrm.struts.action.LockAction:free" title="Lock free" allowAll="1" notLogging="1"/>
 
 		<item title="Новости">
 			<item action="ru.bgcrm.struts.action.NewsAction:newsList" title="Просмотр списка новостей" />

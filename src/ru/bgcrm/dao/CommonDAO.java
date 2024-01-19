@@ -123,22 +123,29 @@ public class CommonDAO {
     }
 
     /**
-     * Updates and if no
+     * Updates and if no records updated then inserting a new one.
      * @param updatePsQuery UPDATE query with ? placeholders.
      * @param insertPsQuery INSERT query with ? placeholders.
      * @param params {@link PreparedQuery} parameters for both queries.
      * @throws SQLException
+     * @return ID of a newly inserted record, or {@code 0}
      */
-    protected void updateOrInsert(String updatePsQuery, String insertPsQuery, Object... params) throws SQLException {
+    protected int updateOrInsert(String updatePsQuery, String insertPsQuery, Object... params) throws SQLException {
+        int result = 0;
+
         var pq = new PreparedQuery(con, updatePsQuery);
         pq.addObjects(params);
         if (pq.executeUpdate() == 0) {
             pq.close();
-            pq.setQuery(insertPsQuery);
+
+            pq = new PreparedQuery(con, insertPsQuery);
             pq.addObjects(params);
-            pq.executeUpdate();
+            pq.executeInsert();
+            result = lastInsertId(pq.getPrepared());
         }
         pq.close();
+
+        return result;
     }
 
     /**

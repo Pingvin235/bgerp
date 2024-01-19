@@ -1,0 +1,2 @@
+config.key.simple=value simple
+config.key.counter=count

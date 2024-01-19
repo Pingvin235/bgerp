@@ -7,7 +7,7 @@
 
 	<c:set var="traceUiid" value="${u:uiid()}"/>
 
-	<h2>${l.l('DB')} <span style="font-weight: normal;"> [<a href="#" onclick="$('#${traceUiid}').toggle(); $(this).toggleClass('bold'); return false;">trace</a>]</span></h2>
+	<h2>${l.l('DB')} <span class="normal"> [<a href="#" onclick="$('#${traceUiid}').toggle(); $(this).toggleClass('bold'); return false;">trace</a>]</span></h2>
 	<pre>${form.response.data.statusDb}</pre>
 
 	<div id="${traceUiid}" style="display: none;">

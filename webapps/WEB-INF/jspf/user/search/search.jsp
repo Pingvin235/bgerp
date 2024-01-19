@@ -78,7 +78,7 @@
 					</div>
 				</div>
 
-				<hr/>
+				<div class="separator"/>
 
 				<ui:combo-single hiddenName="open" prefixText="${l.l('process.closed')}:">
 					<jsp:attribute name="valuesHtml">

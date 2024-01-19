@@ -73,7 +73,7 @@
 
 <div>
 	<h2>&nbsp;</h2>
-	<hr/>
+	<div class="separator"/>
 </div>
 
 <div id="${editorUiid}" class="data-table">

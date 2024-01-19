@@ -18,7 +18,7 @@
 	<div class="mt1" id="${uiid}">
 		<div class="mt1 mb05" >
 			<h2>${l.l('Description')}
-				<span style="font-weight: normal;">
+				<span class="normal">
 					<c:if test="${not empty processType}">
 						<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd">
 							[<a href="#" title="${l.l('Добавить в конец описания текст с именем автора и временем')}"

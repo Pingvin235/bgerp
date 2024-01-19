@@ -3,7 +3,7 @@
 
 <%@ attribute name="id" description="ul element ID" required="true"%>
 
-<div style="max-height: 0px; max-width: 0px;">
+<div style="max-height: 0; max-width: 0;">
 	<ul id="${id}" style="display: none;" class="menu">
 		<jsp:doBody/>
 	</ul>

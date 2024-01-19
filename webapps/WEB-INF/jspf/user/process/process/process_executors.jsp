@@ -6,7 +6,7 @@
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<div class="mt1 mb05" id="${uiid}">
 			<h2>${l.l('Группы / исполнители')}
-				<span style="font-weight: normal;">
+				<span class="normal">
 					<p:check action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate">
 						<c:url var="url" value="/user/process.do">
 							<c:param name="id" value="${process.id}"/>

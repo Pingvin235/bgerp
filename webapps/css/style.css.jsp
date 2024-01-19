@@ -110,15 +110,18 @@ body > #content p {
 	font-size: 1.1em;
 }
 
-.red {
+/*.red {
 	font-size: 1.3em;
 	color: #ff0000;
 	margin: 0 0.3em;
-}
+}*/
 
 .bold {
-	/* font-size: 1.1em; */
 	font-weight: bold;
+}
+
+.normal {
+	font-weight: normal;
 }
 
 .center1020 {
@@ -167,12 +170,12 @@ body > #content p {
 	white-space: nowrap;
 }
 
-
 <%@ include file="style.indent.css.jsp"%>
 <%@ include file="style.tabs.css.jsp"%>
 <%@ include file="style.table.css.jsp"%>
 <%@ include file="style.input.css.jsp"%>
 <%@ include file="style.button.css.jsp"%>
+<%@ include file="style.demo.css.jsp"%>
 <%@ include file="style.combo.css.jsp"%>
 <%@ include file="style.select.css.jsp"%>
 <%@ include file="style.icon.css.jsp"%>
@@ -194,10 +197,7 @@ div, span {
 }
 
 .box {
-	border-radius: 3px;
-	border: 1px solid #C5C5C5;
-	box-sizing: border-box;
-	padding: .5em;
+<%@ include file="style.box.css.jsp"%>
 }
 
 .cmd {

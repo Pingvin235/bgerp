@@ -741,6 +741,13 @@ CREATE TABLE IF NOT EXISTS properties (
 
 CALL rename_table('user_group_permission', '_user_group_permission');
 
+CREATE TABLE IF NOT EXISTS demo_entity (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(200) NOT NULL,
+	`config` TEXT,
+	PRIMARY KEY (`id`)
+);
+
 -- TODO: The columns or tables are not already in use. For  activation of deletion, place uncommented line prior the comment.
 -- drop_column_if_exists('message', 'processed');
 
