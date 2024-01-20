@@ -13,7 +13,7 @@
 				<td width="100%">Query</td>
 				<td>Rows</td>
 			</tr>
-			<c:forEach var="item" items="${form.response.data.inconsistencyCleanupQueries}">
+			<c:forEach var="item" items="${frd.inconsistencyCleanupQueries}">
 				<c:set var="uiid" value="${u:uiid()}"/>
 				<tr>
 					<td><input type="checkbox" name="query" value="${item}"/></td>

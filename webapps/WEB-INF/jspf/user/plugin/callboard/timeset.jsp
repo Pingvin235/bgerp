@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="task" value="${form.response.data.task}"/>
-<c:set var="slotList" value="${form.response.data.slotList}"/>
+<c:set var="task" value="${frd.task}"/>
+<c:set var="slotList" value="${frd.slotList}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 

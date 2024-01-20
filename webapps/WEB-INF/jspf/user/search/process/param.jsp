@@ -10,7 +10,7 @@
 		<td>${l.l('Параметр')}</td>
 		<td>${l.l('Value')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td><ui:process-link process="${item.object}"/></td>
 			<td>${item.object.description}</td>

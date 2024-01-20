@@ -23,7 +23,7 @@
 			<td>${l.l('User')}</td>
 			<td width="100%">${l.l('Value')}</td>
 		</tr>
-		<c:forEach var="logItem" items="${form.response.data.list}">
+		<c:forEach var="logItem" items="${frd.list}">
 			<tr>
 				<td nowrap="nowrap">${logItem.getDateFormatted()}</td>
 				<td nowrap="nowrap">${ctxUserMap[logItem.userId].title}</td>

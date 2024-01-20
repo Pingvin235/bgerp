@@ -12,7 +12,7 @@
 <html:form action="/admin/config" styleId="${formUiid}">
 	<html:hidden property="action" value="update"/>
 
-	<c:set var="config" value="${form.response.data.config}"/>
+	<c:set var="config" value="${frd.config}"/>
 	<c:set var="lastModifyUiid" value="${u:uiid()}"/>
 	<div id="${lastModifyUiid}">
 		<c:set var="lastModifyObject" value="${config}"/>

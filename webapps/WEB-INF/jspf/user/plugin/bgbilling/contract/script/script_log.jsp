@@ -25,7 +25,7 @@
 		<td>Время</td>
 		<td width="100%">Название</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td><button type="button" class="btn-white btn-small" onclick="$(this).parent().parent().next().toggle()">Просмотр</button></td>
 			<td nowrap="nowrap">${item.time}</td>

@@ -3,7 +3,7 @@
 
 <h1>${l.l('Редактирование счёта')}</h1>
 
-<c:set var="invoice" value="${form.response.data.invoice}"/>
+<c:set var="invoice" value="${frd.invoice}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
@@ -36,7 +36,7 @@
 		</c:forEach>
 		<tr>
 			<td colspan="2">
-				<ui:combo-single list="${form.response.data.positions}" style="width: 100%;"/>
+				<ui:combo-single list="${frd.positions}" style="width: 100%;"/>
 			</td>
 			<td><input type="text" name="add_quantity" value="1" onkeydown="return isNumberKey(event)" size="2"/></td>
 			<td><input type="text" name="add_unit" value="${l.l('шт.')}" size="3"/></td>

@@ -3,7 +3,7 @@
 
 <c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
 
-<h2>${l.l('Найдено')}: ${form.page.recordCount}, ${l.l('отображено')}: ${form.response.data.list.size()}</h2>
+<h2>${l.l('Найдено')}: ${form.page.recordCount}, ${l.l('отображено')}: ${frd.list.size()}</h2>
 
 <table class="data">
 	<tr>
@@ -12,7 +12,7 @@
 		<td width="100%">${l.l('Title')}</td>
 		<td>${l.l('Type')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>
 				<html:form action="/user/link">

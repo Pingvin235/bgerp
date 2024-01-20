@@ -31,7 +31,7 @@
 			</c:if>
 		</tr>
 
-		<c:forEach var="item" items="${form.response.data.list}">
+		<c:forEach var="item" items="${frd.list}">
 			<tr>
 				<c:url var="editUrl" value="/admin/directory.do">
 					<c:param name="action" value="parameterGet" />

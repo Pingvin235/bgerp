@@ -2,10 +2,10 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <form action="/admin/plugin/dba/query.do">
-	<c:if test="${ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get') and not empty form.response.data.storedQueries}">
+	<c:if test="${ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get') and not empty frd.storedQueries}">
 		<div class="mb1" style="white-space: nowrap;">
 			<button type="button" class="btn-grey icon mr1" title="${l.l('Load query')}" onclick="$$.dba.queryHistoryGet(this)"><i class="ti-import"></i></button><%--
-		--%><ui:combo-single hiddenName="queryHistoryId" list="${form.response.data.storedQueries}" styleClass="layout-width-rest"/>
+		--%><ui:combo-single hiddenName="queryHistoryId" list="${frd.storedQueries}" styleClass="layout-width-rest"/>
 			<p:check action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:del">
 				<button type="button" class="btn-grey icon ml1" title="${l.l('Delete from history')}" onclick="if ($$.confirm.del()) { $$.dba.queryHistoryDel(this) }"><i class="ti-trash"></i></button>
 			</p:check>
@@ -25,7 +25,7 @@
 	</script>
 </form>
 
-<c:set var="table" value="${form.response.data.table}"/>
+<c:set var="table" value="${frd.table}"/>
 <c:if test="${not empty table}">
 	<table class="data mt1 hl">
 		<tr>

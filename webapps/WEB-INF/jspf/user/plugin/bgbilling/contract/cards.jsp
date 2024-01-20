@@ -10,7 +10,7 @@
 
 	<ui:combo-single hiddenName="cardType" prefixText="Выберите карту:" widthTextValue="300px;">
 		<jsp:attribute name="valuesHtml">
-			<c:forEach var="item" items="${form.response.data.cardTypeList}">
+			<c:forEach var="item" items="${frd.cardTypeList}">
 				<li value="${item[0]}">${item[1]}</li>
 			</c:forEach>
 		</jsp:attribute>
@@ -22,5 +22,5 @@
 <h2>Полная карта</h2>
 
 <div>
-	${form.response.data.fullCard.replaceAll('<style>[\\w\\s\\:\\{\\}\\-;]+</style>', '')}
+	${frd.fullCard.replaceAll('<style>[\\w\\s\\:\\{\\}\\-;]+</style>', '')}
 </div>

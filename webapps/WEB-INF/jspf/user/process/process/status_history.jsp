@@ -16,7 +16,7 @@
 			<td>${l.l('Время')}</td>
 			<td>${l.l('User')}</td>
 		</tr>
-		<c:forEach var="item" items="${form.response.data.list}">
+		<c:forEach var="item" items="${frd.list}">
 			<tr>
 				<td>${item.statusTitle}</td>
 				<td>${item.comment}</td>

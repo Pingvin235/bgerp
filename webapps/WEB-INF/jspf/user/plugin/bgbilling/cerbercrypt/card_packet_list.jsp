@@ -10,7 +10,7 @@
 		<td>Пакет</td>
 		<td>Статус</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.card}</td>
 			<td nowrap="nowrap">${tu.format( item.dateFrom, 'ymd' )} - ${tu.format( item.dateTo, 'ymd' )}</td>

@@ -11,7 +11,7 @@
 	</div>
 	<div class="mb1">
 		<ui:select-single
-			hiddenName="fromId" list="${form.response.data.types}" style="width: 300px;"
+			hiddenName="fromId" list="${frd.types}" style="width: 300px;"
 			onSelect="$(this).closest('form').find('button.ok').show()"
 		/>
 	</div>

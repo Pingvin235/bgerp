@@ -46,7 +46,7 @@
 		<tr>
 			<td class="header" colspan="4"">Тип карт: <ui:combo-single
 					hiddenName="sid" value="${form.param.serviceId}"
-					list="${form.response.data.serviceList}" onSelect="${script}" /></td>
+					list="${frd.serviceList}" onSelect="${script}" /></td>
 		</tr>
 		<tr>
 			<td class="header">Статус</td>
@@ -54,7 +54,7 @@
 			<td class="header">Сумма</td>
 			<td class="header">Номер карты</td>
 		</tr>
-		<c:forEach var="item" items="${form.response.data.cardList}">
+		<c:forEach var="item" items="${frd.cardList}">
 			<tr>
 				<td>${item.status}</td>
 				<td>${item.activationDate}</td>

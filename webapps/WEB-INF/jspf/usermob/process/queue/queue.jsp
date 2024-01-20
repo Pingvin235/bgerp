@@ -7,7 +7,7 @@
 		<c:set var="currentQueueId" value="${form.param.id}"/>
 
 		<c:set var="valuesHtml">
-			<c:forEach items="${form.response.data.list}" var="item">
+			<c:forEach items="${frd.list}" var="item">
 				<c:if test="${item.configMap.showIn eq 'usermob'}">
 					<c:if test="${empty currentQueueId}">
 						<c:set var="currentQueueId" value="${item.id}"/>

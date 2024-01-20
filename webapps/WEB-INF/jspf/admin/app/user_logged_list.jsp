@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="logged" value="${form.response.data.logged}"/>
+<c:set var="logged" value="${frd.logged}"/>
 
 <div class="center1020">
 	<h2>${l.l('Авторизовавшиеся пользователи')} [ ${logged.size()} ]</h2>

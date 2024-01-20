@@ -8,8 +8,8 @@
 	<h2>${l.l('Группы')}</h2>
 
 	<c:set var="readOnly" value="true" />
-	<c:set var="user" value="${form.response.data.user}" />
-	<c:set var="userGroupList" value="${form.response.data.userGroupList}" />
+	<c:set var="user" value="${frd.user}" />
+	<c:set var="userGroupList" value="${frd.userGroupList}" />
 	<%@ include file="/WEB-INF/jspf/admin/user/user/update_usergroup.jsp"%>
 
 	<h2>${l.l('Параметры')}</h2>

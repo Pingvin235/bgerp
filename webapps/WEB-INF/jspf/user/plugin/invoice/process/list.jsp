@@ -35,7 +35,7 @@
 		<td>${l.l('Created')}</td>
 		<td>${l.l('Paid')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}" >
+	<c:forEach var="item" items="${frd.list}" >
 		<tr>
 			<td>
 				<c:set var="menuUiid" value="${u:uiid()}"/>

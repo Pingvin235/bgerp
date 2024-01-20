@@ -3,7 +3,7 @@
 
 <%--
 Incoming variables:
-	form.response.data.value - ParameterPhoneValue
+	frd.value - ParameterPhoneValue
 --%>
 <u:sc>
 	<c:set var="addButtonUiid" value="${u:uiid()}"/>

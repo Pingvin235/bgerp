@@ -24,7 +24,7 @@
 		<ui:page-control/>
 	</html:form>
 
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<table class="data mb1" style="width: 100%;">
 			<tr>
 				<td>
@@ -83,7 +83,7 @@
 		</table>
 	</c:forEach>
 
-	<c:if test="${not empty form.response.data.list and form.param.read ne 1}">
+	<c:if test="${not empty frd.list and form.param.read ne 1}">
 		<div style="text-align: right;">
 			<button class="btn-grey mt1" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetAllRead' ) ){ ${showCode} };" title="${l.l('Пометить все новости прочитанными')}">${l.l('Все прочитаны')}</button>
 		</div>

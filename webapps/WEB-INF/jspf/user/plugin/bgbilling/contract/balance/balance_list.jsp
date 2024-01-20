@@ -12,7 +12,7 @@
 		<td>Расход</td>
 		<td>Исходящий остаток</td>
 	</tr>
-	<c:forEach var="balance" items="${form.response.data.list}">
+	<c:forEach var="balance" items="${frd.list}">
 		<tr>
 			<td align="center">${balance.month}</td>
 			<td align="center">${balance.inputBalance}</td>

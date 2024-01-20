@@ -26,7 +26,7 @@
 		<td width="30em">ID</td>
 		<td width="100%">Title</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:if test="${changeAllowed}">
 				<td class="nowrap">

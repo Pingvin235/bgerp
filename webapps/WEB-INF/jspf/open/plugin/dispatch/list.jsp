@@ -11,7 +11,7 @@
 				<td width="40%">${l.l('Title')}</td>
 				<td width="60%">${l.l('Description')}</td>
 			</tr>
-			<c:forEach var="item" items="${form.response.data.list}">
+			<c:forEach var="item" items="${frd.list}">
 				<tr>
 					<td>${item.title}</td>
 					<td>${item.comment}</td>

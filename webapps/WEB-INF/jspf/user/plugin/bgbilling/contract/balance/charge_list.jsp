@@ -24,7 +24,7 @@
 		<td nowrap="nowrap">Время изменения</td>
 		<td>Пользователь</td>
 	</tr>
-	<c:forEach var="charge" items="${form.response.data.list}">
+	<c:forEach var="charge" items="${frd.list}">
 		<tr>
 			<c:url var="url" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="balanceEditor"/>

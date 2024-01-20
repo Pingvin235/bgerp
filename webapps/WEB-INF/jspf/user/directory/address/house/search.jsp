@@ -14,7 +14,7 @@
 		<td>${l.l('Индекс')}</td>
 		<td>${l.l('Коментарий')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="${doUrl}">
 				<c:param name="action" value="addressGet"/>

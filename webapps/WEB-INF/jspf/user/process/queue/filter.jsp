@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="queue" value="${form.response.data.queue}"/>
+<c:set var="queue" value="${frd.queue}"/>
 
 <c:set var="formAction" value="/user/process.do"/>
 
@@ -313,7 +313,7 @@
 								</c:if>
 
 								<ui:combo-check paramName="${paramName}" values="${values}"
-									list="${form.response.data.typeList}" map="${ctxProcessTypeMap}" available="${filter.availableValues}"
+									list="${frd.typeList}" map="${ctxProcessTypeMap}" available="${filter.availableValues}"
 									prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 							</u:sc>
 					 	</c:set>

@@ -3,7 +3,7 @@
 
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
 
-<c:set var="group" value="${form.response.data.group}"/>
+<c:set var="group" value="${frd.group}"/>
 
 <html:form action="/admin/directory" styleClass="center500">
 	<input type="hidden" name="action" value="parameterGroupUpdate"/>

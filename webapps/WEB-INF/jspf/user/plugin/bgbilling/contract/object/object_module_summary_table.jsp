@@ -9,7 +9,7 @@
 		<td>Комментарий</td>
 	</tr>
 
-	<c:forEach var="data" items="${form.response.data.moduleInfo.moduleDataList}">
+	<c:forEach var="data" items="${frd.moduleInfo.moduleDataList}">
 		<tr>
 			<td align="center">${data.module}</td>
 			<td>${data.data}</td>

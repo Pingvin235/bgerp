@@ -14,7 +14,7 @@
 	<input type="checkbox" name="${paramName}" value="current" ${u:checkedFromCollection(form.getParamValues('executor'), 'current')}/>
 	<span>${l.l("** Я **")}</span>
 </li>
-<c:forEach var="item" items="${form.response.data.list}">
+<c:forEach var="item" items="${frd.list}">
 	<li>
 		<input type="checkbox" name="${paramName}" value="${item.id}" ${u:checkedFromCollection(form.getParamValues('executor'), item.id)}/>
 		<span>${item.title}</span>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="house" value="${form.response.data.house}"/>
+<c:set var="house" value="${frd.house}"/>
 
 <%-- нестандартные параметры, в скором времени будут заменены на систему параметров --%>
 <c:set var="additionalParams" value="${not empty setup['address.house.additional.params'] }"/>

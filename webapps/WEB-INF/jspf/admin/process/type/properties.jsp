@@ -14,14 +14,14 @@
 
 <c:set var="formUiid" value="${u:uiid()}"/>
 
-<c:set var="properties" value="${form.response.data.properties}"/>
+<c:set var="properties" value="${frd.properties}"/>
 
 <html:form action="/admin/process" styleId="${formUiid}">
 	<input type="hidden" name="action" value="propertiesUpdate"/>
 	<input type="hidden" name="returnUrl" value="${form.returnUrl}"/>
 	<html:hidden property="id"/>
 
-	<c:set var="lastModifyObject" value="${form.response.data.properties}"/>
+	<c:set var="lastModifyObject" value="${frd.properties}"/>
 	<%@ include file="/WEB-INF/jspf/last_modify_hiddens.jsp"%>
 
 	<ul>
@@ -57,7 +57,7 @@
 			<div class="w100p pl1">
 				<h2>Конфигурация</h2>
 				<c:set var="taUiid" value="${u:uiid()}"/>
-				<textarea id="${taUiid}" name="config" style="resize: none; width: 100%;" rows="40">${form.response.data.config}</textarea>
+				<textarea id="${taUiid}" name="config" style="resize: none; width: 100%;" rows="40">${frd.config}</textarea>
 			</div>
 		</div>
 	</div>

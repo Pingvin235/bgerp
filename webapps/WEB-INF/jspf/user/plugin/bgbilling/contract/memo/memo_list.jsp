@@ -20,7 +20,7 @@
 		<td>Дата</td>
 		<td>Пользователь</td>
 	</tr>
-	<c:forEach var="memo" items="${ form.response.data.memoList }" varStatus="status">
+	<c:forEach var="memo" items="${ frd.memoList }" varStatus="status">
 		<tr>
   			<c:url var="eUrl" value="${url}">
 				<c:param name="id" value="${memo.id}"/>

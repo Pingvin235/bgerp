@@ -4,8 +4,8 @@
 <html:form action="/admin/user" styleClass="center1020">
 	<input type="hidden" name="action" value="permsetUpdate" />
 
-	<c:set var="permset" value="${form.response.data.permset}" scope="page" />
-	<c:set var="grantedPermission" value="${form.response.data.grantedPermission}" scope="request" />
+	<c:set var="permset" value="${frd.permset}" scope="page" />
+	<c:set var="grantedPermission" value="${frd.grantedPermission}" scope="request" />
 
 	<c:set var="uiidSample" value="${u:uiid()}"/>
 	<c:set var="uiidTo" value="${u:uiid()}"/>

@@ -24,7 +24,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="item" items="${form.response.data.scheduled}">
+		<c:forEach var="item" items="${frd.scheduled}">
 			<tr>
 				<td>${item.id}</td>
 				<td>${item.title}</td>
@@ -67,13 +67,13 @@
 
 <shell:title text="${l.l('Scheduler')}"/>
 
-<c:set var="state" value="${form.response.data.error}"/>
+<c:set var="state" value="${frd.error}"/>
 <c:choose>
 	<c:when test="${not empty state}">
 		<shell:state error="${state}" help="kernel/setup.html#scheduler"/>
 	</c:when>
 	<c:otherwise>
-		<c:set var="runningCount" value="${form.response.data.runningCount}"/>
+		<c:set var="runningCount" value="${frd.runningCount}"/>
 		<c:if test="${0 lt runningCount}">
 			<c:set var="state">${l.l('Running')}: ${runningCount}</c:set>
 		</c:if>

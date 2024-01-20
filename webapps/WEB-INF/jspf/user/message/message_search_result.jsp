@@ -12,7 +12,7 @@
 			<td width="100%">${l.l('Title')}</td>
 		</tr>
 
-		<c:forEach var="item" items="${form.response.data.searchedList}" varStatus="status">
+		<c:forEach var="item" items="${frd.searchedList}" varStatus="status">
 			<c:set var="item" value="${item}" scope="request"/>
 
 			<tr>

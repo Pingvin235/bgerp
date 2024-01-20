@@ -31,12 +31,12 @@
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
-			<ui:combo-single list="${form.response.data.group.values}" hiddenName="paramGroupId" value="${form.response.data.group.id}" prefixText="Группа параметров (изменить):"
+			<ui:combo-single list="${frd.group.values}" hiddenName="paramGroupId" value="${frd.group.id}" prefixText="Группа параметров (изменить):"
 				widthTextValue="150px" onSelect="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${listUiid}')); }"/>
 		</form>
 	</c:if>
 
-	<c:if test="${not empty form.response.data.contractParameterList}">
+	<c:if test="${not empty frd.contractParameterList}">
 		<table class="hdata" width="100%">
 			<c:if test="${empty onlyData}">
 				<tr class="header">
@@ -45,7 +45,7 @@
 					<td width="100%">Значение</td>
 				</tr>
 			</c:if>
-			<c:forEach var="contractParameter" items="${form.response.data.contractParameterList}">
+			<c:forEach var="contractParameter" items="${frd.contractParameterList}">
 				<c:if test="${form.param.showEmptyParameters eq 1 or not empty contractParameter.value or contractParameter.paramType eq 10}">
 					<tr>
 						<c:choose>

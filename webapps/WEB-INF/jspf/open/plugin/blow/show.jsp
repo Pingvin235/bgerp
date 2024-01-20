@@ -2,8 +2,8 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div id="blow-board">
-	<c:set var="boardConf" scope="request" value="${form.response.data.boardConf}"/>
-	<c:set var="board" scope="request" value="${form.response.data.board}"/>
+	<c:set var="boardConf" scope="request" value="${frd.boardConf}"/>
+	<c:set var="board" scope="request" value="${frd.board}"/>
 	<c:if test="${not empty board}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<%@ include file="/WEB-INF/jspf/user/plugin/blow/board/filters.jsp"%>

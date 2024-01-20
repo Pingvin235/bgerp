@@ -32,7 +32,7 @@
 		<td>${l.l('Description')}</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<c:set var="color" value="${item.second.color}"/>
 		<%-- on empty color value expected to be ignored by browser --%>
 		<tr style="background-color: ${color}" title="${l.l('Creation time')}: ${tu.format(process.createTime, 'ymdhms')}">

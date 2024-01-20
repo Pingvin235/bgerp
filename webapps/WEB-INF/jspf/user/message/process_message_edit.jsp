@@ -3,7 +3,7 @@
 
 <%@ include file="process_message_edit_upload.jsp"%>
 
-<c:set var="message" scope="request" value="${form.response.data.message}"/>
+<c:set var="message" scope="request" value="${frd.message}"/>
 <c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.message.config.MessageTypeConfig')}"/>
 
 <c:set var="editorUiid" value="${u:uiid()}"/>
@@ -73,7 +73,7 @@
 				<div class="pl1 w100p">
 					<h2>${l.l('Теги')}</h2>
 					<input type="hidden" name="updateTags" value="1"/>
-					<ui:select-mult list="${tagConfig.tagList}" values="${form.response.data.messageTagIds}" hiddenName="tagId"/>
+					<ui:select-mult list="${tagConfig.tagList}" values="${frd.messageTagIds}" hiddenName="tagId"/>
 				</div>
 			</c:if>
 		</div>

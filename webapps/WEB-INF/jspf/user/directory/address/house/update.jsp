@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="house" value="${form.response.data.house}"/>
+<c:set var="house" value="${frd.house}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 

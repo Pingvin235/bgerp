@@ -29,7 +29,7 @@
 		<button type="button" class="btn-white ml1" onclick="$$.ajax.loadContent(this);">${l.l('Получить Token')}</button>
 	</div>
 
-	<c:set var="log" value="${form.response.data.log}"/>
+	<c:set var="log" value="${frd.log}"/>
 	<c:if test="${not empty log}">
 		<h2>Log</h2>
 		<pre>${log}</pre>

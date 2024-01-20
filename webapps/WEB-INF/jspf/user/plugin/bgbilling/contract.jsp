@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="contract" value="${form.response.data.contract}" scope="request"/>
+<c:set var="contract" value="${frd.contract}" scope="request"/>
 
 <c:if test="${not empty contract}">
 	<c:set var="billingId" value="${form.param['billingId']}"/>
@@ -52,7 +52,7 @@
 		})
 	</script>
 
-	<c:set var="customer" value="${form.response.data.customer}"/>
+	<c:set var="customer" value="${frd.customer}"/>
 
 	<%-- означает, что договор не в буфере открытых, т.к. открыт где-то вложенно --%>
 	<c:if test="${form.param.inBuffer ne 0}">

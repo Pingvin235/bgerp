@@ -1,0 +1,1 @@
+A: Shortcut 'frd' for accessing 'form.response.data' in JSP pages.

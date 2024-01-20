@@ -180,7 +180,7 @@ cmd do && cmd undo
 		</ui:combo-single>
 
 		<u:sc>
-			<ui:combo-single hiddenName="param" widthTextValue="12em" list="${form.response.data.comboSingeList}" onSelect="${onSelect}">
+			<ui:combo-single hiddenName="param" widthTextValue="12em" list="${frd.comboSingeList}" onSelect="${onSelect}">
 				<jsp:attribute name="valuesHtml">
 					<li value="-1">-- select --</li>
 				</jsp:attribute>
@@ -199,7 +199,7 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:combo-check&gt;</b><br/>
 
-		<ui:combo-check prefixText="Status:" paramName="param" list="${form.response.data.comboCheckList}" values="${form.response.data.comboCheckValues}"
+		<ui:combo-check prefixText="Status:" paramName="param" list="${frd.comboCheckList}" values="${frd.comboCheckValues}"
 			onChange="console.log('this=', this); alert('Values are chosen, see console log')"
 			widthTextValue="15em" showFilter="true"/>
 	</div>
@@ -210,16 +210,16 @@ cmd do && cmd undo
 		<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, '$input=', $input); alert('A value is chosen, see console log')"/>
 
 		<ui:select-single hiddenName="param" value="2" style="width: 10em;"
-			list="${form.response.data.selectSingle1List}" availableIdSet="${form.response.data.selectSingle1AvailableIdSet}"
+			list="${frd.selectSingle1List}" availableIdSet="${frd.selectSingle1AvailableIdSet}"
 			onSelect="${onSelect}"/>
 
-		<ui:select-single hiddenName="param" style="width: 15em;" map="${form.response.data.selectSingle2Map}" availableIdList="${form.response.data.selectSingle2AvailableIdList}"
+		<ui:select-single hiddenName="param" style="width: 15em;" map="${frd.selectSingle2Map}" availableIdList="${frd.selectSingle2AvailableIdList}"
 			onSelect="${onSelect}"/>
 
-		<ui:select-single hiddenName="param" value="1" style="width: 10em;" list="${form.response.data.selectSingle3List}" showId="1" showComment="1"
+		<ui:select-single hiddenName="param" value="1" style="width: 10em;" list="${frd.selectSingle3List}" showId="1" showComment="1"
 			onSelect="${onSelect}"/>
 
-		<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${form.response.data.selectSingle4List}" inputAttrs="disabled='1'"
+		<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${frd.selectSingle4List}" inputAttrs="disabled='1'"
 			onSelect="alert('Must not be selectable!')"/>
 	</div>
 
@@ -228,11 +228,11 @@ cmd do && cmd undo
 		<ui:select-mult
 			showId="true"
 			hiddenName="param" style="width: 12em;"
-			list="${form.response.data.selectMult1List}" values="${form.response.data.selectMult1Values}"/>
+			list="${frd.selectMult1List}" values="${frd.selectMult1Values}"/>
 
 		With position changing (preliminary order must be Second before First):
 		<ui:select-mult hiddenName="param" style="width: 12em;" moveOn="true"
-			list="${form.response.data.selectMult2List}" map="${form.response.data.selectMult2Map}" values="${form.response.data.selectMult2Values}"/>
+			list="${frd.selectMult2List}" map="${frd.selectMult2Map}" values="${frd.selectMult2Values}"/>
 	</div>
 
 	<div>
@@ -259,7 +259,7 @@ cmd do && cmd undo
 			</jsp:attribute>
 		</ui:combo-single><br/>
 
-		<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${form.response.data.selectSingle1List}"
+		<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${frd.selectSingle1List}"
 			onSelect="console.log('this=', this, '$hidden=', $hidden); alert('Value is chosen, see console log')"/>
 	</div>
 </div>
@@ -271,13 +271,13 @@ cmd do && cmd undo
 	<div style="display: flex;">
 		<div style="flex-grow: 1;">
 			<b>&lt;ui:tree-single&gt;</b>
-			<ui:tree-single rootNode="${form.response.data.treeRootNode}"
+			<ui:tree-single rootNode="${frd.treeRootNode}"
 				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle" selectableFolder="false"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>
 		<div style="flex-grow: 1;">
 			<b>&lt;ui:tree-single&gt; (selectableFolder)</b>
-			<ui:tree-single rootNode="${form.response.data.treeRootNode}"
+			<ui:tree-single rootNode="${frd.treeRootNode}"
 				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>

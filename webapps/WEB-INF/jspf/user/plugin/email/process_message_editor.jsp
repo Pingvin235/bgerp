@@ -46,7 +46,7 @@
 		<input type="hidden" name="updateTags" value="1"/>
 
 		<c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
-		<c:set var="messageTagIds" value="${form.response.data.messageTagIds}"/>
+		<c:set var="messageTagIds" value="${frd.messageTagIds}"/>
 
 		<div style="width: 30px; vertical-align: top;">
 			<h2>${l.l('Вложить историю')}</h2>

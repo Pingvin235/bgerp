@@ -7,7 +7,7 @@
 		<td>Значение</td>
 		<td>Период</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.title}</td>
 			<td>${item.value}</td>

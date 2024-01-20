@@ -9,9 +9,9 @@
 		<td></td>
 	</tr>
 
-	<c:forEach items="${form.response.data.list}" var="link">
+	<c:forEach items="${frd.list}" var="link">
 		<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':' )}"/>
-		<c:set var="customerId" value="${form.response.data.customerId}" />
+		<c:set var="customerId" value="${frd.customerId}" />
 		<tr>
 			<td>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 			<td>${link.linkObjectId}</td>

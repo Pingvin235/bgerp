@@ -9,7 +9,7 @@
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 
-		<ui:combo-single hiddenName="value" value="${form.response.data.contractInfo.face}" prefixText="Лицо (изменить):" widthTextValue="100px"
+		<ui:combo-single hiddenName="value" value="${frd.contractInfo.face}" prefixText="Лицо (изменить):" widthTextValue="100px"
 			onSelect="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }">
 			<jsp:attribute name="valuesHtml">
 				<li value="0">Физическое</li>
@@ -33,7 +33,7 @@
 		<td>Пользователь</td>
 		<td width="100%">Лицо</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
 			<td nowrap="nowrap">${item.user}</td>
@@ -46,6 +46,6 @@
 <script>
 	$(function()
 	{
-		$("#${contractTreeId} #face").text( ${form.response.data.contractInfo.face} == 0 ? "Физическое" : "Юридическое" );
+		$("#${contractTreeId} #face").text( ${frd.contractInfo.face} == 0 ? "Физическое" : "Юридическое" );
 	})
 </script>

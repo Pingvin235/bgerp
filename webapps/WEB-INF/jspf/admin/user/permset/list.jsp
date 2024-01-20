@@ -26,7 +26,7 @@
 		<td width="30%">${l.l('Title')}</td>
 		<td width="70%">${l.l('Комментарий')}</td>
 	</tr>
-	<c:forEach var="permset" items="${form.response.data.list}">
+	<c:forEach var="permset" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="/admin/user.do">
 				<c:param name="action" value="permsetGet"/>

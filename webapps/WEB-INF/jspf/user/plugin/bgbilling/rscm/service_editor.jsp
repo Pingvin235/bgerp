@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="service" value="${form.response.data.service}"/>
+<c:set var="service" value="${frd.service}"/>
 
 <h1>Редактор</h1>
 
@@ -17,7 +17,7 @@
 	<div class="in-table-cell mb1">
 		<div style="width: 50%;">
 			<ui:select-single hiddenName="serviceId" value="${service.serviceId}"
-				placeholder="Услуга" style="width: 100%;" list="${form.response.data.serviceTypeList}">
+				placeholder="Услуга" style="width: 100%;" list="${frd.serviceTypeList}">
 				<jsp:attribute name="inputAttrs">
 					<c:if test="${service.id gt 0}">disabled="disabled"</c:if>
 				</jsp:attribute>

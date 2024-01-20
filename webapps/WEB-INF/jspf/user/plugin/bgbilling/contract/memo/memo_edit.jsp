@@ -9,7 +9,7 @@
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 	<input type="hidden" name="id" value="${form.param.id}" />
 
-	<c:set var="memo" value="${form.response.data.memo}"/>
+	<c:set var="memo" value="${frd.memo}"/>
 
 	<h2>Тема</h2>
 	<input type="text" name="title" style="width:100%" value="${memo.title}"/>

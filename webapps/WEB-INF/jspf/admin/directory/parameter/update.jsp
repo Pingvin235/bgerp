@@ -23,7 +23,7 @@
 
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
 
-<c:set var="parameter" value="${form.response.data.parameter}"/>
+<c:set var="parameter" value="${frd.parameter}"/>
 
 <html:form action="/admin/directory" styleClass="center1020" styleId="${formUiid}">
 	<input type="hidden" name="action" value="parameterUpdate"/>

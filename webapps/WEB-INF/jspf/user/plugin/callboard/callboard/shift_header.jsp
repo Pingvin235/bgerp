@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="allowOnlyCategories" value="${form.response.data.allowOnlyCategories}" scope="page" />
+<c:set var="allowOnlyCategories" value="${frd.allowOnlyCategories}" scope="page" />
 
 <p class="slide"><input id="shiftPanelCloseButton${uiid}" class="shiftPanelButton${uiid}" style="margin-left: 20px; margin-top: 5px;" type="button" value="Смены"  /></p>
 

@@ -5,7 +5,7 @@
 	<input type="hidden" name="action" value="groupUpdate" />
 	<html:hidden property="parentGroupId"/>
 
-	<c:set var="group" value="${form.response.data.group}" scope="page"/>
+	<c:set var="group" value="${frd.group}" scope="page"/>
 
 	<c:set var="uiidSample" value="${u:uiid()}"/>
 	<c:set var="uiidTo" value="${u:uiid()}"/>

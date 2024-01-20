@@ -20,7 +20,7 @@
 			<td width="100%">Комментарий</td>
 		</tr>
 
-		<c:forEach var="script" items="${form.response.data.scriptList}" varStatus="status">
+		<c:forEach var="script" items="${frd.scriptList}" varStatus="status">
 			<tr>
 				<c:url var="eUrl" value="${url}">
 					<c:param name="scriptId" value="${script.id}"/>

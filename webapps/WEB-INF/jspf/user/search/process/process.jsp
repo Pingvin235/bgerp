@@ -11,7 +11,7 @@
 				<td width="120">${l.l('Creation time')}</td>
 				<td>${l.l('Description')}</td>
 			</tr>
-			<c:forEach var="item" items="${form.response.data.list}">
+			<c:forEach var="item" items="${frd.list}">
 			<tr>
 				<td><ui:process-link id="${item.id}"/></td>
 				<td nowrap="nowrap">${tu.format(item.createTime, 'ymdhms')}</td>
@@ -27,7 +27,7 @@
 				<td width="120">${l.l('Время закрытия')}</td>
 				<td>${l.l('Description')}</td>
 			</tr>
-			<c:forEach var="item" items="${form.response.data.list}">
+			<c:forEach var="item" items="${frd.list}">
 			<tr>
 				<td><ui:process-link id="${item.id}"/></td>
 				<td nowrap="nowrap">${tu.format(item.closeTime, 'ymdhms')}</td>
@@ -44,7 +44,7 @@
 				<td width="120">${l.l('Status')}</td>
 				<td>${l.l('Description')}</td>
 			</tr>
-			<c:forEach var="item" items="${form.response.data.list}">
+			<c:forEach var="item" items="${frd.list}">
 			<tr>
 				<td><ui:process-link id="${item.id}"/></td>
 				<td nowrap="nowrap">${tu.format(item.statusTime, 'ymdhms')}</td>

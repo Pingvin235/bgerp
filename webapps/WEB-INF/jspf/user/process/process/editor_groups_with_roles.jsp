@@ -3,7 +3,7 @@
 
 <h1>${l.l('Выберите группы решения')}</h1>
 
-<c:set var="process" value="${form.response.data.process}" />
+<c:set var="process" value="${frd.process}" />
 <c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>

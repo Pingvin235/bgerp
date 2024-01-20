@@ -19,7 +19,7 @@
 		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
 
 		<ui:combo-check paramName="type" values="${form.getParamValues('type')}"
-			list="${form.response.data.types}" map="${ctxProcessTypeMap}"
+			list="${frd.types}" map="${ctxProcessTypeMap}"
 			prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 
 		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.loadContent(this)"/>
@@ -33,7 +33,7 @@
 	<div class="data mt1 w100p" style="overflow: auto;">
 		<table class="data hl">
 			<report:headers data="${data}"/>
-			<c:forEach var="r" items="${form.response.data.list}">
+			<c:forEach var="r" items="${frd.list}">
 				<tr>
 					<td><ui:process-link id="${r.get('id')}"/></td>
 					<td>${r.get('type_title')}</td>

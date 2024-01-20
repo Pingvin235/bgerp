@@ -13,11 +13,11 @@
 	<c:set var="saveCommand" value="${sendForm}"/>
 
 	Период c
-	<ui:date-time paramName="dateFrom" value="${tu.format(form.response.data.dateFrom, 'dd.MM.yyyy')}"/>
+	<ui:date-time paramName="dateFrom" value="${tu.format(frd.dateFrom, 'dd.MM.yyyy')}"/>
 	по
-	<ui:date-time paramName="dateTo" value="${tu.format(form.response.data.dateTo, 'dd.MM.yyyy')}"/>
+	<ui:date-time paramName="dateTo" value="${tu.format(frd.dateTo, 'dd.MM.yyyy')}"/>
 
-	<c:set var="contractInfo" value="${form.response.data.contractInfo}"/>
+	<c:set var="contractInfo" value="${frd.contractInfo}"/>
 	<button type="button" class="btn-white ml1 mr1"
 			onclick="this.form.dateFrom.value='${tu.format(contractInfo.dateFrom, 'ymd')}'; this.form.dateTo.value='${tu.format(contractInfo.dateTo, 'ymd')}'; ${sendForm}">
 			Весь период договора

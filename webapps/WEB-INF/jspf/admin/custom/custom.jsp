@@ -9,7 +9,7 @@
 	<button class="btn-grey" type="button" onclick="$$.ajax.loadContent(this);">${l.l('Скомпилировать Java код')}</button>
 </html:form>
 
-<c:set var="result" value="${form.response.data.result}"/>
+<c:set var="result" value="${frd.result}"/>
 <c:if test="${not empty result}">
 	<div class="mt1">
 		<b>${l.l('Результат компиляции')}:</b><br/>

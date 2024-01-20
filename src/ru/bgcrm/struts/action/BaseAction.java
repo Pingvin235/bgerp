@@ -127,7 +127,9 @@ public class BaseAction extends DispatchAction {
 
         form.l = this.l = (Localizer) request.getAttribute(SetRequestParamsFilter.REQUEST_KEY_LOCALIZER);
 
-        ActionForward forward = null;
+        // shortcut
+        request.setAttribute("frd", form.getResponse().getData());
+
         ConnectionSet conSet = new ConnectionSet(setup.getConnectionPool(), false);
 
         form.setConnectionSet(conSet);
@@ -137,6 +139,7 @@ public class BaseAction extends DispatchAction {
 
         long timeStart = System.currentTimeMillis();
 
+        ActionForward forward = null;
         String action = "";
         PermissionNode permissionNode = null;
         String error = "";

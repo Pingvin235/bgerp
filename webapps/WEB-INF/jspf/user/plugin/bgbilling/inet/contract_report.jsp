@@ -37,7 +37,7 @@
 <c:set var="closeAllowed" value="${ctxUser.checkPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionClose')}"/>
 <c:set var="finishAllowed" value="${ctxUser.checkPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionFinish')}"/>
 
-<c:if test="${not empty form.response.data.list}">
+<c:if test="${not empty frd.list}">
 	<table class="data mt1">
 		<tr>
 			<td></td>
@@ -56,7 +56,7 @@
 			<td>Статус</td>
 			<td>Состояние</td>
 		</tr>
-		<c:forEach var="item" items="${form.response.data.list}">
+		<c:forEach var="item" items="${frd.list}">
 			<tr>
 				<td>
 					<c:if test="${closeAllowed or finishAllowed}">

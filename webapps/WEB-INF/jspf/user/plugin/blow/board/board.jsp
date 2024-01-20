@@ -7,7 +7,7 @@
 	<c:param name="action" value="show"/>
 </c:url>
 
-<c:set var="boards" value="${form.response.data.boards}"/>
+<c:set var="boards" value="${frd.boards}"/>
 
 <!-- search over boardId -->
 <c:set var="boardId" value="${form.id}"/>
@@ -22,7 +22,7 @@
 	value="${boardId}"
 	widthTextValue="220px"
 	prefixText="${l.l('План')}:"
-	list="${form.response.data.boards}"
+	list="${frd.boards}"
 	onSelect="$$.ajax.loadContent('${showUrl}&id=' + $hidden.val(), this)"/>
 
 <shell:state moveSelector="#${uiid}"/>

@@ -4,9 +4,9 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="service" value="${form.response.data.service}"/>
-<c:set var="typeList" value="${form.response.data.typeList}"/>
-<c:set var="objectList" value="${form.response.data.objectList}"/>
+<c:set var="service" value="${frd.service}"/>
+<c:set var="typeList" value="${frd.typeList}"/>
+<c:set var="objectList" value="${frd.objectList}"/>
 
 <c:set var="contractId" value="${form.param.contractId}"/>
 <c:set var="billingId" value="${form.param.billingId}"/>

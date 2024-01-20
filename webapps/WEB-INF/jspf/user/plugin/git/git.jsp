@@ -3,15 +3,15 @@
 
 <h2>${l.l('Create branch')}</h2>
 <div class="box cmd">
-	${u:htmlEncode(form.response.data.commandBranchCreate)}
+	${u:htmlEncode(frd.commandBranchCreate)}
 </div>
 
 <h2>${l.l('Synch branch')}</h2>
 <div class="box cmd">
-	${u:htmlEncode(form.response.data.commandBranchSync)}
+	${u:htmlEncode(frd.commandBranchSync)}
 </div>
 
 <h2>${l.l('Accept branch')}</h2>
 <div class="box cmd">
-	${u:htmlEncode(form.response.data.commandBranchAccept)}
+	${u:htmlEncode(frd.commandBranchAccept)}
 </div>

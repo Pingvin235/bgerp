@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="customer" value="${form.response.data.customer}"/>
+<c:set var="customer" value="${frd.customer}"/>
 
 <c:set var="formUiid" value="${u:uiid()}"/>
 <html:form action="/user/customer" onsubmit="return false;" styleClass="center500 in-w100p" styleId="${formUiid}">

@@ -18,7 +18,7 @@
 
 <h1>${l.l('Выберите исполнителей')}</h1>
 
-<c:set var="process" value="${form.response.data.process}"/>
+<c:set var="process" value="${frd.process}"/>
 <c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>
 
 <c:set var="mainUiid" value="${u:uiid()}"/>

@@ -28,7 +28,7 @@
 		<td width="50%">Комментарий</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.workDaysCalendarList}">
+	<c:forEach var="item" items="${frd.workDaysCalendarList}">
 		<tr>
 			<c:url var="editUrl" value="/user/plugin/callboard/work.do">
 				<c:param name="action" value="workDaysCalendarGet"/>

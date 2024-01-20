@@ -9,7 +9,7 @@
 		<td width="30">ID</td>
 		<td width="100%">${l.l('Страна')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}" varStatus="status">
+	<c:forEach var="item" items="${frd.list}" varStatus="status">
 		<tr>
 			<c:url var="editUrl" value="${doUrl}">
 				<c:param name="action" value="addressGet"/>

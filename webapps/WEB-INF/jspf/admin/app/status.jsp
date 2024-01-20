@@ -3,16 +3,16 @@
 
 <div class="center1020">
 	<h2>${l.l('Status')}</h2>
-	<pre>${form.response.data.statusApp}</pre>
+	<pre>${frd.statusApp}</pre>
 
 	<c:set var="traceUiid" value="${u:uiid()}"/>
 
 	<h2>${l.l('DB')} <span class="normal"> [<a href="#" onclick="$('#${traceUiid}').toggle(); $(this).toggleClass('bold'); return false;">trace</a>]</span></h2>
-	<pre>${form.response.data.statusDb}</pre>
+	<pre>${frd.statusDb}</pre>
 
 	<div id="${traceUiid}" style="display: none;">
 		<h2>${l.l('DB Trace')}</h2>
-		<pre class="box cmd" style="overflow-x: auto;">${form.response.data.dbTrace}</pre>
+		<pre class="box cmd" style="overflow-x: auto;">${frd.dbTrace}</pre>
 	</div>
 
 	<p:check action="org.bgerp.action.admin.AppAction:restart">
@@ -43,7 +43,7 @@
 		</html:form>
 	</p:check>
 
-	<c:set var="error" value="${form.response.data.error}"/>
+	<c:set var="error" value="${frd.error}"/>
 
 	<p:check action="org.bgerp.action.admin.AppAction:updateToChange">
 		<h2>${l.l('Обновление на изменение')}</h2>
@@ -51,7 +51,7 @@
 			<input type="hidden" name="action" value="updateToChange"/>
 			<ui:combo-single hiddenName="changeId" widthTextValue="12em" prefixText="ID:" styleClass="mr05">
 				<jsp:attribute name="valuesHtml">
-					<c:forEach var="item" items="${form.response.data.changes}">
+					<c:forEach var="item" items="${frd.changes}">
 						<li value="${item.id}">${item.title}</li>
 					</c:forEach>
 				</jsp:attribute>

@@ -2,9 +2,9 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
-<c:set var="calendar" value="${form.response.data.calendar}"/>
-<c:set var="dayTypes" value="${form.response.data.dayTypes}"/>
-<c:set var="dateTypeMap" value="${form.response.data.dateTypeMap}"/>
+<c:set var="calendar" value="${frd.calendar}"/>
+<c:set var="dayTypes" value="${frd.dayTypes}"/>
+<c:set var="dateTypeMap" value="${frd.dateTypeMap}"/>
 
 <c:set var="year" value="${form.param.year}"/>
 <c:if test="${empty year}">

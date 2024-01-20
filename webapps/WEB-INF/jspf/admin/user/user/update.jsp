@@ -2,8 +2,8 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.admin.UserAction:userUpdate')}" />
-<c:set var="user" value="${form.response.data.user}" />
-<c:set var="grantedPermission" value="${form.response.data.grantedPermission}" scope="request" />
+<c:set var="user" value="${frd.user}" />
+<c:set var="grantedPermission" value="${frd.grantedPermission}" scope="request" />
 
 <c:set var="formUiid" value="${u:uiid()}"/>
 

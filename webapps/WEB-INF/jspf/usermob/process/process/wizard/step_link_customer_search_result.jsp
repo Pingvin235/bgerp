@@ -7,8 +7,8 @@
 
 <table style="width: 100%;" class="oddeven mt05">
 	<c:choose>
-		<c:when test="${not empty  form.response.data.list}">
-			<c:forEach var="item" items="${form.response.data.list}">
+		<c:when test="${not empty  frd.list}">
+			<c:forEach var="item" items="${frd.list}">
 				<tr>
 					<td>
 						<a href="#"

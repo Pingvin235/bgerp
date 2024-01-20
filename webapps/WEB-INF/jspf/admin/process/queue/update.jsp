@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="queue" value="${form.response.data.queue}"/>
+<c:set var="queue" value="${frd.queue}"/>
 <c:set var="formUiid" value="${u:uiid()}"/>
 
 <html:form action="/admin/process" styleId="${formUiid}" styleClass="center1020">

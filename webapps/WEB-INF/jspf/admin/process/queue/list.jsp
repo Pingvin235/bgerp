@@ -26,7 +26,7 @@
 		<td width="100%">${l.l('Title')}</td>
 		<td>&nbsp;</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="${form.httpRequestURI}">
 				<c:param name="action" value="queueGet"/>

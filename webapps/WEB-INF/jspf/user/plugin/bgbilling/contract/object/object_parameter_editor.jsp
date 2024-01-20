@@ -4,10 +4,10 @@
 <c:set var="parametersInfo" value= "${form.param.billingId }-${form.param.contractId }-objectParametersInfo"/>
 
 <c:choose>
-	<c:when test="${ not empty form.response.data.parameter}">
+	<c:when test="${ not empty frd.parameter}">
 		<form action="/user/plugin/bgbilling/proto/contract.do">
 
-			<c:set var="data" value="${form.response.data}"/>
+			<c:set var="data" value="${frd}"/>
 			<c:set var="parameter" value="${data.parameter}"/>
 
 			<input type="hidden" name="action" value="updateObjectParameter"/>

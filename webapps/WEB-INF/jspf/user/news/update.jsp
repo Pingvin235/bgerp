@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="news" value="${form.response.data.news}"/>
+<c:set var="news" value="${frd.news}"/>
 
 <form id="newsCreateForm" class="center1020" action="/user/news.do" method="post" name="dynForm" onsubmit="return false;">
 	<input type="hidden" name="action" value="newsUpdate" />

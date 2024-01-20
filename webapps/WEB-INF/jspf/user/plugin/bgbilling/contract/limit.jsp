@@ -37,7 +37,7 @@
 		<td width="100%">Комментарий</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td nowrap="nowrap">${tu.format(item.time, 'ymdhms')}</td>
 			<td nowrap="nowrap" >${item.user}</td>
@@ -59,7 +59,7 @@
 		<td width="100%">Изменение лимита на</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.taskList}">
+	<c:forEach var="item" items="${frd.taskList}">
 		<tr>
 			<td>
 				<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
@@ -84,6 +84,6 @@
 <script>
 	$(function()
 	{
-		$('#${contractTreeId} #treeTable td#limit').text( '${form.response.data.limit}' );
+		$('#${contractTreeId} #treeTable td#limit').text( '${frd.limit}' );
 	})
 </script>

@@ -60,7 +60,7 @@
 				prefixText="${l.l('Type')}:" showFilter="true" styleClass="mr1" widthTextValue="200px">
 				<jsp:attribute name="valuesHtml">
 					<li value="">${l.l('Any')}</li>
-					<c:forEach var="type" items="${form.response.data.typeList}">
+					<c:forEach var="type" items="${frd.typeList}">
 						<li value="${type}">${ctxProcessTypeMap[type]}</li>
 					</c:forEach>
 				</jsp:attribute>
@@ -96,7 +96,7 @@
 					<td>${l.l('Status')}</td>
 					<td>${l.l('Description')}</td>
 				</tr>
-				<c:forEach var="item" items="${form.response.data.list}">
+				<c:forEach var="item" items="${frd.list}">
 					<c:set var="process" value="${item.second}" />
 					<c:if test="${ form.param.createDate.trim() eq tu.format( process.createTime, 'ymd' ) or empty form.param.createDate or
 									(form.param.closeDate.trim() eq tu.format( process.closeTime, 'ymd' ) and not empty form.param.closeDate) }">

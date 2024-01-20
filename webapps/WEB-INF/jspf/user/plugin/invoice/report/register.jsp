@@ -13,7 +13,7 @@
 		<ui:button type="out" id="${outId}" onclick="$$.ajax.loadContent(this)" styleClass="ml1 more out"/>
 	</html:form>
 
-	<c:set var="list" value="${form.response.data.list}"/>
+	<c:set var="list" value="${frd.list}"/>
 
 	<c:if test="${not empty list}">
 		<div class="data mt1 w100p" style="overflow: auto;">

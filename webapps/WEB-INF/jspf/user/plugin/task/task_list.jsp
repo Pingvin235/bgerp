@@ -11,7 +11,7 @@
 		<td>Выполнена</td>
 		<td width="30">&#160;</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}" >
+	<c:forEach var="item" items="${frd.list}" >
 		<tr>
 			<td>${item.id}</td>
 			<td>${config.getType(item.typeId).title}</td>

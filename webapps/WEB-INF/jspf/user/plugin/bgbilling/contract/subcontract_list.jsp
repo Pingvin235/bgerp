@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:if test="${not empty form.response.data.subContractList}">
+<c:if test="${not empty frd.subContractList}">
 	<h2>Договор является супердоговором для:</h2>
 	<div style="overflow: auto; width: inherit; height: 610px;">
 		<table class="data">
@@ -11,7 +11,7 @@
 				<td></td>
 			</tr>
 
-			<c:forEach var="subContract" items="${form.response.data.subContractList}" varStatus="status">
+			<c:forEach var="subContract" items="${frd.subContractList}" varStatus="status">
 				<tr>
 					<td align="center" >${status.index+1}</td>
 					<td width="100%">${subContract.getTitle() }</td>
@@ -24,12 +24,12 @@
 	</div>
 </c:if>
 
-<c:set var="supperContract" value="${form.response.data.superContract}"/>
+<c:set var="supperContract" value="${frd.superContract}"/>
 <c:if test="${not empty supperContract}">
 	<h2>Договор является субдоговором для: </br> ${supperContract.getTitle()} </h2>
 	<input type="button" value="Открыть" onclick="$$.bgbilling.contract.open( '${form.param.billingId}', '${supperContract.getId()}' ); return false;"/>
 </c:if>
 
-<c:if test="${ empty supperContract and empty form.response.data.subContractList}">
+<c:if test="${ empty supperContract and empty frd.subContractList}">
 	<h2>Договор независим</h2>
 </c:if>

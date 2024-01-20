@@ -2,6 +2,6 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="id" value="${form.param.id}"/>
-<c:set var="list" value="${form.response.data.list}"/>
+<c:set var="list" value="${frd.list}"/>
 
 <%@ include file="/WEB-INF/jspf/parameter_list.jsp"%>

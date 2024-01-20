@@ -4,7 +4,7 @@
 <html:form action="/user/plugin/dispatch/dispatch" styleClass="center500">
 	<input type="hidden" name="action" value="dispatchUpdate" />
 
-	<c:set var="dispatch" value="${form.response.data.dispatch}" scope="page"/>
+	<c:set var="dispatch" value="${frd.dispatch}" scope="page"/>
 
 	<h2>ID</h2>
 	<input type="text" name="id" style="width: 100%" value="${dispatch.id}" disabled="disabled"/>

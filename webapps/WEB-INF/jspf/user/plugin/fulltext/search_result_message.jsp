@@ -12,7 +12,7 @@
 		<td>Время</td>
 		<td>Процесс</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<c:set var="message" value="${item.first}"/>
 		<c:set var="messageType" value="${config.typeMap[message.typeId]}"/>
 		<c:set var="process" value="${item.second}"/>

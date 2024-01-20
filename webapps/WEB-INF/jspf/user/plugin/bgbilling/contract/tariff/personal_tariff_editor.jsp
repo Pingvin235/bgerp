@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
-<c:set var="personalTariff" value="${form.response.data.personalTariff}"/>
+<c:set var="personalTariff" value="${frd.personalTariff}"/>
 
 <h1>Редактор</h1>
 

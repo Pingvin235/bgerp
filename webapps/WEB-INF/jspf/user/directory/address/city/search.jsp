@@ -10,7 +10,7 @@
 		<td width="30">${l.l('Страна')}</td>
 		<td width="100%">${l.l('Город')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="${doUrl}">
 				<c:param name="action" value="addressGet"/>

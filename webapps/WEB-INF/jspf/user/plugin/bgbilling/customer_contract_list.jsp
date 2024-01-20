@@ -55,9 +55,9 @@
 
 		const $tabs = $( "#${tabsUiid}" ).tabs({ refreshButton: true });
 
-		<c:forEach items="${form.response.data.list}" var="link">
+		<c:forEach items="${frd.list}" var="link">
 			<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':' )}"/>
-			<c:set var="customerId" value="${form.response.data.customerId}"/>
+			<c:set var="customerId" value="${frd.customerId}"/>
 
 			<c:set var="liAttrs"> id='${billingId}-${link.linkObjectId}'</c:set>
 			$tabs.tabs('add', '/user/plugin/bgbilling/contract.do?billingId=${billingId}&id=${link.linkObjectId}&inBuffer=0', '${link.linkObjectTitle}', "${liAttrs}");

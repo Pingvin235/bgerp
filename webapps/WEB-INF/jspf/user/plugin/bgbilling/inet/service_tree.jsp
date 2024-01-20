@@ -23,7 +23,7 @@
 		<td>ID</td>
 		<td width="30">&nbsp;</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr data-tt-id="${item.id}" data-tt-parent-id="${item.parentId}" deviceId="${item.deviceId}">
 			<td>${item.title}</td>
 			<td>${item.typeTitle}</td>

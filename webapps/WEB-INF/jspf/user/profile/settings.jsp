@@ -4,7 +4,7 @@
 <html:form action="${form.httpRequestURI}">
 	<input type="hidden" name="action" value="updateSettings"/>
 
-	<c:set var="user" value="${form.response.data.user}" />
+	<c:set var="user" value="${frd.user}" />
 
 	<c:url var="url" value="${form.httpRequestURI}">
 		<c:param name="action" value="getUserProfile"/>

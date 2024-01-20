@@ -21,7 +21,7 @@
 		<td>Подписка через Web</td>
 		<td>Комментарий</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<%--
 			<c:url var="editUr" value="${url}">

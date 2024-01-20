@@ -28,12 +28,12 @@
 		</c:if>
 	</div>
 	<div style="width: 100%;" class="pl1">
-		<ui:select-single list="${form.response.data.moduleList}" hiddenName="moduleId" value="${form.param.moduleId}" onSelect="${reload}"
+		<ui:select-single list="${frd.moduleList}" hiddenName="moduleId" value="${form.param.moduleId}" onSelect="${reload}"
 			style="width: 100%;" placeholder="Фильтр по модулю"/>
 	</div>
 </html:form>
 
-<c:set var="contractTariff" value="${form.response.data.contractTariff}"/>
+<c:set var="contractTariff" value="${frd.contractTariff}"/>
 
 <html:form action="/user/plugin/bgbilling/proto/contractTariff" styleClass="mt1">
 	<input type="hidden" name="action" value="updateContractTariff" />
@@ -43,7 +43,7 @@
 
 	<div class="in-table-cell">
 		<div style="width: 100%">
-			<ui:select-single list="${form.response.data.tariffList}" hiddenName="tariffPlanId" value="${contractTariff.tariffPlanId}"
+			<ui:select-single list="${frd.tariffList}" hiddenName="tariffPlanId" value="${contractTariff.tariffPlanId}"
 				style="width: 100%;" placeholder="Тариф"/>
 		</div>
 

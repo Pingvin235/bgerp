@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="process" value="${form.response.data.process}" scope="request"/>
+<c:set var="process" value="${frd.process}" scope="request"/>
 <c:set var="requestUrl" value="${form.requestUrl}" scope="request"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>

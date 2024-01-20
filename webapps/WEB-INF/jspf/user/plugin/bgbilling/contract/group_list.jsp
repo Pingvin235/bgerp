@@ -8,7 +8,7 @@
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 	<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 
-	<ui:select-mult list="${form.response.data.groupList}" values="${form.response.data.selectedGroupIds}" hiddenName="groupId" style="width: 300px;" showId="1"/>
+	<ui:select-mult list="${frd.groupList}" values="${frd.selectedGroupIds}" hiddenName="groupId" style="width: 300px;" showId="1"/>
 
 	<div class="mt1">
 		<button type="button" class="btn-grey" onclick="if(sendAJAXCommand(formUrl(this.form))) { $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()); }">OK</button>

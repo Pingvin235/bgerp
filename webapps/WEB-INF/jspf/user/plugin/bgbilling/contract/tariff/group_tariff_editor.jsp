@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
-<c:set var="tariffGroup" value="${form.response.data.tariffGroup}"/>
+<c:set var="tariffGroup" value="${frd.tariffGroup}"/>
 
 <h1>Редактор</h1>
 
@@ -14,7 +14,7 @@
 
 	<div class="in-table-cell mb1">
 		<div style="width: 100%;">
-			<ui:select-single list="${form.response.data.registredTariffGroupList}" hiddenName="tariffGroupId" value="${tariffGroup.groupId}"
+			<ui:select-single list="${frd.registredTariffGroupList}" hiddenName="tariffGroupId" value="${tariffGroup.groupId}"
 				style="width: 100%;" placeholder="Группа"/>
 		</div>
 		<div style="white-space:nowrap;" class="pl1">

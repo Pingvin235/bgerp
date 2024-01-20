@@ -21,7 +21,7 @@
 			<td>Тип</td>
 		</tr>
 
-		<c:forEach var="object" items="${form.response.data.objectList}">
+		<c:forEach var="object" items="${frd.objectList}">
 				<tr>
 					<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 						<c:param name="action" value="getContractObject"/>

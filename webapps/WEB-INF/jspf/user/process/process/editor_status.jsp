@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="process" value="${form.response.data.process}"/>
+<c:set var="process" value="${frd.process}"/>
 <c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>
 <c:set var="statusList" value="${u.getObjectList(ctxProcessStatusMap, processType.properties.statusIds)}"/>
 <c:set var="allowedStatusIds" value="${process.allowedToChangeStatusIds}"/>

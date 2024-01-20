@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="message" value="${form.response.data.message}" scope="request"/>
+<c:set var="message" value="${frd.message}" scope="request"/>
 <c:set var="form" value="${form}"/>
 
 <c:set var="messageType" value="${ctxSetup.getConfig('ru.bgcrm.model.message.config.MessageTypeConfig').typeMap[message.typeId]}" scope="request"/>
@@ -99,7 +99,7 @@
 					<c:url var="url" value="/user/process.do">
 						<c:param name="action" value="messagePossibleProcessList"/>
 						<c:param name="from" value="${message.from}"/>
-						<c:forEach var="item" items="${form.response.data.searchedList}">
+						<c:forEach var="item" items="${frd.searchedList}">
 							<c:param name="linkObjectType" value="${item.linkObjectType}"/>
 							<c:param name="linkObjectId" value="${item.linkObjectId}"/>
 						</c:forEach>

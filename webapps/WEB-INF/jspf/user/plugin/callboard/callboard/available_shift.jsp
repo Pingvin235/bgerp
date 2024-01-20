@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="workTypeMap" value="${form.response.data.workTypeMap}"/>
-<c:set var="shiftList" value="${form.response.data.shiftList}"/>
-<c:set var="minimalVersion" value="${form.response.data.minimalVersion}"/>
+<c:set var="workTypeMap" value="${frd.workTypeMap}"/>
+<c:set var="shiftList" value="${frd.shiftList}"/>
+<c:set var="minimalVersion" value="${frd.minimalVersion}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 

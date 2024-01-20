@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="user" value="${form.response.data.user}"/>
+<c:set var="user" value="${frd.user}"/>
 <c:if test="${not empty user}">
 	<shell:title text="${user.title}"/>
 

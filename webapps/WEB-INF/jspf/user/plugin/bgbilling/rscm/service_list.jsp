@@ -39,7 +39,7 @@
 		<td>Ед. имерения</td>
 		<td width="50%">Комментарий</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editU" value="${url}">
 				<c:param name="id" value="${item.id}"/>

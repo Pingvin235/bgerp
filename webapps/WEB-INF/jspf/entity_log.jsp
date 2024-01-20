@@ -2,9 +2,9 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="id" value="${form.param.id}"/>
-<c:set var="log" value="${form.response.data.log}"/>
+<c:set var="log" value="${frd.log}"/>
 
-<c:set var="parameterGroup" value="${form.response.data.parameterGroup}"/>
+<c:set var="parameterGroup" value="${frd.parameterGroup}"/>
 
 <c:set var="paramLinkId" value="${u:uiid()}"></c:set>
 

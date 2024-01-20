@@ -32,7 +32,7 @@ Incoming variables:
 		<c:set var="headExpressionHtml" value="${rowExpression.getHead( 'html', headData )}"/>
 	</c:if>
 
-	<c:set var="aggregateValues" value="${form.response.data.aggregateValues}"/>
+	<c:set var="aggregateValues" value="${frd.aggregateValues}"/>
 
 	<c:choose>
 		<c:when test="${not empty headExpressionHtml}">
@@ -58,7 +58,7 @@ Incoming variables:
 		</c:otherwise>
 	</c:choose>
 
-	<c:forEach var="row" items="${form.response.data.list}">
+	<c:forEach var="row" items="${frd.list}">
 		<jsp:useBean id="rowData" class="java.util.HashMap"/>
 
 		<c:set target="${rowData}" property="urgColor" value="${''}"/>

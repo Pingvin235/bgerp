@@ -23,7 +23,7 @@
 		<td width="100%">Комментарий</td>
 	</tr>
 
-	<c:forEach var="tariff" items="${form.response.data.tariffList}">
+	<c:forEach var="tariff" items="${frd.tariffList}">
 		<tr>
 			<c:url var="eUrl" value="${url}">
 				<c:param name="id" value="${tariff.getId()}"/>

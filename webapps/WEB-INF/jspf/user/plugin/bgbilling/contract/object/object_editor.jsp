@@ -8,7 +8,7 @@
 </br>
 
 <form action="/user/plugin/bgbilling/proto/contract.do">
-	<c:set var="object" value="${form.response.data.object}"/>
+	<c:set var="object" value="${frd.object}"/>
 
 	<input type="hidden" name="action" value="updateContractObject"/>
 	<input type="hidden" name="objectId" value="${object.id }"/>

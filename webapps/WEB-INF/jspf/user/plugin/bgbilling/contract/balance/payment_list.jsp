@@ -29,7 +29,7 @@
 			<td>Действие</td>
 		</c:if>
 	</tr>
-	<c:forEach var="payment" items="${form.response.data.list}" varStatus="varStatus">
+	<c:forEach var="payment" items="${frd.list}" varStatus="varStatus">
 		<tr>
 			<c:url var="url" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="balanceEditor"/>

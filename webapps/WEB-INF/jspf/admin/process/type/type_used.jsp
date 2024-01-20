@@ -5,7 +5,7 @@
 	<b>${l.l('Очереди процессов')}:</b>
 </div>
 <div class="mb1">
-	${u:toString(form.response.data.queueTitleList)}
+	${u:toString(frd.queueTitleList)}
 </div>
 <div>
 	<button type="button" class="btn-white w100p"

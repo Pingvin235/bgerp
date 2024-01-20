@@ -6,7 +6,7 @@
 <c:set var="uiid" value="${u:uiid()}" scope="request"/>
 
 <c:set var="linkedObjects" value="['0'"/>
-<c:forEach var="item" items="${form.response.data.list}">
+<c:forEach var="item" items="${frd.list}">
 	<c:set var="linkedObjects">${linkedObjects},'${item.linkObjectType.replace(":", "-" )}-${item.linkObjectId}'</c:set>
 </c:forEach>
 <c:set var="linkedObjects">${linkedObjects}]</c:set>
@@ -49,7 +49,7 @@
 		<td width="100%">${l.l('Title')}</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<c:set var="item" value="${item}" scope="request"/>
 
 		<c:url var="deleteAjaxUrl" value="/user/link.do">

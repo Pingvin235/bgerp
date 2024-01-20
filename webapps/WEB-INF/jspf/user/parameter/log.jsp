@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="id" value="${form.param.id}"/>
-<c:set var="log" value="${form.response.data.log}"/>
+<c:set var="log" value="${frd.log}"/>
 <c:set var="paramLinkId" value="${u:uiid()}"></c:set>
 <c:set var="nextCommand" value="; $$.ajax.load(this.form, $('#${paramLinkId}').parent())"/>
 

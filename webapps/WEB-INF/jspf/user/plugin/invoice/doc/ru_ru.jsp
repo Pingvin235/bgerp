@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="invoice" value="${form.response.data.invoice}"/>
-<c:set var="invoiceCustomer" value="${form.response.data.invoiceCustomer}"/>
-<c:set var="invoiceCustomerParam" value="${form.response.data.invoiceCustomerParam}"/>
-<c:set var="process" value="${form.response.data.process}"/>
-<c:set var="processParam" value="${form.response.data.processParam}"/>
-<c:set var="customer" value="${form.response.data.customer}"/>
-<c:set var="customerParam" value="${form.response.data.customerParam}"/>
+<c:set var="invoice" value="${frd.invoice}"/>
+<c:set var="invoiceCustomer" value="${frd.invoiceCustomer}"/>
+<c:set var="invoiceCustomerParam" value="${frd.invoiceCustomerParam}"/>
+<c:set var="process" value="${frd.process}"/>
+<c:set var="processParam" value="${frd.processParam}"/>
+<c:set var="customer" value="${frd.customer}"/>
+<c:set var="customerParam" value="${frd.customerParam}"/>
 
 <html>
 	<head>

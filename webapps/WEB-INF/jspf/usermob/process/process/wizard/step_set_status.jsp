@@ -6,6 +6,6 @@
 <div id="${uiid}">
 	<c:set target="${form}" property="returnUrl" value="${reopenProcessUrl}"/>
 	<c:set target="${form}" property="returnChildUiid" value="${uiid}"/>
-	<c:set target="${form.response.data}" property="process" value="${wizardData.process}"/>
+	<c:set target="${frd}" property="process" value="${wizardData.process}"/>
 	<%@ include file="/WEB-INF/jspf/user/process/process/editor_status.jsp"%>
 </div>

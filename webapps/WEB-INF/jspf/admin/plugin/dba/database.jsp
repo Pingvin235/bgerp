@@ -2,12 +2,12 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div class="center1020">
-	<c:set var="tables" value="${form.response.data.tables}"/>
+	<c:set var="tables" value="${frd.tables}"/>
 
 	<div class="mt1">
 		Tables: <b>${tables.size()}</b>
-		Rows: <b>${form.response.data.rows}</b>
-		Size: <b>${fu.byteCountToDisplaySize(form.response.data.size)}</b>
+		Rows: <b>${frd.rows}</b>
+		Size: <b>${fu.byteCountToDisplaySize(frd.size)}</b>
 
 		<c:url var="url" value="/admin/plugin/dba/cleanup.do">
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -19,12 +19,12 @@
 
 	<form action="/admin/plugin/dba/db.do">
 		<input type="hidden" name="action" value="tableDrop"/>
-		<c:set var="dropEnabled" value="${form.response.data.dropCandidateCnt gt 0 and ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:tableDrop')}"/>
+		<c:set var="dropEnabled" value="${frd.dropCandidateCnt gt 0 and ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:tableDrop')}"/>
 
 		<table class="data hl mt1">
 			<tr>
 				<c:if test="${dropEnabled}">
-					<td><b>${form.response.data.dropCandidateCnt}</b> to del</td>
+					<td><b>${frd.dropCandidateCnt}</b> to del</td>
 				</c:if>
 				<td>Name</td>
 				<td>Data Size</td>

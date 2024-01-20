@@ -29,7 +29,7 @@
 		<td width="50%">${l.l('Включенные плагины')}</td>
 		<td>&nbsp;</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<c:set var="item" scope="request" value="${item}"/>
 		<jsp:include page="config_item.jsp"/>
 	</c:forEach>

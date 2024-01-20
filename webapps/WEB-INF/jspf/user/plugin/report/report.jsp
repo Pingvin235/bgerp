@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="plugin" value="${ctxPluginManager.pluginMap.report}" />
-<c:set var="allowedReports" value="${form.response.data.allowedReports}" />
+<c:set var="allowedReports" value="${frd.allowedReports}" />
 
 <c:set var="uiid" value="${u:uiid()}"/>
 

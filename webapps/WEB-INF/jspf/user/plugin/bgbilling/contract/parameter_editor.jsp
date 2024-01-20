@@ -5,7 +5,7 @@
 <c:set var="dbInfo" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId]}"/>
 
 <form action="/user/plugin/bgbilling/proto/contract.do" onsubmit="return false;" class="editorStopReload">
-	<c:set var="data" value="${form.response.data}"/>
+	<c:set var="data" value="${frd}"/>
 	<c:set var="parameter" value="${data.parameter}"/>
 
 	<input type="hidden" name="action" value="parameterUpdate"/>
@@ -88,17 +88,17 @@
 		</c:when>
 
 		<c:when test="${paramType eq 3}"> <!-- email + subscriptions -->
-			<textarea name="emails" style="width:100%;" rows="4" id="${focusFieldUiid}">${form.response.data.emails.getEmailsAsString()}</textarea>
+			<textarea name="emails" style="width:100%;" rows="4" id="${focusFieldUiid}">${frd.emails.getEmailsAsString()}</textarea>
 			<div class="hint">Вводите каждый адрес с новой строки</div>
-			<input type="hidden" name="eid" value="${form.response.data.emails.eid}">
+			<input type="hidden" name="eid" value="${frd.emails.eid}">
 
 			<c:if test="${dbInfo.getVersion().compareTo( '5.2' ) lt 0 }">
 				Рассылки: <br/>
 				<c:set var="treeValueId" value="${u:uiid()}"/>
 				<ul id="${treeValueId}">
-					<c:set var="values" value="${form.response.data.emails.subscrs}" scope="request"/>
+					<c:set var="values" value="${frd.emails.subscrs}" scope="request"/>
 					<c:set var="paramName" value="value" scope="request"/>
-					<c:forEach var="node" items="${form.response.data.emails.subscrsTree}">
+					<c:forEach var="node" items="${frd.emails.subscrsTree}">
 						<c:set var="node" value="${node}" scope="request" />
 						<jsp:include page="/WEB-INF/jspf/tree_item.jsp" />
 					</c:forEach>

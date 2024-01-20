@@ -3,13 +3,13 @@
 
 <shell:title text="${l.l('План работ')}"/>
 
-<c:set var="callboardList" value="${form.response.data.callboardList}"/>
+<c:set var="callboardList" value="${frd.callboardList}"/>
 
-<c:set var="callboard" value="${form.response.data.callboard}"/>
-<c:set var="date" value="${form.response.data.date}"/>
-<c:set var="groupDataMap" value="${form.response.data.groupDataMap}"/>
+<c:set var="callboard" value="${frd.callboard}"/>
+<c:set var="date" value="${frd.date}"/>
+<c:set var="groupDataMap" value="${frd.groupDataMap}"/>
 
-<c:set var="workTypeMap" value="${form.response.data.workTypeMap}"/>
+<c:set var="workTypeMap" value="${frd.workTypeMap}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 <c:set var="groupSelectUiid" value="${u:uiid()}"/>

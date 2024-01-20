@@ -19,7 +19,7 @@
 			<td width="60%">Значение</td>
 		</tr>
 
-		<c:forEach var="parameter" items="${form.response.data.parameterList}">
+		<c:forEach var="parameter" items="${frd.parameterList}">
 			<c:if test="${ form.param.showEmptyParameters and empty parameter.getValue() or not empty parameter.getValue() }">
 				<tr>
 					<td align="center">${parameter.getParamId()}</td>

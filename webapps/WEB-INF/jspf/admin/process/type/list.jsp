@@ -66,7 +66,7 @@
 		<td>Свойства</td>
 		<td width="20%">&#160;</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<%-- подгрузка типа из кэша позволяет получить число подтипов --%>
 			<c:set var="item" value="${ctxProcessTypeMap[item.id]}"/>

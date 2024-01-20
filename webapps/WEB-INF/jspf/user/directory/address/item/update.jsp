@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="itemType" value="${form.param.selectTab}"/>
-<c:set var="item" value="${form.response.data[itemType]}"/>
+<c:set var="item" value="${frd[itemType]}"/>
 
 <html:form action="/user/directory/address" onsubmit="return false;" >
 	<input type="hidden" name="action" value="addressUpdate"/>

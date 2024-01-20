@@ -5,7 +5,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="balanceItem" value="${form.response.data.balanceItem}"/>
+<c:set var="balanceItem" value="${frd.balanceItem}"/>
 
 <c:set var="balanceForm" value="${u:uiid()}"/>
 
@@ -22,7 +22,7 @@
 		Сумма
 		<input type="text" name="summa" value="${balanceItem.sum}" style="text-align:center;"/>
 		Дата
-		<c:set var="date" value="${form.response.data.date}"/>
+		<c:set var="date" value="${frd.date}"/>
 		<c:if test="${not empty balanceItem.date}">
 			<c:set var="date" value="${tu.format(balanceItem.date, 'dd.MM.yyyy')}"/>
 		</c:if>
@@ -50,7 +50,7 @@
 			</c:if>
 
 			<div style="display: inline-block;">
-				Печатать чек (ККМ: ${form.response.data.currentPrinter.title})
+				Печатать чек (ККМ: ${frd.currentPrinter.title})
 				<input type="checkbox" name="printCheck" ${checked} ${disabled}/>
 			</div>
 		</c:if>
@@ -58,7 +58,7 @@
 
 	Тип:
 	<div class="box p05 mb1" style="overflow: auto; width: inherit; height: 200px;background-color: #ffffff; cursor: pointer;">
-		<c:forEach var="type" items="${form.response.data.itemTypes.children}">
+		<c:forEach var="type" items="${frd.itemTypes.children}">
 			<c:set var="node" value="${type}" scope="request"/>
 			<c:set var="level" value="0" scope="request"/>
 			<jsp:include page="type_list.jsp"/>

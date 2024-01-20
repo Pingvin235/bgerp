@@ -12,12 +12,12 @@
 	<html:hidden property="returnUrl"/>
 
 	<div class="in-table-cell">
-		<ui:select-single list="${form.response.data.availableOptionList}" hiddenName="optionId" value="${form.param.optionId}"
+		<ui:select-single list="${frd.availableOptionList}" hiddenName="optionId" value="${form.param.optionId}"
 			onSelect="var form = $(this).closest('form')[0]; form.action.value='tariffOptionEditor'; $$.ajax.load(form, $('#${uiid}').parent())"
 			style="width: 300px;" placeholder="Выберите опцию"/>
 
 		<div class="ml1" style="display: inline-block;">
-			<ui:combo-single list="${form.response.data.activateModeList}" hiddenName="modeId" prefixText="Режим активации:" widthTextValue="200px"/>
+			<ui:combo-single list="${frd.activateModeList}" hiddenName="modeId" prefixText="Режим активации:" widthTextValue="200px"/>
 		</div>
 	</div>
 

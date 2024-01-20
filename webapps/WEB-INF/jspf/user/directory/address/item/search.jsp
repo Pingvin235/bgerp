@@ -11,7 +11,7 @@
 		<td>${l.l('Город')}</td>
 		<td width="90%">${title}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="${doUrl}">
 				<c:param name="action" value="addressGet"/>

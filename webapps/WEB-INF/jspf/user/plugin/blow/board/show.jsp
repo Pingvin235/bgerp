@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="board" scope="request" value="${form.response.data.board}"/>
+<c:set var="board" scope="request" value="${frd.board}"/>
 <c:if test="${not empty board}">
 	<c:set var="uiid" value="${u:uiid()}"/>
 
@@ -11,7 +11,7 @@
 		<p:check action="org.bgerp.plugin.pln.blow.action.BoardAction:search">
 			<form action="${form.httpRequestURI}">
 				<input type="hidden" name="action" value="search"/>
-				<c:forEach var="id" items="${form.response.data.processIds}">
+				<c:forEach var="id" items="${frd.processIds}">
 					<input type="hidden" name="processId" value="${id}"/>
 				</c:forEach>
 				<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Filter')}" size="40"

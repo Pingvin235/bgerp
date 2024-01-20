@@ -3,7 +3,7 @@
 
 <%-- выводится во всплывающем окне --%>
 <c:if test="${empty item }">
-	<c:set var="item" value="${form.response.data.item}"/>
+	<c:set var="item" value="${frd.item}"/>
 </c:if>
 
 <%-- Не используется u:htmlEncode, т.к. иначе сломается поддержка HTML! --%>

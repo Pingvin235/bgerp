@@ -13,7 +13,7 @@
 			<td >Название</td>
 			<td >Комментарий</td>
 		</tr>
-		<c:forEach var="item" items="${form.response.data.interfaces}">
+		<c:forEach var="item" items="${frd.interfaces}">
 			<tr>
 				<td>
 					<a href="#" href="#" onclick="loadIface('${item.port}','${item.title}')">${item.port}</a>

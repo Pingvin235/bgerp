@@ -21,7 +21,7 @@
 			<td nowrap="nowrap">Стоимость активации</td>
 		</tr>
 
-		<c:forEach var="tariffOption" items="${form.response.data.list}">
+		<c:forEach var="tariffOption" items="${frd.list}">
 			<tr>
 				<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
 					<c:param name="action" value="deleteTariffOption"/>
@@ -50,7 +50,7 @@
 			<td nowrap="nowrap">Стоимость активации</td>
 		</tr>
 
-		<c:forEach var="tariffOption" items="${form.response.data.history}">
+		<c:forEach var="tariffOption" items="${frd.history}">
 			<tr>
 				<td width="100%">${tariffOption.optionTitle}</td>
 				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeFrom, 'ymdhms' )}</td>

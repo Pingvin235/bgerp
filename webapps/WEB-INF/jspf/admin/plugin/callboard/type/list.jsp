@@ -26,7 +26,7 @@
 		<td width="100%">${l.l('Комментарий')}</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="/admin/plugin/callboard/work.do">
 				<c:param name="action" value="workTypeGet"/>

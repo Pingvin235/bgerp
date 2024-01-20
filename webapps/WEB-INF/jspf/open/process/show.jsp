@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="process" value="${form.response.data.process}"/>
+<c:set var="process" value="${frd.process}"/>
 <c:if test="${not empty process}">
 	<div class="w100p" style="display: flex;">
 		<div style="flex-basis: 50%; display: flex; flex-direction: column;">

@@ -1,11 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="memoList" value="${form.response.data.memoList}"/>
+<c:set var="memoList" value="${frd.memoList}"/>
 
 <c:if test="${not empty memoList}">
 	<h2>Примечения</h2>
-	
+
 	<table class="data mt1" style="width: 100%;">
 		<tr>
 			<td width="100%">Тема</td>

@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="pair" value="${form.response.data.pair}"/>
+<c:set var="pair" value="${frd.pair}"/>
 
 <h1>Редактор</h1>
 

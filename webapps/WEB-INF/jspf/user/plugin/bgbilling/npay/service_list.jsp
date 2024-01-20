@@ -21,7 +21,7 @@
 		<td width="30%">Объект</td>
 		<td width="30%">Комментарий</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td nowrap="nowrap">
 				<c:url var="editUrl" value="${url}">

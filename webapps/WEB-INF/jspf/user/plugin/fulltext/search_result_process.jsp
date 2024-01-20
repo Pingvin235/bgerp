@@ -8,7 +8,7 @@
 		<td width="30">ID</td>
 		<td>Описание</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.id}</td>
 			<td><ui:process-link id="${item.id}" text="${item.description}"/></td>

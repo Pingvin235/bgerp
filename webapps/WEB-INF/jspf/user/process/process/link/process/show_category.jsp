@@ -29,7 +29,7 @@
 		<td>${l.l('Description')}</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<c:set var="process" value="${item.second}"/>
 
 		<c:url var="url" value="/user/process.do">

@@ -17,7 +17,7 @@
 					<td>${l.l('Process')}</td>
 				</tr>
 
-				<c:forEach var="item" items="${form.response.data.list}">
+				<c:forEach var="item" items="${frd.list}">
 					<c:url var="url" value="/user/message.do">
 						<c:param name="id" value="${item.id}"/>
 					</c:url>
@@ -68,7 +68,7 @@
 
 					<c:set var="today" value="<%=new java.util.Date()%>"/>
 
-					<c:forEach var="item" items="${form.response.data.list}">
+					<c:forEach var="item" items="${frd.list}">
 						<c:url var="url" value="/user/message.do">
 							<c:param name="typeId" value="${item.typeId}"/>
 							<c:param name="messageId" value="${item.systemId}"/>

@@ -203,7 +203,7 @@
 				<td nowrap="nowrap">Отметил оплату</td>
 				<td>Сумма</td>
 			</tr>
-			<c:forEach var="item" items="${form.response.data.list}">
+			<c:forEach var="item" items="${frd.list}">
 				<tr>
 					<td>
 						<button type="button" class="btn-white btn-small menu" title="Меню" billId="${item.id}">*</button>
@@ -235,7 +235,7 @@
 				<td nowrap="nowrap">Показать в ЛК</td>
 				<td>Сумма</td>
 			</tr>
-			<c:forEach var="item" items="${form.response.data.list}">
+			<c:forEach var="item" items="${frd.list}">
 				<tr>
 					<c:url var="url" value="${baseUrl}">
 						<c:param name="ids" value="${item.id}"/>

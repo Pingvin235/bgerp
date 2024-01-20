@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="entity" value="${form.response.data.entity}"/>
+<c:set var="entity" value="${frd.entity}"/>
 
 <html:form action="${form.httpRequestURI}" styleClass="box">
 	<html:hidden property="action" value="entityUpdate"/>

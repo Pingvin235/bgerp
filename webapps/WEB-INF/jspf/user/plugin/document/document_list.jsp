@@ -95,7 +95,7 @@
 		<td>${l.l('Creation time')}</td>
 		<td width="30">&#160;</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}" >
+	<c:forEach var="item" items="${frd.list}" >
 		<c:url var="url" value="/user/file.do">
 			<c:param name="id" value="${item.fileData.id}"/>
 			<c:param name="title" value="${item.fileData.title}"/>

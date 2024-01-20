@@ -9,7 +9,7 @@
         </td>
     </tr>
 
-    <c:if test="${not empty form.response.data.links}">
+    <c:if test="${not empty frd.links}">
         <tr class="header">
             <td>Объект</td>
             <td>Адрес</td>
@@ -17,7 +17,7 @@
             <td>VLAN (Тип) </td>
             <td>Оборудование</td>
         </tr>
-        <c:forEach var="link" items="${form.response.data.links}">
+        <c:forEach var="link" items="${frd.links}">
             <tr>
                 <td align="center">${link.getObjectId()}</td>
                 <td align="left">${link.getAddress()}</td>

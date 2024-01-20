@@ -122,7 +122,7 @@
 		</c:if>
 
 		<td valign="top" class="${paddingLeft}">
-			<c:set var="data" value="${form.response.data}"/>
+			<c:set var="data" value="${frd}"/>
 			<c:set var="searchMode" value="${form.param.searchMode}"/>
 
 			<c:set var="doUrl" value="/user/directory/address.do" scope="request"/>

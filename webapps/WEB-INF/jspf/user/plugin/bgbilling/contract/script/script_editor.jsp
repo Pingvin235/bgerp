@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
-<c:set var="script" value="${form.response.data.script}"/>
+<c:set var="script" value="${frd.script}"/>
 
 <h1>Редактор</h1>
 
@@ -14,7 +14,7 @@
 
 	<div class="in-table-cell mb1">
 		<div style="width: 100%;">
-			<ui:select-single list="${form.response.data.scriptTypeList}" hiddenName="scriptTypeId" value="${script.typeId}"
+			<ui:select-single list="${frd.scriptTypeList}" hiddenName="scriptTypeId" value="${script.typeId}"
 				style="width: 100%;" placeholder="Скрипт"/>
 		</div>
 		<div style="white-space:nowrap;" class="pl1">

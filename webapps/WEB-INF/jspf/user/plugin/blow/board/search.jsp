@@ -3,7 +3,7 @@
 
 <div class="combo" style="display: block;">
 	<ul class="drop" style="display: none; margin-top: 0px;" id="${u:uiid()}">
-		<c:forEach var="item" items="${form.response.data.list}">
+		<c:forEach var="item" items="${frd.list}">
 			<li><ui:process-link id="${item.processId}"/> [${item.hits.size()}] ${item.processDescription}</li>
 		</c:forEach>
 	</ul>

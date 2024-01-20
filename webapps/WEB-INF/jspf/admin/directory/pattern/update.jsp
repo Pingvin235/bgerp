@@ -3,7 +3,7 @@
 
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
 
-<c:set var="pattern" value="${form.response.data.pattern}"/>
+<c:set var="pattern" value="${frd.pattern}"/>
 
 <html:form action="/admin/directory" styleClass="center500">
 	<input type="hidden" name="action" value="patternTitleUpdate"/>

@@ -7,11 +7,11 @@
 	<table style="width: 100%;"><tr>
 		<td nowrap="nowrap">
 			<c:choose>
-				<c:when test="${not empty form.response.data.list}">
+				<c:when test="${not empty frd.list}">
 					<c:set var="config" value="${ctxUser.personalizationMap.getConfig('ru.bgcrm.model.process.queue.config.SavedPanelConfig')}"/>
 					<c:set var="savedPanelMap" value="${config.savedPanelSet}"/>
 					<c:set var="valuesHtml">
-						<c:forEach items="${form.response.data.list}" var="item">
+						<c:forEach items="${frd.list}" var="item">
 							<c:if test="${not savedPanelMap.contains(item.id)}">
 								<li value="${item.id}">
 									<div>${item.title}</div><div class="icon-add" onclick="event.stopPropagation(); addToPanelScript('${item.id}','${item.title}',true);"></div>
@@ -38,7 +38,7 @@
 						$(function () {
 							$('#${id}').appendTo($$.shell.$state());
 
-							<c:forEach items="${form.response.data.list}" var="item">
+							<c:forEach items="${frd.list}" var="item">
 								<c:if test="${savedPanelMap.contains(item.id)}">
 									addToPanelScript('${item.id}', '${item.title}');
 								</c:if>

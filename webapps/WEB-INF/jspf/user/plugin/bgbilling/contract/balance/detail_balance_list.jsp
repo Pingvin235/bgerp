@@ -10,7 +10,7 @@
 		<td>Тип</td>
 		<td width="100%">Комментарий</td>
 	</tr>
-	<c:forEach var="detailBalance" items="${form.response.data.list}">
+	<c:forEach var="detailBalance" items="${frd.list}">
 		<tr>
 			<td nowrap="nowrap">${detailBalance.date}</td>
 			<td nowrap="nowrap">${detailBalance.summa}</td>

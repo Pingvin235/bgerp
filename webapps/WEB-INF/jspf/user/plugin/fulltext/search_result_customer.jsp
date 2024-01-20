@@ -8,7 +8,7 @@
 		<td width="30">ID</td>
 		<td>${l.l('Title')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.id}</td>
 			<td><a href="/user/customer#${item.id}" onclick="$$.customer.open(${item.id}); return false;">${item.title}

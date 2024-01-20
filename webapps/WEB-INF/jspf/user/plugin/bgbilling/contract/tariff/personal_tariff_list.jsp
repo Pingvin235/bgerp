@@ -19,7 +19,7 @@
 		<td width="100%">Название</td>
 	</tr>
 
-	<c:forEach var="personalTariff" items="${form.response.data.personalTariffList}">
+	<c:forEach var="personalTariff" items="${frd.personalTariffList}">
 		<tr>
 			<c:url var="eUrl" value="${url}">
 				<c:param name="id" value="${personalTariff.id}"/>

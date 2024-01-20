@@ -6,9 +6,9 @@
 <div id="${uiid}">
 	<form action="${form.httpRequestURI}" onsubmit="return false;" style="display: inline-block;">
 		<input type="hidden" name="action" value="log"/>
-		<ui:toggle inputName="enable" value="${form.response.data.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
+		<ui:toggle inputName="enable" value="${frd.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
 	</form>
-	<textarea style="width: 100%; resize: vertical;" rows="50" wrap="off"> ${form.response.data.log}</textarea>
+	<textarea style="width: 100%; resize: vertical;" rows="50" wrap="off"> ${frd.log}</textarea>
 </div>
 
 <shell:title text="Log"/>

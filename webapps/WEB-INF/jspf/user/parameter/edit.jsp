@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="data" value="${form.response.data}" />
-<c:set var="listValues" value="${form.response.data.listValues}"/>
+<c:set var="data" value="${frd}" />
+<c:set var="listValues" value="${frd.listValues}"/>
 <c:set var="hideButtons" value="${form.param.hideButtons}"/>
 <c:set var="elId" value="${u:uiid()}" />
 <c:set var="editFormId" value="editParamForm-${elId}" />
@@ -255,8 +255,8 @@
 			</c:when>
 			<c:when test="${parameter.type eq 'email'}">
 				<c:set var="id" value="${form.id}" />
-				<c:set var="parameter" value="${form.response.data.parameter }" />
-				<c:set var="email" value="${form.response.data.email}" />
+				<c:set var="parameter" value="${frd.parameter }" />
+				<c:set var="email" value="${frd.email}" />
 
 				<input type="hidden" name="action" value="parameterUpdate" />
 				<html:hidden property="position" />

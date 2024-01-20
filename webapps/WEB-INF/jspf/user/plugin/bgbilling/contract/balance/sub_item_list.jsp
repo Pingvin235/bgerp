@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="subList" value="${form.response.data.subList}"/>
+<c:set var="subList" value="${frd.subList}"/>
 <c:if test="${not empty subList}">
 	<table class="data mt1" width="100%" id="${uiid}">
 		<tr>
@@ -13,7 +13,7 @@
 			<td nowrap="nowrap">Время изменения</td>
 			<td>Пользователь</td>
 		</tr>
-		<c:forEach var="item" items="${form.response.data.subList}">
+		<c:forEach var="item" items="${frd.subList}">
 			<tr>
 				<td>${item.contract}</td>
 				<td>${tu.format( item.date, 'ymd' )}</td>

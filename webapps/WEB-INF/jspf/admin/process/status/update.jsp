@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="status" value="${form.response.data.status}"/>
+<c:set var="status" value="${frd.status}"/>
 
 <html:form action="/admin/process" styleClass="center500">
 	<input type="hidden" name="action" value="statusUpdate"/>

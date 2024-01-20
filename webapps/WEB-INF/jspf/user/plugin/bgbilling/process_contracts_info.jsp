@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="linkList" value="${form.response.data.list}"/>
+<c:set var="linkList" value="${frd.list}"/>
 <c:set var="whatShow" value="${form.param.whatShow}"/>
 
 <c:remove var="form"/>

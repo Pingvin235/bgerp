@@ -6,9 +6,9 @@
 <html:form action="/admin/plugin/callboard/work" styleClass="center1020">
 	<input type="hidden" name="action" value="shiftUpdate" />
 
-	<c:set var="shift" value="${form.response.data.shift}"/>
-	<c:set var="workTypeList" value="${form.response.data.workTypeList}"/>
-	<c:set var="workTypeMap" value="${form.response.data.workTypeMap}"/>
+	<c:set var="shift" value="${frd.shift}"/>
+	<c:set var="workTypeList" value="${frd.workTypeList}"/>
+	<c:set var="workTypeMap" value="${frd.workTypeMap}"/>
 
 	<div class="in-inline-block in-pr1 in-va-top">
 		<div style="width: 50%;">

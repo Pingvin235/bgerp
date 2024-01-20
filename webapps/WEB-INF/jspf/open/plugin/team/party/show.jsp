@@ -5,7 +5,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 <div id="${uiid}" class="center1020">
-	<c:set var="party" value="${form.response.data.party}"/>
+	<c:set var="party" value="${frd.party}"/>
 
 	<c:choose>
 		<c:when test="${empty party}">
@@ -25,8 +25,8 @@
 				<c:param name="secret" value="${party.secret}"/>
 			</c:url>
 
-			<c:set var="members" value="${form.response.data.members}"/>
-			<c:set var="balance" value="${form.response.data.balance}"/>
+			<c:set var="members" value="${frd.members}"/>
+			<c:set var="balance" value="${frd.balance}"/>
 
 			<h1>${party.title}</h1>
 

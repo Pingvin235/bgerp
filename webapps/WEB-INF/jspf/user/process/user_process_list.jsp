@@ -41,7 +41,7 @@
 		<td>${l.l('Status')}</td>
 		<td>${l.l('Description')}</td>
 	</tr>
-	<c:forEach var="process" items="${form.response.data.list}">
+	<c:forEach var="process" items="${frd.list}">
 		<tr openCommand="$$.process.open(${process.id })">
 			<td class="min"><a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a></td>
 			<td class="min">${tu.format(process.createTime, 'ymdhms')}</td>

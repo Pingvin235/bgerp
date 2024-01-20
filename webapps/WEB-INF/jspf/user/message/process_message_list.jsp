@@ -29,11 +29,11 @@
 
 		<c:set var="valuesHtml">
 			<li value="0">${l.l('Все')}</li>
-			<c:if test="${form.response.data.tagIds.contains(u:int(TAG_ATTACH_ID))}">
+			<c:if test="${frd.tagIds.contains(u:int(TAG_ATTACH_ID))}">
 				<li value="-1">${l.l('Вложение')}</li>
 			</c:if>
 			<c:forEach var="item" items="${tagConfig.tagList}">
-				<c:if test="${form.response.data.tagIds.contains(item.id)}">
+				<c:if test="${frd.tagIds.contains(item.id)}">
 					<li value="${item.id}">
 						<span style="display: inline-block;
 									background-color: ${item.color}; width: 1em; height: 1em;">&nbsp;</span>
@@ -63,7 +63,7 @@
 
 <c:set var="messagesUiid" value="${u:uiid()}"/>
 <div class="mt1" id='${messagesUiid}'>
-	<c:forEach var="message" items="${form.response.data.list}" varStatus="status">
+	<c:forEach var="message" items="${frd.list}" varStatus="status">
 		<c:set var="messageTextUiid" value="${u:uiid()}"/>
 
 		<c:set var="style" value=""/>
@@ -87,7 +87,7 @@
 					<div class="pr05">
 						<%@ include file="message_direction.jsp"%>
 						<%-- tags --%>
-						<c:set var="messageTagIds" value="${form.response.data.messageTagMap[message.id]}"/>
+						<c:set var="messageTagIds" value="${frd.messageTagMap[message.id]}"/>
 						<c:forEach var="tagId" items="${messageTagIds}">
 							<c:set var="tag" value="${tagConfig.tagMap[tagId]}"/>
 							<span style="display: inline-block;

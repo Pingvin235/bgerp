@@ -3,8 +3,8 @@
 
 <h1>${l.l('Link existing process')}</h1>
 
-<c:set var="listBuffer" value="${form.response.data.listBuffer}"/>
-<c:set var="list" value="${form.response.data.list}"/>
+<c:set var="listBuffer" value="${frd.listBuffer}"/>
+<c:set var="list" value="${frd.list}"/>
 
 <html:form action="${form.httpRequestURI}" styleClass="mb1">
 	<html:hidden property="action"/>

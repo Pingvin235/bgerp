@@ -30,7 +30,7 @@
 		<td>${l.l('Готово')}</td>
 		<td nowrap="nowrap">${l.l('Время отправки')}</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 		 	<c:url var="editUrl" value="${getUrl}">
 				<c:param name="id" value="${item.id}"/>

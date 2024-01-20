@@ -17,7 +17,7 @@
 				<ui:date-time paramName="dateTo" value="${script.dateTo}"/>
 			<td>
 			<td width="100%" class="pl05">
-				<ui:combo-single list="${form.response.data.availableStatusList}" hiddenName="statusId" style="width: 100%;"/>
+				<ui:combo-single list="${frd.availableStatusList}" hiddenName="statusId" style="width: 100%;"/>
 			</td>
 			<td></td>
 		</tr>
@@ -42,7 +42,7 @@
 		<td width="100%">Комментарий</td>
 	</tr>
 
-	<c:forEach var="status" items="${form.response.data.statusList}">
+	<c:forEach var="status" items="${frd.statusList}">
 		<tr>
 			<td nowrap="nowrap">${tu.formatPeriod( status.dateFrom, status.dateTo, 'ymd' )}</td>
 			<td nowrap="nowrap" >${status.status}</td>
@@ -62,7 +62,7 @@
 		<td width="100%">Комментарий</td>
 	</tr>
 
-	<c:forEach var="item" items="${form.response.data.statusLog}">
+	<c:forEach var="item" items="${frd.statusLog}">
 		<tr>
 			<td nowrap="nowrap">${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 			<td nowrap="nowrap">${item.status}</td>

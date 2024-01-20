@@ -14,7 +14,7 @@
 		<ui:button type="out" onclick="$$.ajax.loadContent(this)" styleClass="mr1 more out"/>
 	</html:form>
 
-	<c:set var="subscriptionUserAmounts" value="${form.response.data.subscriptionUserAmounts}"/>
+	<c:set var="subscriptionUserAmounts" value="${frd.subscriptionUserAmounts}"/>
 
 	<c:if test="${not empty subscriptionUserAmounts}">
 		<div class="data mt1 w100p" style="overflow: auto;">
@@ -22,8 +22,8 @@
 
 			<%-- TODO: Change to table without border.  --%>
 			<div>${l.l('Title')}: <b>${ctxUser.title}</b></div>
-			<c:if test="${not empty form.response.data.incomingTaxPercent}">
-				<div class="mt05">${l.l('Incoming Tax')}: <b>${form.response.data.incomingTaxPercent}</b>%</div>
+			<c:if test="${not empty frd.incomingTaxPercent}">
+				<div class="mt05">${l.l('Incoming Tax')}: <b>${frd.incomingTaxPercent}</b>%</div>
 			</c:if>
 
 			<c:forEach var="subscription" items="${config.subscriptions}">
@@ -51,7 +51,7 @@
 
 						<table class="data hl">
 							<report:headers data="${data}"/>
-							<c:forEach var="r" items="${form.response.data.list}">
+							<c:forEach var="r" items="${frd.list}">
 								<c:if test="${r.get('subscription_id') eq subscription.id}">
 									<tr>
 										<c:set var="processId" value="${r.get('process_id')}"/>

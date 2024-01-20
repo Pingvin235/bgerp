@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="customer" value="${form.response.data.customer}" scope="request"/>
+<c:set var="customer" value="${frd.customer}" scope="request"/>
 
 <c:if test="${empty tableId}">
 	<c:set var="tableId" value="${u:uiid()}"/>

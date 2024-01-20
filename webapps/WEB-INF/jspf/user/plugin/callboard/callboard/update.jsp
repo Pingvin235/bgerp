@@ -3,17 +3,17 @@
 
 <shell:title text="График дежурств"/>
 
-<c:set var="callboardList" value="${form.response.data.callboardList}"/>
+<c:set var="callboardList" value="${frd.callboardList}"/>
 
-<c:set var="callboard" value="${form.response.data.callboard}"/>
-<c:set var="groupWithUsersMap" value="${form.response.data.groupWithUsersMap}"/>
-<c:set var="workTypeList" value="${form.response.data.workTypeList}"/>
-<c:set var="workShiftMap" value="${form.response.data.workShiftMap}"/>
-<c:set var="dateSet" value="${form.response.data.dateSet}"/>
-<c:set var="dateTypeMap" value="${form.response.data.dateTypeMap}"/>
-<c:set var="shiftMap" value="${form.response.data.shiftMap}"/>
-<c:set var="allowOnlyCategories" value="${form.response.data.allowOnlyCategories}"/>
-<c:set var="availableDays" value="${form.response.data.availableDays}"/>
+<c:set var="callboard" value="${frd.callboard}"/>
+<c:set var="groupWithUsersMap" value="${frd.groupWithUsersMap}"/>
+<c:set var="workTypeList" value="${frd.workTypeList}"/>
+<c:set var="workShiftMap" value="${frd.workShiftMap}"/>
+<c:set var="dateSet" value="${frd.dateSet}"/>
+<c:set var="dateTypeMap" value="${frd.dateTypeMap}"/>
+<c:set var="shiftMap" value="${frd.shiftMap}"/>
+<c:set var="allowOnlyCategories" value="${frd.allowOnlyCategories}"/>
+<c:set var="availableDays" value="${frd.availableDays}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 <c:set var="groupSelectUiid" value="${u:uiid()}"/>

@@ -11,7 +11,7 @@
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 
 		<h2>Выбранные модули</h2>
-		<c:forEach var="item" items="${form.response.data.selectedList}">
+		<c:forEach var="item" items="${frd.selectedList}">
 			<div class="mb05"><input type="checkbox" name="moduleId" value="${item.id}"/>&nbsp;${item.title}</div>
 		</c:forEach>
 
@@ -27,7 +27,7 @@
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 
 		<h2>Доступные модули</h2>
-		<c:forEach var="item" items="${form.response.data.availableList}">
+		<c:forEach var="item" items="${frd.availableList}">
 			<div class="mb05"><input type="checkbox" name="moduleId" value="${item.id}"/>&nbsp;${item.title}</div>
 		</c:forEach>
 

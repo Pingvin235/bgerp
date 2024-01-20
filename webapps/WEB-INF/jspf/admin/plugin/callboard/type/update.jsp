@@ -6,7 +6,7 @@
 <html:form action="/admin/plugin/callboard/work" styleId="${uiid}" styleClass="center1020">
 	<input type="hidden" name="action" value="workTypeUpdate" />
 
-	<c:set var="workType" value="${form.response.data.workType}"/>
+	<c:set var="workType" value="${frd.workType}"/>
 
 	<div class="in-table-cell in-pr1 in-va-top">
 		<div style="width: 50%;" id="left">

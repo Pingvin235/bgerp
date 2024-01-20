@@ -40,7 +40,7 @@
 		<td>Parameters</td>
 		<td>Duration (ms)</td>
 	</tr>
-	<c:forEach var="item" items="${form.response.data.list}">
+	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td nowrap="nowrap" align="center">${item.id}</td>
 			<td nowrap="nowrap" align="center">${tu.format(item.time, 'ymdhms')}</td>
