@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.plugin.clb.calendar.Config;
 import org.bgerp.plugin.clb.calendar.Plugin;
 import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

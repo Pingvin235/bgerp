@@ -15,7 +15,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/admin/plugin/slack/config")
-public class ConfigAction extends ru.bgcrm.struts.action.BaseAction {
+public class ConfigAction extends org.bgerp.action.BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
     @Override

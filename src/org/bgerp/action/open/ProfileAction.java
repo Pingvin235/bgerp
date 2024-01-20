@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.Interface;
@@ -19,7 +20,6 @@ import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

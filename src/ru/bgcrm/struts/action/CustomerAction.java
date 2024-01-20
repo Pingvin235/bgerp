@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 

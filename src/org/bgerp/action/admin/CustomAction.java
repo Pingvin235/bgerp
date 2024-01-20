@@ -2,12 +2,12 @@ package org.bgerp.action.admin;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.custom.Custom;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.servlet.file.Files;
 import org.bgerp.app.servlet.file.Options;
 import org.bgerp.app.servlet.file.Order;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

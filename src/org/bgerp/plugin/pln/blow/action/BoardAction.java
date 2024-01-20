@@ -19,9 +19,10 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
+
+import org.bgerp.action.BaseAction;
 import org.bgerp.plugin.pln.blow.Plugin;
 import org.bgerp.plugin.pln.blow.dao.BoardDAO;
 import org.bgerp.plugin.pln.blow.model.Board;

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.plugin.clb.team.Plugin;
 import org.bgerp.plugin.clb.team.dao.PartyDAO;
 import org.bgerp.plugin.clb.team.model.Party;
@@ -16,7 +17,6 @@ import org.bgerp.plugin.clb.team.model.PartyPayment;
 import javassist.NotFoundException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import java.math.BigDecimal;

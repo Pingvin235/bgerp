@@ -1,6 +1,7 @@
 package ru.bgcrm.struts.action;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 
 import ru.bgcrm.dao.Locker;
 import ru.bgcrm.model.BGIllegalArgumentException;

@@ -1,6 +1,7 @@
 package ru.bgcrm.struts.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.bean.Bean;
 
 import ru.bgcrm.event.Event;
@@ -8,7 +9,6 @@ import ru.bgcrm.event.RunClassRequestEvent;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

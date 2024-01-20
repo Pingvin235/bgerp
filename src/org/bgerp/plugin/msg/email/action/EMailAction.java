@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.plugin.msg.email.config.RecipientsConfig;
 import org.bgerp.plugin.msg.email.dao.EMailDAO;
 
@@ -16,7 +17,6 @@ import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.action.BaseAction;
 import org.bgerp.action.open.ProcessAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
@@ -25,7 +26,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

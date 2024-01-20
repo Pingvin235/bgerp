@@ -2,6 +2,7 @@ package org.bgerp.action.admin;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.dist.inst.InstallerChanges;
@@ -15,7 +16,6 @@ import org.bgerp.util.Dynamic;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AdminPortListener;
 import ru.bgcrm.util.Utils;

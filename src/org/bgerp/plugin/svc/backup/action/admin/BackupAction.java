@@ -1,6 +1,7 @@
 package org.bgerp.plugin.svc.backup.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.plugin.svc.backup.Config;
 import org.bgerp.plugin.svc.backup.Plugin;
@@ -9,7 +10,6 @@ import org.bgerp.app.servlet.file.Options;
 import org.bgerp.app.servlet.file.Order;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.action.BaseAction;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
 import org.bgerp.action.util.Invoker;
@@ -24,7 +25,6 @@ import com.google.common.annotations.VisibleForTesting;
 import javassist.NotFoundException;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 

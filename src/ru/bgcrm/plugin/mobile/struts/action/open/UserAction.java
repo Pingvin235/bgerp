@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.event.client.NewsInfoEvent;
+import org.bgerp.action.BaseAction;
 import org.bgerp.dao.process.FilterEntryCounter;
 
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -19,7 +20,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.mobile.dao.MobileDAO;
 import ru.bgcrm.plugin.mobile.model.Account;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

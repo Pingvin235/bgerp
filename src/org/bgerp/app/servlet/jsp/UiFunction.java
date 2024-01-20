@@ -9,13 +9,13 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.action.BaseAction;
 import org.bgerp.model.base.iface.Comment;
 import org.bgerp.model.base.iface.IdTitle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import ru.bgcrm.servlet.jsp.JSPFunction;
-import ru.bgcrm.struts.action.BaseAction;
 
 public class UiFunction {
     public static final UiFunction INSTANCE = new UiFunction();

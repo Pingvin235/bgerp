@@ -34,7 +34,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/admin/user")
-public class UserAction extends ru.bgcrm.struts.action.BaseAction {
+public class UserAction extends org.bgerp.action.BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/user";
 
     public ActionForward permsetList(DynActionForm form, Connection con) throws BGException {

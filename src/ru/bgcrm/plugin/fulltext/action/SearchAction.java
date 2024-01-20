@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.fulltext.action;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.Pair;
@@ -10,7 +11,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.Plugin;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

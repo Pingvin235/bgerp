@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.exec.Runnable;
 import org.bgerp.app.exec.scheduler.Scheduler;
@@ -17,7 +18,6 @@ import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

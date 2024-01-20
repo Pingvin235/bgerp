@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessGroups;
@@ -39,7 +40,6 @@ import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 

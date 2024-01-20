@@ -3,12 +3,12 @@ package org.bgerp.plugin.svc.dba.action.admin;
 import java.time.YearMonth;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.plugin.svc.dba.Config;
 import org.bgerp.plugin.svc.dba.Plugin;
 import org.bgerp.plugin.svc.dba.dao.DatabaseDAO;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

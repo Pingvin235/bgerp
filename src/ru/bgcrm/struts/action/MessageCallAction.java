@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.cache.UserCache;

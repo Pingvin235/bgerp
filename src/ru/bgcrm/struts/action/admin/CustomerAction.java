@@ -1,13 +1,13 @@
 package ru.bgcrm.struts.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.dao.CustomerGroupDAO;
 import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

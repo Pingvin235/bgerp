@@ -599,7 +599,7 @@ CAUTION: Do not use a legacy action format with HttpClientRequest and HttpClient
 
 A snippet of an action method:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/org/bgerp/plugin/pln/blow/action/BoardAction.java#L41-L61[org.bgerp.plugin.pln.blow.action.BoardAction]
+link:../../../src/org/bgerp/plugin/pln/blow/action/BoardAction.java#L42-L62[org.bgerp.plugin.pln.blow.action.BoardAction]
 
 Result gets redirected to a JSP page:
 link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
@@ -871,7 +871,7 @@ By doing <<action>> in object *l* the localization context is passed, containing
 Localized key string may contain placeholders for some values, marked as *{}*.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L230-L230[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L231-L231[ru.bgcrm.struts.action.MessageAction]
 
 <<exception, BGMessageException>> can contain localized message, translated when shown to a user.
 In the following snippet might be seen, how it can be thrown in a plugin's logic.

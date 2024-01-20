@@ -3,6 +3,7 @@ package org.bgerp.plugin.bil.subscription.action.open;
 import java.math.BigDecimal;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.Plugin;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
@@ -10,7 +11,6 @@ import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

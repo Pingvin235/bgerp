@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.CommonLinkDAO;

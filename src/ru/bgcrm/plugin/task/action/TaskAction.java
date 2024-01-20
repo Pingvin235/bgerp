@@ -11,7 +11,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 
 @Action(path = "/user/plugin/task/task")
-public class TaskAction extends ru.bgcrm.struts.action.BaseAction {
+public class TaskAction extends org.bgerp.action.BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
     public ActionForward list(DynActionForm form, Connection con) throws Exception {

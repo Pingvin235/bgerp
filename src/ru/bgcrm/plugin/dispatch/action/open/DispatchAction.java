@@ -6,6 +6,7 @@ import javax.mail.Session;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 
@@ -17,7 +18,6 @@ import ru.bgcrm.plugin.dispatch.exec.DispatchCommandProcessor;
 import ru.bgcrm.plugin.dispatch.exec.Config;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 
 @Action(path = "/open/plugin/dispatch/dispatch")

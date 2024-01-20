@@ -16,6 +16,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
 import org.bgerp.dao.process.ProcessCloneDAO;

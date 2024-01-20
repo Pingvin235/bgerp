@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.svc.dba.dao.QueryHistoryDAO;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

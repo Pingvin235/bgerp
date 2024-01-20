@@ -17,10 +17,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.BaseAction;
 
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.servlet.ActionServlet;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 

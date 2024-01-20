@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.app.l10n.Localization;
@@ -24,7 +25,6 @@ import org.bgerp.util.lic.AppLicense;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
