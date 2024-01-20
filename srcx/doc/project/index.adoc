@@ -543,7 +543,8 @@ jspf/open/../plugin/ppp/.../aaa.jsp
 
 [[mvc-iface-demo]]
 ===== Demo Zones
-For testing MVC framework available special hidden zones.
+For testing MVC framework available special demo zones, providing the actual set of UI components, same as examples of CRUD operations, permission check, etc.
+These zones can be used as playgrounds for developers, allowing to learn the system.
 
 [cols="10%,20%,35%,35%", options="header"]
 |===
@@ -562,6 +563,8 @@ jspf/open/demo/url.jsp
 |jspf/open/demo.jsp
 
 |===
+
+image::_res/demo_zone.png[width=800]
 
 [[action]]
 ==== Java Action
