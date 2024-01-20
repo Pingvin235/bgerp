@@ -9,17 +9,17 @@
 	<h1>Entity Editor</h1>
 
 	<div style="display: flex; flex-wrap: wrap;">
-		<div style="flex: 1 0 50%;">
+		<div style="flex-grow: 1;">
 			<h2>ID</h2>
 			<input type="text" name="id" disabled="true" value="${entity.id}" class="w100p"/>
 		</div>
-		<div style="flex: 1 0 50%;" class="pl1">
+		<div style="flex-grow: 1;" class="pl1">
 			<h2>Title</h2>
 			<input type="text" name="title" value="${entity.title}" class="w100p"/>
 		</div>
 		<%-- second line --%>
 		<c:set var="taUiid" value="${u:uiid()}"/>
-		<div style="flex: 1 0 100%;">
+		<div style="flex-basis: 100%;">
 			<h2>Configuration</h2>
 			<textarea name="config" id="${taUiid}" rows="20" class="w100p">${entity.config}</textarea>
 		</div>
