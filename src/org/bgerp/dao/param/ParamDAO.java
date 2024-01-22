@@ -24,7 +24,6 @@ import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.ParameterHistory;
 import ru.bgcrm.util.Utils;
 
 public class ParamDAO extends CommonDAO {
@@ -553,11 +552,6 @@ public class ParamDAO extends CommonDAO {
         ps.close();
 
         return result;
-    }
-
-    @Deprecated
-    public List<ParameterHistory> getParameterHistory(String object, Parameter parameter, int id) throws SQLException {
-        return Collections.emptyList();
     }
 
     private Parameter getParameterFromRs(ResultSet rs) throws SQLException {
