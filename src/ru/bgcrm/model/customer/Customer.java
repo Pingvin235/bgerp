@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.dao.param.ParamGroupDAO;
 
 import ru.bgcrm.cache.CustomerGroupCache;
-import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.SearchableIdTitle;
 import ru.bgcrm.model.param.ParameterGroup;

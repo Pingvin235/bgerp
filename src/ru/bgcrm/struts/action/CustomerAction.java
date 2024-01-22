@@ -6,14 +6,14 @@ import java.util.SortedMap;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.dao.param.ParamDAO;
+import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
-import ru.bgcrm.dao.ParamDAO;
-import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;

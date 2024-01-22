@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.dao.param.ParamLogDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -26,7 +27,6 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.dao.ParamLogDAO;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;

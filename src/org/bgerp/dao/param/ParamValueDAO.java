@@ -38,7 +38,6 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.dao.ParamLogDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.customer.Customer;
