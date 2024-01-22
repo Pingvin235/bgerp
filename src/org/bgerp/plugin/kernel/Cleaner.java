@@ -10,7 +10,8 @@ import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.user.Tables.TABLE_USER;
 
-import ru.bgcrm.dao.ParamValueDAO;
+import org.bgerp.dao.param.ParamValueDAO;
+
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.process.Process;

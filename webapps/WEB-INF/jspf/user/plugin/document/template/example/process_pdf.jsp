@@ -60,7 +60,7 @@ processor.6.responseType=file
 <u:newInstance var="processDao" clazz="ru.bgcrm.dao.process.ProcessDAO">
 	<u:param value="${conSlave}"/>
 </u:newInstance>
-<u:newInstance var="paramDao" clazz="ru.bgcrm.dao.ParamValueDAO">
+<u:newInstance var="paramDao" clazz="org.bgerp.dao.param.ParamValueDAO">
 	<u:param value="${conSlave}"/>
 </u:newInstance>
 <u:newInstance var="linkDao" clazz="ru.bgcrm.dao.process.ProcessLinkDAO">

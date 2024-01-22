@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.address.AddressHouse;

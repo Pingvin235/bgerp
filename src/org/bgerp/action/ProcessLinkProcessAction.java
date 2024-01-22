@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.l10n.Localizer;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
 import org.bgerp.dao.process.ProcessSearchDAO;
@@ -20,7 +21,6 @@ import org.bgerp.model.process.link.config.ProcessLinkCategoryConfig;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.IfaceStateDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;

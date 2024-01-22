@@ -1,5 +1,6 @@
 package org.bgerp.itest.plugin.asterisk;
 
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -8,7 +9,6 @@ import org.bgerp.itest.kernel.message.MessageTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.asterisk.Plugin;

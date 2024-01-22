@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.param.ParamValueDAO;
 
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;

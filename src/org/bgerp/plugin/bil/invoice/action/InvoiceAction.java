@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.invoice.Config;
 import org.bgerp.plugin.bil.invoice.Plugin;
@@ -23,7 +24,6 @@ import org.bgerp.plugin.bil.invoice.model.Position;
 import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.dao.CustomerDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;

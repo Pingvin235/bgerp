@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.subscription.model.Subscription;
 import org.bgerp.plugin.bil.subscription.model.SubscriptionLicense;
@@ -22,7 +23,6 @@ import org.bgerp.util.lic.License;
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;

@@ -1,9 +1,9 @@
 package ru.bgcrm.plugin.bgbilling.event.listener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.dao.param.ParamValueDAO;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;

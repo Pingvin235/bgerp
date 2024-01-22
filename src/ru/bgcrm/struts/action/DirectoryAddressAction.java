@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.AnalyticDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.analytic.HouseCapacityItem;
 import ru.bgcrm.model.param.address.AddressCity;

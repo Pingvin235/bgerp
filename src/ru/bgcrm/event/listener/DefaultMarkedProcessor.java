@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -21,7 +22,6 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ProcessChangeFunctions;
 import ru.bgcrm.dao.process.ProcessDAO;

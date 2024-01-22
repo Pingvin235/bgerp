@@ -20,6 +20,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.dao.param.OldParamSearchDAO;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
@@ -28,7 +30,6 @@ import com.google.common.collect.Sets;
 
 import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.CustomerDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
@@ -277,7 +278,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             }
 
             if (Utils.notBlankString(paramFilter)) {
-                pq.addQuery(ParamValueDAO.getParamJoinFilters(paramFilter, "process.id"));
+                pq.addQuery(OldParamSearchDAO.getParamJoinFilters(paramFilter, "process.id"));
             }
 
             if (CollectionUtils.isNotEmpty(typeIds)) {

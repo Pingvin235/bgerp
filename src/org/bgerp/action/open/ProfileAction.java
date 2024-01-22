@@ -9,12 +9,13 @@ import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.Interface;
+import org.bgerp.dao.param.OldParamSearchDAO;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.listener.EventListener;
@@ -57,7 +58,7 @@ public class ProfileAction extends BaseAction {
                 throwValidationException("Param ID list is not defined.");
 
             try (var con = Setup.getSetup().getDBSlaveConnectionFromPool()) {
-                shownUserIds = new ParamValueDAO(con).searchObjectByParameterList(openParam.getId(), 1);
+                shownUserIds = new OldParamSearchDAO(con).searchObjectByParameterList(openParam.getId(), 1);
             }
 
             EventProcessor.subscribe(this, ParamChangedEvent.class);

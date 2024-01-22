@@ -2,7 +2,8 @@ package ru.bgcrm.model.process.wizard;
 
 import java.sql.Connection;
 
-import ru.bgcrm.dao.ParamValueDAO;
+import org.bgerp.dao.param.ParamValueDAO;
+
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class ContinueStepData extends StepData<ContinueStep> {

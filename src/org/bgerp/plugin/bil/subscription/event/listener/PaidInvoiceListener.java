@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.plugin.bil.invoice.event.InvoicePaidEvent;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.subscription.Config;
@@ -12,7 +13,6 @@ import org.bgerp.plugin.bil.subscription.model.config.PaidInvoiceConfig;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.event.EventProcessor;

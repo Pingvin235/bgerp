@@ -10,10 +10,10 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.plugin.pln.sla.Plugin;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 

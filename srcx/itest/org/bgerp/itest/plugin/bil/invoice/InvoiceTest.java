@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -29,7 +30,6 @@ import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;

@@ -12,12 +12,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.param.Parameter;

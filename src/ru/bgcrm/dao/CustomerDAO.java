@@ -24,6 +24,8 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.param.OldParamSearchDAO;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -254,7 +256,7 @@ public class CustomerDAO extends CommonDAO {
      */
     public void searchCustomerListByEmail(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> emailParamIdList, String email)
             throws BGException {
-        new ParamValueSearchDAO(con).searchObjectListByEmail(TABLE_CUSTOMER, rs -> getCustomerFromRs(rs, "c."), searchResult, emailParamIdList,
+        new OldParamSearchDAO(con).searchObjectListByEmail(TABLE_CUSTOMER, rs -> getCustomerFromRs(rs, "c."), searchResult, emailParamIdList,
                 email);
     }
 

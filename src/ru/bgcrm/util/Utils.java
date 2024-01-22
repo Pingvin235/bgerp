@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Title;
@@ -34,7 +35,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.ListItem;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;

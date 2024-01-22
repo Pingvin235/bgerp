@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.SortedMap;
 
-import ru.bgcrm.dao.ParamValueDAO;
+import org.bgerp.dao.param.ParamValueDAO;
+
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.struts.form.DynActionForm;
 

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
@@ -30,7 +31,6 @@ import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;

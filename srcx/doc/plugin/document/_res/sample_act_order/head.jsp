@@ -32,8 +32,8 @@
 			}
 			table td {
 				border: 1px black solid;
-				padding: 0.5em;				
-			}			
+				padding: 0.5em;
+			}
 		</style>
 	</head>
 	<body>
@@ -42,11 +42,10 @@
 		</u:newInstance>
 		<u:newInstance var="processLinkDao" clazz="ru.bgcrm.dao.process.ProcessLinkDAO">
 			<u:param value="${conSlave}"/>
-		</u:newInstance>				
-		<u:newInstance var="paramDao" clazz="ru.bgcrm.dao.ParamValueDAO">
+		</u:newInstance>
+		<u:newInstance var="paramDao" clazz="org.bgerp.dao.param.ParamValueDAO">
 			<u:param value="${conSlave}"/>
 		</u:newInstance>
-		
+
 		<u:newInstance var="curdate" clazz="java.util.Date"/>
-			
-		
+

@@ -21,13 +21,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.dao.ParamValueSearchDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterSearchedObject;
@@ -149,7 +149,7 @@ public class UserDAO extends CommonDAO {
      */
     public void searchUserListByEmail(Pageable<ParameterSearchedObject<User>> searchResult,
             List<Integer> emailParamIdList, String email) throws BGException {
-        new ParamValueSearchDAO(con).searchObjectListByEmail(TABLE_USER, rs -> getFromRS(rs, "c.", false, false), searchResult,
+        new OldParamSearchDAO(con).searchObjectListByEmail(TABLE_USER, rs -> getFromRS(rs, "c.", false, false), searchResult,
                 emailParamIdList, email);
     }
 

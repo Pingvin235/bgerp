@@ -10,6 +10,7 @@ import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearchFoundLinks;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearchFoundLinksCustomerAddressCity;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearchMessageFrom;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessMessageDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
@@ -27,7 +28,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
