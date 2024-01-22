@@ -1,13 +1,12 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LOG;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -27,7 +26,7 @@ public class ParamLogDAO extends CommonDAO {
         String query;
 
         // Проверяем последнюю запись по данному параметру, чтобы не записывать неизмененные параметры
-        query = "SELECT text FROM " + TABLE_PARAM_LOG + " WHERE object_id=? AND param_id=? "
+        query = "SELECT text FROM " + Tables.TABLE_PARAM_LOG + " WHERE object_id=? AND param_id=? "
                 + "ORDER BY dt DESC LIMIT 1";
 
         ps = con.prepareStatement(query);
@@ -45,7 +44,7 @@ public class ParamLogDAO extends CommonDAO {
         ps.close();
 
         // Запись в лог
-        query = "INSERT INTO" + TABLE_PARAM_LOG + "(dt, object_id, user_id, param_id, text) "
+        query = "INSERT INTO" + Tables.TABLE_PARAM_LOG + "(dt, object_id, user_id, param_id, text) "
                 + "VALUES (CURRENT_TIMESTAMP(4),?,?,?,?)";
 
         ps = con.prepareStatement(query);
@@ -72,7 +71,7 @@ public class ParamLogDAO extends CommonDAO {
 
         try (var pq = new PreparedQuery(con)) {
             Page page = result.getPage();
-            pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt, object_id, user_id, param_id, text FROM " + TABLE_PARAM_LOG);
+            pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt, object_id, user_id, param_id, text FROM " + Tables.TABLE_PARAM_LOG);
             pq.addQuery(" WHERE object_id= ? AND param_id IN ( " + Utils.getObjectIds(params) + " ) ");
             pq.addInt(id);
             pq.addQuery(" ORDER BY dt DESC ");
@@ -94,7 +93,7 @@ public class ParamLogDAO extends CommonDAO {
     public ParameterLogItem getLastParamChange(int objectId, int paramId) throws SQLException {
         ParameterLogItem result = null;
 
-        String query = "SELECT * FROM " + TABLE_PARAM_LOG + "WHERE object_id=? AND param_id=? "
+        String query = "SELECT * FROM " + Tables.TABLE_PARAM_LOG + "WHERE object_id=? AND param_id=? "
                 + "ORDER BY dt DESC LIMIT 1";
 
         try (PreparedStatement ps = con.prepareStatement(query)) {

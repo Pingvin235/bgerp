@@ -2,7 +2,6 @@ package org.bgerp.model.process.queue;
 
 import static org.bgerp.dao.process.ProcessQueueDAO.LINKED_PROCESS_JOIN;
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
 import static ru.bgcrm.dao.process.ProcessDAO.LINKED_PROCESS;
@@ -17,6 +16,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.event.process.queue.QueueColumnEvent;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
@@ -211,7 +211,7 @@ public class Column {
                         notExistVal = parts[3];
 
                     selectPart.append(" IF(" + alias + ".value,'" + existVal + "','" + notExistVal + "') ");
-                    joinPart.append(" LEFT JOIN " + TABLE_PARAM_LIST + " AS " + alias + " ON " + target + ".id= "
+                    joinPart.append(" LEFT JOIN " + Tables.TABLE_PARAM_LIST + " AS " + alias + " ON " + target + ".id= "
                             + alias + ".id AND " + alias + ".param_id=" + paramId + " AND " + alias + ".value="
                             + paramValue + " ");
                 }

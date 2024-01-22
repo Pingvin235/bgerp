@@ -1,14 +1,9 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER_GROUP;
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER_LINK;
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER_LOG;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE_ITEM;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PREF;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +21,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -281,7 +277,7 @@ public class CustomerDAO extends CommonDAO {
             query.append(TABLE_CUSTOMER);
             query.append("AS c ");
             query.append(SQL_INNER_JOIN);
-            query.append(TABLE_PARAM_TEXT);
+            query.append(Tables.TABLE_PARAM_TEXT);
             query.append("AS param ON c.id=param.id AND ");
             query.append("param.value LIKE ?");
 
@@ -340,7 +336,7 @@ public class CustomerDAO extends CommonDAO {
             ps.addQuery("AS c ");
 
             ps.addQuery(SQL_INNER_JOIN);
-            ps.addQuery(TABLE_PARAM_ADDRESS);
+            ps.addQuery(Tables.TABLE_PARAM_ADDRESS);
             ps.addQuery("AS param ON c.id=param.id AND param.param_id IN (");
             ps.addQuery(ids);
             ps.addQuery(")");
@@ -354,7 +350,7 @@ public class CustomerDAO extends CommonDAO {
             }
 
             ps.addQuery(SQL_INNER_JOIN);
-            ps.addQuery(TABLE_ADDRESS_HOUSE);
+            ps.addQuery(Tables.TABLE_ADDRESS_HOUSE);
             ps.addQuery("AS house ON param.house_id=house.id");
             ps.addQuery(" AND house.street_id=?");
             ps.addInt(streetId);
@@ -368,7 +364,7 @@ public class CustomerDAO extends CommonDAO {
             }
 
             ps.addQuery(SQL_LEFT_JOIN);
-            ps.addQuery(TABLE_PARAM_PREF);
+            ps.addQuery(Tables.TABLE_PARAM_PREF);
             ps.addQuery("AS pref ON param.param_id=pref.id ");
 
             ps.addQuery(SQL_ORDER_BY);
@@ -410,7 +406,7 @@ public class CustomerDAO extends CommonDAO {
             ps.addQuery("AS c ");
 
             ps.addQuery(SQL_INNER_JOIN);
-            ps.addQuery(TABLE_PARAM_ADDRESS);
+            ps.addQuery(Tables.TABLE_PARAM_ADDRESS);
             ps.addQuery("AS param ON c.id=param.id AND param.param_id IN (");
             ps.addQuery(ids);
             ps.addQuery(")");
@@ -466,7 +462,7 @@ public class CustomerDAO extends CommonDAO {
             selectPart.append(" DISTINCT ");
 
             joinPart.append(SQL_INNER_JOIN);
-            joinPart.append(TABLE_PARAM_PHONE_ITEM);
+            joinPart.append(Tables.TABLE_PARAM_PHONE_ITEM);
             joinPart.append(" AS p ON customer.id=p.id ");
             if (ids.length() > 0) {
                 joinPart.append("AND p.param_id IN ( ");

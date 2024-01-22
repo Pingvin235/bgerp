@@ -1,9 +1,6 @@
 package org.bgerp.plugin.kernel;
 
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LOG;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PREF;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE_TAG;
 import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
@@ -11,6 +8,7 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.user.Tables.TABLE_USER;
 
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.param.Tables;
 
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.address.AddressHouse;
@@ -39,12 +37,12 @@ public class Cleaner extends org.bgerp.dao.Cleaner {
         paramValueForMissingObject(Process.OBJECT_TYPE, TABLE_PROCESS);
         paramValueForMissingObject(Customer.OBJECT_TYPE, TABLE_CUSTOMER);
         paramValueForMissingObject(User.OBJECT_TYPE, TABLE_USER);
-        paramValueForMissingObject(AddressHouse.OBJECT_TYPE, TABLE_ADDRESS_HOUSE);
+        paramValueForMissingObject(AddressHouse.OBJECT_TYPE, Tables.TABLE_ADDRESS_HOUSE);
     }
 
     private void paramValueForMissingPref(String table) {
         inconsistencyCleanupQueries.add(SQL_DELETE + "pv" + SQL_FROM + table + "AS pv"
-            + SQL_LEFT_JOIN + TABLE_PARAM_PREF + "AS pp ON pv.param_id=pp.id"
+            + SQL_LEFT_JOIN + Tables.TABLE_PARAM_PREF + "AS pp ON pv.param_id=pp.id"
             + SQL_WHERE + "pp.id IS NULL");
     }
 
@@ -52,15 +50,15 @@ public class Cleaner extends org.bgerp.dao.Cleaner {
        for (String table : ParamValueDAO.TABLE_NAMES)
             paramValueForMissingObject(objectType, table, objectTable);
 
-        inconsistencyCleanupQueries.add(SQL_DELETE + "pl" + SQL_FROM + TABLE_PARAM_LOG + "AS pl"
-            + SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON pl.param_id=pref.id AND pref.object='" + objectType + "'"
+        inconsistencyCleanupQueries.add(SQL_DELETE + "pl" + SQL_FROM + Tables.TABLE_PARAM_LOG + "AS pl"
+            + SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS pref ON pl.param_id=pref.id AND pref.object='" + objectType + "'"
             + SQL_LEFT_JOIN + objectTable + "AS o ON pl.object_id=o.id"
             + SQL_WHERE + "o.id IS NULL");
     }
 
     private void paramValueForMissingObject(String objectType, String paramValueTable, String objectTable) {
         inconsistencyCleanupQueries.add(SQL_DELETE + "pv" + SQL_FROM + paramValueTable + "AS pv"
-            + SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON pv.param_id=pref.id AND pref.object='" + objectType + "'"
+            + SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS pref ON pv.param_id=pref.id AND pref.object='" + objectType + "'"
             + SQL_LEFT_JOIN + objectTable + "AS o ON pv.id=o.id"
             + SQL_WHERE + "o.id IS NULL");
     }

@@ -1,13 +1,12 @@
 package org.bgerp.plugin.pln.sla.model.process.queue;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATETIME;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.plugin.pln.sla.config.Config;
 import org.bgerp.plugin.pln.sla.config.ProcessTypeConfig;
 import org.bgerp.util.Log;
@@ -45,7 +44,7 @@ public class Column extends org.bgerp.model.process.queue.Column {
 
         if (paramId > 0) {
             selectPart.append(tableAlias + ".value").append(" , ");
-            joinPart.append(" LEFT JOIN " + TABLE_PARAM_DATETIME + " AS " + tableAlias + " ON " + target + ".id=" + tableAlias + ".id AND "
+            joinPart.append(" LEFT JOIN " + Tables.TABLE_PARAM_DATETIME + " AS " + tableAlias + " ON " + target + ".id=" + tableAlias + ".id AND "
                     + tableAlias + ".param_id=" + paramId);
         }
     }

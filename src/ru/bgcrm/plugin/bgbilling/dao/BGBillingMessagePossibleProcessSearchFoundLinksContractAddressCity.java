@@ -1,6 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.util.Collections;
@@ -14,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -87,7 +87,7 @@ public class BGBillingMessagePossibleProcessSearchFoundLinksContractAddressCity 
 
         pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p");
         pq.addInt(getId());
-        pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS pcity ON p.id=pcity.id AND pcity.param_id=? AND pcity.value IN (" + Utils.toString(cityIds) + ")");
+        pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_PARAM_LIST + "AS pcity ON p.id=pcity.id AND pcity.param_id=? AND pcity.value IN (" + Utils.toString(cityIds) + ")");
         pq.addInt(processCityParamId);
 
         addOpenFilter(pq, open);

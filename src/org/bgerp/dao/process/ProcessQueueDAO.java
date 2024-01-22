@@ -1,11 +1,6 @@
 package org.bgerp.dao.process;
 
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_BLOB;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_MONEY;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
@@ -413,7 +408,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     String alias = "param_list_" + paramId;
 
                     joinPart.append(SQL_INNER_JOIN);
-                    joinPart.append(TABLE_PARAM_LIST);
+                    joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_LIST);
                     joinPart.append("AS " + alias + " ON process.id=" + alias + ".id AND " + alias + ".param_id="
                             + paramId + " AND " + alias + ".value IN(" + values + ") ");
                 }
@@ -450,7 +445,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                 joinPart.append("AS " + customerLinkAlias + " ON process.id=" + customerLinkAlias + ".process_id AND "
                         + customerLinkAlias + ".object_type='" + Customer.OBJECT_TYPE + "'");
                 joinPart.append(SQL_INNER_JOIN);
-                joinPart.append(TABLE_PARAM_LIST);
+                joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_LIST);
                 joinPart.append(
                         "AS param_list ON " + customerLinkAlias + ".object_id=param_list.id AND param_list.param_id="
                                 + paramId + " AND param_list.value IN(" + values + ")");
@@ -481,7 +476,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     if (cityId > 0 || flat > 0 || houseId > 0 || streetId > 0 || quarterId > 0 ||
                             Utils.notEmptyString(city) || Utils.notEmptyString(street) || Utils.notEmptyString(quarter) ||  Utils.notEmptyString(houseAndFrac)) {
                         joinPart.append(SQL_INNER_JOIN);
-                        joinPart.append(ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS);
+                        joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_ADDRESS);
                         joinPart.append(" AS " + paramAlias + " ON process.id=" + paramAlias + ".id AND " + paramAlias
                                 + ".param_id=" + parameter.getId() + " ");
 
@@ -495,7 +490,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                             joinPart.append(paramAlias + ".house_id=" + houseId + " ");
                         } else {
                             joinPart.append(SQL_INNER_JOIN);
-                            joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE);
+                            joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_HOUSE);
                             joinPart.append(" AS " + houseAlias + " ON " + paramAlias + ".house_id=" + houseAlias + ".id ");
 
                             if (Utils.notEmptyString(houseAndFrac)) {
@@ -512,7 +507,7 @@ public class ProcessQueueDAO extends ProcessDAO {
 
                             if (quarterId > 0) {
                                 joinPart.append(SQL_INNER_JOIN);
-                                joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_QUARTER);
+                                joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_QUARTER);
                                 joinPart.append(" AS " + quarterAlias + " ON " + houseAlias + ".quarter_id="
                                         + quarterAlias + ".id AND" + quarterAlias + ".id=" + quarterId);
                             } else if (Utils.notBlankString(quarter)) {
@@ -521,12 +516,12 @@ public class ProcessQueueDAO extends ProcessDAO {
 
                             if (streetId > 0) {
                                 joinPart.append(SQL_INNER_JOIN);
-                                joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET);
+                                joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET);
                                 joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias
                                         + ".id AND " + streetAlias + ".id=" + streetId);
                             } else if (Utils.notEmptyString(street)) {
                                 joinPart.append(SQL_INNER_JOIN);
-                                joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET);
+                                joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET);
                                 joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias
                                         + ".id AND " + streetAlias + ".title LIKE '%" + street + "%' ");
                             }
@@ -535,7 +530,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                                 // JOIN может быть уже добавлен фильтром по названию улицы
                                 if (!joinPart.toString().contains(streetAlias)) {
                                     joinPart.append(SQL_INNER_JOIN);
-                                    joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET);
+                                    joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET);
                                     joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias + ".id ");
                                 }
                             };
@@ -549,7 +544,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                                     addStreetJoin.run();
                                     // добавка джойна города
                                     joinPart.append(SQL_INNER_JOIN);
-                                    joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_CITY);
+                                    joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_CITY);
                                     joinPart.append(" AS " + cityAlias + " ON " + cityAlias + ".id=" + streetAlias +
                                             ".city_id AND " + cityAlias + ".title LIKE '%" + city + "%' ");
                                 }
@@ -576,9 +571,9 @@ public class ProcessQueueDAO extends ProcessDAO {
 
                     joinPart.append(SQL_INNER_JOIN);
                     if (Parameter.TYPE_LIST.equals(paramType)) {
-                        joinPart.append(TABLE_PARAM_LIST);
+                        joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_LIST);
                     } else {
-                        joinPart.append(TABLE_PARAM_LISTCOUNT);
+                        joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_LISTCOUNT);
                     }
                     joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".id AND " + tableAlias + ".param_id="
                             + paramId + " AND " + tableAlias + ".value IN(" + values + ")");
@@ -598,7 +593,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                             else
                                 joinPart.append(SQL_INNER_JOIN);
 
-                            joinPart.append(TABLE_PARAM_MONEY);
+                            joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_MONEY);
                             joinPart.append(
                                     "AS " + tableAlias + " ON process.id=" + tableAlias + ".id AND " + tableAlias + ".param_id=" + paramId);
 
@@ -621,9 +616,9 @@ public class ProcessQueueDAO extends ProcessDAO {
                         joinPart.append(SQL_INNER_JOIN);
 
                         if (Parameter.TYPE_BLOB.equals(paramType)) {
-                            joinPart.append(TABLE_PARAM_BLOB);
+                            joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_BLOB);
                         } else if (Parameter.TYPE_TEXT.equals(paramType)) {
-                            joinPart.append(TABLE_PARAM_TEXT);
+                            joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_TEXT);
                         }
 
                         if ("regexp".equals(mode)) {

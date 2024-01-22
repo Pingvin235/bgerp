@@ -1,11 +1,5 @@
 package org.bgerp.dao.param;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_EMAIL;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE_ITEM;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,7 +87,7 @@ public class OldParamSearchDAO extends CommonDAO {
                 String tableName = "param_" + param.getId() + "_val";
 
                 result.append(SQL_INNER_JOIN);
-                result.append(TABLE_PARAM_LIST);
+                result.append(Tables.TABLE_PARAM_LIST);
                 result.append("AS " + tableName);
                 result.append(" ON " + tableName + ".id=" + objectId + " AND " + tableName + ".param_id="
                         + param.getId() + " AND " + tableName + ".value IN (" + Utils.toString(values) + ") ");
@@ -117,7 +111,7 @@ public class OldParamSearchDAO extends CommonDAO {
         query.append(SQL_SELECT);
         query.append("item.id AS object_id");
         query.append(SQL_FROM);
-        query.append(TABLE_PARAM_PHONE_ITEM);
+        query.append(Tables.TABLE_PARAM_PHONE_ITEM);
         query.append(" AS item ");
         query.append(SQL_WHERE);
         query.append("item.param_id = ? ");
@@ -163,7 +157,7 @@ public class OldParamSearchDAO extends CommonDAO {
         query.append(SQL_SELECT);
         query.append("address.id AS object_id ");
         query.append(SQL_FROM);
-        query.append(TABLE_PARAM_ADDRESS);
+        query.append(Tables.TABLE_PARAM_ADDRESS);
         query.append(" AS address ");
         query.append(SQL_WHERE);
         query.append("address.param_id = ? ");
@@ -207,7 +201,7 @@ public class OldParamSearchDAO extends CommonDAO {
         query.append(SQL_SELECT);
         query.append("text.id AS object_id ");
         query.append(SQL_FROM);
-        query.append(TABLE_PARAM_TEXT);
+        query.append(Tables.TABLE_PARAM_TEXT);
         query.append(" AS text ");
         query.append(SQL_WHERE);
         query.append("text.param_id = ? ");
@@ -243,7 +237,7 @@ public class OldParamSearchDAO extends CommonDAO {
             pq.addQuery(SQL_SELECT);
             pq.addQuery("list.id AS object_id");
             pq.addQuery(SQL_FROM);
-            pq.addQuery(TABLE_PARAM_LIST);
+            pq.addQuery(Tables.TABLE_PARAM_LIST);
             pq.addQuery(" AS list ");
             pq.addQuery(SQL_WHERE);
             pq.addQuery("list.param_id=? AND list.value=?");
@@ -275,7 +269,7 @@ public class OldParamSearchDAO extends CommonDAO {
             query.append(tableName);
             query.append("AS c ");
             query.append(SQL_INNER_JOIN);
-            query.append(TABLE_PARAM_EMAIL);
+            query.append(Tables.TABLE_PARAM_EMAIL);
             query.append("AS param ON c.id=param.id AND param.value IN (?,?)");
             if (Utils.notBlankString(ids)) {
                 query.append(" AND param.param_id IN (");

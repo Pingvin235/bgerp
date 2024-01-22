@@ -1,13 +1,5 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_AREA;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_CITY;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_COUNTRY;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_QUARTER;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -63,7 +56,7 @@ public class AddressDAO extends CommonDAO {
             PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery("SELECT SQL_CALC_FOUND_ROWS * ");
             ps.addQuery("FROM ");
-            ps.addQuery(TABLE_ADDRESS_COUNTRY);
+            ps.addQuery(Tables.TABLE_ADDRESS_COUNTRY);
 
             if (!Utils.isEmptyString(title)) {
                 ps.addQuery("WHERE ");
@@ -94,7 +87,7 @@ public class AddressDAO extends CommonDAO {
         ResultSet rs = null;
         PreparedStatement ps = null;
         StringBuilder query = new StringBuilder("SELECT * FROM ");
-        query.append(TABLE_ADDRESS_COUNTRY);
+        query.append(Tables.TABLE_ADDRESS_COUNTRY);
         query.append(" WHERE id=?");
 
         ps = con.prepareStatement(query.toString());
@@ -122,12 +115,12 @@ public class AddressDAO extends CommonDAO {
             PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery("SELECT SQL_CALC_FOUND_ROWS * ");
             ps.addQuery("FROM ");
-            ps.addQuery(TABLE_ADDRESS_CITY);
+            ps.addQuery(Tables.TABLE_ADDRESS_CITY);
             ps.addQuery("AS city ");
 
             if (loadCountryData) {
                 ps.addQuery("LEFT JOIN ");
-                ps.addQuery(TABLE_ADDRESS_COUNTRY);
+                ps.addQuery(Tables.TABLE_ADDRESS_COUNTRY);
                 ps.addQuery("AS country ON city.country_id = country.id ");
             }
 
@@ -174,11 +167,11 @@ public class AddressDAO extends CommonDAO {
         ResultSet rs = null;
         PreparedStatement ps = null;
         StringBuilder query = new StringBuilder("SELECT * FROM ");
-        query.append(TABLE_ADDRESS_CITY);
+        query.append(Tables.TABLE_ADDRESS_CITY);
         query.append(" AS city");
         if (loadCountryData) {
             query.append(" LEFT JOIN ");
-            query.append(TABLE_ADDRESS_COUNTRY);
+            query.append(Tables.TABLE_ADDRESS_COUNTRY);
             query.append(" AS country ON city.country_id=country.id");
         }
         query.append(" WHERE city.id=?");
@@ -202,42 +195,42 @@ public class AddressDAO extends CommonDAO {
     }
 
     public void searchAddressAreaList(Pageable<AddressItem> searchResult, int cityId) throws SQLException {
-        searchAddressItemList(TABLE_ADDRESS_AREA, searchResult, Collections.singleton(cityId), null, false, false);
+        searchAddressItemList(Tables.TABLE_ADDRESS_AREA, searchResult, Collections.singleton(cityId), null, false, false);
     }
 
     public void searchAddressAreaList(Pageable<AddressItem> searchResult, int cityId, List<String> title, boolean loadCountryData, boolean loadCityData)
             throws SQLException {
-        searchAddressItemList(TABLE_ADDRESS_AREA, searchResult, Collections.singleton(cityId), title, loadCountryData, loadCityData);
+        searchAddressItemList(Tables.TABLE_ADDRESS_AREA, searchResult, Collections.singleton(cityId), title, loadCountryData, loadCityData);
     }
 
     public AddressItem getAddressArea(int id, boolean loadCountryData, boolean loadCityData) throws SQLException {
-        return getAddressItem(TABLE_ADDRESS_AREA, id, loadCountryData, loadCityData);
+        return getAddressItem(Tables.TABLE_ADDRESS_AREA, id, loadCountryData, loadCityData);
     }
 
     public void searchAddressQuarterList(Pageable<AddressItem> searchResult, int cityId) throws SQLException {
-        searchAddressItemList(TABLE_ADDRESS_QUARTER, searchResult, Collections.singleton(cityId), null, false, false);
+        searchAddressItemList(Tables.TABLE_ADDRESS_QUARTER, searchResult, Collections.singleton(cityId), null, false, false);
     }
 
     public void searchAddressQuarterList(Pageable<AddressItem> searchResult, int cityId, List<String> title, boolean loadCountryData,
             boolean loadCityData) throws SQLException {
-        searchAddressItemList(TABLE_ADDRESS_QUARTER, searchResult, Collections.singleton(cityId), title, loadCountryData, loadCityData);
+        searchAddressItemList(Tables.TABLE_ADDRESS_QUARTER, searchResult, Collections.singleton(cityId), title, loadCountryData, loadCityData);
     }
 
     public AddressItem getAddressQuarter(int id, boolean loadCountryData, boolean loadCityData) throws SQLException {
-        return getAddressItem(TABLE_ADDRESS_QUARTER, id, loadCountryData, loadCityData);
+        return getAddressItem(Tables.TABLE_ADDRESS_QUARTER, id, loadCountryData, loadCityData);
     }
 
     public void searchAddressStreetList(Pageable<AddressItem> searchResult, int cityId) throws SQLException {
-        searchAddressItemList(TABLE_ADDRESS_STREET, searchResult, Collections.singleton(cityId), null, false, false);
+        searchAddressItemList(Tables.TABLE_ADDRESS_STREET, searchResult, Collections.singleton(cityId), null, false, false);
     }
 
     public void searchAddressStreetList(Pageable<AddressItem> searchResult, Set<Integer> cityIds, List<String> title, boolean loadCountryData,
             boolean loadCityData) throws SQLException {
-        searchAddressItemList(TABLE_ADDRESS_STREET, searchResult, cityIds, title, loadCountryData, loadCityData);
+        searchAddressItemList(Tables.TABLE_ADDRESS_STREET, searchResult, cityIds, title, loadCountryData, loadCityData);
     }
 
     public AddressItem getAddressStreet(int id, boolean loadCountryData, boolean loadCityData) throws SQLException {
-        return getAddressItem(TABLE_ADDRESS_STREET, id, loadCountryData, loadCityData);
+        return getAddressItem(Tables.TABLE_ADDRESS_STREET, id, loadCountryData, loadCityData);
     }
 
     /**
@@ -271,12 +264,12 @@ public class AddressDAO extends CommonDAO {
 
             if (loadCityData) {
                 pq.addQuery("LEFT JOIN ");
-                pq.addQuery(TABLE_ADDRESS_CITY);
+                pq.addQuery(Tables.TABLE_ADDRESS_CITY);
                 pq.addQuery(" AS city ON item.city_id = city.id ");
 
                 if (loadCountryData) {
                     pq.addQuery("LEFT JOIN ");
-                    pq.addQuery(TABLE_ADDRESS_COUNTRY);
+                    pq.addQuery(Tables.TABLE_ADDRESS_COUNTRY);
                     pq.addQuery(" AS country ON city.country_id = country.id ");
                 }
             }
@@ -352,11 +345,11 @@ public class AddressDAO extends CommonDAO {
         query.append(" AS item");
         if (loadCityData) {
             query.append(" LEFT JOIN ");
-            query.append(TABLE_ADDRESS_CITY);
+            query.append(Tables.TABLE_ADDRESS_CITY);
             query.append(" AS city ON item.city_id=city.id");
             if (loadCountryData) {
                 query.append(" LEFT JOIN ");
-                query.append(TABLE_ADDRESS_COUNTRY);
+                query.append(Tables.TABLE_ADDRESS_COUNTRY);
                 query.append(" AS country ON city.country_id=country.id");
             }
         }
@@ -404,7 +397,7 @@ public class AddressDAO extends CommonDAO {
             int loadLevel = getHouseLoadLevel(loadCountryData, loadCityData, loadStreetData);
 
             pq.addQuery("SELECT SQL_CALC_FOUND_ROWS * FROM ");
-            pq.addQuery(TABLE_ADDRESS_HOUSE);
+            pq.addQuery(Tables.TABLE_ADDRESS_HOUSE);
             pq.addQuery(" AS house");
             addHouseSelectQueryJoins(pq.getQuery(), loadLevel);
 
@@ -456,7 +449,7 @@ public class AddressDAO extends CommonDAO {
         int loadLevel = getHouseLoadLevel(loadCountryData, loadCityData, loadStreetData);
 
         query.append("SELECT * FROM ");
-        query.append(TABLE_ADDRESS_HOUSE);
+        query.append(Tables.TABLE_ADDRESS_HOUSE);
         query.append(" AS house");
         addHouseSelectQueryJoins(query, loadLevel);
         query.append(" WHERE house.id=?");
@@ -479,23 +472,23 @@ public class AddressDAO extends CommonDAO {
     public static void addHouseSelectQueryJoins(StringBuilder query, int loadLevel) {
         if (loadLevel >= LOAD_LEVEL_STREET) {
             query.append(" LEFT JOIN ");
-            query.append(TABLE_ADDRESS_STREET);
+            query.append(Tables.TABLE_ADDRESS_STREET);
             query.append(" AS street ON house.street_id=street.id");
             query.append(" LEFT JOIN ");
-            query.append(TABLE_ADDRESS_AREA);
+            query.append(Tables.TABLE_ADDRESS_AREA);
             query.append(" AS area ON house.area_id=area.id");
             query.append(" LEFT JOIN ");
-            query.append(TABLE_ADDRESS_QUARTER);
+            query.append(Tables.TABLE_ADDRESS_QUARTER);
             query.append(" AS quarter ON house.quarter_id=quarter.id");
 
             if (loadLevel >= LOAD_LEVEL_CITY) {
                 query.append(" LEFT JOIN ");
-                query.append(TABLE_ADDRESS_CITY);
+                query.append(Tables.TABLE_ADDRESS_CITY);
                 query.append(" AS city ON street.city_id=city.id");
 
                 if (loadLevel >= LOAD_LEVEL_COUNTRY) {
                     query.append(" LEFT JOIN ");
-                    query.append(TABLE_ADDRESS_COUNTRY);
+                    query.append(Tables.TABLE_ADDRESS_COUNTRY);
                     query.append(" AS country ON city.country_id=country.id");
                 }
             }
@@ -509,7 +502,7 @@ public class AddressDAO extends CommonDAO {
 
             if (value.getId() <= 0) {
                 query.append("INSERT INTO ");
-                query.append(TABLE_ADDRESS_COUNTRY);
+                query.append(Tables.TABLE_ADDRESS_COUNTRY);
                 query.append(" SET title=?, last_update = NOW()");
                 ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
                 ps.setString(1, value.getTitle());
@@ -518,7 +511,7 @@ public class AddressDAO extends CommonDAO {
                 ps.close();
             } else {
                 query.append("UPDATE ");
-                query.append(TABLE_ADDRESS_COUNTRY);
+                query.append(Tables.TABLE_ADDRESS_COUNTRY);
                 query.append(" SET title=?, last_update = NOW() WHERE id=?");
                 ps = con.prepareStatement(query.toString());
                 ps.setString(1, value.getTitle());
@@ -537,7 +530,7 @@ public class AddressDAO extends CommonDAO {
         StringBuilder query = new StringBuilder();
 
         query.append("SELECT COUNT(*) FROM ");
-        query.append(TABLE_ADDRESS_CITY);
+        query.append(Tables.TABLE_ADDRESS_CITY);
         query.append("WHERE country_id=?");
 
         PreparedStatement ps = con.prepareStatement(query.toString());
@@ -551,7 +544,7 @@ public class AddressDAO extends CommonDAO {
 
         query.setLength(0);
         query.append(SQL_DELETE_FROM);
-        query.append(TABLE_ADDRESS_COUNTRY);
+        query.append(Tables.TABLE_ADDRESS_COUNTRY);
         query.append("WHERE id=?");
 
         ps = con.prepareStatement(query.toString());
@@ -569,7 +562,7 @@ public class AddressDAO extends CommonDAO {
 
             if (city.getId() <= 0) {
                 query.append("INSERT INTO ");
-                query.append(TABLE_ADDRESS_CITY);
+                query.append(Tables.TABLE_ADDRESS_CITY);
                 query.append(" SET country_id=?, title=?, last_update = NOW()");
                 ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, city.getCountryId());
@@ -579,7 +572,7 @@ public class AddressDAO extends CommonDAO {
                 ps.close();
             } else {
                 query.append("UPDATE ");
-                query.append(TABLE_ADDRESS_CITY);
+                query.append(Tables.TABLE_ADDRESS_CITY);
                 query.append(" SET title=?, last_update = NOW() WHERE id=?");
                 ps = con.prepareStatement(query.toString());
                 ps.setString(1, city.getTitle());
@@ -593,13 +586,13 @@ public class AddressDAO extends CommonDAO {
     }
 
     public void deleteAddressCity(int id) throws SQLException, BGMessageException {
-        checkItem(id, TABLE_ADDRESS_STREET, "улицах");
-        checkItem(id, TABLE_ADDRESS_QUARTER, "кварталах");
-        checkItem(id, TABLE_ADDRESS_AREA, "районах");
+        checkItem(id, Tables.TABLE_ADDRESS_STREET, "улицах");
+        checkItem(id, Tables.TABLE_ADDRESS_QUARTER, "кварталах");
+        checkItem(id, Tables.TABLE_ADDRESS_AREA, "районах");
 
         StringBuilder query = new StringBuilder();
         query.append(SQL_DELETE_FROM);
-        query.append(TABLE_ADDRESS_CITY);
+        query.append(Tables.TABLE_ADDRESS_CITY);
         query.append("WHERE id=?");
 
         PreparedStatement ps = con.prepareStatement(query.toString());
@@ -627,27 +620,27 @@ public class AddressDAO extends CommonDAO {
     }
 
     public AddressItem updateAddressArea(AddressItem item) throws SQLException {
-        return updateAddressItem(TABLE_ADDRESS_AREA, item);
+        return updateAddressItem(Tables.TABLE_ADDRESS_AREA, item);
     }
 
     public AddressItem updateAddressQuarter(AddressItem addressItem) throws SQLException {
-        return updateAddressItem(TABLE_ADDRESS_QUARTER, addressItem);
+        return updateAddressItem(Tables.TABLE_ADDRESS_QUARTER, addressItem);
     }
 
     public AddressItem updateAddressStreet(AddressItem addressItem) throws SQLException {
-        return updateAddressItem(TABLE_ADDRESS_STREET, addressItem);
+        return updateAddressItem(Tables.TABLE_ADDRESS_STREET, addressItem);
     }
 
     public void deleteAddressArea(int id) throws SQLException, BGMessageException {
-        deleteAddressItem(TABLE_ADDRESS_AREA, "area_id", id);
+        deleteAddressItem(Tables.TABLE_ADDRESS_AREA, "area_id", id);
     }
 
     public void deleteAddressQuarter(int id) throws SQLException, BGMessageException {
-        deleteAddressItem(TABLE_ADDRESS_QUARTER, "quarter_id", id);
+        deleteAddressItem(Tables.TABLE_ADDRESS_QUARTER, "quarter_id", id);
     }
 
     public void deleteAddressStreet(int id) throws SQLException, BGMessageException {
-        deleteAddressItem(TABLE_ADDRESS_STREET, "street_id", id);
+        deleteAddressItem(Tables.TABLE_ADDRESS_STREET, "street_id", id);
     }
 
     private AddressItem updateAddressItem(String tableName, AddressItem addressItem) throws SQLException {
@@ -686,7 +679,7 @@ public class AddressDAO extends CommonDAO {
         query.append(SQL_SELECT);
         query.append("COUNT(*)");
         query.append(SQL_FROM);
-        query.append(TABLE_ADDRESS_HOUSE);
+        query.append(Tables.TABLE_ADDRESS_HOUSE);
         query.append(SQL_WHERE);
         query.append(columnName + "=?");
 
@@ -720,7 +713,7 @@ public class AddressDAO extends CommonDAO {
 
             if (addressHouse.getId() <= 0) {
                 query.append("INSERT INTO ");
-                query.append(TABLE_ADDRESS_HOUSE);
+                query.append(Tables.TABLE_ADDRESS_HOUSE);
                 query.append(" SET area_id=?, quarter_id=?, street_id=?, house=?, frac=?, post_index=?, comment=?, last_update=NOW()");
                 ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
                 ps.setInt(index++, addressHouse.getAreaId());
@@ -735,7 +728,7 @@ public class AddressDAO extends CommonDAO {
                 ps.close();
             } else {
                 query.append("UPDATE ");
-                query.append(TABLE_ADDRESS_HOUSE);
+                query.append(Tables.TABLE_ADDRESS_HOUSE);
                 query.append(" SET area_id=?, quarter_id=?, street_id=?, house=?, frac=?, post_index=?, comment=?, last_update=NOW() WHERE id=?");
                 ps = con.prepareStatement(query.toString());
                 ps.setInt(index++, addressHouse.getAreaId());
@@ -758,7 +751,7 @@ public class AddressDAO extends CommonDAO {
         StringBuilder query = new StringBuilder();
 
         query.append("SELECT COUNT(*) FROM");
-        query.append(TABLE_PARAM_ADDRESS);
+        query.append(Tables.TABLE_PARAM_ADDRESS);
         query.append("WHERE house_id=?");
 
         PreparedStatement ps = con.prepareStatement(query.toString());
@@ -772,7 +765,7 @@ public class AddressDAO extends CommonDAO {
 
         query.setLength(0);
         query.append(SQL_DELETE_FROM);
-        query.append(TABLE_ADDRESS_HOUSE);
+        query.append(Tables.TABLE_ADDRESS_HOUSE);
         query.append("WHERE id=?");
 
         ps = con.prepareStatement(query.toString());
@@ -849,7 +842,7 @@ public class AddressDAO extends CommonDAO {
 
         String ids = getIdsString(countriesId);
         StringBuilder query = new StringBuilder("SELECT * FROM ");
-        query.append(TABLE_ADDRESS_COUNTRY);
+        query.append(Tables.TABLE_ADDRESS_COUNTRY);
         query.append(" WHERE last_update>=?");
         if (ids.length() > 0) {
             query.append(" AND id IN ( ");
@@ -882,7 +875,7 @@ public class AddressDAO extends CommonDAO {
 
         String ids = getIdsString(citiesId);
         StringBuilder query = new StringBuilder("SELECT * FROM ");
-        query.append(TABLE_ADDRESS_CITY);
+        query.append(Tables.TABLE_ADDRESS_CITY);
         query.append(" WHERE last_update>=?");
         if (ids.length() > 0) {
             query.append(" AND id IN ( ");
@@ -912,9 +905,9 @@ public class AddressDAO extends CommonDAO {
 
         String ids = getIdsString(citiesId);
         StringBuilder query = new StringBuilder("SELECT h.* FROM ");
-        query.append(TABLE_ADDRESS_HOUSE);
+        query.append(Tables.TABLE_ADDRESS_HOUSE);
         query.append(" AS h LEFT JOIN ");
-        query.append(TABLE_ADDRESS_STREET);
+        query.append(Tables.TABLE_ADDRESS_STREET);
         query.append(" AS s ON h.street_id=s.id WHERE h.last_update>=?");
         if (ids.length() > 0) {
             query.append(" AND s.city_id IN ( ");
@@ -970,15 +963,15 @@ public class AddressDAO extends CommonDAO {
     }
 
     public List<AddressItem> getUpdatedAreas(long time, int[] citiesId) throws SQLException {
-        return getUpdatedItems(TABLE_ADDRESS_AREA, time, citiesId);
+        return getUpdatedItems(Tables.TABLE_ADDRESS_AREA, time, citiesId);
     }
 
     public List<AddressItem> getUpdatedQuarters(long time, int[] citiesId) throws SQLException {
-        return getUpdatedItems(TABLE_ADDRESS_QUARTER, time, citiesId);
+        return getUpdatedItems(Tables.TABLE_ADDRESS_QUARTER, time, citiesId);
     }
 
     public List<AddressItem> getUpdatedStreets(long time, int[] citiesId) throws SQLException {
-        return getUpdatedItems(TABLE_ADDRESS_STREET, time, citiesId);
+        return getUpdatedItems(Tables.TABLE_ADDRESS_STREET, time, citiesId);
     }
 
     public List<Integer> getCountryIdByCityId(int[] citiesId) throws SQLException {
@@ -987,7 +980,7 @@ public class AddressDAO extends CommonDAO {
         Set<Integer> countryIdSet = new HashSet<Integer>();
         String ids = getIdsString(citiesId);
         StringBuilder query = new StringBuilder("SELECT country_id FROM ");
-        query.append(TABLE_ADDRESS_CITY);
+        query.append(Tables.TABLE_ADDRESS_CITY);
         query.append(" WHERE true");
         if (ids.length() > 0) {
             query.append(" AND id IN ( ");
@@ -1020,7 +1013,7 @@ public class AddressDAO extends CommonDAO {
         List<AddressItem> matchStreets = new ArrayList<AddressItem>();
         if (cityIds == null || cityIds.size() > 0) {
             StringBuilder query = new StringBuilder("SELECT * FROM ");
-            query.append(TABLE_ADDRESS_STREET);
+            query.append(Tables.TABLE_ADDRESS_STREET);
             query.append(" WHERE title like ?");
             if (cityIds != null) {
                 query.append(" AND ");
@@ -1060,7 +1053,7 @@ public class AddressDAO extends CommonDAO {
     public int getCityIdByAddress(String address) throws SQLException {
         int cityId = -1;
 
-        PreparedStatement ps = con.prepareStatement("SELECT id FROM " + TABLE_ADDRESS_CITY + "WHERE title = ?");
+        PreparedStatement ps = con.prepareStatement("SELECT id FROM " + Tables.TABLE_ADDRESS_CITY + "WHERE title = ?");
         ps.setString(1, address.split(",")[0]);
 
         ResultSet rs = ps.executeQuery();
@@ -1081,11 +1074,11 @@ public class AddressDAO extends CommonDAO {
             PreparedQuery pq = new PreparedQuery(con);
 
             pq.addQuery("SELECT house.id FROM ");
-            pq.addQuery(TABLE_ADDRESS_HOUSE);
+            pq.addQuery(Tables.TABLE_ADDRESS_HOUSE);
             pq.addQuery(" AS house");
             if (cityIds != null) {
                 pq.addQuery(" LEFT JOIN ");
-                pq.addQuery(TABLE_ADDRESS_STREET);
+                pq.addQuery(Tables.TABLE_ADDRESS_STREET);
                 pq.addQuery(" AS street ON house.street_id=street.id");
             }
             pq.addQuery(" WHERE street_id=?");

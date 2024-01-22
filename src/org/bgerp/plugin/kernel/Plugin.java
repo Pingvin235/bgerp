@@ -57,13 +57,13 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     public Set<Table> getTables() {
         // used the order same with db.sql
         return Set.of(
-            new Table(Tables.TABLE_ADDRESS_AREA, Type.DIRECTORY),
-            new Table(Tables.TABLE_ADDRESS_CITY, Type.DIRECTORY),
-            new Table(Tables.TABLE_ADDRESS_CONFIG, Type.DIRECTORY),
-            new Table(Tables.TABLE_ADDRESS_COUNTRY, Type.DIRECTORY),
-            new Table(Tables.TABLE_ADDRESS_HOUSE, Type.DIRECTORY),
-            new Table(Tables.TABLE_ADDRESS_QUARTER, Type.DIRECTORY),
-            new Table(Tables.TABLE_ADDRESS_STREET, Type.DIRECTORY),
+            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_AREA, Type.DIRECTORY),
+            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_CITY, Type.DIRECTORY),
+            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_CONFIG, Type.DIRECTORY),
+            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_COUNTRY, Type.DIRECTORY),
+            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_HOUSE, Type.DIRECTORY),
+            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_QUARTER, Type.DIRECTORY),
+            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET, Type.DIRECTORY),
             new Table(IfaceStateDAO.TABLE_NAME, Type.TRASH),
             // old table for update logs in ExecuteSQL
             new Table("sql_patches_history", Type.DEPRECATED)

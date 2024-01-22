@@ -1,7 +1,5 @@
 package org.bgerp.plugin.bil.subscription.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
 
 import java.math.BigDecimal;
@@ -12,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.model.Subscription;
 import org.bgerp.util.sql.PreparedQuery;
@@ -37,7 +36,7 @@ public class SubscriptionDAO extends CommonDAO {
     public BigDecimal getCost(Subscription subscription, int limitId, Collection<Integer> productProcessIds) throws SQLException {
         var result = BigDecimal.ZERO;
 
-        var query = SQL_SELECT + "SUM(count)" + SQL_FROM + TABLE_PARAM_LISTCOUNT + SQL_WHERE
+        var query = SQL_SELECT + "SUM(count)" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + SQL_WHERE
                 + "param_id=? AND value=? AND id IN (" + Utils.toString(productProcessIds, "-1", ",") + ")";
         try (var ps = con.prepareStatement(query)) {
             ps.setInt(1, subscription.getParamLimitPriceId());
@@ -70,7 +69,7 @@ public class SubscriptionDAO extends CommonDAO {
 
         var result = BigDecimal.ZERO;
 
-        var pq = new PreparedQuery(con, SQL_SELECT + "SUM(param_price.count)" + SQL_FROM + TABLE_PARAM_LISTCOUNT + "AS param_price");
+        var pq = new PreparedQuery(con, SQL_SELECT + "SUM(param_price.count)" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + "AS param_price");
         addProductsJoin(pq, config, "param_price", subscriptionProcessId);
         pq.addQuery(SQL_WHERE + "param_price.param_id=? AND param_price.value=?");
         pq.addInt(subscription.getParamLimitPriceId());
@@ -110,7 +109,7 @@ public class SubscriptionDAO extends CommonDAO {
     public List<String> getProducts(Config config, int subscriptionProcessId) throws SQLException {
         var result = new ArrayList<String>(50);
 
-        var query = SQL_SELECT + "param_product.value" + SQL_FROM + TABLE_PARAM_TEXT + "AS param_product"
+        var query = SQL_SELECT + "param_product.value" + SQL_FROM + Tables.TABLE_PARAM_TEXT + "AS param_product"
             + SQL_INNER_JOIN + TABLE_PROCESS_LINK + "AS pl ON param_product.id=pl.process_id AND pl.object_id=? AND pl.object_type=?"
             + SQL_WHERE + "param_product.param_id=?"
             + SQL_ORDER_BY + "value";
@@ -161,7 +160,7 @@ public class SubscriptionDAO extends CommonDAO {
     private void addProductsJoin(PreparedQuery pq, Config config, String table, int subscriptionProcessId) throws SQLException {
         pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK
                 + "AS pl ON " + table + ".id=pl.process_id AND pl.object_id=? AND pl.object_type=?"
-                + SQL_INNER_JOIN + TABLE_PARAM_TEXT + "AS param_product_id ON pl.process_id=param_product_id.id AND param_product_id.param_id=?");
+                + SQL_INNER_JOIN + Tables.TABLE_PARAM_TEXT + "AS param_product_id ON pl.process_id=param_product_id.id AND param_product_id.param_id=?");
         pq.addInt(subscriptionProcessId);
         pq.addString(Process.LINK_TYPE_DEPEND);
         pq.addInt(config.getParamProductId());

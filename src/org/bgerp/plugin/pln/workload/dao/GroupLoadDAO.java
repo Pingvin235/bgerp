@@ -72,7 +72,7 @@ public class GroupLoadDAO extends ProcessDAO {
                     .append(" as process_group ON process_group.process_id=process.id");
         }
 
-        final String dateParamTable = Parameter.TYPE_DATETIME.equals(dateFromParam.getType()) ? Tables.TABLE_PARAM_DATETIME : Tables.TABLE_PARAM_DATE;
+        final String dateParamTable = Parameter.TYPE_DATETIME.equals(dateFromParam.getType()) ? org.bgerp.dao.param.Tables.TABLE_PARAM_DATETIME : org.bgerp.dao.param.Tables.TABLE_PARAM_DATE;
 
         query.append(" LEFT JOIN " + dateParamTable + " as dateFromParam ON dateFromParam.id=process.id AND dateFromParam.param_id=?");
 

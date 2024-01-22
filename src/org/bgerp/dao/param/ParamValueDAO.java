@@ -1,26 +1,7 @@
 package org.bgerp.dao.param;
 
 import static ru.bgcrm.dao.AddressDAO.LOAD_LEVEL_COUNTRY;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
 import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_BLOB;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATETIME;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_EMAIL;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_FILE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT_VALUE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST_VALUE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LOG;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_MONEY;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE_ITEM;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PREF;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE_VALUE;
 import static ru.bgcrm.model.param.Parameter.LIST_PARAM_USE_DIRECTORY_KEY;
 
 import java.math.BigDecimal;
@@ -87,18 +68,18 @@ public class ParamValueDAO extends CommonDAO {
     public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
 
     public static final String[] TABLE_NAMES = {
-        TABLE_PARAM_ADDRESS,
-        TABLE_PARAM_BLOB,
-        TABLE_PARAM_DATE,
-        TABLE_PARAM_DATETIME,
-        TABLE_PARAM_EMAIL,
-        TABLE_PARAM_FILE,
-        TABLE_PARAM_LIST,
-        TABLE_PARAM_LISTCOUNT,
-        TABLE_PARAM_MONEY,
-        TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_ITEM,
-        TABLE_PARAM_TEXT,
-        TABLE_PARAM_TREE
+        Tables.TABLE_PARAM_ADDRESS,
+        Tables.TABLE_PARAM_BLOB,
+        Tables.TABLE_PARAM_DATE,
+        Tables.TABLE_PARAM_DATETIME,
+        Tables.TABLE_PARAM_EMAIL,
+        Tables.TABLE_PARAM_FILE,
+        Tables.TABLE_PARAM_LIST,
+        Tables.TABLE_PARAM_LISTCOUNT,
+        Tables.TABLE_PARAM_MONEY,
+        Tables.TABLE_PARAM_PHONE, Tables.TABLE_PARAM_PHONE_ITEM,
+        Tables.TABLE_PARAM_TEXT,
+        Tables.TABLE_PARAM_TREE
     };
 
     /** Write param changes history. */
@@ -159,33 +140,33 @@ public class ParamValueDAO extends CommonDAO {
 
         switch (paramType) {
             case ADDRESS -> {
-                query = "INSERT INTO " + TABLE_PARAM_ADDRESS
+                query = "INSERT INTO " + Tables.TABLE_PARAM_ADDRESS
                         + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment, custom) "
                         + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment, custom " + "FROM "
-                        + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
+                        + Tables.TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
             case EMAIL -> {
-                query = "INSERT INTO " + TABLE_PARAM_EMAIL + " (id, param_id, n, value) " + "SELECT ?, ?, n, value "
-                        + "FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
+                query = "INSERT INTO " + Tables.TABLE_PARAM_EMAIL + " (id, param_id, n, value) " + "SELECT ?, ?, n, value "
+                        + "FROM " + Tables.TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
             case LIST -> {
-                query = SQL_INSERT_IGNORE + TABLE_PARAM_LIST + "(id, param_id, value, comment)"
+                query = SQL_INSERT_IGNORE + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment)"
                         + SQL_SELECT + "?, ?, value, comment "
-                        + SQL_FROM + TABLE_PARAM_LIST
+                        + SQL_FROM + Tables.TABLE_PARAM_LIST
                         + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
             case LISTCOUNT -> {
-                query = SQL_INSERT + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment)"
+                query = SQL_INSERT + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment)"
                         + SQL_SELECT + "?, ?, value, count, comment"
-                        + SQL_FROM + TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id=?";
+                        + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
             case TREE -> {
-                query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                        + TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
+                query = "INSERT INTO " + Tables.TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
+                        + Tables.TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
             case DATE, DATETIME, MONEY, TEXT, BLOB, PHONE -> {
@@ -196,16 +177,16 @@ public class ParamValueDAO extends CommonDAO {
                 psList.add(con.prepareStatement(query));
 
                 if (Parameter.Type.PHONE == paramType) {
-                    query = "INSERT INTO " + TABLE_PARAM_PHONE_ITEM
+                    query = "INSERT INTO " + Tables.TABLE_PARAM_PHONE_ITEM
                             + " (id, param_id, n, phone, comment) "
-                            + "SELECT ?, ?, n, phone, comment" + SQL_FROM + TABLE_PARAM_PHONE_ITEM
+                            + "SELECT ?, ?, n, phone, comment" + SQL_FROM + Tables.TABLE_PARAM_PHONE_ITEM
                             + " WHERE id=? AND param_id=?";
                     psList.add(con.prepareStatement(query));
                 }
             }
             case FILE -> {
-                query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n, value) "
-                        + "SELECT ?, ?, n, value FROM " + TABLE_PARAM_FILE
+                query = "INSERT INTO " + Tables.TABLE_PARAM_FILE + "(id, param_id, n, value) "
+                        + "SELECT ?, ?, n, value FROM " + Tables.TABLE_PARAM_FILE
                         + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
@@ -270,8 +251,8 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void deleteParams(String objectType, int id) throws SQLException {
-        String query = SQL_DELETE + "pl" + SQL_FROM + TABLE_PARAM_LOG + "AS pl"
-            + SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON pl.param_id=pref.id AND pref.object='" + objectType + "'"
+        String query = SQL_DELETE + "pl" + SQL_FROM + Tables.TABLE_PARAM_LOG + "AS pl"
+            + SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS pref ON pl.param_id=pref.id AND pref.object='" + objectType + "'"
             + SQL_WHERE + "pl.object_id=?";
         try (var pq = new PreparedQuery(con, query)) {
             pq.addInt(id);
@@ -280,7 +261,7 @@ public class ParamValueDAO extends CommonDAO {
 
         for (String tableName : TABLE_NAMES) {
             query =  SQL_DELETE + "pv" + SQL_FROM + tableName + " AS pv"
-                + SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON pv.param_id=pref.id AND pref.object=?"
+                + SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS pref ON pv.param_id=pref.id AND pref.object=?"
                 + SQL_WHERE + "pv.id=?";
 
             try (var ps = con.prepareStatement(query)) {
@@ -302,7 +283,7 @@ public class ParamValueDAO extends CommonDAO {
     public ParameterAddressValue getParamAddress(int id, int paramId, int position) throws SQLException {
         ParameterAddressValue result = null;
 
-        String query = "SELECT * FROM " + TABLE_PARAM_ADDRESS + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
+        String query = "SELECT * FROM " + Tables.TABLE_PARAM_ADDRESS + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
         ps.setInt(2, paramId);
@@ -363,9 +344,9 @@ public class ParamValueDAO extends CommonDAO {
         SortedMap<Integer, ParameterAddressValue> result = new TreeMap<Integer, ParameterAddressValue>();
 
         StringBuilder query = new StringBuilder(300);
-        query.append("SELECT * FROM " + TABLE_PARAM_ADDRESS + " AS param ");
+        query.append("SELECT * FROM " + Tables.TABLE_PARAM_ADDRESS + " AS param ");
         if (loadDirs) {
-            query.append(" LEFT JOIN " + TABLE_ADDRESS_HOUSE + " AS house ON param.house_id=house.id ");
+            query.append(" LEFT JOIN " + Tables.TABLE_ADDRESS_HOUSE + " AS house ON param.house_id=house.id ");
             AddressDAO.addHouseSelectQueryJoins(query, LOAD_LEVEL_COUNTRY);
         }
         query.append(" WHERE param.id=? AND param.param_id=? ORDER BY param.n");
@@ -413,7 +394,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public String getParamBlob(int id, int paramId) throws SQLException {
-        return getTextParam(id, paramId, TABLE_PARAM_BLOB);
+        return getTextParam(id, paramId, Tables.TABLE_PARAM_BLOB);
     }
 
     private String getTextParam(int id, int paramId, String table) throws SQLException {
@@ -448,7 +429,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public Date getParamDate(int id, int paramId) throws SQLException {
-        return getParamDate(id, paramId, TABLE_PARAM_DATE);
+        return getParamDate(id, paramId, Tables.TABLE_PARAM_DATE);
     }
 
     /**
@@ -459,7 +440,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public Date getParamDateTime(int id, int paramId) throws SQLException {
-        return getParamDate(id, paramId, TABLE_PARAM_DATETIME);
+        return getParamDate(id, paramId, Tables.TABLE_PARAM_DATETIME);
     }
 
     private Date getParamDate(int id, int paramId, String table) throws SQLException {
@@ -490,7 +471,7 @@ public class ParamValueDAO extends CommonDAO {
     public ParameterEmailValue getParamEmail(int id, int paramId, int position) throws SQLException {
         ParameterEmailValue emailItem = null;
 
-        String query = "SELECT * FROM " + TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
+        String query = "SELECT * FROM " + Tables.TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -516,7 +497,7 @@ public class ParamValueDAO extends CommonDAO {
     public SortedMap<Integer, ParameterEmailValue> getParamEmail(int id, int paramId) throws SQLException {
         SortedMap<Integer, ParameterEmailValue> emailItems = new TreeMap<Integer, ParameterEmailValue>();
 
-        String query = "SELECT * FROM " + TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? " + "ORDER BY n ";
+        String query = "SELECT * FROM " + Tables.TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? " + "ORDER BY n ";
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -542,7 +523,7 @@ public class ParamValueDAO extends CommonDAO {
     public FileData getParamFile(int id, int paramId, int position) throws SQLException {
         FileData result = null;
 
-        String query = "SELECT fd.*, pf.n FROM " + TABLE_PARAM_FILE + " AS pf "
+        String query = "SELECT fd.*, pf.n FROM " + Tables.TABLE_PARAM_FILE + " AS pf "
             + "INNER JOIN " + TABLE_FILE_DATA + " AS fd ON pf.value=fd.id "
             + "WHERE pf.id=? AND pf.param_id=? AND pf.n=? LIMIT 1";
 
@@ -570,7 +551,7 @@ public class ParamValueDAO extends CommonDAO {
     public SortedMap<Integer, FileData> getParamFile(int id, int paramId) throws SQLException {
         SortedMap<Integer, FileData> fileMap = new TreeMap<>();
 
-        String query = "SELECT fd.*, pf.n FROM " + TABLE_PARAM_FILE
+        String query = "SELECT fd.*, pf.n FROM " + Tables.TABLE_PARAM_FILE
             + " AS pf INNER JOIN " + TABLE_FILE_DATA + " AS fd ON pf.value=fd.id "
             + "WHERE pf.id=? AND pf.param_id=? ";
 
@@ -597,7 +578,7 @@ public class ParamValueDAO extends CommonDAO {
     public Set<Integer> getParamList(int id, int paramId) throws SQLException {
         Set<Integer> result = new HashSet<Integer>();
 
-        String query = "SELECT value FROM " + TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
+        String query = "SELECT value FROM " + Tables.TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
 
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -633,7 +614,7 @@ public class ParamValueDAO extends CommonDAO {
     public Map<Integer, String> getParamListWithComments(int id, int paramId) throws SQLException {
         Map<Integer, String> result = new LinkedHashMap<Integer, String>();
 
-        String query = "SELECT value, comment FROM " + TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
+        String query = "SELECT value, comment FROM " + Tables.TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
 
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -663,7 +644,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_SELECT);
         query.append(" val.value, dir.title, val.comment ");
         query.append(SQL_FROM);
-        query.append(TABLE_PARAM_LIST);
+        query.append(Tables.TABLE_PARAM_LIST);
         query.append(" AS val ");
         addListParamJoin(query, paramId);
         query.append(SQL_WHERE);
@@ -683,7 +664,7 @@ public class ParamValueDAO extends CommonDAO {
 
     private void addListParamJoin(StringBuilder query, int paramId) throws SQLException {
         Parameter param = ParameterCache.getParameter(paramId);
-        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, TABLE_PARAM_LIST_VALUE);
+        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_LIST_VALUE);
         addListTableJoin(query, joinTable);
     }
 
@@ -691,7 +672,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_LEFT_JOIN);
         query.append(tableName);
         query.append(" AS dir ON ");
-        if (tableName.equals(TABLE_PARAM_LIST_VALUE)) {
+        if (tableName.equals(Tables.TABLE_PARAM_LIST_VALUE)) {
             query.append(" val.param_id=dir.param_id AND val.value=dir.id ");
         } else {
             query.append(" val.value=dir.id ");
@@ -708,7 +689,7 @@ public class ParamValueDAO extends CommonDAO {
     public Map<Integer, ParameterListCountValue> getParamListCount(int id, int paramId) throws SQLException {
         Map<Integer, ParameterListCountValue> result = new HashMap<Integer, ParameterListCountValue>();
 
-        String query = "SELECT value,count,comment FROM " + TABLE_PARAM_LISTCOUNT + "WHERE id=? AND param_id=?";
+        String query = "SELECT value,count,comment FROM " + Tables.TABLE_PARAM_LISTCOUNT + "WHERE id=? AND param_id=?";
 
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -737,7 +718,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_SELECT);
         query.append("val.value, dir.title");
         query.append(SQL_FROM);
-        query.append(TABLE_PARAM_LISTCOUNT);
+        query.append(Tables.TABLE_PARAM_LISTCOUNT);
         query.append("AS val");
         addListCountParamJoin(query, paramId);
         query.append(SQL_WHERE);
@@ -757,7 +738,7 @@ public class ParamValueDAO extends CommonDAO {
 
     private void addListCountParamJoin(StringBuilder query, int paramId) throws SQLException {
         Parameter param = ParameterCache.getParameter(paramId);
-        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, TABLE_PARAM_LISTCOUNT_VALUE);
+        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_LISTCOUNT_VALUE);
         addListCountTableJoin(query, joinTable);
     }
 
@@ -765,7 +746,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_LEFT_JOIN);
         query.append(tableName);
         query.append(" AS dir ON ");
-        if (tableName.equals(TABLE_PARAM_LISTCOUNT_VALUE)) {
+        if (tableName.equals(Tables.TABLE_PARAM_LISTCOUNT_VALUE)) {
             query.append(" val.param_id=dir.param_id AND val.value=dir.id ");
         } else {
             query.append(" val.value=dir.id ");
@@ -780,7 +761,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public BigDecimal getParamMoney(int id, int paramId) throws SQLException {
-        return Utils.parseBigDecimal(getTextParam(id, paramId, TABLE_PARAM_MONEY), null);
+        return Utils.parseBigDecimal(getTextParam(id, paramId, Tables.TABLE_PARAM_MONEY), null);
     }
 
     /**
@@ -795,7 +776,7 @@ public class ParamValueDAO extends CommonDAO {
 
         List<ParameterPhoneValueItem> itemList = new ArrayList<>();
 
-        String query = SQL_SELECT + "phone, comment" + SQL_FROM + TABLE_PARAM_PHONE_ITEM
+        String query = SQL_SELECT + "phone, comment" + SQL_FROM + Tables.TABLE_PARAM_PHONE_ITEM
                 + SQL_WHERE + "id=? AND param_id=?"
                 + SQL_ORDER_BY + "n";
         try (var ps = con.prepareStatement(query.toString())) {
@@ -826,7 +807,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public String getParamText(int id, int paramId) throws SQLException {
-        return getTextParam(id, paramId, TABLE_PARAM_TEXT);
+        return getTextParam(id, paramId, Tables.TABLE_PARAM_TEXT);
     }
 
     /**
@@ -839,7 +820,7 @@ public class ParamValueDAO extends CommonDAO {
     public Set<String> getParamTree(int id, int paramId) throws SQLException {
         Set<String> result = new HashSet<String>();
 
-        String query = "SELECT value FROM " + TABLE_PARAM_TREE + "WHERE id=? AND param_id=?";
+        String query = "SELECT value FROM " + Tables.TABLE_PARAM_TREE + "WHERE id=? AND param_id=?";
 
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -868,7 +849,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_SELECT);
         query.append("val.value, dir.title");
         query.append(SQL_FROM);
-        query.append(TABLE_PARAM_TREE);
+        query.append(Tables.TABLE_PARAM_TREE);
         query.append("AS val");
         addTreeParamJoin(query, paramId);
         query.append(SQL_WHERE);
@@ -889,7 +870,7 @@ public class ParamValueDAO extends CommonDAO {
 
     private void addTreeParamJoin(StringBuilder query, int paramId) throws SQLException {
         Parameter param = ParameterCache.getParameter(paramId);
-        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, TABLE_PARAM_TREE_VALUE);
+        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_TREE_VALUE);
         addTreeTableJoin(query, joinTable);
     }
 
@@ -897,7 +878,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_LEFT_JOIN);
         query.append(tableName);
         query.append(" AS dir ON ");
-        if (tableName.equals(TABLE_PARAM_TREE_VALUE)) {
+        if (tableName.equals(Tables.TABLE_PARAM_TREE_VALUE)) {
             query.append(" val.param_id=dir.param_id AND val.value=dir.id ");
         } else {
             query.append(" val.value=dir.id ");
@@ -940,7 +921,7 @@ public class ParamValueDAO extends CommonDAO {
             query.append(tableName);
             query.append(" AS param");
             query.append(SQL_INNER_JOIN);
-            query.append(TABLE_PARAM_PREF);
+            query.append(Tables.TABLE_PARAM_PREF);
             query.append("AS pref ON param.param_id=pref.id AND pref.object=? ");
             query.append("SET param.id=?");
             query.append(SQL_WHERE);
@@ -996,7 +977,7 @@ public class ParamValueDAO extends CommonDAO {
         if (value == null) {
             PreparedQuery pq = new PreparedQuery(con);
 
-            pq.addQuery(SQL_DELETE_FROM + TABLE_PARAM_ADDRESS + SQL_WHERE + "id=? AND param_id=? ");
+            pq.addQuery(SQL_DELETE_FROM + Tables.TABLE_PARAM_ADDRESS + SQL_WHERE + "id=? AND param_id=? ");
             pq.addInt(id);
             pq.addInt(paramId);
 
@@ -1015,7 +996,7 @@ public class ParamValueDAO extends CommonDAO {
                 if (position <= 0) {
                     position = 1;
 
-                    String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
+                    String query = "SELECT MAX(n) + 1 FROM " + Tables.TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
                     PreparedStatement ps = con.prepareStatement(query);
                     ps.setInt(1, id);
                     ps.setInt(2, paramId);
@@ -1028,7 +1009,7 @@ public class ParamValueDAO extends CommonDAO {
 
                     insertParamAddress(id, paramId, position, value);
                 } else {
-                    String query = "UPDATE " + TABLE_PARAM_ADDRESS
+                    String query = "UPDATE " + Tables.TABLE_PARAM_ADDRESS
                             + " SET value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?"
                             + " WHERE id=? AND param_id=? AND n=?";
                     PreparedStatement ps = con.prepareStatement(query);
@@ -1075,7 +1056,7 @@ public class ParamValueDAO extends CommonDAO {
     private void insertParamAddress(int id, int paramId, int position, ParameterAddressValue value) throws SQLException {
         int index = 1;
 
-        String query = "INSERT INTO " + TABLE_PARAM_ADDRESS
+        String query = "INSERT INTO " + Tables.TABLE_PARAM_ADDRESS
                 + " SET id=?, param_id=?, n=?, value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(index++, id);
@@ -1116,7 +1097,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamsAddressOnHouseUpdate(int houseId) throws SQLException {
-        String query = "SELECT * FROM " + TABLE_PARAM_ADDRESS + " WHERE house_id=?";
+        String query = "SELECT * FROM " + Tables.TABLE_PARAM_ADDRESS + " WHERE house_id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, houseId);
 
@@ -1147,7 +1128,7 @@ public class ParamValueDAO extends CommonDAO {
             value = null;
         }
 
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_BLOB);
+        updateSimpleParam(id, paramId, value, Tables.TABLE_PARAM_BLOB);
 
         if (history) {
             logParam(id, paramId, userId, value != null ? Localization.getLocalizer().l("Length: {}", value.length()) : null);
@@ -1197,7 +1178,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamDate(int id, int paramId, Date value) throws SQLException {
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_DATE);
+        updateSimpleParam(id, paramId, value, Tables.TABLE_PARAM_DATE);
 
         if (history) {
             logParam(id, paramId, userId, TimeUtils.format(value, TimeUtils.FORMAT_TYPE_YMD));
@@ -1212,7 +1193,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamDateTime(int id, int paramId, Date value) throws SQLException {
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_DATETIME);
+        updateSimpleParam(id, paramId, value, Tables.TABLE_PARAM_DATETIME);
 
         if (history) {
             logParam(id, paramId, userId, TimeUtils.format(value, TimeUtils.FORMAT_TYPE_YMDHMS));
@@ -1233,7 +1214,7 @@ public class ParamValueDAO extends CommonDAO {
         if (value == null) {
             PreparedQuery psDelay = new PreparedQuery(con);
 
-            psDelay.addQuery(SQL_DELETE_FROM + TABLE_PARAM_EMAIL + SQL_WHERE + "id=? AND param_id=?");
+            psDelay.addQuery(SQL_DELETE_FROM + Tables.TABLE_PARAM_EMAIL + SQL_WHERE + "id=? AND param_id=?");
             psDelay.addInt(id);
             psDelay.addInt(paramId);
 
@@ -1249,7 +1230,7 @@ public class ParamValueDAO extends CommonDAO {
             if (position <= 0) {
                 position = 1;
 
-                String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
+                String query = "SELECT MAX(n) + 1 FROM " + Tables.TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setInt(1, id);
                 ps.setInt(2, paramId);
@@ -1260,7 +1241,7 @@ public class ParamValueDAO extends CommonDAO {
                 }
                 ps.close();
 
-                query = "INSERT INTO " + TABLE_PARAM_EMAIL + " SET id=?, param_id=?, n=?, value=?, comment=?";
+                query = "INSERT INTO " + Tables.TABLE_PARAM_EMAIL + " SET id=?, param_id=?, n=?, value=?, comment=?";
                 ps = con.prepareStatement(query);
                 ps.setInt(index++, id);
                 ps.setInt(index++, paramId);
@@ -1272,7 +1253,7 @@ public class ParamValueDAO extends CommonDAO {
 
                 ps.close();
             } else {
-                String query = "UPDATE " + TABLE_PARAM_EMAIL + " SET value=?, comment=?"
+                String query = "UPDATE " + Tables.TABLE_PARAM_EMAIL + " SET value=?, comment=?"
                         + " WHERE id=? AND param_id=? AND n=?";
                 PreparedStatement ps = con.prepareStatement(query);
 
@@ -1315,7 +1296,7 @@ public class ParamValueDAO extends CommonDAO {
                 for (var value : currentValue.values())
                     new FileDataDAO(con).delete(value);
 
-                String query = SQL_DELETE_FROM + TABLE_PARAM_FILE + SQL_WHERE + "id=? AND param_id=?";
+                String query = SQL_DELETE_FROM + Tables.TABLE_PARAM_FILE + SQL_WHERE + "id=? AND param_id=?";
                 try (var pq = new PreparedQuery(con, query)) {
                     pq.addInt(id);
                     pq.addInt(paramId);
@@ -1334,7 +1315,7 @@ public class ParamValueDAO extends CommonDAO {
             }
 
             if (position == 0) {
-                var query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
+                var query = "SELECT MAX(n) + 1 FROM " + Tables.TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
                 var ps = con.prepareStatement(query);
                 ps.setInt(1, id);
                 ps.setInt(2, paramId);
@@ -1348,7 +1329,7 @@ public class ParamValueDAO extends CommonDAO {
                 ps.close();
             }
 
-            var query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n, value) VALUES (?, ?, ?, ?)";
+            var query = "INSERT INTO " + Tables.TABLE_PARAM_FILE + "(id, param_id, n, value) VALUES (?, ?, ?, ?)";
 
             var ps = con.prepareStatement(query);
             ps.setInt(1, id);
@@ -1363,7 +1344,7 @@ public class ParamValueDAO extends CommonDAO {
             String values = "";
 
             String query = SQL_SELECT + "GROUP_CONCAT(fd.title SEPARATOR ', ')"
-                + SQL_FROM + TABLE_PARAM_FILE + "AS pf "
+                + SQL_FROM + Tables.TABLE_PARAM_FILE + "AS pf "
                 + SQL_INNER_JOIN + TABLE_FILE_DATA + "AS fd ON pf.value=fd.id"
                 + SQL_WHERE + "pf.id=? AND pf.param_id=?";
             var pq = new PreparedQuery(con, query);
@@ -1398,9 +1379,9 @@ public class ParamValueDAO extends CommonDAO {
         if (values == null)
             values = Set.of();
 
-        deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
+        deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LIST);
 
-        String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value) VALUES (?,?,?)";
+        String query = "INSERT INTO " + Tables.TABLE_PARAM_LIST + "(id, param_id, value) VALUES (?,?,?)";
 
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -1424,9 +1405,9 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamListWithComments(int id, int paramId, Map<Integer, String> values) throws SQLException {
-        deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
+        deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LIST);
 
-        String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value, comment) VALUES (?,?,?,?)";
+        String query = "INSERT INTO " + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment) VALUES (?,?,?,?)";
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -1460,9 +1441,9 @@ public class ParamValueDAO extends CommonDAO {
         if (values == null)
             values = Map.of();
 
-        deleteFromParamTable(id, paramId, TABLE_PARAM_LISTCOUNT);
+        deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LISTCOUNT);
 
-        String query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO " + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -1515,7 +1496,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamMoney(int id, int paramId, BigDecimal value) throws SQLException {
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_MONEY);
+        updateSimpleParam(id, paramId, value, Tables.TABLE_PARAM_MONEY);
 
         if (history) {
             logParam(id, paramId, userId, String.valueOf(value));
@@ -1533,7 +1514,7 @@ public class ParamValueDAO extends CommonDAO {
         if (Utils.isBlankString(value))
             value = null;
 
-        updateSimpleParam(id, paramId, Utils.parseBigDecimal(value), TABLE_PARAM_MONEY);
+        updateSimpleParam(id, paramId, Utils.parseBigDecimal(value), Tables.TABLE_PARAM_MONEY);
 
         if (history) {
             logParam(id, paramId, userId, value);
@@ -1551,18 +1532,18 @@ public class ParamValueDAO extends CommonDAO {
         String newPhones = null;
 
         if (value == null || value.getItemList().size() == 0) {
-            deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE);
-            deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
+            deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_PHONE);
+            deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_PHONE_ITEM);
         } else {
             newPhones = value.toString();
 
-            updateSimpleParam(id, paramId, newPhones, TABLE_PARAM_PHONE);
+            updateSimpleParam(id, paramId, newPhones, Tables.TABLE_PARAM_PHONE);
 
-            deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
+            deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_PHONE_ITEM);
 
             int index = 1;
 
-            String query = "INSERT INTO" + TABLE_PARAM_PHONE_ITEM
+            String query = "INSERT INTO" + Tables.TABLE_PARAM_PHONE_ITEM
                     + "SET id=?, param_id=?, n=?, phone=?, comment=?";
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setInt(index++, id);
@@ -1595,7 +1576,7 @@ public class ParamValueDAO extends CommonDAO {
             value = null;
         }
 
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_TEXT);
+        updateSimpleParam(id, paramId, value, Tables.TABLE_PARAM_TEXT);
 
         if (history) {
             logParam(id, paramId, userId, value);
@@ -1613,9 +1594,9 @@ public class ParamValueDAO extends CommonDAO {
         if (values == null)
             values = Set.of();
 
-        deleteFromParamTable(id, paramId, TABLE_PARAM_TREE);
+        deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_TREE);
 
-        String query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) VALUES (?,?,?)";
+        String query = "INSERT INTO " + Tables.TABLE_PARAM_TREE + "(id, param_id, value) VALUES (?,?,?)";
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -1704,7 +1685,7 @@ public class ParamValueDAO extends CommonDAO {
                 Parameter param = ParameterCache.getParameter(paramId);
                 String tableName = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY);
                 if (tableName == null) {
-                    tableName = TABLE_PARAM_LIST_VALUE;
+                    tableName = Tables.TABLE_PARAM_LIST_VALUE;
                 }
 
                 Set<Integer> pids = tableParamsMap.get(tableName);
@@ -1715,7 +1696,7 @@ public class ParamValueDAO extends CommonDAO {
             }
 
             final String standartPrefix = "SELECT val.param_id, val.value, dir.title, val.comment FROM "
-                    + TABLE_PARAM_LIST + " AS val ";
+                    + Tables.TABLE_PARAM_LIST + " AS val ";
             for (Map.Entry<String, Set<Integer>> me : tableParamsMap.entrySet()) {
                 String tableName = me.getKey();
                 if (query.length() > 0) {
@@ -1739,7 +1720,7 @@ public class ParamValueDAO extends CommonDAO {
                 Parameter param = ParameterCache.getParameter(paramId);
                 String tableName = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY);
                 if (tableName == null) {
-                    tableName = TABLE_PARAM_LISTCOUNT_VALUE;
+                    tableName = Tables.TABLE_PARAM_LISTCOUNT_VALUE;
                 }
 
                 Set<Integer> pids = tableParamsMap.get(tableName);
@@ -1750,7 +1731,7 @@ public class ParamValueDAO extends CommonDAO {
             }
 
             final String standartPrefix = "SELECT val.param_id, val.value, val.count, dir.title FROM "
-                    + TABLE_PARAM_LISTCOUNT + " AS val ";
+                    + Tables.TABLE_PARAM_LISTCOUNT + " AS val ";
             for (Map.Entry<String, Set<Integer>> me : tableParamsMap.entrySet()) {
                 String tableName = me.getKey();
                 if (query.length() > 0) {
@@ -1774,7 +1755,7 @@ public class ParamValueDAO extends CommonDAO {
                 Parameter param = ParameterCache.getParameter(paramId);
                 String tableName = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY);
                 if (tableName == null) {
-                    tableName = TABLE_PARAM_TREE_VALUE;
+                    tableName = Tables.TABLE_PARAM_TREE_VALUE;
                 }
 
                 Set<Integer> pids = tableParamsMap.get(tableName);
@@ -1784,7 +1765,7 @@ public class ParamValueDAO extends CommonDAO {
                 pids.add(paramId);
             }
 
-            final String standartPrefix = "SELECT val.param_id, val.value, dir.title FROM " + TABLE_PARAM_TREE
+            final String standartPrefix = "SELECT val.param_id, val.value, dir.title FROM " + Tables.TABLE_PARAM_TREE
                     + " AS val ";
             for (Map.Entry<String, Set<Integer>> me : tableParamsMap.entrySet()) {
                 String tableName = me.getKey();
@@ -1815,13 +1796,13 @@ public class ParamValueDAO extends CommonDAO {
             query.append(Utils.toString(ids));
             query.append(" )");
         } else if (Parameter.TYPE_FILE.equals(type)) {
-            query.append("SELECT pf.param_id, pf.n, fd.* FROM " + TABLE_PARAM_FILE
+            query.append("SELECT pf.param_id, pf.n, fd.* FROM " + Tables.TABLE_PARAM_FILE
                     + " AS pf INNER JOIN " + TABLE_FILE_DATA + " AS fd ON pf.value=fd.id "
                     + " WHERE pf.id=? AND pf.param_id IN ( ");
             query.append(Utils.toString(ids));
             query.append(" ) ORDER BY n");
         } else if (Parameter.TYPE_PHONE.equals(type)) {
-            query.append("SELECT pi.param_id, pi.n, pi.phone, pi.comment " + SQL_FROM + TABLE_PARAM_PHONE_ITEM
+            query.append("SELECT pi.param_id, pi.n, pi.phone, pi.comment " + SQL_FROM + Tables.TABLE_PARAM_PHONE_ITEM
                     + "AS pi WHERE pi.id=? AND pi.param_id IN ( ");
             query.append(Utils.toString(ids));
             query.append(" ) ORDER BY pi.n");

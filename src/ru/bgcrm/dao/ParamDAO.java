@@ -1,11 +1,5 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_GROUP;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT_VALUE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST_VALUE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PREF;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE_VALUE;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
@@ -75,7 +70,7 @@ public class ParamDAO extends CommonDAO {
         ResultSet rs = null;
         PreparedStatement ps = null;
         query.append("SELECT id, title FROM ");
-        query.append(TABLE_PARAM_LISTCOUNT_VALUE);
+        query.append(Tables.TABLE_PARAM_LISTCOUNT_VALUE);
         query.append(" WHERE param_id=? ORDER BY id");
         ps = con.prepareStatement(query.toString());
         ps.setInt(1, paramId);
@@ -102,7 +97,7 @@ public class ParamDAO extends CommonDAO {
         StringBuilder query = new StringBuilder(200);
 
         query.append("SELECT DISTINCT(param_id) FROM ");
-        query.append(TABLE_PARAM_TREE_VALUE);
+        query.append(Tables.TABLE_PARAM_TREE_VALUE);
         query.append("ORDER BY id");
 
         PreparedStatement ps = con.prepareStatement(query.toString());
@@ -151,7 +146,7 @@ public class ParamDAO extends CommonDAO {
     private IdStringTitleTreeItem getTreeParamValues(int paramId) throws SQLException {
         IdStringTitleTreeItem root = new IdStringTitleTreeItem();
 
-        String query = "SELECT id, parent_id, title FROM " + TABLE_PARAM_TREE_VALUE + " WHERE param_id=? ORDER BY id";
+        String query = "SELECT id, parent_id, title FROM " + Tables.TABLE_PARAM_TREE_VALUE + " WHERE param_id=? ORDER BY id";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, paramId);
         ResultSet rs = ps.executeQuery();
@@ -222,13 +217,13 @@ public class ParamDAO extends CommonDAO {
         ps.close();
 
         if (Parameter.TYPE_LIST.equals(parameter.getType())) {
-            query = "DELETE FROM " + TABLE_PARAM_LIST_VALUE + " WHERE param_id=?";
+            query = "DELETE FROM " + Tables.TABLE_PARAM_LIST_VALUE + " WHERE param_id=?";
             ps = con.prepareStatement(query);
             ps.setInt(1, parameter.getId());
             ps.executeUpdate();
             ps.close();
 
-            query = "INSERT INTO " + TABLE_PARAM_LIST_VALUE + " (id, title, param_id) VALUES (?,?,?)";
+            query = "INSERT INTO " + Tables.TABLE_PARAM_LIST_VALUE + " (id, title, param_id) VALUES (?,?,?)";
             ps = con.prepareStatement(query);
             ps.setInt(3, parameter.getId());
 
@@ -239,13 +234,13 @@ public class ParamDAO extends CommonDAO {
             }
             ps.close();
         } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
-            query = "DELETE FROM " + TABLE_PARAM_TREE_VALUE + " WHERE param_id=?";
+            query = "DELETE FROM " + Tables.TABLE_PARAM_TREE_VALUE + " WHERE param_id=?";
             ps = con.prepareStatement(query);
             ps.setInt(1, parameter.getId());
             ps.executeUpdate();
             ps.close();
 
-            query = "INSERT INTO " + TABLE_PARAM_TREE_VALUE + " (id, parent_id, title, param_id) VALUES (?,?,?,?)";
+            query = "INSERT INTO " + Tables.TABLE_PARAM_TREE_VALUE + " (id, parent_id, title, param_id) VALUES (?,?,?,?)";
             ps = con.prepareStatement(query);
             ps.setInt(4, parameter.getId());
 
@@ -257,13 +252,13 @@ public class ParamDAO extends CommonDAO {
             }
             ps.close();
         } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
-            query = "DELETE FROM " + TABLE_PARAM_LISTCOUNT_VALUE + " WHERE param_id=?";
+            query = "DELETE FROM " + Tables.TABLE_PARAM_LISTCOUNT_VALUE + " WHERE param_id=?";
             ps = con.prepareStatement(query);
             ps.setInt(1, parameter.getId());
             ps.executeUpdate();
             ps.close();
 
-            query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT_VALUE + " (id, title, param_id) VALUES (?,?,?)";
+            query = "INSERT INTO " + Tables.TABLE_PARAM_LISTCOUNT_VALUE + " (id, title, param_id) VALUES (?,?,?)";
             ps = con.prepareStatement(query);
             ps.setInt(3, parameter.getId());
 
@@ -303,13 +298,13 @@ public class ParamDAO extends CommonDAO {
 
     public void deleteParameter(int id) throws BGException {
         try {
-            String query = "DELETE FROM " + TABLE_PARAM_PREF + " WHERE id=?";
+            String query = "DELETE FROM " + Tables.TABLE_PARAM_PREF + " WHERE id=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
             ps.close();
 
-            query = "DELETE FROM " + TABLE_PARAM_LIST_VALUE + " WHERE param_id=?";
+            query = "DELETE FROM " + Tables.TABLE_PARAM_LIST_VALUE + " WHERE param_id=?";
             ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -325,7 +320,7 @@ public class ParamDAO extends CommonDAO {
         StringBuilder query = new StringBuilder();
 
         query.append("SELECT param_pref.* FROM ");
-        query.append(TABLE_PARAM_PREF);
+        query.append(Tables.TABLE_PARAM_PREF);
         query.append("ORDER BY object, `order`");
 
         PreparedStatement ps = con.prepareStatement(query.toString());
@@ -351,7 +346,7 @@ public class ParamDAO extends CommonDAO {
 
         StringBuilder query = new StringBuilder(200);
         query.append("SELECT group_id, param_id FROM ");
-        query.append(TABLE_PARAM_GROUP);
+        query.append(Tables.TABLE_PARAM_GROUP);
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ResultSet rs = ps.executeQuery();
@@ -376,9 +371,9 @@ public class ParamDAO extends CommonDAO {
         StringBuilder query = new StringBuilder(200);
 
         query.append("SELECT id, param_id, title FROM ");
-        query.append(TABLE_PARAM_LIST_VALUE);
+        query.append(Tables.TABLE_PARAM_LIST_VALUE);
         query.append("UNION SELECT id, param_id, title FROM ");
-        query.append(TABLE_PARAM_LISTCOUNT_VALUE);
+        query.append(Tables.TABLE_PARAM_LISTCOUNT_VALUE);
 
         PreparedStatement ps = con.prepareStatement(query.toString());
 
@@ -403,7 +398,7 @@ public class ParamDAO extends CommonDAO {
         ResultSet rs = null;
         PreparedStatement ps = null;
         query.append("SELECT id, title FROM ");
-        query.append(TABLE_PARAM_LIST_VALUE);
+        query.append(Tables.TABLE_PARAM_LIST_VALUE);
         query.append(" WHERE param_id=?");
         ps = con.prepareStatement(query.toString());
         ps.setInt(1, paramId);
@@ -458,7 +453,7 @@ public class ParamDAO extends CommonDAO {
             StringBuilder query = new StringBuilder();
 
             query.append("SELECT SQL_CALC_FOUND_ROWS param_pref.* FROM ");
-            query.append(TABLE_PARAM_PREF);
+            query.append(Tables.TABLE_PARAM_PREF);
             if (objectType != null && Customer.OBJECT_TYPE.equals(objectType) && paramGroupId > 0) {
                 query.append(" LEFT JOIN param_group ON param_pref.id=param_group.param_id");
             }
@@ -522,7 +517,7 @@ public class ParamDAO extends CommonDAO {
         StringBuilder query = new StringBuilder();
 
         query.append("SELECT param_pref.* FROM ");
-        query.append(TABLE_PARAM_PREF);
+        query.append(Tables.TABLE_PARAM_PREF);
         if (objectType != null && Customer.OBJECT_TYPE.equals(objectType) && paramGroupId > 0) {
             query.append(" LEFT JOIN param_group ON param_pref.id=param_group.param_id");
         }

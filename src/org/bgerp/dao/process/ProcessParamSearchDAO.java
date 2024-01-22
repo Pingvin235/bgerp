@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -74,7 +75,7 @@ public class ProcessParamSearchDAO extends SearchDAO {
             pq.addQuery(SQL_INNER_JOIN);
 
             if (Utils.notBlankString(paramTextValue)) {
-                pq.addQuery(TABLE_PARAM_TEXT + "AS param ON p.id=param.id AND param.value LIKE ?");
+                pq.addQuery(Tables.TABLE_PARAM_TEXT + "AS param ON p.id=param.id AND param.value LIKE ?");
                 pq.addString(paramTextValue);
 
                 if (CollectionUtils.isNotEmpty(paramTextIds))

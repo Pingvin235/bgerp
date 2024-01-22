@@ -1,9 +1,5 @@
 package org.bgerp.dao.message.process;
 
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.util.List;
@@ -11,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -42,11 +39,11 @@ public class MessagePossibleProcessSearchFoundLinksCustomerAddressCity extends M
 
         pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p");
         pq.addInt(getId());
-        pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS pcity ON p.id=pcity.id AND pcity.param_id=?");
+        pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_PARAM_LIST + "AS pcity ON p.id=pcity.id AND pcity.param_id=?");
         pq.addInt(processCityParamId);
-        pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_ADDRESS + "AS caddr ON caddr.id IN (" + customerIds + ")");
-        pq.addQuery(SQL_INNER_JOIN + TABLE_ADDRESS_HOUSE + "AS chouse ON caddr.house_id=chouse.id");
-        pq.addQuery(SQL_INNER_JOIN + TABLE_ADDRESS_STREET + "AS cstreet ON chouse.street_id=cstreet.id AND cstreet.city_id=pcity.value");
+        pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_PARAM_ADDRESS + "AS caddr ON caddr.id IN (" + customerIds + ")");
+        pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_ADDRESS_HOUSE + "AS chouse ON caddr.house_id=chouse.id");
+        pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_ADDRESS_STREET + "AS cstreet ON chouse.street_id=cstreet.id AND cstreet.city_id=pcity.value");
 
         addOpenFilter(pq, open);
 

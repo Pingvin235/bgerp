@@ -1,7 +1,5 @@
 package ru.bgcrm.dao.process;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LOG;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_EXECUTOR;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_GROUP;
@@ -394,7 +392,7 @@ public class ProcessDAO extends CommonDAO {
             ps.addQuery("AS process");
 
             ps.addQuery(SQL_INNER_JOIN);
-            ps.addQuery(TABLE_PARAM_ADDRESS);
+            ps.addQuery(org.bgerp.dao.param.Tables.TABLE_PARAM_ADDRESS);
             ps.addQuery("AS param ON c.id=param.id AND param.param_id IN (");
             ps.addQuery(ids);
             ps.addQuery(")");
@@ -571,7 +569,7 @@ public class ProcessDAO extends CommonDAO {
         pq.addQuery(SQL_WHERE + "process_id=? ");
         pq.addInt(processId);
 
-        pq.addQuery(" UNION SELECT dt, user_id, param_id, CAST(text AS CHAR), 0 FROM " + TABLE_PARAM_LOG);
+        pq.addQuery(" UNION SELECT dt, user_id, param_id, CAST(text AS CHAR), 0 FROM " + org.bgerp.dao.param.Tables.TABLE_PARAM_LOG);
         pq.addQuery(SQL_WHERE + "object_id=? AND param_id IN  ( "
                 + Utils.toString(processType.getProperties().getParameterIds(), " 0 ", " , ") + " ) ");
         pq.addInt(processId);

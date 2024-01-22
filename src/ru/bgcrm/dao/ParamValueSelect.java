@@ -1,17 +1,8 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_QUARTER;
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT_VALUE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST_VALUE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE_VALUE;
-
 import java.util.Set;
+
+import org.bgerp.dao.param.Tables;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.param.Parameter;
@@ -59,14 +50,14 @@ public class ParamValueSelect {
                     if (Utils.notBlankString(afterParamId) && !PARAM_ADDRESS_FIELDS.contains(afterParamId)) {
                         selectPart.append(
                                 "\n( SELECT GROUP_CONCAT( CONCAT( CAST( house_id AS CHAR ), ':', flat, ':', room, ':', CAST( pod AS CHAR ), ':', CAST( floor AS CHAR ), ':', comment ) SEPARATOR '|') ");
-                        selectPart.append("FROM " + TABLE_PARAM_ADDRESS + " AS param ");
+                        selectPart.append("FROM " + Tables.TABLE_PARAM_ADDRESS + " AS param ");
                         selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
                                 + " GROUP BY param.id");
                         selectPart.append(") " + columnValueAlias + " ");
                     } else {
                         if (isMultiple) {
                             selectPart.append("\n( SELECT GROUP_CONCAT(param.value SEPARATOR '; ') ");
-                            selectPart.append("FROM " + TABLE_PARAM_ADDRESS + " AS param ");
+                            selectPart.append("FROM " + Tables.TABLE_PARAM_ADDRESS + " AS param ");
                             selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
                                     + " GROUP BY param.id");
                             selectPart.append(") " + columnValueAlias + " ");
@@ -80,7 +71,7 @@ public class ParamValueSelect {
 
                                 String houseTableAlias = tableAlias + "_house";
 
-                                joinQuery = " LEFT JOIN " + TABLE_ADDRESS_HOUSE + " AS " + houseTableAlias + " ON "
+                                joinQuery = " LEFT JOIN " + Tables.TABLE_ADDRESS_HOUSE + " AS " + houseTableAlias + " ON "
                                         + houseTableAlias + ".id=" + tableAlias + ".house_id";
 
                                 addIfNotContains(joinPart, joinQuery);
@@ -88,7 +79,7 @@ public class ParamValueSelect {
                                 if (PARAM_ADDRESS_FIELD_QUARTER.equals(afterParamId)) {
                                     String quarterTableAlias = tableAlias + "_quarter";
 
-                                    joinQuery = " LEFT JOIN " + TABLE_ADDRESS_QUARTER + " AS " + quarterTableAlias
+                                    joinQuery = " LEFT JOIN " + Tables.TABLE_ADDRESS_QUARTER + " AS " + quarterTableAlias
                                             + " ON " + quarterTableAlias + ".id=" + houseTableAlias + ".quarter_id";
                                     joinPart.append(joinQuery);
 
@@ -96,7 +87,7 @@ public class ParamValueSelect {
                                 } else if (PARAM_ADDRESS_FIELD_STREET.equals(afterParamId)) {
                                     String streetTableAlias = tableAlias + "_street ";
 
-                                    joinQuery = " LEFT JOIN " + TABLE_ADDRESS_STREET + " AS " + streetTableAlias
+                                    joinQuery = " LEFT JOIN " + Tables.TABLE_ADDRESS_STREET + " AS " + streetTableAlias
                                             + " ON " + streetTableAlias + ".id=" + houseTableAlias + ".street_id";
                                     joinPart.append(joinQuery);
 
@@ -116,7 +107,7 @@ public class ParamValueSelect {
                     if (Utils.notBlankString(tableName)) {
                         selectPart.append(
                                 "\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment, CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ");
-                        selectPart.append("FROM " + TABLE_PARAM_LIST + " AS param LEFT JOIN " + tableName
+                        selectPart.append("FROM " + Tables.TABLE_PARAM_LIST + " AS param LEFT JOIN " + tableName
                                 + " AS val ON param.value=val.id ");
                         selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
                                 + " GROUP BY param.id");
@@ -124,7 +115,7 @@ public class ParamValueSelect {
                     } else {
                         selectPart.append(
                                 "\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment != '', CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ");
-                        selectPart.append("FROM " + TABLE_PARAM_LIST + " AS param LEFT JOIN " + TABLE_PARAM_LIST_VALUE
+                        selectPart.append("FROM " + Tables.TABLE_PARAM_LIST + " AS param LEFT JOIN " + Tables.TABLE_PARAM_LIST_VALUE
                                 + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
                         selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
                                 + " GROUP BY param.id");
@@ -134,7 +125,7 @@ public class ParamValueSelect {
                     String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
                     if (Utils.notBlankString(tableName)) {
                         selectPart.append("\n( SELECT GROUP_CONCAT(val.title,val.count SEPARATOR ', ') ");
-                        selectPart.append("FROM " + TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + tableName
+                        selectPart.append("FROM " + Tables.TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + tableName
                                 + " AS val ON param.value=val.id ");
                         selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
                                 + " GROUP BY param.id");
@@ -143,7 +134,7 @@ public class ParamValueSelect {
                         selectPart.append(
                                 "\n( SELECT GROUP_CONCAT( CONCAT(val.title,':',CAST(param.count AS CHAR)) SEPARATOR ', ') ");
                         selectPart.append(
-                                "FROM " + TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + TABLE_PARAM_LISTCOUNT_VALUE
+                                "FROM " + Tables.TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + Tables.TABLE_PARAM_LISTCOUNT_VALUE
                                         + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
                         selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
                                 + " GROUP BY param.id");
@@ -151,7 +142,7 @@ public class ParamValueSelect {
                     }
                 } else if (Parameter.TYPE_TREE.equals(type)) {
                     selectPart.append("\n( SELECT GROUP_CONCAT(val.title SEPARATOR ', ') ");
-                    selectPart.append("FROM " + TABLE_PARAM_TREE + " AS param LEFT JOIN " + TABLE_PARAM_TREE_VALUE
+                    selectPart.append("FROM " + Tables.TABLE_PARAM_TREE + " AS param LEFT JOIN " + Tables.TABLE_PARAM_TREE_VALUE
                             + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
                     selectPart.append(
                             "WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id");

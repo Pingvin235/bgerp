@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.dao.param.Tables;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -33,8 +34,8 @@ public class EMailDAO extends CommonDAO {
         var result = new ArrayList<ParameterEmailValue>(100);
 
         var query =
-            SQL_SELECT + "param.value, param.comment, param.comment" + SQL_FROM + TABLE_PARAM_EMAIL + "AS param" +
-            SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
+            SQL_SELECT + "param.value, param.comment, param.comment" + SQL_FROM + Tables.TABLE_PARAM_EMAIL + "AS param" +
+            SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
             SQL_WHERE + "param.id=?";
 
         try (var pq = new PreparedQuery(con, query)) {
@@ -57,8 +58,8 @@ public class EMailDAO extends CommonDAO {
         var result = new ArrayList<ParameterEmailValue>(100);
 
         var query =
-            SQL_SELECT + "param.value, param.comment, user.title" + SQL_FROM + TABLE_PARAM_EMAIL + "AS param" +
-            SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
+            SQL_SELECT + "param.value, param.comment, user.title" + SQL_FROM + Tables.TABLE_PARAM_EMAIL + "AS param" +
+            SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
             SQL_INNER_JOIN + TABLE_USER + "AS user ON param.id=user.id AND user.status!=?";
 
         try (var pq = new PreparedQuery(con, query)) {
@@ -84,8 +85,8 @@ public class EMailDAO extends CommonDAO {
         var result = new ArrayList<ParameterEmailValue>(100);
 
         var query =
-            SQL_SELECT + "param.value, param.comment, c.title" + SQL_FROM + TABLE_PARAM_EMAIL + "AS param" +
-            SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
+            SQL_SELECT + "param.value, param.comment, c.title" + SQL_FROM + Tables.TABLE_PARAM_EMAIL + "AS param" +
+            SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
             SQL_INNER_JOIN + TABLE_CUSTOMER + "AS c ON param.id=c.id";
 
         try (var pq = new PreparedQuery(con, query)) {

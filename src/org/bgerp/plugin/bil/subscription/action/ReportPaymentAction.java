@@ -1,9 +1,6 @@
 package org.bgerp.plugin.bil.subscription.action;
 
 import static org.bgerp.plugin.bil.invoice.dao.Tables.TABLE_INVOICE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_MONEY;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_EXECUTOR;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
@@ -21,6 +18,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.param.Tables;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.Plugin;
 import org.bgerp.plugin.report.action.ReportActionBase;
@@ -134,16 +132,16 @@ public class ReportPaymentAction extends ReportActionBase {
                             SQL_FROM +
                             TABLE_INVOICE + "AS invoice " +
                             SQL_LEFT_JOIN + TABLE_PROCESS_LINK + "AS invoice_customer ON invoice.process_id=invoice_customer.process_id AND invoice_customer.object_type=?" +
-                            SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS subscription ON invoice.process_id=subscription.id AND subscription.param_id=? AND subscription.value=?");
+                            SQL_INNER_JOIN + Tables.TABLE_PARAM_LIST + "AS subscription ON invoice.process_id=subscription.id AND subscription.param_id=? AND subscription.value=?");
 
                         pq.addString(Customer.OBJECT_TYPE);
                         pq.addInt(config.getParamSubscriptionId());
                         pq.addInt(subscription.getId());
 
                         pq.addQuery(
-                            SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS param_limit ON invoice.process_id=param_limit.id AND param_limit.param_id=?" +
-                            SQL_LEFT_JOIN + TABLE_PARAM_MONEY + "AS discount ON invoice.process_id=discount.id AND discount.param_id=?" +
-                            SQL_LEFT_JOIN + TABLE_PARAM_MONEY + "AS service_cost ON invoice.process_id=service_cost.id AND service_cost.param_id=?" +
+                            SQL_INNER_JOIN + Tables.TABLE_PARAM_LIST + "AS param_limit ON invoice.process_id=param_limit.id AND param_limit.param_id=?" +
+                            SQL_LEFT_JOIN + Tables.TABLE_PARAM_MONEY + "AS discount ON invoice.process_id=discount.id AND discount.param_id=?" +
+                            SQL_LEFT_JOIN + Tables.TABLE_PARAM_MONEY + "AS service_cost ON invoice.process_id=service_cost.id AND service_cost.param_id=?" +
                             SQL_LEFT_JOIN + TABLE_PROCESS_EXECUTOR + "AS service_consultant ON invoice.process_id=service_consultant.process_id AND service_consultant.role_id=0"
                         );
 
@@ -155,7 +153,7 @@ public class ReportPaymentAction extends ReportActionBase {
                             SQL_INNER_JOIN + TABLE_PROCESS_LINK + "AS subscription_product ON subscription_product.object_id=invoice.process_id AND subscription_product.object_type=?" +
                             SQL_INNER_JOIN + TABLE_PROCESS + "AS product ON subscription_product.process_id=product.id" +
                             SQL_LEFT_JOIN + TABLE_PROCESS_EXECUTOR + "AS product_owner ON product.id=product_owner.process_id AND product_owner.role_id=1" +
-                            SQL_INNER_JOIN + TABLE_PARAM_LISTCOUNT + "AS product_cost ON product.id=product_cost.id AND product_cost.param_id=? AND param_limit.value=product_cost.value"
+                            SQL_INNER_JOIN + Tables.TABLE_PARAM_LISTCOUNT + "AS product_cost ON product.id=product_cost.id AND product_cost.param_id=? AND param_limit.value=product_cost.value"
                         );
 
                         pq.addString(Process.LINK_TYPE_DEPEND);

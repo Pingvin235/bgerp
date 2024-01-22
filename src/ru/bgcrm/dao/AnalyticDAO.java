@@ -1,7 +1,5 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_CITY;
-
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.bgerp.dao.param.Tables;
 
 import ru.bgcrm.model.Period;
 import ru.bgcrm.model.analytic.HouseCapacity;
@@ -36,7 +36,7 @@ public class AnalyticDAO
         if( name != null && !"none".equals( name ) && period != null )
         {
             // список городов
-            PreparedStatement ps = con.prepareStatement( "SELECT * FROM " + TABLE_ADDRESS_CITY + " ORDER BY title" );
+            PreparedStatement ps = con.prepareStatement( "SELECT * FROM " + Tables.TABLE_ADDRESS_CITY + " ORDER BY title" );
             ResultSet rs = ps.executeQuery();
             while( rs.next() )
             {
