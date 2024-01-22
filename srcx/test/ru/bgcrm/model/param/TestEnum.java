@@ -2,9 +2,9 @@ package ru.bgcrm.model.param;
 
 import static org.junit.Assert.assertEquals;
 
+import org.bgerp.model.param.Parameter;
+import org.bgerp.model.param.Parameter.Type;
 import org.junit.Test;
-
-import ru.bgcrm.model.param.Parameter.Type;
 
 public class TestEnum {
     @Test

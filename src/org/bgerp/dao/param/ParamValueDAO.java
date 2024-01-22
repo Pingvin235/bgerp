@@ -1,8 +1,8 @@
 package org.bgerp.dao.param;
 
+import static org.bgerp.model.param.Parameter.LIST_PARAM_USE_DIRECTORY_KEY;
 import static ru.bgcrm.dao.AddressDAO.LOAD_LEVEL_COUNTRY;
 import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
-import static ru.bgcrm.model.param.Parameter.LIST_PARAM_USE_DIRECTORY_KEY;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -31,6 +31,7 @@ import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -41,7 +42,6 @@ import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterListCountValue;

@@ -1,10 +1,11 @@
 package ru.bgcrm.event;
 
-import ru.bgcrm.model.param.Parameter;
+import org.bgerp.model.param.Parameter;
+
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Событие генерируется перед изменением параметра, 
+ * Событие генерируется перед изменением параметра,
  * при этом в базе ещё старое значение параметра.
  */
 public class ParamChangingEvent extends UserEvent {

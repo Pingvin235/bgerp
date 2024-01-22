@@ -12,6 +12,7 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.git.Config;
 import org.bgerp.plugin.git.Plugin;
 import org.testng.Assert;
@@ -19,7 +20,6 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.event.ParamChangedEvent;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;

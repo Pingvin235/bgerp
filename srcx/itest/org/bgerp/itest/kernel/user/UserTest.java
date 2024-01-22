@@ -7,11 +7,11 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.ParamTest;
+import org.bgerp.model.param.Parameter;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;

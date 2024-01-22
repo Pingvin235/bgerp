@@ -3,13 +3,14 @@ package ru.bgcrm.event;
 import java.util.Date;
 import java.util.List;
 
-import ru.bgcrm.model.param.Parameter;
+import org.bgerp.model.param.Parameter;
+
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
  * Раскрашивает календарь(datetimepicker)
  * dayColorList месяцы с 1 по 12
- * 
+ *
  * List<DateInfo> test = new ArrayList<DateInfo>();
 
    if( e.getNewDate().getMonth() > 2 )

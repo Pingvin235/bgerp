@@ -13,6 +13,7 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,7 +34,6 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;

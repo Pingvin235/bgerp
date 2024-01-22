@@ -11,6 +11,7 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.Interface;
 import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -19,7 +20,6 @@ import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.listener.EventListener;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

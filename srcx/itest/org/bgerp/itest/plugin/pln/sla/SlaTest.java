@@ -11,10 +11,10 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.sla.Plugin;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;

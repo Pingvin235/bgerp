@@ -3,11 +3,11 @@ package org.bgerp.plugin.pln.callboard.model.config;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig.Callboard;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.param.Parameter;
 
 public class ProcessTimeSetConfig extends Config {
     private static final String CONFIG_PREFIX = "callboard.timeset.";

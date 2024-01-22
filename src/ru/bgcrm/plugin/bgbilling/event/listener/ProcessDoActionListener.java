@@ -2,6 +2,7 @@ package ru.bgcrm.plugin.bgbilling.event.listener;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -11,7 +12,6 @@ import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.event.process.ProcessDoActionEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;

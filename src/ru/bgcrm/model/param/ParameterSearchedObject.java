@@ -1,5 +1,7 @@
 package ru.bgcrm.model.param;
 
+import org.bgerp.model.param.Parameter;
+
 import ru.bgcrm.cache.ParameterCache;
 
 /**

@@ -1,13 +1,13 @@
 package ru.bgcrm.plugin.fulltext.model;
 
 
-import static ru.bgcrm.model.param.Parameter.TYPE_ADDRESS;
-import static ru.bgcrm.model.param.Parameter.TYPE_BLOB;
-import static ru.bgcrm.model.param.Parameter.TYPE_LIST;
-import static ru.bgcrm.model.param.Parameter.TYPE_LISTCOUNT;
-import static ru.bgcrm.model.param.Parameter.TYPE_PHONE;
-import static ru.bgcrm.model.param.Parameter.TYPE_TEXT;
-import static ru.bgcrm.model.param.Parameter.TYPE_TREE;
+import static org.bgerp.model.param.Parameter.TYPE_ADDRESS;
+import static org.bgerp.model.param.Parameter.TYPE_BLOB;
+import static org.bgerp.model.param.Parameter.TYPE_LIST;
+import static org.bgerp.model.param.Parameter.TYPE_LISTCOUNT;
+import static org.bgerp.model.param.Parameter.TYPE_PHONE;
+import static org.bgerp.model.param.Parameter.TYPE_TEXT;
+import static org.bgerp.model.param.Parameter.TYPE_TREE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,12 +19,12 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdStringTitle;
+import org.bgerp.model.param.Parameter;
 
 import com.google.common.collect.Sets;
 
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.Plugin;
 import ru.bgcrm.util.Utils;

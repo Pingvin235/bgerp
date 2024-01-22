@@ -1,11 +1,11 @@
 package org.bgerp.plugin.msg.email.config;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.user.User;
 
 public class ProcessNotificationConfig extends org.bgerp.app.cfg.Config {

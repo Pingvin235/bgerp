@@ -6,11 +6,11 @@ import java.util.Set;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.itest.kernel.db.DbTest;
+import org.bgerp.model.param.Parameter;
 import org.testng.Assert;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.PatternDAO;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterGroup;
 import ru.bgcrm.model.param.Pattern;
 

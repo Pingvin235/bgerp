@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.event.ProcessFilesEvent;
+import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.util.sql.ConnectionSet;
 

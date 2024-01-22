@@ -3,9 +3,9 @@ package ru.bgcrm.dao;
 import java.util.Set;
 
 import org.bgerp.dao.param.Tables;
+import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 

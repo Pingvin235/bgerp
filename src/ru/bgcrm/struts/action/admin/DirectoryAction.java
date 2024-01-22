@@ -15,6 +15,7 @@ import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.sql.LikePattern;
 
 import com.google.common.collect.Lists;
@@ -23,7 +24,6 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterGroup;
 import ru.bgcrm.model.param.Pattern;
 import ru.bgcrm.model.param.address.AddressHouse;

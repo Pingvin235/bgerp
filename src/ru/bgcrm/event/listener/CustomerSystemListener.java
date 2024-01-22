@@ -1,5 +1,6 @@
 package ru.bgcrm.event.listener;
 
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CustomerDAO;
@@ -7,7 +8,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class CustomerSystemListener {

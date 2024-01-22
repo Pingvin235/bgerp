@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

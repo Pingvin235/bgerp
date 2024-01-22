@@ -21,6 +21,7 @@ import org.bgerp.itest.kernel.param.AddressTest;
 import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.callboard.Plugin;
 import org.bgerp.plugin.pln.callboard.dao.ShiftDAO;
 import org.bgerp.plugin.pln.callboard.dao.WorkTypeDAO;
@@ -31,7 +32,6 @@ import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;

@@ -13,6 +13,7 @@ import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -21,7 +22,6 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;

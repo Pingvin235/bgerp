@@ -14,6 +14,7 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -27,7 +28,6 @@ import ru.bgcrm.dao.expression.ProcessChangeFunctions;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.queue.Processor;

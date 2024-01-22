@@ -23,6 +23,7 @@ import org.bgerp.itest.kernel.customer.CustomerTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.bil.invoice.Config;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.dao.InvoiceDAO;
@@ -31,7 +32,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.util.TimeUtils;

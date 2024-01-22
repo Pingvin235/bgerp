@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.creator;
 
-import static ru.bgcrm.model.param.Parameter.*;
+import static org.bgerp.model.param.Parameter.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -13,10 +13,10 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.util.Utils;
 
 public class Config

@@ -9,6 +9,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.event.client.NewsInfoEvent;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -16,7 +17,6 @@ import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.event.Event;
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.task.Plugin;

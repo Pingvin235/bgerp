@@ -1,12 +1,12 @@
 package ru.bgcrm.model.param;
 
-import static ru.bgcrm.model.param.Parameter.TYPE_ADDRESS;
-import static ru.bgcrm.model.param.Parameter.TYPE_DATE;
-import static ru.bgcrm.model.param.Parameter.TYPE_DATETIME;
-import static ru.bgcrm.model.param.Parameter.TYPE_EMAIL;
-import static ru.bgcrm.model.param.Parameter.TYPE_FILE;
-import static ru.bgcrm.model.param.Parameter.TYPE_LIST;
-import static ru.bgcrm.model.param.Parameter.TYPE_TEXT;
+import static org.bgerp.model.param.Parameter.TYPE_ADDRESS;
+import static org.bgerp.model.param.Parameter.TYPE_DATE;
+import static org.bgerp.model.param.Parameter.TYPE_DATETIME;
+import static org.bgerp.model.param.Parameter.TYPE_EMAIL;
+import static org.bgerp.model.param.Parameter.TYPE_FILE;
+import static org.bgerp.model.param.Parameter.TYPE_LIST;
+import static org.bgerp.model.param.Parameter.TYPE_TEXT;
 
 import java.io.FileInputStream;
 import java.net.URLConnection;
@@ -18,6 +18,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.FileData;

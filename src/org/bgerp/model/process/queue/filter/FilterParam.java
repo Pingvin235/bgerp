@@ -1,8 +1,7 @@
 package org.bgerp.model.process.queue.filter;
 
 import org.bgerp.app.cfg.ConfigMap;
-
-import ru.bgcrm.model.param.Parameter;
+import org.bgerp.model.param.Parameter;
 
 public class FilterParam extends Filter {
     private Parameter parameter;

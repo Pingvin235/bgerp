@@ -7,9 +7,9 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.message.MessageTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.param.Parameter;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.asterisk.Plugin;
 
