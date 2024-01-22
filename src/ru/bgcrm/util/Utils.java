@@ -30,6 +30,7 @@ import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Title;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.w3c.dom.Element;
@@ -37,7 +38,6 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.ListItem;
-import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.servlet.jsp.JSPFunction;
 import ru.bgcrm.servlet.jsp.NewInstanceTag;
 

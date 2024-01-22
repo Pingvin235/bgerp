@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.param.ParameterValuePair;
 
 import java.util.Set;
 
@@ -20,7 +21,6 @@ import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;

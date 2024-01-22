@@ -37,6 +37,7 @@ import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.param.ParameterValuePair;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -60,7 +61,6 @@ import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
-import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.config.ListParamConfig;
 import ru.bgcrm.model.process.Process;

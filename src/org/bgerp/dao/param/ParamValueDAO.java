@@ -32,6 +32,7 @@ import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -47,7 +48,6 @@ import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterListCountValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
-import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
