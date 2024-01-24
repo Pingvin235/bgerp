@@ -59,7 +59,6 @@ public class FileStat {
         final int prime = 31;
         int result = 1;
         result = prime * result + files;
-        result = prime * result + dirs;
         result = prime * result + (int) (size ^ (size >>> 32));
         return result;
     }
@@ -74,8 +73,6 @@ public class FileStat {
             return false;
         FileStat other = (FileStat) obj;
         if (files != other.files)
-            return false;
-        if (dirs != other.dirs)
             return false;
         if (size != other.size)
             return false;
