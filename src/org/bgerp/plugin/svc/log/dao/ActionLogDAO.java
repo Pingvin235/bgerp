@@ -48,7 +48,7 @@ public class ActionLogDAO extends PeriodicDAO {
             "KEY `user_id` (`user_id`), " +
             "KEY `time` (`time`))");
 
-        String query = SQL_INSERT + table
+        String query = SQL_INSERT_INTO + table
                 + "(time, user_id, ip_address, action, parameters, duration, error) "
                 + "VALUES (NOW(), ?, ?, ?, ?, ?, ?)";;
         var pq = new PreparedQuery(con, query);

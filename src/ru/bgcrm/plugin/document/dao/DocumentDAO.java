@@ -60,7 +60,7 @@ public class DocumentDAO extends CommonDAO {
      * @throws SQLException
      */
     public void add(Document b) throws SQLException {
-        String query = SQL_INSERT + TABLE_DOCUMENT + " (object_type, object_id, file_data_id) " + " VALUES (?,?,?) ";
+        String query = SQL_INSERT_INTO + TABLE_DOCUMENT + " (object_type, object_id, file_data_id) " + " VALUES (?,?,?) ";
 
         PreparedStatement ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 

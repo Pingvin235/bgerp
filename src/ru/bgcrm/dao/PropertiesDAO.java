@@ -32,7 +32,7 @@ public class PropertiesDAO extends CommonDAO {
     }
 
     public void set(String key, String value) throws SQLException {
-        String query =  SQL_INSERT + TABLE_NAME +
+        String query =  SQL_INSERT_INTO + TABLE_NAME +
             "SET param=?, value=?" +
             SQL_ON_DUP_KEY_UPDATE +
             "value=?";

@@ -33,7 +33,9 @@ public class CommonDAO {
     protected final static String SQL_SELECT_COUNT_ROWS = "SELECT SQL_CALC_FOUND_ROWS ";
     protected final static String SQL_DISTINCT = "DISTINCT ";
     protected final static String SQL_INSERT_IGNORE = "INSERT IGNORE INTO ";
-    protected final static String SQL_INSERT = "INSERT INTO ";
+    protected final static String SQL_INSERT_INTO = "INSERT INTO ";
+    @Deprecated
+    protected final static String SQL_INSERT = SQL_INSERT_INTO;
     protected final static String SQL_VALUES = "VALUES ";
     protected final static String SQL_SET = " SET ";
     protected final static String SQL_UPDATE = "UPDATE ";
@@ -372,7 +374,7 @@ public class CommonDAO {
         ps.executeUpdate();
         ps.close();
 
-        query = SQL_INSERT + tableName + "(" + linkColumn + "," + valueColumn + ") VALUES (?, ?)";
+        query = SQL_INSERT_INTO + tableName + "(" + linkColumn + "," + valueColumn + ") VALUES (?, ?)";
         ps = con.prepareStatement(query);
         ps.setObject(1, id);
 
@@ -393,7 +395,7 @@ public class CommonDAO {
 
         int pos = 1;
 
-        query = SQL_INSERT + tableName + "(" + linkColumn + "," + valueColumn + "," + posColumn
+        query = SQL_INSERT_INTO + tableName + "(" + linkColumn + "," + valueColumn + "," + posColumn
                 + ") VALUES (?, ?, ?)";
         ps = con.prepareStatement(query);
         ps.setInt(1, id);

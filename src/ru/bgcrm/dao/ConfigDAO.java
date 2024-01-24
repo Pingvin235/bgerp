@@ -177,7 +177,7 @@ public class ConfigDAO extends CommonDAO {
 
         if (config.getId() <= 0) {
             StringBuilder query = new StringBuilder();
-            query.append(SQL_INSERT);
+            query.append(SQL_INSERT_INTO);
             query.append(TABLE_CONFIG_GLOBAL);
             query.append(SQL_SET);
             query.append("title=?, data=?, parent_id=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS);

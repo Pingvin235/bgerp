@@ -36,7 +36,7 @@ public class DemoDAO extends CommonDAO {
     public void update(DemoEntity entity) throws SQLException {
         int id = updateOrInsert(
             SQL_UPDATE + TABLE_DEMO_ENTITY + SQL_SET + "title=?, config=?" + SQL_WHERE + "id=?",
-            SQL_INSERT + TABLE_DEMO_ENTITY + "(title, config, id)" + SQL_VALUES + "(?, ?, ?)",
+            SQL_INSERT_INTO + TABLE_DEMO_ENTITY + "(title, config, id)" + SQL_VALUES + "(?, ?, ?)",
             entity.getTitle(), entity.getConfig(), entity.getId());
         if (id > 0)
             entity.setId(id);

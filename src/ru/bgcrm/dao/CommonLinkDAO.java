@@ -195,7 +195,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         try {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_INSERT);
+            query.append(SQL_INSERT_INTO);
             query.append(tableName);
             query.append("(");
             query.append(columnName);
@@ -223,7 +223,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         try {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_INSERT);
+            query.append(SQL_INSERT_INTO);
             query.append(getTable());
             query.append("(");
             query.append(getColumnName());

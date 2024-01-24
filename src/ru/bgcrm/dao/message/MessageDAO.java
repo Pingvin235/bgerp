@@ -197,7 +197,7 @@ public class MessageDAO extends CommonDAO {
         ps.executeUpdate();
         ps.close();
 
-        query = SQL_INSERT + TABLE_MESSAGE_TAG + "(message_id, tag_id) VALUES (?,?)";
+        query = SQL_INSERT_INTO + TABLE_MESSAGE_TAG + "(message_id, tag_id) VALUES (?,?)";
         ps = con.prepareStatement(query);
         ps.setInt(1, messageId);
         for (int tagId : tagIds) {

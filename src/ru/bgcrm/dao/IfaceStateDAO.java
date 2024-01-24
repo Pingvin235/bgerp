@@ -46,7 +46,7 @@ public class IfaceStateDAO extends CommonDAO{
 
     public void updateIfaceState(IfaceState state) throws SQLException {
         String query =
-                SQL_INSERT + TABLE_NAME +
+                SQL_INSERT_INTO + TABLE_NAME +
                 "SET object_type=?, object_id=?, iface_id=?, state=?" +
                 SQL_ON_DUP_KEY_UPDATE +
                 "state=?";

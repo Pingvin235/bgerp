@@ -223,7 +223,7 @@ public class ProcessDAO extends CommonDAO {
         ps.executeUpdate();
         ps.close();
 
-        query = SQL_INSERT + Tables.TABLE_PROCESS_GROUP + "VALUES (?, ?, ?)";
+        query = SQL_INSERT_INTO + Tables.TABLE_PROCESS_GROUP + "VALUES (?, ?, ?)";
         ps = con.prepareStatement(query);
         ps.setInt(1, processId);
 

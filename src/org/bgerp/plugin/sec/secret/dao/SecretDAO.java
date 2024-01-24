@@ -32,7 +32,7 @@ public class SecretDAO extends CommonDAO {
 
         updateOrInsert(
             SQL_UPDATE + tableName + SQL_SET + "secret=?, dt=NOW()" + SQL_WHERE + "id=?",
-            SQL_INSERT + tableName + "(id, secret, dt) VALUES (?, ?, NOW())",
+            SQL_INSERT_INTO + tableName + "(id, secret, dt) VALUES (?, ?, NOW())",
             key, secret);
 
         return secret;

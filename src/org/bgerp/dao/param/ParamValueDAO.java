@@ -158,7 +158,7 @@ public class ParamValueDAO extends CommonDAO {
                 psList.add(con.prepareStatement(query));
             }
             case LISTCOUNT -> {
-                query = SQL_INSERT + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment)"
+                query = SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment)"
                         + SQL_SELECT + "?, ?, value, count, comment"
                         + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
@@ -1155,7 +1155,7 @@ public class ParamValueDAO extends CommonDAO {
                 ps.close();
 
                 query.setLength(0);
-                query.append(SQL_INSERT);
+                query.append(SQL_INSERT_INTO);
                 query.append(tableName);
                 query.append("(id, param_id, value) VALUES (?,?,?)");
 
@@ -1442,7 +1442,7 @@ public class ParamValueDAO extends CommonDAO {
 
         deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LISTCOUNT);
 
-        String query = "INSERT INTO " + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
+        String query = SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -1609,6 +1609,10 @@ public class ParamValueDAO extends CommonDAO {
         if (history) {
             logParam(id, paramId, userId, Utils.getObjectTitles(getParamTreeWithTitles(id, paramId)));
         }
+    }
+
+    public void updateParamTreeCount(int id, int paramId) throws SQLException {
+        //
     }
 
     /**

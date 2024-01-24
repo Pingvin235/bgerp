@@ -20,7 +20,7 @@ public class EntityLogDAO extends CommonDAO {
 
     public void insertEntityLog(int id, int userId, String text) throws SQLException {
         if (Utils.notBlankString(text)) {
-            String query = SQL_INSERT + table + "(dt, id, user_id, data)" + SQL_VALUES + "(NOW(), ?, ?, ?)";
+            String query = SQL_INSERT_INTO + table + "(dt, id, user_id, data)" + SQL_VALUES + "(NOW(), ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             ps.setInt(2, userId);

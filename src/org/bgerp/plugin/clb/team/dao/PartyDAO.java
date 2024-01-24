@@ -31,7 +31,7 @@ public class PartyDAO extends CommonDAO {
     public void update(Party party) throws SQLException {
         try (var pq = new PreparedQuery(con)) {
             if (party.getId() <= 0) {
-                pq.addQuery(SQL_INSERT + Tables.TABLE_PARTY + "(title, secret)" + SQL_VALUES + "(?, ?)");
+                pq.addQuery(SQL_INSERT_INTO + Tables.TABLE_PARTY + "(title, secret)" + SQL_VALUES + "(?, ?)");
                 pq.addString(party.getTitle());
                 pq.addString(party.getSecret());
                 party.setId(pq.executeInsert());
@@ -136,7 +136,7 @@ public class PartyDAO extends CommonDAO {
     public void memberUpdate(PartyMember member) throws SQLException {
         try (var pq = new PreparedQuery(con)) {
             if (member.getId() <= 0) {
-                pq.addQuery(SQL_INSERT + Tables.TABLE_PARTY_MEMBER + "(party_id, title)" + SQL_VALUES + "(?, ?)");
+                pq.addQuery(SQL_INSERT_INTO + Tables.TABLE_PARTY_MEMBER + "(party_id, title)" + SQL_VALUES + "(?, ?)");
                 pq.addInt(member.getPartyId());
                 pq.addString(member.getTitle());
                 member.setId(pq.executeInsert());
@@ -170,7 +170,7 @@ public class PartyDAO extends CommonDAO {
     public void paymentUpdate(PartyPayment payment) throws SQLException {
         try (var pq = new PreparedQuery(con)) {
             if (payment.getId() <= 0) {
-                pq.addQuery(SQL_INSERT + Tables.TABLE_PARTY_PAYMENT + "(party_id, member_id, amount, description)" + SQL_VALUES + "(?, ?, ?, ?)");
+                pq.addQuery(SQL_INSERT_INTO + Tables.TABLE_PARTY_PAYMENT + "(party_id, member_id, amount, description)" + SQL_VALUES + "(?, ?, ?, ?)");
                 pq.addInt(payment.getPartyId()).addInt(payment.getMemberId()).addBigDecimal(payment.getAmount()).addString(payment.getDescription());
                 payment.setId(pq.executeInsert());
             } else {

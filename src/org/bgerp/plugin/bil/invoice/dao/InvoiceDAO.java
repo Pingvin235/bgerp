@@ -35,7 +35,7 @@ public class InvoiceDAO extends PeriodicDAO {
                     + "amount=?, sent_dt=?, sent_user_id=?, payment_date=?, payment_user_id=?, positions=?"
                     + SQL_WHERE + "id=?";
         } else {
-            query = SQL_INSERT + TABLE_INVOICE
+            query = SQL_INSERT_INTO + TABLE_INVOICE
                     + "(amount, sent_dt, sent_user_id, payment_date, payment_user_id, positions, "
                     + "type_id, process_id, date_from, date_to, created_dt, created_user_id, number_cnt, number)"
                     + SQL_VALUES
@@ -83,7 +83,7 @@ public class InvoiceDAO extends PeriodicDAO {
             pq.addInt(invoice.getId()).executeUpdate();
         }
 
-        query = SQL_INSERT + positionTable + "(invoice_id, id, amount, title)" + SQL_VALUES + "(?,?,?,?)";
+        query = SQL_INSERT_INTO + positionTable + "(invoice_id, id, amount, title)" + SQL_VALUES + "(?,?,?,?)";
         try (var pq = new PreparedQuery(con, query)) {
             pq.addInt(invoice.getId());
             for (var position : invoice.getPositions()) {

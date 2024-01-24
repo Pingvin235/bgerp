@@ -238,7 +238,7 @@ public class AnalyticDAO
             {
                 index = 1;
                 query = new StringBuilder();
-                query.append( SQL_INSERT );
+                query.append( SQL_INSERT_INTO );
                 query.append( TABLE_ANALYTIC_HOUSE_CAPACITY );
                 query.append( SQL_SET );
                 query.append( "house_id=?, service_type=?, dt=?, value=?" );

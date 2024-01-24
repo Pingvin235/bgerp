@@ -652,7 +652,7 @@ public class CustomerDAO extends CommonDAO {
                 ps.setInt(index++, customer.getId());
                 ps.executeUpdate();
             } else {
-                query.append(SQL_INSERT);
+                query.append(SQL_INSERT_INTO);
                 query.append(TABLE_CUSTOMER);
                 query.append(" SET title=?, title_pattern=?, title_pattern_id=?, param_group_id=?,");
                 query.append(" date_created=now(), user_id_created=?");

@@ -35,7 +35,7 @@ public class QueryHistoryDAO extends CommonDAO {
         }
 
         if (rowsUpdated == 0) {
-            try (var pq = new PreparedQuery(con, SQL_INSERT + QUERY_HISTORY_TABLE + "SET user_id=?, data=?")) {
+            try (var pq = new PreparedQuery(con, SQL_INSERT_INTO + QUERY_HISTORY_TABLE + "SET user_id=?, data=?")) {
                 pq.addInt(userId);
                 pq.addString(query);
                 pq.executeUpdate();

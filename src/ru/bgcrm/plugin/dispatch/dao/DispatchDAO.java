@@ -41,7 +41,7 @@ public class DispatchDAO extends CommonDAO {
         update(dispatch, new RecordUpdater<Dispatch>() {
             @Override
             public String getInsertQuery() throws SQLException {
-                return SQL_INSERT + Tables.TABLE_DISPATCH + " (title, comment) VALUES (?,?)";
+                return SQL_INSERT_INTO + Tables.TABLE_DISPATCH + " (title, comment) VALUES (?,?)";
             }
 
             @Override

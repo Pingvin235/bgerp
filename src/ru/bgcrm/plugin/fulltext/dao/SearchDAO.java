@@ -120,7 +120,7 @@ public class SearchDAO extends CommonDAO {
         log.debug("Updated record, objectType: {}; objectId: {}", objectType, objectId);
         updateOrInsert(
                 SQL_UPDATE + TABLE + SQL_SET + "scheduled_dt=NOW()" + SQL_WHERE + "object_type=? AND object_id=?",
-                SQL_INSERT + TABLE + "(scheduled_dt, object_type, object_id) VALUES (NOW(),?,?)",
+                SQL_INSERT_INTO + TABLE + "(scheduled_dt, object_type, object_id) VALUES (NOW(),?,?)",
                 objectType, objectId);
     }
 
@@ -211,7 +211,7 @@ public class SearchDAO extends CommonDAO {
      * @throws SQLException
      */
     public void init(String objectType, String objectTable) throws SQLException {
-        String query = SQL_INSERT + TABLE + " (object_type, object_id, scheduled_dt) "
+        String query = SQL_INSERT_INTO + TABLE + " (object_type, object_id, scheduled_dt) "
             + "SELECT ?, t.id, NOW() FROM " + objectTable + " AS t "
             + "LEFT JOIN " + TABLE + " AS fd ON fd.object_type=? AND t.id=fd.object_id WHERE fd.object_id IS NULL";
         PreparedStatement ps = con.prepareStatement(query);
