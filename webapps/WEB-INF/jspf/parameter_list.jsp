@@ -23,7 +23,7 @@
 	</div>
 </c:if>
 
-<table id="${tableId}" class="data hl">
+<table id="${tableId}" class="data">
 	<c:if test="${showTr}">
 		<tr>
 			<c:if test="${showId}">
