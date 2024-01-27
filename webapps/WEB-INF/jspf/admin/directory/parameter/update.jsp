@@ -3,22 +3,11 @@
 
 <c:set var="formUiid" value="${u:uiid()}"/>
 
-<c:set var="selectorSample" value="${u:uiid()}"/>
-<c:set var="selectorTo" value="${u:uiid()}"/>
+<c:set var="heightSampleUiid" value="${u:uiid()}"/>
+<c:set var="heightToUiid" value="${u:uiid()}"/>
 
 <c:set var="typeChangedScript">
-	var $form = $('#${formUiid}');
-
-	var type = $form[0].type.value;
-	var $listValues = $form.find('#listValues');
-
-	if ($listValues.toggle(type === 'tree' || type == 'list' ||  type == 'listcount').is(':visible'))
-	{
-		$listValues.find('.hint').hide();
-		$listValues.find('.' + type).show();
-	}
-
-	$('#${selectorTo}').css( "height", $('#${selectorSample}').height() + 'px' );
+	$$.param.editorTypeChanged('${formUiid}', '${heightSampleUiid}', '${heightToUiid}');
 </c:set>
 
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
@@ -34,7 +23,7 @@
 			<h2>ID</h2>
 			<input type="text" name="id" value="${form.id}" disabled="disabled" style="width: 100%;"/>
 
-			<div id="${selectorSample}">
+			<div id="${heightSampleUiid}">
 				<h2>${l.l('Название')}</h2>
 				<input type="text" name="title" style="width: 100%" value="${u.escapeXml( parameter.title )}"/>
 
@@ -51,9 +40,9 @@
 				<div id="listValues">
 					<h2>${l.l('Значения')}</h2>
 
-					<textarea name="listValues" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.valuesConfig}</textarea>
+					<textarea name="listValues" rows="30" style="width: 100%; resize:none;" wrap="off">${parameter.valuesConfig}</textarea>
 					<span class="hint list listcount">${l.l('hint.list.values')}</span>
-					<span class="hint tree">${l.l('hint.tree.values')}</span>
+					<span class="hint tree treecount">${l.l('hint.tree.values')}</span>
 				</div>
 
 				<h2>${l.l('Порядок')}</h2>
@@ -66,13 +55,8 @@
 			<h2>${l.l('Комментарий')}</h2>
 			<input type="text" name="comment" style="width: 100%" value="${u.escapeXml( parameter.comment )}"/>
 
-			<%--
-			<h2>Скрипт</h2>
-			<input type="text" name="script" style="width: 100%" value="${parameter.script}"/>
-			--%>
-
 			<h2>${l.l('Конфигурация')}</h2>
-			<textarea id="${selectorTo}" name="config" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.config}</textarea>
+			<textarea id="${heightToUiid}" name="config" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.config}</textarea>
 		</div>
 	</div>
 
@@ -83,7 +67,6 @@
 
 <script>
 	${typeChangedScript}
-	$$.ui.codeMirror('${selectorTo}');
 </script>
 
 <shell:state text="${l.l('Редактор')}" help="kernel/setup.html#param"/>

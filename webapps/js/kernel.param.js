@@ -9,8 +9,40 @@ $$.param = new function () {
 		$$.ajax.loadContent(form);
 	}
 
+	/**
+	 * Handles changes of type in parameter editor. Depending of the chosen type is enabled list values area, and adjusted configuration editor height.
+	 * @param {*} formId ID of the editor form.
+	 * @param {*} heightSampleId ID of a sample DOM element with dynamic height.
+	 * @param {*} heightToId ID of the config textarea, which height must be the same as for the sample element.
+	 */
+	const editorTypeChanged = (formId, heightSampleId, heightToId) => {
+		// without the timeout type choosing combo single doesn't close after selection
+		setTimeout(() => {
+			const $form = $(document.getElementById(formId));
+
+			const type = $form[0].type.value;
+			const $listValues = $form.find('#listValues');
+
+			if ($listValues.toggle(type == 'list' || type == 'listcount' || type === 'tree' || type === 'treecount').is(':visible')) {
+				$listValues.find('.hint').hide();
+				$listValues.find('.' + type).show();
+			}
+
+			const height = $(document.getElementById(heightSampleId)).css('height');
+			const textarea = document.getElementById(heightToId);
+			$(textarea).css('height', height);
+
+			const nextSibling = textarea.nextSibling;
+			if (nextSibling && nextSibling.classList && nextSibling.classList.contains('CodeMirror'))
+				nextSibling.remove();
+
+			$$.ui.codeMirror(heightToId);
+		}, 0);
+	}
+
 	// public functions
 	this.dirChanged = dirChanged;
+	this.editorTypeChanged = editorTypeChanged;
 
 	// $$.param.listcount
 	this.listcount = new function () {
