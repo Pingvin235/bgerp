@@ -84,7 +84,7 @@ Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this
 
 The same functions may be used in <<index.adoc#jsp, JSP>> using `tu` prefix:
 [snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L87-L87[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
+link:../../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L168-L168[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
 
 [[code-configuration-java-beans]]
 === Configuration Java Beans

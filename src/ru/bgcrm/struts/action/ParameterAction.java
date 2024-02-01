@@ -35,7 +35,6 @@ import org.bgerp.dao.param.ParamLogDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
-import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
 
@@ -208,86 +207,96 @@ public class ParameterAction extends BaseAction {
             }
         }
 
-        if (Parameter.TYPE_LIST.equals(parameter.getType())) {
-            resp.setData("value", paramDAO.getParamListWithComments(id, paramId));
-            listValues(form, parameter);
-        } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
-            resp.setData("value", paramDAO.getParamListCount(id, paramId));
-            listValues(form, parameter);
-        } else if (Parameter.TYPE_MONEY.equals(parameter.getType())) {
-            resp.setData("value", paramDAO.getParamMoney(id, paramId));
-        } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
-            Set<String> values = paramDAO.getParamTree(id, paramId);
-            resp.setData("value", values);
+        switch (Parameter.Type.of(parameter.getType())) {
+            case ADDRESS -> {
+                ParameterAddressValue addressValue = paramDAO.getParamAddress(id, paramId, Utils.parseInt(form.getParam("position")));
+                // значений
+                if (addressValue != null) {
+                    int houseId = addressValue.getHouseId();
 
-            Parameter param = ParameterCache.getParameter(paramId);
-            IdStringTitleTreeItem treeValues = ParameterCache.getTreeParamValues(param);
+                    AddressHouse house = addressDAO.getAddressHouse(houseId, true, true, true);
+                    if (house != null) {
+                        resp.setData("house", house);
+                    }
+                }
 
-            request.setAttribute("treeValues", treeValues);
-            // для сторонних систем - значения спискового параметра
-            resp.setData("treeValues", treeValues);
-        } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
-            resp.setData("value", paramDAO.getParamPhone(id, paramId));
-        } else if (Parameter.TYPE_FILE.equals(parameter.getType())) {
-            //TODO: Сделать поддержку разных типов.
-            response.setContentType("image/jpeg");
-            FileData fileData = paramDAO.getParamFile(id, paramId, 1);
-
-            File file = new FileDataDAO(conSet.getConnection()).getFile(fileData);
-
-            FileInputStream in = new FileInputStream(file);
-            ServletOutputStream out = response.getOutputStream();
-
-            //TODO: StreamUtils.copy??
-            byte[] outputByte = new byte[4096];
-            while (in.read(outputByte, 0, 4096) != -1) {
-                out.write(outputByte, 0, 4096);
+                resp.setData("address", addressValue);
             }
-            in.close();
-
-            return null;
-        } else if (Parameter.TYPE_EMAIL.equals(parameter.getType())) {
-            ParameterEmailValue emailValue = paramDAO.getParamEmail(id, paramId, form.getParamInt("position", -1));
-
-            if (emailValue != null) {
-                resp.setData("email", emailValue);
-                resp.setData("parameter", parameter);
+            case BLOB -> {
+                resp.setData("value", paramDAO.getParamBlob(id, paramId));
             }
-        } else if (Parameter.TYPE_ADDRESS.equals(parameter.getType())) {
-            ParameterAddressValue addressValue = paramDAO.getParamAddress(id, paramId, Utils.parseInt(form.getParam("position")));
-            // значений
-            if (addressValue != null) {
-                int houseId = addressValue.getHouseId();
+            case DATE, DATETIME -> {
+                if (Utils.notBlankString(form.getParam("newDate"))) {
+                    EventProcessor.processEvent(
+                            new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
+                            conSet);
+                    // TODO: Cleanup, but change calendar highlight in Callboard plugin
+                    EventProcessor.processEvent(
+                            new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
+                            conSet);
+                }
 
-                AddressHouse house = addressDAO.getAddressHouse(houseId, true, true, true);
-                if (house != null) {
-                    resp.setData("house", house);
+                if (Parameter.TYPE_DATE.equals(parameter.getType())) {
+                    resp.setData("value", paramDAO.getParamDate(id, paramId));
+                } else if (Parameter.TYPE_DATETIME.equals(parameter.getType())) {
+                    resp.setData("value", paramDAO.getParamDateTime(id, paramId));
                 }
             }
+            case EMAIL -> {
+                ParameterEmailValue emailValue = paramDAO.getParamEmail(id, paramId, form.getParamInt("position", -1));
 
-            resp.setData("address", addressValue);
-        } else if (Parameter.TYPE_DATETIME.equals(parameter.getType()) || Parameter.TYPE_DATE.equals(parameter.getType())) {
-            if (Utils.notBlankString(form.getParam("newDate"))) {
-                EventProcessor.processEvent(
-                        new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                        conSet);
-                // TODO: Cleanup, but change calendar highlight in Callboard plugin
-                EventProcessor.processEvent(
-                        new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                        conSet);
+                if (emailValue != null) {
+                    resp.setData("email", emailValue);
+                    resp.setData("parameter", parameter);
+                }
             }
+            case FILE -> {
+                //TODO: Сделать поддержку разных типов.
+                response.setContentType("image/jpeg");
+                FileData fileData = paramDAO.getParamFile(id, paramId, 1);
 
-            if (Parameter.TYPE_DATE.equals(parameter.getType())) {
-                resp.setData("value", paramDAO.getParamDate(id, paramId));
-            } else if (Parameter.TYPE_DATETIME.equals(parameter.getType())) {
-                resp.setData("value", paramDAO.getParamDateTime(id, paramId));
+                File file = new FileDataDAO(conSet.getConnection()).getFile(fileData);
+
+                FileInputStream in = new FileInputStream(file);
+                ServletOutputStream out = response.getOutputStream();
+
+                //TODO: StreamUtils.copy??
+                byte[] outputByte = new byte[4096];
+                while (in.read(outputByte, 0, 4096) != -1) {
+                    out.write(outputByte, 0, 4096);
+                }
+                in.close();
+
+                return null;
             }
-        } else if (Parameter.TYPE_TEXT.equals(parameter.getType())) {
-            resp.setData("value", paramDAO.getParamText(id, paramId));
-        } else if (Parameter.TYPE_BLOB.equals(parameter.getType())) {
-            resp.setData("value", paramDAO.getParamBlob(id, paramId));
+            case LIST -> {
+                resp.setData("values", paramDAO.getParamListWithComments(id, paramId));
+                listValues(form, parameter);
+                request.setAttribute("listParamConfig", parameter.getConfigMap().getConfig(ListParamConfig.class));
+            }
+            case LISTCOUNT -> {
+                resp.setData("values", paramDAO.getParamListCount(id, paramId));
+                listValues(form, parameter);
+            }
+            case MONEY -> {
+                resp.setData("value", paramDAO.getParamMoney(id, paramId));
+            }
+            case PHONE -> {
+                resp.setData("value", paramDAO.getParamPhone(id, paramId));
+            }
+            case TEXT -> {
+                resp.setData("value", paramDAO.getParamText(id, paramId));
+            }
+            case TREE -> {
+                resp.setData("values", paramDAO.getParamTree(id, paramId));
+                resp.setData("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
+            }
+            case TREECOUNT -> {
+                resp.setData("values", paramDAO.getParamTreeCount(id, paramId));
+                resp.setData("treeValues", ParameterCache.getTreeParamValues(paramId));
+                resp.setData("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
+            }
         }
-
 
         return html(conSet, form, PATH_JSP + "/edit.jsp");
     }
@@ -374,184 +383,217 @@ public class ParameterAction extends BaseAction {
 
         Object paramValue = null;
 
-        if (Parameter.TYPE_TEXT.equals(parameter.getType())) {
-            paramValue = form.getParam("value");
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
-            paramValueDAO.updateParamText(id, paramId, (String) paramValue);
-        } else if (Parameter.TYPE_BLOB.equals(parameter.getType())) {
-            paramValue = form.getParam("value");
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
-            paramValueDAO.updateParamBlob(id, paramId, (String) paramValue);
-        } else if (Parameter.TYPE_DATE.equals(parameter.getType())) {
-            String value = form.getParam("value");
+        switch (Parameter.Type.of(parameter.getType())) {
+            case ADDRESS -> {
+                ParameterAddressValue addressValue = null;
+                int houseId = form.getParamInt("houseId", -1);
 
-            paramValue = TimeUtils.parse(value, TimeUtils.FORMAT_TYPE_YMD);
-            if (Utils.notBlankString(value) &&
-            // при годе большим 4х знаков MySQL сохраняет нули и потом выдаёт ошибку при выборке
-                    (paramValue == null || TimeUtils.convertDateToCalendar((Date) paramValue).get(Calendar.YEAR) >= 10000)) {
-                throw new BGMessageException("Неверный формат.");
-            }
+                // сначала пытаемся найти hid по улице и строке house (не по houseId)
+                int streetId = form.getParamInt("streetId", -1);
+                String house = form.getParam("house");
 
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                int position = Utils.parseInt(form.getParam("position"));
 
-            paramValueDAO.updateParamDate(id, paramId, (Date) paramValue);
-        } else if (Parameter.TYPE_DATETIME.equals(parameter.getType())) {
-            String value = form.getParam("value");
+                if (houseId <= 0 && (streetId != -1 && house != null)) {
+                    AddressDAO addressDAO = new AddressDAO(con);
+                    List<Integer> houses = addressDAO.getHouseIdsByStreetAndHouse(streetId, house, null);
 
-            paramValue = TimeUtils.parse(value, parameter.getConfigMap().get("type", TimeUtils.FORMAT_TYPE_YMD));
-            if (Utils.notBlankString(value) &&
-            // при годе большим 4х знаков MySQL сохраняет нули и потом выдаёт ошибку при выборке
-                    (paramValue == null || TimeUtils.convertDateToCalendar((Date) paramValue).get(Calendar.YEAR) >= 10000)) {
-                throw new BGMessageException("Неверный формат.");
-            }
-
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
-
-            paramValueDAO.updateParamDateTime(id, paramId, (Date) paramValue);
-        } else if (Parameter.TYPE_LIST.equals(parameter.getType())) {
-            ListParamConfig config = parameter.getConfigMap().getConfig(ListParamConfig.class);
-
-            Map<Integer, String> values = new HashMap<Integer, String>();
-
-            for (String value : form.getParamValuesStr("value")) {
-                int val = Utils.parseInt(StringUtils.substringBefore(value, ":"));
-                String comment = Utils.maskNull(StringUtils.substringAfter(value, ":"));
-
-                if (val <= 0)
-                    continue;
-
-                if (config.getCommentValues().get(val) == null)
-                    comment = "";
-                else if (config.getNeedCommentValues().get(val) != null && Utils.isBlankString(comment))
-                    throw new BGMessageException("Not defined mandatory comment for a value");
-
-                values.put(val, comment);
-            }
-
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
-
-            paramValueDAO.updateParamListWithComments(id, paramId, values);
-        } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
-            Map<Integer, BigDecimal> values = new TreeMap<>();
-
-            List<String> itemIds = form.getParamValuesListStr("itemId");
-            List<String> itemCounts = form.getParamValuesListStr("itemCount");
-
-            for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
-                Integer itemId = Utils.parseInt(itemIds.get(i));
-                BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
-
-                if (itemId <= 0 || BigDecimal.ZERO.equals(itemCount))
-                    throw new BGIllegalArgumentException("itemCount");
-
-                values.put(itemId, itemCount);
-            }
-
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
-
-            paramValueDAO.updateParamListCount(id, paramId, values);
-        } else if (Parameter.TYPE_MONEY.equals(parameter.getType())) {
-            paramValue = Utils.parseBigDecimal(form.getParam("value"));
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
-            paramValueDAO.updateParamMoney(id, paramId, (BigDecimal) paramValue);
-        } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
-            Set<String> values = form.getParamValuesStr("value");
-            // TODO: Попробовать убрать, проверить.
-            values.removeAll(Arrays.asList("0", "-1"));
-
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
-
-            paramValueDAO.updateParamTree(id, paramId, values);
-        } else if (Parameter.TYPE_FILE.equals(parameter.getType())) {
-            FormFile file = form.getFile();
-
-            FileAction.uploadFileCheck(file);
-
-            int position = form.getParamInt("position", 0);
-
-            FileData fileData = null;
-            if (file != null) {
-                log.debug("Uploading file: {}, type: {}", file.getFileName(), file.getContentType());
-
-                fileData = new FileData();
-
-                FileDataDAO fileDataDAO = new FileDataDAO(con);
-
-                fileData.setTitle(file.getFileName());
-                try (var fos = fileDataDAO.add(fileData)) {
-                    fos.write(file.getFileData());
+                    if (houses.size() == 1) {
+                        if (houses.get(0) != houseId) {
+                            houseId = houses.get(0);
+                        }
+                    } else
+                        throw new BGMessageException(
+                                "Не удалось найти дом с таким номером, либо таких домов несколько. Выберите дом из всплывающей подсказки!");
                 }
+
+                if (houseId > 0) {
+                    addressValue = new ParameterAddressValue();
+
+                    addressValue.setHouseId(houseId);
+
+                    if (addressValue.getHouseId() <= 0)
+                        throw new BGMessageException("Не выбран дом.");
+
+                    addressValue.setFlat(form.getParam("flat", ""));
+                    addressValue.setRoom(form.getParam("room", ""));
+                    addressValue.setPod(Utils.parseInt(form.getParam("pod"), -1));
+                    addressValue.setFloor(Utils.parseInt(form.getParam("floor"), -1));
+                    addressValue.setComment(form.getParam("comment", ""));
+                    addressValue.setValue(AddressUtils.buildAddressValue(addressValue, con));
+                }
+
+                //TODO: Возможно, позицию адреса нужно вставить в ParameterAddressValue
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
+
+                paramValueDAO.updateParamAddress(id, paramId, position, addressValue);
             }
+            case BLOB -> {
+                paramValue = form.getParam("value");
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramValueDAO.updateParamBlob(id, paramId, (String) paramValue);
+            }
+            case DATE -> {
+                String value = form.getParam("value");
 
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
+                paramValue = TimeUtils.parse(value, TimeUtils.FORMAT_TYPE_YMD);
+                if (Utils.notBlankString(value) &&
+                // при годе большим 4х знаков MySQL сохраняет нули и потом выдаёт ошибку при выборке
+                        (paramValue == null || TimeUtils.convertDateToCalendar((Date) paramValue).get(Calendar.YEAR) >= 10000)) {
+                    throw new BGMessageException("Неверный формат.");
+                }
 
-            paramValueDAO.updateParamFile(id, paramId, position, fileData);
-        } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
-            ParameterPhoneValue phoneValue = new ParameterPhoneValue();
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
 
-            Iterator<String> phones = form.getParamValuesListStr("phone").iterator();
-            Iterator<String> comments = form.getParamValuesListStr("comment").iterator();
-            while (phones.hasNext())
-                phoneValue.addItem(new ParameterPhoneValueItem(phones.next(), comments.hasNext() ? comments.next() : ""));
+                paramValueDAO.updateParamDate(id, paramId, (Date) paramValue);
+            }
+            case DATETIME -> {
+                String value = form.getParam("value");
 
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
+                paramValue = TimeUtils.parse(value, parameter.getConfigMap().get("type", TimeUtils.FORMAT_TYPE_YMD));
+                if (Utils.notBlankString(value) &&
+                // при годе большим 4х знаков MySQL сохраняет нули и потом выдаёт ошибку при выборке
+                        (paramValue == null || TimeUtils.convertDateToCalendar((Date) paramValue).get(Calendar.YEAR) >= 10000)) {
+                    throw new BGMessageException("Неверный формат.");
+                }
 
-            paramValueDAO.updateParamPhone(id, paramId, phoneValue);
-        } else if (Parameter.TYPE_EMAIL.equals(parameter.getType())) {
-            int position = form.getParamInt("position", 0);
-            String value = form.getParam("value", "");
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
 
-            ParameterEmailValue emailValue = null;
+                paramValueDAO.updateParamDateTime(id, paramId, (Date) paramValue);
+            }
+            case EMAIL -> {
+                int position = form.getParamInt("position", 0);
+                String value = form.getParam("value", "");
 
-            if (Utils.notBlankString(value))
-                emailValue = new ParameterEmailValue(value, form.getParam("comment", ""));
+                ParameterEmailValue emailValue = null;
 
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = emailValue));
+                if (Utils.notBlankString(value))
+                    emailValue = new ParameterEmailValue(value, form.getParam("comment", ""));
 
-            paramValueDAO.updateParamEmail(id, paramId, position, emailValue);
-        } else if (Parameter.TYPE_ADDRESS.equals(parameter.getType())) {
-            ParameterAddressValue addressValue = null;
-            int houseId = form.getParamInt("houseId", -1);
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = emailValue));
 
-            // сначала пытаемся найти hid по улице и строке house (не по houseId)
-            int streetId = form.getParamInt("streetId", -1);
-            String house = form.getParam("house");
+                paramValueDAO.updateParamEmail(id, paramId, position, emailValue);
+            }
+            case FILE -> {
+                FormFile file = form.getFile();
 
-            int position = Utils.parseInt(form.getParam("position"));
+                FileAction.uploadFileCheck(file);
 
-            if (houseId <= 0 && (streetId != -1 && house != null)) {
-                AddressDAO addressDAO = new AddressDAO(con);
-                List<Integer> houses = addressDAO.getHouseIdsByStreetAndHouse(streetId, house, null);
+                int position = form.getParamInt("position", 0);
 
-                if (houses.size() == 1) {
-                    if (houses.get(0) != houseId) {
-                        houseId = houses.get(0);
+                FileData fileData = null;
+                if (file != null) {
+                    log.debug("Uploading file: {}, type: {}", file.getFileName(), file.getContentType());
+
+                    fileData = new FileData();
+
+                    FileDataDAO fileDataDAO = new FileDataDAO(con);
+
+                    fileData.setTitle(file.getFileName());
+                    try (var fos = fileDataDAO.add(fileData)) {
+                        fos.write(file.getFileData());
                     }
-                } else
-                    throw new BGMessageException(
-                            "Не удалось найти дом с таким номером, либо таких домов несколько. Выберите дом из всплывающей подсказки!");
+                }
+
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
+
+                paramValueDAO.updateParamFile(id, paramId, position, fileData);
             }
+            case LIST -> {
+                ListParamConfig config = parameter.getConfigMap().getConfig(ListParamConfig.class);
 
-            if (houseId > 0) {
-                addressValue = new ParameterAddressValue();
+                Map<Integer, String> values = new HashMap<Integer, String>();
 
-                addressValue.setHouseId(houseId);
+                for (String value : form.getParamValuesStr("value")) {
+                    int val = Utils.parseInt(StringUtils.substringBefore(value, ":"));
+                    String comment = Utils.maskNull(StringUtils.substringAfter(value, ":"));
 
-                if (addressValue.getHouseId() <= 0)
-                    throw new BGMessageException("Не выбран дом.");
+                    if (val <= 0)
+                        continue;
 
-                addressValue.setFlat(form.getParam("flat", ""));
-                addressValue.setRoom(form.getParam("room", ""));
-                addressValue.setPod(Utils.parseInt(form.getParam("pod"), -1));
-                addressValue.setFloor(Utils.parseInt(form.getParam("floor"), -1));
-                addressValue.setComment(form.getParam("comment", ""));
-                addressValue.setValue(AddressUtils.buildAddressValue(addressValue, con));
+                    if (config.getCommentValues().get(val) == null)
+                        comment = "";
+                    else if (config.getNeedCommentValues().get(val) != null && Utils.isBlankString(comment))
+                        throw new BGMessageException("Not defined mandatory comment for a value");
+
+                    values.put(val, comment);
+                }
+
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
+
+                paramValueDAO.updateParamListWithComments(id, paramId, values);
             }
+            case LISTCOUNT -> {
+                Map<Integer, BigDecimal> values = new TreeMap<>();
 
-            //TODO: Возможно, позицию адреса нужно вставить в ParameterAddressValue
-            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
+                List<String> itemIds = form.getParamValuesListStr("itemId");
+                List<String> itemCounts = form.getParamValuesListStr("itemCount");
 
-            paramValueDAO.updateParamAddress(id, paramId, position, addressValue);
+                for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
+                    Integer itemId = Utils.parseInt(itemIds.get(i));
+                    BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
+
+                    if (itemId <= 0 || BigDecimal.ZERO.equals(itemCount))
+                        throw new BGIllegalArgumentException("itemCount");
+
+                    values.put(itemId, itemCount);
+                }
+
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
+
+                paramValueDAO.updateParamListCount(id, paramId, values);
+            }
+            case MONEY -> {
+                paramValue = Utils.parseBigDecimal(form.getParam("value"));
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramValueDAO.updateParamMoney(id, paramId, (BigDecimal) paramValue);
+            }
+            case PHONE -> {
+                ParameterPhoneValue phoneValue = new ParameterPhoneValue();
+
+                Iterator<String> phones = form.getParamValuesListStr("phone").iterator();
+                Iterator<String> comments = form.getParamValuesListStr("comment").iterator();
+                while (phones.hasNext())
+                    phoneValue.addItem(new ParameterPhoneValueItem(phones.next(), comments.hasNext() ? comments.next() : ""));
+
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
+
+                paramValueDAO.updateParamPhone(id, paramId, phoneValue);
+            }
+            case TEXT -> {
+                paramValue = form.getParam("value");
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramValueDAO.updateParamText(id, paramId, (String) paramValue);
+            }
+            case TREE -> {
+                Set<String> values = form.getParamValuesStr("value");
+                // TODO: Попробовать убрать, проверить.
+                values.removeAll(Arrays.asList("0", "-1"));
+
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
+
+                paramValueDAO.updateParamTree(id, paramId, values);
+            }
+            case TREECOUNT -> {
+                Map<String, BigDecimal> values = new TreeMap<>();
+
+                List<String> itemIds = form.getParamValuesListStr("itemId");
+                List<String> itemCounts = form.getParamValuesListStr("itemCount");
+
+                for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
+                    String itemId = itemIds.get(i);
+                    BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
+
+                    if (Utils.isBlankString(itemId) || BigDecimal.ZERO.equals(itemCount))
+                        throw new BGIllegalArgumentException("itemCount");
+
+                    values.put(itemId, itemCount);
+                }
+
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
+
+                paramValueDAO.updateParamTreeCount(id, paramId, values);
+            }
         }
 
         ParamChangedEvent changedEvent = new ParamChangedEvent(form, parameter, id, paramValue);
@@ -560,8 +602,12 @@ public class ParameterAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward parameterListcountAddValue(DynActionForm form, ConnectionSet conSet) {
+    public ActionForward parameterListCountAddValue(DynActionForm form, ConnectionSet conSet) {
         return html(conSet, form, PATH_JSP + "/edit/listcount/value_row.jsp");
+    }
+
+    public ActionForward parameterTreeCountAddValue(DynActionForm form, ConnectionSet conSet) {
+        return html(conSet, form, PATH_JSP + "/edit/treecount/value_row.jsp");
     }
 
     private void paramChangingProcess(Connection con, ParamChangingEvent event) throws Exception {

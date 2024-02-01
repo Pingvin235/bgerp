@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TypeTreeItemTest {
+public class ProcessTypeTest {
 
     @Test
     public void testClone() {
@@ -62,8 +62,8 @@ public class TypeTreeItemTest {
         return result;
     }
 
-    private TypeTreeItem createItem(TypeTreeItem parent, int id) {
-        var item = new TypeTreeItem();
+    private ProcessType createItem(ProcessType parent, int id) {
+        var item = new ProcessType();
         item.setId(id);
         item.setTitle(String.valueOf(id));
         if (parent != null)

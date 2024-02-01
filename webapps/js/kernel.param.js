@@ -44,6 +44,33 @@ $$.param = new function () {
 	this.dirChanged = dirChanged;
 	this.editorTypeChanged = editorTypeChanged;
 
+	const addValueCount = ($table, errors, action, multiple) => {
+		const form = $table.closest("form")[0];
+
+		const itemId = form.newItemId.value;
+		const itemTitle = form.newItemTitle.value;
+		const itemCount = form.newItemCount.value;
+
+		if (!itemId) {
+			alert(errors[0]);
+			return;
+		}
+
+		if (!itemCount) {
+			alert(errors[1]);
+			return;
+		}
+
+		return $$.ajax
+			.post(
+				"/user/parameter.do?action=" + action + "&multiple=" + multiple + "&itemId=" + itemId +
+				"&itemTitle=" + encodeURIComponent(itemTitle) + "&itemCount=" + encodeURIComponent(itemCount),
+				{ html: true }
+			).done(result => {
+				$table.find("tr:last-child").before(result);
+			});
+	}
+
 	// $$.param.listcount
 	this.listcount = new function () {
 		/**
@@ -53,30 +80,7 @@ $$.param = new function () {
 		 * @returns
 		 */
 		const addValue = ($table, errors) => {
-			const form = $table.closest("form")[0];
-
-			const itemId = form.newItemId.value;
-			const itemTitle = form.newItemTitle.value;
-			const itemCount = form.newItemCount.value;
-
-			if (!itemId) {
-				alert(errors[0]);
-				return;
-			}
-
-			if (!itemCount) {
-				alert(errors[1]);
-				return;
-			}
-
-			$$.ajax
-				.post(
-					"/user/parameter.do?action=parameterListcountAddValue&itemId=" + itemId +
-					"&itemTitle=" + encodeURIComponent(itemTitle) + "&itemCount=" + encodeURIComponent(itemCount),
-					{ html: true }
-				).done(result => {
-					$table.find("tr:last-child").before(result);
-				});
+			addValueCount($table, errors, "parameterListCountAddValue");
 		}
 
 		// public functions
@@ -111,5 +115,53 @@ $$.param = new function () {
 		// public functions
 		this.addValue = addValue;
 		this.delValue = delValue;
+	}
+
+	// $$.param.treecount
+	this.treecount = new function () {
+		const treeOpen = (a) => {
+			const $a = $(a);
+			$a.hide();
+			$a.closest('td').find('>div').show();
+		}
+
+		/**
+		 * Handles value tree closing.
+		 * @param {*} button the close button.
+		 * @param {*} titleInputName the name of the hidden input with the selected item title.
+		 */
+		const treeClose = (button, titleInputName) => {
+			const $button = $(button);
+			const $div = $button.closest('div');
+			$div.hide();
+			const title = $div.find('input[name=' + titleInputName + ']').val();
+
+			const $a = $button.closest('td').find('>a');
+			$a.text(title);
+			$a.show();
+		}
+
+		/**
+		 * Adds a new value in treecount editor.
+		 * @param {Boolean} multiple multiple values supported.
+		 * @param {jQuery} $table values table selector.
+		 * @param {Array} errors array with two alerted errors.
+		 * @returns AJAX promise.
+		 */
+		const addValue = (multiple, $table, errors) => {
+			return addValueCount($table, errors, "parameterTreeCountAddValue", multiple);
+		}
+
+		const editorToggle = (multiple, element) => {
+			const table = element.tagName === 'TABLE' ? element : element.closest('table');
+			const editorRow = table.rows[table.rows.length - 1];
+			$(editorRow).toggle(multiple || table.rows.length === 2);
+		}
+
+		// public functions
+		this.treeOpen = treeOpen;
+		this.treeClose = treeClose;
+		this.addValue = addValue;
+		this.editorToggle = editorToggle;
 	}
 }

@@ -9,7 +9,7 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
-public class ParamValueSelect {
+public class ParamValueSelect extends CommonDAO {
     public static final String PARAM_ADDRESS_FIELD_QUARTER = "quarter";
     public static final String PARAM_ADDRESS_FIELD_STREET = "street";
     public static final Set<String> PARAM_ADDRESS_FIELDS = Set.of(PARAM_ADDRESS_FIELD_QUARTER, PARAM_ADDRESS_FIELD_STREET);
@@ -104,13 +104,13 @@ public class ParamValueSelect {
                         String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
                         if (Utils.notBlankString(tableName)) {
                             selectPart
-                                    .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment, CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ")
+                                    .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment, CONCAT(' [', param.comment, ']'), '')) SEPARATOR ', ') ")
                                     .append("FROM " + Tables.TABLE_PARAM_LIST + " AS param LEFT JOIN " + tableName + " AS val ON param.value=val.id ")
                                     .append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id")
                                     .append(") " + columnValueAlias + " ");
                         } else {
                             selectPart
-                                    .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment != '', CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ")
+                                    .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment != '', CONCAT(' [', param.comment, ']'), '')) SEPARATOR ', ') ")
                                     .append("FROM " + Tables.TABLE_PARAM_LIST + " AS param LEFT JOIN " + Tables.TABLE_PARAM_LIST_VALUE
                                             + " AS val ON param.param_id=val.param_id AND param.value=val.id ")
                                     .append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id")
@@ -119,7 +119,7 @@ public class ParamValueSelect {
                     }
                     case LISTCOUNT -> {
                         selectPart
-                                .append("\n( SELECT GROUP_CONCAT( CONCAT(val.title,':',CAST(param.count AS CHAR)) SEPARATOR ', ') ")
+                                .append("\n( SELECT GROUP_CONCAT( CONCAT(val.title, ': ', CAST(param.count AS CHAR)) SEPARATOR ', ') ")
                                 .append("FROM " + Tables.TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + Tables.TABLE_PARAM_LISTCOUNT_VALUE
                                         + " AS val ON param.param_id=val.param_id AND param.value=val.id ")
                                 .append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id")
@@ -131,6 +131,14 @@ public class ParamValueSelect {
                                 .append("FROM " + Tables.TABLE_PARAM_TREE + " AS param LEFT JOIN " + Tables.TABLE_PARAM_TREE_VALUE
                                         + " AS val ON param.param_id=val.param_id AND param.value=val.id ")
                                 .append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id")
+                                .append(") " + columnValueAlias + " ");
+                    }
+                    case TREECOUNT -> {
+                        selectPart
+                                .append("\n( SELECT GROUP_CONCAT( CONCAT(val.title, ': ', CAST(param.count AS CHAR)) SEPARATOR ', ') ")
+                                .append(SQL_FROM + Tables.TABLE_PARAM_TREECOUNT + "AS param" + SQL_LEFT_JOIN + Tables.TABLE_PARAM_TREECOUNT_VALUE
+                                        + "AS val ON param.param_id=val.param_id AND param.value=val.id")
+                                .append(SQL_WHERE + "param.id=" + linkColumn + SQL_AND + "param.param_id=" + paramId + SQL_GROUP_BY + "param.id")
                                 .append(") " + columnValueAlias + " ");
                     }
                     default -> {

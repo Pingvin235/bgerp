@@ -5,6 +5,6 @@ package org.bgerp.model.base.iface;
  *
  * @author Shamil Vakhitov
  */
-public interface Id {
-    public Object getId();
+public interface Id<T> {
+    public T getId();
 }

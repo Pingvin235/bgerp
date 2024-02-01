@@ -32,7 +32,7 @@ $$.ui.tree = new function () {
 				.data(hiddenNameKey, hiddenName)
 				.data(hiddenNameTitleKey, hiddenNameTitle);
 
-			const title = tree.querySelector("#title-" + value);
+			const title = tree.querySelector("#title-" + value.replaceAll(".", "\\."));
 			if (title) {
 				select(title, value);
 				open(title);

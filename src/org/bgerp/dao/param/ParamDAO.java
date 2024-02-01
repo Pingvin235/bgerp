@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,39 +28,62 @@ import ru.bgcrm.util.Utils;
 public class ParamDAO extends CommonDAO {
     public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
 
-    public ParamDAO(Connection connection) {
-        super(connection);
-    }
-
-    // TODO: Убрать конструктор.
-    public ParamDAO(Connection con, int userId) {
+    public ParamDAO(Connection con) {
         super(con);
     }
 
     public Parameter getParameter(int id) throws SQLException {
         Parameter parameter = null;
 
-        String query = "SELECT * FROM param_pref WHERE id=?";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            parameter = getParameterFromRs(rs);
+        try (var ps = con.prepareStatement(SQL_SELECT_ALL_FROM + "param_pref" + SQL_WHERE + "id=?")) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                parameter = getParameterFromRs(rs);
+                String type = parameter.getType();
 
-            if (Parameter.TYPE_LIST.equals(parameter.getType())) {
-                parameter.setValuesConfig(getListParamValuesConfig(id));
-                // parameter.setListValues( getParamListValueForParamId( id ) );
-            } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
-                parameter.setValuesConfig(getTreeParamValuesConfig(id));
-            }
+                if (Parameter.TYPE_LIST.equals(type))
+                    parameter.setValuesConfig(getListParamValuesConfig(id));
+                else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType()))
+                    parameter.setValuesConfig(getListCountParamValuesConfig(id));
+                else if (Parameter.TYPE_TREE.equals(parameter.getType()))
+                    parameter.setValuesConfig(getTreeParamValuesConfig(id, Tables.TABLE_PARAM_TREE_VALUE));
+                else if (Parameter.TYPE_TREECOUNT.equals(parameter.getType()))
+                    parameter.setValuesConfig(getTreeParamValuesConfig(id, Tables.TABLE_PARAM_TREECOUNT_VALUE));
 
-            else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
-                parameter.setValuesConfig(getListCountParamValuesConfig(id));
             }
         }
-        ps.close();
 
         return parameter;
+    }
+
+    private String getTreeParamValuesConfig(int paramId, String tableName) throws SQLException {
+        IdStringTitleTreeItem root = getTreeParamRootNode(paramId, tableName);
+        return getTreeConfig(root, "");
+    }
+
+    private String getTreeConfig(IdStringTitleTreeItem node, String prefix) {
+        StringBuilder config = new StringBuilder();
+
+        if (Utils.notBlankString(node.getId())) {
+            config.append(prefix + "=" + node.getTitle());
+            config.append("\n");
+        }
+
+        List<IdStringTitleTreeItem> children = node.getChildren();
+        for (IdStringTitleTreeItem child : children) {
+            String curPrefix = prefix;
+
+            if (Utils.notBlankString(child.getParentId())) {
+                curPrefix += String.valueOf(child.getId()).substring(String.valueOf(child.getParentId()).length());
+            } else {
+                curPrefix += String.valueOf(child.getId());
+            }
+
+            config.append(getTreeConfig(child, curPrefix));
+        }
+
+        return config.toString();
     }
 
     private String getListCountParamValuesConfig(int paramId) throws SQLException {
@@ -90,96 +112,50 @@ public class ParamDAO extends CommonDAO {
         return result.toString();
     }
 
-    public Map<Integer, IdStringTitleTreeItem> getTreeParamValuesMap() throws SQLException {
-        Map<Integer, IdStringTitleTreeItem> result = new HashMap<Integer, IdStringTitleTreeItem>();
+    public Map<Integer, IdStringTitleTreeItem> getTreeParamRootNodes() throws SQLException {
+        Map<Integer, IdStringTitleTreeItem> result = new HashMap<>(2000);
 
+        loadTreeParamRootNodes(result, Tables.TABLE_PARAM_TREE_VALUE);
+        loadTreeParamRootNodes(result, Tables.TABLE_PARAM_TREECOUNT_VALUE);
+
+        return Collections.unmodifiableMap(result);
+    }
+
+    private void loadTreeParamRootNodes(Map<Integer, IdStringTitleTreeItem> result, String tableName) throws SQLException {
         StringBuilder query = new StringBuilder(200);
+        query.append(SQL_SELECT + "DISTINCT(param_id)" + SQL_FROM);
+        query.append(tableName);
+        query.append(SQL_ORDER_BY + "id");
 
-        query.append("SELECT DISTINCT(param_id) FROM ");
-        query.append(Tables.TABLE_PARAM_TREE_VALUE);
-        query.append("ORDER BY id");
-
-        PreparedStatement ps = con.prepareStatement(query.toString());
-
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Integer paramId = rs.getInt("param_id");
-            result.put(paramId, getTreeParamValues(paramId));
-        }
-        ps.close();
-
-        return result;
-    }
-
-    private String getTreeParamValuesConfig(int paramId) throws SQLException {
-        IdStringTitleTreeItem root = getTreeParamValues(paramId);
-        StringBuilder config = new StringBuilder(getTreeConfig(root, ""));
-
-        return config.toString();
-    }
-
-    private String getTreeConfig(IdStringTitleTreeItem root, String prefix) {
-        StringBuilder config = new StringBuilder();
-
-        if (Utils.notBlankString(root.getId())) {
-            config.append(prefix + "=" + root.getTitle());
-            config.append("\n");
-        }
-
-        List<IdStringTitleTreeItem> children = root.getChildren();
-        for (IdStringTitleTreeItem child : children) {
-            String curPrefix = prefix;
-
-            if (Utils.notBlankString(child.getParentId())) {
-                curPrefix += String.valueOf(child.getId()).substring(String.valueOf(child.getParentId()).length());
-            } else {
-                curPrefix += String.valueOf(child.getId());
+        try (var ps = con.prepareStatement(query.toString())) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Integer paramId = rs.getInt("param_id");
+                result.put(paramId, getTreeParamRootNode(paramId, tableName));
             }
-
-            config.append(getTreeConfig(child, curPrefix));
         }
-
-        return config.toString();
     }
 
-    private IdStringTitleTreeItem getTreeParamValues(int paramId) throws SQLException {
-        IdStringTitleTreeItem root = new IdStringTitleTreeItem();
-
-        String query = "SELECT id, parent_id, title FROM " + Tables.TABLE_PARAM_TREE_VALUE + " WHERE param_id=? ORDER BY id";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, paramId);
-        ResultSet rs = ps.executeQuery();
+    private IdStringTitleTreeItem getTreeParamRootNode(int paramId, String tableName) throws SQLException {
+        IdStringTitleTreeItem root = new IdStringTitleTreeItem("", "", "");
 
         List<IdStringTitleTreeItem> items = new ArrayList<>();
-        while (rs.next()) {
-            items.add(new IdStringTitleTreeItem(rs.getString("id"), rs.getString("title"), rs.getString("parent_id")));
+
+        try (var ps = con.prepareStatement(SQL_SELECT + "id, parent_id, title" + SQL_FROM + tableName + SQL_WHERE + "param_id=?" + SQL_ORDER_BY + "id")) {
+            ps.setInt(1, paramId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                items.add(new IdStringTitleTreeItem(rs.getString("id"), rs.getString("title"), rs.getString("parent_id")));
         }
-        ps.close();
 
-        Collections.sort(items, (a, b) -> {
-            Iterator<Integer> idsA = a.getIds().iterator();
-            Iterator<Integer> idsB = b.getIds().iterator();
-
-            if (idsA.hasNext() || idsB.hasNext()) {
-                if (!idsA.hasNext())
-                    return -1;
-                if (!idsB.hasNext())
-                    return 1;
-
-                Integer nextA = idsA.next(), nextB = idsB.next();
-                if (nextA != nextB)
-                    return nextA - nextB;
-            }
-            return 0;
-        });
+        Collections.sort(items, IdStringTitleTreeItem.COMPARATOR);
 
         items.forEach((item) -> {
             IdStringTitleTreeItem child = root.getChild(item.getParentId());
-            if (child != null) {
+            if (child != null)
                 child.addChild(item);
-            } else {
+            else
                 root.addChild(item);
-            }
         });
 
         return root;
@@ -191,23 +167,21 @@ public class ParamDAO extends CommonDAO {
         PreparedStatement ps = null;
 
         if (parameter.getId() < 0) {
-            query = "INSERT INTO param_pref SET object=?, type=?, title=?, `order`=?, script=?, config=?, comment=?";
+            query = "INSERT INTO param_pref SET object=?, type=?, title=?, `order`=?, config=?, comment=?";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, parameter.getObject());
             ps.setString(index++, parameter.getType());
             ps.setString(index++, parameter.getTitle());
             ps.setInt(index++, parameter.getOrder());
-            ps.setString(index++, parameter.getScript());
             ps.setString(index++, parameter.getConfig());
             ps.setString(index++, parameter.getComment());
             ps.executeUpdate();
             parameter.setId(lastInsertId(ps));
         } else {
-            query = "UPDATE param_pref SET title=?, `order`=?, script=?, config=?, comment=? WHERE id=?";
+            query = "UPDATE param_pref SET title=?, `order`=?, config=?, comment=? WHERE id=?";
             ps = con.prepareStatement(query);
             ps.setString(index++, parameter.getTitle());
             ps.setInt(index++, parameter.getOrder());
-            ps.setString(index++, parameter.getScript());
             ps.setString(index++, parameter.getConfig());
             ps.setString(index++, parameter.getComment());
             ps.setInt(index++, parameter.getId());
@@ -215,58 +189,44 @@ public class ParamDAO extends CommonDAO {
         }
         ps.close();
 
-        if (Parameter.TYPE_LIST.equals(parameter.getType())) {
-            query = "DELETE FROM " + Tables.TABLE_PARAM_LIST_VALUE + " WHERE param_id=?";
-            ps = con.prepareStatement(query);
+        if (Parameter.TYPE_LIST.equals(parameter.getType()))
+            updateListValues(parameter, Tables.TABLE_PARAM_LIST_VALUE);
+        else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType()))
+            updateListValues(parameter, Tables.TABLE_PARAM_LISTCOUNT_VALUE);
+        else if (Parameter.TYPE_TREE.equals(parameter.getType()))
+            updateTreeValues(parameter, Tables.TABLE_PARAM_TREE_VALUE);
+        else if (Parameter.TYPE_TREECOUNT.equals(parameter.getType()))
+            updateTreeValues(parameter, Tables.TABLE_PARAM_TREECOUNT_VALUE);
+    }
+
+    private void updateListValues(Parameter parameter, String tableName) throws SQLException {
+        try (var ps = con.prepareStatement(SQL_DELETE_FROM + tableName + SQL_WHERE + "param_id=?")) {
             ps.setInt(1, parameter.getId());
             ps.executeUpdate();
-            ps.close();
-
-            query = "INSERT INTO " + Tables.TABLE_PARAM_LIST_VALUE + " (id, title, param_id) VALUES (?,?,?)";
-            ps = con.prepareStatement(query);
+        }
+        try (var ps = con.prepareStatement(SQL_INSERT_INTO + tableName + " (id, title, param_id) VALUES (?, ?, ?)")) {
             ps.setInt(3, parameter.getId());
-
             for (Map.Entry<Integer, String> me : convertListValuesConfigToMap(parameter.getValuesConfig()).entrySet()) {
                 ps.setInt(1, me.getKey());
                 ps.setString(2, me.getValue());
                 ps.executeUpdate();
             }
-            ps.close();
-        } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
-            query = "DELETE FROM " + Tables.TABLE_PARAM_TREE_VALUE + " WHERE param_id=?";
-            ps = con.prepareStatement(query);
+        }
+    }
+
+    private void updateTreeValues(Parameter parameter, String tableName) throws SQLException {
+        try (var ps = con.prepareStatement(SQL_DELETE_FROM + tableName + SQL_WHERE + "param_id=?")) {
             ps.setInt(1, parameter.getId());
             ps.executeUpdate();
-            ps.close();
-
-            query = "INSERT INTO " + Tables.TABLE_PARAM_TREE_VALUE + " (id, parent_id, title, param_id) VALUES (?,?,?,?)";
-            ps = con.prepareStatement(query);
+        }
+        try (var ps = con.prepareStatement(SQL_INSERT_INTO + tableName + " (id, parent_id, title, param_id) VALUES (?, ?, ?, ?)")) {
             ps.setInt(4, parameter.getId());
-
-            for (IdStringTitleTreeItem node : convertTreeValuesConfigToNodeList(parameter.getValuesConfig())) {
+            for (var node : convertTreeValuesConfigToNodeList(parameter.getValuesConfig())) {
                 ps.setString(1, node.getId());
                 ps.setString(2, node.getParentId());
                 ps.setString(3, node.getTitle());
                 ps.executeUpdate();
             }
-            ps.close();
-        } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
-            query = "DELETE FROM " + Tables.TABLE_PARAM_LISTCOUNT_VALUE + " WHERE param_id=?";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, parameter.getId());
-            ps.executeUpdate();
-            ps.close();
-
-            query = "INSERT INTO " + Tables.TABLE_PARAM_LISTCOUNT_VALUE + " (id, title, param_id) VALUES (?,?,?)";
-            ps = con.prepareStatement(query);
-            ps.setInt(3, parameter.getId());
-
-            for (Map.Entry<Integer, String> me : convertListValuesConfigToMap(parameter.getValuesConfig()).entrySet()) {
-                ps.setInt(1, me.getKey());
-                ps.setString(2, me.getValue());
-                ps.executeUpdate();
-            }
-            ps.close();
         }
     }
 
@@ -562,7 +522,6 @@ public class ParamDAO extends CommonDAO {
         parameter.setTitle(rs.getString("title"));
         parameter.setObject(rs.getString("object"));
         parameter.setOrder(rs.getInt("order"));
-        parameter.setScript(rs.getString("script"));
         parameter.setConfig(rs.getString("config"));
         parameter.setComment(rs.getString("comment"));
 

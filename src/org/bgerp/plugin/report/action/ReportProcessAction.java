@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
@@ -21,6 +20,7 @@ import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.process.Tables;
 import ru.bgcrm.model.BGIllegalArgumentException;
+import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
@@ -119,7 +119,7 @@ public class ReportProcessAction extends ReportActionBase {
                 pq.addQuery(mode + "_dt");
                 pq.addQuery(getPageLimit(form.getPage()));
 
-                var processTypes = new TreeSet<IdTitle>();
+                var processTypes = new TreeSet<ProcessType>();
 
                 var rs = pq.executeQuery();
                 while (rs.next()) {

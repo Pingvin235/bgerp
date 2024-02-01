@@ -1,21 +1,39 @@
 package org.bgerp.model.base.tree;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import ru.bgcrm.util.Utils;
 
-public class IdStringTitleTreeItem {
-    private String id;
+public class IdStringTitleTreeItem extends TreeItem<String, IdStringTitleTreeItem> {
+    /**
+     * Comparator items by keys.
+     */
+    public static Comparator<IdStringTitleTreeItem> COMPARATOR = (a, b) -> {
+        Iterator<Integer> idsA = a.getIds().iterator();
+        Iterator<Integer> idsB = b.getIds().iterator();
+
+        if (idsA.hasNext() || idsB.hasNext()) {
+            if (!idsA.hasNext())
+                return -1;
+            if (!idsB.hasNext())
+                return 1;
+
+            Integer nextA = idsA.next(), nextB = idsB.next();
+            if (nextA != nextB)
+                return nextA - nextB;
+        }
+        return 0;
+    };
+
     private List<Integer> ids;
-    private String title;
-    private String parentId;
-    private List<IdStringTitleTreeItem> children;
 
     public IdStringTitleTreeItem() {
         setId("");
         parentId = "";
-        children = new ArrayList<IdStringTitleTreeItem>();
+        children = new ArrayList<>();
     }
 
     public IdStringTitleTreeItem(String id, String title, String parentId) {
@@ -25,47 +43,7 @@ public class IdStringTitleTreeItem {
         children = new ArrayList<>();
     }
 
-    public List<IdStringTitleTreeItem> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<IdStringTitleTreeItem> children) {
-        this.children = children;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public IdStringTitleTreeItem getChild(String id) {
-        return getChild(this, id);
-    }
-
-    public void addChild(IdStringTitleTreeItem child) {
-        children.add(child);
-    }
-
-    private IdStringTitleTreeItem getChild(IdStringTitleTreeItem root, String id) {
-        for (IdStringTitleTreeItem child : root.getChildren()) {
-            if (id.equals(child.getId())) {
-                return child;
-            }
-            IdStringTitleTreeItem ch = getChild(child, id);
-            if (ch != null) {
-                return ch;
-            }
-        }
-        return null;
-    }
-
-    public String getId() {
-        return id;
-    }
-
+    @Override
     public void setId(String id) {
         this.id = id;
 
@@ -83,7 +61,13 @@ public class IdStringTitleTreeItem {
         this.title = title;
     }
 
+    // TODO: The method is used for keys ordering, but only on a single place.
     public List<Integer> getIds() {
         return ids;
+    }
+
+    @Override
+    protected boolean isRootNode() {
+        return Utils.isBlankString(id) && Utils.isBlankString(parentId);
     }
 }

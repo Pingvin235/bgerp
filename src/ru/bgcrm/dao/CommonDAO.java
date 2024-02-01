@@ -29,7 +29,7 @@ public class CommonDAO {
     protected final Log log = Log.getLog(this.getClass());
 
     protected final static String SQL_SELECT = "SELECT ";
-    protected final static String SQL_SELECT_ALL_FROM = "SELECT * FROM";
+    protected final static String SQL_SELECT_ALL_FROM = "SELECT * FROM ";
     protected final static String SQL_SELECT_COUNT_ROWS = "SELECT SQL_CALC_FOUND_ROWS ";
     protected final static String SQL_DISTINCT = "DISTINCT ";
     protected final static String SQL_INSERT_IGNORE = "INSERT IGNORE INTO ";

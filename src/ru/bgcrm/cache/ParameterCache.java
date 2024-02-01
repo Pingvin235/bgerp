@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -208,8 +209,41 @@ public class ParameterCache extends Cache<ParameterCache> {
         return listValues;
     }
 
-    public static IdStringTitleTreeItem getTreeParamValues(Parameter param) {
-        return holder.getInstance().treeParamValues.get(param.getId());
+    public static IdStringTitleTreeItem getTreeParamRootNode(Parameter param) {
+        return holder.getInstance().treeParamRootNodes.get(param.getId());
+    }
+
+    /**
+     * Map of tree parameter values. Key - value ID, value - title.
+     * @param paramId the parameter ID.
+     * @return a map with entries sorted by keys.
+     */
+    public static Map<String, String> getTreeParamValues(int paramId) {
+        // TODO: Cache??
+        var param = getParameter(paramId);
+        if (param == null)
+            throw new IllegalArgumentException("Parameter not found: " + paramId);
+
+        List<IdStringTitleTreeItem> list = new ArrayList<>(100);
+
+        IdStringTitleTreeItem node = getTreeParamRootNode(param);
+        if (node != null)
+            treeValuesPut(list, node);
+
+        list.sort(IdStringTitleTreeItem.COMPARATOR);
+
+        var result = new LinkedHashMap<String, String>(list.size());
+        for (var item : list)
+            result.put(item.getId(), item.getTitle());
+
+        return Collections.unmodifiableMap(result);
+    }
+
+    private static void treeValuesPut(List<IdStringTitleTreeItem> result, IdStringTitleTreeItem node) {
+        result.add(node);
+        if (node.getChildren() != null)
+            for (var child : node.getChildren())
+                treeValuesPut(result, child);
     }
 
     public static Map<Integer, Parameter> getParameterMap() {
@@ -226,8 +260,8 @@ public class ParameterCache extends Cache<ParameterCache> {
     private Map<String, List<Parameter>> objectTypeParameters;
     private Map<Integer, Set<Integer>> paramGroupParams;
     private Map<Integer, List<IdTitle>> listParamValues;
-    private Map<Integer, IdStringTitleTreeItem> treeParamValues;
     private Map<Integer, List<IdTitle>> listParamValuesFromDir;
+    private Map<Integer, IdStringTitleTreeItem> treeParamRootNodes;
 
     @Override
     protected ParameterCache newInstance() {
@@ -250,7 +284,7 @@ public class ParameterCache extends Cache<ParameterCache> {
             result.listParamValues = paramDAO.getListParamValuesMap();
             result.listParamValuesFromDir = new ConcurrentHashMap<Integer, List<IdTitle>>();
 
-            result.treeParamValues = paramDAO.getTreeParamValuesMap();
+            result.treeParamRootNodes = paramDAO.getTreeParamRootNodes();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         } finally {

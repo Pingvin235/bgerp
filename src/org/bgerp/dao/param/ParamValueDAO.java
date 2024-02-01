@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.l10n.Localization;
@@ -45,7 +46,6 @@ import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
-import ru.bgcrm.model.param.ParameterListCountValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.address.AddressHouse;
@@ -95,7 +95,6 @@ public class ParamValueDAO extends CommonDAO {
         this.history = history;
         this.userId = userId;
     }
-
 
     /**
      * Копирует параметр с объекта на объект.
@@ -164,8 +163,13 @@ public class ParamValueDAO extends CommonDAO {
                 psList.add(con.prepareStatement(query));
             }
             case TREE -> {
-                query = "INSERT INTO " + Tables.TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
+                query = "INSERT INTO " + Tables.TABLE_PARAM_TREE + "(id, param_id, value) SELECT ?, ?, value " + "FROM "
                         + Tables.TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
+                psList.add(con.prepareStatement(query));
+            }
+            case TREECOUNT -> {
+                query = SQL_INSERT_INTO + Tables.TABLE_PARAM_TREECOUNT + "(id, param_id, value, count)" + SQL_SELECT + "?, ?, value, count" + SQL_FROM
+                        + Tables.TABLE_PARAM_TREECOUNT + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
             case DATE, DATETIME, MONEY, TEXT, BLOB, PHONE -> {
@@ -324,8 +328,7 @@ public class ParamValueDAO extends CommonDAO {
      * @return ключ - позиция, значение - значение на позиции.
      * @throws SQLException
      */
-    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs)
-            throws SQLException {
+    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs) throws SQLException {
         return getParamAddressExt(id, paramId, loadDirs, null);
     }
 
@@ -338,8 +341,8 @@ public class ParamValueDAO extends CommonDAO {
      * @return ключ - позиция, значение - значение на позиции.
      * @throws SQLException
      */
-    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs,
-            String formatName) throws SQLException {
+    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs, String formatName)
+            throws SQLException {
         SortedMap<Integer, ParameterAddressValue> result = new TreeMap<Integer, ParameterAddressValue>();
 
         StringBuilder query = new StringBuilder(300);
@@ -348,7 +351,7 @@ public class ParamValueDAO extends CommonDAO {
             query.append(" LEFT JOIN " + Tables.TABLE_ADDRESS_HOUSE + " AS house ON param.house_id=house.id ");
             AddressDAO.addHouseSelectQueryJoins(query, LOAD_LEVEL_COUNTRY);
         }
-        query.append(" WHERE param.id=? AND param.param_id=? ORDER BY param.n");
+        query.append(" WHERE param.id=? AND param.param_id=?" + SQL_ORDER_BY + "param.n");
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -598,6 +601,7 @@ public class ParamValueDAO extends CommonDAO {
      * @return
      * @throws SQLException
      */
+    @Deprecated
     public List<IdTitle> getParamListWithTitles(int id, int paramId) throws SQLException {
         List<IdTitleComment> values = getParamListWithTitlesAndComments(id, paramId);
         return new ArrayList<IdTitle>(values);
@@ -682,22 +686,21 @@ public class ParamValueDAO extends CommonDAO {
      * Selects a parameter value with type 'listcount'.
      * @param id object ID.
      * @param paramId param ID.
-     * @return ключ - код значения, значение - доп. данные.
+     * @return a map with key equals value IDs and values counts.
      * @throws SQLException
      */
-    public Map<Integer, ParameterListCountValue> getParamListCount(int id, int paramId) throws SQLException {
-        Map<Integer, ParameterListCountValue> result = new HashMap<Integer, ParameterListCountValue>();
+    public Map<Integer, BigDecimal> getParamListCount(int id, int paramId) throws SQLException {
+        Map<Integer, BigDecimal> result = new HashMap<>();
 
-        String query = "SELECT value,count,comment FROM " + Tables.TABLE_PARAM_LISTCOUNT + "WHERE id=? AND param_id=?";
+        String query = SQL_SELECT + "value, count" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id=?";
 
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            result.put(rs.getInt(1), new ParameterListCountValue(rs.getBigDecimal(2), rs.getString(3)));
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ps.setInt(2, paramId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                result.put(rs.getInt(1), rs.getBigDecimal(2));
         }
-        ps.close();
 
         return result;
     }
@@ -709,6 +712,7 @@ public class ParamValueDAO extends CommonDAO {
      * @return
      * @throws SQLException
      */
+    @Deprecated
     public List<IdTitle> getParamListCountWithTitles(int id, int paramId) throws SQLException {
         List<IdTitle> result = new ArrayList<IdTitle>();
 
@@ -719,7 +723,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_FROM);
         query.append(Tables.TABLE_PARAM_LISTCOUNT);
         query.append("AS val");
-        addListCountParamJoin(query, paramId);
+        addListCountParamJoin(query);
         query.append(SQL_WHERE);
         query.append("val.id=? AND val.param_id=?");
 
@@ -735,21 +739,8 @@ public class ParamValueDAO extends CommonDAO {
         return result;
     }
 
-    private void addListCountParamJoin(StringBuilder query, int paramId) throws SQLException {
-        Parameter param = ParameterCache.getParameter(paramId);
-        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_LISTCOUNT_VALUE);
-        addListCountTableJoin(query, joinTable);
-    }
-
-    private void addListCountTableJoin(StringBuilder query, String tableName) {
-        query.append(SQL_LEFT_JOIN);
-        query.append(tableName);
-        query.append(" AS dir ON ");
-        if (tableName.equals(Tables.TABLE_PARAM_LISTCOUNT_VALUE)) {
-            query.append(" val.param_id=dir.param_id AND val.value=dir.id ");
-        } else {
-            query.append(" val.value=dir.id ");
-        }
+    private void addListCountParamJoin(StringBuilder query) throws SQLException {
+        query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_LISTCOUNT_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
     }
 
     /**
@@ -840,6 +831,7 @@ public class ParamValueDAO extends CommonDAO {
      * @return
      * @throws SQLException
      */
+    @Deprecated
     public List<IdStringTitle> getParamTreeWithTitles(int id, int paramId) throws SQLException {
         List<IdStringTitle> result = new ArrayList<>();
 
@@ -850,7 +842,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_FROM);
         query.append(Tables.TABLE_PARAM_TREE);
         query.append("AS val");
-        addTreeParamJoin(query, paramId);
+        addTreeParamJoin(query);
         query.append(SQL_WHERE);
         query.append("val.id=? AND val.param_id=?");
         query.append(SQL_ORDER_BY).append("val.value");
@@ -867,21 +859,31 @@ public class ParamValueDAO extends CommonDAO {
         return result;
     }
 
-    private void addTreeParamJoin(StringBuilder query, int paramId) throws SQLException {
-        Parameter param = ParameterCache.getParameter(paramId);
-        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_TREE_VALUE);
-        addTreeTableJoin(query, joinTable);
+    private void addTreeParamJoin(StringBuilder query) throws SQLException {
+        query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_TREE_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
     }
 
-    private void addTreeTableJoin(StringBuilder query, String tableName) {
-        query.append(SQL_LEFT_JOIN);
-        query.append(tableName);
-        query.append(" AS dir ON ");
-        if (tableName.equals(Tables.TABLE_PARAM_TREE_VALUE)) {
-            query.append(" val.param_id=dir.param_id AND val.value=dir.id ");
-        } else {
-            query.append(" val.value=dir.id ");
+    /**
+     * Selects parameter values with type 'treecount'.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @return map with a key equal to the parameter value ID, and the value - value amount (count).
+     * @throws SQLException
+     */
+    public Map<String, BigDecimal> getParamTreeCount(int id, int paramId) throws SQLException {
+        Map<String, BigDecimal> result = new HashMap<>(10);
+
+        String query = SQL_SELECT + "value, count" + SQL_FROM + Tables.TABLE_PARAM_TREECOUNT + SQL_WHERE + "id=? AND param_id=?";
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ps.setInt(2, paramId);
+
+            var rs = ps.executeQuery();
+            while (rs.next())
+                result.put(rs.getString("value"), rs.getBigDecimal("count"));
         }
+
+        return result;
     }
 
     /**
@@ -1378,22 +1380,7 @@ public class ParamValueDAO extends CommonDAO {
         if (values == null)
             values = Set.of();
 
-        deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LIST);
-
-        String query = "INSERT INTO " + Tables.TABLE_PARAM_LIST + "(id, param_id, value) VALUES (?,?,?)";
-
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        for (int value : values) {
-            ps.setInt(3, value);
-            ps.executeUpdate();
-        }
-        ps.close();
-
-        if (history) {
-            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
-        }
+        updateParamListWithComments(id, paramId, values.stream().collect(Collectors.toMap(Function.identity(), unused -> "")));
     }
 
     /**
@@ -1406,20 +1393,33 @@ public class ParamValueDAO extends CommonDAO {
     public void updateParamListWithComments(int id, int paramId, Map<Integer, String> values) throws SQLException {
         deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LIST);
 
-        String query = "INSERT INTO " + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment) VALUES (?,?,?,?)";
-
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        for (Map.Entry<Integer, String> value : values.entrySet()) {
-            ps.setInt(3, value.getKey());
-            ps.setString(4, value.getValue());
-            ps.executeUpdate();
+        try (var ps = con.prepareStatement(SQL_INSERT_INTO + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment)" + SQL_VALUES + "(?, ?, ?, ?)")) {
+            ps.setInt(1, id);
+            ps.setInt(2, paramId);
+            for (Map.Entry<Integer, String> value : values.entrySet()) {
+                ps.setInt(3, value.getKey());
+                ps.setString(4, value.getValue());
+                ps.executeUpdate();
+            }
         }
-        ps.close();
 
         if (history) {
-            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
+            var logRecord = new StringBuilder(30);
+            for (var item : ParameterCache.getListParamValues(paramId)) {
+                String comment = values.get(item.getId());
+                if (comment == null)
+                    continue;
+                if (!logRecord.isEmpty())
+                    logRecord.append(", ");
+                logRecord.append(item.getTitle());
+                if (Utils.notBlankString(comment)) {
+                    logRecord
+                        .append(" [")
+                        .append(comment)
+                        .append("]");
+                }
+            }
+            logParam(id, paramId, userId, logRecord.toString());
         }
     }
 
@@ -1433,7 +1433,7 @@ public class ParamValueDAO extends CommonDAO {
      * Sets values for parameter with type 'listcount'.
      * @param id entity ID.
      * @param paramId param ID.
-     * @param values map with key = value ID, and values with possible types: {@link String}, {@link BigDecimal}, {@link ParameterListCountValue}.
+     * @param values map with key = value ID, and values with possible types: {@link String}, {@link BigDecimal}.
      * @throws SQLException
      */
     public void updateParamListCount(int id, int paramId, Map<Integer, ?> values) throws SQLException {
@@ -1442,36 +1442,36 @@ public class ParamValueDAO extends CommonDAO {
 
         deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LISTCOUNT);
 
-        String query = SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
+        try (var ps = con.prepareStatement(SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count) VALUES (?, ?, ?, ?)")) {
+            ps.setInt(1, id);
+            ps.setInt(2, paramId);
+            for (var me : values.entrySet()) {
+                ps.setInt(3, me.getKey());
+                Object value = me.getValue();
 
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        for (var me : values.entrySet()) {
-            ps.setInt(3, me.getKey());
-            Object value = me.getValue();
+                BigDecimal count;
 
-            BigDecimal count;
-            String comment = "";
+                if (value instanceof BigDecimal)
+                    count = (BigDecimal) value;
+                else if (value instanceof String)
+                    count = Utils.parseBigDecimal((String) value);
+                else
+                    throw new IllegalArgumentException("Usupported value type: " + value);
 
-            if (value instanceof BigDecimal)
-                count = (BigDecimal) value;
-            else if (value instanceof ParameterListCountValue) {
-                count = ((ParameterListCountValue) value).getCount();
-                comment = ((ParameterListCountValue) value).getComment();
-            } else if (value instanceof String)
-                count = Utils.parseBigDecimal((String) value);
-            else
-                throw new IllegalArgumentException("Usupported value type: " + value);
-
-            ps.setBigDecimal(4, count);
-            ps.setString(5, comment);
-            ps.executeUpdate();
+                ps.setBigDecimal(4, count);
+                ps.executeUpdate();
+            }
         }
-        ps.close();
 
         if (history) {
-            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListCountWithTitles(id, paramId)));
+            var logRecord = new StringBuilder(30);
+            for (var item : ParameterCache.getListParamValues(paramId)) {
+                var count = values.get(item.getId());
+                if (count == null)
+                    continue;
+                Utils.addCommaSeparated(logRecord, item.getTitle() + ": " + count);
+            }
+            logParam(id, paramId, userId, logRecord.toString());
         }
     }
 
@@ -1521,10 +1521,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значения параметра типа 'phone'.
+     * Sets values for parameter with type 'phone'.
      * @param id object ID.
      * @param paramId param ID.
-     * @param value значения, null либо пустой itemList - удаление значения.
+     * @param value the values, {@code null} or empty {@code itemList} - delete values.
      * @throws SQLException
      */
     public void updateParamPhone(int id, int paramId, ParameterPhoneValue value) throws SQLException {
@@ -1564,10 +1564,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значение параметра типа 'text'.
+     * Sets a value for parameter with type 'text'.
      * @param id object ID.
      * @param paramId param ID.
-     * @param value значение, null или пустая строка - удалить значение.
+     * @param value the value, {@code null} or emtpy string - delete value.
      * @throws SQLException
      */
     public void updateParamText(int id, int paramId, String value) throws SQLException {
@@ -1583,10 +1583,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Изменение значения параметра типа 'tree' объекта.
+     * Sets values for parameter with type 'tree'.
      * @param id object ID.
      * @param paramId param ID.
-     * @param values значения.
+     * @param values the values, {@code null} or empty set - delete values.
      * @throws SQLException
      */
     public void updateParamTree(int id, int paramId, Set<String> values) throws SQLException {
@@ -1613,6 +1613,56 @@ public class ParamValueDAO extends CommonDAO {
 
     public void updateParamTreeCount(int id, int paramId) throws SQLException {
         //
+    }
+
+    /**
+     * Sets values for parameter with type 'treecount'.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @param values the values map (key - treecount value ID, value - 'count'), {@code null} or emtpy map - delete values.
+     * @throws SQLException
+     */
+    public void updateParamTreeCount(int id, int paramId, Map<String, BigDecimal> values) throws SQLException {
+        if (values == null)
+            values = Map.of();
+
+        deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_TREECOUNT);
+
+        String query = SQL_INSERT_INTO + Tables.TABLE_PARAM_TREECOUNT + "(id, param_id, value, count)" + SQL_VALUES + "(?,?,?,?)";
+
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ps.setInt(2, paramId);
+            for (var me : values.entrySet()) {
+                ps.setString(3, me.getKey());
+                ps.setBigDecimal(4, me.getValue());
+                ps.executeUpdate();
+            }
+        }
+
+        if (history)
+            logParam(id, paramId, userId, treeCountValuesString(paramId, values));
+    }
+
+    private String treeCountValuesString(int paramId, Map<String, BigDecimal> values) {
+        var result = new StringBuilder(100);
+
+        var valuesMap = ParameterCache.getTreeParamValues(paramId);
+        for (var me : valuesMap.entrySet()) {
+            var value = values.get(me.getKey());
+            if (value == null)
+                continue;
+            Utils.addCommaSeparated(result, treeCountValueString(valuesMap, me.getKey(), value));
+        }
+
+        return result.toString();
+    }
+
+    private String treeCountValueString(Map<String, String> valuesMap, String value, BigDecimal count) {
+        String title = valuesMap.get(value);
+        if (title == null)
+            title = "??? " + value;
+        return title + ": " + count;
     }
 
     /**
@@ -1681,9 +1731,26 @@ public class ParamValueDAO extends CommonDAO {
         ResultSet rs = null;
         PreparedStatement ps = null;
 
-        if (Parameter.TYPE_LIST.equals(type)) {
+        if (Parameter.TYPE_ADDRESS.equals(type)) {
+            query.append("SELECT param_id, n, value, house_id FROM param_");
+            query.append(type);
+            query.append(" WHERE id=? AND param_id IN ( ");
+            query.append(Utils.toString(ids));
+            query.append(" )" + SQL_ORDER_BY + "n");
+        } else if (Parameter.TYPE_EMAIL.equals(type)) {
+            query.append("SELECT param_id, n, value, comment FROM param_");
+            query.append(type);
+            query.append(" WHERE id=? AND param_id IN ( ");
+            query.append(Utils.toString(ids));
+            query.append(" )" + SQL_ORDER_BY + "n");
+        } else if (Parameter.TYPE_FILE.equals(type)) {
+            query.append("SELECT pf.param_id, pf.n, fd.* FROM " + Tables.TABLE_PARAM_FILE + " AS pf INNER JOIN " + TABLE_FILE_DATA
+                    + " AS fd ON pf.value=fd.id " + " WHERE pf.id=? AND pf.param_id IN ( ");
+            query.append(Utils.toString(ids));
+            query.append(" )" + SQL_ORDER_BY + "n");
+        } else if (Parameter.TYPE_LIST.equals(type)) {
             // ключ - имя таблицы справочника, значение - перечень параметров
-            Map<String, Set<Integer>> tableParamsMap = new HashMap<String, Set<Integer>>();
+            Map<String, Set<Integer>> tableParamsMap = new HashMap<>();
             for (Integer paramId : ids) {
                 Parameter param = ParameterCache.getParameter(paramId);
                 String tableName = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY);
@@ -1698,8 +1765,7 @@ public class ParamValueDAO extends CommonDAO {
                 pids.add(paramId);
             }
 
-            final String standartPrefix = "SELECT val.param_id, val.value, dir.title, val.comment FROM "
-                    + Tables.TABLE_PARAM_LIST + " AS val ";
+            final String standartPrefix = "SELECT val.param_id, val.value, dir.title, val.comment FROM " + Tables.TABLE_PARAM_LIST + "AS val ";
             for (Map.Entry<String, Set<Integer>> me : tableParamsMap.entrySet()) {
                 String tableName = me.getKey();
                 if (query.length() > 0) {
@@ -1717,98 +1783,28 @@ public class ParamValueDAO extends CommonDAO {
             ps = con.prepareStatement(query.toString());
             rs = ps.executeQuery();
         } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
-            // ключ - имя таблицы справочника, значение - перечень параметров
-            Map<String, Set<Integer>> tableParamsMap = new HashMap<String, Set<Integer>>();
-            for (Integer paramId : ids) {
-                Parameter param = ParameterCache.getParameter(paramId);
-                String tableName = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY);
-                if (tableName == null) {
-                    tableName = Tables.TABLE_PARAM_LISTCOUNT_VALUE;
-                }
-
-                Set<Integer> pids = tableParamsMap.get(tableName);
-                if (pids == null) {
-                    tableParamsMap.put(tableName, pids = new HashSet<Integer>());
-                }
-                pids.add(paramId);
-            }
-
-            final String standartPrefix = "SELECT val.param_id, val.value, val.count, dir.title FROM "
-                    + Tables.TABLE_PARAM_LISTCOUNT + " AS val ";
-            for (Map.Entry<String, Set<Integer>> me : tableParamsMap.entrySet()) {
-                String tableName = me.getKey();
-                if (query.length() > 0) {
-                    query.append("\nUNION ");
-                }
-
-                query.append(standartPrefix);
-                addListCountTableJoin(query, tableName);
-                query.append(SQL_WHERE);
-                query.append("val.id=" + objectId + " AND val.param_id IN (");
-                query.append(Utils.toString(me.getValue()));
-                query.append(")");
-            }
-
-            ps = con.prepareStatement(query.toString());
-            rs = ps.executeQuery();
-        } else if (Parameter.TYPE_TREE.equals(type)) {
-            // ключ - имя таблицы справочника, значение - перечень параметров
-            Map<String, Set<Integer>> tableParamsMap = new HashMap<String, Set<Integer>>();
-            for (Integer paramId : ids) {
-                Parameter param = ParameterCache.getParameter(paramId);
-                String tableName = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY);
-                if (tableName == null) {
-                    tableName = Tables.TABLE_PARAM_TREE_VALUE;
-                }
-
-                Set<Integer> pids = tableParamsMap.get(tableName);
-                if (pids == null) {
-                    tableParamsMap.put(tableName, pids = new HashSet<Integer>());
-                }
-                pids.add(paramId);
-            }
-
-            final String standartPrefix = "SELECT val.param_id, val.value, dir.title FROM " + Tables.TABLE_PARAM_TREE
-                    + " AS val ";
-            for (Map.Entry<String, Set<Integer>> me : tableParamsMap.entrySet()) {
-                String tableName = me.getKey();
-                if (query.length() > 0) {
-                    query.append("\nUNION ");
-                }
-
-                query.append(standartPrefix);
-                addTreeTableJoin(query, tableName);
-                query.append(SQL_WHERE);
-                query.append("val.id=" + objectId + " AND val.param_id IN (");
-                query.append(Utils.toString(me.getValue()));
-                query.append(")");
-            }
-
-            ps = con.prepareStatement(query.toString());
-            rs = ps.executeQuery();
-        } else if (Parameter.TYPE_ADDRESS.equals(type)) {
-            query.append("SELECT param_id, n, value, house_id FROM param_");
-            query.append(type);
-            query.append(" WHERE id=? AND param_id IN ( ");
+            query.append(SQL_SELECT + "val.param_id, val.value, val.count, dir.title" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + "AS val ");
+            addListCountParamJoin(query);
+            query.append(SQL_WHERE + "val.id=? AND val.param_id IN (");
             query.append(Utils.toString(ids));
-            query.append(" ) ORDER BY n ");
-        } else if (Parameter.TYPE_EMAIL.equals(type)) {
-            query.append("SELECT param_id, n, value, comment FROM param_");
-            query.append(type);
-            query.append(" WHERE id=? AND param_id IN ( ");
-            query.append(Utils.toString(ids));
-            query.append(" )");
-        } else if (Parameter.TYPE_FILE.equals(type)) {
-            query.append("SELECT pf.param_id, pf.n, fd.* FROM " + Tables.TABLE_PARAM_FILE
-                    + " AS pf INNER JOIN " + TABLE_FILE_DATA + " AS fd ON pf.value=fd.id "
-                    + " WHERE pf.id=? AND pf.param_id IN ( ");
-            query.append(Utils.toString(ids));
-            query.append(" ) ORDER BY n");
+            query.append(")" + SQL_ORDER_BY + "dir.title");
         } else if (Parameter.TYPE_PHONE.equals(type)) {
             query.append("SELECT pi.param_id, pi.n, pi.phone, pi.comment " + SQL_FROM + Tables.TABLE_PARAM_PHONE_ITEM
                     + "AS pi WHERE pi.id=? AND pi.param_id IN ( ");
             query.append(Utils.toString(ids));
-            query.append(" ) ORDER BY pi.n");
+            query.append(" )" + SQL_ORDER_BY + "pi.n");
+        } else if (Parameter.TYPE_TREE.equals(type)) {
+            query.append(SQL_SELECT + "val.param_id, val.value, dir.title" + SQL_FROM + Tables.TABLE_PARAM_TREE + "AS val ");
+            addTreeParamJoin(query);
+            query.append(SQL_WHERE + "val.id=? AND val.param_id IN (");
+            query.append(Utils.toString(ids));
+            query.append(")" + SQL_ORDER_BY + "val.value");
+        } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
+            query.append(SQL_SELECT + "val.param_id, val.value, val.count, dir.title" + SQL_FROM + Tables.TABLE_PARAM_TREECOUNT + "AS val ");
+            query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_TREECOUNT_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
+            query.append(SQL_WHERE + "val.id=? AND val.param_id IN (");
+            query.append(Utils.toString(ids));
+            query.append(")" + SQL_ORDER_BY + "val.value");
         } else {
             query.append("SELECT param_id, value FROM param_");
             query.append(type);
@@ -1828,19 +1824,44 @@ public class ParamValueDAO extends CommonDAO {
 
             ParameterValuePair param = paramMap.get(paramId);
 
-            if (Parameter.TYPE_DATE.equals(type)) {
-                param.setValue(rs.getDate(2));
+            if (Parameter.TYPE_ADDRESS.equals(type)) {
+                Map<Integer, ParameterAddressValue> values = (Map<Integer, ParameterAddressValue>) param.getValue();
+                if (values == null)
+                    param.setValue(values = new TreeMap<Integer, ParameterAddressValue>());
+
+                ParameterAddressValue val = new ParameterAddressValue();
+                val.setValue(rs.getString("value"));
+                val.setHouseId(rs.getInt("house_id"));
+
+                values.put(rs.getInt("n"), val);
+            } else if (Parameter.TYPE_DATE.equals(type)) {
+                param.setValue(rs.getDate("value"));
             } else if (Parameter.TYPE_DATETIME.equals(type)) {
-                param.setValue(rs.getTimestamp(2));
+                param.setValue(rs.getTimestamp("value"));
+            } else if (Parameter.TYPE_EMAIL.equals(type)) {
+                Map<Integer, String> values = (Map<Integer, String>) param.getValue();
+                if (values == null)
+                    param.setValue(values = new TreeMap<Integer, String>());
+
+                if (!"".equals(rs.getString("comment"))) {
+                    values.put(rs.getInt("n"), rs.getString("value") + " [" + rs.getString("comment") + "]");
+                } else {
+                    values.put(rs.getInt("n"), rs.getString("value"));
+                }
+            } else if (Parameter.TYPE_FILE.equals(type)) {
+                Map<String, FileData> values = (Map<String, FileData>) param.getValue();
+                if (values == null)
+                    param.setValue(values = new LinkedHashMap<String, FileData>());
+
+                values.put(rs.getString("pf.n"), FileDataDAO.getFromRs(rs, "fd."));
             } else if (Parameter.TYPE_LIST.equals(type)) {
                 List<IdTitle> values = (List<IdTitle>) param.getValue();
                 if (values == null)
                     param.setValue(values = new ArrayList<IdTitle>());
 
-                IdTitle value = new IdTitle(rs.getInt(2), rs.getString(3));
+                IdTitle value = new IdTitle(rs.getInt("value"), rs.getString("title"));
 
-                String comment = rs.getString(4);
-                // TODO: IdTitleComment?
+                String comment = rs.getString("comment");
                 if (Utils.notBlankString(comment))
                     value.setTitle(value.getTitle() + " [" + comment + "]");
 
@@ -1850,47 +1871,28 @@ public class ParamValueDAO extends CommonDAO {
                 if (values == null)
                     param.setValue(values = new ArrayList<IdTitle>());
                 values.add(new IdTitle(
-                    rs.getInt(2),
-                    rs.getString(4) + ":" + Utils.format(rs.getBigDecimal(3))
+                    rs.getInt("val.value"),
+                    rs.getString("dir.title") + ": " + Utils.format(rs.getBigDecimal("val.count"))
                 ));
-            } else if (Parameter.TYPE_TREE.equals(type)) {
-                List<IdStringTitle> values = (List<IdStringTitle>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new ArrayList<>());
-                values.add(new IdStringTitle(rs.getString(2), rs.getString(3)));
-            } else if (Parameter.TYPE_ADDRESS.equals(type)) {
-                Map<Integer, ParameterAddressValue> values = (Map<Integer, ParameterAddressValue>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new TreeMap<Integer, ParameterAddressValue>());
-
-                ParameterAddressValue val = new ParameterAddressValue();
-                val.setValue(rs.getString(3));
-                val.setHouseId(rs.getInt(4));
-
-                values.put(rs.getInt(2), val);
-            } else if (Parameter.TYPE_EMAIL.equals(type)) {
-                Map<Integer, String> values = (Map<Integer, String>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new TreeMap<Integer, String>());
-
-                if (!"".equals(rs.getString(4))) {
-                    values.put(rs.getInt(2), rs.getString(3) + " [" + rs.getString(4) + "]");
-                } else {
-                    values.put(rs.getInt(2), rs.getString(3));
-                }
-            } else if (Parameter.TYPE_FILE.equals(type)) {
-                Map<String, FileData> values = (Map<String, FileData>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new LinkedHashMap<String, FileData>());
-
-                values.put(rs.getString(2), FileDataDAO.getFromRs(rs, "fd."));
+            } else if (Parameter.TYPE_MONEY.equals(type)) {
+                param.setValue(rs.getBigDecimal("value"));
             } else if (Parameter.TYPE_PHONE.equals(type)) {
                 ParameterPhoneValue value = (ParameterPhoneValue)param.getValue();
                 if (value == null)
                     param.setValue(value = new ParameterPhoneValue());
                 value.addItem(getParamPhoneValueItemFromRs(rs));
-            } else if (Parameter.TYPE_MONEY.equals(type)) {
-                param.setValue(rs.getBigDecimal(2));
+            } else if (Parameter.TYPE_TREE.equals(type)) {
+                var values = (List<IdStringTitle>) param.getValue();
+                if (values == null)
+                    param.setValue(values = new ArrayList<>());
+                values.add(new IdStringTitle(rs.getString("val.value"), rs.getString("dir.title")));
+            } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
+                var values = (List<IdStringTitle>) param.getValue();
+                if (values == null)
+                    param.setValue(values = new ArrayList<>());
+
+                String value = rs.getString("val.value");
+                values.add(new IdStringTitle(value, treeCountValueString(ParameterCache.getTreeParamValues(paramId), value, rs.getBigDecimal("val.count"))));
             } else {
                 if ("encrypted".equals(param.getParameter().getConfigMap().get("encrypt")) && !offEncryption) {
                     param.setValue("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");

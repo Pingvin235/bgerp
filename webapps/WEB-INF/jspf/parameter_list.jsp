@@ -275,7 +275,7 @@
 					</c:when>
 
 					<%-- editor has to be called --%>
-					<c:when test="${'text, blob, date, datetime, list, phone, tree, listcount, money'.contains(parameter.type) and empty editorType}">
+					<c:when test="${'blob, date, datetime, list, listcount, money, phone, text, tree, treecount'.contains(parameter.type) and empty editorType}">
 						<c:set var="editFormId" value="${u:uiid()}"/>
 						<c:set var="valueTitle" value="${item.valueTitle}"/>
 
@@ -308,7 +308,7 @@
 
 									<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
 										<c:choose>
-											<c:when test="${empty valueTitle}">${l.l('не указан')}</c:when>
+											<c:when test="${empty valueTitle}">${l.l('undefined')}</c:when>
 											<c:otherwise>${valueTitle}</c:otherwise>
 										</c:choose>
 										<c:if test="${showAsLink}">

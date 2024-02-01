@@ -44,234 +44,6 @@
 
 	<div style="width: 100%;" id="${uiid}" >
 		<c:choose>
-			<c:when test="${parameter.type eq 'text'}">
-
-				<c:choose>
-					<c:when test="${data.value eq '<ЗНАЧЕНИЕ ЗАШИФРОВАНО>'}">
-						<c:set var="checkedParamValue" value=""/>
-					</c:when>
-					<c:otherwise>
-						<c:set var="checkedParamValue" value="${u.escapeXml( data.value)}"/>
-					</c:otherwise>
-				</c:choose>
-
-				<input id="${focusFieldUiid}" type="text" name="value" value="${checkedParamValue}" style="width: 100%;" ${changeAttrs} ${onBlur} ${onEnter}/>
-			</c:when>
-
-			<c:when test="${parameter.type eq 'money'}">
-				<input id="${focusFieldUiid}" type="text" name="value" value="${data.value}" size="10" onkeydown="return isNumberKey(event)" ${changeAttrs} ${onBlur} ${onEnter}/>
-				<span class="hint">${l.l('Используйте точку как десятичный разделитель.')}</span>
-			</c:when>
-
-			<c:when test="${parameter.type eq 'blob'}">
-				<c:set var="rows" value="rows='${u:maskEmpty(parameter.configMap.rows, '4')}'"/>
-				<textarea id="${focusFieldUiid}" name="value" ${rows}  style="width: 100%;" ${changeAttrs} ${onBlur}>${data.value}</textarea>
-			</c:when>
-
-			<c:when test="${parameter.type eq 'date' or parameter.type eq 'datetime'}">
-				<c:set var="selector">#${uiid} input[name='value']</c:set>
-				<c:set var="hideButtons" value="1"/>
-
-				<c:set var="getCommand"></c:set>
-				<c:set var="getDateUrl"></c:set>
-
-				<c:if test="${parameter.configMap.sendColorMapRequest eq 1}">
-					<c:url var="getDateUrl" value="parameter.do">
-						<c:param name="action" value="parameterGet"/>
-						<c:param name="id" value="${form.id}"/>
-						<c:param name="paramId" value="${parameter.id}"/>
-					</c:url>
-				</c:if>
-
-				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
-				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs} onclick="${getCommand}"/>
-				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
-			</c:when>
-
-			<c:when test="${parameter.type eq 'tree'}">
-				<c:set var="treeValueId" value="${u:uiid()}" />
-
-				<ul id="${treeValueId}">
-					<c:set var="values" value="${data.value}" scope="request" />
-					<c:set var="paramName" value="value" scope="request" />
-					<c:forEach var="node" items="${treeValues.children}">
-						<c:set var="node" value="${node}" scope="request" />
-						<jsp:include page="/WEB-INF/jspf/tree_item.jsp" />
-					</c:forEach>
-				</ul>
-
-				<script>
-					$(function()
-					{
-						$("#${treeValueId}").Tree({
-							 <c:if test="${not multiple}">singleSelect : 'singleSelect'</c:if>
-						});
-					});
-				</script>
-			</c:when>
-
-			<c:when test="${parameter.type eq 'listcount'}">
-				<%-- Also used: 'listValues', 'multiple' --%>
-				<c:set var="values" value="${data.value}" />
-				<%@ include file="edit/listcount/editor.jsp"%>
-			</c:when>
-
-			<c:when test="${parameter.type eq 'list'}">
-				<c:set var="value" value="${data.value}"/>
-
-				<c:set var="listParamConfig" value="${parameter.configMap.getConfig('ru.bgcrm.model.param.config.ListParamConfig')}"/>
-
-				<c:choose>
-					<c:when test="${multiple}">
-						<c:forEach var="item" items="${listValues}">
-							<table style="width: 100%;" class="nopad">
-								<tr>
-									<c:set var="checkUiid" value="${u:uiid()}" />
-									<c:set var="tdUiid" value="${u:uiid()}" />
-
-									<c:set var="commentInputShow"
-										value="${not empty listParamConfig.commentValues[item.id]}" />
-
-									<c:set var="scriptCheck">
-										<c:if test="${commentInputShow}">
-											onchange="if( this.checked ){ $('#${tdUiid}').show() } else { $('#${tdUiid}').hide() }"
-										</c:if>
-									</c:set>
-									<c:set var="scriptInput">
-										<c:if test="${commentInputShow}">
-											onchange="$('#${checkUiid}').val( ${item.id} + ':' + this.value )"
-										</c:if>
-									</c:set>
-
-									<c:set var="hideStyle">
-										<c:if test="${not commentInputShow or value[item.id] == null}">
-											style="display: none"
-										</c:if>
-									</c:set>
-
-									<td width="30" align="center">
-										<input type="checkbox" name="value" value="${item.id}:${value[item.id]}" id="${checkUiid}"	${u:checkedFromCollection( value, item.id )} ${scriptCheck} />
-									</td>
-									<td>
-										${item.title}
-										<span id="${tdUiid}" ${hideStyle}>
-											<input type="text" size="30" value="${value[item.id]}" ${scriptInput} />
-											<c:if test="${not empty listParamConfig.needCommentValues[item.id]}">
-												*
-											</c:if>
-										</span>
-									</td>
-								</tr>
-							</table>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<c:set var="valueUiid" value="${u:uiid()}"/>
-						<c:set var="commentUiid" value="${u:uiid()}"/>
-						<c:set var="fullUiid" value="${u:uiid()}"/>
-
-						<c:set var="currentValue" value="0"/>
-						<c:set var="currentComment" value=""/>
-						<c:set var="currentFull" value=""/>
-
-						<c:forEach var="item" items="${value}">
-							<c:set var="currentValue" value="${item.key}"/>
-							<c:set var="currentComment" value="${item.value}"/>
-							<c:set var="currentFull" value="${item.key}:${item.value}"/>
-						</c:forEach>
-
-						<input id="${valueUiid}" type="hidden" value="${currentValue}" />
-						<input id="${fullUiid}" type="hidden" name="value" value="${currentFull}" />
-
-						<%-- значения с комментарием --%>
-						<c:set var="commentValues" value="" />
-						<c:forEach var="item" items="${listValues}">
-							<c:if test="${not empty listParamConfig.commentValues[item.id]}">
-								<c:if test="${not empty commentValues}">
-									<c:set var="commentValues" value="${commentValues}," />
-								</c:if>
-								<c:set var="commentValues" value="${commentValues}'${item.id}'" />
-							</c:if>
-						</c:forEach>
-
-						<c:set var="commentValues" value="[${commentValues}]" />
-
-						<c:set var="changeScript">
-							var val = $('#${valueUiid}').val();
-							console.log( val );
-							$('#${fullUiid}').val( val + ':' + $('#${commentUiid}').val() );
-							if( ${commentValues}.indexOf( val ) >= 0 ){ $('#${commentUiid}').show() } else { $('#${commentUiid}').hide() };
-							<c:if test="${saveOn eq 'select'}">
-								${saveCommand}
-							</c:if>
-						</c:set>
-
-						<c:set var="editAs" value="${parameter.configMap.editAs}"/>
-
-						<c:choose>
-							<c:when test="${editAs eq 'radio'}">
-								<div>
-									<input type="radio" name="rValue" value="0"
-										checked="1"
-										onchange="if( this.checked ){ $('#${valueUiid}').val( this.value );  ${changeScript} }"/>
-										&#160;-- ${l.l('не указан')} --
-								</div>
-								<c:forEach var="item" items="${listValues}">
-									<div class="mt05">
-										<input type="radio" id="${radioId}" name="rValue"
-											value="${item.id}" ${u:checkedFromCollection( value, item.id )}
-											onchange="if( this.checked ){ $('#${valueUiid}').val( this.value );  ${changeScript} }"/>
-										&#160;${item.title}
-									</div>
-								</c:forEach>
-							</c:when>
-							<c:when test="${editAs eq 'select'}">
-								<ui:select-single list="${listValues}" value="${currentValue}" onSelect="$('#${valueUiid}').val( $hidden.val() ); ${changeScript}" styleClass="w100p"/>
-							</c:when>
-							<c:otherwise>
-								<ui:combo-single value="${currentValue}" style="width: 100%;" onSelect="$('#${valueUiid}').val($hidden.val()); ${changeScript}">
-									<jsp:attribute name="valuesHtml">
-										<li value="0">-- ${l.l('значение не установлено')} --</li>
-										<c:forEach var="item" items="${listValues}">
-											<li value="${item.id}"	${u:selectedFromCollection( value, item.id )}>${item.title}</li>
-										</c:forEach>
-									</jsp:attribute>
-								</ui:combo-single>
-							</c:otherwise>
-						</c:choose>
-
-						<c:set var="commentDisplayStyle">display:none;</c:set>
-						<c:if test="${not empty listParamConfig.commentValues[currentValue]}">
-							<c:remove var="commentDisplayStyle"/>
-						</c:if>
-
-						<input id="${commentUiid}" type="text" style="width: 100%; ${commentDisplayStyle}" onchange="${changeScript}"
-								value="${currentComment}" placeholder="${l.l('Комментарий')}" class="mt1"/>
-					</c:otherwise>
-				</c:choose>
-			</c:when>
-			<c:when test="${parameter.type eq 'phone'}">
-				<%@ include file="edit/phone/editor.jsp"%>
-			</c:when>
-			<c:when test="${parameter.type eq 'email'}">
-				<c:set var="id" value="${form.id}" />
-				<c:set var="parameter" value="${frd.parameter }" />
-				<c:set var="email" value="${frd.email}" />
-
-				<input type="hidden" name="action" value="parameterUpdate" />
-				<html:hidden property="position" />
-
-				<div class="in-table-cell in-pl05">
-					<div><b>EMail:</b></div>
-					<div>
-						<input id="${focusFieldUiid}" type="text" name="value" style="width: 200px;" value="${email.value}"/>
-					</div>
-					<div><b>Ком.:</b></div>
-					<div style="width: 100%;" class="pl05">
-						<input type="text" name="comment" style="width: 100%;" value="${email.comment}"/>
-					</div>
-				</div>
-			</c:when>
 			<c:when test="${parameter.type eq 'address'}">
 				<script>
 					$(function() {
@@ -370,6 +142,115 @@
 						</td>
 					</tr>
 				</table>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'blob'}">
+				<c:set var="rows" value="rows='${u:maskEmpty(parameter.configMap.rows, '4')}'"/>
+				<textarea id="${focusFieldUiid}" name="value" ${rows}  style="width: 100%;" ${changeAttrs} ${onBlur}>${data.value}</textarea>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'date' or parameter.type eq 'datetime'}">
+				<c:set var="selector">#${uiid} input[name='value']</c:set>
+				<c:set var="hideButtons" value="1"/>
+
+				<c:set var="getCommand"></c:set>
+				<c:set var="getDateUrl"></c:set>
+
+				<c:if test="${parameter.configMap.sendColorMapRequest eq 1}">
+					<c:url var="getDateUrl" value="parameter.do">
+						<c:param name="action" value="parameterGet"/>
+						<c:param name="id" value="${form.id}"/>
+						<c:param name="paramId" value="${parameter.id}"/>
+					</c:url>
+				</c:if>
+
+				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
+				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs} onclick="${getCommand}"/>
+				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'email'}">
+				<c:set var="id" value="${form.id}" />
+				<c:set var="parameter" value="${frd.parameter }" />
+				<c:set var="email" value="${frd.email}" />
+
+				<input type="hidden" name="action" value="parameterUpdate" />
+				<html:hidden property="position" />
+
+				<div class="in-table-cell in-pl05">
+					<div><b>EMail:</b></div>
+					<div>
+						<input id="${focusFieldUiid}" type="text" name="value" style="width: 200px;" value="${email.value}"/>
+					</div>
+					<div><b>Ком.:</b></div>
+					<div style="width: 100%;" class="pl05">
+						<input type="text" name="comment" style="width: 100%;" value="${email.comment}"/>
+					</div>
+				</div>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'list'}">
+				<%-- Also used: 'listValues', 'multiple', 'listParamConfig' --%>
+				<c:set var="value" value="${data.values}"/>
+				<%@ include file="edit/list/editor.jsp"%>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'listcount'}">
+				<%-- Also used: 'listValues', 'multiple' --%>
+				<c:set var="values" value="${data.values}"/>
+				<%@ include file="edit/listcount/editor.jsp"%>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'money'}">
+				<input id="${focusFieldUiid}" type="text" name="value" value="${data.value}" size="10" onkeydown="return isNumberKey(event)" ${changeAttrs} ${onBlur} ${onEnter}/>
+				<span class="hint">${l.l('Используйте точку как десятичный разделитель.')}</span>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'phone'}">
+				<%@ include file="edit/phone/editor.jsp"%>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'text'}">
+				<c:choose>
+					<c:when test="${data.value eq '<ЗНАЧЕНИЕ ЗАШИФРОВАНО>'}">
+						<c:set var="checkedParamValue" value=""/>
+					</c:when>
+					<c:otherwise>
+						<c:set var="checkedParamValue" value="${u.escapeXml( data.value)}"/>
+					</c:otherwise>
+				</c:choose>
+
+				<input id="${focusFieldUiid}" type="text" name="value" value="${checkedParamValue}" style="width: 100%;" ${changeAttrs} ${onBlur} ${onEnter}/>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'tree'}">
+				<c:set var="treeValueId" value="${u:uiid()}" />
+
+				<ul id="${treeValueId}">
+					<c:set var="values" value="${data.values}" scope="request" />
+					<c:set var="paramName" value="value" scope="request" />
+					<c:forEach var="node" items="${frd.treeRootNode.children}">
+						<c:set var="node" value="${node}" scope="request" />
+						<jsp:include page="/WEB-INF/jspf/tree_item.jsp" />
+					</c:forEach>
+				</ul>
+
+				<script>
+					$(function()
+					{
+						$("#${treeValueId}").Tree({
+							 <c:if test="${not multiple}">singleSelect : 'singleSelect'</c:if>
+						});
+					});
+				</script>
+			</c:when>
+
+			<c:when test="${parameter.type eq 'treecount'}">
+				<%-- Also used: 'multiple'? --%>
+				<c:set var="values" value="${frd.values}"/>
+				<c:set var="treeValues" value="${frd.treeValues}"/>
+				<c:set var="treeRootNode" value="${frd.treeRootNode}"/>
+				<%@ include file="edit/treecount/editor.jsp"%>
 			</c:when>
 		</c:choose>
 	</div>

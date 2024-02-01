@@ -2,11 +2,11 @@ package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 
 import java.util.Date;
 
-import org.bgerp.model.base.tree.IdTitleTreeItem;
+import org.bgerp.model.base.tree.TreeItem;
 
 import ru.bgcrm.util.TimeUtils;
 
-public class InetDevice extends IdTitleTreeItem<InetDevice> {
+public class InetDevice extends TreeItem<Integer, InetDevice> {
     private static final String ICON_TAG_ROOT = iconTag("globe-network");
     private static final String ICON_TAG_NODE = iconTag("server-network");
     private static final String ICON_TAG_LEAF = iconTag("network-ethernet");
@@ -107,19 +107,6 @@ public class InetDevice extends IdTitleTreeItem<InetDevice> {
         this.dateTo = dateTo;
     }
 
-    /* странный метод, он из биллинга, будут спрашивать, поменяем
-    public String getFullTitle() {
-        if (title.equals(invTitle)) {
-            if (title != invTitle) {
-                setTitle(invTitle);
-            }
-
-            return getEntityTitle();
-        } else {
-            return title + " - > " + getEntityTitle();
-        }
-    }*/
-
     @Override
     public String getIcon() {
         if (id <= 0)
@@ -144,5 +131,10 @@ public class InetDevice extends IdTitleTreeItem<InetDevice> {
         if (dateTo != null && TimeUtils.dateBefore(dateTo, new Date()))
             return "color: #666666";
         return null;
+    }
+
+    @Override
+    protected boolean isRootNode() {
+        return isRootNodeWithIntegerId(id, parentId);
     }
 }

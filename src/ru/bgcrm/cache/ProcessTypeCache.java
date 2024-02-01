@@ -20,7 +20,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
-import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -125,7 +124,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         }
     }
 
-    public static TypeTreeItem getTypeTreeRoot() {
+    public static ProcessType getTypeTreeRoot() {
         return holder.getInstance().tree;
     }
 
@@ -186,7 +185,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     private List<ProcessType> typeList;
     private Map<Integer, ProcessType> typeMap;
 
-    private TypeTreeItem tree;
+    private ProcessType tree;
     private List<Status> statusList;
     private Map<Integer, Status> statusMap;
 

@@ -35,6 +35,8 @@ column.23.title=Param type 'phone'
 column.23.value=param:{@PARAM_PHONE_ID}
 column.25.title=Param type 'tree'
 column.25.value=param:{@PARAM_TREE_ID}
+column.27.title=Param type 'treecount'
+column.27.value=param:{@PARAM_TREECOUNT_ID}
 
 # processors
 processor.{@inc:cnt}.title=Set param type 'list'

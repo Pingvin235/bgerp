@@ -149,7 +149,7 @@ public class CustomerAction extends BaseAction {
         Connection con = conSet.getConnection();
 
         ParamValueDAO paramValueDAO = new ParamValueDAO(con);
-        ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
+        ParamDAO paramDAO = new ParamDAO(con);
         CustomerLinkDAO customerLinkDAO = new CustomerLinkDAO(con);
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con);
         CustomerDAO customerDAO = new CustomerDAO(con);

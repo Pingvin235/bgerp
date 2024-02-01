@@ -1,6 +1,5 @@
 package org.bgerp.model.param;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,7 @@ public class Parameter extends IdTitleComment {
     public static final String TYPE_TEXT = "text";
     public static final String TYPE_PHONE = "phone";
     public static final String TYPE_TREE = "tree";
+    public static final String TYPE_TREECOUNT = "treecount";
 
     /** Sorted list of parameter types. */
     @Dynamic
@@ -50,7 +50,7 @@ public class Parameter extends IdTitleComment {
     public enum Type {
         ADDRESS(TYPE_ADDRESS), BLOB(TYPE_BLOB), DATE(TYPE_DATE), DATETIME(TYPE_DATETIME), EMAIL(TYPE_EMAIL),
         FILE(TYPE_FILE), LIST(TYPE_LIST), LISTCOUNT(TYPE_LISTCOUNT), MONEY(TYPE_MONEY), TEXT(TYPE_TEXT),
-        PHONE(TYPE_PHONE), TREE(TYPE_TREE);
+        PHONE(TYPE_PHONE), TREE(TYPE_TREE), TREECOUNT(TYPE_TREECOUNT);
 
         public static Type of(String name) {
             return NAME_MAP.get(name);
@@ -65,7 +65,6 @@ public class Parameter extends IdTitleComment {
 
     private String type;
     private String object;
-    private String script = "";
     private String config;
     private ConfigMap configMap;
     private String valuesConfig;
@@ -97,21 +96,6 @@ public class Parameter extends IdTitleComment {
 
     public void setOrder(int order) {
         this.order = order;
-    }
-
-    public List<String> getScripts() {
-        List<String> scripts = new ArrayList<String>();
-        scripts.add(script);
-        return scripts;
-    }
-
-    @Deprecated
-    public String getScript() {
-        return script;
-    }
-
-    public void setScript(String script) {
-        this.script = script;
     }
 
     public String getConfig() {
@@ -173,8 +157,6 @@ public class Parameter extends IdTitleComment {
         builder.append(type);
         builder.append("; title = ");
         builder.append(title);
-        builder.append("; script = ");
-        builder.append(script == null ? "null" : script.split("\n").length + " lines");
         builder.append("; config = ");
         builder.append(config == null ? "null" : config.split("\n").length + " lines");
         builder.append(" ]");

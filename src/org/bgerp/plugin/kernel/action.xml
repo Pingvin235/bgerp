@@ -44,15 +44,6 @@
 			</item>
 		</item>
 
-		<!-- uncomment and translate when the feature will be restored
-		<item title="Группы контрагентов">
-			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupList" title="Просмотр групп"/>
-			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupGet" title="Просмотр группы"/>
-			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupUpdate" title="Изменение группы"/>
-			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupDelete" title="Удаление группы"/>
-		</item>
-		-->
-
 		<item title="Config">
 			<item action="ru.bgcrm.struts.action.admin.ConfigAction:list" title="List">
 				<b>allowedConfigIds</b> - comma separated allowed configuration IDs<br/>
@@ -211,22 +202,22 @@
 			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo" title="Удаление привязок объекта"/>
 			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType" title="Удаление привязок определённого типа"/>
 		</item>
-		<item title="Параметры">
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterList" title="Просмотр параметров">
+		<item title="Parameters">
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterList" title="List">
 				<b>parameterIds</b> - id параметров через запятую разрешенных для просмотра<br/>
 				<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для просмотра<br/>
 				<b>tags</b> - теги через запятую тегированных параметров, которые разрешено отображать<br/>
 				<b>offEncrypt</b> - 1, если разрешено просматривать зашифрованные значения<br/>
 			</item>
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterGet" title="Просмотр параметра"/>
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterUpdate" title="Изменение параметра">
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterUpdate, ru.bgcrm.struts.action.ParameterAction:parameterGet,
+				ru.bgcrm.struts.action.ParameterAction:parameterListCountAddValue, ru.bgcrm.struts.action.ParameterAction:parameterTreeCountAddValue"
+				title="Edit">
 				<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
 				<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для изменения<br/>
 				<b>tags</b> - теги через запятую тегированных параметров, которые разрешено править<br/>
 			</item>
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterLog" title="Просмотр истории изменения параметров"/>
-			<item action="ru.bgcrm.struts.action.ParameterAction:entityLog" title="Просмотр лога изменений"/>
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterListcountAddValue" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterLog" title="Change Log"/>
+			<item action="ru.bgcrm.struts.action.ParameterAction:entityLog" title="Object Properties Change Log"/>
 		</item>
 		<item title="Process">
 			<item title="Queue">
@@ -272,14 +263,6 @@
 							title="Create a process and link it"/>
 						<item action="org.bgerp.action.ProcessLinkProcessAction:addExisting, org.bgerp.action.ProcessLinkProcessAction:linkProcessExisting" title="Link existing process to a Link Category"/>
 					</item>
-					<!--
-					<item title="Parent">
-						<item action="org.bgerp.action.ProcessLinkProcessAction:linkedProcessAdd, org.bgerp.action.ProcessLinkProcessAction:linkedProcessAvailable" title="Add parent rocess link"/>
-					</item>
-					<item title="Child">
-						<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessAdd, org.bgerp.action.ProcessLinkProcessAction:linkProcessAvailable" title="Add child process link"/>
-					</item>
-					-->
 					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete process link"/>
 				</item>
 			</item>

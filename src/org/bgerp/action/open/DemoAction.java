@@ -83,16 +83,16 @@ public class DemoAction extends BaseAction {
     private void treeValues(DynActionForm form) {
         int cnt = 1;
 
-        var rootNode = new IdTitleTreeItem.Default(cnt++, "Root Node");
+        var rootNode = new IdTitleTreeItem(cnt++, "Root Node");
 
-        var node1 = rootNode.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1"));
-        var node11 = node1.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1 1"));
-        node11.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1 1 1"));
-        node1.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1 2 with a loooooooooooooooooong text"));
+        var node1 = rootNode.addChild(new IdTitleTreeItem(cnt++, "Node 1"));
+        var node11 = node1.addChild(new IdTitleTreeItem(cnt++, "Node 1 1"));
+        node11.addChild(new IdTitleTreeItem(cnt++, "Node 1 1 1"));
+        node1.addChild(new IdTitleTreeItem(cnt++, "Node 1 2 with a loooooooooooooooooong text"));
 
-        var node2 = rootNode.addChild(new IdTitleTreeItem.Default(cnt++, "Node 2"));
+        var node2 = rootNode.addChild(new IdTitleTreeItem(cnt++, "Node 2"));
         for (int i = 1; i <= 5; i++)
-            node2.addChild(new IdTitleTreeItem.Default(cnt++, "Node 2 "+ i));
+            node2.addChild(new IdTitleTreeItem(cnt++, "Node 2 "+ i));
 
         form.setResponseData("treeRootNode", rootNode);
     }

@@ -331,7 +331,7 @@ public class ProcessAction extends BaseAction {
         checkAllowedQueueIds(form);
 
         ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
-        ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
+        ParamDAO paramDAO = new ParamDAO(con);
         UserPermsetDAO groupDAO = new UserPermsetDAO(con);
 
         ProcessType type = typeDAO.getProcessType(form.getId());

@@ -1,6 +1,10 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -11,6 +15,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.base.tree.IdTitleTreeItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,7 +24,6 @@ import org.w3c.dom.NodeList;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
@@ -109,8 +113,8 @@ public class DirectoryDAO extends BillingDAO {
         return scriptTypeList;
     }
 
-    public TypeTreeItem getContractPaymentTypes(Set<Integer> allowedTypeIds) throws BGException {
-        TypeTreeItem contractPaymentTypes = new TypeTreeItem();
+    public IdTitleTreeItem getContractPaymentTypes(Set<Integer> allowedTypeIds) throws BGException {
+        IdTitleTreeItem contractPaymentTypes = new IdTitleTreeItem();
         contractPaymentTypes.setTitle("Все типы");
 
         if (dbInfo.getVersion().compareTo("6.1") >= 0) {
@@ -123,7 +127,7 @@ public class DirectoryDAO extends BillingDAO {
 
             try {
                 // {"status":"ok","message":"","data":{"return":{"id":0,"title":"Типы","type":1,"editable":true,"parentId":null,"children":[{"id":33,"title":"OptimaPlus","type":0,"editable":true,"parentId":0,"children":null,...
-                contractPaymentTypes = jsonMapper.convertValue(result, TypeTreeItem.class);
+                contractPaymentTypes = jsonMapper.convertValue(result, IdTitleTreeItem.class);
             } catch (Exception e) {
                 throw new BGException(e);
             }
@@ -138,7 +142,7 @@ public class DirectoryDAO extends BillingDAO {
             Element dataElement = document.getDocumentElement();
             NodeList nodeList = dataElement.getElementsByTagName("item");
 
-            TypeTreeItem typeClass = new TypeTreeItem();
+            IdTitleTreeItem typeClass = new IdTitleTreeItem();
 
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Element itemElement = (Element) nodeList.item(index);
@@ -150,11 +154,11 @@ public class DirectoryDAO extends BillingDAO {
                         if (Utils.notBlankString(typeClass.getTitle()) || !typeClass.getChildren().isEmpty()) {
                             contractPaymentTypes.addChild(typeClass);
                         }
-                        typeClass = new TypeTreeItem();
+                        typeClass = new IdTitleTreeItem();
                         typeClass.setId(typeId);
                         typeClass.setTitle(itemElement.getAttribute(TITLE_PARAM));
                     } else {
-                        TypeTreeItem type = new TypeTreeItem();
+                        IdTitleTreeItem type = new IdTitleTreeItem();
                         type.setId(typeId);
                         type.setTitle(itemElement.getAttribute(TITLE_PARAM));
 
@@ -170,8 +174,8 @@ public class DirectoryDAO extends BillingDAO {
         return contractPaymentTypes;
     }
 
-    public TypeTreeItem getContractChargeTypes(Set<Integer> allowedTypeIds) throws BGException {
-        TypeTreeItem contractChargeTypes = new TypeTreeItem();
+    public IdTitleTreeItem getContractChargeTypes(Set<Integer> allowedTypeIds) throws BGException {
+        IdTitleTreeItem contractChargeTypes = new IdTitleTreeItem();
         contractChargeTypes.setTitle("Все типы");
 
         if (dbInfo.getVersion().compareTo("6.1") >= 0) {
@@ -185,7 +189,7 @@ public class DirectoryDAO extends BillingDAO {
 
             try {
                 // {"status":"ok","message":"","data":{"return":{"id":0,"title":"Типы","type":1,"editable":true,"parentId":null,"children":[{"id":33,"title":"OptimaPlus","type":0,"editable":true,"parentId":0,"children":null,...
-                contractChargeTypes = jsonMapper.convertValue(result, TypeTreeItem.class);
+                contractChargeTypes = jsonMapper.convertValue(result, IdTitleTreeItem.class);
             } catch (Exception e) {
                 throw new BGException(e);
             }
@@ -201,7 +205,7 @@ public class DirectoryDAO extends BillingDAO {
             Element dataElement = document.getDocumentElement();
             NodeList nodeList = dataElement.getElementsByTagName("item");
 
-            TypeTreeItem typeClass = new TypeTreeItem();
+            IdTitleTreeItem typeClass = new IdTitleTreeItem();
 
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Element itemElement = (Element) nodeList.item(index);
@@ -212,11 +216,11 @@ public class DirectoryDAO extends BillingDAO {
                         if (Utils.notBlankString(typeClass.getTitle()) || !typeClass.getChildren().isEmpty()) {
                             contractChargeTypes.addChild(typeClass);
                         }
-                        typeClass = new TypeTreeItem();
+                        typeClass = new IdTitleTreeItem();
                         typeClass.setId(typeId);
                         typeClass.setTitle(itemElement.getAttribute(TITLE_PARAM));
                     } else {
-                        TypeTreeItem type = new TypeTreeItem();
+                        IdTitleTreeItem type = new IdTitleTreeItem();
                         type.setId(typeId);
                         type.setTitle(itemElement.getAttribute(TITLE_PARAM));
 

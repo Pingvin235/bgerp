@@ -419,7 +419,7 @@ Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
 Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
 [snippet, from="UNIQUE", to="`),", remove-leading="	"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L441-L441[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L440-L440[src/org/bgerp/plugin/kernel/db.sql]
 
 [[plugin-db-cache]]
 ===== Database Queries Cache
@@ -428,7 +428,7 @@ The cache might be reset using <<../kernel/install.adoc#update-installer, instal
 
 To force re-execution a query, add a whitespace before ending semicolon on the query line.
 [snippet, from="CALL drop_key_if_exists", to=");"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L390-L390[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L389-L389[src/org/bgerp/plugin/kernel/db.sql]
 
 [[cache]]
 ===== Cache
@@ -660,7 +660,7 @@ The first identifier is used upon the next save operation of the permission set.
 In the following example an action class was renamed two times and action method changed first to *unspecified*, defined in the configuration by *null* and later to *status*.
 
 [snippet, from="<item ti", to="s\"/>", remove-leading="		"]
-link:../../../src/org/bgerp/plugin/kernel/action.xml#L152-L153[org/bgerp/plugin/kernel/action.xml]
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L143-L144[org/bgerp/plugin/kernel/action.xml]
 
 The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
 

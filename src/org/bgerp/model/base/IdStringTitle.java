@@ -2,7 +2,7 @@ package org.bgerp.model.base;
 
 import org.bgerp.model.base.iface.IdTitle;
 
-public class IdStringTitle implements IdTitle {
+public class IdStringTitle implements IdTitle<String> {
     private String id;
     private String title;
 

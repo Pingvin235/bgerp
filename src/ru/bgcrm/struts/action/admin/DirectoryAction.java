@@ -73,7 +73,7 @@ public class DirectoryAction extends BaseAction {
 
     // параметры
     public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
-        ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
+        ParamDAO paramDAO = new ParamDAO(con);
         var request = form.getHttpRequest();
 
         setDirectoryList(request);
@@ -107,7 +107,7 @@ public class DirectoryAction extends BaseAction {
     }
 
     public ActionForward parameterGet(DynActionForm form, Connection con) throws Exception {
-        ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
+        ParamDAO paramDAO = new ParamDAO(con);
 
         Parameter parameter = paramDAO.getParameter(form.getId());
         if (parameter != null) {
@@ -123,7 +123,7 @@ public class DirectoryAction extends BaseAction {
     }
 
     public ActionForward parameterUpdate(DynActionForm form, Connection con) throws Exception {
-        ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
+        ParamDAO paramDAO = new ParamDAO(con);
 
         Parameter parameter = new Parameter();
         parameter.setId(form.getId());
@@ -136,7 +136,6 @@ public class DirectoryAction extends BaseAction {
 
         parameter.setTitle(form.getParam("title"));
         parameter.setOrder(Utils.parseInt(form.getParam("order")));
-        parameter.setScript(form.getParam("script", ""));
         parameter.setConfig(form.getParam("config"));
         parameter.setComment(form.getParam("comment"));
 
@@ -153,7 +152,7 @@ public class DirectoryAction extends BaseAction {
     }
 
     public ActionForward parameterDelete(DynActionForm form, Connection con) throws Exception {
-        new ParamDAO(con, form.getUserId()).deleteParameter(form.getId());
+        new ParamDAO(con).deleteParameter(form.getId());
 
         ParameterCache.flush(con);
 
@@ -219,7 +218,7 @@ public class DirectoryAction extends BaseAction {
     public ActionForward parameterGroupGet(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
 
-        ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
+        ParamDAO paramDAO = new ParamDAO(con);
         ParamGroupDAO paramGroupDAO = new ParamGroupDAO(con);
 
         ParameterGroup parameterGroup = paramGroupDAO.getParameterGroup(id);

@@ -29,6 +29,8 @@ public class Tables {
     public static final String TABLE_PARAM_TEXT = " param_text ";
     public static final String TABLE_PARAM_TREE = " param_tree ";
     public static final String TABLE_PARAM_TREE_VALUE = " param_tree_value ";
+    public static final String TABLE_PARAM_TREECOUNT = " param_treecount ";
+    public static final String TABLE_PARAM_TREECOUNT_VALUE = " param_treecount_value ";
 
     public static final String TABLE_PARAM_LOG = " param_log ";
 }

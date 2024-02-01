@@ -28,7 +28,7 @@ import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserGroupRoleCache;
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.model.process.TypeTreeItem;
+import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -100,7 +100,7 @@ public class SetRequestParamsFilter implements Filter {
      * <b>ctxSlaveDataSource</b>  {@link Setup#getSlaveDataSource()} DataSource - пул соединений с Slave БД для использования в JSP<br/>
      *
      * <b>ctxProcessTypeMap</b>  {@link ProcessTypeCache#getProcessTypeMap()} Map с типами процессов<br/>
-     * <b>ctxProcessTypeTreeRoot</b> {@link TypeTreeItem} - корневой узел дерева процессов<br/>
+     * <b>ctxProcessTypeTreeRoot</b> {@link ProcessType} - корневой узел дерева процессов<br/>
      * <b>ctxProcessStatusList</b>  {@link ProcessTypeCache#getProcessStatusList()} List со статусами процессов<br/>
      * <b>ctxProcessStatusMap</b>  {@link ProcessTypeCache#getProcessStatusMap()} Map со статусами процессов<br/>
      * <b>ctxProcessQueueMap</b>  {@link ProcessTypeCache#getProcessQueueMap()} Map с очередями процессов<br/>

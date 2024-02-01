@@ -6,7 +6,10 @@ import static org.bgerp.model.param.Parameter.TYPE_DATETIME;
 import static org.bgerp.model.param.Parameter.TYPE_EMAIL;
 import static org.bgerp.model.param.Parameter.TYPE_FILE;
 import static org.bgerp.model.param.Parameter.TYPE_LIST;
+import static org.bgerp.model.param.Parameter.TYPE_LISTCOUNT;
 import static org.bgerp.model.param.Parameter.TYPE_TEXT;
+import static org.bgerp.model.param.Parameter.TYPE_TREE;
+import static org.bgerp.model.param.Parameter.TYPE_TREECOUNT;
 
 import java.io.FileInputStream;
 import java.net.URLConnection;
@@ -112,20 +115,20 @@ public class ParameterValuePair {
         }
 
         String type = parameter.getType();
-        if (TYPE_EMAIL.equals(type)) {
-            result = Utils.toString(((TreeMap<String, String>) value).values(), "", "; ");
-        } else if (TYPE_LIST.equals(type)) {
-            result = Utils.getObjectTitles((Collection<IdTitle>) value);
-        } else if (TYPE_DATE.equals(type)) {
-            result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMD);
-        } else if (TYPE_DATETIME.equals(type)) {
-            result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
-        } else if (TYPE_ADDRESS.equals(type)) {
+        if (TYPE_ADDRESS.equals(type)) {
             StringBuilder address = new StringBuilder();
             for (ParameterAddressValue item : ((Map<Integer, ParameterAddressValue>) value).values()) {
                 Utils.addSeparated(address, "; ", item.getValue());
             }
             result = address.toString();
+        } else if (TYPE_DATE.equals(type)) {
+            result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMD);
+        } else if (TYPE_DATETIME.equals(type)) {
+            result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
+        } else if (TYPE_EMAIL.equals(type)) {
+            result = Utils.toString(((TreeMap<String, String>) value).values(), "", "; ");
+        } else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type) || TYPE_TREE.equals(type) || TYPE_TREECOUNT.equals(type)) {
+            result = Utils.getObjectTitles((Collection<IdTitle>) value);
         } else {
             result = value == null ? "" : String.valueOf(value);
             if (TYPE_TEXT.equals(type) && "hideProtocol".equals(parameter.getShowAsLink())) {

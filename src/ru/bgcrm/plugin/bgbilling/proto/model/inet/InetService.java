@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.bgerp.model.base.tree.IdTitleTreeItem;
+import org.bgerp.model.base.tree.TreeItem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,7 +12,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.inet.IPUtils;
 import ru.bgcrm.util.inet.IpNet;
 
-public class InetService extends IdTitleTreeItem<InetService> {
+public class InetService extends TreeItem<Integer, InetService> {
     public static final int STATUS_ACTIVE = 0;
     public static final int STATUS_CLOSED = 1;
     public static final int STATUS_LOCKED = 2;
@@ -364,5 +364,10 @@ public class InetService extends IdTitleTreeItem<InetService> {
 
     public void setContractObjectId(int contractObjectId) {
         this.contractObjectId = contractObjectId;
+    }
+
+    @Override
+    protected boolean isRootNode() {
+        return isRootNodeWithIntegerId(id, parentId);
     }
 }

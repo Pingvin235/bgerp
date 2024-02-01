@@ -562,13 +562,13 @@ multiple=1
 # сохранение сразу после выбора значения, без нажатия кнопки Ок (только для параметра с одним выбором)
 saveOn=select
 editAs=<editAs>
-#
+
 # сортировка значений по наименованию а не в порядке кодов
 sort.mode=byTitle
-#
+
 allowCommentValues=<allowCommentValues>
 needCommentValues=<needCommentValues>
-#
+
 directory=<dirName>
 availableValues=<values>
 availableValuesInnerJoinFilter=<joinTable>;<joinColumn>;<joinFilter>
@@ -593,15 +593,15 @@ directory=customer
 availableValuesInnerJoinFilter=customer_group;customer_id;group_id IN (3)
 ----
 
-Пример конфигурации параметра.
+Parameter editor.
 
 image::_res/setup/param/list_config.png[width=800]
 
-In parameters values table.
+Values table.
 
 image::_res/setup/param/list_table.png[]
 
-Editor for single value.
+Value editor for a single value.
 
 image::_res/setup/param/list_editor_single.png[width=600]
 
@@ -609,7 +609,7 @@ Same, using radio buttons.
 
 image::_res/setup/param/list_editor_single_radio.png[]
 
-Editor for multiple values.
+Values editor for multiple values.
 
 image::_res/setup/param/list_editor_mult.png[]
 
@@ -628,15 +628,15 @@ multiple=1
 
 image::_res/setup/param/listcount_config.png[width=800]
 
-В таблице параметров.
+Values table.
 
 image::_res/setup/param/listcount_table.png[]
 
-Editor for single value.
+Value editor for a single value.
 
 image::_res/setup/param/listcount_editor_single.png[width=600]
 
-Editor for multiple values.
+Values editor for multiple values.
 
 image::_res/setup/param/listcount_editor_mult.png[width=600]
 
@@ -654,11 +654,11 @@ Where:
 [square]
 * *<saveOn>* - save mode, can be *focusLost*, by default stores by pressing *Enter* or *OK* button.
 
-In parameters table.
+Values table.
 
 image::_res/setup/param/money_table.png[]
 
-Editor.
+Values editor.
 
 image::_res/setup/param/money_editor.png[]
 
@@ -723,22 +723,50 @@ regexp.3.regexp=[а-яА-Я\s\-]+,[\dа-яА-Я\s\-]+,\s*[\dа-яА-Я/]+,*\s*\d
 image::_res/i0013.png[]
 
 [[param-tree]]
-=== Параметр типа "tree"
-Допустимые значения могут быть организованы в дерево.
-В конфигурации параметра могут быть указаны следующие необязательные параметры:
+=== Parameter type "tree"
+Selected tree items.
+
+In configuration may be defined the following non-mandatory options:
 [source]
 ----
-# несколько значений в дереве
+# multiple values
 multiple=1
 ----
 
-Как выглядят конфигурация, таблица параметров и редактирование.
+Parameter editor.
 
-image::_res/setup/param/tree.png[]
+image::_res/setup/param/tree.png[width="800px"]
+
+Values table.
 
 image::_res/setup/param/tree_table.png[]
 
+Values editor.
+
 image::_res/setup/param/tree_editor.png[]
+
+[[param-treecount]]
+=== Parameter type "treecount"
+Selected tree items with decimal amounts.
+
+In configuration may be defined the following non-mandatory options:
+[source]
+----
+# multiple values
+multiple=1
+----
+
+Parameter editor.
+
+image::_res/setup/param/treecount.png[width="800px"]
+
+Values table.
+
+image::_res/setup/param/treecount_table.png[]
+
+Values editor.
+
+image::_res/setup/param/treecount_editor.png[]
 
 [[status]]
 == App Status

@@ -36,7 +36,7 @@
 	<p><ru>Прервать создание</ru><en>Creation abort</en></p>
 	<p><ru>Прервать создание процесса?</ru><en>Abort process creation?</en></p>
 	<p><ru>Новый процесс</ru><en>New process</en></p>
-	<p><ru>не указан</ru><en>undefined</en></p>
+	<p><en>undefined</en><ru>не указано</ru></p>
 	<p><en>Value</en><ru>Значение</ru></p>
 	<p><ru>Название</ru><en>Name</en></p>
 	<p><en>Children</en><ru>Дочерние</ru></p>

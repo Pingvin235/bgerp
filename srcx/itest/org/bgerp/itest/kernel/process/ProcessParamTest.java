@@ -1,5 +1,6 @@
 package org.bgerp.itest.kernel.process;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -31,7 +32,6 @@ import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
-import ru.bgcrm.model.param.ParameterListCountValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.process.Process;
@@ -60,6 +60,7 @@ public class ProcessParamTest {
     private int paramTextLongTitleId;
     private int paramPhoneId;
     private int paramTreeId;
+    private int paramTreeCountId;
 
     private int processTypeId;
     private int processId;
@@ -121,6 +122,11 @@ public class ProcessParamTest {
                 ProcessTest.posParam += 2,
                 ResourceHelper.getResource(this, "param.tree.config.txt"),
                 ResourceHelper.getResource(this, "param.tree.values.txt"));
+
+        paramTreeCountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TREECOUNT, TITLE + " type 'treecount'",
+                ProcessTest.posParam += 2,
+                ResourceHelper.getResource(this, "param.treecount.config.txt"),
+                ResourceHelper.getResource(this, "param.treecount.values.txt"));
     }
 
     @Test(dependsOnMethods = "param")
@@ -129,9 +135,11 @@ public class ProcessParamTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setParameterIds(
-                List.of(paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId, paramListDirConfigId,
-                        paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongTitleId, paramTextRegexpId, paramPhoneId, paramTreeId));
+        props.setParameterIds(List.of(
+            paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId, paramListDirConfigId,
+            paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongTitleId, paramTextRegexpId, paramPhoneId,
+            paramTreeId, paramTreeCountId
+        ));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
@@ -156,7 +164,8 @@ public class ProcessParamTest {
                 "PARAM_MONEY_ID", paramMoneyId,
                 "PARAM_TEXT_ID", paramTextId,
                 "PARAM_PHONE_ID", paramPhoneId,
-                "PARAM_TREE_ID", paramTreeId
+                "PARAM_TREE_ID", paramTreeId,
+                "PARAM_TREECOUNT_ID", paramTreeCountId
             ) + ResourceHelper.getResource(this, "process.queue.config.txt"),
             Set.of(processTypeId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
@@ -180,6 +189,7 @@ public class ProcessParamTest {
         paramValueText(processId);
         paramValuePhone(processId);
         paramValueTree(processId);
+        paramValueTreeCount(processId);
     }
 
     private void paramValueAddress(int processId) throws Exception {
@@ -381,31 +391,29 @@ public class ProcessParamTest {
         Assert.assertEquals(log.size(), cnt);
         Assert.assertEquals(log.get(--cnt).getText(), "Value1, Value2");
         Assert.assertEquals(log.get(--cnt).getText(), "");
-        Assert.assertEquals(log.get(--cnt).getText(), "Value2, Value03");
+        Assert.assertEquals(log.get(--cnt).getText(), "Value2, Value03 [Comment]");
     }
 
     private void paramValueListCount(int processId) throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
 
-        dao.updateParamListCount(processId, paramListCountId,
-                Map.of(1, "5.2", 2, Utils.parseBigDecimal("4.3")));
+        dao.updateParamListCount(processId, paramListCountId, Map.of(1, "5.2", 2, Utils.parseBigDecimal("4.3")));
         Assert.assertEquals(dao.getParamListCount(processId, paramListCountId),
-                Map.of(1, new ParameterListCountValue("5.20"), 2, new ParameterListCountValue("4.30")));
+                Map.of(1, Utils.parseBigDecimal("5.20"), 2, Utils.parseBigDecimal("4.30")));
 
         dao.updateParamListCount(processId, paramListCountId, null);
         Assert.assertTrue(dao.getParamListCount(processId, paramListCountId).isEmpty());
 
-        var values = Map.of(2, new ParameterListCountValue(Utils.parseBigDecimal("4.50"), "Comment"), 3, new ParameterListCountValue("9.20"));
+        var values = Map.of(2, Utils.parseBigDecimal("4.50"), 3, Utils.parseBigDecimal("9.20"));
         dao.updateParamListCount(processId, paramListCountId, values);
         Assert.assertEquals(dao.getParamListCount(processId, paramListCountId), values);
 
-        var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramListId)), false, new Pageable<>());
+        var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramListCountId)), false, new Pageable<>());
         int cnt = 3;
         Assert.assertEquals(log.size(), cnt);
-        // TODO: Change after fixing listcount change logs.
-        Assert.assertEquals(log.get(--cnt).getText(), "Value1, Value2");
+        Assert.assertEquals(log.get(--cnt).getText(), "Value1: 5.2, Value2: 4.3");
         Assert.assertEquals(log.get(--cnt).getText(), "");
-        Assert.assertEquals(log.get(--cnt).getText(), "Value2, Value03");
+        Assert.assertEquals(log.get(--cnt).getText(), "Value2: 4.50, Value3: 9.20");
     }
 
     private void paramValueMoney(int processId) throws Exception {
@@ -489,7 +497,7 @@ public class ProcessParamTest {
         dao.updateParamTree(processId, paramTreeId, null);
         Assert.assertEquals(dao.getParamTree(processId, paramTreeId), Set.of());
 
-        values = Set.of("2", "1.2");
+        values = Set.of("1.2", "2.1.1");
         dao.updateParamTree(processId, paramTreeId, values);
         Assert.assertEquals(dao.getParamTree(processId, paramTreeId), values);
 
@@ -498,6 +506,28 @@ public class ProcessParamTest {
         Assert.assertEquals(log.size(), cnt);
         Assert.assertEquals(log.get(--cnt).getText(), "Value 1, Value 2.1");
         Assert.assertEquals(log.get(--cnt).getText(), "");
-        Assert.assertEquals(log.get(--cnt).getText(), "Value 1.2, Value2");
+        Assert.assertEquals(log.get(--cnt).getText(), "Value 1.2, Value 2.1.1");
+    }
+
+    private void paramValueTreeCount(int processId) throws Exception {
+        var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
+
+        var values = Map.of("1.1", new BigDecimal("43.00"), "2.1", new BigDecimal("3.34"));
+        dao.updateParamTreeCount(processId, paramTreeCountId, values);
+        Assert.assertEquals(dao.getParamTreeCount(processId, paramTreeCountId), values);
+
+        dao.updateParamTreeCount(processId, paramTreeCountId, null);
+        Assert.assertEquals(dao.getParamTreeCount(processId, paramTreeCountId), Map.of());
+
+        values = Map.of("1.1", new BigDecimal("12.00"), "2.1.1", new BigDecimal("12.56"));
+        dao.updateParamTreeCount(processId, paramTreeCountId, values);
+        Assert.assertEquals(dao.getParamTreeCount(processId, paramTreeCountId), values);
+
+        var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, List.of(ParameterCache.getParameter(paramTreeCountId)), false, new Pageable<>());
+        int cnt = 3;
+        Assert.assertEquals(log.size(), cnt);
+        Assert.assertEquals(log.get(--cnt).getText(), "Value 1.1: 43.00, Value 2.1: 3.34");
+        Assert.assertEquals(log.get(--cnt).getText(), "");
+        Assert.assertEquals(log.get(--cnt).getText(), "Value 1.1: 12.00, Value 2.1.1: 12.56");
     }
 }

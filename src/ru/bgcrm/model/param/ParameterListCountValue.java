@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import ru.bgcrm.util.Utils;
 
+@Deprecated
 public class ParameterListCountValue {
     private BigDecimal count;
     private String comment = "";

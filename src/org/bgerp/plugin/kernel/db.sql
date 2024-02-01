@@ -361,7 +361,6 @@ CREATE TABLE IF NOT EXISTS `param_pref` (
 	`type` varchar(20) NOT NULL,
 	`title` varchar(255) NOT NULL,
 	`order` int(11) NOT NULL,
-	`script` text NOT NULL,
 	`config` text NOT NULL,
 	`comment` varchar(1024) NOT NULL,
 	PRIMARY KEY (`id`)
@@ -479,7 +478,6 @@ CREATE TABLE IF NOT EXISTS `param_listcount` (
 	`param_id` int(11) NOT NULL,
 	`value` int(11) NOT NULL,
 	`count` decimal(10,2) NOT NULL,
-	`comment` varchar(50) NOT NULL,
 	KEY `id_param` (`id`,`param_id`),
 	KEY `value_count` (`value`,`count`)
 );
@@ -748,8 +746,27 @@ CREATE TABLE IF NOT EXISTS demo_entity (
 	PRIMARY KEY (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS param_treecount (
+	`id` int NOT NULL,
+	`param_id` int NOT NULL,
+	`value` varchar(50) NOT NULL,
+	`count` decimal(10,2) NOT NULL,
+	KEY id_param_id(id, param_id),
+	KEY value_count(value, count)
+);
+
+CREATE TABLE IF NOT EXISTS param_treecount_value (
+	`param_id` int NOT NULL,
+	`id` varchar(50) NOT NULL,
+	`parent_id` varchar(50) NOT NULL,
+	`title` varchar(250) NOT NULL,
+	KEY param_id(param_id)
+);
+
 -- TODO: The columns or tables are not already in use. For  activation of deletion, place uncommented line prior the comment.
 -- drop_column_if_exists('message', 'processed');
+-- drop_column_if_exists('param_pref', 'script');
+-- drop_column_if_exists('param_listcount', 'comment');
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

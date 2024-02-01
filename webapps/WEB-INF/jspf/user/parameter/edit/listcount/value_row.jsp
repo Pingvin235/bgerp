@@ -14,7 +14,7 @@ Incoming variables:
 		${not empty itemTitle ? itemTitle : form.param.itemTitle}
 	</td>
 	<td>
-		<input type="text" name="itemCount" value="${not empty itemCount ? itemCount : form.param.itemCount}" size="2"
+		<input type="text" name="itemCount" value="${not empty itemCount ? itemCount : form.param.itemCount}" size="4"
 			onkeydown="return isNumberKey(event)" title="${l.l('Вы можете использовать точку как указатель десятичной дроби.')}"/>
 	</td>
 	<td>

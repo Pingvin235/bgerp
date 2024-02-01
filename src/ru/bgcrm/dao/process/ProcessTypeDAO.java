@@ -1,6 +1,7 @@
 package ru.bgcrm.dao.process;
 
-import static ru.bgcrm.dao.process.Tables.*;
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_STATUS_TITLE;
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_TYPE;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +24,6 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.util.Utils;
 
 public class ProcessTypeDAO extends CommonDAO {
@@ -341,9 +341,9 @@ public class ProcessTypeDAO extends CommonDAO {
      * @return
      * @throws BGException
      */
-    public TypeTreeItem getTypeTreeRoot() throws BGException {
+    public ProcessType getTypeTreeRoot() throws BGException {
         try {
-            TypeTreeItem result = new TypeTreeItem();
+            ProcessType result = new ProcessType();
             result.setId(0);
 
             Map<Integer, List<ProcessType>> byParentMap = new HashMap<Integer, List<ProcessType>>();
@@ -380,11 +380,11 @@ public class ProcessTypeDAO extends CommonDAO {
         }
     }
 
-    private void addTreeItems(TypeTreeItem parent, Map<Integer, List<ProcessType>> byParentMap) {
+    private void addTreeItems(ProcessType parent, Map<Integer, List<ProcessType>> byParentMap) {
         List<ProcessType> subTypeList = byParentMap.get(parent.getId());
         if (subTypeList != null) {
             for (ProcessType child : subTypeList) {
-                TypeTreeItem childItem = new TypeTreeItem();
+                ProcessType childItem = new ProcessType();
                 childItem.setId(child.getId());
                 childItem.setTitle(child.getTitle());
                 parent.addChild(childItem);
