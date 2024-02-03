@@ -56,7 +56,7 @@
 						[ <a title="${l.l('Удалить')}" href="#" onclick="if( confirm( 'Удалить новость?' ) && sendAJAXCommand( '${deleteUrl}' ) ){ ${showCode} }; return false;">X</a> ]
 
 						<c:if test="${not empty item.groupIds}">
-							<br/>${l.l('Группы')}: ${u:objectTitleList( ctxUserGroupList, item.groupIds ) }
+							<br/>${l.l('Groups')}: ${u:objectTitleList( ctxUserGroupList, item.groupIds ) }
 						</c:if>
 					</span>
 				</td>

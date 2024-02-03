@@ -38,7 +38,7 @@
 		 </div><%--
 	 --%><div style="width: 50%; display: inline-block; vertical-align: top;">
 	 		<c:if test="${not(form.param.requestUserId > 0 )}">
-				<h2>${l.l('Группы')}</h2>
+				<h2>${l.l('Groups')}</h2>
 
 				<ui:select-mult list="${ctxUserGroupList}" hiddenName="group" values="${news.groupIds}" style="width: 100%;"/>
 

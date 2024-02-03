@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 	<p><ru>Перенесено из процесса #{}</ru><en>Moved from process #{}</en></p>
-	<p><ru>Свойства</ru><en>Properties</en></p>
+	<p><en>Properties</en><ru>Свойства</ru></p>
 	<p><ru>Сохранить свойства</ru><en>Save properties</en></p>
 	<p><ru>Пароль</ru><en>Password</en></p>
 	<p><ru>Логин</ru><en>Login</en></p>
@@ -42,7 +42,7 @@
 	<p><en>Children</en><ru>Дочерние</ru></p>
 	<p><en>Parents</en><ru>Родительские к</ru></p>
 	<p><en>Related Processes</en><ru>Связанные процессы</ru></p>
-	<p><ru>Параметры</ru><en>Parameters</en></p>
+	<p><en>Parameters</en><ru>Параметры</ru></p>
 	<p><ru>История статусов</ru><en>Status history</en></p>
 	<p><en>User</en><ru>Пользователь</ru></p>
 	<p><ru>Время</ru><en>Time</en></p>
@@ -98,12 +98,12 @@
 	<p><en>News</en><ru>Новости</ru></p>
 	<p><ru>Адреса</ru><en>Addresses</en></p>
 	<p><ru>Наборы прав</ru><en>Permission Sets</en></p>
-	<p><ru>Группы</ru><en>Groups</en></p>
+	<p><en>Groups</en><ru>Группы</ru></p>
 	<p><ru>Пользователи</ru><en>Users</en></p>
 	<p><ru>Статусы процессов</ru><en>Statuses</en></p>
 	<p><ru>Типы процессов</ru><en>Process Types</en></p>
 	<p><ru>Очереди процессов</ru><en>Process Queues</en></p>
-	<p><ru>Конфигурация</ru><en>Configuration</en></p>
+	<p><en>Configuration</en><ru>Конфигурация</ru></p>
 	<p><en>App Status</en><ru>Статус приложения</ru></p>
 	<p><ru>Авторизовавшиеся пользователи</ru><en>Authenticated Users</en></p>
 	<p><ru>Приложение</ru><en>App</en></p>
@@ -304,15 +304,14 @@
 	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
 	<p><ru>Копировать свойства другого типа</ru><en>Copy properties from another type</en></p>
 	<p><ru>Редактор типа</ru><en>Type editor</en></p>
-	<p><ru>Восстановить</ru><en>Restore</en></p>
+	<p><en>Restore</en><ru>Восстановить</ru></p>
 	<p><ru>Свойства типа</ru><en>Type properties</en></p>
-	<p><ru>К списку типов</ru><en>To the list of types</en></p>
 	<p><ru>Название фильтра</ru><en>Filter title</en></p>
 	<p><ru>Введите название!</ru><en>Input title!</en></p>
 	<p><ru>Скрыть</ru><en>Hide</en></p>
 	<p><ru>Отобразить</ru><en>Show</en></p>
 	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request parameters</en></p>
-	<p><ru>Сохранить без выхода из редактора</ru><en>Save without leaving editor</en></p>
+	<p><en>Save without leaving editor</en><ru>Сохранить без выхода из редактора</ru></p>
 	<p><ru>Созданные</ru><en>Created</en></p>
 	<p><ru>Вам не разрешён доступ к очереди процессов с ID={}</ru><en>You are not allowed to access the process queue with ID={}</en></p>
 	<p><ru>Освободить</ru><en>Release</en></p>
@@ -335,7 +334,7 @@
 	<p><ru>Действию</ru><en>Action</en></p>
 	<p><ru>IP адресу</ru><en>IP address</en></p>
 	<p><ru>Применить</ru><en>Apply</en></p>
-	<p><ru>Сохранить</ru><en>Save</en></p>
+	<p><en>Save</en><ru>Сохранить</ru></p>
 	<p><ru>Позиция</ru><en>Position</en></p>
 	<p><ru>Позиция статуса в различных перечнях</ru><en>Position of status in various lists</en></p>
 	<p><ru>Наследовать свойства от предка</ru><en>Inherit properties from parent</en></p>
@@ -641,6 +640,14 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Date to</en><ru>Дата по</ru></p>
 	<p><en>Set</en><ru>Установить</ru></p>
 	<p><en>Process ID</en><ru>ID процесса</ru></p>
+	<p><en>Subtypes</en><ru>Подтипов</ru></p>
+	<p><en>Transition matrix</en><ru>Матрица переходов</ru></p>
+	<p><en>Allowed statuses</en><ru>Разрешённые статусы</ru></p>
+	<p><en>Initial status ID</en><ru>Статус нач. ID</ru></p>
+	<p><en>Final status IDs over ,</en><ru>Статусы кон. через ,</ru></p>
+	<p><en>Allowed status transitions matrix</en><ru>Матрица разрешенных переходов статусов</ru></p>
+	<p><sys>statuses.initial</sys><en>Initial</en><ru>Начальные</ru></p>
+	<p><sys>statuses.allowed</sys><en>Allowed</en><ru>Разрешённые</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

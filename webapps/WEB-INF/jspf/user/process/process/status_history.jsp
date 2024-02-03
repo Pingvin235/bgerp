@@ -7,7 +7,7 @@
 	<html:hidden property="id" />
 	<input type="hidden" name="action" value="processStatusHistory" />
 
-	<button class="btn-white mb1" type="button" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());">${l.l('Close')}</button>
+	<ui:button type="close" styleClass="mb1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());"/>
 
 	<table class="data">
 		<tr>

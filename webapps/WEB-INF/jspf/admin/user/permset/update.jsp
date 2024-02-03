@@ -59,7 +59,7 @@
 			</div>
 		</div><%--
 	--%><div style="width: 50%;" class="pl1">
-			<h2>${l.l('Конфигурация')}</h2>
+			<h2>${l.l('Configuration')}</h2>
 			<div style="height: 500px;">
 				<c:set var="taUiid" value="${u:uiid()}"/>
 				<textarea id="${taUiid}" name="permsetConfig" style="width: 100%; height: 100%; resize: none;" wrap="off">${permset.config}</textarea>

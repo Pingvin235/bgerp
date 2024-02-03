@@ -54,11 +54,11 @@
 		action="org.bgerp.action.admin.LicenseAction:null"
 		command="/admin/license.do" />
 
-	<ui:menu-item ltitle="Конфигурация" href="admin/config" icon="ti-panel"
+	<ui:menu-item ltitle="Configuration" href="admin/config" icon="ti-panel"
 		action="ru.bgcrm.struts.action.admin.ConfigAction:list"
 		command="/admin/config.do?action=list" />
 
-	<ui:menu-item ltitle="Параметры" href="admin/param" icon="ti-palette"
+	<ui:menu-item ltitle="Parameters" href="admin/param" icon="ti-palette"
 		action="ru.bgcrm.struts.action.admin.DirectoryAction:null"
 		command="/admin/directory.do" />
 

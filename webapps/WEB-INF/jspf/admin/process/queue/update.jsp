@@ -40,7 +40,7 @@
 			</script>
 		</div><%--
 	--%><div style="width: 50%; height: 100%;" class="pl1">
-			<h2>${l.l('Конфигурация')}</h2>
+			<h2>${l.l('Configuration')}</h2>
 			<c:set var="taUiid" value="${u:uiid()}"/>
 			<textarea id="${taUiid}" name="config" class="layout-height-rest" style="width: 100%; resize: none;" wrap="off">${queue.config}</textarea>
 		</div>
@@ -63,7 +63,7 @@
 				${saveCommand}.done(() => {
 					$$.ajax.load('${editUrl}', $(this.form).parent())
 				})"
-			style="float: right;" title="${l.l('Сохранить без выхода из редактора')}">Сохранить</button>
+			style="float: right;" title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
 	</div>
 </html:form>
 

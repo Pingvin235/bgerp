@@ -33,7 +33,7 @@
 			</div>
 		</div><%--
 	--%><div style="width: 50%;">
-			<h2>${l.l('Конфигурация')}</h2>
+			<h2>${l.l('Configuration')}</h2>
 			<div id="${uiidTo}">
 				<c:set var="taUiid" value="${u:uiid()}"/>
 				<textarea name="groupConfig" id="${taUiid}" style="width:100%; height: 100%; resize: none;" wrap="off">${group.config}</textarea>

@@ -40,7 +40,7 @@
 			</c:if>
 		</div><%--
 	--%><div style="width: 70%;" class="pl1">
-			<h2>${l.l('Конфигурация')}</h2>
+			<h2>${l.l('Configuration')}</h2>
 			<c:set var="taUiid" value="${u:uiid()}"/>
 			<textarea id="${taUiid}" name="data" style="width: 100%;" rows="40">${config.data}</textarea>
 		</div>
@@ -48,11 +48,13 @@
 
 	<div class="mt1">
 		<ui:form-ok-cancel/>
-		<button type="button" class="btn-grey"
-			onclick="$$.ajax.post(this).done(() => {
-				$$.ajax.load('${editUrl}', $('#${formUiid}').parent());
-			})"
-		style="float: right;" title="${l.l('Сохранить без выхода из редактора')}">${l.l('Сохранить')}</button>
+		<span style="float: right;">
+			<button type="button" class="btn-grey mr1"
+				onclick="$$.ajax.post(this).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()))"
+				title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
+			<button type="button" class="btn-grey"
+				onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent());">${l.l('Restore')}</button>
+		</span>
 	</div>
 </html:form>
 

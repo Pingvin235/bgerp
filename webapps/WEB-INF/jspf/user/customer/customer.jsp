@@ -29,7 +29,7 @@
 				<c:param name="parameterGroup" value="${customer.paramGroupId}"/>
 			</c:url>
 
-			$tabs.tabs("add", "${url}", "${l.l('Параметры')}");
+			$tabs.tabs("add", "${url}", "${l.l('Parameters')}");
 
 			<c:url var="url" value="/user/process/link.do">
 				<c:param name="action" value="linkedProcessList"/>

@@ -53,7 +53,7 @@
 			</u:sc>
 
 			<c:if test="${empty perm['configDisable']}">
-				<h2>${l.l('Конфигурация')}</h2>
+				<h2>${l.l('Configuration')}</h2>
 				<c:set var="taUiid" value="${u:uiid()}"/>
 
 				<u:sc>
@@ -145,7 +145,7 @@
 			<button class="btn-white mt05" style="width: 150px;">Обновить фото</button>
 		</div>
 		<div style="width: 50%;">
-			<h2>${l.l('Группы')}</h2>
+			<h2>${l.l('Groups')}</h2>
 			<%-- extra wrapper to do not rewrite the label before on reload --%>
 			<div>
 				<c:url var="url" value="/admin/user.do">

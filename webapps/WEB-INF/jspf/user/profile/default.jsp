@@ -13,7 +13,7 @@
 <div class="center1020">
 	<c:choose>
 		<c:when test="${empty requestUserId || requestUserId == form.userId}">
-			<h2>${l.l('Свойства')}</h2>
+			<h2>${l.l('Properties')}</h2>
 			<c:import url="/user/profile.do?action=settings"/>
 
 			<h2>${l.l('Параметры (сохраняются сразу)')}</h2>

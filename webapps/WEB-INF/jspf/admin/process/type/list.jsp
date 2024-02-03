@@ -62,8 +62,8 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="100%">${l.l('Title')}</td>
-		<td>Подтипов</td>
-		<td>Свойства</td>
+		<td>${l.l('Subtypes')}</td>
+		<td>${l.l('Properties')}</td>
 		<td width="20%">&#160;</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}">

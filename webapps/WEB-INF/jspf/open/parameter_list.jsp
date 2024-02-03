@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h2>${l.l('Параметры')}</h2>
+<h2>${l.l('Parameters')}</h2>
 
 <c:url var="url" value="/open/parameter.do">
 	<c:param name="action" value="parameterList" />

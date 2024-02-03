@@ -25,7 +25,7 @@
 			<td width="50">${l.l('Порядок')}</td>
 			<td width="35%">${l.l('Название')}</td>
 			<td width="20%">${l.l('Комментарий')}</td>
-			<td width="35%">${l.l('Конфигурация')}</td>
+			<td width="35%">${l.l('Configuration')}</td>
 			<c:if test="${form.param.directoryId eq 'processParameter'}">
 				<td width="0">&nbsp;</td>
 			</c:if>

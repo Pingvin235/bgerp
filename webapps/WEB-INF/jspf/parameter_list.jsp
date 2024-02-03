@@ -414,7 +414,7 @@
 						</html:form>
 						<c:if test="${parameter.type eq 'blob' and not readonly}">
 							<div style="width: 100%; text-align: right;">
-								<input type="button" value="Сохранить" onclick="${saveCommand}"/>
+								<input type="button" value="${l.l('Save')}" onclick="${saveCommand}"/>
 							</div>
 						</c:if>
 					</c:otherwise>

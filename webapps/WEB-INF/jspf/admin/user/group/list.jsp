@@ -42,7 +42,7 @@
 	</c:url>
 
 	&nbsp;
-	<a href="#" onClick="$$.ajax.loadContent('${url}', this); return false;">${l.l('Группы')}</a>
+	<a href="#" onClick="$$.ajax.loadContent('${url}', this); return false;">${l.l('Groups')}</a>
 
 	<c:forEach var="item" items="${groupPath}" varStatus="status">
 		<c:url var="url" value="/admin/user.do">

@@ -55,7 +55,7 @@
 			<h2>${l.l('Комментарий')}</h2>
 			<input type="text" name="comment" style="width: 100%" value="${u.escapeXml( parameter.comment )}"/>
 
-			<h2>${l.l('Конфигурация')}</h2>
+			<h2>${l.l('Configuration')}</h2>
 			<textarea id="${heightToUiid}" name="config" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.config}</textarea>
 		</div>
 	</div>
