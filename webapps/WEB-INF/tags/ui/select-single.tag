@@ -29,6 +29,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag"%>
+<%@ attribute name="filter" description="Value filtering JS code"%>
 
 <c:choose>
 	<c:when test="${not empty id}">
@@ -42,6 +43,10 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <c:set var="showId" value="${u.parseBoolean(showId)}"/>
 <c:set var="showComment" value="${u.parseBoolean(showComment)}"/>
 
+<c:if test="${empty filter}">
+	<c:set var="filter" value="null"/>
+</c:if>
+
 <div class="select ${styleClass}" style="${style}" id="${uiid}">
 	<input type="hidden" name="${hiddenName}" value="${value}"/>
 	<input type="text" name="data" ${inputAttrs} style="width: 100%;" placeholder="${placeholder}"/>
@@ -50,7 +55,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 	<script>
 		$(function () {
 			const source = ${ui.selectSingleSourceJson(list, availableIdSet, availableIdList, map, showId, showComment)};
-			$$.ui.select.single.init('${uiid}', source, '${value}', (filteredSource) => { return filteredSource }, function ($hidden, $input) { ${onSelect} });
+			$$.ui.select.single.init('${uiid}', source, '${value}', ${filter}, function ($hidden, $input) { ${onSelect} });
 		})
 	</script>
 </div>

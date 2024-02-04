@@ -4,7 +4,8 @@
 "use strict";
 
 $$.ui.tree = new function () {
-	const single = new function () {
+	// $$.ui.tree.single
+	this.single = new function () {
 		const treeSelector = ".tree-single";
 		const itemSelector = ".item";
 		const hiddenSelector = "input[type='hidden']";
@@ -99,7 +100,4 @@ $$.ui.tree = new function () {
 		this.select = select;
 		this.openRoot = openRoot;
 	}
-
-	// public objects
-	this.single = single;
 }

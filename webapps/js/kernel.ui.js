@@ -4,29 +4,6 @@
 "use strict";
 
 $$.ui = new function () {
-	// sub namespace selectMult
-	this.selectMult = new function () {
-		const liUp = function (el) {
-			var currentLi = el.parentNode;
-			var $prev = $(currentLi).prev();
-			if ($prev.length > 0) {
-				$(currentLi).insertBefore($prev);
-			}
-		}
-
-		const liDown = function (el) {
-			var currentLi = el.parentNode;
-			var $next = $(currentLi).next();
-			if ($next.length > 0) {
-				$(currentLi).insertAfter($next);
-			}
-		}
-
-		// public functions
-		this.liUp = liUp;
-		this.liDown = liDown;
-	}
-
 	const comboSingleInit = ($comboDiv, onSelect) => {
 		const $drop = $comboDiv.find('ul.drop');
 		const $hidden = $comboDiv.find('input[type=hidden]');

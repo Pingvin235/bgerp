@@ -67,7 +67,7 @@
 			action="ru.bgcrm.struts.action.admin.UserAction:permsetList"
 			command="/admin/user.do?action=permsetList" />
 
-		<ui:menu-item ltitle="Группы" href="admin/user/group"
+		<ui:menu-item ltitle="Groups" href="admin/user/group"
 			action="ru.bgcrm.struts.action.admin.UserAction:groupList"
 			command="/admin/user.do?action=groupList" />
 

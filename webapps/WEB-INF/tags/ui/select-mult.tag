@@ -19,7 +19,6 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
-<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 
 <%@ attribute name="showId" description="show Id"%>
 <%@ attribute name="showComment" description="show comments"%>
@@ -44,45 +43,17 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <c:set var="moveOn" value="${u.parseBoolean(moveOn)}"/>
 
 <c:set var="upDownIcons">
-	<span class='up ti-angle-up' onClick='$$.ui.selectMult.liUp(this);'></span><span class='down ti-angle-down' onClick='$$.ui.selectMult.liDown(this);'></span>
+	<span class='up ti-angle-up' onClick='$$.ui.select.mult.liUp(this);'></span><span class='down ti-angle-down' onClick='$$.ui.select.mult.liDown(this);'></span>
 </c:set>
 
 <div class="select-mult ${styleClass}" style="${style}" id="${uiid}">
 	<div style="display:table; width: 100%;">
 		<div style="display: table-cell; width: 100%;">
-			<u:sc>
-				<c:set var="onSelect">
-					var id = $hidden.val();
-					if( !id )
-					{
-						alert( 'Please select a value' );
-						return;
-					}
-
-					var title = $input.val();
-
-					$('#${uiid} ul.drop-list').append(
-						sprintf('<li>\
-									<span class=\'delete ti-close\' onclick=\'$(this.parentNode).remove();\'></span>\
-									${upDownIcons.replace("'", "\\'")}\
-									<span class=\'title\'>%s</span>\
-									<input type=\'hidden\' name=\'${hiddenName}\' value=\'%s\'/>\
-								</li>', title, id ) );
-
-					$input.val('');
-					$hidden.val('');
-
-					// otherwise text appears in $input again
-					return false;
-				</c:set>
-
-				<%-- otherwise if id is explicitly defined for select_mult, then the same will also get into select_single, and a drop-down ul will be added into a wrong place --%>
-				<c:remove var="id"/>
-				<ui:select-single hiddenName="${uiid}-addingValue" style="width: 100%;"
-					showId="${showId}" showComment="${showComment}"
-					onSelect="${onSelect}"
-					list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"/>
-			</u:sc>
+			<ui:select-single hiddenName="${uiid}-addingValue" style="width: 100%;"
+				showId="${showId}" showComment="${showComment}"
+				onSelect="const upDownIcons = \"${upDownIcons}\"; return $$.ui.select.mult.onSelect($hidden, $input, '${uiid}', upDownIcons);"
+				list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"
+				filter="$$.ui.select.mult.filter"/>
 		</div>
 	</div>
 
@@ -93,7 +64,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 					<c:forEach var="id" items="${values}">
 						<c:set var="item" value="${map[id]}"/>
 						<c:if test="${not empty item}">
-							<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
+							<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" upDownIcons="${upDownIcons}"/>
 						</c:if>
 					</c:forEach>
 				</ul>
@@ -104,7 +75,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 						<c:when test="${empty availableIdList}">
 							<c:forEach var="item" items="${list}">
 								<c:if test="${values.contains(item.id)}">
-									<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
+									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}"/>
 								</c:if>
 							</c:forEach>
 						</c:when>
@@ -112,7 +83,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 							<c:forEach var="availableId" items="${availableIdList}">
 								<c:set var="item" value="${map[availableId]}"/>
 								<c:if test="${values.contains(item.id)}">
-									<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
+									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}"/>
 								</c:if>
 							</c:forEach>
 						</c:otherwise>
