@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -139,10 +140,8 @@ public class DirectoryAction extends BaseAction {
         parameter.setConfig(form.getParam("config"));
         parameter.setComment(form.getParam("comment"));
 
-        if (Parameter.TYPE_LIST.equals(parameter.getType()) || Parameter.TYPE_LISTCOUNT.equals(parameter.getType())
-                || Parameter.TYPE_TREE.equals(parameter.getType())) {
+        if (Set.of(Parameter.TYPE_LIST, Parameter.TYPE_LISTCOUNT, Parameter.TYPE_TREE, Parameter.TYPE_TREECOUNT).contains((parameter.getType())))
             parameter.setValuesConfig(form.getParam("listValues"));
-        }
 
         paramDAO.updateParameter(parameter);
 
