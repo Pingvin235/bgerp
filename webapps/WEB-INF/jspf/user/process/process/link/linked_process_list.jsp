@@ -115,7 +115,7 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td>${ctxProcessTypeMap[process.typeId]}</td>
+							<td>${ctxProcessTypeMap[process.typeId].title}</td>
 							<td>${ctxProcessStatusMap[process.statusId]}</td>
 							<td width="100%">${process.reference().description()}</td>
 						</tr>
