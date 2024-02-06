@@ -56,7 +56,7 @@ a {
 {
 	#head,
 	#processQueueFilter,
-	table.page,
+	.page,
 	.printHide {
 		display: none;
 	}
@@ -228,13 +228,21 @@ div, span {
 	text-align: center;
 }
 
-#scroll-to-top:hover{
+#scroll-to-top:hover {
 	opacity: 0.8;
 }
 
 #scroll-to-top i {
 	display: inline-block;
 	margin-top: 15px;
+}
+
+.page .btn-small.btn-icon {
+	padding: 0.2em 0.5em !important;
+}
+
+.page select {
+	vertical-align: middle;
 }
 
 <plugin:include endpoint="css.jsp"/>
