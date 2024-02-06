@@ -37,7 +37,7 @@ public class ProcessLinkTest {
     public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
 
         var processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);

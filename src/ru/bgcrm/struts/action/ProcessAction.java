@@ -222,7 +222,7 @@ public class ProcessAction extends BaseAction {
         change.setUserId(form.getUserId());
         change.setComment(form.l.l("Процесс создан"));
 
-        change.setStatusId(type.getProperties().getCreateStatus());
+        change.setStatusId(type.getProperties().getCreateStatusId());
         if (!ProcessTypeCache.getStatusMap().containsKey(change.getStatusId())) {
             throw new BGException("No initial status defined for the process type");
         }

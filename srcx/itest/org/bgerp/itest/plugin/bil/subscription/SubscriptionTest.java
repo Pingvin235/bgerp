@@ -122,7 +122,7 @@ public class SubscriptionTest {
     public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setConfig(ConfigHelper.generateConstants("PARAM_COST_ID", paramSubscriptionCostId) +
             ResourceHelper.getResource(this, "process.subscription.type.config.txt"));
@@ -132,7 +132,7 @@ public class SubscriptionTest {
 
         props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setConfig(ResourceHelper.getResource(this, "process.product.type.config.txt"));
         props.setParameterIds(List.of(paramProductId, paramPriceRubId, paramPriceEurId));

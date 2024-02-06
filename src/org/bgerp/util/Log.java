@@ -106,6 +106,18 @@ public class Log {
     }
 
     /**
+     * Writes deprecation warning for a called method.
+     * @param deprecatedName the deprecated method name.
+     * @param actualName the actual method name or {@code null} if no such exists.
+     */
+    public void warndMethod(String deprecatedName, String actualName) {
+        if (actualName == null)
+            warn("Deprecated method '{}' was called.", deprecatedName);
+        else
+            warn("Deprecated method '{}' was called. Use '{}' instead.", deprecatedName, actualName);
+    }
+
+    /**
      * Executes {@link #log(Priority, String)} with {@link Level#ERROR}.
      */
     public void error(Object message) {

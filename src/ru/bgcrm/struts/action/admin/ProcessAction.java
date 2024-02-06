@@ -365,7 +365,7 @@ public class ProcessAction extends BaseAction {
             String[] beginGroupArr = form.getParamArray("beginGroupRole");
             String[] allowedGroupArr = form.getParamArray("allowedGroupRole");
 
-            properties.setCreateStatus(Utils.parseInt(form.getParam("create_status")));
+            properties.setCreateStatusId(Utils.parseInt(form.getParam("create_status")));
             properties.setCloseStatusIds(Utils.toIntegerSet(form.getParam("close_status", "")));
             properties.setStatusIds(form.getParamValuesList("status"));
             properties.setParameterIds(form.getParamValuesList("param"));

@@ -1425,7 +1425,7 @@ public class ParamValueDAO extends CommonDAO {
 
     @Deprecated
     public void updateParamList(int id, int paramId, Map<Integer, String> values) throws SQLException {
-        log.warnd("Deprecated method 'updateParamList' was called. Use 'updateParamListWithComments' instead.");
+        log.warndMethod("updateParamList", "updateParamListWithComments");
         updateParamListWithComments(id, paramId, values);
     }
 

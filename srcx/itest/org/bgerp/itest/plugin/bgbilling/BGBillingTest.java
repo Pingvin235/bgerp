@@ -53,7 +53,7 @@ public class BGBillingTest {
 
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramHdCostId, paramHdStatusId, paramHdAutoCloseId));
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));

@@ -55,7 +55,7 @@ public class BlowTest {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusWaitId, ProcessTest.statusDoneId));
         props.setGroups(new ProcessGroups(userGroupId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();

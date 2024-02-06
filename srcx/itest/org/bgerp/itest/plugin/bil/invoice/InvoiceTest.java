@@ -63,7 +63,7 @@ public class InvoiceTest {
     public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramContractDateId, paramCostId));
         props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));

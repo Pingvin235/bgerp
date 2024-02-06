@@ -757,25 +757,25 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     @Deprecated
     public Set<Integer> getSelectedValues(String name) {
-        log.warnd("Deprecated method 'getSelectedValues' was called. Use 'getParamValues' instead.");
+        log.warndMethod("getSelectedValues", "getParamValues");
         return getParamValues(name);
     }
 
     @Deprecated
     public Set<String> getSelectedValuesStr(String name) {
-        log.warnd("Deprecated method 'getSelectedValuesStr' was called. Use 'getParamValuesStr' instead.");
+        log.warndMethod("getSelectedValuesStr", "getParamValuesStr");
         return getParamValuesStr(name);
     }
 
     @Deprecated
     public List<Integer> getSelectedValuesList(String name) {
-        log.warnd("Deprecated method 'getSelectedValuesList' was called. Use 'getParamValuesList' instead.");
+        log.warndMethod("getSelectedValuesList", "getParamValuesList");
         return getParamValuesList(name);
     }
 
     @Deprecated
     public List<String> getSelectedValuesListStr(String name) {
-        log.warnd("Deprecated method 'getSelectedValuesListStr' was called. Use 'getParamValuesListStr' instead.");
+        log.warndMethod("getSelectedValuesListStr", "getParamValuesListStr");
         return getParamValuesListStr(name);
     }
 

@@ -48,25 +48,25 @@ public class ParameterPhoneValueItem {
 
     @Deprecated
     public String getFormat() {
-        log.warn("Deprecated method 'getFormat' was called.");
+        log.warndMethod("getFormat", null);
         return format;
     }
 
     @Deprecated
     public void setFormat(String format) {
-        log.warn("Deprecated method 'setFormat' was called.");
+        log.warndMethod("setFormat", null);
         this.format = format;
     }
 
     @Deprecated
     public int getFlags() {
-        log.warn("Deprecated method 'getFlags' was called.");
+        log.warndMethod("getFlags", null);
         return flags;
     }
 
     @Deprecated
     public void setFlags(int flags) {
-        log.warn("Deprecated method 'setFlags' was called.");
+        log.warndMethod("setFlags", null);
         this.flags = flags;
     }
 

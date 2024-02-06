@@ -27,7 +27,7 @@ public class TypeProperties {
     private static final Log log = Log.getLog();
 
     /** Initial status. */
-    private int createStatus;
+    private int createStatusId;
     /** Closing statuses. */
     private Set<Integer> closeStatusIds;
     /** Statuses. */
@@ -67,7 +67,7 @@ public class TypeProperties {
             var properties = new TransactionProperties(setup, "transaction." + id + ".");
             transactionPropertiesMap.put(key, properties);
         }
-        createStatus = setup.getInt("create.status", 0);
+        createStatusId = setup.getInt("create.status", 0);
         closeStatusIds = Utils.toIntegerSet(setup.get("close.status", ""));
         statusIds = Utils.toIntegerList(setup.get("status.ids", ""));
         parameterIds = Utils.toIntegerList(setup.get("param.ids", ""));
@@ -98,7 +98,7 @@ public class TypeProperties {
             properties.serializeToData(result, pref);
         }
 
-        Utils.addSetupPair(result, "", "create.status", String.valueOf(createStatus));
+        Utils.addSetupPair(result, "", "create.status", String.valueOf(createStatusId));
         Utils.addSetupPair(result, "", "close.status", Utils.toString(closeStatusIds));
         Utils.addSetupPair(result, "", "status.ids", Utils.toString(statusIds));
         Utils.addSetupPair(result, "", "param.ids", Utils.toString(parameterIds));
@@ -180,12 +180,24 @@ public class TypeProperties {
         this.parameterIds = parameterIds;
     }
 
-    public int getCreateStatus() {
-        return createStatus;
+    public int getCreateStatusId() {
+        return createStatusId;
     }
 
+    public void setCreateStatusId(int createStatus) {
+        this.createStatusId = createStatus;
+    }
+
+    @Deprecated
+    public int getCreateStatus() {
+        log.warndMethod("getCreateStatus", "getCreateStatusId");
+        return getCreateStatusId();
+    }
+
+    @Deprecated
     public void setCreateStatus(int createStatus) {
-        this.createStatus = createStatus;
+        log.warndMethod("setCreateStatus", "setCreateStatusId");
+        setCreateStatusId(createStatus);
     }
 
     public Set<Integer> getCloseStatusIds() {

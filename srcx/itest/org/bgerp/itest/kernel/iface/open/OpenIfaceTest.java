@@ -46,7 +46,7 @@ public class OpenIfaceTest {
     public void process() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(processOpenParamId));
 

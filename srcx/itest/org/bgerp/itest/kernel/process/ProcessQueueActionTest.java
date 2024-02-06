@@ -23,7 +23,7 @@ public class ProcessQueueActionTest {
     public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));
 

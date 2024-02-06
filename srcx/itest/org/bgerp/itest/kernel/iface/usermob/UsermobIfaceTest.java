@@ -33,7 +33,7 @@ public class UsermobIfaceTest {
         var props = new TypeProperties();
         props.setGroups(new ProcessGroups(UserTest.groupAdminsId));
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
-        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(ProcessTest.paramAddressId));
         props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));

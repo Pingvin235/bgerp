@@ -643,7 +643,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Subtypes</en><ru>Подтипов</ru></p>
 	<p><en>Transition matrix</en><ru>Матрица переходов</ru></p>
 	<p><en>Allowed statuses</en><ru>Разрешённые статусы</ru></p>
-	<p><en>Initial status ID</en><ru>Статус нач. ID</ru></p>
+	<p><en>Initial status</en><ru>Начальный статус</ru></p>
 	<p><en>Final status IDs over ,</en><ru>Статусы кон. через ,</ru></p>
 	<p><en>Allowed status transitions matrix</en><ru>Матрица разрешенных переходов статусов</ru></p>
 	<p><sys>statuses.initial</sys><en>Initial</en><ru>Начальные</ru></p>

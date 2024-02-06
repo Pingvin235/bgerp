@@ -91,49 +91,49 @@ public class CommonObjectLink {
 
     @Deprecated
     public int getLinkedObjectId() {
-        log.warnd("Deprecated method 'getLinkedObjectId' was called. Use 'getLinkObjectId' instead.");
+        log.warndMethod("getLinkedObjectId", "getLinkObjectId");
         return linkObjectId;
     }
 
     @Deprecated
     public void setLinkedObjectId(int objectId) {
-        log.warnd("Deprecated method 'setLinkedObjectId' was called. Use 'setLinkObjectId' instead.");
+        log.warndMethod("setLinkedObjectId", "setLinkObjectId");
         this.linkObjectId = objectId;
     }
 
     @Deprecated
     public String getLinkedObjectType() {
-        log.warnd("Deprecated method 'getLinkedObjectType' was called. Use 'getLinkObjectType' instead.");
+        log.warndMethod("getLinkedObjectType", "getLinkObjectType");
         return linkObjectType;
     }
 
     @Deprecated
     public void setLinkedObjectType(String objectType) {
-        log.warnd("Deprecated method 'setLinkedObjectType' was called. Use 'setLinkObjectType' instead.");
+        log.warndMethod("setLinkedObjectType", "setLinkObjectType");
         this.linkObjectType = objectType;
     }
 
     @Deprecated
     public String getLinkedObjectTitle() {
-        log.warnd("Deprecated method 'getLinkedObjectTitle' was called. Use 'getLinkObjectTitle' instead.");
+        log.warndMethod("getLinkedObjectTitle", "getLinkObjectTitle");
         return linkObjectTitle;
     }
 
     @Deprecated
     public void setLinkedObjectTitle(String objectTitle) {
-        log.warnd("Deprecated method 'setLinkedObjectTitle' was called. Use 'setLinkObjectTitle' instead.");
+        log.warndMethod("setLinkedObjectTitle", "setLinkObjectTitle");
         this.linkObjectTitle = objectTitle;
     }
 
     @Deprecated
     public String getLinkedObjectComment() {
-        log.warnd("Deprecated method 'getLinkedObjectComment' was called. Use 'getLinkObjectComment' instead.");
+        log.warndMethod("getLinkedObjectComment", "getLinkObjectComment");
         return linkObjectComment;
     }
 
     @Deprecated
     public void setLinkedObjectComment(String linkedObjectComment) {
-        log.warnd("Deprecated method 'setLinkedObjectComment' was called. Use 'setLinkObjectComment' instead.");
+        log.warndMethod("setLinkedObjectComment", "setLinkObjectComment");
         this.linkObjectComment = linkedObjectComment;
     }
 
