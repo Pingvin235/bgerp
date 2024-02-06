@@ -1,1 +1,2 @@
-TODOCHANGES
+A: Unified OK/Cancel/Save/Restore buttons for config editors.
+

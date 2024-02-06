@@ -11,6 +11,8 @@
 
 <c:set var="properties" value="${frd.properties}"/>
 
+<c:set var="saveCommand" value="$$.ajax.post($('#${formUiid}'), {control: this}).done(() => $$.ajax.load('${form.requestUrl}', $('#${formUiid}').parent()));"/>
+
 <html:form action="/admin/process" styleId="${formUiid}">
 	<input type="hidden" name="action" value="propertiesUpdate"/>
 	<input type="hidden" name="returnUrl" value="${form.returnUrl}"/>
@@ -28,21 +30,26 @@
 	<div id="${formUiid}-1">
 		<div class="in-table-cell in-va-top">
 			<div style="min-width: 350px; max-width: 350px;">
+				<c:set var="applyButtonUiid" value="${u:uiid()}"/>
+
 				<h2>${l.l('Allowed statuses')}</h2>
 				<ui:select-mult hiddenName="status"
 						showId="1" moveOn="true" style="width: 100%;"
-						list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
+						list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"
+						onChange="document.getElementById('${applyButtonUiid}').style.display = 'block'"/>
 
-				<div class="in-table-cell">
-					<div style="width: 40%;">
-						<h2>${l.l('Initial status ID')}</h2>
-						<html:text property="create_status" style="width: 100%;" value="${properties.createStatus}"/>
-					</div>
-					<div style="width: 60%;" class="pl1">
-						<h2>${l.l('Final status IDs over ,')}</h2>
-						<html:text property="close_status" style="width: 100%;" value="${u:toString(properties.closeStatusIds)}"/>
-					</div>
-				</div>
+				<button id="${applyButtonUiid}" type="button" onclick="${saveCommand}" class="btn-grey mt1 w100p"
+					style="${not empty properties.statusIds ? 'display: none;' : ''}">${l.l('Apply')}</button>
+
+				<c:if test="${not empty properties.statusIds}">
+					<h2>${l.l('Creating status')}</h2>
+					<ui:combo-single hiddenName="createStatusId" value="${properties.createStatusId}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
+						styleClass="w100p" />
+
+					<h2>${l.l('Closing statuses')}</h2>
+					<ui:select-mult hiddenName="closeStatusId" values="${properties.closeStatusIds}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
+						styleClass="w100p" />
+				</c:if>
 
 				<h2>${l.l('Parameters')}</h2>
 				<ui:select-mult hiddenName="param"
@@ -159,8 +166,7 @@
 	<ui:button type="cancel" onclick="$$.ajax.load('${form.returnUrl}', $('#${formUiid}').parent())"/>
 
 	<span style="float: right;">
-		<button type="button" class="btn-grey mr1"
-			onclick="$$.ajax.post($('#${formUiid}'), {control: this}).done(() => $$.ajax.load('${form.requestUrl}', $('#${formUiid}').parent()));"
+		<button type="button" class="btn-grey mr1" onclick="${saveCommand}"
 			title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
 		<button type="button" class="btn-grey" onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent())">${l.l('Restore')}</button>
 	</span>

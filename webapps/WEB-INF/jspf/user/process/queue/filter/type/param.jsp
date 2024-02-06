@@ -83,7 +83,7 @@
 											"/>
 								</div>
 								<div class="w100p pl1">
-									<input id="applyButton" type="button" class="btn-grey w100p" value="${l.l('Применить')}" onclick="
+									<input id="applyButton" type="button" class="btn-grey w100p" value="${l.l('Apply')}" onclick="
 											$$.process.queue.filter.param.addressApply('${uiid}', '${title.replace("'", "\\'")}',
 												'${cityFilterId}', '${streetFilterId}', '${quarterFilterId}', '${houseFilterId}', '${flatFilterId}',
 												'${buttonId}')"

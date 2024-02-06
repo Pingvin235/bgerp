@@ -636,12 +636,12 @@ public class Utils {
     }
 
     /**
-     * Возвращает объекты из полного списка с указанными кодами.
-     * @param fullList полный список объектов.
-     * @param selectedIds коды.
+     * Selects objects sub-list from a given full list with IDs presented in a collection.
+     * @param fullList the full list.
+     * @param selectedIds the IDs collection.
      * @return
      */
-    public static final <T extends IdTitle> List<T> getObjectList(List<T> fullList, Set<Integer> selectedIds) {
+    public static final <T extends IdTitle> List<T> getObjectList(List<T> fullList, Collection<Integer> selectedIds) {
         List<T> result = new ArrayList<T>();
 
         for (T object : fullList) {
@@ -654,9 +654,9 @@ public class Utils {
     }
 
     /**
-     * Selects object list from full map by given IDs in the same order.
-     * @param fullMap full objects map.
-     * @param selectedIds ordered IDs list.
+     * Selects objects list from a full map by a given IDs list in the same order.
+     * @param fullMap the full objects map.
+     * @param selectedIds the IDs list.
      * @return
      */
     @Dynamic

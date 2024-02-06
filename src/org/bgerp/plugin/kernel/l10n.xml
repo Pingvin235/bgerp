@@ -333,7 +333,7 @@
 	<p><ru>Пользователю</ru><en>User</en></p>
 	<p><ru>Действию</ru><en>Action</en></p>
 	<p><ru>IP адресу</ru><en>IP address</en></p>
-	<p><ru>Применить</ru><en>Apply</en></p>
+	<p><en>Apply</en><ru>Применить</ru></p>
 	<p><en>Save</en><ru>Сохранить</ru></p>
 	<p><ru>Позиция</ru><en>Position</en></p>
 	<p><ru>Позиция статуса в различных перечнях</ru><en>Position of status in various lists</en></p>
@@ -643,8 +643,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Subtypes</en><ru>Подтипов</ru></p>
 	<p><en>Transition matrix</en><ru>Матрица переходов</ru></p>
 	<p><en>Allowed statuses</en><ru>Разрешённые статусы</ru></p>
-	<p><en>Initial status</en><ru>Начальный статус</ru></p>
-	<p><en>Final status IDs over ,</en><ru>Статусы кон. через ,</ru></p>
+	<p><en>Creating status</en><ru>Cтатус создания</ru></p>
+	<p><en>Closing statuses</en><ru>Статусы закрытия</ru></p>
 	<p><en>Allowed status transitions matrix</en><ru>Матрица разрешенных переходов статусов</ru></p>
 	<p><sys>statuses.initial</sys><en>Initial</en><ru>Начальные</ru></p>
 	<p><sys>statuses.allowed</sys><en>Allowed</en><ru>Разрешённые</ru></p>

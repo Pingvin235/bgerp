@@ -19,6 +19,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
+<%@ attribute name="onChange" description="JS call when values were changed"%>
 
 <%@ attribute name="showId" description="show Id"%>
 <%@ attribute name="showComment" description="show comments"%>
@@ -53,6 +54,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 				showId="${showId}" showComment="${showComment}"
 				onSelect="
 					const upDownIcons = \"${upDownIcons}\";
+					${onChange};
 					return $$.ui.select.mult.onSelect($hidden, $input, '${uiid}', '${hiddenName}', upDownIcons);
 				"
 				list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"
@@ -67,7 +69,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 					<c:forEach var="id" items="${values}">
 						<c:set var="item" value="${map[id]}"/>
 						<c:if test="${not empty item}">
-							<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" upDownIcons="${upDownIcons}"/>
+							<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" onChange="${onChange}" upDownIcons="${upDownIcons}"/>
 						</c:if>
 					</c:forEach>
 				</ul>
@@ -78,7 +80,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 						<c:when test="${empty availableIdList}">
 							<c:forEach var="item" items="${list}">
 								<c:if test="${values.contains(item.id)}">
-									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}"/>
+									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" onChange="${onChange}"/>
 								</c:if>
 							</c:forEach>
 						</c:when>
@@ -86,7 +88,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 							<c:forEach var="availableId" items="${availableIdList}">
 								<c:set var="item" value="${map[availableId]}"/>
 								<c:if test="${values.contains(item.id)}">
-									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}"/>
+									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" onChange="${onChange}"/>
 								</c:if>
 							</c:forEach>
 						</c:otherwise>
