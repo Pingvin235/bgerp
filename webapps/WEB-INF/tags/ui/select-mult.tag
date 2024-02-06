@@ -51,7 +51,10 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 		<div style="display: table-cell; width: 100%;">
 			<ui:select-single hiddenName="${uiid}-addingValue" style="width: 100%;"
 				showId="${showId}" showComment="${showComment}"
-				onSelect="const upDownIcons = \"${upDownIcons}\"; return $$.ui.select.mult.onSelect($hidden, $input, '${uiid}', upDownIcons);"
+				onSelect="
+					const upDownIcons = \"${upDownIcons}\";
+					return $$.ui.select.mult.onSelect($hidden, $input, '${uiid}', '${hiddenName}', upDownIcons);
+				"
 				list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"
 				filter="$$.ui.select.mult.filter"/>
 		</div>

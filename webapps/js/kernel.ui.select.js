@@ -108,10 +108,11 @@ $$.ui.select = new function () {
 		 * @param {jQuery} $hidden hidden input of the related select-single.
 		 * @param {jQuery} $input text input of the related select-single.
 		 * @param {string} uiid ID of the top DIV element.
+		 * @param {string} hiddenName name of hidden input elements.
 		 * @param {string} upDownIcons HTML fragment with up and down icons.
 		 * @returns false
 		 */
-		const onSelect = ($hidden, $input, uiid, upDownIcons) => {
+		const onSelect = ($hidden, $input, uiid, hiddenName, upDownIcons) => {
 			const id = $hidden.val();
 			if (!id) {
 				console.error('A value is not set');
@@ -119,7 +120,6 @@ $$.ui.select = new function () {
 			}
 
 			const title = $input.val();
-			const hiddenName = $hidden.attr('name');
 
 			$(document.getElementById(uiid).querySelector('ul.drop-list')).append(
 				"<li>" +
