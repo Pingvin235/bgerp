@@ -117,7 +117,7 @@
 							</td>
 							<td>${ctxProcessTypeMap[process.typeId].title}</td>
 							<td>${ctxProcessStatusMap[process.statusId]}</td>
-							<td width="100%">${process.reference().description()}</td>
+							<td>${process.reference().description()}</td>
 						</tr>
 					</c:if>
 				</c:forEach>
