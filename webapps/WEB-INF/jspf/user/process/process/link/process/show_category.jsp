@@ -68,8 +68,8 @@
 			<td class="min">
 				<ui:process-link id="${process.id}"/>
 			</td>
-			<td>${ctxProcessTypeMap[process.typeId]}</td>
-			<td>${ctxProcessStatusMap[process.statusId]}</td>
+			<td>${ctxProcessTypeMap[process.typeId].title}</td>
+			<td>${ctxProcessStatusMap[process.statusId].title}</td>
 			<td>${process.reference().description()}</td>
 		</tr>
 	</c:forEach>

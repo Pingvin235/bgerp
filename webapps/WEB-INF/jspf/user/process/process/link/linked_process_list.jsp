@@ -86,7 +86,7 @@
 		<c:otherwise>
 			<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
 
-			<table class="data">
+			<table class="data hl">
 				<tr>
 					<td>ID</td>
 					<td>${l.l('Created')}</td>
@@ -116,7 +116,7 @@
 								</c:choose>
 							</td>
 							<td>${ctxProcessTypeMap[process.typeId].title}</td>
-							<td>${ctxProcessStatusMap[process.statusId]}</td>
+							<td>${ctxProcessStatusMap[process.statusId].title}</td>
 							<td>${process.reference().description()}</td>
 						</tr>
 					</c:if>
