@@ -13,7 +13,7 @@
 					ctxUser.personalizationMap.get('iface.email.message.tag-box.disable') ne '1'}">
 
 					<c:set var="to" value="${not empty message ? message.to : ''}"/>
-					<c:set var="addresses" value="${u.newInstance('org.bgerp.plugin.msg.email.Addresses', to)}"/>
+					<c:set var="addresses" value="${u:newInstance1('org.bgerp.plugin.msg.email.Addresses', to)}"/>
 
 					<h2>${l.l('Получатель')}</h2>
 					<ui:tag-box inputName="to" style="width: 100%;"

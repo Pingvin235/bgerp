@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet.jsp;
+package org.bgerp.app.servlet.jsp.tag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.ConditionalTagSupport;

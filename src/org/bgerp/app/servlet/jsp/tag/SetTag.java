@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet.jsp;
+package org.bgerp.app.servlet.jsp.tag;
 
 import javax.servlet.jsp.JspException;
 

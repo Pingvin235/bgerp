@@ -15,27 +15,30 @@ import org.bgerp.model.base.iface.IdTitle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import ru.bgcrm.servlet.jsp.JSPFunction;
-
+/**
+ * Functions called from ui JSP taglib.
+ *
+ * @author Shamil Vakhitov
+ */
 public class UiFunction {
     public static final UiFunction INSTANCE = new UiFunction();
 
-    public static final String selectSingleSourceJson(Collection<IdTitle> list, Set<?> availableIdSet, List<?> availableIdList,
-            Map<Integer, IdTitle> map, boolean showId, boolean showComment) throws JsonProcessingException {
+    public static final String selectSingleSourceJson(Collection<IdTitle<?>> list, Set<?> availableIdSet, List<?> availableIdList,
+            Map<Integer, IdTitle<?>> map, boolean showId, boolean showComment) throws JsonProcessingException {
         List<Map<String, String>> result = null;
 
-        Function<IdTitle, Map<String, String>> itemMap = item -> {
+        Function<IdTitle<?>, Map<String, String>> itemMap = item -> {
             String title = item.getTitle();
 
             if (showId)
                 title += " (" + item.getId() + ")";
             if (showComment)
-                title += " (" + JSPFunction.quotEscape(((Comment) item).getComment()) + ")";
+                title += " (" + UtilFunction.quotEscape(((Comment) item).getComment()) + ")";
 
             return Map.of("id", String.valueOf(item.getId()), "value", title);
         };
 
-        Predicate<IdTitle> filterAvailableIdSet = item -> {
+        Predicate<IdTitle<?>> filterAvailableIdSet = item -> {
             if (CollectionUtils.isEmpty(availableIdSet))
                 return true;
             return availableIdSet.contains(item.getId());

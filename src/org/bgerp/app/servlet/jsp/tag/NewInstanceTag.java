@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet.jsp;
+package org.bgerp.app.servlet.jsp.tag;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

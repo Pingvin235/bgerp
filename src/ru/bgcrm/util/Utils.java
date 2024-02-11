@@ -24,7 +24,7 @@ import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
-import org.bgerp.app.bean.Bean;
+import org.bgerp.app.servlet.jsp.UtilFunction;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
@@ -38,8 +38,6 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.ListItem;
-import ru.bgcrm.servlet.jsp.JSPFunction;
-import ru.bgcrm.servlet.jsp.NewInstanceTag;
 
 public class Utils {
     private static final Log log = Log.getLog();
@@ -950,12 +948,12 @@ public class Utils {
     }
 
     /**
-     * Calls {@link JSPFunction#htmlEncode(String)} - replaces only HTML tags.
+     * Calls {@link UtilFunction#htmlEncode(String)} - replaces only HTML tags.
      * @param value
      * @return
      */
     public static String htmlEncode(String value) {
-        return JSPFunction.htmlEncode(value);
+        return UtilFunction.htmlEncode(value);
     }
 
     /**
@@ -1006,26 +1004,12 @@ public class Utils {
     }
 
     /**
-     * The method does special JSP-specific type converting,
-     * therefore must be moved to {@link JSPFunction} and called as {@code u:newInstance}
-     *
-     * All the Java calls of the method have to be replaced to {@link Bean#newInstance(String)).
+     * The method does special JSP-specific type converting, therefore must not be called from Java code.
+     * @see {@link Bean#newInstance(String)).
      */
     @Deprecated
     public static Object newInstance(String className, Object... args) throws Exception {
-        if (args == null)
-            args = new Object[0];
-
-        for (var constr : Bean.getClass(className).getDeclaredConstructors()) {
-            if (constr.getParameters().length != args.length)
-                continue;
-
-            Object[] convertedTypes = NewInstanceTag.convertObjectTypes(List.of(args), constr.getParameterTypes());
-            if (convertedTypes != null)
-                return constr.newInstance(convertedTypes);
-        }
-
-        throw new IllegalArgumentException(Log.format("Not found constructor for class '{}' with arguments '{}'", className, List.of(args)));
+        return UtilFunction.newInstance(className, args);
     }
 
     /**

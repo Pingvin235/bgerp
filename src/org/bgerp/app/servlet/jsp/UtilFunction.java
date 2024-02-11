@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet.jsp;
+package org.bgerp.app.servlet.jsp;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -12,9 +12,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.app.dist.App;
 import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.app.dist.inst.InstallerChanges;
+import org.bgerp.app.servlet.jsp.tag.NewInstanceTag;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
@@ -25,10 +27,60 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class JSPFunction {
+public class UtilFunction {
     private static final Log log = Log.getLog();
 
     private static final AtomicLong UIID = new AtomicLong(System.currentTimeMillis());
+
+    /**
+     * Creates a new instance of a Java class. Generic method with varargs argument, can't be called from JSP.
+     * @param className the class name.
+     * @param args constructor arguments.
+     * @return
+     */
+    public static Object newInstance(String className, Object... args) throws Exception {
+        if (args == null)
+            args = new Object[0];
+
+        for (var constr : Bean.getClass(className).getDeclaredConstructors()) {
+            if (constr.getParameters().length != args.length)
+                continue;
+
+            Object[] convertedTypes = NewInstanceTag.convertObjectTypes(List.of(args), constr.getParameterTypes());
+            if (convertedTypes != null)
+                return constr.newInstance(convertedTypes);
+        }
+
+        throw new IllegalArgumentException(Log.format("Not found constructor for class '{}' with arguments '{}'", className, List.of(args)));
+    }
+
+    /**
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     */
+    public static Object newInstance(String className) throws Exception {
+        return newInstance(className, (Object[]) null);
+    }
+
+    /**
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     */
+    public static Object newInstance(String className, Object arg0) throws Exception {
+        return newInstance(className, new Object[] { arg0 });
+    }
+
+    /**
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     */
+    public static Object newInstance(String className, Object arg0, Object arg1) throws Exception {
+        return newInstance(className, new Object[] { arg0, arg1 });
+    }
+
+    /**
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     */
+    public static Object newInstance(String className, Object arg0, Object arg1, Object arg2) throws Exception {
+        return newInstance(className, new Object[] { arg0, arg1, arg2 });
+    }
 
     /**
      * Checks if {@link Collection}, {@link Map} or array from {@code collection} contains {@code object}.
@@ -210,7 +262,7 @@ public class JSPFunction {
     }
 
     /**
-     * Экранирует кавычки, используется для подготовки JS строк в JSP.
+     * Escapes double quotes, used for preparation JS strings in JSPs.
      * @param value
      * @return
      */

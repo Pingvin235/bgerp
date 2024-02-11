@@ -7,10 +7,11 @@
 	<tlib-version>1.1</tlib-version>
 	<short-name>util</short-name>
 	<uri>http://bgerp.org/jsp/taglib/util</uri>
+
 	<tag>
 		<description>Preserves page context and restores back.</description>
 		<name>sc</name>
-		<tag-class>ru.bgcrm.servlet.jsp.SavePageContextTag</tag-class>
+		<tag-class>org.bgerp.app.servlet.jsp.tag.SavePageContextTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>Comma separated parameters, allowed to go out.</description>
@@ -19,43 +20,11 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
-	<tag>
-		<description>
-			 Создание объекта класса и сохранение его в конткесте.
-			 Параметры конструктора могут быть переданы с помощью ui:param.
-		</description>
-		<name>newInstance</name>
-		<tag-class>ru.bgcrm.servlet.jsp.NewInstanceTag</tag-class>
-		<body-content>JSP</body-content>
-		<attribute>
-			<description>Имя создаваемого класса.</description>
-			<name>clazz</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>Имя для сохранения переменной в контексте.</description>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-	<tag>
-		<description>Parameter for newInstance.</description>
-		<name>param</name>
-		<tag-class>ru.bgcrm.servlet.jsp.ParamTag</tag-class>
-		<body-content>JSP</body-content>
-		<attribute>
-			<description>Объект с параметром</description>
-			<name>value</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
+
 	<tag>
 		<description>Restricted version of c:set, properly handles "null" value in JSP body.</description>
 		<name>set</name>
-		<tag-class>ru.bgcrm.servlet.jsp.SetTag</tag-class>
+		<tag-class>org.bgerp.app.servlet.jsp.tag.SetTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>See c:set.</description>
@@ -71,66 +40,125 @@
 		</attribute>
 	</tag>
 
+	<tag>
+		<description>
+			Creates a Java object and saves it to page context.
+			Constructor argurments, if needed, can be passed using u:param nested tags.
+		</description>
+		<name>newInstance</name>
+		<tag-class>org.bgerp.app.servlet.jsp.tag.NewInstanceTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>The class name.</description>
+			<name>clazz</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>The name of the context variable.</description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<description>Nested tag for u:newInstance, to pass constructor argurments.</description>
+		<name>param</name>
+		<tag-class>org.bgerp.app.servlet.jsp.tag.ParamTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>Argument value.</description>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<function>
+		<description>Creates a new Java object (constructor without args).</description>
+		<name>newInstance0</name>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>Object newInstance(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<description>Creates a new Java object (constructor with a single arg).</description>
+		<name>newInstance1</name>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>Object newInstance(java.lang.String, java.lang.Object)</function-signature>
+	</function>
+	<function>
+		<description>Creates a new Java object (constructor with two args).</description>
+		<name>newInstance2</name>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>Object newInstance(java.lang.String, java.lang.Object, java.lang.Object)</function-signature>
+	</function>
+	<function>
+		<description>Creates a new Java object (constructor with three args).</description>
+		<name>newInstance3</name>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>Object newInstance(java.lang.String, java.lang.Object, java.lang.Object, java.lang.Object)</function-signature>
+	</function>
+
 	<function>
 		<description>Returns checked='1' string if Collection, Map or array from the first param contains the object from second param.</description>
 		<name>checkedFromCollection</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>String checked(java.lang.Object,java.lang.Object)</function-signature>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>String checked(java.lang.Object, java.lang.Object)</function-signature>
 	</function>
 	<function>
 		<description>Returns checked='1' string if boolean from single param is true.</description>
 		<name>checkedFromBool</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String checked(java.lang.Boolean)</function-signature>
 	</function>
 	<function>
 		<description>Returns selected='1' string if Collection, Map or array from the first param contains the object from second param.</description>
 		<name>selectedFromCollection</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>String selected(java.lang.Object,java.lang.Object)</function-signature>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>String selected(java.lang.Object, java.lang.Object)</function-signature>
 	</function>
 	<function>
 		<description>Returns selected='1' string if boolean from single param is true.</description>
 		<name>selectedFromBool</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String selected(java.lang.Boolean)</function-signature>
 	</function>
 
 	<function>
 		<name>uiid</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String uiid()</function-signature>
 	</function>
 
 	<function>
 		<name>urlEncode</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String urlEncode(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>htmlEncode</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String htmlEncode(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>httpLinksToHtml</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String httpLinksToHtml(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>quotEscape</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String quotEscape(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<name>truncateHtml</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String truncateHtml(java.lang.String, java.lang.Integer)</function-signature>
 	</function>
 
 	<function>
 		<name>int</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>Integer getInt(java.lang.Object)</function-signature>
 	</function>
 
@@ -175,20 +203,20 @@
 
 	<function>
 		<name>objectTitleList</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>String getObjectTitles(java.util.List, java.util.Set)</function-signature>
 	</function>
 
 	<function>
 		<description>File name with last motification time suffix.</description>
 		<name>fileNameWithLastModTime</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>java.lang.String fileNameWithLastModTime(java.lang.String)</function-signature>
 	</function>
 	<function>
 		<description>Provides a complete documentation URL from the end of it after 'manual/'.</description>
 		<name>docUrl</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>java.lang.String docUrl(java.lang.String)</function-signature>
 	</function>
 </taglib>
