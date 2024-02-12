@@ -89,13 +89,14 @@ $$.ajax = new function () {
 		}
 	}
 
-	/*
+	/**
 	 * Sends HTTP request and set result HTML on element.
-	 * input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element.
-	 * $selector - jQuery selector, target area.
-	 * options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
-	 * options.append  - append HTML into the element, deprecated.
-	 * options.control - will be passed to 'post' function.
+	 * @param {*} input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element.
+	 * @param {jQuery} $selector - selector, target area.
+	 * @param {Deferred} options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
+	 * @param {Boolean} options.append  - append HTML into the element, deprecated.
+	 * @param {HtmlElement} options.control - will be passed to 'post' function.
+	 * @returns deferred element of the loading process.
 	 */
 	const load = (input, $selector, options) => {
 		debug("load", trim100(input), $selector);
@@ -217,6 +218,7 @@ $$.ajax = new function () {
 	 * Calls load with $selector $$.shell.$content()
 	 * @param {*} input URL to be loaded, or HTMLFormElement, or $(HTMLFormElement), or input/button inside form, required parameter
 	 * @param {*} obj DOM element, placed in the loaded area, not needed when 'input' is a form input/button field.
+	 * @returns deferred object of the loading process.
 	 */
 	const loadContent = (input, obj) => {
 		const options = {};
@@ -570,30 +572,6 @@ function openUrl(url, selectorStart) {
 	if (result) {
 		$(selectorStart + ':visible:last').html(result);
 	}
-}
-
-//загружает URL на элемент
-//selector - селектор
-function openUrlTo(url, $selector, vars) {
-	console.warn($$.deprecated);
-
-	var result = undefined;
-	if (vars) {
-		result = getAJAXHtml(url, vars.toPostNames);
-	} else {
-		result = getAJAXHtml(url);
-	}
-
-	if (result) {
-		if (vars && vars.replace) {
-			$selector.replaceWith(result);
-		} else if (vars && vars.append) {
-			$selector.append(result);
-		} else {
-			$selector.html(result);
-		}
-	}
-	return result;
 }
 
 //отправка AJAX с результатом HTML страница

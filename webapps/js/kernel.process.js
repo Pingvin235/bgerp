@@ -134,25 +134,6 @@ function processTypeTreeNodeSelected(el, nodeId) {
 			$(el).closest("#typeTree").parent().find("#groupSelect"));
 }
 
-function statusChangeEditor(selector, selectedStatus, currentStatus,
-	allowedStatus, processId, paramId) {
-	selectedStatus = parseInt(selectedStatus);
-
-	if (selectedStatus == currentStatus) {
-		$(selector + " div[type=editor]").hide();
-	} else {
-		$(selector + " div#editor").show();
-		if ((allowedStatus == null || allowedStatus.isEmpty() || allowedStatus
-				.indexOf(selectedStatus) >= 0)
-				&& paramId > 0) {
-			var url = "/user/parameter.do?action=parameterGet&hideButtons=1&id="
-					+ processId + "&paramId=" + paramId;
-			openUrlTo(url, $(selector + " div#editorCat #editorCatEditor"));
-			$(selector + " div#editorCat").show();
-		}
-	}
-}
-
 function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues, additionalLinksForAdd) {
 	var objects = [];
 

@@ -24,7 +24,7 @@
 		Контрагент: <a href="#" onclick="${editCommand}">${stepData.customer.title}</a>
 	</div>
 
-	<c:set var="sendFormCommand">if( openUrlTo( formUrl( this.form ), $('#${uiid} #searchResult') ) ){ $('#${uiid} *.searchResult').show(); };</c:set>
+	<c:set var="sendFormCommand">$$.ajax.load(this.form, $('#${uiid} #searchResult')).done(() => $('#${uiid} *.searchResult').show())</c:set>
 
 	<div id="select" class="tableIndent" ${displaySelect}>
 		<html:form action="/user/search" onsubmit="return false;">

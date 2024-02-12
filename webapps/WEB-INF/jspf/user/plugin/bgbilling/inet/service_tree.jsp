@@ -138,7 +138,7 @@
 			serviceId = $tr.attr("data-tt-id");
 			deviceId = $tr.attr("deviceId");
 
-			openUrlTo("${url}&action=serviceMenu&deviceId=" + deviceId, $("#${uiidMenu}"));
+			$$.ajax.load("${url}&action=serviceMenu&deviceId=" + deviceId, $("#${uiidMenu}"));
 
 			$menu.menu("refresh");
 
