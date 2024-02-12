@@ -564,30 +564,6 @@ $$.ajax = new function () {
 	this.separatePostParamsInt = separatePostParams;
 }
 
-//отправка AJAX с результатом HTML страница
-function getAJAXHtml(url, toPostNames) {
-	console.warn($$.deprecated);
-
-	var result = false;
-
-	var separated = $$.ajax.separatePostParamsInt(url, toPostNames);
-
-	$.ajax({
-		type: "POST",
-		url: separated.url,
-		data: separated.data,
-		async: false,
-		success: function (response) {
-			result = response;
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			ajaxError(separated.url, jqXHR, textStatus, errorThrown);
-		}
-	});
-
-	return result;
-}
-
 //отправка AJAX команды c JSON ответом определённого формата
 function sendAJAXCommand(url, toPostNames) {
 	console.warn($$.deprecated);
@@ -626,10 +602,8 @@ function ajaxError(url, jqXHR, textStatus, errorThrown) {
 	}
 }
 
-//генерирует URL строку на основании введённых в форму параметров
 function formUrl(forms, excludeParams) {
 	console.warn($$.deprecated);
 
 	return $$.ajax.formUrl(forms, excludeParams);
 }
-
