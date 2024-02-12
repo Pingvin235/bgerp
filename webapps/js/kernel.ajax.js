@@ -92,7 +92,7 @@ $$.ajax = new function () {
 	/**
 	 * Sends HTTP request and set result HTML on element.
 	 * @param {*} input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element.
-	 * @param {jQuery} $selector - selector, target area.
+	 * @param {jQuery|String} $selector - selector, target area.
 	 * @param {Deferred} options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
 	 * @param {Boolean} options.append  - append HTML into the element, deprecated.
 	 * @param {HtmlElement} options.control - will be passed to 'post' function.
@@ -562,16 +562,6 @@ $$.ajax = new function () {
 	this.fileSend = fileSend;
 	// deprecated
 	this.separatePostParamsInt = separatePostParams;
-}
-
-//загружает URL на какой-то последний видимый элемент, selectorStart - селектор элемента
-function openUrl(url, selectorStart) {
-	console.warn($$.deprecated);
-
-	var result = getAJAXHtml(url);
-	if (result) {
-		$(selectorStart + ':visible:last').html(result);
-	}
 }
 
 //отправка AJAX с результатом HTML страница
