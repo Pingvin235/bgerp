@@ -2,8 +2,7 @@
 # eclipse-temurin:21    https://github.com/adoptium/containers/blob/main/21/jdk/ubuntu/jammy/Dockerfile.releases.full
 
 test-and-publish-update:
-    # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
-    image: eclipse-temurin:21
+    image: bgerp/base
     cache:
         paths:
             - .gradle/wrapper
@@ -12,7 +11,6 @@ test-and-publish-update:
         - export TZ="CET" && date
         - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
-        - apt-get update && apt-get install -y openssh-client rsync git-lfs
         - git checkout -B $CI_COMMIT_REF_NAME
         - git rev-parse --abbrev-ref HEAD
         - sh gradlew checkChanges test doc
@@ -22,8 +20,7 @@ test-and-publish-update:
         - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_REF_NAME != "p11862-documentation"
 
 test-and-publish-update-master:
-    # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
-    image: eclipse-temurin:21
+    image: bgerp/base
     cache:
         paths:
             - .gradle/wrapper
@@ -32,7 +29,6 @@ test-and-publish-update-master:
         - export TZ="CET" && date
         - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
-        - apt-get update && apt-get install -y openssh-client rsync git-lfs
         - git checkout -B p00000-master
         - git rev-parse --abbrev-ref HEAD
         - sh gradlew test doc #sonarqube
@@ -56,7 +52,6 @@ test-integration:
         # start MySQL, create DB and user, move bgerp.properties to the current directory
         - /usr/local/bin/docker-bgerp-base.sh
         # for checking custom out
-        - apt-get update && apt-get install -y git
         # integration tests are running by with 'bgerp.properties' configuration
         - mkdir -p filestorage && sh gradlew itest -Pskip.custom=false
 
@@ -86,8 +81,6 @@ test-integration-master:
 
         # copy DB and filestorage content to demo server
 
-        # java layer removes those with 'apt-get purge'
-        - apt-get update && apt-get install -y openssh-client zip
         # the password is same with MYSQL_ROOT_PASSWORD
         - PWD=`grep db.pswd bgerp.properties | cut -d'=' -f2`
         - mysqldump -uroot -p$PWD --add-drop-table bgerp > build/bgerp.sql
@@ -100,8 +93,7 @@ test-integration-master:
         - if: $CI_COMMIT_REF_NAME == "master"
 
 publish-doc:
-    # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
-    image: eclipse-temurin:21
+    image: bgerp/base
     cache:
         paths:
             - .gradle/wrapper
@@ -111,7 +103,6 @@ publish-doc:
         - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
         - sh gradlew jdoc doc
-        - apt-get update && apt-get install -y rsync openssh-client
         - echo "$KEY_DOC" > ./doc.id_rsa && chmod 600 ./doc.id_rsa
         - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/javadoc/ www@bgerp.org:/home/www/www.bgerp.org/doc/3.0/javadoc/
         - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/doc/ www@bgerp.org:/home/www/www.bgerp.org/doc/3.0/manual/

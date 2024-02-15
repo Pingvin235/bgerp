@@ -21,7 +21,7 @@ RUN sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf; \
 RUN rm /etc/apt/sources.list.d/mysql.list
 
 # java, taken from: https://github.com/adoptium/containers/blob/main/21/jdk/ubuntu/jammy/Dockerfile.releases.full
-#======================================================================================================
+#================================================================================================================
 ENV JAVA_HOME /opt/java/openjdk
 ENV PATH $JAVA_HOME/bin:$PATH
 
@@ -75,8 +75,12 @@ RUN echo Verifying install ... \
     && echo java --version && java --version \
     && echo Complete.
 
+# gitlab ci
+#==========
+RUN apt-get update && apt-get install -y openssh-client rsync git-lfs zip
+
 # bgerp files
-#======
+#============
 RUN mkdir /tmp/bgerp
 COPY files/bgerp.properties /tmp/bgerp
 COPY files/db_create.sql /tmp/bgerp
