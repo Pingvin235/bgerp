@@ -8,7 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author Shamil Vakhitov
  */
 public class PublishCommon {
-    protected final static String SSH_LOGIN = "cdn@bgerp.org";
+    protected final static String SSH_LOGIN = "cdn@cdn.bgerp.org";
     protected final static String[] SSH_OPTIONS = { "-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null" };
 
     /** App version. */
