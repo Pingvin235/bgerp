@@ -1,6 +1,7 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Date input with optional time"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
+<%@ attribute name="id" description="id of input, auto generated if not explicitly specified"%>
 <%@ attribute name="paramName" description="input's name"%>
 <%@ attribute name="value" description="current value in dd.MM.yyyy format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
 <%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
@@ -11,11 +12,17 @@
 <%@ attribute name="parameter" type="java.lang.Object" description="provides access to the configuration when editing object's parameter"%>
 
 <c:if test="${empty selector and not empty paramName}">
-	<c:set var="uiid" value="${u:uiid()}"/>
+	<c:choose>
+		<c:when test="${not empty id}">
+			<c:set var="uiid" value="${id}"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="uiid" value="${u:uiid()}"/>
+		</c:otherwise>
+	</c:choose>
 	<c:set var="selector" value="#${uiid}"/>
 	<input type="text" name="${paramName}" id="${uiid}" class="${styleClass}" placeholder="${placeholder}" value="${value}"/>
 </c:if>
-
 
 <%-- type: ymd, ymdh, ymdhm, ymdhms --%>
 <c:if test="${empty type and not empty parameter}">
