@@ -125,25 +125,25 @@ $$.bgbilling = new function () {
 	this.contract = contract;
 }
 
-function bgbilling_changeContractCustomer( $select, $titleSpan, billingId, contractId, contractTitle )
-{
-	if( deleteCustomerLinkTo( "contract:" + billingId, contractId ) )
-	{
-		var customerId = $( "input[name=customerId]", $select ).val();
-		var customerTitle = $( ".text-value", $select ).text();
+function bgbilling_changeContractCustomer($select, $titleSpan, billingId, contractId, contractTitle) {
+	const dfdResult = $.Deferred();
 
-		if( customerId > 0 )
-		{
-			$titleSpan.html( "<a href='#' onclick='openCustomer( " + customerId + ")';>" +  customerTitle + "</a>" );
-			return addCustomerLink( customerId, "contract:" + billingId, contractId, contractTitle );
+	deleteCustomerLinkTo("contract:" + billingId, contractId).done(() => {
+		const customerId = $("input[name=customerId]", $select).val();
+		const customerTitle = $(".text-value", $select).text();
+		if (customerId > 0) {
+			addCustomerLink(customerId, "contract:" + billingId, contractId, contractTitle).done(() => {
+				$titleSpan.html("<a href='#' onclick='$$.customer.open(" + customerId + ")';>" + customerTitle + "</a>");
+				dfdResult.resolve();
+			}).fail(() => dfdResult.reject());
 		}
-		else
-		{
-			$titleSpan.html( "не установлен" );
+		else {
+			$titleSpan.html("не установлен");
+			dfdResult.reject();
 		}
-		return true;
-	}
-	return false;
+	}).fail(() => dfdResult.reject());
+
+	return dfdResult;
 }
 
 function bgbilling_selectedRegisterIdChanged()

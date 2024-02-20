@@ -50,7 +50,7 @@
 		<div class="pl1" style="white-space: nowrap;">
 			<button type="button" class="btn-green" id="${saveUiid}"
 				title="Сгенерировать документ с сохранением"
-				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) };"
+				onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))"
 				style="display: none;">+</button>
 
 			<c:set var="script">

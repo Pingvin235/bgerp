@@ -109,24 +109,20 @@
 					{
 						if( !$(this).hasClass( "lock" ) )
 						{
-							var result = sendAJAXCommand( "/user/plugin/callboard/work.do?action=processTimeLock" + urlEnd );
-							if( result )
-							{
+							$$.ajax.post("/user/plugin/callboard/work.do?action=processTimeLock" + urlEnd).done((result) => {
 								$(this).toggleClass( "lock" );
 								$(this).html( "Б" );
-							}
+							})
 						}
 					}
 					else if( mode == 'unlock' )
 					{
 						if( $(this).hasClass( "lock" ) )
 						{
-							var result = sendAJAXCommand( "/user/plugin/callboard/work.do?action=processTimeUnlock" + urlEnd );
-							if( result )
-							{
+							$$.ajax.post("/user/plugin/callboard/work.do?action=processTimeUnlock" + urlEnd).done((result) => {
 								$(this).toggleClass( "lock" );
 								$(this).html( "" );
-							}
+							})
 						}
 					}
 				};

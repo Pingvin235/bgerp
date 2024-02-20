@@ -16,14 +16,11 @@ function addCustomCitySearch( selector ,cityIdSelector)
 		{
 			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "addressCountryId": "1", "searchMode": "city", "addressCityTitle": request.term });
 
-			var ajaxResponse = sendAJAXCommand(url);
-			if( ajaxResponse )
-			{
-				response( $.map( ajaxResponse.data.list, function( item )
-				{
+			$$.ajax.post(url).done((ajaxResponse) => {
+				response($.map(ajaxResponse.data.list, function (item) {
 					return { value: item.title, id: item.id };
 				}));
-			};
+			});
 		},
 		select: function( event, ui )
 		{
@@ -43,14 +40,11 @@ function addCustomQuarterSearch( selector , areaIdSelector ,cityId)
 				"action": "address", "addressCountryId": "1", "selectTab": "quarter", "addressCityId": cityId, "searchMode": "item", "addressItemTitle": request.term
 			});
 
-			var ajaxResponse = sendAJAXCommand(url);
-			if( ajaxResponse )
-			{
-				response( $.map( ajaxResponse.data.list, function( item )
-				{
+			$$.ajax.post(url).done((ajaxResponse) => {
+				response($.map(ajaxResponse.data.list, function (item) {
 					return { value: item.title, id: item.id };
 				}));
-			};
+			});
 		},
 		select: function( event, ui )
 		{
@@ -61,124 +55,93 @@ function addCustomQuarterSearch( selector , areaIdSelector ,cityId)
 
 
 // добавляет контекстный поиск по улице инпуту
-function addStreetSearch( selector )
-{
+function addStreetSearch(selector) {
 	// список с улицами
-	$( selector + " input[name='street']" ).autocomplete({
+	$(selector + " input[name='street']").autocomplete({
 		minLength: 3,
-		source: function( request, response )
-		{
+		source: function (request, response) {
 			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "streetSearch", "title": request.term, "page.pageIndex": "0" });
-
-			var ajaxResponse = sendAJAXCommand(url);
-			if( ajaxResponse )
-			{
-				response( $.map( ajaxResponse.data.list, function( item )
-				{
+			$$.ajax.post(url).done((ajaxResponse) => {
+				response($.map(ajaxResponse.data.list, function (item) {
 					return { label: item.addressCity.title + " - " + item.title, value: item.addressCity.title + " - " + item.title, id: item.id };
 				}));
-			};
+			});
 		},
-		select: function( event, ui )
-		{
+		select: function (event, ui) {
 			this.form.elements['streetId'].value = ui.item.id;
 		}
 	});
 }
 
 //добавляет контекстный поиск по улице инпуту без формы
-function addCustomStreetSearch( selector, streetIdSelector )
-{
+function addCustomStreetSearch(selector, streetIdSelector) {
 	// список с улицами
-	$( selector ).autocomplete({
+	$(selector).autocomplete({
 		minLength: 3,
-		source: function( request, response )
-		{
+		source: function (request, response) {
 			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "streetSearch", "title": request.term });
-
-			var ajaxResponse = sendAJAXCommand(url);
-			if( ajaxResponse )
-			{
-				response( $.map( ajaxResponse.data.list, function( item )
-				{
+			$$.ajax.post(url).done((ajaxResponse) => {
+				response($.map(ajaxResponse.data.list, function (item) {
 					return { label: item.addressCity.title + " - " + item.title, value: item.addressCity.title + " - " + item.title, id: item.id };
 				}));
-			};
+			});
 		},
-		select: function( event, ui )
-		{
-			$( streetIdSelector ).val( ui.item.id );
+		select: function (event, ui) {
+			$(streetIdSelector).val(ui.item.id);
 		}
 	});
 }
 
 //добавляет контекстный поиск по дому инпуту
-function addHouseSearch( formSelector )
-{
+function addHouseSearch(formSelector) {
 	const form = document.querySelector(formSelector);
 
 	form.house.addEventListener("keyup", () => form.houseId.value = "");
 
 	$(form.house).autocomplete({
 		minLength: 0,
-		source: function( request, response )
-		{
+		source: function (request, response) {
 			const streetId = form.streetId.value;
-			if( streetId > 0 )
-			{
-				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({"action": "houseSearch", "streetId": streetId, "house": request.term});
-
-				var ajaxResponse = sendAJAXCommand(url);
-				if( ajaxResponse )
-				{
-					response( $.map( ajaxResponse.data.list, function( item )
-					{
+			if (streetId > 0) {
+				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "houseSearch", "streetId": streetId, "house": request.term });
+				$$.ajax.post(url).done((ajaxResponse) => {
+					response($.map(ajaxResponse.data.list, function (item) {
 						return { label: item.houseAndFrac, value: item.houseAndFrac, id: item.id };
 					}));
-				};
+				});
 			}
 		},
-		select: function( event, ui )
-		{
+		select: function (event, ui) {
 			form.houseId.value = ui.item.id;
 		}
 	});
 }
 
 //добавляет контекстный поиск по дому инпуту
-function addCustomHouseSearch( selector, streetIdSelector, houseIdSelector )
-{
-	$( selector ).autocomplete({
+function addCustomHouseSearch(selector, streetIdSelector, houseIdSelector) {
+	$(selector).autocomplete({
 		minLength: 1,
-		source: function( request, response )
-		{
-			var streetId = $( streetIdSelector ).val();
-			if( streetId > 0 )
-			{
-				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({"action": "houseSearch", "streetId": streetId, "house": request.term});
-
-				var ajaxResponse = sendAJAXCommand(url);
-				if( ajaxResponse )
-				{
-					response( $.map( ajaxResponse.data.list, function( item )
-					{
+		source: function (request, response) {
+			var streetId = $(streetIdSelector).val();
+			if (streetId > 0) {
+				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "houseSearch", "streetId": streetId, "house": request.term });
+				$$.ajax.post(url).done((ajaxResponse) => {
+					response($.map(ajaxResponse.data.list, function (item) {
 						return { label: item.houseAndFrac, value: item.houseAndFrac, id: item.id };
 					}));
-				};
+				});
 			}
 		},
-		select: function( event, ui )
-		{
-			$( houseIdSelector ).val( ui.item.id );
+		select: function (event, ui) {
+			$(houseIdSelector).val(ui.item.id);
 		}
 	});
 }
 
 // добавляет контекстный поиск по улице и дому
-function addAddressSearch( selector )
-{
-	addStreetSearch( selector );
-	addHouseSearch( selector );
+function addAddressSearch(selector) {
+	addStreetSearch(selector);
+	addHouseSearch(selector);
 }
 
 //

@@ -14,7 +14,7 @@
 	</div>
 
 	<div class="mt1 mb1">
-		<button class="btn-grey" type="button" onclick="if( sendAJAXCommand( formUrl( this.form ), ['text'] ) ){ $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()) }">OK</button>
+		<button class="btn-grey" type="button" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()))">OK</button>
 		<button class="btn-grey ml1" type="button" onclick="$('#${form.returnChildUiid}').empty();">${l.l('Отмена')}</button>
 	</div>
 </div>

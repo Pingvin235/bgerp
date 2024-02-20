@@ -15,8 +15,8 @@
 				<input type="hidden" name="paramId" value="${stepData.step.param.id}"/>
 				<input type="hidden" name="value" value="1"/>
 
-				<input type="button" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ ${reopenProcessEditorCode} }" value="${stepData.step.config['continueText'] }"/>
-			</html:form>	
+				<input type="button" onclick="$$.ajax.post(this.form).done(() => { ${reopenProcessEditorCode} })" value="${stepData.step.config['continueText'] }"/>
+			</html:form>
 		</c:otherwise>
 	</c:choose>
 </div>

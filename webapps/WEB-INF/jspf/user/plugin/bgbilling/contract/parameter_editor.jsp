@@ -14,7 +14,7 @@
 	<input type="hidden" name="paramId" value="${form.param.paramId}"/>
 	<input type="hidden" name="paramType" value="${form.param.paramType}"/>
 
-	<c:set var="saveCommand">if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.returnUrl}',  $('#${parametersInfo}').parent()) }</c:set>
+	<c:set var="saveCommand">$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent()))</c:set>
 	<c:set var="focusFieldUiid" value="${u:uiid()}"/>
 
 	<c:set var="paramType" value="${form.param.paramType}"/>

@@ -53,7 +53,7 @@
 							<c:param name="action" value="newsDelete"></c:param>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
-						[ <a title="${l.l('Удалить')}" href="#" onclick="if( confirm( 'Удалить новость?' ) && sendAJAXCommand( '${deleteUrl}' ) ){ ${showCode} }; return false;">X</a> ]
+						[ <a title="${l.l('Удалить')}" href="#" onclick="if (confirm('Удалить новость?')) $$.ajax.post('${deleteUrl}').done(() => { ${showCode} }); return false;">X</a> ]
 
 						<c:if test="${not empty item.groupIds}">
 							<br/>${l.l('Groups')}: ${u:objectTitleList( ctxUserGroupList, item.groupIds ) }
@@ -72,10 +72,10 @@
 				<td style="text-align: right;">
 					<c:choose>
 						<c:when test="${item.read}">
-							<button class="btn-white btn-small" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetRead&newsId=${item.id}&value=0' ) ){ ${showCode} }">${l.l('Не прочитано')}</button>
+							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?action=newsSetRead&newsId=${item.id}&value=0').done(() => { ${showCode} })">${l.l('Не прочитано')}</button>
 						</c:when>
 						<c:otherwise>
-							<button class="btn-white btn-small" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetRead&newsId=${item.id}&value=1' ) ){ ${showCode} }">${l.l('Прочитано')}</button>
+							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?action=newsSetRead&newsId=${item.id}&value=1').done(() => { ${showCode} })">${l.l('Прочитано')}</button>
 						</c:otherwise>
 					</c:choose>
 				</td>
@@ -85,7 +85,7 @@
 
 	<c:if test="${not empty frd.list and form.param.read ne 1}">
 		<div style="text-align: right;">
-			<button class="btn-grey mt1" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetAllRead' ) ){ ${showCode} };" title="${l.l('Пометить все новости прочитанными')}">${l.l('Все прочитаны')}</button>
+			<button class="btn-grey mt1" onclick="$$.ajax.post('/user/news.do?action=newsSetAllRead').done(() => { ${showCode} })" title="${l.l('Пометить все новости прочитанными')}">${l.l('Все прочитаны')}</button>
 		</div>
 	</c:if>
 </div>

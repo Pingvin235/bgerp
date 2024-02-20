@@ -564,31 +564,6 @@ $$.ajax = new function () {
 	this.separatePostParamsInt = separatePostParams;
 }
 
-//отправка AJAX команды c JSON ответом определённого формата
-function sendAJAXCommand(url, toPostNames) {
-	console.warn($$.deprecated);
-
-	var result = false;
-
-	var separated = $$.ajax.separatePostParamsInt(url, toPostNames, true);
-
-	$.ajax({
-		type: "POST",
-		async: false,
-		url: separated.url,
-		data: separated.data,
-		dataType: "json",
-		success: function (data) {
-			result = $$.ajax.checkResponse(data);
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			ajaxError(separated.url, jqXHR, textStatus, errorThrown);
-		}
-	});
-
-	return result;
-}
-
 // move to $$.ajax after cleaning up all the outside calling functions
 function ajaxError(url, jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {

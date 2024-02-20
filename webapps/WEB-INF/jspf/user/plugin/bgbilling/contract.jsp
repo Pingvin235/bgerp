@@ -104,7 +104,7 @@
 						<c:param name="customerId" value="${customerId}"/>
 					</c:url>
 
-					<button type="button" class="btn-white btn-small mr1" onclick="if( confirm('Скопировать параметры контрагента в договор?') && sendAJAXCommand( '${url}' ) ){  $$.bgbilling.contract.open( '${billingId}', ${contractId} ) }"
+					<button type="button" class="btn-white btn-small mr1" onclick="if (confirm('Скопировать параметры контрагента в договор?')) $$.ajax.post('${url}').done(() => $$.bgbilling.contract.open('${billingId}', ${contractId}))"
 							title="Скопировать параметры контрагента в договор">
 						Скопировать параметры
 					</button>
@@ -116,7 +116,7 @@
 						<c:param name="billingId" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].id}"/>
 					</c:url>
 
-					<button type="button" class="btn-white btn-small" onclick="if( sendAJAXCommand( '${url}' ) ) { $$.bgbilling.contract.open( '${billingId}', ${contractId} )  }"
+					<button type="button" class="btn-white btn-small" onclick="$$.ajax.post('${url}').done(() => $$.bgbilling.contract.open('${billingId}', ${contractId}))"
 							title="Импорт в контрагента">Импорт</button>
 				</c:when>
 				<c:otherwise>
@@ -134,10 +134,9 @@
 				$tabs.tabs( 'remove', active );
 			</c:set>
 			<c:set var="changeCustomerScript">
-				if( bgbilling_changeContractCustomer(  $('#${editTdId}'), $('#${showTdId}').find( 'span' ), '${billingId}', ${contractId}, '${contractTitle}' ) )
-				{
-					var newCustomerId = $('#${editTdId} input[name=customerId]').val();
-					var dependView = bgcrm.pers['iface.bgbilling.contractOpenMode'] != 2;
+				bgbilling_changeContractCustomer($('#${editTdId}'), $('#${showTdId}').find('span'), '${billingId}', ${contractId}, '${contractTitle}').done(() => {
+					const newCustomerId = $('#${editTdId} input[name=customerId]').val();
+					const dependView = bgcrm.pers['iface.bgbilling.contractOpenMode'] != 2;
 
 					<%--- исходя из того, что того же контрагента он выбрать не сможет --%>
 					if( dependView )
@@ -160,7 +159,7 @@
 						$$.shell.removeCommandDiv('contract_${billingId}-${contractId}');
 						$$.bgbilling.contract.open( '${billingId}', ${contractId} );
 					}
-				}
+				});
 			</c:set>
 			<button type="button" class="btn-grey ml1" onclick="${changeCustomerScript}">OK</button>
 			<button type="button" class="btn-white ml05"
@@ -183,7 +182,7 @@
 					<c:param name="contractId" value="${contractId }" />
 				</c:url>
 
-				<button type="button" class="btn-white btn-small" onclick="sendAJAXCommand('${openUrl}')">Открыть в биллинге</button>
+				<button type="button" class="btn-white btn-small" onclick="$$.ajax.post('${openUrl}')">Открыть в биллинге</button>
 			</div>
 		</c:if>
 	</div>

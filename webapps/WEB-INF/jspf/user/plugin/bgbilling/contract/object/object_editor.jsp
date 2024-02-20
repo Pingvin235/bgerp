@@ -38,7 +38,7 @@
 		</div>
 
 		<div style="display:table-cell">
-			<input type="button" value="Применить" onclick="if(sendAJAXCommand( formUrl( this.form ) )) { alert('Изменения произведены успешно!')}"/>
+			<input type="button" value="Применить" onclick="if$$.ajax.post(this.form).done(() => alert('Изменения произведены успешно!'))"/>
 		</div>
 	</div>
 </form>

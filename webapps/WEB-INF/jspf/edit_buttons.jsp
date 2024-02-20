@@ -22,20 +22,11 @@
 </c:if>
 
 <c:if test="${not empty deleteUrl}">
-	<button type="button" class="btn-white btn-small" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) ){ $$.ajax.loadContent('${deleteUrl}') }" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
+	<button type="button" class="btn-white btn-small" onclick="if (confirm('Вы уверены, что хотите удалить?')){ $$.ajax.loadContent('${deleteUrl}') }" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
 	<c:remove var="deleteUrl"/>
 </c:if>
 
 <c:if test="${not empty deleteAjaxUrl}">
-	<button type="button" class="btn-white btn-small" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) && sendAJAXCommand( '${deleteAjaxUrl}' ) ) { ${deleteAjaxCommandAfter} }" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
+	<button type="button" class="btn-white btn-small" onclick="if (confirm('Вы уверены, что хотите удалить?')) $$.ajax.post('${deleteAjaxUrl}').done(() => { ${deleteAjaxCommandAfter} })" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
 	<c:remove var="deleteAjaxUrl"/>
 </c:if>
-
-<%-- FIXME: deleteCommand должен работать идентично editCommand --%>
-<c:if test="${not empty deleteCommand}">
-	<button type="button" class="btn-white btn-small" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) && sendAJAXCommand( ${deleteCommand} ) ) { ${deleteAjaxCommandAfter} }" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
-	<c:remove var="deleteCommand"/>
-</c:if>
-
-
-

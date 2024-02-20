@@ -36,7 +36,7 @@
 					<input type="hidden" name="linkedObjectTitle" id="linkedObjectTitle"/>
 					<input type="hidden" name="linkedObjectId" id="linkedObjectId"/>
 
-					<input type="button" value="Выбрать" onclick="sendAJAXCommand( formUrl( this.form ) ); ${reopenProcessEditorCode}"/>
+					<input type="button" value="Выбрать" onclick="$$.ajax.post(this.form).done(() => { ${reopenProcessEditorCode} })"/>
 			</form>
 		</td>
 	</tr>

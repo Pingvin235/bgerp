@@ -104,11 +104,10 @@
 										var ids = bill.id;
 
 										var url = '${setPayedUrl}&ids=' + ids + '&summa=' + summa + '&comment' + comment +'&date=' + date;
-										if( sendAJAXCommand( url ) )
-										{
+										$$.ajax.post(url).done(() => {
 											$dlg.dialog( "close" );
 											${sendForm}
-										}
+										})
 									});
 
 									$dlg.find( "button#cancel" ).click( function()
@@ -119,10 +118,9 @@
 								else
 								{
 									var url = '${setPayedUrl}&ids=' + bill.id ;
-									if( sendAJAXCommand( url ) )
-									{
+									$$.ajax.post(url).done(() => {
 										${sendForm}
-									}
+									})
 								}
 							};
 

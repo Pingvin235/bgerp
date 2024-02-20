@@ -80,14 +80,14 @@
 				var command = "${url}&id=" + serviceId + '&';
 				// вкл - выкл статуса
 				if ($li.attr('confirm')) {
-					if (confirm($li.attr('confirm')) && sendAJAXCommand(command + $li.attr("command"))) {
-						$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
-					}
+					if (confirm($li.attr('confirm')))
+						$$.ajax.post(command + $li.attr("command")).done(() =>
+							$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())
+						)
 				}
 				// вызов метода
 				else {
-					var result = sendAJAXCommand(command + $li.attr("command"));
-					if (result) {
+					$$.ajax.post(command + $li.attr("command")).done((result) => {
 						var resp = result.data.response;
 						if (resp.indexOf('telnet:') >= 0) {
 							resp = resp.replace(':', ':///');
@@ -127,7 +127,7 @@
 								position: { my: "center top", at: "center top+100px", of: window }
 							});
 						}
-					}
+					})
 				}
 			}
 		});

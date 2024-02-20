@@ -109,11 +109,11 @@ function customerChangeTitle( customerId, customerTitle ) {
 function addCustomerLink( customerId, linkedObjectType, linkedObjectId, linkedObjectTitle )
 {
 	const url = "/user/link.do?action=addLink&id=" + customerId + '&' + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId, "linkedObjectTitle": linkedObjectTitle });
-	return sendAJAXCommand(url);
+	return $$.ajax.post(url);
 }
 
 function deleteCustomerLinkTo( linkedObjectType, linkedObjectId )
 {
 	const url = "/user/link.do?action=deleteLinksTo&" + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId });
-	return sendAJAXCommand(url);
+	return $$.ajax.post(url);
 }

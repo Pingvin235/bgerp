@@ -45,8 +45,9 @@
 		<c:set var="contractTypesConfig" value="${stepData.step}"/>
 
 		<c:set var="afterContractCreateCode">
-			addLink( 'process', ${process.id}, type, contractId, contractTitle, { 'typeId' : typeId, 'tariffId' : tariffId } );
-			${reopenProcessEditorCode}
+			addLink('process', ${process.id}, type, contractId, contractTitle, {'typeId': typeId, 'tariffId': tariffId}).done(() => {
+				${reopenProcessEditorCode}
+			})
 		</c:set>
 
 		<table style="width: 100%;">

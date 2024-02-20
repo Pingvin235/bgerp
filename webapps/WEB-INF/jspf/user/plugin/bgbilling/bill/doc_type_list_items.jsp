@@ -36,6 +36,6 @@
 		<ui:combo-single list="${list.second}" hiddenName="typeIds" style="width: 100%;"/>
 	</div>
 	<div class="pl1">
-		<button type="button" class="btn-grey" onclick="if( this.form.typeIds.value && sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) }">+</button>
+		<button type="button" class="btn-grey" onclick="if (this.form.typeIds.value) $$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))">+</button>
 	</div>
 </form>

@@ -16,7 +16,7 @@
 		<input type="text" size="12" placeholder="Комментарий" name="comment" class="ml05"/>
 
 		<button type="button" class="btn-grey ml1"
-				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }">Изменить</button>
+				onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))">Изменить</button>
 	</html:form>
 
 	<html:form action="/user/plugin/bgbilling/proto/contract" style="width: 100%;">

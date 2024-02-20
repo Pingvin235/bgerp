@@ -148,10 +148,10 @@ Incoming variables:
 
 								<c:choose>
 									<c:when test="${actionShowMode eq 'buttons'}">
-										<button class="btn-white btn-small" onclick="sendAJAXCommand( '${url}' );" title="${action.title}" style="${action.style}">${action.shortcut}</button>
+										<button class="btn-white btn-small" onclick="$$.ajax.post('${url}');" title="${action.title}" style="${action.style}">${action.shortcut}</button>
 									</c:when>
 									<c:otherwise>
-										<a href="#" onclick="sendAJAXCommand( '${url}' ); return false;" style="${action.style}">${action.title}</a><br/>
+										<a href="#" onclick="$$.ajax.post('${url}'); return false;" style="${action.style}">${action.title}</a><br/>
 									</c:otherwise>
 								</c:choose>
 							</c:if>

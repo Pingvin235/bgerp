@@ -32,7 +32,7 @@
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
 			<ui:combo-single list="${frd.group.values}" hiddenName="paramGroupId" value="${frd.group.id}" prefixText="Группа параметров (изменить):"
-				widthTextValue="150px" onSelect="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${listUiid}')); }"/>
+				widthTextValue="150px" onSelect="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${listUiid}')))"/>
 		</form>
 	</c:if>
 

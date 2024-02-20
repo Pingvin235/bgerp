@@ -44,16 +44,11 @@
 					var clientCash = $('#'+form+' input[name=clientCash]').val();
 
 					const url = "/user/plugin/bgbilling/proto/cashcheck.do?" + $$.ajax.requestParamsToUrl({"action" : "printCheck", "billingId": "${form.param.billingId}", "paymentId":paymentId, "clientCash":clientCash, "selectedRegisterId": selectedRegisterId, "selectedRegisterPswd": selectedRegisterPswd});
-					var result = sendAJAXCommand(url);
-					if(result)
-					{
-						alert("Напечатан чек на сумму "+ result.data.summa + "\n" + "сдача "+ result.data.submit);
-					}
-					else
-					{
-						alert("Внимание чек НЕ напечатан!");
-					}
-					$( this ).dialog( "close" );
+					$$.ajax
+						.post(url)
+						.done((result) => alert("Напечатан чек на сумму "+ result.data.summa + "\n" + "сдача "+ result.data.submit))
+						.fail(() => alert("Внимание чек НЕ напечатан!"))
+					$(this).dialog( "close" );
 				},
 				"Отмена": function() {
 					$( this ).dialog( "close" );

@@ -243,9 +243,7 @@
 						url += "&lastDate=1";
 					}
 
-					var result = sendAJAXCommand( url );
-					if( result )
-					{
+					$$.ajax.post(url).done((result) => {
 						$shiftDiv = $shiftDiv.clone();
 						$shiftDiv.find(".team").remove();
 
@@ -272,8 +270,7 @@
 								break;
 							}
 						}
-					}
-
+					})
 				};
 
 				// нажатие либо вхождение с нажатой мышью

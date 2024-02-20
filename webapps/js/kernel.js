@@ -201,7 +201,7 @@ function getCheckedValues( $selector, inputName )
 function deleteLinksWithType( objectType, objectId, linkedObjectType )
 {
 	const url = "/user/link.do?action=deleteLinksWithType&id=" + objectId + "&" + $$.ajax.requestParamsToUrl({ "objectType": objectType, "linkedObjectType": linkedObjectType });
-	return sendAJAXCommand(url);
+	return $$.ajax.post(url);
 }
 
 function addLink( objectType, objectId, linkedObjectType, linkedObjectId, linkedObjectTitle, params )
@@ -216,22 +216,8 @@ function addLink( objectType, objectId, linkedObjectType, linkedObjectId, linked
 	}
 
 	const url = "/user/link.do?action=addLink&id=" + objectId + "&" + $$.ajax.requestParamsToUrl(requestParams);
-	return sendAJAXCommand(url);
+	return $$.ajax.post(url);
 }
-
-/* Remove later.
-function deleteLink( objectType, objectId, linkedObjectType, linkedObjectId )
-{
-	const url = "/user/link.do?action=deleteLink&id=" + objectId + "&" + $$.ajax.requestParamsToUrl({ "objectType": objectType, "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId });
-	return sendAJAXCommand(url);
-} */
-
-/* Remove later.
-function deleteLinksTo( objectType, linkedObjectType, linkedObjectId )
-{
-	const url = "/user/link.do?action=deleteLinksTo&" + $$.ajax.requestParamsToUrl({ "objectType": objectType, "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId });
-	return sendAJAXCommand(url);
-} */
 
 //фильтр по исполнителям, в реальном времени обновляет список пользователей
 function checkFilter( executorMaskInput, listId )
@@ -352,7 +338,7 @@ function datetimepickerOnChanging(year, month, inst, url)
 		return;
 	}
 
-	datetimepickerValueChanged(sendAJAXCommand(url + $$.ajax.requestParamsToUrl({ 'newDate': '01.' + month + "." + year })).data.dayColorList, inst);
+	datetimepickerValueChanged($$.ajax.post(url + $$.ajax.requestParamsToUrl({ 'newDate': '01.' + month + "." + year })).data.dayColorList, inst);
 }
 
 function openedObjectList( params )

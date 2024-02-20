@@ -80,7 +80,7 @@
 
 		<c:set var="returnToShow">$('#processQueueCreateProcess').hide(); $('#processQueueShow').show();</c:set>
 		<c:set var="saveCommand">
-			var result = sendAJAXCommand( formUrl( this.form ) ); if( result ){ ${returnToShow} $$.process.open( result.data.process.id ); };
+			$$.ajax.post(this.form).done(() => { ${returnToShow} $$.process.open(result.data.process.id) });
 		</c:set>
 
 		<div class="mt1 in-mr1">

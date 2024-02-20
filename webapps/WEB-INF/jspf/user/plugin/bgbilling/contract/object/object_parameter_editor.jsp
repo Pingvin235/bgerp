@@ -101,7 +101,7 @@
 			</c:choose>
 
 			</br>
-			<input type="button" value="OK" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent()) }"/>
+			<input type="button" value="OK" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent()))"/>
 			<input type="button" value="Отмена" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())"/>
 		</form>
 	</c:when>

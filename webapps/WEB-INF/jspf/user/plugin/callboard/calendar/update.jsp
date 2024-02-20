@@ -105,7 +105,7 @@
 
 		/*
 		* Устанавливает значение для заданной даты в календаре
-		* uiOnly - если false, помимо обновления отображения, делает запрос на добавление исключения для заданной даты
+		* uiOnly - not used если false, помимо обновления отображения, делает запрос на добавление исключения для заданной даты
 		*/
 		var setDayTypeForDate = function( date, type, uiOnly )
 		{
@@ -117,10 +117,9 @@
 			var url = '${url}' + '&date=' + ( $.datepicker.formatDate('dd.mm.yy', date ) );
 			url+='&type=' + ( type );
 
-			if( uiOnly || sendAJAXCommand( url ) )
-			{
+			$$.ajax.post(url).done(() => {
 				$( '#${uiid} td#ui-datepicker-calendar-day-'+( date.getMonth()+1 )+'-'+( date.getDate() ) ).children( 'a' ).css( 'color', dayTypeArray[type].color );
-			}
+			})
 		};
 
 		var reloadCalendar = function()

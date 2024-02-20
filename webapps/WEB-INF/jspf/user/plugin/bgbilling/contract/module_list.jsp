@@ -16,7 +16,7 @@
 		</c:forEach>
 
 		<button type="button" class="btn-grey mb1"
-			onclick="if( confirm( 'Удаление модулей приведёт к удалению данных,\nвы уверены?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }">
+			onclick="if (confirm('Удаление модулей приведёт к удалению данных,\nвы уверены?')) $$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))">
 			&gt;&gt;&gt;
 		</button>
 	</form>
@@ -32,26 +32,6 @@
 		</c:forEach>
 
 		<button type="button" class="btn-grey"
-			onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }">&lt;&lt;&lt;</button>
+			onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))">&lt;&lt;&lt;</button>
 	</form>
 </div>
-
-<%--
-<c:set var="contractTreeId" value="bgbilling-${form.param.billingId}-${form.param.contractId}-tree"/>
-<script>
-	$(function()
-	{
-		$('#${contractTreeId} #treeTable tr.module').remove();
-		var $insertPoint = $('#${contractTreeId} #treeTable tr#modules');
-
-		var modules = "";
-		$('#${uiid} #selected input[type=checkbox]').each( function()
-		{
-			var text = $(this).parent().text();
-			modules += '<tr class="module">\<td colspan="2"><div class="pl2 row">' + text + "</div></td></tr>";
-		});
-
-		$insertPoint.after( modules );
-	})
-</script>
---%>

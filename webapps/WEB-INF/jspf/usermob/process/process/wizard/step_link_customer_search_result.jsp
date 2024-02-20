@@ -11,8 +11,13 @@
 			<c:forEach var="item" items="${frd.list}">
 				<tr>
 					<td>
-						<a href="#"
-							onclick="if( deleteLinksWithType( 'process', ${processId}, 'customer' ) && addLink( 'process', ${processId}, 'customer', ${item.id}, '${u.escapeXml( item.title )}' ) ){ ${reopenProcessEditorCode } }; return false;">
+						<a href="#" onclick="
+							deleteLinksWithType('process', ${processId}, 'customer').done(() =>
+								addLink('process', ${processId}, 'customer', ${item.id}, '${u.escapeXml( item.title )}').done(() => {
+									${reopenProcessEditorCode }
+								})
+							);
+							return false;">
 							${item.title} (${item.reference})
 						</a>
 					</td>

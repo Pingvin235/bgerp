@@ -3,26 +3,23 @@
 
 <script>
 	 $(function() {
-		 const url = "/user/plugin/bgbilling/proto/contract.do?action=contractObjectModuleInfo&" + $$.ajax.requestParamsToUrl({"billingId": '${form.param.billingId}', "objectId": '${form.param.objectId}'});
-		 var result = sendAJAXCommand(url);
+		const url = "/user/plugin/bgbilling/proto/contract.do?action=contractObjectModuleInfo&" + $$.ajax.requestParamsToUrl({"billingId": '${form.param.billingId}', "objectId": '${form.param.objectId}'});
+		$$.ajax.post(url).done((result) => {
+			const $objectModuleListTabs = $( "#objectModuleListTabs-${form.param.billingId}-${form.param.contractId}-Tabs" ).tabs( {spinner: '', refreshButton:true} );
 
-		 var $objectModuleListTabs = $( "#objectModuleListTabs-${form.param.billingId}-${form.param.contractId}-Tabs" ).tabs( {spinner: '', refreshButton:true} );
+			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
+				<c:param name="action" value="contractObjectModuleSummaryTable"/>
+				<c:param name="billingId" value="${form.param.billingId}"/>
+				<c:param name="contractId" value="${form.param.contractId}"/>
+				<c:param name="objectId" value="${form.param.objectId}"/>
+				<c:param name="returnUrl" value="${form.param.returnUrl}"/>
+			</c:url>
+			$objectModuleListTabs.tabs("add", "${url}", "Сводная таблица");
 
-		 <c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-		  	<c:param name="action" value="contractObjectModuleSummaryTable"/>
-		  	<c:param name="billingId" value="${form.param.billingId}"/>
-		  	<c:param name="contractId" value="${form.param.contractId}"/>
-		  	<c:param name="objectId" value="${form.param.objectId}"/>
-		  	<c:param name="returnUrl" value="${form.param.returnUrl}"/>
-		  </c:url>
-		  $objectModuleListTabs.tabs( "add", "${url}", "Сводная таблица" );
-
-		  for(var i=0; i< result.data.moduleInfo.moduleList.length; i++)
-			{
-			  <c:url var="url" value="empty.do">
-			  </c:url>
-			  $objectModuleListTabs.tabs( "add", "${url}", result.data.moduleInfo.moduleList[i].title);
+			for (var i=0; i< result.data.moduleInfo.moduleList.length; i++) {
+				$objectModuleListTabs.tabs( "add", "/user/empty.do", result.data.moduleInfo.moduleList[i].title);
 			}
+		})
 	 });
 </script>
 

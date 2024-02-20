@@ -10,7 +10,7 @@
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 
 		<ui:combo-single hiddenName="value" value="${frd.contractInfo.mode}" prefixText="Режим (изменить):" widthTextValue="100px"
-			onSelect="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }">
+			onSelect="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))">
 			<jsp:attribute name="valuesHtml">
 				<li value="0">Кредит</li>
 				<li value="1">Дебет</li>

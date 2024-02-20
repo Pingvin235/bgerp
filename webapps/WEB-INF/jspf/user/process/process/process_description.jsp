@@ -42,7 +42,7 @@
 			</pre>
 		</div>
 
-		<c:set var="command">if( sendAJAXCommand( formUrl( $(this.form) ), ['description'] ) ){ $$.ajax.load('${requestUrl}', $('#${tableId}').parent()); return false;}</c:set>
+		<c:set var="command">$$.ajax.post(this.form).done(() => $$.ajax.load('${requestUrl}', $('#${tableId}').parent())); return false;</c:set>
 
 		<html:form action="/user/process" styleId="editorChange" style="display: none;" styleClass="editorStopReload">
 			<input type="hidden" name="id" value="${process.id}"/>

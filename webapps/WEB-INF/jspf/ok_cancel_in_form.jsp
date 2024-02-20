@@ -3,6 +3,6 @@
 
 <div class="mt1">
 	<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $(this.form).parent())"/>
-	<button type="button" class="btn-grey" onclick="if(sendAJAXCommand(formUrl(this.form)) ){ ${returnCommand} }">OK</button>
+	<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => { ${returnCommand} })">OK</button>
 	<button type="button" class="btn-grey ml1" onclick="${returnCommand}">${l.l('Отмена')}</button>
 </div>

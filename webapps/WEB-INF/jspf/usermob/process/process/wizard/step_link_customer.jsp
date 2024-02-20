@@ -53,21 +53,19 @@
 	</div>
 
 	<c:set var="createAndLinkCode">
-		var result = sendAJAXCommand( '/user/customer.do?action=customerCreate' );
-		if( result )
-		{
-			var customerId = result.data.customer.id;
-			var customerTitle = $('#${uiid} input#customerTitle')[0].value;
+		$$.ajax.post('/user/customer.do?action=customerCreate').done((result) => {
+			const customerId = result.data.customer.id;
+			const customerTitle = $('#${uiid} input#customerTitle')[0].value;
 
 			const url = '/user/customer.do?action=customerUpdate&' + $$.ajax.requestParamsToUrl({ 'id': customerId, 'title': customerTitle, parameterGroupId: ${stepData.paramGroupId} });
-			$$.ajax.post(url).done(() => {
-				if( deleteLinksWithType( 'process', ${process.id}, 'customer' ) &&
-					addLink( 'process', ${process.id}, 'customer', customerId, customerTitle ) )
-				{
-					${reopenProcessEditorCode}
-				}
-			});
-		}
+			$$.ajax.post(url).done(() =>
+				deleteLinksWithType('process', ${process.id}, 'customer').done(() =>
+					addLink('process', ${process.id}, 'customer', customerId, customerTitle).done(() => {
+						${reopenProcessEditorCode}
+					})
+				)
+			);
+		})
 	</c:set>
 
 	<table class="searchResult mt05" style="width: 100%; display: none;">

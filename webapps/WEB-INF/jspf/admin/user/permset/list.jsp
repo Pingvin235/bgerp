@@ -60,7 +60,7 @@
 
 					<button
 						type="button" class="btn-grey ml1"
-						onclick="if( confirm( 'Вы уверены, что хотите заменить права\nна права из выбранного набора?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ $('#${uiid} > form').hide(); $('#${uiid} > input').show(); }">OK</button>
+						onclick="if (confirm('Вы уверены, что хотите заменить права\nна права из выбранного набора?')) $$.ajax.post(this.form).done(() => { $('#${uiid} > form').hide(); $('#${uiid} > input').show(); })">OK</button>
 					<button
 						type="button" class="btn-grey"
 						onclick="$('#${uiid} > form').hide(); $('#${uiid} > input').show();">${l.l('Отмена')}</button>

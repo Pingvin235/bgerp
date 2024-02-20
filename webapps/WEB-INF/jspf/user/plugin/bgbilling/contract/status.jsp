@@ -22,7 +22,7 @@
 			<td></td>
 		</tr>
 
-		<c:set var="saveCommand">if( sendAJAXCommand( formUrl( $(this).closest( 'form' ) ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) }</c:set>
+		<c:set var="saveCommand">$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))</c:set>
 		<tr class="in-pt05 in-pr05">
 			<td>Комментарий:</td>
 			<td colspan="3">

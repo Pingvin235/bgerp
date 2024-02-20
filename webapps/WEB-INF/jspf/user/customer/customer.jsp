@@ -62,23 +62,6 @@
 	<div id="${uiid}" class="in-table-cell in-nowrap">
 		<div style="width: 100%;">ID: <b>${customer.id}</b> <span id="customer_title_${customer.id}"><%-- название подставляется скриптом --%></span></div>
 
-		<%-- TODO: Перенести кнопку в плагин.
-			 Временно заблокирована из-за ошибок в импорте контрагентов.
-		<td width="5%">
-			<form action="/user/plugin/bgbilling/contract.do">
-				<input type="hidden" name="action" value="copyCustomerParamCascade"/>
-				<input type="hidden" name="customerId" value="${customer.id}"/>
-				<input type="button" value="Скопировать параметры в договора" onclick="if( confirm('Скопировать параметры?') ) { sendAJAXCommand( formUrl( this.form) ); }"/>
-			</form>
-		</td>
-
-
-		<td width="5%" class="box" nowrap="nowrap" align="center">
-			Группы: ${u:objectTitleList( ctxCustomerGroupList, customer.groupIds )}
-		</td>
-
-		--%>
-
 		<div>
 			${l.l('Created')}: <b>${tu.format(customer.createdDate, 'ymd')}</b>
 		</div>
