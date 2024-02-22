@@ -87,8 +87,8 @@ test-integration-master:
         - cd filestorage && zip -r ../build/filestorage.zip * && cd ..
         # GitLab CI variable
         - echo "$KEY_DEMO" > ./demo.id_rsa && chmod 600 ./demo.id_rsa
-        - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/bgerp.sql demo@bgerp.org:/home/demo
-        - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/filestorage.zip demo@bgerp.org:/home/demo
+        - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/bgerp.sql demo@i00.bgerp.org:/home/demo
+        - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/filestorage.zip demo@i00.bgerp.org:/home/demo
     rules:
         - if: $CI_COMMIT_REF_NAME == "master"
 
