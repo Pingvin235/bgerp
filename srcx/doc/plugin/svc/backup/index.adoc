@@ -28,81 +28,55 @@ link:../../../../itest/org/bgerp/itest/plugin/svc/backup/BackupTest.config.txt#L
 
 [[setup-remote-ssh]]
 === Setting up remote backup via SSH
-All commands are executed by *root*
-Said that, in order for all related file system operations to be successful, only SSH access to remote server is sufficient.
+All commands are executed by *root*.
 
-Client PC has to have *sshfs* client installed:
+// Said that, in order for all related file system operations to be successful, only SSH access to remote server is sufficient.
+[[setup-remote-ssh-server]]
+==== Backup Server
+On a backup host has to be generated a SSH key pair for user *root*:
+----
+ssh-keygen -t ed25519
+----
+
+The public key of the pair must be allowed to access for a created user *backup*:
+----
+useradd backup
+mkdir -m 700 /home/backup/.ssh
+mkdir -m 600 /home/backup/.ssh/authorized_keys
+cat /root/.ssh/id_ed25519.pub >> /home/backup/.ssh/authorized_keys
+chown -R backup:backup /home/backup/.ssh
+----
+
+[[setup-remote-ssh-app]]
+==== Application Server
+Assuming we are configuring backup for a BGERP instance running on server *bgerp.org* to backup server *backup.bgerp.org*.
+
+The previously mentioned private key *id_ed25519* for user *root@backup.bgerp.org* store to file `/root/.ssh/backup` on *bgerp.org*.
+Create the directory if missing:
+----
+mkdir -m 700 /root/.ssh
+----
+
+In the same directory place a `config` file with the following content:
+----
+Host backup.bgerp.org
+    HostName backup.bgerp.org
+    IdentityFile /root/.ssh/backup
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+----
+
+Install package *sshfs*:
 [source]
 ----
-apt install sshfs
-----
-
-Create a mount directory:
-[source]
-----
-mkdir /mnt/backup
+dnf install sshfs
 ----
 
 Mount SSHFS using the command below:
 [source]
 ----
-sshfs [user@]host:[dir] mountpoint [options]
-----
-
-Example:
-[source]
-----
-sshfs root@backup.bgerp.org:/opt/BGERP/backup /mnt/backup
-----
-
-Use the following command to display remote filesystem mount point:
-[source]
-----
-df -hT
-----
-
-Now you can use this directory to exchange files with remote server.
-If there is a need for other users to access this directory, use *allow_other* option.
-Option will be operational only if `/etc/fuse.conf` also has *user_allow_other* option.
-
-Mounting SSHFS with *allow_other* option:
-[source]
-----
-sshfs -o allow_other root@backup.bgerp.org:/opt/BGERP/backup /mnt/backup
-----
-
-Unmount a file system:
-[source]
-----
-umount /mnt/backup
-----
-
-[[setup-remote-ssh-auto-mount]]
-==== Automatic SSHFS mount
-First, create SSH-keypair, where one key will be private (`id_rsa`) and another one - public (`id_rsa.pub`)
-[source]
-----
-ssh-keygen
-----
-
-In order to copy public key into a remote server (to authorize SSH client), use the following command:
-[source]
-----
-ssh-copy-id -i ~/.ssh/id_dsa.pub root@backup.bgerp.org
-----
-
-Use the following command to test SSH connection to remote server using a private SSH key you've created earlier:
-[source]
-----
-ssh root@backup.bgerp.org
-----
-
-NOTE: When using Windows, you an use PuTTY or KiTTY to generate SSH keys.
-
-After configuring authorization on remote server (see above), you can start mounting remote file system into your local folder using the following command:
-[source]
-----
-sshfs root@backup.bgerp.org:/opt/bgerp/backup /mnt/backup -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa
+sshfs -o allow_other backup@backup.bgerp.org:/home/backup/bgerp.org/opt/bgerp/backup /opt/bgerp/backup
 ----
 
 [[usage]]
