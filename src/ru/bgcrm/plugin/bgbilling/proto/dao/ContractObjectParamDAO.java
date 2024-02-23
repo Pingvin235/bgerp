@@ -15,14 +15,11 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterAddressValue;
-import ru.bgcrm.model.param.ParameterPhoneValue;
-import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
-import ru.bgcrm.plugin.bgbilling.proto.model.ParamPhoneValueItem;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
@@ -212,23 +209,6 @@ public class ContractObjectParamDAO extends BillingDAO {
 
             result.add(value);
         }
-
-        return result;
-    }
-
-    @Deprecated
-    public static ParameterPhoneValue toCrmObject(List<ParamPhoneValueItem> phones) {
-        List<ParameterPhoneValueItem> crmItems = new ArrayList<>();
-        for (ParameterPhoneValueItem item : phones) {
-            ParameterPhoneValueItem crmItem = new ParameterPhoneValueItem();
-            crmItem.setPhone(item.getPhone());
-            crmItem.setFormat(item.getFormat());
-            crmItem.setComment(item.getComment());
-            crmItem.setFlags(item.getFlags());
-            crmItems.add(crmItem);
-        }
-        ParameterPhoneValue result = new ParameterPhoneValue();
-        result.setItemList(crmItems);
 
         return result;
     }

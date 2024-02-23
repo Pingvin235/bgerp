@@ -525,7 +525,7 @@ public class ServerCustomerCreator {
                                 continue;
                             }
 
-                            log.info("Value: " + item.getPhone() + "; format: " + item.getFormat());
+                            log.info("Value: {}", item.getPhone());
 
                             customerParamValue.getItemList().add(item);
                         }

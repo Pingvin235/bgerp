@@ -180,15 +180,13 @@ messageType.<id>.saver.paramId=<paramId>
 ----
 Где:
 [square]
-* *<paramId>* - код параметра понтрагента типа "Phone";
-* *<format>* - <<../setup.adoc#config, формат (param.phone.format)>> номера.
+* *<paramId>* - код параметра понтрагента типа "Phone".
 
 Пример:
 [source]
 ----
 messageType.1.saver.class=MessageTypeContactSaverPhone
 messageType.1.saver.paramId=37
-messageType.1.saver.format=13
 ----
 
 // DO NOT TRANSLATE modes for BGBilling Plugin!!!

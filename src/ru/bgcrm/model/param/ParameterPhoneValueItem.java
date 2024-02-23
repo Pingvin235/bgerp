@@ -11,9 +11,6 @@ public class ParameterPhoneValueItem {
 
     private String phone = "";
     private String comment = "";
-    // deprecated fields
-    private String format;
-    private int flags = 0;
 
     public ParameterPhoneValueItem() {}
 
@@ -26,7 +23,6 @@ public class ParameterPhoneValueItem {
     public ParameterPhoneValueItem(String phone, String format, String comment) {
         log.warnd("Deprecated constructor was called.");
         this.phone = phone;
-        this.format = format;
         this.comment = comment;
     }
 
@@ -49,25 +45,23 @@ public class ParameterPhoneValueItem {
     @Deprecated
     public String getFormat() {
         log.warndMethod("getFormat", null);
-        return format;
+        return "";
     }
 
     @Deprecated
     public void setFormat(String format) {
         log.warndMethod("setFormat", null);
-        this.format = format;
     }
 
     @Deprecated
     public int getFlags() {
         log.warndMethod("getFlags", null);
-        return flags;
+        return 0;
     }
 
     @Deprecated
     public void setFlags(int flags) {
         log.warndMethod("setFlags", null);
-        this.flags = flags;
     }
 
     @Override

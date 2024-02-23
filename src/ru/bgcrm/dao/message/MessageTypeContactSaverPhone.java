@@ -22,12 +22,10 @@ import ru.bgcrm.util.Utils;
 @Bean
 public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTypeContactSaver {
     private final int paramId;
-    private final String format;
 
     public MessageTypeContactSaverPhone(ConfigMap config) throws Exception {
         super(config);
         this.paramId = config.getInt("paramId", -1);
-        this.format = config.get("format", "13");
         if (paramId <= 0) {
             throw new BGException("paramId incorrect");
         }
@@ -59,7 +57,6 @@ public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTy
         if (!exists) {
             ParameterPhoneValueItem item = new ParameterPhoneValueItem();
             item.setPhone(phone);
-            item.setFormat(format);
 
             values.add(item);
 

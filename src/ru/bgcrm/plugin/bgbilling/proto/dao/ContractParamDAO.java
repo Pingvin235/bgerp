@@ -198,7 +198,6 @@ public class ContractParamDAO extends BillingDAO {
         return valueList;
     }
 
-    //FIXME: Переписать функцию на использование ParameterPhoneValueItem
     public List<ParameterPhoneValueItem> getPhoneParam(int contractId, int paramId) throws BGException {
         List<ParameterPhoneValueItem> result = new ArrayList<>();
 
@@ -226,16 +225,17 @@ public class ContractParamDAO extends BillingDAO {
             for (int i = 1; i <= itemCount; i++) {
                 String number = phone.getAttribute("phone" + i);
                 String comment = phone.getAttribute("comment" + i);
-                String format = phone.getAttribute("format" + i);
 
-                if (Utils.isBlankString(number)) {
+                if (Utils.isBlankString(number))
                     continue;
-                }
+
+                // удаление форматирование из параметра
+                if (dbInfo.getVersion().compareTo("9.2") >= 0)
+                    number = number.replaceAll("[^\\d.]", "");
 
                 ParameterPhoneValueItem item = new ParameterPhoneValueItem();
                 item.setPhone(number);
                 item.setComment(comment);
-                item.setFormat(format);
 
                 result.add(item);
             }
@@ -476,7 +476,6 @@ public class ContractParamDAO extends BillingDAO {
 
         for (int i = 0; i < itemCount; i++) {
             req.setAttribute("phone" + (i + 1), i < phones.size() ? phones.get(i).getPhone() : "");
-            req.setAttribute("format" + (i + 1), i < phones.size() ? phones.get(i).getFormat() : "");
             req.setAttribute("comment" + (i + 1), i < phones.size() ? phones.get(i).getComment() : "");
         }
 
