@@ -2,4 +2,4 @@
 
 [square]
 * link:https://bgerp.org[English]
-* link:https://bgerp.ru[Russian]
+* link:https://bgerp.org/ru[Russian]
