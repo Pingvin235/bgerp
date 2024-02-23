@@ -7,6 +7,7 @@ test-and-publish-update:
         paths:
             - .gradle/wrapper
             - .gradle/caches
+            #- target/doc causes troubles in other jobs
     before_script:
         - export TZ="CET" && date
         - export GRADLE_USER_HOME=`pwd`/.gradle

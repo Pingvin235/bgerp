@@ -1,49 +1,53 @@
 = Install
 :toc:
+:toclevels: 5
 
-[[system-requirements]]
-== System requirements
-Minimal system requirements for running server with BGERP + MySQL:
+[[method]]
+== Methods
+Minimal system requirements for running a server with BGERP + MySQL are as follows:
 [square]
-* OS Linux, preferably RPM based: CentOS or RHEL, because the samples below;
-* CPU core equal Intel x86 500 MHz, recommended - 1 GHz;
-* 512 MB RAM, recommended - 1 GB.
+* An RPM-based Linux operating system, preferably CentOS or RHEL (used by samples), is recommended.
+* CPU core equal to Intel x86 500MHz;  1GHz recommended;
+* 512MB RAM; 1GB recommended.
 
-[[docker]]
-== Docker image
-Installation from Docker image.
+Мы рекомендуем вам установку в Docker контейнер, как наиболее простой способ запустить систему для изучения.
+В дальнейшем данные могут быть перенесены на Linux сервер для полноценной эксплуатации.
 
-The link:https://hub.docker.com/r/bgerp/bgerp[Docker image] is approximately *1 GB* and contains
+[[method-docker]]
+=== Docker
+Installation from a Docker image.
+
+The link:https://hub.docker.com/r/bgerp/bgerp[Docker image] uses approximately *1 GB* of disk space and contains
 the latest published build will all the required components: MySQL, Java.
-The actual <<demo, Demo>> is also applied during first run.
+The actual <<demo, Demo>> state is also applied during first run.
 
-This variant perfectly fits for following purposes:
+This variant perfectly fits the following purposes:
 [square]
-* having first look and playing with program;
-* running on Windows machines;
-* running in different environment, e.g. already installed MySQL with not appropriate version.
+* Having a first look and playing with the program;
+* Running on Windows machines;
+* Running in a different environment, e.g. with an already installed MySQL but with a different/untested version.
 
-For removing container, also before update.
+Use the following command to remove container - use it also before updating:
 [source, bash]
 ----
 docker rm -f bgerp
 ----
 
-The running container is available via <<interface.adoc#, Web-interface>>. Use <<nginx, NGINX>> for restricting access from outside network.
+The running container is available via <<interface.adoc#, web-interface>>. Use <<nginx, NGINX>> for restricting access from an outside network.
 
-[[docker-volumes-inside]]
-=== Data volumes inside (Win and *NIX)
-In this case all the data volumes are hidden inside Docker.
+[[method-docker-volumes-inside]]
+==== Data volumes Inside the Container (Win and *NIX)
+In this case all the required data volumes are hidden inside Docker container.
 
-CAUTION: All the related data is removed together with container.
+CAUTION: All the related data is removed together with container upon deletion.
 
 [source, bash]
 ----
 docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
 ----
 
-[[docker-volumes-outside]]
-=== Data volumes outside (*NIX only)
+[[method-docker-volumes-outside]]
+==== Data volumes Outside the Container (*NIX only)
 [source, bash]
 ----
 docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped \
@@ -63,31 +67,32 @@ CAUTION: Completely remove all the related data.
 rm -rf /srv/bgerp
 ----
 
-[[deployment-script]]
-== Deployment Script
-A Bash link:../../deploy/deploy.sh[script] that runs on Debian/CentOS and performs:
+[[method-docker-deployment-script]]
+==== Deployment Script
+Distribution provides a Bash link:../../deploy/deploy.sh[script] that runs on Debian/CentOS and performs the following actions:
 [square]
-* deployment a Docker container with running BGERP;
-* configuration of NGINX with SSL access.
+* Deploys a Docker container with a running instance pf BGERP;
+* Configures NGINX reverse proxy with an SSL access.
 
 Prerequisites;
 [square]
-* You need to be installed next packages: *docker-ce*, *nginx*, *certbot*, *curl*.
-* Run script with *sudo* or *root*
+* The following packages have to be pre-installed: *docker-ce*, *nginx*, *certbot*, *curl*.
+* Script needs to be executed via *sudo* or *root*
 
-Switch to a working directory, e.g:
+Execution Steps:
+Step 1. Switch to a working directory, e.g:
 [source, bash]
 ----
 cd /tmp
 ----
 
-Download the script using *curl*:
+Step 2. Download the script using *curl*:
 [source, bash]
 ----
 curl https://github.com/Pingvin235/bgerp/blob/master/srcx/deploy/deploy.sh --output bgerp_deploy.sh
 ----
 
-Running:
+Step 3. Execute the script:
 [source, bash]
 ----
 sudo bash bgerp_deploy.sh <NAME> <PORT>
@@ -96,7 +101,7 @@ sudo bash bgerp_deploy.sh <NAME> <PORT>
 Where:
 [square]
 * *<NAME>* - DNS server name used for the instance;
-* *<PORT>* - HTTP port exposed on localhost.
+* *<PORT>* - HTTP port exposed on the localhost.
 
 Example:
 [source]
@@ -104,58 +109,71 @@ Example:
 sudo bash bgerp_deploy.sh test.bgerp.org 9001
 ----
 
-[[linux-server]]
-== Linux server
-Installation on Linux server.
+[[method-linux]]
+=== Linux
+Installation on a Linux server.
 
 [[mysql]]
-=== MySQL
-The *Original* MySQL DB Server version *8.0* or newer has to be used.
+==== MySQL
+The *Original* MySQL DB Server version *8.0* or newer has to be used for installation.
 
 Different forks of MySQL (Maria, Percona) do not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
-Here is the test query to verify it:
+Below is the test query you can use to verify compatibility:
 [snippet, from="CREATE", to=");"]
 link:../../../src/ru/bgcrm/plugin/fulltext/db.sql#L1-L9[src/ru/bgcrm/plugin/fulltext/db.sql]
 
-You can use the <<mysql_migration.adoc#, instruction>> for converting existing MySQL-like DB to the right version.
+You can use the <<mysql_migration.adoc#, instruction>> for converting existing MySQL-like DB to the supported version.
 
 [[mysql-install]]
-==== Install
+===== Install
 [square]
-* link:https://www.mysqltutorial.org/install-mysql-centos[MySQL 8 on CentOS]
-* link:https://hub.docker.com/_/mysql[MySQL using Docker] - in case of already installed MySQL with different version on your server.
+* link:https://www.linuxcapable.com/how-to-install-mysql-on-rocky-linux[MySQL 8 on Rocky Linux 8 or 9]
+* link:https://hub.docker.com/_/mysql[MySQL in Docker] - in case MySQL is already installed on a target server but runs a different version.
 
-Check the required options below in *[mysqld]* section in file *my.cnf*:
+Once installed, check the mandatory options below in *[mysqld]* section in *my.cnf* file:
 ----
 [mysqld]
 sql-mode=
+innodb_file_per_table=1
 ----
-IMPORTANT: *sql-mode* must be set exactly to empty string, as shown in the example. If sql-mode is not defined - add it, if missing - make value  DB creation script contains correctness of it any case.
+IMPORTANT: *sql-mode* must be set exactly to an empty string, as shown in the example above. Add this line if sql-mode option is not defined. In case this string is still missing, DB creation script will take care of correcting and adding it.
 
-Add missing *sql-mode* command:
-[source, bash]
+Optionally you can disable *mysqlx* protocol:
 ----
-sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf
+mysqlx=OFF
 ----
 
-You will also need a root access to the MySQL Server one time.
+And restrict access to database server from different hosts, if you don't need that:
+----
+bind-address=127.0.0.1,::1
+----
+
+Some additional optimization options, you may need in the future. Please, check their intentions before.
+----
+sort_buffer_size=200M
+innodb_flush_log_at_trx_commit=2
+innodb_buffer_pool_size=2G
+innodb_log_file_size=100M
+----
+
+You will also need a root access to the MySQL Server at the time of installation (one time action).
 
 [[java]]
-=== Java
-Required version *OpenJDK 21*, may be installed differently for distributions, for example so:
+==== Java
+*OpenJDK 21* version is required - is can be installed differently for distributions, as in the example below:
 [square, sh]
 ----
 sudo yum update
 sudo yum install -y java-21-openjdk-devel
 ----
 
-IMPORTANT: Check, what both commands *java* and *javac* must be available after installation.
+IMPORTANT: Confirm that both *java* and *javac* commands are available after installation.
 
-[[application]]
-=== Application
-All the operations require *root* user.
+[[method-linux-app]]
+==== Application
+All the operations require a *root* user.
 
-Check and install if needed script dependencies:
+Step 1. Check and install script dependencies:
 [source, sh]
 ----
 sudo yum update
@@ -163,7 +181,7 @@ sudo yum install -y epel-release
 sudo yum install -y zip pwgen wget mysql-community-client unzip
 ----
 
-Download archive and unpack it:
+Step 2. Download archive and unpack it:
 [source, sh]
 ----
 wget https://bgerp.org/download/3.0/bgerp.zip -O /tmp/bgerp.zip &&
@@ -171,7 +189,7 @@ unzip /tmp/bgerp.zip -d /opt &&
 chmod 744 /opt/bgerp/*.sh
 ----
 
-Generate DB password ant put it in files:
+Step 3. Generate DB password ant add it into files:
 [source, sh]
 ----
 ERP_DB_PWD=`pwgen -y -c 20` && export EPR_DB_PWD &&
@@ -180,83 +198,148 @@ sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/bgerp/bgerp.properties &&
 sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/bgerp/db_create.sql
 ----
 
-Run DB user and structure creation:
+Step 4. Run a DB script to create DB structure:
 [source, sh]
 ----
 mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/bgerp/db_create.sql
 mysql --default-character-set=utf8 -h127.0.0.1 -ubgerp -p$ERP_DB_PWD < /opt/bgerp/db_init.sql
 ----
 
-// TODO: Take filestorage from Demo.
-Apply data from the <<demo, Demo>>:
+Step 5. Optionally apply data from the <<demo, Demo>>:
 [source, sh]
 ----
 wget https://demo.bgerp.org/bgerp.sql -O /opt/bgerp/bgerp.sql
-mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p bgerp < /opt/bgerp/bgerp.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p bgerp < /opt/bgerp/bgerp.sql && rm /opt/bgerp/bgerp.sql
 ----
 
-Change if needed in *bgerp.properties* DB server host, HTTP and management ports, in *setenv.sh* *JAVA_HOME*:
+----
+wget https://demo.bgerp.org/filestorage.zip -O /opt/bgerp/filestorage.zip
+unzip filestorage.zip -d /opt/bgerp/filestorage && rm /opt/bgerp/filestorage.zip
+----
+
+Step 6. If required, adapt the following values in in *bgerp.properties*: DB server host value, HTTP and management ports.
+
+Step 7. If required, adapt *JAVA_HOME* variable in a *setenv.sh* :
 [source, sh]
 ----
 JAVA_HOME=/usr
 if [ -z "$JAVA_HOME" ]; then
-  echo "The JAVA_HOME environment variable is not defined"
-  echo "This environment variable is needed to run this program"
-  exit 1
+    echo "The JAVA_HOME environment variable is not defined"
+    echo "This environment variable is needed to run this program"
+    exit 1
 fi
 ----
-*java* and *javac* are looked in *$JAVA_HOME/bin/*
+*java* and *javac* will be expected in *$JAVA_HOME/bin/*
 
-For starting/stopping use *erp_start.sh/erp_stop.sh*. *erp_status.sh* - shows current status of the application.
-After starting check *log/bgerp.log* and *log/bgerp.out* on errors.
+Step 8. Use *erp_start.sh/erp_stop.sh* for application start and termination.
+*erp_status.sh* will show the current status of the application.
+Upon starting, check *log/bgerp.log* and *log/bgerp.out* for errors.
 
-The running application is available via <<interface.adoc#, Web-interface>>.
+Once running, application will be available via <<interface.adoc#, Web-interface>>.
 
-[[systemd]]
-=== Systemd
-Скрипт сервиса Systemd расположен в *scripts/bgerp.service*, переместите его в каталог */etc/systemd/system/*.
-Затем выполните команды:
+[[method-linux-systemd]]
+==== SystemD
+In order to enable application auto-start upon the system start, use a systemd script.
+Systemd script is located in *scripts/bgerp.service* - copy it to */etc/systemd/system/* and then execute the following commands:
 [source, bash]
 ----
 systemctl daemon-reload
 systemctl enable bgerp
 ----
-Для автозапуска приложения при загрузке системы.
 
-[[demo]]
-== Demo System
-The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest published builds of software and resets to initial state any 3rd hour CET time.
-Both, software and data for the demo system are <<../project/workflow.adoc#accept, provided>> from *master* branch.
-DB content of the system is identical to <<docker, Docker Container>> that should be preferred in case of you going to do changes.
+[[nginx]]
+==== NGINX
+Typically the application is running in Intranet, access to restricted <<interface.adoc#, interfaces>> from outside as well as SSL may be organized using link:http://nginx.org/en/docs[NGINX].
+
+[[nginx-example]]
+===== Example
+The application is runnuning on internal host *erp.int.bitel.ru*.
+Outside on host *erp.bitel.ru* is available only <<interface.adoc#open, open interface>> http://erp.bitel.ru/open
+The configuration may be typically placed in file `/etc/nginx/conf.d/erp.bitel.ru`
+----
+server {
+    server_name             erp.bitel.ru;
+    server_name             crm.bitel.ru;
+    access_log              /var/log/nginx/erp.bitel.ru.access.log;
+
+    # optionally close access without interface
+    #location = / {
+    #    return 404;
+    #}
+
+    # for opening user interface - add admin|login.do|user
+    # for opening user mobile interface - add usermob
+    location / {
+        client_max_body_size    100m;
+        proxy_pass              http://erp.int.bitel.ru/;
+        proxy_redirect          http:// https://;
+        proxy_set_header        Host $host;
+        proxy_set_header        Connection close;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_read_timeout      300;
+        gzip_proxied            any;
+    }
+
+    # this part has to be generated first by CertBot:
+    # certbot --nginx -d erp.bitel.ru -d crm.bitel.ru
+    listen 443 ssl; # managed by Certbot
+    listen [::]:443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/erp.bitel.ru/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/erp.bitel.ru/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+# redirect HTTP to HTTPS
+server {
+    listen        80;
+    listen        [::]:80;
+    server_name   erp.bitel.ru;
+    server_name   crm.bitel.ru;
+    return 301    https://$host$request_uri;
+}
+----
 
 [[update]]
-== Обновление
-IMPORTANT: Изучите link:https://bgerp.org/ru/#install[лог обновлений], там могут содержаться важные сведения либо инструкции.
+== Update
+[[update-version]]
+=== Version
+Система версионирования продукта описана на нашем link:https://bgerp.org/product/#cd[веб-сайте].
+Следуя данному руководству, вы установите его актуальный *Stable Release*.
+При последующей эксплуатации рекомендуется обновляться только при выпуске очередного подобного релиза, о чём приложение информирует уведомлением в интерфейсе.
+
+IMPORTANT: Prior to updating, make sure to examine link:https://bgerp.org/ru/#install[Release Notes], as these may contain important information or update instructions.
+
+Однако в момент первоначального запуска системы предпочтительно использовать *00000 Pre-Stable Release* для получения наиболее свежей функциональности.
 
 [[update-installer-ui]]
-=== Интерфейс
-В оснастке <<setup.adoc#status, Администрирование / Приложение / Статус>> доступен просмотр текущей версии приложения,
-списка с логами обновлений. Для всех операций неявно используется <<update-installer, консольная утилита>>, описанная далее.
+=== Interface
+You can use <<setup.adoc#status, Admin / Application / Status>> tool to retrieve application's current version and the list of release notes.
+All operations are implicitly using <<update-installer, console utility>> described below.
 
 image::_res/install_app_status.png[width="600"]
 
-Раздел *Update* - обновление на текущую версию системы и набора библиотек.
-Выполняемая <<update-installer, команда>>:
+*Update* section - triggers update to the latest application version. that includes all required libraries.
+The following <<update-installer, command>> is executed:
 [source, bash]
 ----
 ./backup.sh && ./installer.sh update(f) && ./erp_restart.sh
 ----
 
-Раздел *Update on change* - загрузка пакетов обновления <<../project/workflow.adoc#build-change, изменения>> по коду процесса.
-Выполняемая <<update-installer, команда>>:
+*Update on change* section - uploads a <<../project/workflow.adoc#build-change, change>> package based on the process code.
+The following  <<update-installer, command>> is executed:
 ----
 ./backup.sh && ./installer.sh install update_3.0_xxxx.zip && ./erp_restart.sh
 ----
 
-NOTE: Повторное *Обновление* после *Обновления на изменение* позволит сбросить сервер в состояние последнего релиза.
+[NOTE]
+====
+После первичной установки системы сразу же произведите обновление на изменение 00000.
+Executing *Update* after *Update on change* operation will bring application server to a latest *Stable Release* state.
+====
 
 [[update-installer]]
-=== Консольные утилиты
+=== Console
 [CAUTION]
 ====
 Перед установкой обновления всегда делайте резервную копию программы при помощи скрипта *backup.sh*
@@ -304,7 +387,7 @@ Recommended command for updating (argument 'db' can be excluded for speeding up 
 Update files are taken from version-containing URL, for example for version 3.0: https://bgerp.org/download/3.0/
 
 [[update-stored-procedure]]
-=== Хранимые процедуры обновления
+=== Хранимые процедуры БД
 Для изменений структуры БД в скриптах внутри пакетов обновлении используются хранимые процедуры. Например:
 [source]
 ----
@@ -321,58 +404,10 @@ CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
 
 Первая удаляет из БД информацию о уже применённых обновлениях структуры, вторая - производит повторное выполнение всех скриптов.
 
-[[nginx]]
-== NGINX
-Typically the application is running in Intranet, access to restricted <<interface.adoc#, interfaces>> from outside as well as SSL may be organized using NGINX.
-
-NGINX docs: http://nginx.org/en/docs/
-
-[[nginx-example]]
-=== Example
-The application is runnun on internal host *erp.int.bitel.ru*.
-Outside on host *erp.bitel.ru* is available only <<interface.adoc#open, open interface>> http://erp.bitel.ru/open
-The configuration may be typically placed in file `/etc/nginx/conf.d/erp.bitel.ru`
-----
-server {
-    server_name             erp.bitel.ru;
-    access_log              /var/log/nginx/erp.bitel.ru.access.log;
-
-    # optionally close access without interface
-    #location = / {
-    #    return 404;
-    #}
-
-    # for opening user interface - add admin|login.do|user
-    # for opening user mobile interface - add usermob
-    location / {
-        client_max_body_size    100m;
-        proxy_pass              http://erp.int.bitel.ru/;
-        proxy_redirect          http:// https://;
-        proxy_set_header        Host $host;
-        proxy_set_header        Connection close;
-        proxy_set_header        X-Real-IP $remote_addr;
-        proxy_read_timeout      300;
-        gzip_proxied            any;
-    }
-
-    # this part has to be generated first by CertBot:
-    # certbot --nginx -d bgerp.ru -d www.bgerp.ru -d bgerp.de -d www.bgerp.de -d bgerp.org -d www.bgerp.org
-    listen 443 ssl; # managed by Certbot
-    listen [::]:443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/erp.bitel.ru/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/erp.bitel.ru/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-}
-
-# redirect HTTP to HTTPS
-server {
-    listen        80;
-    listen        [::]:80;
-    server_name   crm.bitel.ru;
-    server_name   team.bgerp.org;
-    return 301    https://$host$request_uri;
-}
-----
-
-
+[[demo]]
+== Demo System
+The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<#update-version, 00000 Pre-Stable Release>> of software
+and resets to initial state every 3rd hour.
+Поскольку в системе приведены примеры всего функционала продукта, она может использоваться для изучения программы с проверкой конфигураций.
+В случае длительных экспериментов для избежания потери сделанных изменений мы рекомендуем вам использовать <<method-docker, Docker Container>>.
+Более подробное описание *Demo System* доступно в <<../project/workflow.adoc#accept, Workflow>>.
