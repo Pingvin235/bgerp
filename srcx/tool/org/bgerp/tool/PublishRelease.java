@@ -19,8 +19,8 @@ import ru.bgcrm.util.Utils;
 public class PublishRelease extends PublishCommon {
     private static final Log log = Log.getLog();
 
-    /** Target remote dir, change it to "/home/cdn/www/_download" when testing. */
-    private final static String SSH_DIR = "/home/cdn/www/download/";
+    /** Target remote dir, change it to "/home/cdn/www/_release" when testing. */
+    private final static String SSH_DIR = "/home/cdn/www/release/";
 
     /** Build number is published to web site. */
     private final static String SSH_LOGIN_BUILD_NUM = "www@bgerp.org";

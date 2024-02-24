@@ -1,7 +1,7 @@
 package org.bgerp.app.dist.inst;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,13 +37,13 @@ public class InstallerChangesTest {
     }
 
     @Test
-    public void testChange() throws IOException {
+    public void testChange() throws Exception {
         var cnt = new AtomicInteger();
 
         var processor = new InstallerChanges("14353") {
             @Override
             protected Document changes(String url) throws IOException {
-                Assert.assertEquals("https://bgerp.org/update/14353", url);
+                Assert.assertEquals("https://bgerp.org/change/14353", url);
                 cnt.incrementAndGet();
                 return Jsoup.parse(IOUtils.toString(
                         InstallerModulesTest.class.getResourceAsStream("InstallerChangesTest.change.html"),
@@ -51,9 +51,9 @@ public class InstallerChangesTest {
             }
 
             @Override
-            protected void download(String url, String href) throws IOException, MalformedURLException {
+            protected void download(String url, String href) throws IOException, URISyntaxException {
                 cnt.incrementAndGet();
-                Assert.assertEquals("https://bgerp.org/update/14353", url);
+                Assert.assertEquals("https://bgerp.org/change/14353", url);
                 Assert.assertEquals("update_3.0_1385.zip", href);
             }
         };

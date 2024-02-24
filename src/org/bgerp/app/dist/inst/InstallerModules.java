@@ -2,7 +2,7 @@ package org.bgerp.app.dist.inst;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +28,7 @@ import ru.bgcrm.util.Utils;
 public class InstallerModules {
     private static final Log log = Log.getLog();
 
-    private static final String UPDATE_URL = Utils.getSystemProperty("download.url", App.URL + "/download");
+    private static final String RELEASE_URL = Utils.getSystemProperty("release.url", App.URL + "/release");
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     /** App version for 'update' module. */
@@ -62,7 +62,7 @@ public class InstallerModules {
         try {
             String kernelVersion = getVersion();
 
-            String updateUrl = Log.format("{}/{}/", UPDATE_URL, kernelVersion);
+            String updateUrl = Log.format("{}/{}/", RELEASE_URL, kernelVersion);
 
             log.info("Loading remote file list from: {}", updateUrl);
 
@@ -75,7 +75,7 @@ public class InstallerModules {
                 if (ModuleFile.isValidFileName(href)) {
                     var m = ModuleFile.PATTERN_ZIP.matcher(href);
                     if (m.find()) {
-                        var fi = new ModuleFile(m.group(1), m.group(2), href, new URL(updateUrl + href));
+                        var fi = new ModuleFile(m.group(1), m.group(2), href, new URI(updateUrl + href).toURL());
                         remoteFileMap.put(fi.moduleName, fi);
                     }
                 }

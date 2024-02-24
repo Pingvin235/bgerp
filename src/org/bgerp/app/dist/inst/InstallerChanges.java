@@ -2,8 +2,8 @@ package org.bgerp.app.dist.inst;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import ru.bgcrm.util.Utils;
 public class InstallerChanges {
     private static final Log log = Log.getLog();
 
-    public static final String UPDATE_TO_CHANGE_URL = App.URL + "/update";
+    public static final String UPDATE_TO_CHANGE_URL = App.URL + "/change";
     public static final String PRE_RELEASE_CHANGE_ID = "00000";
 
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
@@ -56,8 +56,9 @@ public class InstallerChanges {
      * The names of this files are available after with {@link #getUpdateFiles()}.
      * @param changeId string with directory name.
      * @throws IOException
+     * @throws URISyntaxException
      */
-    public InstallerChanges(String changeId) throws IOException {
+    public InstallerChanges(String changeId) throws IOException, URISyntaxException {
         updateFiles(changeId);
     }
 
@@ -80,7 +81,7 @@ public class InstallerChanges {
         });
     }
 
-    private void updateFiles(String changeId) throws IOException {
+    private void updateFiles(String changeId) throws IOException, URISyntaxException {
         final String url = UPDATE_TO_CHANGE_URL + "/" + changeId;
         Document doc = changes(url);
         for (Element link : doc.select("a")) {
@@ -99,8 +100,8 @@ public class InstallerChanges {
     }
 
     @VisibleForTesting
-    protected void download(final String url, String name) throws IOException, MalformedURLException {
-        FileUtils.copyURLToFile(new URL(url + "/" + name), new File(TMP_DIR_PATH, name));
+    protected void download(final String url, String name) throws IOException, URISyntaxException {
+        FileUtils.copyURLToFile(new URI(url + "/" + name).toURL(), new File(TMP_DIR_PATH, name));
     }
 
     /**

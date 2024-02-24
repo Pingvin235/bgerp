@@ -25,12 +25,12 @@ public class InstallerModulesTest {
         Assert.assertEquals(2, map.size());
 
         var update = map.get(InstalledModule.MODULE_UPDATE);
-        Assert.assertEquals("https://bgerp.org/download/3.0/update_3.0_1373.zip", update.url.toString());
+        Assert.assertEquals("https://bgerp.org/release/3.0/update_3.0_1373.zip", update.url.toString());
         Assert.assertEquals("1373", update.buildNumber);
         Assert.assertEquals("update_3.0_1373.zip", update.fileName);
 
         var updateLib = map.get(InstalledModule.MODULE_UPDATE_LIB);
-        Assert.assertEquals("https://bgerp.org/download/3.0/update_lib_3.0_77.zip", updateLib.url.toString());
+        Assert.assertEquals("https://bgerp.org/release/3.0/update_lib_3.0_77.zip", updateLib.url.toString());
         Assert.assertEquals("77", updateLib.buildNumber);
         Assert.assertEquals("update_lib_3.0_77.zip", updateLib.fileName);
     }

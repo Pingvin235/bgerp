@@ -1,4 +1,4 @@
-task publishUpdate(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'], description: 'Copies changes modules to be available under https://bgerp.org/update') {
+task publishUpdate(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'], description: 'Copies changes modules to be available under https://bgerp.org/change') {
     mustRunAfter 'doc'
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'

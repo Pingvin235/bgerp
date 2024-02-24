@@ -4,58 +4,58 @@ A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 16.11.2023 15:36:48 1392
 C: [14623] Delete Dynamic code related functionality.
 C: [14623] Replaced action method 'runDynamicClass' to 'runClass'.
-A: [14747] Search processes by parameters. https://bgerp.org/doc/3.0/manual/kernel/search.html#process-param
-A: [14847] Cloning processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#usage-card-existance-operation
+A: [14747] Search processes by parameters. https://bgerp.org/release/3.0/doc/kernel/search.html#process-param
+A: [14847] Cloning processes. https://bgerp.org/release/3.0/doc/kernel/process/index.html#usage-card-existance-operation
 C: [14913] BGBilling. Delete HelpDesk SOAP classes.
 A: [14913] BGBilling. HelpDesk for version 9.2.
-A: [14913] BGBilling. Configuration key 'topicId' for testing HelpDesk synchronization. https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#helpdesk
+A: [14913] BGBilling. Configuration key 'topicId' for testing HelpDesk synchronization. https://bgerp.org/release/3.0/doc/plugin/bgbilling/index.html#helpdesk
 C: [14917] BGBilling. Optimizations of work with CerberCrypt module.
 C: [14958] Replace fmt JSP taglib calls.
 C: [14985] Delete width 100% for data tables.
-A: [14986] Task titles in Scheduler table and possibility to run them manually. https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
-A: [14986] Backup scheduled task. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.adoc#setup-scheduler
+A: [14986] Task titles in Scheduler table and possibility to run them manually. https://bgerp.org/release/3.0/doc/kernel/setup.html#scheduler
+A: [14986] Backup scheduled task. https://bgerp.org/release/3.0/doc/plugin/svc/backup/index.adoc#setup-scheduler
 C: [14986] Update MySQL driver lib.
 B: [14988] Removed possibilities of column concatenation in process queues.
-A: [14988] Plugin SLA. https://bgerp.org/doc/3.0/manual/plugin/pln/sla/
+A: [14988] Plugin SLA. https://bgerp.org/release/3.0/doc/plugin/pln/sla/
 F: [14993] 'Invoice Register' report taking payment date.
 F: [14994] Pass BGMessageException thrown in event listeners.
 C: [14994] EventProcessor cleanup.
-A: [14996] Hide protocol for 'text' parameters, shown as a link. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-text
+A: [14996] Hide protocol for 'text' parameters, shown as a link. https://bgerp.org/release/3.0/doc/kernel/setup.html#param-text
 F: [14996] Answer for 'Note' messages.
-A: [14996] Blocked change update when app state error. https://bgerp.org/doc/3.0/manual/kernel/install.html#update-installer-ui
+A: [14996] Blocked change update when app state error. https://bgerp.org/release/3.0/doc/kernel/install.html#update-installer-ui
 C: [14997] Move Tomcat work directory to tmp/tomcat.
 C: [15001] Java libraries update.
 F: [15001] Vertically collapsed log tool viewer.
 F: [15002] BGBilling. Search contract by ID.
 C: [15004] Delete SOAP related code.
 C: [15005] BGBilling delete support of outdated modules.
-A: [15006] Plugin Invoice. Time reversed order of invoice table. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
-A: [15006] Plugin Invoice. Invoices for month ranges, suggestion of the next invoice range and type based on the last one. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
-A: [15006] Plugin Invoice. Numeration macros 'date_to'. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#setup-type-numeration
-A: [15006] Plugin Email. Notifications about paid invoices. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-type-change-notification
-A: [15006] Plugin Subscription. Configurable predefined subscription in 'Price Calculator'. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#setup-price-calculator
-A: [15006] Plugin Subscription. Update and send by email license on paid invoice event. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#setup-config-subscription-paid-invoice
-A: [15011] Plugin SMS multiple providers. https://bgerp.org/doc/3.0/manual/plugin/sms/index.html#setup-mult
-C: [15017] Short class names in Message Types configuration. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type
-A: [15017] Create MessageTypeNote as unread. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type-note
+A: [15006] Plugin Invoice. Time reversed order of invoice table. https://bgerp.org/release/3.0/doc/plugin/bil/invoice/index.html#usage
+A: [15006] Plugin Invoice. Invoices for month ranges, suggestion of the next invoice range and type based on the last one. https://bgerp.org/release/3.0/doc/plugin/bil/invoice/index.html#usage
+A: [15006] Plugin Invoice. Numeration macros 'date_to'. https://bgerp.org/release/3.0/doc/plugin/bil/invoice/index.html#setup-type-numeration
+A: [15006] Plugin Email. Notifications about paid invoices. https://bgerp.org/release/3.0/doc/plugin/msg/email/index.html#setup-process-type-change-notification
+A: [15006] Plugin Subscription. Configurable predefined subscription in 'Price Calculator'. https://bgerp.org/release/3.0/doc/plugin/bil/subscription/index.html#setup-price-calculator
+A: [15006] Plugin Subscription. Update and send by email license on paid invoice event. https://bgerp.org/release/3.0/doc/plugin/bil/subscription/index.html#setup-config-subscription-paid-invoice
+A: [15011] Plugin SMS multiple providers. https://bgerp.org/release/3.0/doc/plugin/sms/index.html#setup-mult
+C: [15017] Short class names in Message Types configuration. https://bgerp.org/release/3.0/doc/kernel/message/index.html#setup-type
+A: [15017] Create MessageTypeNote as unread. https://bgerp.org/release/3.0/doc/kernel/message/index.html#setup-type-note
 A: [15017] Read / Unread filter in messages queue.
-A: [15018] Plugin Blow. Configurable executor roles. https://bgerp.org/doc/3.0/manual/plugin/pln/blow/index.html#setup-board
-A: [15020] Linked Processes Categories. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#usage-related-process
+A: [15018] Plugin Blow. Configurable executor roles. https://bgerp.org/release/3.0/doc/plugin/pln/blow/index.html#setup-board
+A: [15020] Linked Processes Categories. https://bgerp.org/release/3.0/doc/kernel/process/index.html#usage-related-process
 C: [15027] Update MySQL 8.0 to 8.0.34 version for Docker image.
 C: [15027] Update JDK 17 to 21 version for Docker image.
 C: [15027] Update Gradle version to 8.4
 C: [15027] Migrate to JDK 21 images in GitLab CI.
-A: [8517] Configuration key 'file.upload.max.size.mb' for limiting uploaded files. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config
+A: [8517] Configuration key 'file.upload.max.size.mb' for limiting uploaded files. https://bgerp.org/release/3.0/doc/kernel/setup.html#config
 A: [8517] Upload multiple files at once.
 A: [8517] Upload message attachments with mouse Drag & Drop.
 
 07.06.2023 11:39:58 1391
 C: [14088] Delete struts-tiles library.
-C: [14562] Run all searches in message processing. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type-search
+C: [14562] Run all searches in message processing. https://bgerp.org/release/3.0/doc/kernel/message/index.html#setup-type-search
 C: [14562] JS cleanup.
 C: [14700] Localization for month names.
-A: [14718] Scheduler status page, improved configuration: day of month, month. https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
-A: [14718] Dynamically loaded Custom classes. https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom-usage
+A: [14718] Scheduler status page, improved configuration: day of month, month. https://bgerp.org/release/3.0/doc/kernel/setup.html#scheduler
+A: [14718] Dynamically loaded Custom classes. https://bgerp.org/release/3.0/doc/kernel/extension.html#custom-usage
 F: [14718] GitLab CI publish changes.txt.
 C: [14773] Replace JSP fn: function calls to Java methods.
 C: [14775] Using ui:combo-check in filter/group.jsp and filter/executor.jsp.
@@ -69,7 +69,7 @@ C: [14884] Remove 'additionalSourceFilter' attribute from UI tags.
 C: [14899] Movements of entities.
 F: [14926] Corrupted browser fragment URL when changing process parameter with type 'date'.
 C: [14926] Removed 'editable' attribute from <ui:date-time> tag.
-A: [14935] Show not available link process creation items. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process-tab-create-and-link
+A: [14935] Show not available link process creation items. https://bgerp.org/release/3.0/doc/kernel/process/index.html#linked-process-tab-create-and-link
 B: [14935] Removed extending action method ru.bgcrm.struts.action.ProcessAction#processRequest and all related code.
 F: [14935] Warning "Not found parent group with id: -1".
 A: [14936] Test custom checkout and compilation.
@@ -78,20 +78,20 @@ A: [14937] Actual StatusChange in ProcessChangedEvent.
 F: [14939] Missing empty work directory in distribution package.
 C: [14939] Update MySQL version for Docker image.
 C: [14939] Update JDK version for Docker image.
-A: [14941] Process queue filter param type 'money'. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
-A: [14942] Archived values for parameter type 'tree'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-tree
+A: [14941] Process queue filter param type 'money'. https://bgerp.org/release/3.0/doc/kernel/process/queue.html#filters
+A: [14942] Archived values for parameter type 'tree'. https://bgerp.org/release/3.0/doc/kernel/setup.html#param-tree
 F: [14944] License session limit check.
 A: [14946] Plugin BGBilling. Popup menu to close / finish Inet session.
 C: [14946] Plugin BGBilling. Address search logic as in BGBillingClient.
 A: [14948] Plugin Invoice. Extra attributes in RU invoices.
-A: [14949] Plugin Invoice. EUR invoice template. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#setup-config-type
+A: [14949] Plugin Invoice. EUR invoice template. https://bgerp.org/release/3.0/doc/plugin/bil/invoice/index.html#setup-config-type
 B: [14949] Deleted deprecated methods in ru.bgcrm.util.io.IOUtils.
 C: [14949] Deleted deprecated classes for Base64.
 A: [14951] Plugin Email. Separated TO and CC recipient fields in editor.
 B: [14951] Plugin Email. Do not add 'Re:' prefix to reply message subjects.
 A: [14951] Warning on empty subject and missing attachments when saving messages.
-C: [14953] Plugin Subscription. 'Subscription Payments' report. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#usage-report
-A: [14953] Plugin Invoice. 'Invoice Register' report. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage-report
+C: [14953] Plugin Subscription. 'Subscription Payments' report. https://bgerp.org/release/3.0/doc/plugin/bil/subscription/index.html#usage-report
+A: [14953] Plugin Invoice. 'Invoice Register' report. https://bgerp.org/release/3.0/doc/plugin/bil/invoice/index.html#usage-report
 C: [14953] HTTPS protocol for repo.bgerp.org.
 A: [14954] Plugin Blow. Restriction of boards' visibility based on allowed process queues.
 C: [14955] Improved ui:toggle element.
@@ -123,8 +123,8 @@ C: [14976] $$.lock JS API.
 F: [14978] BGBilling HelpDesk attachments.
 A: [14979] GitLab CI run job test-integration-master by scheduler.
 C: [14980] Plugin Mobile. Use HTTPS URL for sending messages.
-B: [14980] Removed deprecated commands 'emailNotifyExecutors', 'emailNotifyUsers', 'addGroups', 'addExecutors', 'addExecutorsInGroups', 'decreasePriority', 'increasePriority', 'setRelativeDateParam', 'setParam' https://bgerp.org/doc/3.0/manual/kernel/process/processing.html#commands-kernel
-A: [14980] Plugin E-Mail. JEXL bean for sending messages. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-type-jexl
+B: [14980] Removed deprecated commands 'emailNotifyExecutors', 'emailNotifyUsers', 'addGroups', 'addExecutors', 'addExecutorsInGroups', 'decreasePriority', 'increasePriority', 'setRelativeDateParam', 'setParam' https://bgerp.org/release/3.0/doc/kernel/process/processing.html#commands-kernel
+A: [14980] Plugin E-Mail. JEXL bean for sending messages. https://bgerp.org/release/3.0/doc/plugin/msg/email/index.html#setup-process-type-jexl
 C: [14981] Move servlet package.
 C: [14982] Move l10n package.
 C: [14983] HTML title of auth page to 'Authorization | BGERP'.
@@ -139,7 +139,7 @@ A: [14362] Plugin Report. More colors and better presentation for Pie and Bar ch
 A: [14601] Integration test for plugin Document.
 C: [14610] Replace select_mult.jsp includes to select-mult tags.
 F: [14610] page-control usages.
-C: [14727] Linked processes tab. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
+C: [14727] Linked processes tab. https://bgerp.org/release/3.0/doc/kernel/process/index.html#linked-process
 B: [14727] Separated action for process links deletion instead of removed 'allowProcessLinkDelete' permission option.
 B: [14727] Removed 'show.tab.links.process.up' and 'show.tab.links.process.down' process configuration properties.
 C: [14727] DynActionForm.getAreaId() returns action identifier as default.
@@ -156,7 +156,7 @@ F: [14830] Shown exponent in listcount' values.
 C: [14836] Using 'ui:page-control' tag instead of including 'page_control.jsp' file.
 A: [14841] Plugin Subscription. Handle in report a consultant as a different from report generator person.
 F: [14841] Plugin Invoice. Removing added position during invoice creation.
-A: [14842] Plugin Callboard. Show slot users and groups. https://bgerp.org/doc/3.0/manual/plugin/pln/callboard/index.html#usage-set-time
+A: [14842] Plugin Callboard. Show slot users and groups. https://bgerp.org/release/3.0/doc/plugin/pln/callboard/index.html#usage-set-time
 F: [14842] Plugin Callboard. Set time with multiple users slots.
 F: [14842] HTML title in Open interface.
 C: [14842] GitLab CI CET timezone.
@@ -173,13 +173,13 @@ F: [14850] Add new address house.
 C: [14852] Plugin BGBilling. Cleanup сommon сontract supporting code.
 F: [14855] Open process queues links.
 F: [14856] Localizer set in plugin:include tag.
-A: [14857] Reset user personalizations. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-profile
+A: [14857] Reset user personalizations. https://bgerp.org/release/3.0/doc/kernel/setup.html#user-profile
 F: [14857] 'System' user in UI title when updating user settings.
 C: [14859] Cleanup in 'My Processes'.
 C: [14859] Localization.
 F: [14859] Title for process card with 'linked' mode.
 C: [14860] Replace openUrlTo to $$.ajax.load.
-C: [14861] Replace dontCheckPermission=1 configuration key to user.permission.check=0. https://bgerp.org/doc/3.0/manual/kernel/setup.html#united-user-config-keys
+C: [14861] Replace dontCheckPermission=1 configuration key to user.permission.check=0. https://bgerp.org/release/3.0/doc/kernel/setup.html#united-user-config-keys
 A: [14861] Log warning "Not primary action name '{}' was used for checking of '{}'" for detecting usages of old action names.
 F: [14863] Incorrectly denied actions in menu.
 F: [14864] Not running class org.bgerp.scheduler.task.NewsManager
@@ -190,8 +190,8 @@ A: [14865] Localizer.TRANSPARENT for making BGMessageException without localizat
 C: [14865] Plugin BGBilling. Removed l10n.xml.
 B: [14867] Removed process type configuration option 'show.tab.links.process.add.from.buffer'.
 C: [14867] Linked processes ordered by description.
-A: [14867] Adding parent linked processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
-A: [14867] Configurable adding available linked processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process-tab-add-existing]
+A: [14867] Adding parent linked processes. https://bgerp.org/release/3.0/doc/kernel/process/index.html#linked-process
+A: [14867] Configurable adding available linked processes. https://bgerp.org/release/3.0/doc/kernel/process/index.html#linked-process-tab-add-existing]
 F: [14868] Plugin Blow. Process creation on a board.
 A: [14869] Send event on setting message process.
 C: [14870] Move MessageSearchDAO.
@@ -200,7 +200,7 @@ C: [14873] Move LinkProcessCreateConfig and LinkProcessCreateConfigItem classes.
 C: [14878] Java libraries update.
 A: [14879] Plugin E-Mail. Delete messages in process.
 F: [14879] Delete file attachments on message deletion.
-B: [14880] Single value for parameter type 'listcount'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-listcount
+B: [14880] Single value for parameter type 'listcount'. https://bgerp.org/release/3.0/doc/kernel/setup.html#param-listcount
 C: [14881] Login and message JS API.
 C: [14881] Hide message dialog on shown login ones.
 F: [14881] Prevent excess hidden load on many files after successful auth.
@@ -267,13 +267,13 @@ A: [14736] Plugin Report. JSP tag <report:headers/>, shows visible column titles
 A: [14736] Method DynActionForm.getHttpRequestURI for replacing duplicated action form URLs.
 C: [14736] Improved Gradle configuration to be more standard.
 A: [14788] Restore backups in script backup.sh.
-A: [14788] Plugin Backup. Restore backups in UI. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html#usage
-A: [14788] Plugin Backup. Delete multiple old backups at once. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html#usage
+A: [14788] Plugin Backup. Restore backups in UI. https://bgerp.org/release/3.0/doc/plugin/svc/backup/index.html#usage
+A: [14788] Plugin Backup. Delete multiple old backups at once. https://bgerp.org/release/3.0/doc/plugin/svc/backup/index.html#usage
 F: [14788] Install zip in 'bgerp/bgerp' Docker image.
-A: [14805] Plugin DBA. Queries history. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html#usage-query
-A: [14811] Enhanced street search in parameter 'address' editor. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-address
+A: [14805] Plugin DBA. Queries history. https://bgerp.org/release/3.0/doc/plugin/svc/dba/index.html#usage-query
+A: [14811] Enhanced street search in parameter 'address' editor. https://bgerp.org/release/3.0/doc/kernel/setup.html#param-address
 A: [14820] Plugin Telegram. Escape text for Bot.
-A: [14823] Show massive crash processes in message processing. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#usage-queue-related-process
+A: [14823] Show massive crash processes in message processing. https://bgerp.org/release/3.0/doc/kernel/message/index.html#usage-queue-related-process
 C: [14823] Remove 'processed' column in 'message' DB table.
 C: [14823] Remove 'white-space: nowrap;' CSS style for buttons.
 A: [14825] Improvements in $$.ajax.post, automatically recognition 'toPostNames' and 'control' options.
@@ -290,42 +290,42 @@ F: [14835] NPE in Subscription plugin init.
 F: [14835] Single selection counter in message queue.
 F: [14837] Show long values in combo-single.
 C: [14837] Refactoring JS functions for combo-single.
-A: [14839] Configurable parameters table row background. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param
+A: [14839] Configurable parameters table row background. https://bgerp.org/release/3.0/doc/kernel/setup.html#param
 C: [14840] Plugin BGBilling. Refactoring ContractOpenEvent.
-A: [14840] License check. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-license
+A: [14840] License check. https://bgerp.org/release/3.0/doc/kernel/setup.html#config-license
 A: [14840] Plugin Invoice. Control max Date To months offset from the current date.
 C: [14840] Remove deprecated -moz-box-sizing and -webkit-box-sizing CSS styles.
 F: [14840] Directory choice.
 
 04.07.2022 20:42:27 1388
 A: [14123] JSP tag <ui:combo-perm-tree-check.
-A: [14123] Plugin Log. https://bgerp.org/doc/3.0/manual/plugin/svc/log/index.html
-A: [14353] Plugin DBA. SQL Query. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html#sql-query
+A: [14123] Plugin Log. https://bgerp.org/release/3.0/doc/plugin/svc/log/index.html
+A: [14353] Plugin DBA. SQL Query. https://bgerp.org/release/3.0/doc/plugin/svc/dba/index.html#sql-query
 C: [14353] Action Exceptions API.
 A: [14552] Plugin Workload integration test.
-A: [14568] Plugin Team. Party share money. https://bgerp.org/doc/3.0/manual/plugin/clb/team
+A: [14568] Plugin Team. Party share money. https://bgerp.org/release/3.0/doc/plugin/clb/team
 F: [14568] Plugin Blow. Show open board.
-A: [14592] Swap process executors. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#executor-swap
+A: [14592] Swap process executors. https://bgerp.org/release/3.0/doc/kernel/process/index.html#executor-swap
 C: [14599] Plugin Blow. Move from 'ru.bgerp' package.
 F: [14602] Plugin Task itest.
 A: [14668] Plugin Asterisk. Config param for auto registration extension number. Demo DB itest.
 C: [14672] Plugin BGBilling. Cleanup common contract related code.
-A: [14672] CorrectPermissions task. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-correct-permission
+A: [14672] CorrectPermissions task. https://bgerp.org/release/3.0/doc/kernel/setup.html#user-correct-permission
 F: [14672] Plugin DBA. Query to lower case.
 F: [14675] Toggling line wraps for process messages.
 A: [14706] Docker image 'bgerp/base'.
 C: [14748] Translations.
 C: [14759] Move access logs location to 'log/access' and change names.
-A: [14759] Configurable lifetime of access logs with parameter 'log.access.max.days'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config
+A: [14759] Configurable lifetime of access logs with parameter 'log.access.max.days'. https://bgerp.org/release/3.0/doc/kernel/setup.html#config
 A: [14759] Access logs are available on 'Administration / App / App status' page.
 F: [14759] 'mysql.sh' script included in distribution.
 C: [14759] Add execution permission for all scripts in 'installer.sh'.
 C: [14763] Ignore commented lines in bgerp.properties for backup.sh script.
-A: [14767] Plugin E-Mail. Configuration parameter 'autoCreateProcess.notification.text.message'. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#ac
+A: [14767] Plugin E-Mail. Configuration parameter 'autoCreateProcess.notification.text.message'. https://bgerp.org/release/3.0/doc/plugin/msg/email/index.html#ac
 F: [14768] Update and Delete not owned messages permission.
 F: [14769] Incorrect import in Kernel Plugin init.
 C: [14770] Rename SearchResult to Paged.
-A: [14778] Plugin DBA. Show DB state, cleanup old tables. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html
+A: [14778] Plugin DBA. Show DB state, cleanup old tables. https://bgerp.org/release/3.0/doc/plugin/svc/dba/index.html
 F: [14778] Moved cleaning old out files in erp.sh.
 F: [14778] Missing import in process_link_for_add_list.jsp
 F: [14778] More precise dt column in param_log table.
@@ -336,7 +336,7 @@ F: [14785] Plugin E-Mail. Maximum number of connections from user+IP exceeded.
 F: [14787] Plugin Telegram UnsupportedOperationException.
 A: [14789] Plugin Callboard. Event on select time.
 C: [14789] Plugin Callboard. Large refactoring.
-A: [14791] Plugin E-Mail process notifications without JEXL. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-change-notification
+A: [14791] Plugin E-Mail process notifications without JEXL. https://bgerp.org/release/3.0/doc/plugin/msg/email/index.html#setup-process-change-notification
 F: [14791] MySQL start in 'docket/base' image.
 C: [14791] Package ru.bgerp.l10n renamed to org.bgerp.app.l10n.
 F: [14791] Full-width right area in process card when scrolling down.
@@ -349,7 +349,7 @@ C: [14801] Remove and replace to actual ones JS functions: openUrlToParentAsync,
 A: [14802] Show hash of failing SQL update query.
 A: [14803] Check 'sql-mode' on DB init.
 A: [14803] Mark Read/Unread process messages.
-A: [14803] Plugin E-Mail, 'processed.read' property for Message Type configuration. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-message-type
+A: [14803] Plugin E-Mail, 'processed.read' property for Message Type configuration. https://bgerp.org/release/3.0/doc/plugin/msg/email/index.html#setup-message-type
 F: [14803] Selected counter in message queue table.
 F: [14803] Plugin FullText JSP path.
 A: [14804] Parameter type address in 'customer.reference.pattern' config parameter.
@@ -381,7 +381,7 @@ F: [14764] Missing getObjectTitles function.
 
 30.03.2022 10:48:48 1385
 C: [14299] DateTime picker common styling.
-A: [14350] Plugin GIT first version. https://bgerp.org/doc/3.0/manual/plugin/git/index.html
+A: [14350] Plugin GIT first version. https://bgerp.org/release/3.0/doc/plugin/git/index.html
 A: [14350] Show Custom files.
 A: [14350] Delete custom.jar button.
 A: [14350] Deletion of log/update files.
@@ -401,10 +401,10 @@ B: [14550] Default value of 'plugin.enable.default' config parameter is set to 0
 C: [14605] Replace '->' to '/' in path separators.
 C: [14694] JDK 17 images in CI jobs.
 C: [14694] Ditaa diagram to Draw.IO.
-A: [14729] Filtered out process type list for 'group' process isolation mode. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-isolation
+A: [14729] Filtered out process type list for 'group' process isolation mode. https://bgerp.org/release/3.0/doc/kernel/setup.html#user-isolation
 C: [14729] Remove unused 'create.in.filter' process type configuration option.
 C: [14731] Plugin Subscription. Simplify open interface to do not send request.
-A: [14731] 'values' param for 'param:<paramId>' filter. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
+A: [14731] 'values' param for 'param:<paramId>' filter. https://bgerp.org/release/3.0/doc/kernel/process/queue.html#filters
 F: [14731] Usage button in process parameters table.
 C: [14731] Editor icons for parameter of type 'listcount'.
 A: [14732] Plugin Report. Refresh button in chart view.
@@ -434,7 +434,7 @@ A: [14757] Plugin Backup. Deletion of backup files.
 A: [14757] Reverse sorted changes by modification time.
 
 05.02.2022 15:04:15 1384
-A: [14615] Plugin E-Mail. Offer recipient addresses. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#usage-process-search-recipient
+A: [14615] Plugin E-Mail. Offer recipient addresses. https://bgerp.org/release/3.0/doc/plugin/msg/email/index.html#usage-process-search-recipient
 F: [14615] Plugin Invoice. DB structure.
 C: [14699] Rename PreparedDelay to PreparedQuery.
 C: [14701] Unified indention for db.sql files.
@@ -450,16 +450,16 @@ C: [11400] Scheduler related classes moved to 'org.bgerp.scheduler' package.
 A: [11400] Show runnable classes in 'Administration / Run'.
 C: [14174] Plugin BGBilling. SOAP to JSON-RPC migration.
 A: [14303] Plugin Subscription.
-A: [14303] Support 'page.url' parameter for Process Queue Processors. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#processor
+A: [14303] Support 'page.url' parameter for Process Queue Processors. https://bgerp.org/release/3.0/doc/kernel/process/queue.html#processor
 A: [14396] Right click menu on running tool buttons.
 A: [14439] Plugin BGBilling. Support API of version 8.2107.
 A: [14520] Extra param types in ProcessParamTest.
 A: [14520] Attach files in messages from process parameters.
-A: [14529] Script deploy.sh. https://bgerp.org/doc/3.0/manual/kernel/install.html#deployment-script
+A: [14529] Script deploy.sh. https://bgerp.org/release/3.0/doc/kernel/install.html#deployment-script
 C: [14551] Upgrade Gradle to version 7.3.1.
 F: [14612] Preserve text indention.
 A: [14631] Prevent including of custom sources to build.
-A: [14644] Parameter type 'money'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-money
+A: [14644] Parameter type 'money'. https://bgerp.org/release/3.0/doc/kernel/setup.html#param-money
 C: [14645] Store files in sub-directories in 'filestorage'.
 A: [14645] Migration to sub dirs runnable 'org.bgerp.util.file.MoveToSubDirs'.
 C: [14651] Do not show first value in process status editor as chosen by default.
@@ -517,7 +517,7 @@ A: [14722] GIT LFS support.
 C: [11087] Remove XSLT related libraries and code.
 F: [11187] User passwords are available on the frontend-side.
 C: [11187] Change date_from and date_to columns in user_group table to type DATE.
-A: [11187] Plugin Access. Providing a safe way for copying user credentials. https://bgerp.org/doc/3.0/manual/plugin/sec/access
+A: [11187] Plugin Access. Providing a safe way for copying user credentials. https://bgerp.org/release/3.0/doc/plugin/sec/access
 C: [11187] Publish sources to GitHub under user BGERPP.
 F: [11905] Status filter in "My processes".
 A: [14313] Paste images from clipboard as message attaches.
@@ -527,7 +527,7 @@ C: [14347] CSS scrollbar-width: thin.
 A: [14411] Scroll to top floating button.
 A: [14411] Integration tests: test processes and test queue.
 C: [14528] Clean up in auth code.
-A: [14528] Plugin Auth. LDAP authorization. https://bgerp.org/doc/3.0/manual/plugin/sec/auth
+A: [14528] Plugin Auth. LDAP authorization. https://bgerp.org/release/3.0/doc/plugin/sec/auth
 F: [14528] Correct update and restart application running inside of Docker container.
 A: [14528] Update user title in top right corner after successful re-auth in popup dialog.
 F: [14531] Missing icon in popup menu.
@@ -549,7 +549,7 @@ C: [14583] Restructure of JSP paths.
 F: [14584] u:newInstance JSP calls.
 F: [14584] Show a process queue in list after saving.
 F: [14588] Copy custom resources.
-A: [14597] String IDs for Scheduler tasks, https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
+A: [14597] String IDs for Scheduler tasks, https://bgerp.org/release/3.0/doc/kernel/setup.html#scheduler
 C: [14597] Moved Log class to org.bgerp.
 F: [14609] Link new message to existing process.
 F: [14609] Process queue in open interface, wrong call signature for 'isOpen' method.
@@ -578,7 +578,7 @@ F: [14367] Search processed messages with 'any' type selected.
 B: [14367] Directory 'webapps' synchronized during next update.
 A: [14367] Table rows highlight CSS classes.
 C: [14367] Refactoring Utils, IPUtils.
-C: [14367] E-Mail processing separated to plugin. https://bgerp.org/doc/3.0/manual/plugin/msg/email
+C: [14367] E-Mail processing separated to plugin. https://bgerp.org/release/3.0/doc/plugin/msg/email
 C: [14367] Documentation task renamed from 'buildDoc' to 'doc'.
 A: [14432] Mime4J library for parsing E-Mails.
 A: [14432] Gradle task 'touchChangesLib'.
@@ -586,21 +586,21 @@ A: [14432] Connected Maven repository http://repo.bgerp.org/repository/maven-pub
 C: [14451] Plugin Slack, using new API with OAuth2.
 A: [14451] Plugin Slack, configuration tool.
 C: [14473] Update Tomcat related libraries, use repo.bgerp.org for retrieving changed tomcat-embed-core.
-A: [14488] Configuration param 'bgbilling:search.contract.param.address.paramIds', https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#config-search-param-address
+A: [14488] Configuration param 'bgbilling:search.contract.param.address.paramIds', https://bgerp.org/release/3.0/doc/plugin/bgbilling/index.html#config-search-param-address
 F: [14488] Changed property name for disabling Tomcat params inheritance.
 F: [14508] Missing JS 'debug' variable.
 F: [14511] Duplicated process status change logging.
 C: [14511] Button's icon for exiting from objects Close (ti-close) to Back (ti-arrow-left).
 C: [14524] Plugin Feedback refactoring.
-A: [14524] Plugin E-Mail select attached history. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#work-process
+A: [14524] Plugin E-Mail select attached history. https://bgerp.org/release/3.0/doc/plugin/msg/email/index.html#work-process
 C: [14524] Remove unneeded columns from 'param_file' table.
 C: [14524] Update PzdcDoc to 2.4 version.
 C: [14524] Expression API.
 C: [14524] Better unique secret generation.
-A: [14524] Plugin Secret. https://bgerp.org/doc/3.0/manual/plugin/sec/secret
+A: [14524] Plugin Secret. https://bgerp.org/release/3.0/doc/plugin/sec/secret
 A: [14524] Unique access secrets in open interface. https://bgerp.org/doc/3.0/kernel/interface.html#open-process
 A: [14524] Configurable 'url.open' for open interface. https://bgerp.org/doc/3.0/kernel/interface.html#open-config
-A: [14527] Configurable process priorities. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-process-priority
+A: [14527] Configurable process priorities. https://bgerp.org/release/3.0/doc/kernel/setup.html#config-process-priority
 C: [14541] Plugin Telegram, the bot only replies to private messages and type text.
 C: [14541] Plugin Telegram, update API to version 5.3.
 A: [14541] Plugin Telegram, command /help
@@ -630,7 +630,7 @@ F: [14436] Plugin Callboard, menu items.
 A: [14436] Plugin Callboard, enabled in integration tests.
 F: [14436] Maven repo link to HTTPS.
 F: [14436] Save large messages.
-A: [14445] 'removed' event in DefaultProcessor, https://bgerp.org/doc/3.0/manual/kernel/process/processing.html
+A: [14445] 'removed' event in DefaultProcessor, https://bgerp.org/release/3.0/doc/kernel/process/processing.html
 C: [14445] Update PzdcDoc to version 2.2
 C: [14447] On running buttons icon 'ti-reload'.
 A: [14447] Rotating 'ti-reload' on being opened toolbar buttons.
@@ -642,7 +642,7 @@ C: [14464] Massive replacing BGException to SQLException.
 C: [14464] Rewritten DB update code, applied updates stored in new table 'db_update_log' with executing time.
 C: [14464] Unique index and removed unneeded column '_comment' for 'param_list' table.
 C: [14464] PzdcDoc version 2.3.
-A: [14467] Support {} substitutions for logging and l10n, https://bgerp.org/doc/3.0/manual/project.html#sample-logging-java
+A: [14467] Support {} substitutions for logging and l10n, https://bgerp.org/release/3.0/doc/project.html#sample-logging-java
 F: [14467] Save configuration without closing.
 F: [14478] SQL update of param_address table.
 A: [14480] MySQL stored procedure 'add_unique_key_if_not_exists' handling duplicates.
@@ -655,18 +655,18 @@ A: [12272] AJAX progress indicators: blur on loaded area, spinner on trigger but
 C: [12272] Replace icons to icon fonts.
 C: [12272] JS optimizations.
 C: [12272] Separated load style.css.jsp for easier debug.
-A: [12272] Method p.check in JEXL and JSP contexts for checking is action allowed, https://bgerp.org/doc/3.0/manual/project.html#jsp-tag-p-check
-A: [12272] Schema of process relation types, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
+A: [12272] Method p.check in JEXL and JSP contexts for checking is action allowed, https://bgerp.org/release/3.0/doc/project.html#jsp-tag-p-check
+A: [12272] Schema of process relation types, https://bgerp.org/release/3.0/doc/kernel/process/index.html#linked-process
 C: [12272] Download application CSS as separated resource.
-A: [14212] Process isolation mode 'isolation.process.group.executor.typeIds', https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-isolation
-B: [14212] Removed calculated user config variables 'ctxUserId', 'ctxUserGroupIds', 'ctxUserPermsetIds', https://bgerp.org/doc/3.0/manual/kernel/setup.html#united-user-config
+A: [14212] Process isolation mode 'isolation.process.group.executor.typeIds', https://bgerp.org/release/3.0/doc/kernel/setup.html#user-isolation
+B: [14212] Removed calculated user config variables 'ctxUserId', 'ctxUserGroupIds', 'ctxUserPermsetIds', https://bgerp.org/release/3.0/doc/kernel/setup.html#united-user-config
 A: [14212] Parameter with DOM element for JS function $$.shell.$content().
 C: [14212] BGException to Exception, fluent methods.
 A: [14240] Icon paths in menu items.
 A: [14240] Title paths for running tools.
 C: [14300] Docker image building cleanup.
-A: [14300] Doc, start Docker image with internal volumes, https://bgerp.org/doc/3.0/manual/kernel/install.html#docker
-A: [14300] Doc, start Docker image with custom MySQL port, https://bgerp.org/doc/3.0/manual/project.html#run-data
+A: [14300] Doc, start Docker image with internal volumes, https://bgerp.org/release/3.0/doc/kernel/install.html#docker
+A: [14300] Doc, start Docker image with custom MySQL port, https://bgerp.org/release/3.0/doc/project.html#run-data
 C: [14384] Use cdn@bgerp.org account for publishing updates.
 A: [14390] Gradle task 'checkChanges'.
 F: [14392] Plugins CSS and JS paths.
@@ -676,7 +676,7 @@ F: [14407] Plugin BGBilling, JSP endpoints.
 F: [14407] Process isolation DB selects.
 C: [14418] E-Mail support extracted to plugin 'email'.
 A: [14418] Menu icons.
-A: [9026] Filters in process queues: 'create_user', 'close_user'. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
+A: [9026] Filters in process queues: 'create_user', 'close_user'. https://bgerp.org/release/3.0/doc/kernel/process/queue.html#filters
 F: [9026] Duplicated JARs in update_lib.
 A: [9026] Gradle configuration 'bgerpRun' for runtime dependencies.
 
@@ -686,25 +686,25 @@ C: [11229] Unification of JS upload API.
 A: [11229] Plugin 'document', parameter type 'file' in integration tests.
 F: [11229] Restore previously chosen message type for adding in process.
 C: [12341] Refactoring of PDF generation in process queue.
-F: [12341] PDF generation in process queue, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#pdf
+F: [12341] PDF generation in process queue, https://bgerp.org/release/3.0/doc/kernel/process/queue.html#pdf
 B: [12341] Plugin Report, removed support old XML defined reports.
 F: [12341] Disabled erasing output HTML in $$.ajax.load, caused problem in formUrl function.
 A: [12341] Scroll to a failing param in validation.
 A: [12341] Localized titles in action XML descriptions.
-A: [12341] Plugin Report, new API, https://bgerp.org/doc/3.0/manual/plugin/report/index.html
+A: [12341] Plugin Report, new API, https://bgerp.org/release/3.0/doc/plugin/report/index.html
 A: [12341] New action methods signature, without ActionMapping parameter.
-C: [12341] Class of 'su' changed from StringUtils to StringUtils3, https://bgerp.org/doc/3.0/manual/kernel/extension.html#jexl-standard-context
+C: [12341] Class of 'su' changed from StringUtils to StringUtils3, https://bgerp.org/release/3.0/doc/kernel/extension.html#jexl-standard-context
 A: [14126] Multiple endpoints with same ID in Plugin API>
 A: [14126] Report, charts using ECharts library.
 C: [14225] Opening object buffer on long mouse press disabled by default.
 A: [14225] <ui:button>, <ui:form-ok-cancel> JSP tags.
 A: [14225] Font icons, started using in buttons.
-C: [14225] Unified buttons color meanings, https://bgerp.org/doc/3.0/manual/kernel/interface.html#elements
+C: [14225] Unified buttons color meanings, https://bgerp.org/release/3.0/doc/kernel/interface.html#elements
 A: [14225] Message to STDOUT with URL on server start.
 C: [14225] Cleanup button CSS.
 C: [14225] Remove unused JS libs, images.
 F: [14225] Add a process parameter right after opening editor.
-A: [14225] Filter for iface in process queue processors, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#processor-open
+A: [14225] Filter for iface in process queue processors, https://bgerp.org/release/3.0/doc/kernel/process/queue.html#processor-open
 A: [14225] 'ctxIface' variable in request.
 F: [14225] Failing on custom compilation errors.
 A: [14225] Restart server button after successful compilation.
@@ -714,7 +714,7 @@ A: [14225] Mark incorrect form fields by red border.
 C: [14225] Remove old XSLT related classes.
 A: [14253] L10n of user interface.
 A: [14304] Using font icons for buttons, localizations, asynchronous AJAX.
-A: [14319] Test zones in MVC, https://bgerp.org/doc/3.0/manual/project.html#mvc-iface
+A: [14319] Test zones in MVC, https://bgerp.org/release/3.0/doc/project.html#mvc-iface
 A: [14336] Plugin BGBilling, show parameters separator.
 C: [14348] Unification of button colors, font icons, localization.
 A: [14349] Publish updates from master branch.
@@ -722,18 +722,18 @@ C: [14349] Global rename #UNDEF links to #.
 F: [14349] Open interface always showing test.jsp.
 A: [14349] Function delete() in DefaultProcessFunctions.
 A: [14349] DbTimeUpdate for keeping up to date demo DB.
-A: [14349] Doc how to access DB in a running container, https://bgerp.org/doc/3.0/manual/project.html#run-data
-C: [14349] Rename action return  methods 'data' and 'status' to 'html' and 'json', https://bgerp.org/doc/3.0/manual/project.html#action
+A: [14349] Doc how to access DB in a running container, https://bgerp.org/release/3.0/doc/project.html#run-data
+C: [14349] Rename action return  methods 'data' and 'status' to 'html' and 'json', https://bgerp.org/release/3.0/doc/project.html#action
 F: [14357] Update mode combo width under Chrome.
 F: [14357] Process creation.
-A: [14357] Selectable list of change IDs in UI, https://bgerp.org/doc/3.0/manual/kernel/install.html#installer-iface
+A: [14357] Selectable list of change IDs in UI, https://bgerp.org/release/3.0/doc/kernel/install.html#installer-iface
 A: [14363] Gradle task 'buildUpdateLib' depends on existence of 'build/change.lib.txt' file.
 C: [14363] Gradle task 'touchChanges' without using 'touch' command.
 A: [14364] Download in UI update and other log files.
-A: [14364] Dependent actions in permission tree, https://bgerp.org/doc/3.0/manual/project.html#action-permission
+A: [14364] Dependent actions in permission tree, https://bgerp.org/release/3.0/doc/project.html#action-permission
 A: [14364] Parameter 'force' for erp_restart.sh script.
 A: [14364] Restart in UI, choosing of restart mode after update.
-A: [14364] Plugin Backup, https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html
+A: [14364] Plugin Backup, https://bgerp.org/release/3.0/doc/plugin/svc/backup/index.html
 
 18.03.2021 21:05:47 1373
 F: [14291] Cleaning old 'log_update' logs in case of missing files.
@@ -754,18 +754,18 @@ C: [14132] Move constants with JSP paths.
 F: [14132] Flush user cache on saving options in profile.
 A: [14148] Kernel localization.
 C: [14148] Remove unused JSP.
-A: [14182] Plugin Telegram enhanced API, https://bgerp.org/doc/3.0/manual/plugin/telegram/index.html
+A: [14182] Plugin Telegram enhanced API, https://bgerp.org/release/3.0/doc/plugin/telegram/index.html
 C: [14187] ui:menu-group tag with direct ui:menu-item children, without 'subitems' attribute.
 C: [14187] Restructure of menu, show 'My processes item'.
 C: [14187] Simplified Config API, validated keys.
 A: [14187] Open process queue, https://bgerp.org/3.0/manual/kernel/interface.html#open-process-queue
 B: [14187] Removed support for key 'printColumns' from configuration of process queue, 'media.print.columns' has to be used instead.
 C: [14187] Optimization and test coverage for DynActionForm.
-A: [14187] Localization of open interface: https://bgerp.org/doc/3.0/manual/kernel/interface.html#open-l10n
+A: [14187] Localization of open interface: https://bgerp.org/release/3.0/doc/kernel/interface.html#open-l10n
 F: [14187] Duplicated items in search of processes.
-A: [14192] Customization engine, https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom
+A: [14192] Customization engine, https://bgerp.org/release/3.0/doc/kernel/extension.html#custom
 A: [14192] Run classes tool.
-A: [14192] Annotated actions, https://bgerp.org/doc/3.0/manual/project.html#action
+A: [14192] Annotated actions, https://bgerp.org/release/3.0/doc/project.html#action
 C: [14192] Plugin Blow, refactor actions to modern directories and JSP forwards.
 C: [14192] Deprecate data() methods with old signatures in BaseAction.
 A: [14192] Running 'gradlew integrationTest' with DB configuration from bgerp.properties file.
@@ -774,14 +774,14 @@ F: [14192] Localization of parametrized BGMessageException.
 C: [14210] Task 'publishUpdate' rewritten to Java.
 A: [14210] Automatically publish branch updates using GitLab CI.
 C: [14214] Optimization JSPFunction.httpLinksToHtml, tests.
-A: [14268] Plugin SMS, including existing MTSC, Tele2 senders same as a new SMSC, https://bgerp.org/doc/3.0/manual/plugin/sms/index.html
+A: [14268] Plugin SMS, including existing MTSC, Tele2 senders same as a new SMSC, https://bgerp.org/release/3.0/doc/plugin/sms/index.html
 F: [14272] Open file error.
 
 09.01.2021 13:07:39 1370
 C: [12333] Application version and build format.
 F: [12333] License upload, creation of many hidden iframes.
 A: [12333] JSP tag plugin:include.
-A: [12333] Plugin Feedback, https://bgerp.org/doc/3.0/manual/plugin/feedback/index.html
+A: [12333] Plugin Feedback, https://bgerp.org/release/3.0/doc/plugin/feedback/index.html
 A: [12333] JSP forwards defined in action.
 A: [12333] Plugin's endpoints defined in plugin's Java class.
 A: [12333] Better log messages for l10n.
@@ -798,7 +798,7 @@ C: [13901] Disabled periodic reload of l10n.
 C: [13901] Missing translation message to WARN level.
 
 28.12.2020 17:16:37 1369
-A: [14069] Custom localization, https://bgerp.org/doc/3.0/manual/project.html#l10n
+A: [14069] Custom localization, https://bgerp.org/release/3.0/doc/project.html#l10n
 A: [14086] Permission options for message actions.
 F: [14113] E-Mail attachment title encoding.
 C: [14125] Plugin Blow, default sorting order.
@@ -839,7 +839,7 @@ C: [14015] Update via HTTP instead of FTP.
 C: [13876] Cleanup unused JSP files.
 C: [13876] Parameter 'searchCustomerTitleMinSubstringLength' default value to 0.
 C: [13876] Plugin BGBilling, hide search of common contracts.
-A: [13876] Add process customer link using substring or FullText search, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#link
+A: [13876] Add process customer link using substring or FullText search, https://bgerp.org/release/3.0/doc/kernel/process/index.html#link
 C: [13876] Remove not working process creation button in search.
 C: [13876] Hide empty tables in adding process links.
 F: [13876] Suggesting to add already existing process links from buffer.
@@ -863,14 +863,14 @@ C: [13921] Format, cleanup classes.
 15.07.2020 13:52:46 1362
 C: [10441] E-Mail caching optimization for checking updates.
 A: [10441] E-Mail create missing folders.
-B: [10441] E-Mail move removed items to Trash folder, https://bgerp.org/doc/3.0/manual/kernel/message.html#type-email
+B: [10441] E-Mail move removed items to Trash folder, https://bgerp.org/release/3.0/doc/kernel/message.html#type-email
 F: [11094] Enable jQuery treetable UI library, used in BGBilling Inet module.
 C: [11094] Plugin Asterisk, update asterisk-java library.
 A: [11094] Plugin Asterisk, definition version in configuration.
 F: [11094] Messages process free 'number' call.
 C: [11094] publish.gradle extracted URL to var.
 F: [11094] Plugin BGBilling, action paths.
-C: [11094] Logging configuration, https://bgerp.org/doc/3.0/manual/kernel/extension.html#log4j
+C: [11094] Logging configuration, https://bgerp.org/release/3.0/doc/kernel/extension.html#log4j
 A: [11094] Delete directories by RemoveFile installation call.
 F: [11815] Recursive call in ProcessAction.
 F: [11892] Parameters editor combo box.
@@ -882,7 +882,7 @@ F: [11892] Parameter group list show and edit.
 F: [11892] Remove duplicated Gradle dependencies for asterisk-java: reflections, javassist.
 F: [12105] Gone button's selection on refresh process queue.
 C: [12357] Move all plugin related data in plugin packages: action.xml, struts-config.xml, l10n.xml, DB scripts.
-A: [12357] Initialization of plugins with possibility to disable them, https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-plugin
+A: [12357] Initialization of plugins with possibility to disable them, https://bgerp.org/release/3.0/doc/kernel/setup.html#config-plugin
 C: [12357] Cleanup of DB init scripts, split over plugin related tables.
 C: [12357] Extracted DB scripts and struts-config.xml for plugin CallBoard.
 F: [13862] Unlock button on dynamic classes compilation error.
@@ -906,8 +906,8 @@ F: [12367] Duplicated process creation in queue, when process isolation is enabl
 F: [12367] Hidden "Profile" menu item.
 F: [12367] Undefined in process type parameters, shown in open interface.
 F: [13419] Plugin Blow, no draggable items on board in open interface.
-F: [13475] In DefaultMarkedProcessor setParam for types 'date' and 'datetime', https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#default-marked-processor
-A: [13475] In DefaultMarkedProcessor doExpression, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#default-marked-processor
+F: [13475] In DefaultMarkedProcessor setParam for types 'date' and 'datetime', https://bgerp.org/release/3.0/doc/kernel/process/queue.html#default-marked-processor
+A: [13475] In DefaultMarkedProcessor doExpression, https://bgerp.org/release/3.0/doc/kernel/process/queue.html#default-marked-processor
 F: [13475] AuthFilter, app parameter in redirect.
 C: [13475] stateFragment JS function, generalized URL fragment setting way.
 A: [13475] Write incorrect action path in error message.
@@ -916,7 +916,7 @@ F: [13475] UserMob interface.
 F: [13770] Localization for user USER_SYSTEM.
 
 07.06.2020 22:24:09 1360
-A: 'status_pos' process queue column, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#columns
+A: 'status_pos' process queue column, https://bgerp.org/release/3.0/doc/kernel/process/queue.html#columns
 F: Saving without exit in process queue editor, shown previous value of configuration.
 C: Plugin Blow, using orders, defined in process queue.
 F: 'empty' value in grex filter of process queue.
@@ -927,15 +927,15 @@ A: Handle not existing message types in process messages: show them, possibility
 A: Plugin Blow, search on a board by message text.
 A: Define message tags on message edit.
 F: XML markup symbols in process description.
-A: Custom JAR, https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom-jar
+A: Custom JAR, https://bgerp.org/release/3.0/doc/kernel/extension.html#custom-jar
 
 26.05.2020 16:19:30 1359
 F: Remove many E-Mails.
 A: Publish GitHub source copy with real authors.
-A: Process information in open interface, https://bgerp.org/doc/3.0/manual/kernel/interface.html#open-process
+A: Process information in open interface, https://bgerp.org/release/3.0/doc/kernel/interface.html#open-process
 C: Refactoring process references show.
 A: Support breaking changes in change log.
-B: Default process reference for 'processCard' is '#' + ID + description, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config-reference-sample-type
+B: Default process reference for 'processCard' is '#' + ID + description, https://bgerp.org/release/3.0/doc/kernel/process/index.html#type-config-reference-sample-type
 A: JSP tag u:set, properly handling 'null' body value.
 A: Call utils methods in JSP as in JEXL: cu., su., tu.
 C: Optimization in process messages list: build answer text on demand.
@@ -972,18 +972,18 @@ C: Remove Java library org.tuckey.urlrewritefilter.
 C: Open interface faster load without Java Script.
 F: Plugin Blow, open interface opening URL with #PROCESS_ID points on it.
 A: String Utils JSP tag library.
-C: Large refactoring in action's forwards, methods 'data' and 'status' instead of 'processUserTypedForward' and 'processJsonForward', https://bgerp.org/doc/3.0/manual/project.html#action
+C: Large refactoring in action's forwards, methods 'data' and 'status' instead of 'processUserTypedForward' and 'processJsonForward', https://bgerp.org/release/3.0/doc/project.html#action
 A: New configuration's validation API.
-A: Show user profile in open interface, https://bgerp.org/doc/3.0/manual/kernel/interface.html#open
+A: Show user profile in open interface, https://bgerp.org/release/3.0/doc/kernel/interface.html#open
 C: Open user own profile and others profile with same way.
 A: Scroll into first filtered button on public Blow board.
-C: Rename param 'processShowLinks' to 'show.tab.links', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowMessages' to 'show.tab.messages', default value is '1', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowProcessLinks' to 'show.tab.links.process', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowProcessLinks.Linked' to 'show.tab.links.process.up', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowProcessLinks.Links' to 'show.tab.links.process.down', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processCreateLinkModeSelect' to 'show.tab.links.process.add.from.buffer', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Param 'create.in.objectTypes' default value is '*', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#create-process-with-link
+C: Rename param 'processShowLinks' to 'show.tab.links', https://bgerp.org/release/3.0/doc/kernel/process/index.html#type-config
+C: Rename param 'processShowMessages' to 'show.tab.messages', default value is '1', https://bgerp.org/release/3.0/doc/kernel/process/index.html#type-config
+C: Rename param 'processShowProcessLinks' to 'show.tab.links.process', https://bgerp.org/release/3.0/doc/kernel/process/index.html#type-config
+C: Rename param 'processShowProcessLinks.Linked' to 'show.tab.links.process.up', https://bgerp.org/release/3.0/doc/kernel/process/index.html#type-config
+C: Rename param 'processShowProcessLinks.Links' to 'show.tab.links.process.down', https://bgerp.org/release/3.0/doc/kernel/process/index.html#type-config
+C: Rename param 'processCreateLinkModeSelect' to 'show.tab.links.process.add.from.buffer', https://bgerp.org/release/3.0/doc/kernel/process/index.html#type-config
+C: Param 'create.in.objectTypes' default value is '*', https://bgerp.org/release/3.0/doc/kernel/process/index.html#create-process-with-link
 
 23.04.2020 16:33:45 1353
 F: $$.ajax.post method error handling.

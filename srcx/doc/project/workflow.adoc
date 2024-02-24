@@ -239,7 +239,7 @@ Please find below description of CI jobs.
 The job is executed in every <<change, change>> branch.
 
 Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>>.
-If everything is went without error then publishing <<build-change, update>> with documentation from the branch to https://bgerp.org/update/<PROCESS_ID>
+If everything is went without error then publishing <<build-change, update>> with documentation from the branch to https://bgerp.org/change/<PROCESS_ID>
 
 NOTE: All the published change updates have the same version, equal to the next release.
 
@@ -275,7 +275,7 @@ Publishes actual source code from `master` into an open repository https://githu
 The job is executed in <<long-lived-branch, long-lived branch>> *p11862-documentation*.
 
 The branch contains the documentation sources for the latest release.
-Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/doc/3.0/manual.
+Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/release/3.0/doc.
 
 [[gitlab-ci-runner]]
 === Runners
@@ -320,11 +320,11 @@ Resulting HTML files will be present in *target/doc*. Internal link validation i
 === Change
 NOTE: This task is automatically run by <<test-and-publish-update, CI>>.
 
-Build and publish on https://bgerp.org/update update package with a <<change, change>>.
+Build and publish on https://bgerp.org/change update package with a <<change, change>>.
 
-All the updates packages are copies to Web directory: `https://bgerp.org/update/PROCESS_ID`
-The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
-are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
+All the updates packages are copies to Web directory: `https://bgerp.org/change/PROCESS_ID`
+The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/release/VERSION/doc`
+are automatically replaced to the `https://bgerp.org/change/PROCESS_ID/doc`.
 
 Users have a capability to <<../kernel/install.adoc#update-installer-ui, update>> to the change using a *PROCESS_ID* as an identifier.
 
