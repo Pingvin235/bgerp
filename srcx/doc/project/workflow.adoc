@@ -275,7 +275,7 @@ Publishes actual source code from `master` into an open repository https://githu
 The job is executed in <<long-lived-branch, long-lived branch>> *p11862-documentation*.
 
 The branch contains the documentation sources for the latest release.
-Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/release/3.0/doc.
+Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/version/3.0/doc.
 
 [[gitlab-ci-runner]]
 === Runners
@@ -323,7 +323,7 @@ NOTE: This task is automatically run by <<test-and-publish-update, CI>>.
 Build and publish on https://bgerp.org/change update package with a <<change, change>>.
 
 All the updates packages are copies to Web directory: `https://bgerp.org/change/PROCESS_ID`
-The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/release/VERSION/doc`
+The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/version/VERSION_NUMBER/doc`
 are automatically replaced to the `https://bgerp.org/change/PROCESS_ID/doc`.
 
 Users have a capability to <<../kernel/install.adoc#update-installer-ui, update>> to the change using a *PROCESS_ID* as an identifier.

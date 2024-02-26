@@ -1,2 +1,2 @@
-B: New configuration for searching of possible message processes. https://bgerp.org/release/3.0/doc/kernel/message/index.html#setup-possible-process
+B: New configuration for searching of possible message processes. https://bgerp.org/version/3.0/doc/kernel/message/index.html#setup-possible-process
 C: Configuration keys starting from: 'message.related.process' are no longer in use.

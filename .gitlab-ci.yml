@@ -102,8 +102,8 @@ publish-doc:
     script:
         - sh gradlew jdoc doc
         - echo "$KEY_DOC" > ./doc.id_rsa && chmod 600 ./doc.id_rsa
-        - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/javadoc/ cdn@bgerp.org:/home/cdn/www/release/3.0/javadoc/
-        - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/doc/ cdn@bgerp.org:/home/cdn/www/release/3.0/doc/
+        - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/javadoc/ cdn@bgerp.org:/home/cdn/www/version/3.0/javadoc/
+        - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/doc/ cdn@bgerp.org:/home/cdn/www/version/3.0/doc/
     rules:
         - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "p11862-documentation"
 

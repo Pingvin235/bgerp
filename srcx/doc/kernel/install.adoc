@@ -184,7 +184,7 @@ sudo yum install -y zip pwgen wget mysql-community-client unzip
 Step 2. Download archive and unpack it:
 [source, sh]
 ----
-wget https://bgerp.org/release/3.0/bgerp.zip -O /tmp/bgerp.zip &&
+wget https://bgerp.org/version/3.0/bgerp.zip -O /tmp/bgerp.zip &&
 unzip /tmp/bgerp.zip -d /opt &&
 chmod 744 /opt/bgerp/*.sh
 ----
@@ -383,7 +383,7 @@ Recommended command for updating (argument 'db' can be excluded for speeding up 
 ./backup.sh db && ./installer.sh update && ./erp_restart.sh
 ----
 
-Update files are taken from version-containing URL, for example for version 3.0: https://bgerp.org/release/3.0/
+Update files are taken from version-containing URL, for example for version 3.0: https://bgerp.org/version/3.0/
 
 [[update-stored-procedure]]
 === Хранимые процедуры БД

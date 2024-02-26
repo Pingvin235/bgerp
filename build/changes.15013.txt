@@ -1,2 +1,2 @@
-A: DB connections trace in App Status. https://bgerp.org/release/3.0/doc/kernel/setup.html#status
+A: DB connections trace in App Status. https://bgerp.org/version/3.0/doc/kernel/setup.html#status
 C: Link sizes in process card.

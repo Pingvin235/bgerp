@@ -28,7 +28,7 @@ import ru.bgcrm.util.Utils;
 public class InstallerModules {
     private static final Log log = Log.getLog();
 
-    private static final String RELEASE_URL = Utils.getSystemProperty("release.url", App.URL + "/release");
+    private static final String VERSION_URL = Utils.getSystemProperty("version.url", App.URL + "/version");
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     /** App version for 'update' module. */
@@ -62,7 +62,7 @@ public class InstallerModules {
         try {
             String kernelVersion = getVersion();
 
-            String updateUrl = Log.format("{}/{}/", RELEASE_URL, kernelVersion);
+            String updateUrl = Log.format("{}/{}/", VERSION_URL, kernelVersion);
 
             log.info("Loading remote file list from: {}", updateUrl);
 
