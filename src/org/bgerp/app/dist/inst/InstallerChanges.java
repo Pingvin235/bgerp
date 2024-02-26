@@ -34,7 +34,7 @@ public class InstallerChanges {
     private static final Log log = Log.getLog();
 
     public static final String UPDATE_TO_CHANGE_URL = App.URL + "/change";
-    public static final String PRE_RELEASE_CHANGE_ID = "00000";
+    public static final String PRE_RELEASE_CHANGE_ID = "0";
 
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 

@@ -11,7 +11,7 @@ import org.bgerp.util.Log;
 
 /**
  * Adjusts changes link for the current build in documentation files.
- * Creates a new 00000 changes directory out of a template dir.
+ * Creates a new 0 changes directory out of a template dir.
  *
  * @author Shamil Vakhitov
  */
@@ -28,9 +28,9 @@ public class ChangesDoc {
         File buildChangesDir = changesDir.resolve(build).toFile();
         if (buildChangesDir.exists())
             throw new Exception(Log.format("Directory or file '{}' already exists", buildChangesDir));
-        changesDir.resolve("00000").toFile().renameTo(buildChangesDir);
+        changesDir.resolve("0").toFile().renameTo(buildChangesDir);
 
-        FileUtils.copyDirectory(changesDir.resolve("00000.template").toFile(), changesDir.resolve("00000").toFile());
+        FileUtils.copyDirectory(changesDir.resolve("0.template").toFile(), changesDir.resolve("0").toFile());
 
         Path index = rootDir.resolve("index.adoc");
         String data = new String(Files.readAllBytes(index), StandardCharsets.UTF_8);

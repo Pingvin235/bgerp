@@ -216,7 +216,7 @@ Hints:
 * If documentation was already corrected in the current branch, you can create a mock branch on the last working state.
 * Use line numbers for searching over failing snippets.
 
-Place human readable changes description with screens (possible link images from a main article) in <<../changes/00000/index.adoc#, 00000>> changes file.
+Place human readable changes description with screens (possible link images from a main article) in <<../changes/0/index.adoc#, 0>> changes file.
 
 NOTE: You can postpone the complete work and only store screenshots to the `_res` directory there.
 
@@ -248,8 +248,8 @@ NOTE: All the published change updates have the same version, equal to the next 
 The job is executed in *master* branch.
 
 Does the same as *test-and-publish-update* but for master branch.
-As there is no real *PROCESS_ID* available, it is taken as *00000* <<build-change, published>> update.
-The artificial change *00000* can be used for updating to the latest state of *master*.
+As there is no real *PROCESS_ID* available, it is taken as *0* <<build-change, published>> update.
+The artificial change *0* can be used for updating to the latest state of *master*.
 To this state is periodically reset <<../kernel/install.adoc#demo, Demo System>>.
 
 [[test-integration]]

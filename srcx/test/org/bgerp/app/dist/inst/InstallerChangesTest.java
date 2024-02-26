@@ -26,8 +26,8 @@ public class InstallerChangesTest {
         var changes = processor.getChanges();
         Assert.assertEquals(13, changes.size());
 
-        Assert.assertEquals("00000", changes.get(0).getId());
-        Assert.assertEquals("00000 12-Mar-2022 17:25", changes.get(0).getTitle());
+        Assert.assertEquals("0", changes.get(0).getId());
+        Assert.assertEquals("0 12-Mar-2022 17:25", changes.get(0).getTitle());
 
         Assert.assertEquals("14350", changes.get(1).getId());
         Assert.assertEquals("14350 18-Mar-2022 12:32", changes.get(1).getTitle());

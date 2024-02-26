@@ -1,0 +1,32 @@
+= CHANGES
+:toc:
+
+////
+// REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT
+
+== Enabled <<../../kernel/setup.adoc#config-license, License Check>>
+
+IMPORTANT: Obtain the suitable license and put it in the application' directory.
+
+== Syntax Highlighting Config Editors
+Introduced for the rest of existing editors.
+
+image::_res/12345_permission_sets.png[width="800px"]
+
+== <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
+
+image::../../kernel/_res/user/profile_own_personalization.png[width="800px"]
+
+== Infrastructure
+[square]
+* Gradle-only build process, no more Ant is used.
+* Java 11 support in JSP pages.
+
+== Plugin <<../../plugin/document/index.adoc#, Document>>
+Configuration for Demo DB.
+
+== Plugin <<../../plugin/pln/callboard/index.adoc#, Callboard>>
+Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
+
+image::../../plugin/pln/callboard/_res/process_set_time.png[width="800px"]
+////

@@ -61,7 +61,7 @@
 ** <<project/db.adoc#, Database>>
 ** <<project/examples.adoc#, Examples>>
 * CHANGES
-** <<changes/00000/index.adoc#, 00000 (Master Branch)>>
+** <<changes/0/index.adoc#, Pre-Stable Change>>
 // changesDoc
 ** <<changes/1392/index.adoc#, 1392>>
 ** <<changes/1391/index.adoc#, 1391>>
