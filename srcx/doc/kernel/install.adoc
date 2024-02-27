@@ -310,7 +310,7 @@ server {
 
 IMPORTANT: Prior to updating, make sure to examine link:https://bgerp.org/ru/#install[Release Notes], as these may contain important information or update instructions.
 
-Однако в момент первоначального запуска системы предпочтительно использовать *Pre-Stable Change* для получения наиболее свежей функциональности.
+Однако в момент первоначального запуска системы предпочтительно использовать *Pre-Stable Release* для получения наиболее свежей функциональности.
 
 [[update-installer-ui]]
 === Interface
@@ -405,7 +405,7 @@ CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
 
 [[demo]]
 == Demo System
-The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<#update-version, Pre-Stable Change>>
+The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<#update-version, Pre-Stable Release>>
 of software and resets to initial state every 3rd hour.
 Поскольку в системе приведены примеры всего функционала продукта, она может использоваться для изучения программы с проверкой конфигураций.
 В случае длительных экспериментов для избежания потери сделанных изменений мы рекомендуем вам использовать <<method-docker, Docker Container>>.

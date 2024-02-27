@@ -1,11 +1,14 @@
 package org.bgerp.action.admin;
 
+import java.util.List;
+
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.dist.inst.InstallerChanges;
+import org.bgerp.app.dist.inst.InstallerChanges.Change;
 import org.bgerp.app.dist.inst.VersionCheck;
 import org.bgerp.app.servlet.file.Files;
 import org.bgerp.app.servlet.file.Options;
@@ -45,7 +48,13 @@ public class AppAction extends BaseAction {
         form.setResponseData("statusApp", AdminPortListener.statusApp());
         form.setResponseData("statusDb", Setup.getSetup().getConnectionPool().poolStatus());
         form.setResponseData("dbTrace", Setup.getSetup().getConnectionPool().getDbTrace());
-        form.setResponseData("changes", new InstallerChanges().getChanges());
+
+        List<Change> changes = new InstallerChanges().getChanges();
+        var preStableRelease = changes.stream().filter(c -> InstallerChanges.PRE_RELEASE_CHANGE_ID.equals(c.getId())).findAny();
+        if (preStableRelease.isPresent())
+            preStableRelease.get().setTitle("0 (" + l.l("Pre-Stable") + ")");
+
+        form.setResponseData("changes", changes);
 
         return html(conSet, form, PATH_JSP + "/status.jsp");
     }

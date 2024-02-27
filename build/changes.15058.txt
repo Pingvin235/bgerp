@@ -1,1 +1,1 @@
-TODOOC C: Pre-Release change ID modified from '00000' to '0'.
+C: Pre-Release change ID modified from '00000' to '0'. https://bgerp.org/version/3.0/doc/kernel/install.html#update-installer-ui

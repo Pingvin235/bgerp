@@ -9,12 +9,12 @@ mysql --default-character-set=utf8 -ubgerp_demo -pxxxxx bgerp_demo < $DUMP_FILE
 
 echo "Extracting filestorage.zip"
 
-unzip filestorage.zip -d $ERP_DIR/filestorage
+rm -r $ERP_DIR/filestorage/* && unzip filestorage.zip -d $ERP_DIR/filestorage
 
 echo "Downloading demo license"
 
 wget https://bgerp.org/download/lic.data -O "$ERP_DIR/lic.data"
 
-echo "Installing Pre-Stable Change"
+echo "Installing Pre-Stable Release"
 
 cd $ERP_DIR && ./installer.sh installc 0 && ./erp_restart.sh

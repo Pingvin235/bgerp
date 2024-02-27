@@ -647,6 +647,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Allowed status transitions matrix</en><ru>Матрица разрешенных переходов статусов</ru></p>
 	<p><sys>statuses.initial</sys><en>Initial</en><ru>Начальные</ru></p>
 	<p><sys>statuses.allowed</sys><en>Allowed</en><ru>Разрешённые</ru></p>
+	<p><en>Pre-Stable</en><ru>Пред-стабильный</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

@@ -60,8 +60,8 @@
 ** <<project/workflow.adoc#, Workflow>>
 ** <<project/db.adoc#, Database>>
 ** <<project/examples.adoc#, Examples>>
-* CHANGES
-** <<changes/0/index.adoc#, Pre-Stable Change>>
+* Releases
+** <<changes/0/index.adoc#, Pre-Stable>>
 // changesDoc
 ** <<changes/1392/index.adoc#, 1392>>
 ** <<changes/1391/index.adoc#, 1391>>
