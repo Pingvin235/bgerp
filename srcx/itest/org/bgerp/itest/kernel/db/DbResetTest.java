@@ -53,7 +53,7 @@ public class DbResetTest {
         }
 
         @Override
-        protected void doQuery(Statement st, String query, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
+        protected void doQuery(Statement st, String query, boolean useCache, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
             try {
                 log.debug("Executing: {}", query);
                 st.executeUpdate(query);

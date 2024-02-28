@@ -385,23 +385,14 @@ Recommended command for updating (argument 'db' can be excluded for speeding up 
 
 Update files are taken from version-containing URL, for example for version 3.0: https://bgerp.org/version/3.0/
 
-[[update-stored-procedure]]
-=== Хранимые процедуры БД
-Для изменений структуры БД в скриптах внутри пакетов обновлении используются хранимые процедуры. Например:
-[source]
-----
-CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
-----
-
-При восстановлении БД из резервной копии они могут пропасть. Процедура обновления происходит с ошибками.
-В этом случае необходимо выполнить следующие команды:
+[[update-query-history]]
+=== Query History
+For all the executed during update process SQL queries their hashes are stored in DB table *db_update_log*.
+This allows to prevent their re-execution. If you need to clear the history, use the command:
 [source, bash]
 ----
 ./installer.sh killhash
-./installer.sh updatef
 ----
-
-Первая удаляет из БД информацию о уже применённых обновлениях структуры, вторая - производит повторное выполнение всех скриптов.
 
 [[demo]]
 == Demo System

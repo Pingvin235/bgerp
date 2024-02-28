@@ -16,6 +16,7 @@ import org.bgerp.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.ZipUtils;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -26,7 +27,7 @@ import ru.bgcrm.util.sql.SQLUtils;
  *
  * @author Shamil Vakhitov
  */
-public class ExecuteSQL implements InstallationCall {
+public class ExecuteSQL extends CommonDAO implements InstallationCall {
     private static final Log log = Log.getLog();
 
     /** Table for storing applied SQL updates. */
@@ -77,8 +78,8 @@ public class ExecuteSQL implements InstallationCall {
 
     /**
      * Executes SQL commands.
-     * @param con
-     * @param queries
+     * @param con DB connection.
+     * @param queries query file lines.
      * @throws SQLException
      */
     private void executeSqlCommands(Connection con, String[] queries) throws SQLException {
@@ -86,6 +87,7 @@ public class ExecuteSQL implements InstallationCall {
         Set<String> newHashes = new TreeSet<>();
 
         StringBuilder blockQuery = null;
+        boolean blockUseHash = true;
 
         Statement st = con.createStatement();
         for (String query : queries) {
@@ -95,6 +97,7 @@ public class ExecuteSQL implements InstallationCall {
 
             if (query.indexOf("#BLOCK#") >= 0) {
                 blockQuery = new StringBuilder();
+                blockUseHash = query.indexOf("#NO_HASH#") < 0;
                 continue;
             } else if (query.indexOf("#ENDB#") >= 0) {
                 if (blockQuery == null)
@@ -104,7 +107,7 @@ public class ExecuteSQL implements InstallationCall {
                         .replaceAll("delimiter\\s*\\$\\$", "")
                         .replaceAll("delimiter\\s*;", "")
                         .replaceAll("END\\$\\$", "END;");
-                doQuery(st, blockQueryStr, existingHashes, newHashes);
+                doQuery(st, blockQueryStr, blockUseHash, existingHashes, newHashes);
 
                 blockQuery = null;
                 continue;
@@ -117,7 +120,7 @@ public class ExecuteSQL implements InstallationCall {
                 continue;
             }
 
-            doQuery(st, query, existingHashes, newHashes);
+            doQuery(st, query, true, existingHashes, newHashes);
         }
         st.close();
 
@@ -129,21 +132,30 @@ public class ExecuteSQL implements InstallationCall {
      * Executes SQL query.
      * @param st SQL statement, running the query.
      * @param query the query.
+     * @param useHash use executed query hash to prevent re-execution.
      * @param existingHashes hashes of already applied queries.
      * @param newHashes set there added hash of executed {@code query} if it wasn't presented in {@code hashes}.
      * @throws SQLException
      */
     @VisibleForTesting
-    protected void doQuery(Statement st, String query, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
+    protected void doQuery(Statement st, String query, boolean useHash, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
         String hash = Utils.getDigest(query);
-        if (existingHashes.contains(hash)) {
+        if (useHash && existingHashes.contains(hash))
             return;
+
+        if (!useHash) {
+            hash = "NO_HASH";
+            // to prevent an accidentally using
+            existingHashes = null;
+            newHashes = null;
         }
+
         try {
             long time = System.currentTimeMillis();
             st.executeUpdate(query);
             log.info("OK ({} ms.) => [{}] {}", (System.currentTimeMillis() - time), hash, query);
-            newHashes.add(hash);
+            if (useHash)
+                newHashes.add(hash);
         } catch (SQLException ex) {
             throw new SQLException(ex.getMessage() + " => [" + hash + "] " + query, ex);
         }

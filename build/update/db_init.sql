@@ -1,4 +1,4 @@
--- #BLOCK#;
+-- #BLOCK#NO_HASH#;
 DROP PROCEDURE IF EXISTS drop_column_if_exists;
 delimiter $$
 CREATE PROCEDURE drop_column_if_exists(IN tbl CHAR(64), IN col CHAR(64))
