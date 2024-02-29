@@ -4,7 +4,7 @@
 	<!-- these attributes applied to each of processed files, may be overvritten inside -->
 	<attributes>
 		<favicon>https://bgerp.org/asset/img/favicon-doc.svg</favicon>
-		<pzdc-javadoc>https://bgerp.org/doc/3.0/javadoc/</pzdc-javadoc>
+		<pzdc-javadoc>https://bgerp.org/version/3.0/javadoc/</pzdc-javadoc>
 		<!-- source link root -->
 		<pzdc-source-link-root>https://github.com/Pingvin235/bgerp/blob/master/srcx/doc</pzdc-source-link-root>
 		<!-- converter URL, used by DrawIO processor -->

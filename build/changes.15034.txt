@@ -1,1 +1,1 @@
-TODODOC C: CDN paths.
+C: Unified CDN paths. https://bgerp.org/version/3.0/doc/kernel/setup.html#method-linux-app

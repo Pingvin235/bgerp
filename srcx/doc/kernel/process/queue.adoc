@@ -844,7 +844,7 @@ processor.2.page=/WEB-INF/jspf/user/process/queue/custom/executor_list.jsp
 
 image::_res/i0105.png[]
 
-[[default-marked-processor]]
+[[processor-default-marked]]
 В системе поставляется обработчик *DefaultMarkedProcessor*,
 позволяющий выполнять некоторые типовые обработки процессов в очереди. Шаблон добавления обработчика:
 

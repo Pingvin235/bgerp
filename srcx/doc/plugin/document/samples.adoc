@@ -38,7 +38,7 @@ document:pattern.22.type=jspHtml
 document:pattern.22.jsp=/WEB-INF/custom/plugin/document/order.jsp
 ----
 
-и в <<../../kernel/process/queue.adoc#default-marked-processor, очереди>> процессов:
+и в <<../../kernel/process/queue.adoc#processor-default-marked, очереди>> процессов:
 [source]
 ----
 # печать актов

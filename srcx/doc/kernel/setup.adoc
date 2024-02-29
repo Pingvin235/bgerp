@@ -802,7 +802,7 @@ When *Wait of execution is done* is selected to Yes, execution logs can be obtai
 === Scheduler
 include::../skip_at_first.adocf[]
 
-Scheduler allows periodically run Java classes, which extend javadoc:org.bgerp.app.scheduler.Task[].
+Scheduler allows periodically run Java classes, which extend javadoc:org.bgerp.app.exec.scheduler.Task[].
 To configure scheduler tasks add the following blocks to server configuration:
 [source]
 ----

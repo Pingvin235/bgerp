@@ -300,6 +300,21 @@ server {
 }
 ----
 
+[[method-linux-multiple]]
+==== Multiple Instances
+In the case when you need to setup multiple app instances on a single server, recommendations is the following:
+[square]
+* create a separated Linux user for the instance, for example *inst*;
+* place the app to the user's home, `/home/inst/bgerp`;
+* name the database as *bgerp_inst*;
+* adjust *server.port.http* and *server.port.admin* by adding numeric prefixes, for the second server's instance it would be *19088* and *12011* respectively;
+* for running the instance on server start instead of SystemD use cron:
+----
+crontab -e
+# to the opened editor add record
+@reboot /home/inst/bgerp/erp_start.sh
+----
+
 [[update]]
 == Update
 [[update-version]]

@@ -56,15 +56,15 @@
 ** <<ext/letter.adoc#, Учёт писем>>
 ** <<ext/service_desk.adoc#, Service Desk>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
-* <<project/index.adoc#, PROJECT>>
-** <<project/workflow.adoc#, Workflow>>
-** <<project/db.adoc#, Database>>
-** <<project/examples.adoc#, Examples>>
 * Releases
 ** <<changes/0/index.adoc#, Pre-Stable>>
-// changesDoc
+// changesDoc - don't remove, marker for Gradle task 'changesDoc'
 ** <<changes/1392/index.adoc#, 1392>>
 ** <<changes/1391/index.adoc#, 1391>>
 ** <<changes/1390/index.adoc#, 1390>>
 ** <<changes/1389/index.adoc#, 1389>>
 ** <<changes/1388/index.adoc#, 1388>>
+* <<project/index.adoc#, Project>>
+** <<project/workflow.adoc#, Workflow>>
+** <<project/db.adoc#, Database>>
+** <<project/examples.adoc#, Examples>>

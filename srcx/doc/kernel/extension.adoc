@@ -316,7 +316,7 @@ git push
 Для запуска любого класса, статического или динамического в контексте сервера BGERP вызовите:
 [source, bash]
 ----
-./crm.sh "runclass <class_name>"
+./erp.sh "runclass <class_name>"
 ----
 
 Где *<class_name>* - полное имя класса с пакетом. Класс должен реализовывать интерфейс *java.lang.Runnable*.
