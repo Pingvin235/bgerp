@@ -6,11 +6,11 @@ export MYSQL_ROOT_PASSWORD="$(pwgen -1 32)"
 echo "Running MySQL"
 
 docker_wait_mysql_up () {
-    for i in {300..0}; do
+    for i in {600..0}; do
         if mysqladmin ping -h localhost --silent; then
             break
         fi
-        sleep 2
+        sleep 1
     done
     if [ "$i" = 0 ]; then
         echo "Unable to start MySQL server."
@@ -19,11 +19,11 @@ docker_wait_mysql_up () {
 }
 
 docker_wait_mysql_down () {
-    for i in {300..0}; do
+    for i in {600..0}; do
         if ! mysqladmin ping -h localhost --silent; then
             break
         fi
-        sleep 2
+        sleep 1
     done
     if [ "$i" = 0 ]; then
         echo "Unable to stop MySQL server."
@@ -37,7 +37,7 @@ docker_wait_bgerp_up () {
         if /opt/bgerp/erp_status.sh 2>/dev/null; then
             break
         fi
-        sleep 2
+        sleep 1
     done
     if [ "$i" = 0 ]; then
         echo "Unable to start BGERP server."
