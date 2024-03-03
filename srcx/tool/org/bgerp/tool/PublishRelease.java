@@ -16,7 +16,7 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class PublishRelease extends PublishCommon {
+public class PublishRelease extends PublishBase {
     private static final Log log = Log.getLog();
 
     /** Target remote dir, change it to "/home/cdn/www/_version" when testing. */

@@ -138,7 +138,7 @@ git push
 
 IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
 
-After each acceptance to the *master* branch CI performs <<test-and-publish-update-master, test-and-publish-update-master>> and
+After each acceptance to the *master* branch CI performs <<test-and-publish-change-master, test-and-publish-change-master>> and
 <<test-integration-master, test-integration-master>> jobs, which together prepare data for running <<../kernel/install.adoc#demo, Demo System>>.
 
 [[long-lived-branch]]
@@ -172,9 +172,9 @@ Use *width* attribute for limiting size rather than resizing that can sometimes 
 [[doc-change]]
 ==== Change
 Documentation changes are recommended to be done at the end of <<change, branch development>>, using <<changes-file, changes file>> as preliminary notes.
-CI job <<test-and-publish-update, test-and-publish-update>> builds documentation automatically for each commit or it might be <<build-doc, built>> locally.
+CI job <<test-and-publish-change, test-and-publish-change>> builds documentation automatically for each commit or it might be <<build-doc, built>> locally.
 
-Due the strict references and snippets checking, it is quite possible to have broken <<test-and-publish-update, state>> of documentation
+Due the strict references and snippets checking, it is quite possible to have broken <<test-and-publish-change, state>> of documentation
 even without changes in `.adoc` files. Something like the following:
 ----
 2020-05-25 12:17:39,149 INFO DocGenerator [main] Processing: srcx/doc/project.adoc
@@ -219,8 +219,8 @@ Different jobs are executed within different <<change, GIT>> branches.
 === Jobs
 Please find below description of CI jobs.
 
-[[test-and-publish-update]]
-==== test-and-publish-update
+[[test-and-publish-change]]
+==== test-and-publish-change
 The job is executed in every <<change, change>> branch.
 
 Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>>.
@@ -228,11 +228,11 @@ If everything is went without error then publishing <<build-change, update>> wit
 
 NOTE: All the published change updates have the same version, equal to the next release.
 
-[[test-and-publish-update-master]]
-==== test-and-publish-update-master
+[[test-and-publish-change-master]]
+==== test-and-publish-change-master
 The job is executed in *master* branch.
 
-Does the same as *test-and-publish-update* but for master branch.
+Does the same as *test-and-publish-change* but for master branch.
 As there is no real *PROCESS_ID* available, it is taken as *0* <<build-change, published>> update.
 The artificial change *0* can be used for updating to the latest state of *master*.
 To this state is periodically reset <<../kernel/install.adoc#demo, Demo System>>.
@@ -301,7 +301,7 @@ Resulting HTML files will be present in *target/doc*. Internal link validation i
 
 [[build-change]]
 === Change
-NOTE: This task is automatically run by <<test-and-publish-update, CI>>.
+NOTE: This task is automatically run by <<test-and-publish-change, CI>>.
 
 Build and publish on https://bgerp.org/change update package with a <<change, change>>.
 

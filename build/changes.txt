@@ -771,7 +771,7 @@ C: [14192] Deprecate data() methods with old signatures in BaseAction.
 A: [14192] Running 'gradlew integrationTest' with DB configuration from bgerp.properties file.
 F: [14192] Localizations in menu.
 F: [14192] Localization of parametrized BGMessageException.
-C: [14210] Task 'publishUpdate' rewritten to Java.
+C: [14210] Task 'publishChange' rewritten to Java.
 A: [14210] Automatically publish branch updates using GitLab CI.
 C: [14214] Optimization JSPFunction.httpLinksToHtml, tests.
 A: [14268] Plugin SMS, including existing MTSC, Tele2 senders same as a new SMSC, https://bgerp.org/version/3.0/doc/plugin/sms/index.html

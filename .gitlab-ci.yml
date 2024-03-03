@@ -1,4 +1,4 @@
-test-and-publish-update:
+test-and-publish-change:
     image: bgerp/base
     cache:
         paths:
@@ -13,11 +13,11 @@ test-and-publish-update:
         - git rev-parse --abbrev-ref HEAD
         - sh gradlew checkChanges test doc
         - mkdir ~/.ssh && echo "$KEY_DOC" > ~/.ssh/id_rsa && chmod -R 600 ~/.ssh
-        - sh gradlew updateProperties buildUpdate updateLibProperties buildUpdateLib publishUpdate
+        - sh gradlew updateProperties buildUpdate updateLibProperties buildUpdateLib publishChange
     rules:
         - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_REF_NAME != "p11862-documentation"  && $CI_COMMIT_REF_NAME != "p15055-documentation-master"
 
-test-and-publish-update-master:
+test-and-publish-change-master:
     image: bgerp/base
     cache:
         paths:
@@ -33,7 +33,7 @@ test-and-publish-update-master:
         - mkdir ~/.ssh && echo "$KEY_DOC" > ~/.ssh/id_rsa && chmod -R 600 ~/.ssh
         - sh gradlew updateProperties buildUpdate updateLibProperties buildUpdateLib
         - sh gradlew changesFile && mv build/changes.txt build/changes.0.txt
-        - sh gradlew publishUpdate
+        - sh gradlew publishChange
     rules:
         - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "master"
 

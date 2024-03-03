@@ -1,9 +1,9 @@
-task publishUpdate(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'], description: 'Copies changes modules to be available under https://bgerp.org/change') {
+task publishChange(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'], description: 'Copies changes modules to be available under https://bgerp.org/change') {
     mustRunAfter 'doc'
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'
     classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.PublishUpdate'
+    mainClass = 'org.bgerp.tool.PublishChange'
     args "${->base.distsDirectory.get().asFile.path}", version, "${->getChangeIdOrThrow()}"
 }
 
