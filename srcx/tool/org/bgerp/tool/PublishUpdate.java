@@ -38,7 +38,8 @@ public class PublishUpdate extends PublishCommon {
             new RuntimeRunner("rsync", "--delete", "-Pav",
                 "-e", "ssh " + String.join(" ", SSH_OPTIONS), docDir.toString(),
                 SSH_LOGIN + ":" + sshDir).run();
-        }
+        } else
+            log.info("Doc directory is missing: {}", docDir);
 
         var changesName = targetDistrDir + "/../../build/changes." + changeId + ".txt";
         var changesFile = new File(changesName);
