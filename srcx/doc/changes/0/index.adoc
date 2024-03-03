@@ -23,6 +23,9 @@ IMPORTANT: Define the new number format <<../../kernel/setup.adoc#config-param-p
 
 == MAJOR
 
+=== Removed deprecated AJAX
+JS code was completely cleaned up from deprecated synchronous AJAX calls.
+
 === Unified CDN paths
 URLs, used for downloading product updates, brought to similar forms.
 The old addresses are kept for backward compatibility.

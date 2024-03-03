@@ -129,6 +129,7 @@ Get configuration and data files from the container:
 [source, bash]
 ----
 docker exec bgerp-demo cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" > bgerp.properties
+docker cp bgerp-demo:/opt/bgerp/lic.data lic.data
 docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties
 docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
 ----
