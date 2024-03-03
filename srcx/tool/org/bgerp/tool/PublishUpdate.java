@@ -18,13 +18,13 @@ import org.bgerp.util.Log;
 public class PublishUpdate extends PublishCommon {
     private static final Log log = Log.getLog();
 
-    /** Target remote dir, change it to "/home/cdn/www/_update/" when testing. */
-    private final static String SSH_DIR = "/home/cdn/www/update/";
+    /** Target remote dir, change it to "/home/cdn/www/_change/" when testing. */
+    private final static String SSH_DIR = "/home/cdn/www/change/";
 
     private PublishUpdate(String targetDistrDir, String version, String changeId) throws Exception {
         super(version, targetDistrDir, SSH_DIR + changeId);
 
-        log.info("Publishing update: dir: {}, version: {}, processId: {}", targetDistrDir, version, changeId);
+        log.info("Publishing change: dir: {}, version: {}, processId: {}", targetDistrDir, version, changeId);
 
         log.info("Create dir if not exists");
         ssh("mkdir -p " + sshDir);
@@ -55,17 +55,17 @@ public class PublishUpdate extends PublishCommon {
         } else
             log.info("Changes file is missing: {}", changesName);
 
-        var updateDir = "https://bgerp.org/update/" + changeId;
+        var changeDir = "https://bgerp.org/change/" + changeId;
         log.info("Update links:");
-        log.info(updateDir);
+        log.info(changeDir);
         if (updateFile != null) {
-            log.info(updateDir + "/" + updateFile);
+            log.info(changeDir + "/" + updateFile);
             if (updateLibFile != null)
-                log.info(updateDir + "/" + updateLibFile);
+                log.info(changeDir + "/" + updateLibFile);
             if (docDir.exists())
-                log.info(updateDir + "/doc");
+                log.info(changeDir + "/doc");
             if (changesFile.exists())
-                log.info(updateDir + "/changes.txt");
+                log.info(changeDir + "/changes.txt");
         }
     }
 
