@@ -171,7 +171,7 @@
 			<input type="text" size="3" name="processId" class="mr1 text-center"/>
 
 			<c:set var="linkScript">
-				if (confirm('${l.l('Привязать сообщение к указанному процессу?')}')) {
+				if (confirm('${l.l('Link the message to the process?')}')) {
 					$$.ajax
 						.post(this)
 						.done((result) => {

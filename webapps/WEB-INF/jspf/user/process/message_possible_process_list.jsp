@@ -33,22 +33,24 @@
 	</tr>
 
 	<c:forEach var="item" items="${frd.list}">
+		<c:set var="process" value="${item.first}"/>
 		<c:set var="color" value="${item.second.color}"/>
 		<%-- on empty color value expected to be ignored by browser --%>
 		<tr style="background-color: ${color}" title="${l.l('Creation time')}: ${tu.format(process.createTime, 'ymdhms')}">
-			<c:set var="process" value="${item.first}"/>
 			<td>
 				<a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a>
 				<c:url var="url" value="${updateProcessUrl}">
 					<c:param name="processId" value="${process.id}"/>
 				</c:url>
 				[<a href="#" onclick="
-					$$.ajax
-						.post('${url}')
-						.done(() => {
-							$$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent());
-						});
-					return false;
+					if (confirm('${l.l('Link the message to the process?')}')) {
+						$$.ajax
+							.post('${url}')
+							.done((result) => {
+								$$.ajax.load('/user/message.do?&id=' + result.data.messageId, $('#${form.returnChildUiid}').parent());
+							});
+						return false;
+					}
 				">${l.l('set')}</a>]
 			</td>
 			<td>${process.statusTitle}</td>

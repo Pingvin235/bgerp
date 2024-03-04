@@ -136,6 +136,7 @@ public class MessageAction extends BaseAction {
         form.setResponseData("id", message.getId());
 
         int processId = form.getParamInt("processId", -1);
+        // TODO: Check, how setting process ID = 0 is handled for E-Mails.
         if (processId >= 0) {
             message.setProcessId(processId);
 
@@ -158,6 +159,9 @@ public class MessageAction extends BaseAction {
         }
 
         messageDao.updateMessageProcess(message);
+
+        if (message.getId() > 0)
+            form.setResponseData("messageId", message.getId());
 
         return json(con, form);
     }

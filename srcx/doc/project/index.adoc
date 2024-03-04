@@ -861,7 +861,7 @@ By doing <<action>> in object *l* the localization context is passed, containing
 Localized key string may contain placeholders for some values, marked as *{}*.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L231-L231[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L235-L235[ru.bgcrm.struts.action.MessageAction]
 
 <<exception, BGMessageException>> can contain localized message, translated when shown to a user.
 In the following snippet might be seen, how it can be thrown in a plugin's logic.

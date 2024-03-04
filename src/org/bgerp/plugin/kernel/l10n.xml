@@ -194,7 +194,7 @@
 	<p><ru>Строка поиска контрагента</ru><en>Customer search string</en></p>
 	<p><ru>нет</ru><en>no</en></p>
 	<p><ru>Произвольный объект</ru><en>Arbitary object</en></p>
-	<p><ru>Привязать сообщение к указанному процессу?</ru><en>Link the message to the process?</en></p>
+	<p><en>Link the message to the process?</en><ru>Привязать сообщение к указанному процессу?</ru></p>
 	<p><ru>Изменить процесс на</ru><en>Change process to</en></p>
 	<p><ru>Независимую</ru><en>Independent</en></p>
 	<p><ru>Изменить процесс сообщения на {} копию текущего процесса?</ru><en>Change process of the message to {} copy of the current process?</en></p>

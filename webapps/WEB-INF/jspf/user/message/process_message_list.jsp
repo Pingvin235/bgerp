@@ -158,7 +158,7 @@
 						<input type="hidden" name="id" value="${message.id}"/>
 
 						<c:set var="command">
-							if (confirm('${l.l('Привязать сообщение к указанному процессу?')}'))
+							if (confirm('${l.l('Link the message to the process?')}'))
 								$$.ajax.post(this).done(() => {
 									$$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent());
 								});
