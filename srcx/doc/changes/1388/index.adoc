@@ -1,4 +1,4 @@
-= CHANGES 1388
+= Release Notes 1388
 :toc:
 
 == Plugin <<../../plugin/svc/log/index.adoc#, Log>> (New)

@@ -1,4 +1,4 @@
-= CHANGES
+= Release Notes 1391
 :toc:
 
 IMPORTANT: <<../../kernel/install.adoc#update-installer-ui, Install>> the update two times, as the installer behaves wrongly prior to 1390 version. Once make a normal update and after force.

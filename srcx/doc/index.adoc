@@ -56,7 +56,7 @@
 ** <<ext/letter.adoc#, Учёт писем>>
 ** <<ext/service_desk.adoc#, Service Desk>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
-* Releases
+* Release Notes
 ** <<changes/0/index.adoc#, Pre-Stable>>
 // changesDoc - don't remove, marker for Gradle task 'changesDoc'
 ** <<changes/1393/index.adoc#, 1393>>
