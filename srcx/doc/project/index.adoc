@@ -60,7 +60,6 @@ Gradle is a build tool, used for the project.
 It is running using `gradlew` wrapper script, provided in the sources.
 
 To update a Gradle link:https://docs.gradle.org/current/release-notes.html[version] in the wrapper, execute for example for *8.4*:
-[source]
 ----
 ./gradlew wrapper --gradle-version=8.4
 ----
@@ -72,13 +71,11 @@ Checkout the project using GIT to an wanted directory, e.g.: `BGERP`.
 [[checkout-contrib]]
 ==== Contributors
 For project's contributors, internal repo with <<workflow.adoc#change, branches>>:
-[source]
 ----
 git clone https://git.bgerp.org/bgerp/bgerp.git BGERP
 ----
 
 Configure GIT inside the directory. Use your name and email instead.
-[source]
 ----
 git config user.name "Shamil Vakhitov"
 git config user.email shamil@bgerp.org
@@ -89,7 +86,6 @@ git config core.autocrlf input
 ----
 
 For Windows and Mac only.
-[source]
 ----
 git config core.ignorecase true
 ----
@@ -98,7 +94,6 @@ git config core.ignorecase true
 ==== Read-only access
 For only readers, including <<../kernel/extension.adoc#custom, custom>> developers.
 
-[source]
 ----
 git clone https://github.com/Pingvin235/bgerp BGERP
 ----
@@ -113,28 +108,26 @@ Run the following command inside of the project's directory.
 
 NOTE: We expose non-standard MySQL port *3388* to avoid possible conflicts with a running locally MySQL server.
 
-[source, bash]
 ----
-docker pull bgerp/bgerp && docker run -d --name bgerp-demo --restart unless-stopped -p 3388:3306 bgerp/bgerp
+docker pull bgerp/bgerp && docker run -d --name bgerp-demo --restart unless-stopped -p 3388:3306 bgerp/bgerp && docker logs --follow bgerp-demo
 ----
 
-Make sure, that the container is running using the command:
-[source, bash]
+Make sure, that the container is running, wait the messages:
 ----
-docker exec bgerp-demo /opt/bgerp/erp_status.sh
+Running BGERP
+Server URL: 'http://localhost:9088', see logs in 'log' directory
 ----
 
 [[run-data-logging]]
 Get configuration and data files from the container:
-[source, bash]
 ----
-docker exec bgerp-demo cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" > bgerp.properties
-docker cp bgerp-demo:/opt/bgerp/lic.data lic.data
-docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties
+docker exec bgerp-demo cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" > bgerp.properties &&
+docker cp bgerp-demo:/opt/bgerp/lic.data lic.data &&
+docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties &&
 docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
 ----
 
-Add the following values to the extracted `bgerp.properties` file:
+Add the following values to the end the extracted `bgerp.properties` file:
 ----
 # html title of web-app
 title=BGERP DEMO LOCAL
@@ -151,13 +144,11 @@ The running container has unused Java BGERP Server process with disabled <<../ke
 If you will need to enable the Scheduler later, add appropriate parameter in `bgerp.properties` file as well.
 
 NOTE: Use the command for removing the created container:
-[source, bash]
 ----
 docker rm -f bgerp-demo
 ----
 
 NOTE: For accessing the DB instance with console SQL client use the command:
-[source, bash]
 ----
 docker exec -it bgerp-demo /opt/bgerp/mysql.sh
 ----
@@ -165,7 +156,6 @@ docker exec -it bgerp-demo /opt/bgerp/mysql.sh
 [[run-gradle]]
 ==== Command line
 Execute command:
-[source]
 ----
 ./gradlew startServer
 ----
@@ -269,7 +259,6 @@ Java formatter and space symbols indicators have been already enabled there.
 ==== Logging
 A <<run-data-logging, taken>> from DB container `log4j.properties` file doesn't produce output to *STDOUT* IDE console.
 In order to change that you have to add *out* appender there.
-[source]
 ----
 log4j.logger.ru.bgcrm=ALL, file, session, out
 log4j.logger.ru.bgerp=ALL, file, session, out
@@ -895,7 +884,6 @@ All the new code has to be written using localized strings.
 For legacy code recommended during other changes replace static strings to localized.
 
 For missing keys the following messages appear in <<ide-logging, log output>>:
-[source]
 ----
 01-02/00:44:01  WARN [http-nio-9088-exec-2] Localizer - Missing translation for pattern: 'Иниациализировать плагины'
 ----
