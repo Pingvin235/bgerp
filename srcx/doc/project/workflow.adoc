@@ -354,7 +354,10 @@ Build the *bgerp/bgerp* Docker Image:
 bash build/docker/files.sh && docker build build/docker -t bgerp/bgerp
 ----
 
-Test the created image with <<../kernel/install.adoc#method-docker, installation>> it in local Docker.
+Test the created image with it in local Docker:
+----
+docker run -d --name bgerp --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
+----
 
 Then apply file changes and commit them:
 ----
@@ -377,9 +380,9 @@ Merge the latest state of the master on <<doc-release, documentation>> branch:
 git checkout p11862-documentation && git pull --rebase && git merge master && git push
 ----
 
-Pick documentation changes back to master.
+Pick documentation changes back to master. *Normally there shouldn't be anyone.*
 ----
-git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation." && git push
+git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation."
 ----
 
 Add news to Web sites about release with a link to the release changes.
