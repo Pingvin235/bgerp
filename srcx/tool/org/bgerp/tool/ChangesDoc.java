@@ -39,10 +39,13 @@ public class ChangesDoc {
         int pos = data.indexOf(marker);
         if (pos <= 0)
             throw new Exception(Log.format("Not found marker '{}' in file '{}'", marker, index));
+        // end of marker
+        pos = data.indexOf('\n', pos + marker.length());
+
         data =
-            data.substring(0, pos + marker.length()) +
+            data.substring(0, pos) +
             "\n** <<changes/" + build + "/index.adoc#, " + build + ">>\n" +
-            data.substring(pos + marker.length() + 1);
+            data.substring(pos + 1);
         Files.writeString(index, data, StandardCharsets.UTF_8, StandardOpenOption.WRITE);
     }
 
