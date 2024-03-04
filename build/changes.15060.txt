@@ -1,2 +1,0 @@
-C: Re-create SQL stored procedures on any update without storing their hashes to query history. https://bgerp.org/version/3.0/doc/kernel/install.html#update-query-history
-

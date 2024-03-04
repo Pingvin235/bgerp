@@ -58,7 +58,9 @@
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
 * Releases
 ** <<changes/0/index.adoc#, Pre-Stable>>
-// changesDoc - don't remove, marker for Gradle task 'changesDoc'
+// changesDoc
+** <<changes/1393/index.adoc#, 1393>>
+- don't remove, marker for Gradle task 'changesDoc'
 ** <<changes/1392/index.adoc#, 1392>>
 ** <<changes/1391/index.adoc#, 1391>>
 ** <<changes/1390/index.adoc#, 1390>>

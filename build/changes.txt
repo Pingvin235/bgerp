@@ -1,6 +1,30 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+04.03.2024 11:33:16 1393
+C: [14741] Improved process statuses editor in type properties. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type
+A: [14797] Unified OK/Cancel/Save/Restore buttons for config editors.
+A: [15013] DB connections trace in App Status. https://bgerp.org/version/3.0/doc/kernel/setup.html#status
+C: [15013] Link sizes in process card.
+C: [15028] First process ID is 1970.
+C: [15028] Test Zones renamed to Demo Zones and significantly improved. https://bgerp.org/version/3.0/doc/project/index.html#mvc-iface-demo
+C: [15034] Unified CDN paths. https://bgerp.org/version/3.0/doc/kernel/setup.html#method-linux-app
+B: [15038] Delete configurations properties with keys starting from 'param.phone' except 'param.phone.format' and 'param.phone.format.number', correct the last one. https://bgerp.org/version/3.0/doc/kernel/setup.html#config-param-phone
+C: [15038] Improved editor for parameters with type 'phone'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-phone
+A: [15039] Set param type 'list' values in DefaultMarkedProcessor. https://bgerp.org/version/3.0/doc/kernel/process/queue.html#processor
+C: [15039] Show only WARN messages in bgerp.warn.log. https://bgerp.org/version/3.0/doc/kernel/setup.html#status
+A: [15043] Plugin DBA cleanup queries.
+F: [15043] Delete param log items on object deletion.
+B: [15044] New configuration for searching of possible message processes. https://bgerp.org/version/3.0/doc/kernel/message/index.html#setup-possible-process
+C: [15044] Configuration keys starting from: 'message.related.process' are no longer in use.
+A: [15048] Shortcut 'frd' for accessing 'form.response.data' in JSP pages.
+A: [15052] Parameter type 'treecount'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-treecount
+B: [15052] Methods in ParameterValueDAO for working with 'listcount' parameters.
+C: [15052] Significant optimizations in 'listcount' and 'list' parameters update.
+F: [15056] BGBilling. Retrieving phone parameter for billing versions since 9.2401.
+C: [15058] Pre-Release change ID modified from '00000' to '0'. https://bgerp.org/version/3.0/doc/kernel/install.html#update-installer-ui
+C: [15060] Re-create SQL stored procedures on any update without storing their hashes to query history. https://bgerp.org/version/3.0/doc/kernel/install.html#update-query-history
+
 16.11.2023 15:36:48 1392
 C: [14623] Delete Dynamic code related functionality.
 C: [14623] Replaced action method 'runDynamicClass' to 'runClass'.

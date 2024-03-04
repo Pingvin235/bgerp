@@ -1,2 +1,0 @@
-B: Delete configurations properties with keys starting from 'param.phone' except 'param.phone.format' and 'param.phone.format.number', correct the last one. https://bgerp.org/version/3.0/doc/kernel/setup.html#config-param-phone
-C: Improved editor for parameters with type 'phone'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-phone

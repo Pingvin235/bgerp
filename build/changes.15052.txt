@@ -1,3 +1,0 @@
-A: Parameter type 'treecount'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-treecount
-B: Methods in ParameterValueDAO for working with 'listcount' parameters.
-C: Significant optimizations in 'listcount' and 'list' parameters update.
