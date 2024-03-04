@@ -276,7 +276,7 @@ message.possible.process.<id>.color=<color>
 
 Where:
 [square]
-* *<id>* - numeric ID, found processes are sorted by IDs
+* *<id>* - unique block's numeric ID, found processes are sorted by the IDs
 * *<color>* - optional HTML color for table rows with found processes
 * *<class>* - search type, one of the following values:
 ** *MessagePossibleProcessSearchMessageFrom* - processes with messages from the same *from* address (E-Mail sender or calling number) as the processed message.
@@ -287,6 +287,8 @@ That type requires additional properties set:
 ** *BGBillingMessagePossibleProcessSearchFoundLinksContractAddressCity* - processes with a <<../setup.adoc#param-list, list>> parameter values, matching to city IDs of address parameter of found contracts in BGBilling system. That type requires additional properties set:
 *** *processCityParamId*, ID of the list parameter;
 *** *contractAddressParamId.<billingId>*, ID of address parameter in BGBilling system with ID *<billingId>*.
+
+NOTE: If no block is defined then a single ones with class *MessagePossibleProcessSearchMessageFrom* is added.
 
 [[setup-scheduler]]
 === Scheduler

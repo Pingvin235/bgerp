@@ -42,6 +42,9 @@ public class MessagePossibleProcessConfig extends Config {
             }
         }
 
+        if (result.isEmpty())
+            result.put(1, new MessagePossibleProcessSearchMessageFrom(1, ConfigMap.EMPTY));
+
         return Collections.unmodifiableSortedMap(result);
     }
 
