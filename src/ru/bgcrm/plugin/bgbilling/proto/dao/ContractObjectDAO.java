@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -14,6 +16,7 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
+import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObject;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo;
@@ -195,40 +198,31 @@ public class ContractObjectDAO
 	    throws BGException
 	{
 		List<ContractObject> objects = new ArrayList<ContractObject>();
+		if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+			RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService",
+					"contractObjectList");
+			req.setParam("contractId", contractId);
+			JsonNode ret = transferData.postDataReturn(req, user);
+			objects = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractObject.class));
 
-		Request request = new Request();
-		request.setModule( CONTRACT_OBJECT_MODULE_ID );
-		request.setAction( "ObjectTable" );
-		request.setContractId( contractId );
+		} else {
 
-		Document doc = transferData.postData( request, user );
+			Request request = new Request();
+			request.setModule(CONTRACT_OBJECT_MODULE_ID);
+			request.setAction("ObjectTable");
+			request.setContractId(contractId);
 
-		for( Element e : XMLUtils.selectElements( doc, "/data/table/data/row" ) )
-		{
-			ContractObject object = new ContractObject();
-			object.setId( Utils.parseInt( e.getAttribute( "id" ) ) );
-			object.setTitle( Utils.maskNull( e.getAttribute( "title" ) ) );
-			object.setTypeId( Utils.parseInt( e.getAttribute( "type_id" ) ) );
-			object.setType( Utils.maskNull( e.getAttribute( "type" ) ) );
-			object.setPeriod( Utils.maskNull( e.getAttribute( "period" ) ) );
+			Document doc = transferData.postData(request, user);
 
-			/* падало на незакрытом периоде
-			if( Utils.notEmptyString( object.getPeriod() ) )
-			{
-				try
-				{
-					SimpleDateFormat dateFormatter = new SimpleDateFormat( TimeUtils.PATTERN_DDMMYYYY );
-					String[] parts = object.getPeriod().split( "-" );
-					if( parts.length > 0 && Utils.notEmptyString( parts[0] ) ) object.setDateFrom( dateFormatter.parse( parts[0] ) );
-					if( parts.length > 1 && Utils.notEmptyString( parts[1] ) ) object.setDateTo( dateFormatter.parse( parts[1] ) );
-				}
-				catch( ParseException ex )
-				{
-					throw new BGException( ex );
-				}
-			}*/
-
-			objects.add( object );
+			for (Element e : XMLUtils.selectElements(doc, "/data/table/data/row")) {
+				ContractObject object = new ContractObject();
+				object.setId(Utils.parseInt(e.getAttribute("id")));
+				object.setTitle(Utils.maskNull(e.getAttribute("title")));
+				object.setTypeId(Utils.parseInt(e.getAttribute("type_id")));
+				object.setType(Utils.maskNull(e.getAttribute("type")));
+				object.setPeriod(Utils.maskNull(e.getAttribute("period")));
+				objects.add(object);
+			}
 		}
 
 		return objects;

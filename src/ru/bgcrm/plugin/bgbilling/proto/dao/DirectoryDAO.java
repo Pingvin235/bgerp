@@ -1,24 +1,16 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdTitleTreeItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,9 +26,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractOb
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractObjectModuleData;
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.TariffGroup;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
@@ -67,7 +56,7 @@ public class DirectoryDAO extends BillingDAO {
         super(user, dbInfo);
     }
 
-    public List<IdTitle> getContractStatusList() throws BGException {
+    public List<IdTitle> getContractStatusList(boolean onlyManual) throws BGException {
         List<IdTitle> result = null;
 
         if (dbInfo.getVersion().compareTo("5.2") < 0) {
@@ -75,14 +64,13 @@ public class DirectoryDAO extends BillingDAO {
         }
         else if (dbInfo.getVersion().compareTo("8.0") > 0) {
             RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractStatusService", "getStatusList");
-            req.setParam("onlyManual", true);
+            req.setParam("onlyManual", onlyManual);
             result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
         }
         else  {
             RequestJsonRpc req = new RequestJsonRpc(CONTRACT_STATUS_MODULE_ID, "ContractStatusMonitorService", "getStatusList");
-            req.setParam("onlyManual", true);
-
+            req.setParam("onlyManual", onlyManual);
             result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
         }
@@ -258,77 +246,6 @@ public class DirectoryDAO extends BillingDAO {
         }
     }
 
-    public TariffGroup getTariffGroup(int groupId) throws BGException {
-        Request request = new Request();
-        request.setModule(TARIFF_MODULE_ID);
-        request.setAction("GetTariffGroup");
-        request.setAttribute("id", groupId);
-
-        Document doc = transferData.postData(request, user);
-
-        TariffGroup tariffGroup = new TariffGroup();
-
-        XPathFactory xpathFact = XPathFactory.newInstance();
-        XPath xpath = xpathFact.newXPath();
-
-        xpath.setNamespaceContext(new NamespaceContext() {
-            @Override
-            public String getNamespaceURI(String prefix) {
-                if ("common".equals(prefix)) {
-                    return "http://common.bitel.ru";
-                } else if ("xsi".equals(prefix)) {
-                    return "http://www.w3.org/2001/XMLSchema-instanc";
-                }
-                return "?";
-            }
-
-            @Override
-            public String getPrefix(String namespaceURI) {
-                if ("http://common.bitel.ru".equals(namespaceURI)) {
-                    return "common";
-                } else if ("http://www.w3.org/2001/XMLSchema-instanc".equals(namespaceURI)) {
-                    return "xsi";
-                }
-                return "?";
-            }
-
-            @SuppressWarnings("rawtypes")
-            @Override
-            public Iterator getPrefixes(String namespaceURI) {
-                return null;
-            }
-        });
-
-        try {
-            tariffGroup.setId(groupId);
-            tariffGroup.setDaysForward(
-                    Utils.parseInt(xpath.evaluate("/data/common:result/attributes/item[@key=tm]/value/text()", doc)));
-            tariffGroup.setPosition(
-                    Utils.parseInt(xpath.evaluate("/data/common:result/attributes/item[@key=pos]/value/text()", doc)));
-            tariffGroup.setTitle(xpath.evaluate("/data/common:result/attributes/item[@key=title]/value/text()", doc));
-
-            NodeList nodeSet = (NodeList) xpath.evaluate("/data/common:result/data/node()", doc,
-                    XPathConstants.NODESET);
-            List<ContractTariff> contractTariffList = new ArrayList<>();
-            for (int i = 0; i < nodeSet.getLength(); i++) {
-                Node node = nodeSet.item(i);
-                ContractTariff contractTariff = new ContractTariff();
-                contractTariff.setId(Utils.parseInt(XMLUtils.selectText(node, "@id")));
-                contractTariff.setTitle(XMLUtils.selectText(node, "@title"));
-                contractTariff
-                        .setDateFrom(TimeUtils.parse(XMLUtils.selectText(node, "@date1"), TimeUtils.FORMAT_TYPE_YMD));
-                contractTariff
-                        .setDateTo(TimeUtils.parse(XMLUtils.selectText(node, "@date2"), TimeUtils.FORMAT_TYPE_YMD));
-                contractTariffList.add(contractTariff);
-            }
-
-            tariffGroup.setTariffList(contractTariffList);
-        } catch (XPathExpressionException e) {
-            return null;
-        }
-
-        return tariffGroup;
-    }
 
     public List<IdTitle> getRegistredTariffGroupList(int selectedTariffGroupId) throws BGException {
         Request request = new Request();

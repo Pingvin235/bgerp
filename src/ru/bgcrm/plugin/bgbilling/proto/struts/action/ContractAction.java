@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -634,7 +635,7 @@ public class ContractAction extends BaseAction {
         Integer scriptId = form.getParamInt("scriptId");
 
         ContractScriptDAO crmDAO = new ContractScriptDAO(form.getUser(), billingId);
-        form.getResponse().setData("script", crmDAO.getContractScript(scriptId));
+        form.getResponse().setData("script", crmDAO.contractScriptGet(scriptId));
         form.getResponse().setData("scriptTypeList", new DirectoryDAO(form.getUser(), billingId).scriptTypeList());
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/script/script_editor.jsp");
@@ -753,11 +754,14 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
-        ContractStatusDAO statusDao = ContractStatusDAO.getInstance(form.getUser(), billingId);
-        form.getResponse().setData("statusList", statusDao.statusList(contractId));
-        form.getResponse().setData("statusLog", statusDao.statusLog(contractId));
-        form.getResponse().setData("availableStatusList",
-                new DirectoryDAO(form.getUser(), billingId).getContractStatusList());
+        DirectoryDAO directoryDAO = new DirectoryDAO(form.getUser(), billingId);
+        Map<Integer, String> statusTitleMap = directoryDAO.getContractStatusList(false).stream()
+                .collect(Collectors.toMap(IdTitle::getId, IdTitle::getTitle));
+
+        ContractStatusDAO statusDao = new ContractStatusDAO(form.getUser(), billingId);
+        form.getResponse().setData("statusList", statusDao.statusList(contractId, statusTitleMap));
+        form.getResponse().setData("statusLog", statusDao.statusLog(contractId, statusTitleMap));
+        form.getResponse().setData("availableStatusList", directoryDAO.getContractStatusList(true));
 
         form.getHttpRequest().setAttribute("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
@@ -768,7 +772,7 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
-        ContractStatusDAO.getInstance(form.getUser(), billingId).updateStatus(contractId, form.getParamInt("statusId"),
+        new ContractStatusDAO(form.getUser(), billingId).updateStatus(contractId, form.getParamInt("statusId"),
                 form.getParamDate("dateFrom"), form.getParamDate("dateTo"), form.getParam("comment"));
 
         return json(conSet, form);

@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -49,12 +50,7 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.ContractDAO8x;
-import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
-import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
+import ru.bgcrm.plugin.bgbilling.proto.model.*;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
@@ -677,32 +673,58 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
+
+    public List<ContractGroup> getContractLabelTreeItemList(int contractId) throws BGException {
+        List<ContractGroup> groups = new ArrayList<>();
+        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.label", "ContractLabelService",
+                    "getContractLabelTreeItemList");
+            req.setParam("contractId", contractId);
+            req.setParam("calcCount", false);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            groups = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractGroup.class));
+        }
+        return groups;
+    }
+
     public Pair<List<IdTitle>, Set<Integer>> groupsGet(int contractId) throws BGException {
         List<IdTitle> groupList = new ArrayList<>();
         Set<Integer> selectedIds = new HashSet<>();
-
-        Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
-        request.setAction("ContractGroup");
-        request.setContractId(contractId);
-
-        Document document = transferData.postData(request, user);
-
-        long selected = 0L;
-        Element groups = XMLUtils.selectElement(document, "/data/groups");
-        if (groups != null) {
-            selected = Utils.parseLong(groups.getAttribute("selected"));
+        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+            List<ContractGroup> groups = getContractLabelTreeItemList(contractId);
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.label", "ContractLabelService",
+                    "getContractLabelIds");
+            req.setParam("contractId", contractId);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            selectedIds = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(Set.class, Integer.class));
+            groupList = groups.stream()
+                    .map(gr -> new IdTitle(gr.getId(), gr.getTitle()))
+                    .collect(Collectors.toList());
         }
+        else {
+            Request request = new Request();
+            request.setModule(CONTRACT_MODULE_ID);
+            request.setAction("ContractGroup");
+            request.setContractId(contractId);
 
-        for (Element rowElement : XMLUtils.selectElements(document, "/data/groups/group")) {
-            IdTitle group = new IdTitle();
-            group.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            group.setTitle(rowElement.getAttribute(TITLE));
+            Document document = transferData.postData(request, user);
 
-            groupList.add(group);
+            long selected = 0L;
+            Element groups = XMLUtils.selectElement(document, "/data/groups");
+            if (groups != null) {
+                selected = Utils.parseLong(groups.getAttribute("selected"));
+            }
 
-            if ((selected & (1L << group.getId())) > 0) {
-                selectedIds.add(group.getId());
+            for (Element rowElement : XMLUtils.selectElements(document, "/data/groups/group")) {
+                IdTitle group = new IdTitle();
+                group.setId(Utils.parseInt(rowElement.getAttribute("id")));
+                group.setTitle(rowElement.getAttribute(TITLE));
+
+                groupList.add(group);
+
+                if ((selected & (1L << group.getId())) > 0) {
+                    selectedIds.add(group.getId());
+                }
             }
         }
 

@@ -1,82 +1,60 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.script;
 
-public class ContractScript
-{
-	private String comment;
-	private String period;
-	private String dateFrom;
-	private String dateTo;
-	private Integer typeId;
-	private String title;
-	private Integer id;
+import ru.bgcrm.model.Period;
 
-	public String getComment()
-	{
-		return comment;
-	}
+public class ContractScript {
+    private int id;
+    private int contractId;
+    private int scriptId;
+    private String script;
+    private Period period;
+    private String comment;
 
-	public void setComment( String comment )
-	{
-		this.comment = comment;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getPeriod()
-	{
-		return period;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setPeriod( String period )
-	{
-		this.period = period;
-	}
+    public int getContractId() {
+        return contractId;
+    }
 
-	public Integer getId()
-	{
-		return id;
-	}
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
+    }
 
-	public void setId( Integer id )
-	{
-		this.id = id;
-	}
+    public int getScriptId() {
+        return scriptId;
+    }
 
-	public String getTitle()
-	{
-		return title;
-	}
+    public void setScriptId(int scriptId) {
+        this.scriptId = scriptId;
+    }
 
-	public void setTitle( String title )
-	{
-		this.title = title;
-	}
+    public String getScript() {
+        return script;
+    }
 
-	public String getDateFrom()
-	{
-		return dateFrom;
-	}
+    public void setScript(String script) {
+        this.script = script;
+    }
 
-	public void setDateFrom( String dateFrom )
-	{
-		this.dateFrom = dateFrom;
-	}
+    public Period getPeriod() {
+        return period;
+    }
 
-	public String getDateTo()
-	{
-		return dateTo;
-	}
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
 
-	public void setDateTo( String dateTo )
-	{
-		this.dateTo = dateTo;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public Integer getTypeId()
-	{
-		return typeId;
-	}
-
-	public void setTypeId( Integer typeId )
-	{
-		this.typeId = typeId;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

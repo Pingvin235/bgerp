@@ -4,16 +4,15 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-	<c:param name="action" value="getScript"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
-<button type="button" class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
+<ui:button type="add" styleClass="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
 
 <div id="${uiid}">
-	<table class="data">
-		<tr class="header">
+	<table class="data hl">
+		<tr>
 			<td width="30"></td>
 			<td>Скрипт</td>
 			<td>Период</td>
@@ -22,24 +21,22 @@
 
 		<c:forEach var="script" items="${frd.scriptList}" varStatus="status">
 			<tr>
-				<c:url var="eUrl" value="${url}">
-					<c:param name="scriptId" value="${script.id}"/>
-				</c:url>
-				<c:set var="editCommand" value="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
+				<td class="nowrap">
+					<c:url var="editUrl" value="${url}">
+						<c:param name="action" value="getScript"/>
+						<c:param name="scriptId" value="${script.id}"/>
+					</c:url>
+					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
 
-				<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contract.do">
-					<c:param name="action" value="deleteScript"/>
-					<c:param name="contractId" value="${form.param.conractId}"/>
-					<c:param name="billingId" value="${form.param.billingId}"/>
-					<c:param name="scriptId" value="${script.id}"/>
-				</c:url>
-				<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
-				<td nowrap="nowrap">
-					<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+					<c:url var="delUrl" value="${url}">
+						<c:param name="action" value="deleteScript"/>
+						<c:param name="scriptId" value="${script.id}"/>
+					</c:url>
+					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${delUrl}').done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))"/>
 				</td>
-				<td nowrap="nowrap" >${script.getTitle()}</td>
-				<td align="center" nowrap="nowrap">${script.getPeriod()}</td>
-				<td nowrap="nowrap" width="100%">${script.getComment()}</td>
+				<td class="nowrap" >${script.script}</td>
+				<td align="center" class="nowrap">${script.period}</td>
+				<td class="nowrap" width="100%">${script.comment}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -50,20 +47,19 @@
 	<%@ include file="/WEB-INF/jspf/user/plugin/bgbilling/contract/script/script_log.jsp"%>
 </div>
 
-<c:set var="contractTreeId" value="bgbilling-${form.param.billingId}-${form.param.contractId}-tree"/>
+<c:set var="contractTreeId" value="bgbilling-${form.param.billingId}-${form.param.contractId}-tree" />
 <script>
-	$(function()
-	{
-		var scripts = "";
+	$(function () {
+		let scripts = "";
 
 		<c:forEach var="item" items="${contractInfo.scriptList}" varStatus="status">
 			scripts += "<div>${item.title}";
-			<c:if test="${not status.last}">
-				scripts += ", ";
-			</c:if>
-			scripts += "</div> ";
+				<c:if test="${not status.last}">
+					scripts += ", ";
+				</c:if>
+				scripts += "</div> ";
 		</c:forEach>
 
-		$('#${contractTreeId} #treeTable div#scripts').html( scripts );
+		$('#${contractTreeId} #treeTable div#scripts').html(scripts);
 	})
 </script>

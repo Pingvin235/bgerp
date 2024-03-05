@@ -1,10 +1,8 @@
 package ru.bgcrm.model;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import ru.bgcrm.util.TimeUtils;
 
 public class Period {
     private Date dateFrom;
@@ -18,19 +16,16 @@ public class Period {
         this.dateTo = dateTo;
     }
 
-    public Date getDateFrom() {
-        return dateFrom;
+    public Period(String period) {
+        int pos = period.indexOf('-');
+        if (pos < 0)
+            throw new IllegalArgumentException("Period string doesn't contain '-'");
+        dateFrom = TimeUtils.parse(period.substring(0, pos), TimeUtils.FORMAT_TYPE_YMD);
+        dateTo = TimeUtils.parse(period.substring(pos + 1), TimeUtils.FORMAT_TYPE_YMD);
     }
 
-    @JsonIgnore
-    @Deprecated
-    public Calendar getCalendarFrom() {
-        Calendar calendar = null;
-        if (dateFrom != null) {
-            calendar = new GregorianCalendar();
-            calendar.setTime(dateFrom);
-        }
-        return calendar;
+    public Date getDateFrom() {
+        return dateFrom;
     }
 
     public void setDateFrom(Date dateFrom) {
@@ -41,35 +36,12 @@ public class Period {
         return dateTo;
     }
 
-    @JsonIgnore
-    @Deprecated
-    public Calendar getCalendarTo() {
-        Calendar calendar = null;
-        if (dateTo != null) {
-            calendar = new GregorianCalendar();
-            calendar.setTime(dateTo);
-        }
-        return calendar;
-    }
-
-    @JsonIgnore
-    @Deprecated
-    public Date getDateToNext() {
-        Date date = null;
-        if (dateTo != null) {
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(dateTo);
-            calendar.clear(Calendar.MILLISECOND);
-            calendar.clear(Calendar.SECOND);
-            calendar.clear(Calendar.MINUTE);
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            date = calendar.getTime();
-        }
-        return date;
-    }
-
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
+    }
+
+    @Override
+    public String toString() {
+        return TimeUtils.formatPeriod(dateFrom, dateTo);
     }
 }
