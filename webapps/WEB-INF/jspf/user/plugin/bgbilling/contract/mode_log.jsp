@@ -27,7 +27,7 @@
 	</html:form>
 </div>
 
-<table class="data mt1" id="${uiid}">
+<table class="data mt1 hl" id="${uiid}">
 	<tr>
 		<td>Дата</td>
 		<td>Пользователь</td>

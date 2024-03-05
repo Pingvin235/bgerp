@@ -23,11 +23,11 @@
 		<html:hidden property="contractId"/>
 		<html:hidden property="billingId"/>
 
-		<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent()); />
+		<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent());"/>
 	</html:form>
 </div>
 
-<table class="data mt1" style="width: 100%;" id="${uiid}">
+<table class="data mt1 hl" id="${uiid}">
 	<tr>
 		<td>Дата</td>
 		<td>Пользователь</td>
@@ -44,8 +44,7 @@
 
 <c:set var="contractTreeId" value="bgbilling-${form.param.billingId}-${form.param.contractId}-tree"/>
 <script>
-	$(function()
-	{
-		$("#${contractTreeId} #face").text( ${frd.contractInfo.face} == 0 ? "Физическое" : "Юридическое" );
+	$(function () {
+		$("#${contractTreeId} #face").text( ${frd.contractInfo.face} == 0 ? "Физическое" : "Юридическое");
 	})
 </script>
