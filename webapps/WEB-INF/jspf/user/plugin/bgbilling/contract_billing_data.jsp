@@ -81,12 +81,21 @@
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
+				<c:url var="urlBalancePeriod" value="balance.do?action=balance">
+					<c:param name="dateFrom" value="${tu.format(contract.balanceDate, 'dd.MM.yyyy')}"/>
+					<c:param name="dateTo" value="${tu.format(tu.getEndMonth(contract.balanceDate), 'dd.MM.yyyy')}"/>
+				</c:url>
+
 				<u:sc>
+					<c:set var="locale" value="${u:newInstance1('java.util.Locale', 'ru')}"/>
+					<c:set var="format" value="${u:newInstance2('java.text.SimpleDateFormat', 'LLLL Y', locale)}"/>
 					<c:set var="title">
-						Баланс (<span id="balanceMonth">${tu.format( contract.balanceDate, 'MMMM Y' )}</span>)
+						Баланс (<span id="balanceMonth">${format.format(contract.balanceDate)}</span>)
 					</c:set>
 					<c:set var="value" value=""/>
-					<c:set var="url" value="balance.do?action=balance&dateFrom=&dateTo="/>
+					<c:url var="url" value="${urlBalancePeriod}">
+						<c:param name="action" value="balance"/>
+					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
@@ -95,7 +104,9 @@
 					<c:set var="title" value="Входящий остаток"/>
 					<c:set var="value" value="${contract.balanceIn}"/>
 					<c:set var="valueId" value="balanceIn"/>
-					<c:set var="url" value="balance.do?action=balance&dateFrom=&dateTo="/>
+					<c:url var="url" value="${urlBalancePeriod}">
+						<c:param name="action" value="balance"/>
+					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
 					<%@ include file="contract/tree_item.jsp"%>
@@ -105,7 +116,9 @@
 					<c:set var="title" value="Приход"/>
 					<c:set var="value" value="${contract.balancePayment}"/>
 					<c:set var="valueId" value="balancePayment"/>
-					<c:set var="url" value="balance.do?action=paymentList&dateFrom=&dateTo="/>
+					<c:url var="url" value="${urlBalancePeriod}">
+						<c:param name="action" value="paymentList"/>
+					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
 					<%@ include file="contract/tree_item.jsp"%>
@@ -115,7 +128,9 @@
 					<c:set var="title" value="Наработка"/>
 					<c:set var="value" value="${contract.balanceAccount}"/>
 					<c:set var="valueId" value="balanceAccount"/>
-					<c:set var="url" value="balance.do?action=accountList&dateFrom=&dateTo="/>
+					<c:url var="url" value="${urlBalancePeriod}">
+						<c:param name="action" value="accountList"/>
+					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
 					<%@ include file="contract/tree_item.jsp"%>
@@ -125,7 +140,9 @@
 					<c:set var="title" value="Расход"/>
 					<c:set var="value" value="${contract.balanceCharge}"/>
 					<c:set var="valueId" value="balanceCharge"/>
-					<c:set var="url" value="balance.do?action=chargeList&dateFrom=&dateTo="/>
+					<c:url var="url" value="${urlBalancePeriod}">
+						<c:param name="action" value="chargeList"/>
+					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
 					<%@ include file="contract/tree_item.jsp"%>
@@ -135,7 +152,9 @@
 					<c:set var="title" value="Исходящий остаток"/>
 					<c:set var="value" value="${contract.balanceOut}"/>
 					<c:set var="valueId" value="balanceOut"/>
-					<c:set var="url" value="balance.do?action=balanceDetail&dateFrom=&dateTo="/>
+					<c:url var="url" value="${urlBalancePeriod}">
+						<c:param name="action" value="balance"/>
+					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
 					<%@ include file="contract/tree_item.jsp"%>

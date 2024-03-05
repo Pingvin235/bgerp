@@ -198,8 +198,8 @@ public class ContractBalanceAction extends BaseAction {
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date dateTo = TimeUtils.parse(form.getParam("dateTo", ""), TimeUtils.PATTERN_DDMMYYYY, calendar.getTime());
 
-        form.getResponse().setData("dateFrom", dateFrom);
-        form.getResponse().setData("dateTo", dateTo);
+        form.setParam("dateFrom", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
+        form.setParam("dateTo", TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
 
         return new Date[] { dateFrom, dateTo };
     }
