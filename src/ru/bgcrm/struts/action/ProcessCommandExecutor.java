@@ -186,17 +186,4 @@ public class ProcessCommandExecutor {
 
         return processGroup;
     }
-
-    /* protected static String getMessageChangeText(Connection con, DynActionForm form, UserEvent event, Process process, String exprText)
-            throws BGException {
-        Map<String, Object> context = Expression.context(new SingleConnectionSet(con), form, event, process);
-
-        context.put("lastChangeLogItem", new ProcessDAO(con).getLastProcessChangeLog(process));
-        if (event != null && event instanceof ProcessMessageAddedEvent && ((ProcessMessageAddedEvent) event).getMessage() != null)
-            context.put("message", ((ProcessMessageAddedEvent) event).getMessage());
-        else
-            context.put("message", null);
-
-        return new Expression(context).getString(exprText);
-    } */
 }

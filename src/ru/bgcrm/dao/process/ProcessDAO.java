@@ -38,7 +38,6 @@ import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterSearchedObject;
@@ -48,7 +47,6 @@ import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -531,18 +529,6 @@ public class ProcessDAO extends CommonDAO {
             setRecordCount(page, pq.getPrepared());
             pq.close();
         }
-    }
-
-    /** Is not used. */
-    @Deprecated
-    public EntityLogItem getLastProcessChangeLog(Process process) throws BGMessageException, SQLException {
-        Pageable<EntityLogItem> logItems = new Pageable<EntityLogItem>();
-        logItems.getPage().setPageIndex( 1 );
-        logItems.getPage().setPageSize( 1 );
-
-        new ProcessDAO( con ).searchProcessLog( ProcessAction.getProcessType( process.getTypeId() ), process.getId(), logItems );
-
-        return Utils.getFirst(logItems.getList());
     }
 
     /**
