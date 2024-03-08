@@ -14,7 +14,6 @@ import org.bgerp.util.Log;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -33,10 +32,6 @@ public class FileData extends IdTitle {
     private byte[] data;
     @JsonIgnore
     private OutputStream outputStream;
-    // TODO: Remove user, comment and version.
-    private User user;
-    private String comment;
-    private int version;
 
     public FileData() {}
 
@@ -64,6 +59,25 @@ public class FileData extends IdTitle {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    /**
+     * @return output stream to the stored file.
+     */
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    public void setOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 
     public static String serialize(List<FileData> fileList) {
@@ -100,54 +114,5 @@ public class FileData extends IdTitle {
         }
 
         return result;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
-    @Deprecated
-    public User getUser() {
-        return user;
-    }
-
-    @Deprecated
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Deprecated
-    public String getComment() {
-        return comment;
-    }
-
-    @Deprecated
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    @Deprecated
-    public int getVersion() {
-        return version;
-    }
-
-    @Deprecated
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    /**
-     * @return output stream to the stored file.
-     */
-    public OutputStream getOutputStream() {
-        return outputStream;
-    }
-
-    public void setOutputStream(OutputStream outputStream) {
-        this.outputStream = outputStream;
     }
 }
