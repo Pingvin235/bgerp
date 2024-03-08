@@ -27,6 +27,8 @@ public class Config extends org.bgerp.app.cfg.Config {
     private final int paramEmailId;
     /** Restricted process status IDs when branch values is set. */
     private final Set<Integer> statusWithBranchIds;
+    /** Command after a branch's creation. */
+    private final String createBranchSuffix;
 
     protected Config(ConfigMap config) throws InitStopException {
         super(null);
@@ -37,6 +39,7 @@ public class Config extends org.bgerp.app.cfg.Config {
 
         prefix = config.get("prefix", "p");
         mainBranch = config.get("main.branch", "master");
+        createBranchSuffix = config.get("create.branch.suffix", "");
 
         initWhen(paramBranchId > 0);
     }
@@ -131,5 +134,12 @@ public class Config extends org.bgerp.app.cfg.Config {
         return
             (Utils.notBlankString(email.getComment()) ? email.getComment() : user.getTitle()) +
             " <" + email.getValue() + ">";
+    }
+
+    /**
+     * @return command after a branch's creation.
+     */
+    public String getCreateBranchSuffix() {
+        return createBranchSuffix;
     }
 }

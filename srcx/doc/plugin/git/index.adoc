@@ -32,6 +32,8 @@ git:process.allowed.status.with.branch=<allowedStatusIds>
 #git:prefix=p
 # main branch
 #git:main.branch=master
+# command after a branch's creation, e.g.: && ./gradlew touchChanges
+#create.branch.suffix=
 ----
 
 Where:

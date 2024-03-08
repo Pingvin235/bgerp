@@ -33,7 +33,8 @@ public class GitAction extends BaseAction {
             .append("git checkout ")
             .append(main)
             .append(" && git pull --rebase && git checkout -b ")
-            .append(branch);
+            .append(branch)
+            .append(config.getCreateBranchSuffix());
         form.setResponseData("commandBranchCreate", command.toString());
         command.setLength(0);
 
