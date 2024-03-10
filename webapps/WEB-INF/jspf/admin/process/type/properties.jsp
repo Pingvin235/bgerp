@@ -149,6 +149,15 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="mt1">
+		<ui:form-ok-cancel/>
+		<span style="float: right;">
+			<button type="button" class="btn-grey mr1" onclick="${saveCommand}"
+				title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent())">${l.l('Restore')}</button>
+		</span>
+	</div>
 </html:form>
 
 <script>
@@ -160,16 +169,5 @@
 		$$.ui.codeMirror('${taUiid}');
 	})
 </script>
-
-<div class="mt1">
-	<ui:button type="ok" styleClass="mr1" onclick="$$.ajax.post($('#${formUiid}'), {control: this}).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()));"/>
-	<ui:button type="cancel" onclick="$$.ajax.load('${form.returnUrl}', $('#${formUiid}').parent())"/>
-
-	<span style="float: right;">
-		<button type="button" class="btn-grey mr1" onclick="${saveCommand}"
-			title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
-		<button type="button" class="btn-grey" onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent())">${l.l('Restore')}</button>
-	</span>
-</div>
 
 <shell:state text="${l.l('Свойства типа')}: ${processType.title} #${processType.id}" help="kernel/process/index.html#type"/>
