@@ -14,14 +14,14 @@
 
 	<div class="in-table-cell mb1">
 		<div style="width: 100%;">
-			<ui:select-single list="${frd.scriptTypeList}" hiddenName="scriptTypeId" value="${script.typeId}"
+			<ui:select-single list="${frd.scriptTypeList}" hiddenName="scriptTypeId" value="${script.scriptId}"
 				style="width: 100%;" placeholder="Скрипт"/>
 		</div>
 		<div style="white-space:nowrap;" class="pl1">
 			c
-			<ui:date-time paramName="dateFrom" value="${script.dateFrom}"/>
+			<ui:date-time paramName="dateFrom" value="${tu.format(script.period.dateFrom, 'dd.MM.yyyy')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${script.dateTo}"/>
+			<ui:date-time paramName="dateTo" value="${tu.format(script.period.dateTo, 'dd.MM.yyyy')}"/>
 		</div>
 	</div>
 
@@ -29,7 +29,7 @@
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${script.comment}</textarea>
 
 	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="i$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').parent()))">OK</button>
+		<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').parent()))">OK</button>
 		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());">Oтмена</button>
 	</div>
 </form>

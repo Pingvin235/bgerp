@@ -8,10 +8,7 @@
 	<input type="hidden" name="billingId" value="${form.param.billingId}" />
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 
-	c
-	<ui:date-time paramName="dateFrom" value="${form.param.dateFrom}"/>
-	по
-	<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
+    <ui:date-month-days  />
 
 	<c:set var="nextCommand" value="; $$.ajax.load(this.form, $(this.form).parent());"/>
 	<button type="button" class="btn-grey ml1" onclick="${nextCommand}">Вывести</button>
@@ -28,7 +25,7 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td><button type="button" class="btn-white btn-small" onclick="$(this).parent().parent().next().toggle()">Просмотр</button></td>
-			<td nowrap="nowrap">${item.time}</td>
+			<td nowrap="nowrap">${item.date}</td>
 			<td>${item.title}</td>
 		</tr>
 		<tr style="display:none">

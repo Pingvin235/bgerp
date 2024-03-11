@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.script;
 public class ContractScriptLogItem {
     private Integer cid;
     private String data;
-    private String time;
+    private String date;
     private String title;
 
     public Integer getCid() {
@@ -22,12 +22,12 @@ public class ContractScriptLogItem {
         this.data = data;
     }
 
-    public String getTime() {
-        return time;
+    public String getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTitle() {

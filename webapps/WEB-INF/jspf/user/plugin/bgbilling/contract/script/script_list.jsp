@@ -8,7 +8,11 @@
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
-<ui:button type="add" styleClass="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
+<c:url var="addUrl" value="${url}">
+	<c:param name="action" value="getScript"/>
+	<c:param name="scriptId" value="-1"/>
+</c:url>
+<ui:button type="add" styleClass="btn-green mb1" onclick="$$.ajax.load('${addUrl}', $('#${uiid}').parent())"/>
 
 <div id="${uiid}">
 	<table class="data hl">
@@ -26,7 +30,7 @@
 						<c:param name="action" value="getScript"/>
 						<c:param name="scriptId" value="${script.id}"/>
 					</c:url>
-					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
+					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $('#${uiid}').parent())"/>
 
 					<c:url var="delUrl" value="${url}">
 						<c:param name="action" value="deleteScript"/>
