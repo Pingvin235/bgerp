@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.dao.param.ParamGroupDAO;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.dao.PatternDAO;
@@ -19,16 +20,17 @@ import ru.bgcrm.model.param.ParameterGroup;
  * @author Shamil Vakhitov.
  */
 public class Customer extends SearchableIdTitle implements Comparable<Customer> {
+    private static final Log log = Log.getLog();
+
     public static final String OBJECT_TYPE = "customer";
 
-    // уникальные параметры к названиею
     private String reference;
     private String password;
     private int titlePatternId = -1;
     private String titlePattern = "";
     private int paramGroupId = 0;
-    private Date createdDate;
-    private int createdUserId = -1;
+    private Date createTime;
+    private int createUserId = -1;
     private Set<Integer> groupIds;
 
     public String getReference() {
@@ -71,20 +73,44 @@ public class Customer extends SearchableIdTitle implements Comparable<Customer> 
         this.paramGroupId = paramGroupId;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date value) {
+        this.createTime = value;
+    }
+
+    @Deprecated
     public Date getCreatedDate() {
-        return createdDate;
+        log.warndMethod("getCreatedDate", "getCreateDate");
+        return getCreateTime();
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    @Deprecated
+    public void setCreatedDate(Date value) {
+        log.warndMethod("setCreatedDate", "setCreateDate");
+        setCreateTime(value);
     }
 
+    public int getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(int value) {
+        this.createUserId = value;
+    }
+
+    @Deprecated
     public int getCreatedUserId() {
-        return createdUserId;
+        log.warndMethod("getCreatedUserId", "getCreateUserId");
+        return getCreateUserId();
     }
 
-    public void setCreatedUserId(int createdUserId) {
-        this.createdUserId = createdUserId;
+    @Deprecated
+    public void setCreatedUserId(int value) {
+        log.warndMethod("setCreatedUserId", "setCreateUserId");
+        setCreateUserId(value);;
     }
 
     public Set<Integer> getGroupIds() {
@@ -102,10 +128,10 @@ public class Customer extends SearchableIdTitle implements Comparable<Customer> 
         str.append(getId());
         str.append(", title=");
         str.append(getTitle());
-        str.append(", createdDate=");
-        str.append(getCreatedDate());
-        str.append(", createdUserId=");
-        str.append(getCreatedUserId());
+        str.append(", createDate=");
+        str.append(getCreateTime());
+        str.append(", createUserId=");
+        str.append(getCreateUserId());
         str.append(" ]");
         return str.toString();
     }

@@ -27,6 +27,20 @@ END$$
 delimiter ;
 -- CALL add_column_if_not_exists('table_name', 'column_name', ' VARCHAR(100) NOT NULL');
 
+DROP PROCEDURE IF EXISTS rename_column_if_exists;
+delimiter $$
+CREATE PROCEDURE rename_column_if_exists(IN tbl CHAR(64), IN col_name_old CHAR(64), IN col_name_new CHAR(64))
+BEGIN
+	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col_name_old, "')");
+	PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+	IF (@cnt > 0) THEN
+		SET @s = CONCAT("ALTER TABLE ", tbl, " RENAME COLUMN ", col_name_old, " TO ", col_name_new);
+		PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+	END IF;
+END$$
+delimiter ;
+-- CALL rename_column_if_exists('table_name', 'column_name_old', 'column_name_new');
+
 DROP PROCEDURE IF EXISTS drop_key_if_exists;
 delimiter $$
 CREATE PROCEDURE drop_key_if_exists(IN tbl CHAR(64), IN name CHAR(64))
@@ -129,7 +143,7 @@ BEGIN
 	END IF;
 END$$
 delimiter ;
--- CALL rename_table('old_name', 'new_name');
+-- CALL rename_table('name_old', 'name_new');
 
 -- #ENDB#;
 

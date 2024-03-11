@@ -30,9 +30,9 @@ public class Invoice extends Id {
     /** Generated number. */
     private String number;
     /** Creation date. */
-    private Date createdTime;
+    private Date createTime;
     /** Created user. */
-    private int createdUserId;
+    private int createUserId;
     /** Sent to customer. */
     private Date sentTime;
     /** Sent by user. */
@@ -168,20 +168,44 @@ public class Invoice extends Id {
         return dateFromYear();
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date value) {
+        this.createTime = value;
+    }
+
+    @Deprecated
     public Date getCreatedTime() {
-        return createdTime;
+        log.warndMethod("getCreatedTime", "getCreateTime");
+        return getCreateTime();
     }
 
+    @Deprecated
     public void setCreatedTime(Date value) {
-        this.createdTime = value;
+        log.warndMethod("setCreatedTime", "setCreateTime");
+        setCreateTime(value);
     }
 
+    public int getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(int value) {
+        this.createUserId = value;
+    }
+
+    @Deprecated
     public int getCreatedUserId() {
-        return createdUserId;
+        log.warndMethod("getCreatedUserId", "getCreateUserId");
+        return getCreateUserId();
     }
 
+    @Deprecated
     public void setCreatedUserId(int value) {
-        this.createdUserId = value;
+        log.warndMethod("setCreatedUserId", "setCreateUserId");
+        setCreateUserId(value);
     }
 
     public Date getSentTime() {

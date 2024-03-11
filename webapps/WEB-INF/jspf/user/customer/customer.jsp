@@ -63,7 +63,7 @@
 		<div style="width: 100%;">ID: <b>${customer.id}</b> <span id="customer_title_${customer.id}"><%-- название подставляется скриптом --%></span></div>
 
 		<div>
-			${l.l('Created')}: <b>${tu.format(customer.createdDate, 'ymd')}</b>
+			${l.l('Created')}: <b>${tu.format(customer.createTime, 'ymd')}</b>
 		</div>
 
 		<div class="in-inline-block">

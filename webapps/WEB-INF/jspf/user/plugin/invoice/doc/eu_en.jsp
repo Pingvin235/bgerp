@@ -35,7 +35,7 @@
 			</div>
 			<div style="white-space: nowrap;">
 				Date:
-				${tu.format(invoice.createdTime, 'ymd')}
+				${tu.format(invoice.createTime, 'ymd')}
 			</div>
 		</div>
 

@@ -103,7 +103,7 @@ public class ProcessNotificationListener {
                 customerTitle,
                 invoice.monthsPeriod(Localization.getLang(e.getForm().getHttpRequest())),
                 Utils.format(invoice.getAmount()),
-                TimeUtils.format(invoice.getCreatedTime(), TimeUtils.FORMAT_TYPE_YMD),
+                TimeUtils.format(invoice.getCreateTime(), TimeUtils.FORMAT_TYPE_YMD),
                 Interface.getUrlUser() + "/process#" + process.getId());
 
             String subject = l.l("Paid invoice {}", invoice.getNumber());

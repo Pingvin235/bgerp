@@ -35,5 +35,12 @@
 		"body": [
 			"@author Shamil Vakhitov"
 		]
+	},
+	"Log Deprecated Method": {
+		"scope": "java",
+		"prefix": "log.warnd",
+		"body": [
+			"log.warndMethod(\"\", \"\");"
+		]
 	}
 }

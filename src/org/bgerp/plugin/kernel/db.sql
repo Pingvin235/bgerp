@@ -116,13 +116,15 @@ CREATE TABLE IF NOT EXISTS `customer` (
 	`title_pattern_id` int(11) NOT NULL DEFAULT '-1',
 	`title_pattern` varchar(255) NOT NULL,
 	`param_group_id` int(11) NOT NULL,
-	`date_created` datetime NOT NULL,
-	`user_id_created` int(11) NOT NULL,
+	`create_dt` datetime NOT NULL,
+	`create_user_id` int(11) NOT NULL,
 	`pswd` varchar(255) NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `title` (`title`)
 );
 ALTER TABLE customer MODIFY title_pattern VARCHAR(255) NOT NULL;
+CALL rename_column_if_exists('customer', 'date_created', 'create_dt');
+CALL rename_column_if_exists('customer', 'user_id_created', 'create_user_id');
 
 CREATE TABLE IF NOT EXISTS `customer_link` (
 	`customer_id` int(11) NOT NULL,
@@ -202,7 +204,6 @@ CREATE TABLE IF NOT EXISTS `process` (
 	`close_user_id` int(11) NOT NULL,
 	`groups` char(100) NOT NULL,
 	`executors` char(100) NOT NULL,
-	`last_message_dt` datetime,
 	PRIMARY KEY (`id`),
 	KEY `status` (`status_id`),
 	KEY `type` (`type_id`),
@@ -217,6 +218,7 @@ CALL add_key_if_not_exists('process', 'close_dt', '(close_dt)');
 CALL add_column_if_not_exists('process', 'create_user_id', 'INT NOT NULL AFTER create_dt');
 CALL add_column_if_not_exists('process', 'close_user_id', 'INT NOT NULL AFTER close_dt');
 CALL add_column_if_not_exists('process', 'status_user_id', 'INT NOT NULL AFTER status_dt');
+CALL drop_key_if_exists('process', 'last_message_dt');
 
 CREATE TABLE IF NOT EXISTS `process_executor` (
 	`process_id` int(11) NOT NULL,
@@ -367,6 +369,7 @@ CREATE TABLE IF NOT EXISTS `param_pref` (
 );
 ALTER TABLE `param_pref` CHANGE COLUMN `object` `object` VARCHAR(50) NOT NULL;
 CALL add_column_if_not_exists('param_pref', 'comment', 'VARCHAR(1024) NOT NULL AFTER config');
+CALL drop_column_if_exists('param_pref', 'script');
 
 CREATE TABLE IF NOT EXISTS `param_address` (
 	`id` int(11) NOT NULL,
@@ -481,8 +484,8 @@ CREATE TABLE IF NOT EXISTS `param_listcount` (
 	KEY `id_param` (`id`,`param_id`),
 	KEY `value_count` (`value`,`count`)
 );
-CALL add_column_if_not_exists('param_listcount', 'comment', 'VARCHAR(50) NOT NULL AFTER `count`');
 ALTER TABLE param_listcount MODIFY count DECIMAL(10,2) NOT NULL;
+CALL drop_column_if_exists('param_listcount', 'comment');
 
 CREATE TABLE IF NOT EXISTS `param_listcount_value` (
 	`param_id` int(10) NOT NULL,
@@ -561,24 +564,23 @@ CREATE TABLE IF NOT EXISTS `param_log` (
 ALTER TABLE param_log MODIFY dt TIMESTAMP(4) NOT NULL;
 
 CREATE TABLE IF NOT EXISTS `user` (
-	`lu` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`deleted` tinyint(4) NOT NULL,
 	`title` varchar(255) NOT NULL,
 	`login` varchar(32) NOT NULL,
 	`pswd` varchar(32) NOT NULL,
 	`description` varchar(255) NOT NULL,
-	`date_created` datetime NOT NULL,
+	`create_dt` datetime NOT NULL,
 	`status` int(11) NOT NULL,
-	`ids` varchar(250) NOT NULL,
 	`config` text NOT NULL,
-	`email` varchar(64) NOT NULL,
 	`personalization` text NOT NULL,
 	PRIMARY KEY (`id`)
 );
 CALL add_column_if_not_exists('user', 'personalization', 'TEXT NOT NULL');
 CALL drop_column_if_exists('user', 'email');
 CALL drop_column_if_exists('user', 'ids');
+CALL rename_column_if_exists('user', 'date_created', 'create_dt');
+CALL drop_column_if_exists('user', 'lu');
 
 CREATE TABLE IF NOT EXISTS `user_group` (
 	`user_id` int(11) NOT NULL,
@@ -661,11 +663,12 @@ CREATE TABLE IF NOT EXISTS `user_permset_permission` (
 CREATE TABLE IF NOT EXISTS `file_data` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`title` varchar(100) NOT NULL,
-	`time` datetime NOT NULL,
+	`dt` datetime NOT NULL,
 	`secret` char(32) NOT NULL,
 	PRIMARY KEY (`id`)
 );
 CALL add_column_if_not_exists('file_data', 'secret', 'CHAR(32) NOT NULL');
+CALL rename_column_if_exists('file_data', 'time', 'dt');
 
 CREATE TABLE IF NOT EXISTS `process_log` (
 	`id` int(11) NOT NULL,
@@ -765,8 +768,6 @@ CREATE TABLE IF NOT EXISTS param_treecount_value (
 
 -- TODO: The columns or tables are not already in use. For  activation of deletion, place uncommented line prior the comment.
 -- drop_column_if_exists('message', 'processed');
--- drop_column_if_exists('param_pref', 'script');
--- drop_column_if_exists('param_listcount', 'comment');
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

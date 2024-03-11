@@ -2,9 +2,10 @@ CREATE TABLE IF NOT EXISTS team_party (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	title VARCHAR(200) NOT NULL,
 	secret CHAR(32) NOT NULL,
-	created_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	create_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	KEY secret(secret)
 );
+CALL rename_column_if_exists('team_party', 'created_dt', 'create_dt');
 
 CREATE TABLE IF NOT EXISTS team_party_member (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

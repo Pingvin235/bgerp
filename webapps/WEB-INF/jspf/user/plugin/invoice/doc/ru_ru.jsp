@@ -49,7 +49,7 @@
 		</table>
 
 		<div style="margin-top: 10mm; margin-bottom: 7mm; font-size: 1.2em; font-weight: bold; text-align: center;">
-			Счёт на оплату № ${invoice.number} от ${tu.format(invoice.createdTime, 'ymd')}
+			Счёт на оплату № ${invoice.number} от ${tu.format(invoice.createTime, 'ymd')}
 		</div>
 
 		<div class="in-table-cell">

@@ -84,7 +84,7 @@ public class FileDataDAO extends CommonDAO {
         fileData.setSecret(Utils.generateSecret());
         fileData.setTime(new Date());
 
-        String query = "INSERT INTO " + TABLE_FILE_DATA + " (title, time, secret) VALUES (?, ?, ?)";
+        String query = "INSERT INTO " + TABLE_FILE_DATA + " (title, dt, secret) VALUES (?, ?, ?)";
         try (var ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, fileData.getTitle());
             ps.setTimestamp(2, TimeConvert.toTimestamp(fileData.getTime()));
@@ -130,21 +130,21 @@ public class FileDataDAO extends CommonDAO {
 
         result.setId(rs.getInt(prefix + "id"));
         result.setTitle(rs.getString(prefix + "title"));
-        result.setTime(rs.getTimestamp(prefix + "time"));
+        result.setTime(rs.getTimestamp(prefix + "dt"));
         result.setSecret(rs.getString("secret"));
 
         return result;
     }
 
     /**
-     * Gets file object for a given file data. File's {@code time} is loaded from DB case is not defined.
+     * Gets file object for a given file data. File's {@code time} is loaded from DB case if not defined.
      * @param fileData
      * @return
      * @throws SQLException
      */
     public File getFile(FileData fileData) throws SQLException {
         if (fileData.getTime() == null) {
-            try (var ps = con.prepareStatement(SQL_SELECT + "time" + SQL_FROM + TABLE_FILE_DATA + SQL_WHERE + "id=?")) {
+            try (var ps = con.prepareStatement(SQL_SELECT + "dt" + SQL_FROM + TABLE_FILE_DATA + SQL_WHERE + "id=?")) {
                 ps.setInt(1, fileData.getId());
                 var rs = ps.executeQuery();
                 if (rs.next())

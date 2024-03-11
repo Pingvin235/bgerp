@@ -655,13 +655,13 @@ public class CustomerDAO extends CommonDAO {
                 query.append(SQL_INSERT_INTO);
                 query.append(TABLE_CUSTOMER);
                 query.append(" SET title=?, title_pattern=?, title_pattern_id=?, param_group_id=?,");
-                query.append(" date_created=now(), user_id_created=?");
+                query.append(" create_dt=now(), create_user_id=?");
                 ps = con.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
                 ps.setString(index++, customer.getTitle());
                 ps.setString(index++, customer.getTitlePattern());
                 ps.setInt(index++, customer.getTitlePatternId());
                 ps.setInt(index++, customer.getParamGroupId());
-                ps.setInt(index++, customer.getCreatedUserId());
+                ps.setInt(index++, customer.getCreateUserId());
                 ps.executeUpdate();
                 customer.setId(lastInsertId(ps));
             }
@@ -789,8 +789,8 @@ public class CustomerDAO extends CommonDAO {
         customer.setTitlePattern(rs.getString(prefix + "title_pattern"));
         customer.setTitlePatternId(rs.getInt(prefix + "title_pattern_id"));
         customer.setParamGroupId(rs.getInt(prefix + "param_group_id"));
-        customer.setCreatedDate(rs.getTimestamp(prefix + "date_created"));
-        customer.setCreatedUserId(rs.getInt(prefix + "user_id_created"));
+        customer.setCreateTime(rs.getTimestamp(prefix + "create_dt"));
+        customer.setCreateUserId(rs.getInt(prefix + "create_user_id"));
         customer.setPassword(rs.getString(prefix + "pswd"));
 
         return customer;

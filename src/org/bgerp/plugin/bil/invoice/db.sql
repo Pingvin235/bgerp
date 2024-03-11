@@ -5,10 +5,10 @@ CREATE TABLE IF NOT EXISTS `invoice` (
 	`date_to` DATE,
 	`process_id` INT NOT NULL,
 	`number_cnt` INT NOT NULL,
-	`number` CHAR(20) NOT NULL,
+	`number` CHAR(30) NOT NULL,
 	`amount` DECIMAL(10,2) NOT NULL,
-	`created_dt` DATETIME NOT NULL,
-	`created_user_id` INT NOT NULL,
+	`create_dt` DATETIME NOT NULL,
+	`create_user_id` INT NOT NULL,
 	`sent_dt` DATETIME,
 	`sent_user_id` INT,
 	`payment_date` DATE,
@@ -26,3 +26,5 @@ CALL drop_key_if_exists('invoice', 'from_date');
 CALL add_key_if_not_exists('invoice', 'date_from', '(date_from)');
 CALL add_unique_key_if_not_exists('invoice', 'number', '(number)');
 ALTER TABLE invoice MODIFY number CHAR(30) NOT NULL;
+CALL rename_column_if_exists('invoice', 'created_dt', 'create_dt');
+CALL rename_column_if_exists('invoice', 'created_user_id', 'create_user_id');

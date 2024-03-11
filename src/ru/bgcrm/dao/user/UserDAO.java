@@ -345,7 +345,7 @@ public class UserDAO extends CommonDAO {
 
         if (user.getId() <= 0) {
             newUser = true;
-            String query = "INSERT INTO " + TABLE_USER + " SET title=?, login=?, description=?, config=?, date_created=?, status=?";
+            String query = "INSERT INTO " + TABLE_USER + " SET title=?, login=?, description=?, config=?, create_dt=?, status=?";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, user.getTitle());
             ps.setString(index++, user.getLogin());

@@ -42,11 +42,11 @@ Invoices.
 |DECIMAL
 |invoice amount
 
-|created_dt
+|create_dt
 |DATETIME
 |creation time
 
-|created_user_id
+|create_user_id
 |INT
 |creation user ID, link to <<_user, user:id>>
 

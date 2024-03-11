@@ -246,11 +246,11 @@
 |INT
 |ID группы параметров
 
-|date_created
+|create_dt
 |DATETIME
 |время создания контрагента
 
-|user_id_created
+|create_user_id
 |INT
 |создавший пользователь
 
@@ -1439,7 +1439,7 @@ Generated secrets for accessing processes via open interface.
 |VARCHAR
 |описание
 
-|date_created
+|create_dt
 |DATETIME
 |дата заведения
 

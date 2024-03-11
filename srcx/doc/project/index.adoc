@@ -176,6 +176,8 @@ Configuration for running inside IDE:
 
 [[format]]
 === Code formatting
+[[format-whitespace]]
+==== Whitespaces
 IDE or editor must be configured for displaying whitespace symbols.
 
 image::_res/ide_format.png[width='600px']
@@ -212,6 +214,14 @@ Open a standard formatter and save it under a different name after changing the 
 *Window - Preferences - Java - Code style - Organize Imports* - put 99 and 1 in the respective fields.
 
 Example/resulting Eclipse formatter file: link:../../../.vscode/formatter.xml[formatter.xml]
+
+[[format-sql]]
+==== SQL
+All the SQL code has to be written with high case letters, except of <<#naming-sql,names>> for tables, columns, variables.
+[source, sql]
+----
+SELECT id, title FROM user WHERE comment LIKE 'Admin';
+----
 
 [[ide]]
 === IDE
@@ -328,6 +338,72 @@ You can also use this file to alter billing connection URL - for example, to a l
 * Create IDE launch configuration using this properties file
 * Optionally, alter *.gitignore* in order to save custom client's files in case you are using fork.
 
+[[naming]]
+== Naming Conventions
+=== Configuration variables, JS functions, HTTP StyleId
+[square]
+* All plugin configuration variable names have to start with *<plugin>:*
+* All plugin's JS function names have to start with *<plugin>-* prefix.
+"-" cannot be used within a function name in other places.
+* All DOM element identifiers (style id) for a plugin have to start with *<plugin>-*
+"-" cannot be used within a DOM element identifier name in other places.
+
+[[naming-camel]]
+=== Java and JSP variables, HTTP request parameters
+Have to use camelCase notation: *processId*, *paramId*
+
+[[naming-sql]]
+=== SQL
+Database table and column names have to be in lower case, underscore separated: *user_group*, *process_id*, *param_id*.
+
+[[naming-datetime]]
+=== Date and time fields
+Date only, day precision.
+[cols="a,a,a,a,a", options="header"]
+|===
+|Language
+|Type
+|Naming for single date field per entity
+|Naming for many date fields per entity
+|Naming for period
+
+|Java
+|java.util.Date
+|date
+|createDate, closeDate, paymentDate, statusDate
+|dateFrom, dateTo
+
+|SQL
+|DATE
+|date
+|create_date, close_date, payment_date, status_date
+|date_from, date_to
+|===
+
+Date plus time, second precision.
+[cols="a,a,a,a,a", options="header"]
+|===
+|Language
+|Type
+|Naming for single datetime field per entity
+|Naming for many datetime fields per entity
+|Naming for period
+
+|Java
+|java.util.Date
+|time
+|createTime, closeTime, paymentTime, statusTime
+|timeFrom, timeTo
+
+|SQL
+|DATETIME
+|dt
+|create_dt, close_dt, payment_dt, status_dt
+|dt_from, dt_to
+|===
+
+*NULL* means undefined datetime or plus/minus infinite value in period.
+
 [[arch]]
 == Architecture
 BGERP is a standalone Java application with a dynamic Web-interface.
@@ -409,7 +485,7 @@ Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
 Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
 [snippet, from="UNIQUE", to="`),", remove-leading="	"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L440-L440[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L443-L443[src/org/bgerp/plugin/kernel/db.sql]
 
 [[plugin-db-cache]]
 ===== Database Queries Cache
@@ -418,7 +494,7 @@ The cache might be reset using <<../kernel/install.adoc#update-installer, instal
 
 To force re-execution a query, add a whitespace before ending semicolon on the query line.
 [snippet, from="CALL drop_key_if_exists", to=");"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L389-L389[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L392-L392[src/org/bgerp/plugin/kernel/db.sql]
 
 [[cache]]
 ===== Cache
@@ -920,71 +996,3 @@ link:../../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
 Enabling debug:
 [snippet, from="$$.", to="0,"]
 link:../../../webapps/js/kernel.js#L19-L23[webapps/js/kernel.js]
-
-[[naming]]
-== Naming conventions
-=== Configuration variables, JS functions, HTTP StyleId
-[square]
-* All plugin configuration variable names have to start with *<plugin>:*
-* All plugin's JS function names have to start with *<plugin>-* prefix.
-"-" cannot be used within a function name in other places.
-* All DOM element identifiers (style id) for a plugin have to start with *<plugin>-*
-"-" cannot be used within a DOM element identifier name in other places.
-
-[[naming-db]]
-=== Database
-* Database table and column names have to be in lower case, underscore separated : *process_id*, *param_id*.
-
-[[naming-camel]]
-=== Java variables, HTTP request parameters, JSP variables
-Have to use camelCase notation:
-processId
-paramId
-
-[[naming-date]]
-=== Date - field entity
-If a field has only date, then:
-[square]
-* Java: *createdDate* type *java.util.Date*
-* DB: *created_date* type *DATE*
-
-If a field has date + time, then:
-[square]
-* Java: *createdTime* type *java.util.Date*
-* DB: *created_dt* type *DATETIME*
-
-[[naming-date-period]]
-=== Date - period entity
-NOTE: Period entity must have two logically connected date or time fields, defining the same period.
-There is might be a `fromDate` field if it is not paired and and `dateFrom` that mandatory has `dateTo` pair.
-
-If saving in bins, period has to use java.util.Date type with the following naming convention:
-[square]
-* dateFrom
-* dateTo
-
-Corresponding set and get methods:
-[square]
-* setDateFrom
-* setDateTo
-* getDateFrom
-* getDateTo
-
-CAUTION: Do not use Calendar beans!
-Use TimeUtils to convert into Calendar or from Calendar.
-
-For storing 'time', use:
-[square]
-* timeFrom
-* timeTo
-
-.. and also java.util.Date type.
-
-Use Calendar for various calculators/billings when you need to constantly adjust dates.
-
-Use *date_from* and *date_to* in the database (*DATE* type)
-
-*dt_from*, *dt_to* - *DATETIME* type.
-
-Infinity time or date - *NULL*.
-

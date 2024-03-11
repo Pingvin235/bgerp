@@ -21,7 +21,7 @@ Parties.
 |VARCHAR
 |Generated secret string.
 
-|created_dt
+|create_dt
 |DATETIME
 |Creation time.
 |===

@@ -113,7 +113,7 @@
 				</c:choose>
 			</td>
 			<td>${item.amount}</td>
-			<td>${tu.format(item.createdTime, 'ymdhm')}</td>
+			<td>${tu.format(item.createTime, 'ymdhm')}</td>
 			<td>
 				<c:if test="${not empty item.paymentDate}">
 					${tu.format(item.paymentDate, 'ymd')}
