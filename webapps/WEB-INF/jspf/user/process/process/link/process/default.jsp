@@ -29,13 +29,15 @@
 				</jsp:attribute>
 			</ui:combo-single>
 
-			<c:url var="url" value="${form.httpRequestURI}">
-				<c:param name="action" value="addCreated"/>
-				<c:param name="id" value="${form.id}"/>
-				<c:param name="returnUrl" value="${form.requestUrl}"/>
-			</c:url>
+			<c:if test="${not empty createTypeList and ctxUser.checkPerm('org.bgerp.action.ProcessLinkProcessAction:addCreated')}">
+				<c:url var="url" value="${form.httpRequestURI}">
+					<c:param name="action" value="addCreated"/>
+					<c:param name="id" value="${form.id}"/>
+					<c:param name="returnUrl" value="${form.requestUrl}"/>
+				</c:url>
 
-			<ui:button type="add" onclick="$$.ajax.load('${url}', $(this.form).parent())" styleClass="ml1"/>
+				<ui:button type="add" onclick="$$.ajax.load('${url}', $(this.form).parent())" styleClass="ml1"/>
+			</c:if>
 		</html:form>
 
 		<script>

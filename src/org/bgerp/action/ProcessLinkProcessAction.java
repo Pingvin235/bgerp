@@ -60,9 +60,16 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             new IfaceStateDAO(conSet.getConnection()).compareAndUpdateState(currentState, newState, form);
         }
 
-        var processType = getProcessType(getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId()).getTypeId());
+        Process process = getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId());
+        var processType = getProcessType(process.getTypeId());
 
         form.setRequestAttribute("config", processType.getProperties().getConfigMap().getConfig(ProcessLinkCategoryConfig.class));
+
+        var createTypeList = processType.getProperties().getConfigMap()
+            .getConfig(ProcessCreateLinkConfig.class)
+            .getItemList(form, conSet.getSlaveConnection(), process);
+
+        form.setRequestAttribute("createTypeList", createTypeList);
 
         return html(conSet, form, PATH_JSP + "/default.jsp");
     }
@@ -98,7 +105,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
 
         var createTypeList = processType.getProperties().getConfigMap()
             .getConfig(ProcessCreateLinkConfig.class)
-            .getItemList(form, conSet.getConnection(), process);
+            .getItemList(form, conSet.getSlaveConnection(), process);
 
         form.setRequestAttribute("createTypeList", createTypeList);
 
