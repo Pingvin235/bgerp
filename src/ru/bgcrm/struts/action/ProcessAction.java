@@ -21,6 +21,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessCloneDAO;
+import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.dao.process.ProcessMessageDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
@@ -801,8 +802,9 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward unionLog(DynActionForm form, Connection con) throws Exception {
-        new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()),
-                form.getId(), new Pageable<EntityLogItem>(form));
+        new ProcessLogDAO(con).searchProcessLog(form.l,
+                getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
+                new Pageable<EntityLogItem>(form));
 
         return html(con, form, "/WEB-INF/jspf/union_log.jsp");
     }

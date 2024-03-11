@@ -13,7 +13,7 @@ import ru.bgcrm.util.Utils;
 public class EntityLogDAO extends CommonDAO {
     private String table;
 
-    public EntityLogDAO(Connection con, String table) {
+    protected EntityLogDAO(Connection con, String table) {
         super(con);
         this.table = table;
     }

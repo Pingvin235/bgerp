@@ -14,6 +14,9 @@
 	<p><en>Register</en><ru>Реестр</ru></p>
 	<p><en>Invoice Register</en><ru>Реестр счетов</ru></p>
 	<p><en>paid</en><ru>оплачен</ru></p>
+	<p><en>Invoice {} created.</en><ru>Счёт {} создан.</ru></p>
+	<p><en>Invoice {} paid.</en><ru>Счёт {} оплачен.</ru></p>
+	<p><en>Invoice {} unpaid.</en><ru>Счёт {} не оплачен.</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

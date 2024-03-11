@@ -1,7 +1,5 @@
 package ru.bgcrm.struts.action;
 
-import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER_LOG;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
@@ -31,8 +29,10 @@ import org.apache.struts.upload.FormFile;
 import org.bgerp.action.BaseAction;
 import org.bgerp.action.FileAction;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.customer.CustomerLogDAO;
 import org.bgerp.dao.param.ParamLogDAO;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
@@ -46,7 +46,6 @@ import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ParamValueFunction;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.dao.process.Tables;
 import ru.bgcrm.event.DateChangingEvent;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
@@ -93,15 +92,14 @@ public class ParameterAction extends BaseAction {
     public ActionForward entityLog(DynActionForm form, ConnectionSet con) throws Exception {
         int id = form.getId();
         String type = form.getParam("type");
-        String table = "";
+        EntityLogDAO dao = null;
 
-        if (type.equals(Process.OBJECT_TYPE)) {
-            table = Tables.TABLE_PROCESS_LOG;
-        } else if (type.equals(Customer.OBJECT_TYPE)) {
-            table = TABLE_CUSTOMER_LOG;
-        }
+        if (type.equals(Process.OBJECT_TYPE))
+            dao = new ProcessLogDAO(con.getSlaveConnection());
+        else if (type.equals(Customer.OBJECT_TYPE))
+            dao = new CustomerLogDAO(con.getSlaveConnection());
 
-        form.setResponseData("log", new EntityLogDAO(con.getSlaveConnection(), table).getHistory(id));
+        form.setResponseData("log", dao.getHistory(id));
 
         return html(con, form, BaseAction.PATH_JSP + "/entity_log.jsp");
     }

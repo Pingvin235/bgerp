@@ -4,7 +4,6 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_EXECUTOR;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_GROUP;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
-import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LOG;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_STATUS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_STATUS_TITLE;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_TYPE;
@@ -22,30 +21,24 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
-import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
-import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -154,7 +147,7 @@ public class ProcessDAO extends CommonDAO {
     public Process getProcess(int id) throws SQLException {
         Process result = null;
 
-        String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process "
+        String query = "SELECT process.*, ps.* " + SQL_FROM + TABLE_PROCESS + " AS process "
                 + "LEFT JOIN " + TABLE_PROCESS_STATUS
                 + " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
                 + getIsolationJoin(form, "process")
@@ -190,7 +183,7 @@ public class ProcessDAO extends CommonDAO {
     public List<Process> getProcessList(Collection<Integer> processIds) throws BGException {
         List<Process> processList = new ArrayList<Process>();
         try {
-            String query = "SELECT process.* FROM " + TABLE_PROCESS + " AS process " + "WHERE process.id IN ( "
+            String query = "SELECT process.* " + SQL_FROM + TABLE_PROCESS + " AS process " + "WHERE process.id IN ( "
                     + Utils.toString(processIds) + ")";
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
@@ -267,7 +260,7 @@ public class ProcessDAO extends CommonDAO {
     }
 
     private void logProcessChange(Process process, Process oldProcess) throws SQLException {
-        new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).insertEntityLog(process.getId(), form.getUserId(), process.getChangesLog(oldProcess));
+        new ProcessLogDAO(this.con).insertEntityLog(process.getId(), form.getUserId(), process.getChangesLog(oldProcess));
     }
 
     public Process updateProcess(Process process) throws SQLException {
@@ -331,7 +324,7 @@ public class ProcessDAO extends CommonDAO {
 
         new MessageDAO(con).deleteProcessMessages(processId);
 
-        new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).deleteHistory(processId);
+        new ProcessLogDAO(this.con).deleteHistory(processId);
     }
 
     private void deleteProcessData(int processId, String query) throws SQLException {
@@ -528,68 +521,6 @@ public class ProcessDAO extends CommonDAO {
 
             setRecordCount(page, pq.getPrepared());
             pq.close();
-        }
-    }
-
-    /**
-     * Выборка логов изменения процесса.
-     * @param processType
-     * @param processId
-     * @param result
-     * @throws Exception
-     */
-    public void searchProcessLog(ProcessType processType, int processId, Pageable<EntityLogItem> result) throws SQLException {
-        PreparedQuery pq = new PreparedQuery(con);
-
-        Page page = result.getPage();
-        /*Если не кастить в каждом запросе поле, то с кодировкой какая-то лажа получается, скорее всего это из-за
-         *  того что разные типы в одном поле смешиваются. На старой версии mysql 5.0.x не работало( на новой - не известно, вроде в
-         *  maria 5.5 как-будто работает).
-         */
-
-        pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt , user_id, 0 , CAST( data AS CHAR), 0 FROM " + TABLE_PROCESS_LOG);
-        pq.addQuery(SQL_WHERE + "id= ? ");
-        pq.addInt(processId);
-
-        pq.addQuery(" UNION SELECT dt, user_id, -1, CAST(status_id AS CHAR) , comment FROM " + TABLE_PROCESS_STATUS);
-        pq.addQuery(SQL_WHERE + "process_id=? ");
-        pq.addInt(processId);
-
-        pq.addQuery(" UNION SELECT dt, user_id, param_id, CAST(text AS CHAR), 0 FROM " + org.bgerp.dao.param.Tables.TABLE_PARAM_LOG);
-        pq.addQuery(SQL_WHERE + "object_id=? AND param_id IN  ( "
-                + Utils.toString(processType.getProperties().getParameterIds(), " 0 ", " , ") + " ) ");
-        pq.addInt(processId);
-
-        pq.addQuery(" ORDER BY dt DESC ");
-        pq.addQuery(getPageLimit(page));
-
-        List<EntityLogItem> list = result.getList();
-
-        try (pq) {
-            ResultSet rs = pq.executeQuery();
-            while (rs.next()) {
-                String text = " ??? ";
-                int paramId = rs.getInt(3);
-                // параметр
-                if (paramId > 0) {
-                    Parameter param = ParameterCache.getParameter(paramId);
-                    if (param != null) {
-                        text = " Параметр: ' " + param.getTitle() + " ' : " + rs.getString(4);
-                    }
-                }
-                // статус
-                else if (paramId == -1) {
-                    Status status = ProcessTypeCache.getStatusMap().get(Utils.parseInt(rs.getString(4)));
-                    text = "Статус: " + (status != null ? status.getTitle() : " ??? " + rs.getString(4) + " . ") + " ["
-                            + Utils.maskNull(rs.getString(5)) + "]";
-                }
-                // процесс
-                else {
-                    text = rs.getString(4);
-                }
-                list.add(new EntityLogItem(rs.getTimestamp(1), processId, rs.getInt(2), text));
-            }
-            setRecordCount(page, pq.getPrepared());
         }
     }
 }

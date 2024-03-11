@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.invoice.Config;
 import org.bgerp.plugin.bil.invoice.Plugin;
@@ -21,6 +22,7 @@ import org.bgerp.plugin.bil.invoice.event.InvoicePaidEvent;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 import org.bgerp.plugin.bil.invoice.model.Position;
+import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.dao.CustomerDAO;
@@ -115,6 +117,9 @@ public class InvoiceAction extends BaseAction {
             var type = setup.getConfig(Config.class).getType(typeId);
             invoice =  type.invoice(conSet, processId, monthFrom, monthTo);
             type.getNumberProvider().number(conSet.getConnection(), type, invoice);
+
+            new ProcessLogDAO(conSet.getConnection()).insertEntityLog(invoice.getProcessId(), form.getUserId(),
+                    Log.format("Invoice {} created.", invoice.getNumber()));
         } else {
             invoice = dao.get(form.getId());
         }
@@ -205,6 +210,9 @@ public class InvoiceAction extends BaseAction {
 
         dao.update(invoice);
 
+        new ProcessLogDAO(conSet.getConnection()).insertEntityLog(invoice.getProcessId(), form.getUserId(),
+                Log.format("Invoice {} paid.", invoice.getNumber()));
+
         EventProcessor.processEvent(new InvoicePaidEvent(form, invoice), conSet);
 
         return json(conSet, form);
@@ -218,6 +226,9 @@ public class InvoiceAction extends BaseAction {
         invoice.setPaymentUserId(0);
 
         dao.update(invoice);
+
+        new ProcessLogDAO(conSet.getConnection()).insertEntityLog(invoice.getProcessId(), form.getUserId(),
+                Log.format("Invoice {} unpaid.", invoice.getNumber()));
 
         return json(conSet, form);
     }
