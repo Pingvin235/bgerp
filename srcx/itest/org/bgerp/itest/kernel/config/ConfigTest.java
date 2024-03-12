@@ -2,7 +2,6 @@ package org.bgerp.itest.kernel.config;
 
 import java.util.Date;
 
-import org.bgerp.app.dist.DbTimeUpdate;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
@@ -28,7 +27,7 @@ public class ConfigTest {
 
         var config = ConfigHelper.createConfig("Main",
             "# remove this key case the DB used as production one !!!\n" +
-            DbTimeUpdate.SETUP_KEY + "=" + TimeUtils.format(new Date(), TimeUtils.FORMAT_TYPE_YMDHMS) + "\n" +
+            "generation.time=" + TimeUtils.format(new Date(), TimeUtils.FORMAT_TYPE_YMDHMS) + "\n" +
             ResourceHelper.getResource(this, "config.main.txt"));
 
         dao.updateGlobalConfig(config);
