@@ -5,7 +5,7 @@
 <%@ attribute name="action" description="Action identifier"%>
 <%@ attribute name="command" description="Command"%>
 <%@ attribute name="title" description="Title"%>
-<%@ attribute name="ltitle" description="Title to be localized"%>
+<%@ attribute name="ltitle" description="Title to be localized (Deprecated)"%>
 <%@ attribute name="hidden" description="Hidden menu item"%>
 <%@ attribute name="icon" description="Font icon"%>
 
