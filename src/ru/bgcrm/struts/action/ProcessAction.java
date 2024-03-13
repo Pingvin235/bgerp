@@ -488,20 +488,16 @@ public class ProcessAction extends BaseAction {
 
         pattern = pattern.replaceAll("\\\\n", "\n").replaceAll("\\\\t", "\t");
 
-        String newDescription = PatternFormatter.processPattern(pattern, new PatternFormatter.PatternItemProcessor() {
-            @Override
-            public String processPatternItem(String variable) {
-                if ("time".equals(variable)) {
-                    return TimeUtils.format(new Date(), timePattern);
-                } else if ("user".equals(variable)) {
-                    return form.getUser().getTitle();
-                } else if ("text".equals(variable)) {
-                    return description;
-                } else if ("description".equals(variable)) {
-                    return process.getDescription();
-                }
-                return "";
-            }
+        String newDescription = PatternFormatter.processPattern(pattern, variable -> {
+            if ("time".equals(variable))
+                return TimeUtils.format(new Date(), timePattern);
+            if ("user".equals(variable))
+                return form.getUser().getTitle();
+            if ("text".equals(variable))
+                return description;
+            if ("description".equals(variable))
+                return process.getDescription();
+            return "";
         });
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, description, ProcessChangingEvent.MODE_DESCRIPTION_ADDING), con);

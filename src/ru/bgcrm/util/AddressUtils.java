@@ -1,7 +1,5 @@
 package ru.bgcrm.util;
 
-import static ru.bgcrm.util.PatternFormatter.processPattern;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,7 +10,6 @@ import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.address.AddressItem;
-import ru.bgcrm.util.PatternFormatter.PatternItemProcessor;
 
 public class AddressUtils {
     private final static String ADDRESS_FORMAT_DEFAULT = "(${street})(, ${house})(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})( [${comment}])";
@@ -41,35 +38,30 @@ public class AddressUtils {
             address = Setup.getSetup().get("address.format." + formatName, address);
         }
 
-        String result = processPattern(address, new PatternItemProcessor() {
-            @Override
-            public String processPatternItem(String variable) {
-                if ("index".equals(variable)) {
-                    return addressHouse.getPostIndex();
-                } else if ("city".equals(variable)) {
-                    return addressCity.getTitle();
-                } else if ("area".equals(variable)) {
-                    return addressHouse.getAddressArea().getTitle();
-                } else if ("quarter".equals(variable)) {
-                    return addressHouse.getAddressQuarter().getTitle();
-                } else if ("street".equals(variable)) {
-                    return addressStreet.getTitle();
-                } else if ("house".equals(variable)) {
-                    return addressHouse.getHouseAndFrac();
-                } else if ("flat".equals(variable)) {
-                    return value.getFlat();
-                } else if ("room".equals(variable)) {
-                    return value.getRoom();
-                } else if ("pod".equals(variable)) {
-                    return value.getPod() > 0 ? String.valueOf(value.getPod()) : "";
-                } else if ("floor".equals(variable)) {
-                    return value.getFloor() > 0 ? String.valueOf(value.getFloor()) : "";
-                } else if ("comment".equals(variable)) {
-                    return value.getComment();
-                }
-
-                return "";
-            }
+        String result = PatternFormatter.processPattern(address, variable -> {
+            if ("index".equals(variable))
+                return addressHouse.getPostIndex();
+            if ("city".equals(variable))
+                return addressCity.getTitle();
+            if ("area".equals(variable))
+                return addressHouse.getAddressArea().getTitle();
+            if ("quarter".equals(variable))
+                return addressHouse.getAddressQuarter().getTitle();
+            if ("street".equals(variable))
+                return addressStreet.getTitle();
+            if ("house".equals(variable))
+                return addressHouse.getHouseAndFrac();
+            if ("flat".equals(variable))
+                return value.getFlat();
+            if ("room".equals(variable))
+                return value.getRoom();
+            if ("pod".equals(variable))
+                return value.getPod() > 0 ? String.valueOf(value.getPod()) : "";
+            if ("floor".equals(variable))
+                return value.getFloor() > 0 ? String.valueOf(value.getFloor()) : "";
+            if ("comment".equals(variable))
+                return value.getComment();
+            return "";
         });
 
         return result;

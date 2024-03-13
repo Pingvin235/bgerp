@@ -35,7 +35,6 @@ import ru.bgcrm.model.param.Pattern;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.PatternFormatter;
-import ru.bgcrm.util.PatternFormatter.PatternItemProcessor;
 import ru.bgcrm.util.Utils;
 
 public class CustomerDAO extends CommonDAO {
@@ -200,19 +199,15 @@ public class CustomerDAO extends CommonDAO {
                 list.add(customer);
 
                 if (Utils.notBlankString(referenceTemplate)) {
-                    String reference = PatternFormatter.processPattern(referenceTemplate, new PatternItemProcessor() {
-                        @Override
-                        public String processPatternItem(String variable) {
-                            String value = "";
-                            try {
-                                if (variable.startsWith("param:")) {
-                                    value = rs.getString(variable.replace(':', '_') + "_val");
-                                }
-                            } catch (Exception e) {
-                                log.error(e.getMessage(), e);
-                            }
-                            return value;
+                    String reference = PatternFormatter.processPattern(referenceTemplate, variable -> {
+                        String value = "";
+                        try {
+                            if (variable.startsWith("param:"))
+                                value = rs.getString(variable.replace(':', '_') + "_val");
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
                         }
+                        return value;
                     });
                     customer.setReference(reference);
                 }
@@ -229,15 +224,12 @@ public class CustomerDAO extends CommonDAO {
     private String addCustomerReferenceQuery(final StringBuilder selectPart, final StringBuilder joinPart) {
         String referenceTemplate = Setup.getSetup().get("customer.reference.pattern", "");
         if (Utils.notBlankString(referenceTemplate)) {
-            PatternFormatter.processPattern(referenceTemplate, new PatternItemProcessor() {
-                @Override
-                public String processPatternItem(String variable) {
-                    if (variable.startsWith("param:")) {
-                        ParamValueSelect.paramSelectQuery(variable, "customer.id", selectPart, joinPart, true);
-                        selectPart.append(", ");
-                    }
-                    return "";
+            PatternFormatter.processPattern(referenceTemplate, variable -> {
+                if (variable.startsWith("param:")) {
+                    ParamValueSelect.paramSelectQuery(variable, "customer.id", selectPart, joinPart, true);
+                    selectPart.append(", ");
                 }
+                return "";
             });
         }
         return referenceTemplate;

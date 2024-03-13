@@ -1,5 +1,7 @@
 package ru.bgcrm.model.param;
 
+import java.util.Map;
+
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.param.PhoneFormat;
 import org.bgerp.util.Log;
@@ -71,10 +73,7 @@ public class ParameterPhoneValueItem {
         String itemFormat = setup.get("param.phone.format", "(${number})( [${comment}])");
         String numberFormat = setup.get("param.phone.format.number");
 
-        String result = PatternFormatter.insertPatternPart(itemFormat, "number", new PhoneFormat(numberFormat).format(phone));
-        result = PatternFormatter.insertPatternPart(result, "comment", comment);
-
-        return result;
+        return PatternFormatter.processPattern(itemFormat, Map.of("number", new PhoneFormat(numberFormat).format(phone), "comment", comment));
     }
 
     @Override
