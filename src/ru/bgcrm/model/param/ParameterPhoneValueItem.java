@@ -1,8 +1,8 @@
 package ru.bgcrm.model.param;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.model.param.PhoneFormat;
 import org.bgerp.util.Log;
-import org.bgerp.util.PhoneFormat;
 
 import ru.bgcrm.util.PatternFormatter;
 

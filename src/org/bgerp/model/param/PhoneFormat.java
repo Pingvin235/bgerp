@@ -1,4 +1,4 @@
-package org.bgerp.util;
+package org.bgerp.model.param;
 
 import java.util.ArrayList;
 import java.util.HashMap;

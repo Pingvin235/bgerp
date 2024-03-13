@@ -1,4 +1,4 @@
-package org.bgerp.util;
+package org.bgerp.model.param;
 
 import org.junit.Assert;
 import org.junit.Test;
