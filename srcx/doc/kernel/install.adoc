@@ -27,8 +27,7 @@ This variant perfectly fits the following purposes:
 * Running on Windows machines;
 * Running in a different environment, e.g. with an already installed MySQL but with a different/untested version.
 
-Use the following command to remove container - use it also before updating:
-[source, bash]
+Use the following command to remove container:
 ----
 docker rm -f bgerp
 ----
@@ -41,14 +40,18 @@ In this case all the required data volumes are hidden inside Docker container.
 
 CAUTION: All the related data is removed together with container upon deletion.
 
-[source, bash]
 ----
 docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
 ----
 
+Make sure, that the container is running, wait the message:
+----
+Running BGERP
+Server URL: 'http://localhost:9088', see logs in 'log' directory
+----
+
 [[method-docker-volumes-outside]]
 ==== Data volumes Outside the Container (*NIX only)
-[source, bash]
 ----
 docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped \
     -v /srv/bgerp/data/mysql:/var/lib/mysql \
@@ -62,7 +65,6 @@ docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped \
 
 CAUTION: Completely remove all the related data.
 
-[source, bash]
 ----
 rm -rf /srv/bgerp
 ----
@@ -81,19 +83,16 @@ Prerequisites;
 
 Execution Steps:
 Step 1. Switch to a working directory, e.g:
-[source, bash]
 ----
 cd /tmp
 ----
 
 Step 2. Download the script using *curl*:
-[source, bash]
 ----
 curl https://github.com/Pingvin235/bgerp/blob/master/srcx/deploy/deploy.sh --output bgerp_deploy.sh
 ----
 
 Step 3. Execute the script:
-[source, bash]
 ----
 sudo bash bgerp_deploy.sh <NAME> <PORT>
 ----
@@ -241,7 +240,6 @@ Once running, application will be available via <<interface.adoc#, Web-interface
 ==== SystemD
 In order to enable application auto-start upon the system start, use a systemd script.
 Systemd script is located in *scripts/bgerp.service* - copy it to */etc/systemd/system/* and then execute the following commands:
-[source, bash]
 ----
 systemctl daemon-reload
 systemctl enable bgerp
@@ -336,7 +334,6 @@ image::_res/install_app_status.png[width="600"]
 
 *Update* section - triggers update to the latest application version. that includes all required libraries.
 The following <<update-installer, command>> is executed:
-[source, bash]
 ----
 ./backup.sh && ./installer.sh update(f) && ./erp_restart.sh
 ----
@@ -363,19 +360,16 @@ Executing *Update* after *Update on change* operation will bring application ser
 ====
 
 Для обновления вызовите команду:
-[source, bash]
 ----
 ./installer.sh update
 ----
 
 Для обновления системы на иную версию (не 3.0) вызовите команду:
-[source, bash]
 ----
 ./installer.sh update <version>
 ----
 
 например:
-[source, bash]
 ----
 ./installer.sh update 3.0
 ----
@@ -393,7 +387,6 @@ Commands for installer:
 ----
 
 Recommended command for updating (argument 'db' can be excluded for speeding up and used only periodically):
-[source, bash]
 ----
 ./backup.sh db && ./installer.sh update && ./erp_restart.sh
 ----
@@ -404,7 +397,6 @@ Update files are taken from version-containing URL, for example for version 3.0:
 === Query History
 For all the executed during update process SQL queries their hashes are stored in DB table *db_update_log*.
 This allows to prevent their re-execution. If you need to clear the history, use the command:
-[source, bash]
 ----
 ./installer.sh killhash
 ----

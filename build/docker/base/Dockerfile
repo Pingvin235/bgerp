@@ -75,9 +75,9 @@ RUN echo Verifying install ... \
     && echo java --version && java --version \
     && echo Complete.
 
-# gitlab ci
-#==========
-RUN apt-get update && apt-get install -y openssh-client rsync git-lfs zip
+# gitlab ci, bgerp
+#=================
+RUN apt-get update && apt-get install -y openssh-client rsync git-lfs zip unzip
 
 # bgerp files
 #============
@@ -85,6 +85,6 @@ RUN mkdir /tmp/bgerp
 COPY files/bgerp.properties /tmp/bgerp
 COPY files/db_create.sql /tmp/bgerp
 
-COPY docker-bgerp-base.sh /usr/local/bin/
+COPY docker-bgerp-base.sh docker-bgerp-mysql.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-bgerp-base.sh
 ENTRYPOINT []

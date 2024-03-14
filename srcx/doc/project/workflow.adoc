@@ -349,14 +349,19 @@ Build the *bgerp/base* Docker Image, which should be rebuilt in case of updating
 bash build/docker/base/files.sh && docker build build/docker/base -t bgerp/base
 ----
 
-Build the *bgerp/bgerp* Docker Image:
+Build the *bgerp/bgerp* Docker image:
 ----
-bash build/docker/files.sh && docker build build/docker -t bgerp/bgerp
+bash build/docker/bgerp/files.sh && docker build build/docker/bgerp -t bgerp/bgerp
 ----
 
-Test the created image with it in local Docker:
+Test the created image with in local Docker:
 ----
 docker run -d --name bgerp --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
+----
+
+Build the *bgerp/devd* Docker image:
+----
+docker build build/docker/devd -t bgerp/devd
 ----
 
 Then apply file changes and commit them:
@@ -367,7 +372,7 @@ Then apply file changes and commit them:
 Copy the built artifacts to the server and check the results on https://bgerp.org and https://hub.docker.com/r/bgerp/bgerp/tags
 ----
 bash -c "./gradlew publishRelease"
-docker push bgerp/base && docker push bgerp/bgerp
+docker push bgerp/base && docker push bgerp/bgerp && docker push bgerp/devd
 ----
 
 Check the release commit and push it:

@@ -109,22 +109,21 @@ Run the following command inside of the project's directory.
 NOTE: We expose non-standard MySQL port *3388* to avoid possible conflicts with a running locally MySQL server.
 
 ----
-docker pull bgerp/bgerp && docker run -d --name bgerp-demo --restart unless-stopped -p 3388:3306 bgerp/bgerp && docker logs --follow bgerp-demo
+docker pull bgerp/devd && docker run -d --name bgerp-devd --restart unless-stopped -p 3388:3306 bgerp/devd && docker logs --follow bgerp-devd
 ----
 
-Make sure, that the container is running, wait the messages:
+Make sure, that the container is running, wait the message:
 ----
-Running BGERP
-Server URL: 'http://localhost:9088', see logs in 'log' directory
+BGERP Dev DB is running
 ----
 
 [[run-data-logging]]
 Get configuration and data files from the container:
 ----
-docker exec bgerp-demo cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" > bgerp.properties &&
-docker cp bgerp-demo:/opt/bgerp/lic.data lic.data &&
-docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties &&
-docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
+docker exec bgerp-devd cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" > bgerp.properties &&
+docker cp bgerp-devd:/opt/bgerp/lic.data lic.data &&
+docker cp bgerp-devd:/opt/bgerp/log4j.properties log4j.properties &&
+docker cp bgerp-devd:/opt/bgerp/filestorage filestorage
 ----
 
 Add the following values to the end the extracted `bgerp.properties` file:
@@ -145,12 +144,12 @@ If you will need to enable the Scheduler later, add appropriate parameter in `bg
 
 NOTE: Use the command for removing the created container:
 ----
-docker rm -f bgerp-demo
+docker rm -f bgerp-devd
 ----
 
 NOTE: For accessing the DB instance with console SQL client use the command:
 ----
-docker exec -it bgerp-demo /opt/bgerp/mysql.sh
+docker exec -it bgerp-devd /opt/bgerp/mysql.sh
 ----
 
 [[run-gradle]]
