@@ -63,7 +63,7 @@
 						onclick="if (confirm('Вы уверены, что хотите заменить права\nна права из выбранного набора?')) $$.ajax.post(this.form).done(() => { $('#${uiid} > form').hide(); $('#${uiid} > input').show(); })">OK</button>
 					<button
 						type="button" class="btn-grey"
-						onclick="$('#${uiid} > form').hide(); $('#${uiid} > input').show();">${l.l('Отмена')}</button>
+						onclick="$('#${uiid} > form').hide(); $('#${uiid} > input').show();">${l.l('Cancel')}</button>
 				</html:form>
 			</td>
 

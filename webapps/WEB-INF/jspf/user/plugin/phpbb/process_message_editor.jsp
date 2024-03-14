@@ -15,6 +15,6 @@
 
 	<div class="mt1 mb1">
 		<button class="btn-grey" type="button" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()))">OK</button>
-		<button class="btn-grey ml1" type="button" onclick="$('#${form.returnChildUiid}').empty();">${l.l('Отмена')}</button>
+		<button class="btn-grey ml1" type="button" onclick="$('#${form.returnChildUiid}').empty();">${l.l('Cancel')}</button>
 	</div>
 </div>

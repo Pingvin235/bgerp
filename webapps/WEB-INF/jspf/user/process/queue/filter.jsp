@@ -203,7 +203,7 @@
 				</c:set>
 
 				<button id="okButton" type="button" class="btn-grey" onclick="${doScript}">OK</button>
-				<button type="button" class="btn-white ml05 mr1" onclick="$(this.form).hide();">${l.l('Отмена')}</button>
+				<button type="button" class="btn-white ml05 mr1" onclick="$(this.form).hide();">${l.l('Cancel')}</button>
 			</form>
 		</c:forEach>
 	</div>
@@ -221,7 +221,7 @@
 			onclick="if( this.form.title.value == '' ){ alert('${l.l('Введите название!')}'); return; }
 					this.form.url.value = $$.ajax.formUrl($('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId']);
 					$$.ajax.post(this).done(() => { processQueueFilterSetSelect(${queue.id}) })">OK</button>
-		<button type="button" class="btn-grey" onclick="$(this.form).hide()">${l.l('Отмена')}</button>
+		<button type="button" class="btn-grey" onclick="$(this.form).hide()">${l.l('Cancel')}</button>
 	</form>
 
 	<%-- saved filters --%>

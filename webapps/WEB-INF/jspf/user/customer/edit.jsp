@@ -48,7 +48,7 @@
 		</c:url>
 
 		<button class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${url}'))">OK</button>
-		<button class="btn-white" onclick="$$.ajax.loadContent('${url}')">${l.l('Отмена')}</button>
+		<button class="btn-white" onclick="$$.ajax.loadContent('${url}')">${l.l('Cancel')}</button>
 	</div>
 </html:form>
 

@@ -24,6 +24,6 @@
 	<div class="pt1">
 		<c:set var="returnCommand">$$.ajax.loadContent('/open/process.do?action=show&id=${form.param.processId}', this)</c:set>
 		<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => ${returnCommand})">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="${returnCommand}">${l.l('Отмена')}</button>
+		<button type="button" class="btn-grey ml1" onclick="${returnCommand}">${l.l('Cancel')}</button>
 	</div>
 </html:form>

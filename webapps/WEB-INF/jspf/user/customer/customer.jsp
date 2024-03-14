@@ -122,7 +122,7 @@
 										$$.shell.removeCommandDiv('customer-'.concat(this.form.mergingCustomerId.value));
 										$$.ajax.loadContent('${form.requestUrl}', this);
 									})">OK</button>
-								<button type="button" class="btn-white ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">${l.l('Отмена')}</button>
+								<button type="button" class="btn-white ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">${l.l('Cancel')}</button>
 							</form>
 						</div>
 					</div>

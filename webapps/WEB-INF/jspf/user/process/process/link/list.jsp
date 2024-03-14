@@ -151,7 +151,7 @@
 
 		<div class="mt1">
 			<button class="btn-grey mr1" type="button" onclick="$$.process.link.add('${uiid}', '${form.requestUrl}')">OK</button>
-			<button class="btn-white mr1" type="button" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid}addButton').show();">${l.l('Отмена')}</button>
+			<button class="btn-white mr1" type="button" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid}addButton').show();">${l.l('Cancel')}</button>
 		</div>
 	</div>
 </div>

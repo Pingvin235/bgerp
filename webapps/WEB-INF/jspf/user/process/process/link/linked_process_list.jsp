@@ -36,7 +36,7 @@
 
 			<div class="mt1">
 				<button type="button" class="btn-grey mr1" onclick="${saveCommand}">OK</button>
-				<button type="button" class="btn-grey" onclick="${returnToShow}">${l.l('Отмена')}</button>
+				<button type="button" class="btn-grey" onclick="${returnToShow}">${l.l('Cancel')}</button>
 			</div>
 		</div>
 	</form>

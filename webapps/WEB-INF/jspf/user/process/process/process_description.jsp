@@ -51,7 +51,7 @@
 			<textarea name="description" class="mb1" rows="15" style="width: 100%; resize: vertical;">${process.description}</textarea>
 
 			<button class="btn-grey" type="button" onClick="${command}">OK</button>
-			<button class="btn-white ml1" type="button" onClick="$('#${uiid} #editorChange').hide(); $('#${uiid} #show').show(); return false;">${l.l('Отмена')}</button>
+			<button class="btn-white ml1" type="button" onClick="$('#${uiid} #editorChange').hide(); $('#${uiid} #show').show(); return false;">${l.l('Cancel')}</button>
 		</html:form>
 
 		<html:form action="/user/process" styleId="editorAdd" style="display: none;" styleClass="editorStopReload">
@@ -61,7 +61,7 @@
 			<input type="text" name="description" class="mb1 mt1" style="width: 100%;" onkeypress="if( enterPressed( event )){ ${command} }"/>
 
 			<button class="btn-grey" type="button" onClick="${command}">OK</button>
-			<button class="btn-white ml1" type="button" onClick="$('#${uiid} #editorAdd').hide(); $('#${uiid} #show').show(); return false;">${l.l('Отмена')}</button>
+			<button class="btn-white ml1" type="button" onClick="$('#${uiid} #editorAdd').hide(); $('#${uiid} #show').show(); return false;">${l.l('Cancel')}</button>
 		</html:form>
 	</div>
 </u:sc>

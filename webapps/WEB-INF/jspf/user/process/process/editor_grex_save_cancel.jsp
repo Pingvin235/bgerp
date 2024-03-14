@@ -6,5 +6,5 @@
 
 <div class="mt1">
 	<button class="btn-grey" type="button" onclick="${saveCommand}">OK</button>
-	<button class="btn-white ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
+	<button class="btn-white ml1" type="button" onclick="${closeEditor}">${l.l('Cancel')}</button>
 </div>
