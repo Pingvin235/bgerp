@@ -13,7 +13,7 @@ The plugin provides the following functionality:
 
 Using the plugin implemented the BGERP Development Support System, allowing us to drive our product further.
 
-image::_res/subscription-en.svg[width="800px"]
+image::_res/subscription-en.svg[width="800"]
 
 NOTE: You can see the plugin enabled and sample configurations in <<../../../kernel/install.adoc#demo, Demo System>>.
 
@@ -154,7 +154,7 @@ Where:
 [[usage-product]]
 === Product
 
-image::_res/process_product.png[width="800px"]
+image::_res/process_product.png[width="800"]
 
 *Product Owner* is a user, becoming <<#usage-report, profit>> from subscriptions, using his product, has to be assigned as an process <<../../../kernel/process/index.adoc#usage-card-executor, executor>> with *role=1*.
 
@@ -162,7 +162,7 @@ image::_res/process_product.png[width="800px"]
 === Subscription
 Each customer subscription is presented as a process with <<../../../kernel/process/index.adoc#usage-related-process, related>> Product processes with type *Depend*.
 
-image::_res/subscription_process.png[width="800px"]
+image::_res/subscription_process.png[width="800"]
 
 An *Consultant* is a user, taking responsibility for the process and becoming <<#usage-report, profit>> in size of Service Cost parameter value.
 The Consultant has to be assigned as a process <<../../../kernel/process/index.adoc#usage-card-executor, executor>> with *role=0*.
@@ -171,13 +171,13 @@ The Consultant has to be assigned as a process <<../../../kernel/process/index.a
 
 After sending an invoice and paying that, *Date To* parameter has to be changed, that update *License File*.
 
-image::_res/subscription_process_license_send.png[width="800px"]
+image::_res/subscription_process_license_send.png[width="800"]
 
 [[usage-report]]
 === Subscription Payments Report
 The plugin provides *Subscription Payments* <<../../report/index.adoc#, Report>>, which shows how much money owns a report generating user to plugin owners.
 
-image::_res/payment_report.png[width="800px"]
+image::_res/payment_report.png[width="800"]
 
 User received amounts for a month are taken from paid invoices with payment date in the month, marked as paid by the current user.
 Using the report each payment receiver can determinate parts of Consultants and Owners.
@@ -186,4 +186,4 @@ Using the report each payment receiver can determinate parts of Consultants and 
 === Price Calculator
 In open process queue customers can choose interesting subscription, products and limit and get subscription month price.
 
-image::_res/price_calculator.png[width="800px"]
+image::_res/price_calculator.png[width="800"]

@@ -1,0 +1,6 @@
+PatternFormatter
+LevenshteinDistance
+    to org.bgerp.util.text
+NodeListElementIterator
+XMLUtils
+    to org.bgerp.util.xml

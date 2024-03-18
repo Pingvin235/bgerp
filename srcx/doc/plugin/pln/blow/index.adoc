@@ -86,22 +86,22 @@ Note that all classical planning entities like tasks, projects, sub-projects are
 *parent* - *child* processes with only *two levels* of depth. On the screen below you can see two such process groups:
 *56* parent with *57* and *58* children and *53* - *55* - *54*.
 
-image::_res/board.png[width="800px"]
+image::_res/board.png[width="800"]
 
 Moving mouse over highlights the process group under cursor.
 Using mouse drag-and-drop child processes can be moved to other groups.
 On the screens below the *58* child process is being moved to *53* parent.
 
-image::_res/move_58.png[width="800px"]
+image::_res/move_58.png[width="800"]
 
 After that the planning board has the following view.
 
-image::_res/move_58_after.png[width="800px"]
+image::_res/move_58_after.png[width="800"]
 
 The same action can be performed used right-click popup menu with
 items *Cut* and *Paste* there. That way is especially good for large boards.
 
-image::_res/move_58_cut.png[width="800px"]
+image::_res/move_58_cut.png[width="800"]
 
 Another possible operation after *Cut* would be *Merge*, allowing to concatenate all messages from a cut process to the target one.
 It can be used for joining processes with same functionality, going to be done at once.
@@ -136,27 +136,27 @@ Unlike in other planning tools process is not the smallest unit of work that can
 You shouldn't create a new process for any wish or remark. Instead you may collect them in process messages.
 Number of them is shown for the Demo board configuration, like *4* on the screen.
 
-image::_res/messages_board_cnt.png[width="800px"]
+image::_res/messages_board_cnt.png[width="800"]
 
 And here how do they look inside the process. As you can see, all *Blow UI* related thoughts just written down.
 
-image::_res/messages_process.png[width="800px"]
+image::_res/messages_process.png[width="800"]
 
 At the board have to be placed only processes which already described to be done at the observable time.
 So, whenever the time is there, any message can be separated to a new process using *...* menu, like shown on the screen.
 
-image::_res/message_to_made_copy.png[width="800px"]
+image::_res/message_to_made_copy.png[width="800"]
 
 After changing of description the newly created process.
 
-image::_res/message_to_made_copy_description.png[width="800px"]
+image::_res/message_to_made_copy_description.png[width="800"]
 
 It is available on our board.
 
-image::_res/message_to_made_copy_new.png[width="800px"]
+image::_res/message_to_made_copy_new.png[width="800"]
 
 Using *Search* tool on the top of the board existing messages can be quickly checked on already written remarks.
 The messages are found by simple substring match, in resulting drop-down are shown processes with count of matching messages in square braces.
 
-image::_res/messages_search.png[width="800px"]
+image::_res/messages_search.png[width="800"]
 

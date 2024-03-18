@@ -9,15 +9,15 @@ Changed configuration format. Keys starting from: 'message.related.process' are 
 === Parameter type <<../../kernel/setup.adoc#param-phone, phone>>
 Improved editor. Flexible quantity of numbers, easy add and delete items, paste from clipboard.
 
-image::_res/15038_phone_editor_after.png[width="800px"]
+image::_res/15038_phone_editor_after.png[width="800"]
 
 Before.
 
-image::_res/15038_phone_editor_before.png[width="800px"]
+image::_res/15038_phone_editor_before.png[width="800"]
 
 Not more needed configuration block.
 
-image::_res/15038_not_needed_more_config.png[width="800px"]
+image::_res/15038_not_needed_more_config.png[width="800"]
 
 IMPORTANT: Define the new number format <<../../kernel/setup.adoc#config-param-phone, configuration>>.
 
@@ -48,7 +48,7 @@ image::_res/15058_pre_stable_mark.png[]
 === Parameter type <<../../kernel/setup.adoc#param-treecount, treecount>>
 A new parameter type, storing hierarchical organized item with decimal amounts.
 
-image::_res/15052_treecount_editor.png[width="800px"]
+image::_res/15052_treecount_editor.png[width="800"]
 
 image::_res/15052_treecount_table.png[]
 
@@ -78,7 +78,7 @@ image:_res/15039_set_list_param.png[]
 
 Same set of *OK*, *Cancel*, *Save* and *Restore* used for all editors with large text configuration.
 
-image::_res/14797_unified_buttons.png[width="800px"]
+image::_res/14797_unified_buttons.png[width="800"]
 
 Not UI related enhancements:
 [square]
@@ -96,7 +96,7 @@ Retrieving phone parameter for billing versions since 9.2401.
 === Demo <<../../project/index.adoc#mvc-iface-demo, Zones>>
 Significantly extended demo areas with interface guidelines.
 
-image::_res/15028_demo_zones.png[width="800px"]
+image::_res/15028_demo_zones.png[width="800"]
 
 Tag *<ui:combo-perm-tree-check>*
 

@@ -249,7 +249,7 @@ Object *email* of class javadoc:org.bgerp.plugin.msg.email.ExpressionObject[] wi
 === Messaging in process
 On the screen below is seen E-Mail editor in process <<../../../kernel/message/index.adoc#usage-process, Messages>> tab.
 
-image::_res/process_message_editor.png[width="800px"]
+image::_res/process_message_editor.png[width="800"]
 
 [[usage-process-search-recipient]]
 ==== Search recipients

@@ -174,7 +174,7 @@ public class License {
         if (!isCheckEnabled() || Utils.notBlankString(error) || limit == 0)
             return true;
 
-        return LoginStat.getLoginStat().getLoggedUserList().size() < limit;
+        return LoginStat.instance().loggedUsers().size() < limit;
     }
 
     /**

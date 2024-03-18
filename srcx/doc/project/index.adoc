@@ -840,7 +840,7 @@ link:../../../webapps/WEB-INF/jspf/user/message/process_message_list.jsp#L210-L2
 [[jsp-tags-top-line]]
 ====== shell:title and shell:state
 Set the left area and the right areas of <<../kernel/interface.adoc#user-top-line, top line>> in user interface.
-<<l10n, Localization>> is supported using *ltext* attribute. Tag shell:state may create a documentation help link.
+Tag shell:state may create a documentation help link.
 [snippet, from="<shell:t", to=">"]
 link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L38-L39[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
@@ -983,7 +983,7 @@ Log message with substitutions:
 link:../../../src/org/bgerp/Server.java#L135-L135[org.bgerp.Server]
 
 Exception message output:
-[snippet, from="try", to="}", remove-leading="                "]
+[snippet, from="try", to="}", remove-leading="            "]
 link:../../../src/org/bgerp/exec/MessageExchange.java#L46-L50[org.bgerp.exec.MessageExchange]
 
 [[logging-js]]

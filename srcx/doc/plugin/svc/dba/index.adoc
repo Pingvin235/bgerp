@@ -24,7 +24,7 @@ dba:enable=1
 === Database Cleanup
 Database overview tool is available in menu *Administration / DBA / Database*.
 
-image::_res/database.png[width="800px"]
+image::_res/database.png[width="800"]
 
 Underscore prefixed temporary tables same as old monthly tables may be selected and dropped with button under the table.
 
@@ -40,6 +40,6 @@ Amount of rows going to be removed are shown in right column.
 === SQL Query
 Is available in menu *Administration / DBA / SQL Query*
 
-image::_res/sql_query.png[width="800px"]
+image::_res/sql_query.png[width="800"]
 
 Provides simple querying. Also queries history is being maintained.

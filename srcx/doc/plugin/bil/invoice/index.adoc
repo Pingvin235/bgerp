@@ -25,7 +25,7 @@ invoice:processShowInvoices=1
 
 In the type configuration should be also defined two parameters, use their IDs in *<paramCostId>* and *<paramContractDateId>*
 
-image::_res/type_properties.png[width="800px"]
+image::_res/type_properties.png[width="800"]
 
 Detailed explanation of configuration properties is given below.
 
@@ -68,7 +68,7 @@ invoice:type.<id>.customer=<customerId>
 * *<templatePath>* - alternatively to template name, may be defined a direct path to a JSP template, must be placed in <<../../../kernel/extension.adoc#custom, custom>> area, for example: */WEB-INF/jspf/user/plugin/invoice/doc/my_my.jsp*;
 * *<customerId>* - customer ID, which parameters are used for generation of printing forms.
 
-image::_res/customer_ru.png[width="800px"]
+image::_res/customer_ru.png[width="800"]
 
 [[setup-type-numeration]]
 ==== Numeration
@@ -109,16 +109,16 @@ invoice:type.<id>.provider.{@cnt}.expression=<jexlExpression>
 == Usage
 On the screen below is shown process card with activated plugin. Invoices are shown in reverse order, the last one is placed on the top of the table.
 
-image::_res/process_invoice_table.png[width="800px"]
+image::_res/process_invoice_table.png[width="800"]
 
 Clicking on the invoice's number opens generated HTML printing form.
 
-image::_res/process_invoice_form.png[width="800px"]
+image::_res/process_invoice_form.png[width="800"]
 
 To generate a new invoice, press *Add* button, select invoice type and required month's range.
 They are will be suggested automatically based ont the last process' invoice.
 
-image::_res/process_invoice_create_1.png[width="800px"]
+image::_res/process_invoice_create_1.png[width="800"]
 
 On the next step are shown and can be edited invoice positions.
 
@@ -126,17 +126,17 @@ image::_res/process_invoice_create_2.png[]
 
 After correction of generated positions list and create. In existing invoices the position list may be edited after creation using popup menu.
 
-image::_res/process_invoice_popup_menu.png[width="800px"]
+image::_res/process_invoice_popup_menu.png[width="800"]
 
 The menu provides also items to mark invoices paid / unpaid or delete them.
 
 HTML printing forms of invoices are offered to be attached to messages.
 
-image::_res/process_invoice_attachment.png[width="800px"]
+image::_res/process_invoice_attachment.png[width="800"]
 
 [[usage-report]]
 === Invoice Register Report
 
 The report allows to mark paid invoices and observe already paid for a used in a chosen month.
 
-image::_res/report.png[width="800px"]
+image::_res/report.png[width="800"]

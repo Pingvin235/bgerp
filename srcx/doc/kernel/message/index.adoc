@@ -313,7 +313,7 @@ NOTE: Уведомление о количестве необработанны�
 Сообщение считается обработанным после того, как к нему привязан процесс. Помимо этого сообщение можно удалить.
 В выпадающем списке можно выбрать фильтр по типу сообщений. В квадратных скобках рядом с типом отображается число необработанных сообщений каждого типа.
 
-image::_res/messages.png[width="800px"]
+image::_res/messages.png[width="800"]
 
 При клике по строке открывается обработка сообщения, внешний вид может быть следующим для звонка (снимок уже использовался выше).
 
@@ -321,12 +321,12 @@ image::_res/message_process.png[]
 
 Либо для E-Mail.
 
-image::_res/message_process_email.png[width="800px"]
+image::_res/message_process_email.png[width="800"]
 
 [[usage-queue-possible-process]]
 In the left bottom area during message processing are shown <<setup-possible-process, possible processes>>, that can be assinged for the message using *set* links.
 
-image::_res/message_process_possible_process.png[width="800px"]
+image::_res/message_process_possible_process.png[width="800"]
 
 [[usage-process]]
 === Работа в процессе

@@ -3,10 +3,8 @@ package org.bgerp.app.servlet.user;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,10 +30,9 @@ public class LoginStat {
 
     private static LoginStat instance;
 
-    public static LoginStat getLoginStat() {
-        if (instance == null) {
+    public static LoginStat instance() {
+        if (instance == null)
             instance = new LoginStat();
-        }
 
         return instance;
     }
@@ -77,10 +74,10 @@ public class LoginStat {
     public void userLoggedIn(HttpSession session, User user, String ip) {
         synchronized (sessionMap) {
             if (session != null && user != null) {
-                UserSession userSession = new UserSession(user, ip);
+                UserSession userSession = new UserSession(session, user, ip);
 
                 sessionMap.put(session.getId(), userSession);
-                loggedUserIds = updateUserLoggedList();
+                updateUserLoggedList();
 
                 try {
                     EventProcessor.processEvent(new UserSessionCreatedEvent(userSession), null);
@@ -101,7 +98,7 @@ public class LoginStat {
         synchronized (sessionMap) {
             if (sessionMap != null && session != null) {
                 UserSession userSession = sessionMap.remove(session.getId());
-                loggedUserIds = updateUserLoggedList();
+                updateUserLoggedList();
 
                 if (userSession != null) {
                     try {
@@ -115,14 +112,8 @@ public class LoginStat {
         }
     }
 
-    private List<Integer> updateUserLoggedList() {
-        Set<Integer> result = new LinkedHashSet<>();
-
-        for (UserSession data : sessionMap.values()) {
-            result.add(data.user.getId());
-        }
-
-        return new ArrayList<Integer>(result);
+    private void updateUserLoggedList() {
+        loggedUserIds = sessionMap.values().stream().map(session -> session.getUser().getId()).toList();
     }
 
     /**
@@ -131,9 +122,8 @@ public class LoginStat {
      */
     public void actionWasCalled(HttpSession session) {
         UserSession data = sessionMap.get(session.getId());
-        if (data != null) {
+        if (data != null)
             data.lastActive = System.currentTimeMillis();
-        }
     }
 
     /**
@@ -154,23 +144,24 @@ public class LoginStat {
     }
 
     /**
-     * Logged users ordered by first session login time.
-     * @return
+     * @return logged in users ordered by first session login time.
      */
-    public List<User> getLoggedUserList() {
+    public List<User> loggedUsers() {
         return Utils.getObjectList(UserCache.getUserMap(), loggedUserIds);
     }
 
-    public LinkedHashMap<User, List<UserSession>> getLoggedUserWithSessions() {
-        LinkedHashMap<User, List<UserSession>> result = new LinkedHashMap<User, List<UserSession>>();
+    /**
+     * @return logged in users with their sessions.
+     */
+    public LinkedHashMap<User, List<UserSession>> loggedUsersWithSessions() {
+        LinkedHashMap<User, List<UserSession>> result = new LinkedHashMap<>();
 
         for (UserSession data : sessionMap.values()) {
             User user = data.user;
 
             List<UserSession> userSessions = result.get(user);
-            if (userSessions == null) {
-                result.put(user, userSessions = new ArrayList<UserSession>());
-            }
+            if (userSessions == null)
+                result.put(user, userSessions = new ArrayList<>());
 
             userSessions.add(data);
         }

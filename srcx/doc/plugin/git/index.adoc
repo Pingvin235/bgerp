@@ -52,7 +52,7 @@ git:processShowGit=1
 == Usage
 On the screen below is shown process card with activated plugin.
 
-image::_res/process.png[width="800px"]
+image::_res/process.png[width="800"]
 
 When entering GIT branch it will be prefixed by generated prefix.
 *GIT* tab shows generated commands for handling task's workflow.

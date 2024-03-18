@@ -51,11 +51,11 @@ show.tab.links.process=1
 
 Очередь "Должник":
 
-image::_res/ktv_debt/i0154.png[width="600px"]
+image::_res/ktv_debt/i0154.png[width="600"]
 
 Очередь "Отключение должника":
 
-image::_res/ktv_debt/i0155.png[width="600px"]
+image::_res/ktv_debt/i0155.png[width="600"]
 
 Конфигурация очереди "Должник".
 [source]
@@ -202,11 +202,11 @@ processContracts( getContracts( conBilling, null, 26, new BigDecimal( -720 ) ), 
 
 Очередь "Должник"
 
-image::_res/ktv_debt/i0156.png[width="600px"]
+image::_res/ktv_debt/i0156.png[width="600"]
 
 Процес "Должник"
 
-image::_res/ktv_debt/i0157.png[width="600px"]
+image::_res/ktv_debt/i0157.png[width="600"]
 
 Процессы "Должник" обрабатываются диспетчерами. Статус "Принят" означает занятие процесса на обработку. "Ожидание оплаты" - процесс откладывается и после указанной даты переводится в "Открыт". "Отключение" - создаётся связанный процесс "Отключение должника", куда копируется описание.
 
@@ -214,14 +214,14 @@ image::_res/ktv_debt/i0157.png[width="600px"]
 
 Очередь "Отключение должников"
 
-image::_res/ktv_debt/i0158.png[width="600px"]
+image::_res/ktv_debt/i0158.png[width="600"]
 
 Доп действия в очереди
 
-image::_res/ktv_debt/i0159.png[width="600px"]
+image::_res/ktv_debt/i0159.png[width="600"]
 
 Вид бланка
 
-image::_res/ktv_debt/i0160.png[width="600px"]
+image::_res/ktv_debt/i0160.png[width="600"]
 
 ФИО и сумма долга для бланка извлекаются из автоматически сгенерированного опаисания процесса. При необходимости в описание процесса возможно добавление примечаний после символа разделителя "----------".

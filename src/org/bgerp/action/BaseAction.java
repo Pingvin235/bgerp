@@ -181,7 +181,7 @@ public class BaseAction extends DispatchAction {
             }
 
             if (!(this instanceof PoolAction) && !(this instanceof LoginAction)) {
-                LoginStat.getLoginStat().actionWasCalled(request.getSession());
+                LoginStat.instance().actionWasCalled(request.getSession());
             }
         } catch (BGMessageException ex) {
             error = ((BGMessageException) ex).getMessage(l);

@@ -6,7 +6,7 @@
 The plugin allows to visualize Service Level Agreements as time left before a process is closed or updated.
 Expiring times are presented as reverse minutes counters with colored background.
 
-image::_res/process_queue.png[width="800px"]
+image::_res/process_queue.png[width="800"]
 
 NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
 
@@ -73,4 +73,4 @@ the second of that is moved on every change of process properties (status, descr
 
 Background color visualization in process queue allows to detect quickly the most "burning" cases.
 
-image::_res/process_queue.png[width="800px"]
+image::_res/process_queue.png[width="800"]

@@ -35,7 +35,7 @@ mobile:serverId=<ваш ключ>
 
 Your server may be visible in servers list or added as hidden and available only by ID.
 
-image::_res/mobile_login.png[width="300px"]
+image::_res/mobile_login.png[width="300"]
 
 Для авторизации может быть использован логин и пароль любого пользователя.
 
@@ -65,14 +65,14 @@ END
 
 [[usage]]
 == Usage
-image::_res/mobile_screen.png[width="300px"]
+image::_res/mobile_screen.png[width="300"]
 
 Счётчики процессов, выводимые в статусе и их цвета идентичны определённым для отображения на панели задач BGERP.
 
 <<setup-process-type, Сообщение>> приходят как PUSH уведомления и доступны к просмотру после в мобильном приложении.
 
-image::_res/mobile_message.png[width="300px"]
+image::_res/mobile_message.png[width="300"]
 
 Так же есть возможность отображать мобильную очередь процессов.
 
-image::_res/mobile_process.png[width="300px"]
+image::_res/mobile_process.png[width="300"]

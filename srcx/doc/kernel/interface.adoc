@@ -15,7 +15,7 @@ For calling of the running system use URL: http://<host>:<port> where:
 
 On the opened page may be chosen <<user, user>> or <<mobile, mobile>> interfaces.
 
-image::_res/iface_login.png[width="600px"]
+image::_res/iface_login.png[width="600"]
 
 Configuration process has to be started from *user* interface.
 After creation database has only one superuser *admin* with password *admin*.
@@ -363,7 +363,7 @@ END
 == Dynamic Log
 This tool may is available in *Log* menu and allows collecting session logs, which may be requested by developers.
 
-image::_res/log_dyn.png[width="800px"]
+image::_res/log_dyn.png[width="800"]
 
 Once enabled the tool is collecting logs starting from *DEBUG* level for the current user session only,
 that allows easier observe possible problems.

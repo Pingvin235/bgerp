@@ -270,7 +270,7 @@ but you can register additional ones to speed up process.
 The list of runners is available here: https://git.bgerp.org/admin/runners
 There also can be taken registration *token*.
 
-image::_res/gitlab_runner_token.png[width="800px"]
+image::_res/gitlab_runner_token.png[width="800"]
 
 A runner can be also added are here: https://git.bgerp.org/bgerp/bgerp/-/settings/ci_cd under *Runners* section.
 

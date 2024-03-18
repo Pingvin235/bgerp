@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.dist.Maintenance;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.user.LoginStat;
@@ -62,9 +63,18 @@ public class AuthFilter implements Filter {
         final Localizer l = Localization.getLocalizer();
 
         User user = authUser(request, response);
-        if (user != null && !user.isAdmin() && !AppLicense.instance().checkSessionLimit()) {
-            forwardError(request, response, l.l("License limit error"));
-            return;
+        // auth data sent
+        if (user != null) {
+            if (!user.isAdmin() && !AppLicense.instance().checkSessionLimit()) {
+                forwardError(request, response, l.l("License limit reached"));
+                return;
+            }
+
+            Maintenance maintenance = Maintenance.instance();
+            if (maintenance != null && maintenance.getUser().getId() != user.getId()) {
+                forwardError(request, response, l.l("Maintenance is running"));
+                return;
+            }
         }
 
         user = userInSession(request, user);
@@ -101,7 +111,7 @@ public class AuthFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         } else {
-            forwardError(request, response, l.l("Ошибка авторизации"));
+            forwardError(request, response, l.l("Login failed"));
         }
     }
 
@@ -162,7 +172,7 @@ public class AuthFilter implements Filter {
                 HttpSession session = request.getSession();
                 session.setAttribute(REQUEST_ATTRIBUTE_USER_ID_NAME, user.getId());
 
-                LoginStat.getLoginStat().userLoggedIn(session, user, DynActionForm.getHttpRequestRemoteAddr(request));
+                LoginStat.instance().userLoggedIn(session, user, DynActionForm.getHttpRequestRemoteAddr(request));
             }
         } else {
             HttpSession session = request.getSession(false);

@@ -105,7 +105,6 @@
 	<p><ru>Очереди процессов</ru><en>Process Queues</en></p>
 	<p><en>Configuration</en><ru>Конфигурация</ru></p>
 	<p><en>App Status</en><ru>Статус приложения</ru></p>
-	<p><ru>Авторизовавшиеся пользователи</ru><en>Authenticated Users</en></p>
 	<p><ru>Приложение</ru><en>App</en></p>
 	<p><ru>Администрирование</ru><en>Administration</en></p>
 	<p><ru>Логирование</ru><en>Logging</en></p>
@@ -443,7 +442,7 @@
 	<p><ru>Этаж</ru><en>Floor</en></p>
 	<p><ru>&lt;ЗНАЧЕНИЕ ЗАШИФРОВАНО&gt;</ru><en>&lt;VALUE ENCRYPTED&gt;</en></p>
 	<p><ru>создано: </ru><en>created: </en></p>
-	<p><ru>Ошибка авторизации</ru><en>Authorization error</en></p>
+	<p><en>Login failed</en><ru>Ошибка входа</ru></p>
 	<p><ru>Внешние</ru><en>External</en></p>
 	<p><ru>Внешний</ru><en>External</en></p>
 	<p><ru>Занять</ru><en>Occupy</en></p>
@@ -574,7 +573,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>of news</en><ru>новости</ru></p>
 	<p><en>[you]</en><ru>[Вы]</ru></p>
 	<p><en>Date To is not defined or expired</en><ru>Дата окончания не определена или истекла</ru></p>
-	<p><en>License limit error</en><ru>Ошибка лимита лицензии</ru></p>
+	<p><en>License limit reached</en><ru>Достигнут лимит лицензии</ru></p>
 	<p><en>License Will Expire Soon</en><ru>Лицензия вскоре истекает</ru></p>
 	<p><en>Your license will expire at {}</en><ru>Ваша лицензия истечёт {}</ru></p>
 	<p><en>Undefined</en><ru>Нет значения</ru></p>
@@ -648,6 +647,25 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>statuses.initial</sys><en>Initial</en><ru>Начальные</ru></p>
 	<p><sys>statuses.allowed</sys><en>Allowed</en><ru>Разрешённые</ru></p>
 	<p><en>Pre-Stable</en><ru>Пред-стабильный</ru></p>
+	<p><en>Author</en><ru>Автор</ru></p>
+	<p><en>Maintenance</en><ru>Обслуживание</ru></p>
+	<p><en>Delay in minutes before user's logoff</en><ru>Задержка в минутах до вывода пользователей</ru></p>
+	<p><en>Logged in users</en><ru>Вошедшие пользователи</ru></p>
+	<p><en>Maintenance start?</en><ru>Начать обслуживание?</ru></p>
+	<p><en>Start</en><ru>Начать</ru></p>
+	<p><en>Maintenance cancel?</en><ru>Отменить обслуживание?</ru></p>
+	<p><en>Maintenance is running</en><ru>Идёт обслуживание</ru></p>
+	<p>
+		<sys>maintenance.message.default</sys>
+		<en>Dear Users, we are going to maintain the system. To avoid data loss logging in is blocked for all users except (${user}) until the system's new start. All the users, already logged in, will be logged out since (${time}).</en>
+		<ru>Уважаемые пользователи, мы собираемся обслуживать систему. Для избежания потери данных вход заблокирован для всех пользователей, исключая (${user}), до момента нового старта. Все уже вошедшие пользователи будут выведены начиная с (${time}).</ru>
+	</p>
+	<p><en>Maintenance cancel</en><ru>Отмена обслуживания</ru></p>
+	<p>
+		<sys>maintenance.cancel</sys>
+		<en>The maintenance started at {} was cancelled. Work in the system can go further.</en>
+		<ru>Обслуживание, начатое в {}, было отменено. Работа в системе может быть продолжена.</ru>
+	</p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

@@ -316,32 +316,31 @@ crontab -e
 [[update]]
 == Update
 [[update-version]]
-=== Version
+=== Versioning
 Система версионирования продукта описана на нашем link:https://bgerp.org/product/#cd[веб-сайте].
 Следуя данному руководству, вы установите его актуальный *Stable Release*.
 При последующей эксплуатации рекомендуется обновляться только при выпуске очередного подобного релиза, о чём приложение информирует уведомлением в интерфейсе.
+Однако в момент первоначального запуска системы предпочтительно использовать *Pre-Stable Release* для получения наиболее свежей функциональности.
 
 IMPORTANT: Prior to updating, make sure to examine link:https://bgerp.org/ru/#install[Release Notes], as these may contain important information or update instructions.
 
-Однако в момент первоначального запуска системы предпочтительно использовать *Pre-Stable Release* для получения наиболее свежей функциональности.
-
 [[update-installer-ui]]
 === Interface
-You can use <<setup.adoc#status, Admin / Application / Status>> tool to retrieve application's current version and the list of release notes.
+You can use <<setup.adoc#status, Admin / Application / Status>> tool to retrieve application's current version and the list of available releases.
 All operations are implicitly using <<update-installer, console utility>> described below.
 
-image::_res/install_app_status.png[width="600"]
+image::_res/install/app_status_update.png[width="600"]
 
-*Update* section - triggers update to the latest application version. that includes all required libraries.
+*Update* section - triggers update to the latest Stable Release if its number differs from the currently installed. The *Force* mode disable the check, update will be performed anyway.
 The following <<update-installer, command>> is executed:
 ----
 ./backup.sh && ./installer.sh update(f) && ./erp_restart.sh
 ----
 
-*Update on change* section - uploads a <<../project/workflow.adoc#build-change, change>> package based on the process code.
+*Update on change* section - updates to a <<../project/workflow.adoc#build-change, Change>> package identified by *CHANGE_ID*.
 The following  <<update-installer, command>> is executed:
 ----
-./backup.sh && ./installer.sh install update_3.0_xxxx.zip && ./erp_restart.sh
+./backup.sh && ./installer.sh installc <CHANGE_ID> && ./erp_restart.sh
 ----
 
 [NOTE]
@@ -401,9 +400,20 @@ This allows to prevent their re-execution. If you need to clear the history, use
 ./installer.sh killhash
 ----
 
+[[maintenance]]
+== Maintenance
+The tool *Admin / Application / Maintainence* allows to prevent data loss of working users during application restarts,
+required for <<update, updates>> and other procedures.
+
+image::_res/install/maintanence.png[width="800"]
+
+When the maintanence mode is started, none of users, except the started one is able to log in the system.
+For all the already logged in users logging in blocked after a some time, used for storing intermediate work results.
+To inform about maintanence beginnging and cancelling popup <<news.adoc#, news>> are sent.
+
 [[demo]]
 == Demo System
-The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<#update-version, Pre-Stable Release>>
+The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<update-version, Pre-Stable Release>>
 of software and resets to initial state every 3rd hour.
 Поскольку в системе приведены примеры всего функционала продукта, она может использоваться для изучения программы с проверкой конфигураций.
 В случае длительных экспериментов для избежания потери сделанных изменений мы рекомендуем вам использовать <<method-docker, Docker Container>>.

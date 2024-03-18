@@ -6,21 +6,21 @@ A plugin with extracted previously kernel functionality *Action Logs*.
 
 IMPORTANT: The new plugin uses completely different DB tables, therefore the logging will start again.
 
-image::../../plugin/svc/log/_res/log.png[width="800px"]
+image::../../plugin/svc/log/_res/log.png[width="800"]
 
 == Plugin <<../../plugin/clb/team/index.adoc#, Team>> (New)
 A plugin with functionality of sharing money after parties.
 
-image::../../plugin/clb/team/_res/party_calc.png[width="800px"]
+image::../../plugin/clb/team/_res/party_calc.png[width="800"]
 
 == Plugin <<../../plugin/svc/dba/index.adoc#, DBA>>
 Show DB status. Cleanup old and inconsistent data.
 
-image::../../plugin/svc/dba/_res/database.png[width="800px"]
+image::../../plugin/svc/dba/_res/database.png[width="800"]
 
 Simple SQL query runner.
 
-image::../../plugin/svc/dba/_res/sql_query.png[width="800px"]
+image::../../plugin/svc/dba/_res/sql_query.png[width="800"]
 
 == Plugin <<../../plugin/msg/email/index.adoc#, E-Mail>>
 Built-in process change <<../../plugin/msg/email/index.adoc#setup-process-type-change-notification, notifications>>.
@@ -30,7 +30,7 @@ Optional mark new process messages read with 'processed.read' property for Messa
 == Access Logs
 Renamed, moved to log/access directory and available via UI in *Administration / App / App Status*.
 
-image::_res/access_logs.png[width="800px"]
+image::_res/access_logs.png[width="800"]
 
 == <<../../kernel/process/index.adoc#usage-card-executor-swap, Swap>> Process Executors
 
@@ -38,12 +38,12 @@ image::../../kernel/process/_res/executor_swap.png[]
 
 == Select / Deselect / Invert Selection / Delete Selected in Messages Queue
 
-image::_res/message_queue.png[width="800px"]
+image::_res/message_queue.png[width="800"]
 
 == Mark Messages (Un)read
 Decoration with bold font, button for marking read, menu item for unread.
 
-image::_res/message_read.png[width="800px"]
+image::_res/message_read.png[width="800"]
 
 == <<../../kernel/setup.adoc#user-correct-permission, Correct Permissions>>
 You may notice such warnings in application logs.

@@ -182,7 +182,7 @@ Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugi
 That code has equal possibilities as the native application's, can use API and connected libraries.
 After compilation *Administration / Custom* this code is persisted to `lib/app/custom.jar`.
 
-image::_res/custom.png[width="800px"]
+image::_res/custom.png[width="800"]
 
 Custom Java classes are dynamically reloaded after each successfull compilation.
 For that all the Custom Java sources must be located in *org.bgerp.plugin.custom* package or its subpackages.

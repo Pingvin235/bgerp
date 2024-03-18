@@ -27,7 +27,7 @@ image::_res/i0095.png[]
 === By ID
 Process can be found by ID.
 
-image::_res/search_process_id.png[width="800px"]
+image::_res/search_process_id.png[width="800"]
 
 [[process-current-user]]
 === The Current User Related
@@ -40,15 +40,15 @@ The current user related processes may be listed:
 Sorting has been done by ascending of creation, closing or status changing time respectively.
 Result examples are presented on the screens below.
 
-image::_res/search_process_created.png[width="800px"]
+image::_res/search_process_created.png[width="800"]
 
-image::_res/search_process_status_changed.png[width="800px"]
+image::_res/search_process_status_changed.png[width="800"]
 
 [[process-param]]
 === Param
 Supported process search by *text* parameter values.
 
-image::_res/search_process_param.png[width="800px"]
+image::_res/search_process_param.png[width="800"]
 
 [[form]]
 == Search Forms

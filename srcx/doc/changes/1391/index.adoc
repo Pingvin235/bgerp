@@ -6,7 +6,7 @@ IMPORTANT: <<../../kernel/install.adoc#update-installer-ui, Install>> the update
 == Dynamic <<../../kernel/extension.adoc#custom-usage, Custom>>
 Custom Java code can be updated and applied on-the-fly without application's restart.
 
-image::../../kernel/_res/custom.png[width="800px"]
+image::../../kernel/_res/custom.png[width="800"]
 
 IMPORTANT: As the Custom code now eliminated the last advantage of Dynamic Code, all the solutions must be moved from it to Custom.
 
@@ -18,12 +18,12 @@ In configuration:
 
 Administration tool, presenting currently configured tasks, latest execution info and warning about not running scheduler.
 
-image::../../kernel/_res/scheduler.png[width="800px"]
+image::../../kernel/_res/scheduler.png[width="800"]
 
 == Notifications
 Outdated application version.
 
-image::_res/14957_update_notification.png[width="800px"]
+image::_res/14957_update_notification.png[width="800"]
 
 License check error with link to the license status.
 
@@ -41,7 +41,7 @@ Execution in parallel threads all of <<../../kernel/message/index.adoc#setup-typ
 
 Confirmation of empty message subject.
 
-image::_res/14951_subject_check.png[width="800px"]
+image::_res/14951_subject_check.png[width="800"]
 
 Check of missing message attachment, mentioned in text.
 
@@ -50,7 +50,7 @@ image::_res/14951_attach_check.png[]
 == Process
 Show crosses out not available link process creation items.
 
-image::_res/14935_process_process_link.png[width="800px"]
+image::_res/14935_process_process_link.png[width="800"]
 
 Process queue <<../../kernel/process/queue.adoc#filters, filter>> for param type 'money'.
 
@@ -70,9 +70,9 @@ image::_res/14941_money_filter.png[]
 == Plugin BGBilling
 Popup menu to close / finish Inet session.
 
-image::_res/14946_bgbilling_reset_inet_session.png[width="800px"]
+image::_res/14946_bgbilling_reset_inet_session.png[width="800"]
 
-image::_res/14946_bgbilling_terminate_inet_session.png[width="800px"]
+image::_res/14946_bgbilling_terminate_inet_session.png[width="800"]
 
 Address search logic as in BGBillingClient.
 
@@ -82,7 +82,7 @@ Restriction of boards' visibility based on allowed process queues.
 == Plugin EMail
 Separated TO and CC recipient fields in message editor, automatically filled on reply.
 
-image::_res/14951_email_replay_all.png[width="800px"]
+image::_res/14951_email_replay_all.png[width="800"]
 
 [square]
 * Do not add 'Re:' prefix to reply message subjects.
@@ -91,21 +91,21 @@ image::_res/14951_email_replay_all.png[width="800px"]
 == Plugin Invoice
 Extra attributes in RU invoices.
 
-image::_res/14948_invoice_ru_ru.png[width="800px"]
+image::_res/14948_invoice_ru_ru.png[width="800"]
 
 EUR invoice <<../../plugin/bil/invoice/index.adoc#setup-config-type, template>>.
 
-image::_res/14949_invoice_eu_en.png[width="800px"]
+image::_res/14949_invoice_eu_en.png[width="800"]
 
 Show invoice payment users.
 
-image::_res/14953_invoice_payment_user.png[width="800px"]
+image::_res/14953_invoice_payment_user.png[width="800"]
 
 <<../../plugin/bil/invoice/index.adoc#usage-report, Invoice Register>> report.
 
-image::_res/14953_report_register.png[width="800px"]
+image::_res/14953_report_register.png[width="800"]
 
 == Plugin Subscription
 <<../../plugin/bil/subscription/index.adoc#usage-report, Subscription Payments>> report.
 
-image::../../plugin/bil/subscription/_res/payment_report.png[width="800px"]
+image::../../plugin/bil/subscription/_res/payment_report.png[width="800"]

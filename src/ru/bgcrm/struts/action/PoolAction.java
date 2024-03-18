@@ -20,7 +20,7 @@ public class PoolAction extends BaseAction {
         EventProcessor.processEvent(new GetPoolTasksEvent(form), con);
 
         HttpSession session = form.getHttpRequest().getSession(false);
-        if (session != null && !LoginStat.getLoginStat().isSessionValid(session))
+        if (session != null && !LoginStat.instance().isSessionValid(session))
             session.invalidate();
 
         return json(con, form);

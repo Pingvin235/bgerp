@@ -4,17 +4,17 @@
 == Plugin <<../../plugin/svc/backup/index.adoc#, Backup>>
 Restore from backups. Cleaning up old backups.
 
-image::../../plugin/svc/backup/_res/backup.png[width="800px"]
+image::../../plugin/svc/backup/_res/backup.png[width="800"]
 
 == Plugin <<../../plugin/svc/dba/index.adoc#, DBA>>
 History of executed queries.
 
-image::../../plugin/svc/dba/_res/sql_query.png[width="800px"]
+image::../../plugin/svc/dba/_res/sql_query.png[width="800"]
 
 == Enhanced Street Search
 Handle in <<../../kernel/setup.adoc#param-address, address parameter editor>> and search streets with same name but in different cities.
 
-image::../../kernel/_res/setup/param/address_editor_1.png[width="800px"]
+image::../../kernel/_res/setup/param/address_editor_1.png[width="800"]
 
 == Process Card Header Layout
 
@@ -38,4 +38,4 @@ image::_res/message_dialog.png[]
 == <<../../kernel/setup.adoc#config-license, License>> Check
 IMPORTANT: Strictly recommended to check your license.
 
-image::../../kernel/_res/license.png[width="800px"]
+image::../../kernel/_res/license.png[width="800"]

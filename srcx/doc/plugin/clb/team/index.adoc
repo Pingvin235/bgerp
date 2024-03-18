@@ -21,4 +21,4 @@ image::_res/party_create.png[]
 
 Enter payments of each party member and get calculation.
 
-image::_res/party_calc.png[width="800px"]
+image::_res/party_calc.png[width="800"]

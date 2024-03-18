@@ -145,7 +145,9 @@
 			<item action="org.bgerp.action.admin.AppAction:restart, ru.bgcrm.struts.action.admin.AppAction:restart" title="Restart"/>
 			<item action="org.bgerp.action.admin.AppAction:update, ru.bgcrm.struts.action.AppAction:update" title="Update"/>
 			<item action="org.bgerp.action.admin.AppAction:updateToChange, ru.bgcrm.struts.action.admin.AppAction:updateToChange" title="Update on Change"/>
-			<item action="org.bgerp.action.admin.AppAction:userLoggedList, ru.bgcrm.struts.action.admin.AppAction:userLoggedList" title="Logged users"/>
+			<item action="org.bgerp.action.admin.AppAction:maintenance, org.bgerp.action.admin.AppAction:userLoggedList, ru.bgcrm.struts.action.admin.AppAction:userLoggedList" title="Maintanence">
+				<item action="org.bgerp.action.admin.AppAction:maintenanceStart, org.bgerp.action.admin.AppAction:maintenanceCancel" title="Start and Cancel"/>
+			</item>
 			<item title="App logs">
 				<item action="org.bgerp.action.admin.AppAction:downloadLogApp" title="Download"/>
 				<item action="org.bgerp.action.admin.AppAction:deleteLogApp" title="Delete"/>

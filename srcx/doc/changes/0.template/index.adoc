@@ -7,7 +7,6 @@
 
 === Strict Config Check of Process Queues
 Some of your queues can disappear with the following error in logs:
-[source]
 ----
 Not found media queue column with ID:
 ----
@@ -17,7 +16,7 @@ This means that in *media.xxx* keys were used not existing column IDs.
 === Categories of Related Processes
 There are old and new version of Related Processes representation.
 
-image::_res/15020_linked_processes_before.png[width="800px"]
+image::_res/15020_linked_processes_before.png[width="800"]
 
 image::_res/15020_linked_processes_new.png[]
 
@@ -49,7 +48,7 @@ The functionality was removed.
 === Search Processes by Parameters
 Filter by 'text' parameter in process search.
 
-image::_res/14747_search_process.png[width="800px"]
+image::_res/14747_search_process.png[width="800"]
 
 === Short Class Names in Configurations
 In different configurations, like for Scheduler, or <<../../kernel//message/index.adoc#setup-type, Message Types>>,
@@ -62,7 +61,7 @@ HelpDesk testing configuration key <<../../plugin/bgbilling/index.adoc#helpdesk,
 
 Time reversed order of invoice table.
 
-image::_res/15006_invoice_list.png[width="800px"]
+image::_res/15006_invoice_list.png[width="800"]
 
 === <<../../plugin/bil/subscription/index.adoc#, Plugin Subscription>>
 
@@ -74,7 +73,7 @@ image::_res/15006_license_mail.png[]
 
 A *new plugin*, providing colored representation of SLA times.
 
-image::_res/14988_sla.png[width="800px"]
+image::_res/14988_sla.png[width="800"]
 
 === <<../../plugin/msg/sms/index.adoc#, Plugin SMS>>
 
@@ -104,11 +103,11 @@ IMPORTANT: Obtain the suitable license and put it in the application' directory.
 == Syntax Highlighting Config Editors
 Introduced for the rest of existing editors.
 
-image::_res/12345_permission_sets.png[width="800px"]
+image::_res/12345_permission_sets.png[width="800"]
 
 == <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
 
-image::../../kernel/_res/user/profile_own_personalization.png[width="800px"]
+image::../../kernel/_res/user/profile_own_personalization.png[width="800"]
 
 == Infrastructure
 [square]
@@ -121,5 +120,5 @@ Configuration for Demo DB.
 == Plugin <<../../plugin/pln/callboard/index.adoc#, Callboard>>
 Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
 
-image::../../plugin/pln/callboard/_res/process_set_time.png[width="800px"]
+image::../../plugin/pln/callboard/_res/process_set_time.png[width="800"]
 ////

@@ -329,7 +329,7 @@ callboard.timeset.daysShow=3
 
 Внешний вид вкладки назначения времени в процессе.
 
-image::_res/process_set_time.png[width="800px"]
+image::_res/process_set_time.png[width="800"]
 
 Назначенное время возможно переопределить.
 

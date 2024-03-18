@@ -22,10 +22,10 @@ feedback:messageTypeEmailId=1
 == Usage
 In open interface for opened processes click *Add* button to send a feedback message.
 
-image::_res/add_button.png[width="800px"]
+image::_res/add_button.png[width="800"]
 
 Enter subject, your E-Mail and message text in the opened editor.
 The message will be saved as an E-Mail and will be available in process Messages tab for processing.
 
-image::_res/add_editor.png[width="800px"]
+image::_res/add_editor.png[width="800"]
 

@@ -83,7 +83,7 @@ sshfs -o allow_other backup@backup.bgerp.org:/home/backup/bgerp.org/opt/bgerp/ba
 == Usage
 Backup tool is available in *Administration / Backup* menu. There is content mode switch available.
 
-image::_res/backup.png[width="800px"]
+image::_res/backup.png[width="800"]
 
 [square]
 * You can use drop-box to create backups with or without DB content.

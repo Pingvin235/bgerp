@@ -19,5 +19,5 @@ log:enable=1
 == Usage
 Log view tool is available in menu *Administration / Action Log*.
 
-image::_res/log.png[width="800px"]
+image::_res/log.png[width="800"]
 

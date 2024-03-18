@@ -45,9 +45,9 @@
 			action="org.bgerp.action.admin.AppAction:status"
 			command="/admin/app.do?action=status"/>
 
-		<ui:menu-item title="${l.l('Авторизовавшиеся пользователи')}" href="admin/app/logged"
-			action="org.bgerp.action.admin.AppAction:userLoggedList"
-			command="/admin/app.do?action=userLoggedList"/>
+		<ui:menu-item title="${l.l('Maintenance')}" href="admin/app/maintenance"
+			action="org.bgerp.action.admin.AppAction:maintenance"
+			command="/admin/app.do?action=maintenance"/>
 	</ui:menu-group>
 
 	<ui:menu-item title="${l.l('License')}" href="admin/license" icon="ti-money"

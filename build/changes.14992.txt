@@ -1,0 +1,1 @@
+A: Maintenance tool. https://bgerp.org/version/3.0/doc/kernel/install.html#maintenance
