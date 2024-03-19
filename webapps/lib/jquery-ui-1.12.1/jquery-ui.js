@@ -17446,7 +17446,7 @@ $.widget( "ui.tabs", {
 				.fail(function (jqXHR, textStatus, errorThrown) {
 					if (textStatus !== 'abort') {
 						const url = ui.tab.find("a").attr("href");
-						ajaxError(url, jqXHR, textStatus, errorThrown);
+						$$.ajax.error(url, jqXHR, textStatus, errorThrown);
 					}
 				});
 		};

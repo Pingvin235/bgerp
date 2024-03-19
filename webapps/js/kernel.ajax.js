@@ -64,7 +64,7 @@ $$.ajax = new function () {
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			requestDone();
 			if (options.failAlert !== false)
-				ajaxError(separated.url, jqXHR, textStatus, errorThrown);
+				error(separated.url, jqXHR, textStatus, errorThrown);
 			def.reject();
 		}).done((data) => {
 			requestDone();
@@ -358,17 +358,16 @@ $$.ajax = new function () {
 	 * @param {*} data param and values
 	 * @param {*} form optional form object, to mark incorrect fields there
 	 */
-	const checkResponse = function (data, form) {
-		var result = false;
+	const checkResponse = (data, form) => {
+		let result = false;
 
 		if (data.status == 'ok') {
 			result = data;
 
 			processClientEvents(data);
 
-			if (data.message) {
-				alert(data.message);
-			}
+			if (data.message)
+				$$.shell.message.show("Message", data.message);
 		} else {
 			const message = data.message;
 
@@ -381,7 +380,7 @@ $$.ajax = new function () {
 				}
 			}
 
-			alert("Error: " + message);
+			$$.shell.message.show("ERROR", message);
 
 			processClientEvents(data);
 		}
@@ -543,11 +542,31 @@ $$.ajax = new function () {
 			processData: false, // tell jQuery not to process the data
 			contentType: false // tell jQuery not to set contentType
 		}).fail(function (jqXHR, textStatus, errorThrown) {
-			ajaxError(url, jqXHR, textStatus, errorThrown);
+			error(url, jqXHR, textStatus, errorThrown);
 		}).done((data) => {
 			checkResponse(data, form);
 		});
 	};
+
+	/**
+	 * Handles AJAX error.
+	 *
+	 * @param {*} url the requested URL.
+	 * @param {*} jqXHR request object.
+	 * @param {*} textStatus unused.
+	 * @param {*} errorThrown unused.
+	 */
+	const error = (url, jqXHR, textStatus, errorThrown) => {
+		if (jqXHR.status == 401) {
+			$$.shell.login.show();
+		} else {
+			let text = "<b>URL</b>: " + url.replaceAll('&', '&amp;');
+			if (jqXHR.responseText)
+				text += "<br/><b>RESPONSE</b>:<br/>" + jqXHR.responseText;
+
+			$$.shell.message.show("HTTP STATUS: " + jqXHR.status, text);
+		}
+	}
 
 	// public functions
 	this.debug = debug;
@@ -555,28 +574,15 @@ $$.ajax = new function () {
 	this.load = load;
 	this.loadDfd = getLoadDfd;
 	this.loadContent = loadContent;
-	this.checkResponse = checkResponse;
+	this.error = error;
 	this.formUrl = formUrl;
 	this.requestParamsToUrl = requestParamsToUrl;
 	this.fileUpload = fileUpload;
 	this.fileSend = fileSend;
-	// deprecated
-	this.separatePostParamsInt = separatePostParams;
+	this.error = error;
 }
 
-// move to $$.ajax after cleaning up all the outside calling functions
-function ajaxError(url, jqXHR, textStatus, errorThrown) {
-	if (jqXHR.status == 401) {
-		$$.shell.login.show();
-	} else {
-		let text = "<b>URL</b>: " + url.replaceAll('&', '&amp;');
-		if (jqXHR.responseText)
-			text += "<br/><b>RESPONSE</b>:<br/>" + jqXHR.responseText;
-
-		$$.shell.message.show("HTTP STATUS: " + jqXHR.status, text);
-	}
-}
-
+// kept, because is used as a snippet in documentation
 function formUrl(forms, excludeParams) {
 	console.warn($$.deprecated);
 
