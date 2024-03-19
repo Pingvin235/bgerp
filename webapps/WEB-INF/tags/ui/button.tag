@@ -16,7 +16,7 @@
 		<button type="button" id="${id}" class="btn-grey ${styleClass}" onclick="${onclick}; return false;">OK</button>
 	</c:when>
 	<c:when test="${type eq 'cancel'}">
-		<button type="button" id="${id}" class="btn-white ${styleClass}" onclick="${onclick}; return false;">${l.l('Отмена')}</button>
+		<button type="button" id="${id}" class="btn-white ${styleClass}" onclick="${onclick}; return false;">${l.l('Cancel')}</button>
 	</c:when>
 	<c:when test="${type eq 'add'}">
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Добавить')}" class="btn-green icon ${styleClass}" onclick="${onclick}; return false;"><i class="ti-plus"></i></button>
