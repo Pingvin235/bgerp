@@ -37,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
 import org.json.JSONObject;
@@ -575,7 +576,7 @@ public class TransferData {
                     .submit(new RequestTaskJsonRpc(request, getUserAccount(dbInfo.getId(), user)));
             return future.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
-            throw new BGMessageException("Время ожидания ответа от биллинга истекло! (" + timeOut + "мс).");
+            throw new BGMessageExceptionTransparent("Время ожидания ответа от биллинга истекло! (" + timeOut + "мс).");
         }
     }
 

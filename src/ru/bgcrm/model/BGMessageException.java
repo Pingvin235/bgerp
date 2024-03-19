@@ -51,7 +51,7 @@ public class BGMessageException extends Exception {
 
     @Override
     public String getLocalizedMessage() {
-        return Log.format(super.getLocalizedMessage(), args);
+        throw new UnsupportedOperationException();
     }
 
     @Override

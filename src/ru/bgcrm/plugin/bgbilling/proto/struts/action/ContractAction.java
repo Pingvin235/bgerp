@@ -17,6 +17,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 
@@ -179,7 +180,7 @@ public class ContractAction extends BaseAction {
         Response resp = form.getResponse();
 
         if (paramType <= 0) {
-            throw new BGMessageException("Параметр не поддерживается для редактирования");
+            throw new BGMessageExceptionTransparent("Параметр не поддерживается для редактирования");
         }
 
         switch (paramType) {
@@ -238,7 +239,7 @@ public class ContractAction extends BaseAction {
 
         Set<Integer> allowedParamIds = Utils.toIntegerSet(form.getPermission().get("parameterIds"));
         if (!allowedParamIds.isEmpty() && !allowedParamIds.contains(paramBillingId))
-            throw new BGMessageException("Параметр с кодом " + paramBillingId + " запрещен для изменения.");
+            throw new BGMessageExceptionTransparent("Параметр с кодом " + paramBillingId + " запрещен для изменения.");
 
         ContractParamDAO paramDAO = new ContractParamDAO(form.getUser(), billingId);
         switch (parameterType) {
@@ -502,7 +503,7 @@ public class ContractAction extends BaseAction {
 
         int paramType = parameter.getParamType();
         if (paramType <= 0) {
-            throw new BGMessageException("Параметр не поддерживается для редактирования");
+            throw new BGMessageExceptionTransparent("Параметр не поддерживается для редактирования");
         }
 
         switch (paramType) {
@@ -961,11 +962,11 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
 
         if (billingId == null) {
-            throw new BGMessageException("Не указан параметр запроса billingId");
+            throw new BGMessageExceptionTransparent("Не указан параметр запроса billingId");
         }
 
         if (billingId.length() == 0) {
-            throw new BGMessageException("Не указано значение параметра запроса billingId");
+            throw new BGMessageExceptionTransparent("Не указано значение параметра запроса billingId");
         }
 
         form.getResponse().setData("openContract", ContractDAO.getInstance(form.getUser(), billingId).openContract());
@@ -977,17 +978,17 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
 
         if (billingId == null) {
-            throw new BGMessageException("Не указан параметр запроса billingId");
+            throw new BGMessageExceptionTransparent("Не указан параметр запроса billingId");
         }
 
         if (billingId.length() == 0) {
-            throw new BGMessageException("Не указано значение параметра запроса billingId");
+            throw new BGMessageExceptionTransparent("Не указано значение параметра запроса billingId");
         }
 
         int cityId = form.getParamInt("cityId");
 
         if (cityId == 0) {
-            throw new BGMessageException("Не указано значение параметра запроса cityId");
+            throw new BGMessageExceptionTransparent("Не указано значение параметра запроса cityId");
         }
 
         form.getResponse().setData("streets", ContractDAO.getInstance(form.getUser(), billingId).getStreetsByCity(cityId));
@@ -1006,7 +1007,7 @@ public class ContractAction extends BaseAction {
         int type = form.getParamInt("paramType");
         String billingId = form.getParam("billingId");
         if (billingId == null) {
-            throw new BGMessageException("Не указан параметр запроса billingId");
+            throw new BGMessageExceptionTransparent("Не указан параметр запроса billingId");
         }
         return ContractDAO.getInstance(form.getUser(), billingId).getParameterList(type);
     }

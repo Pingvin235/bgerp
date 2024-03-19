@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 
@@ -104,13 +105,13 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam(BILLING_ID);
 
         if (config == null) {
-            throw new BGMessageException("Отсутствующая либо некорректная конфигурация импорта контрагентов.");
+            throw new BGMessageExceptionTransparent("Отсутствующая либо некорректная конфигурация импорта контрагентов.");
         }
 
         ServerCustomerCreator serverCustomerCreator = config.getServerCustomerCreator(billingId, con);
 
         if (serverCustomerCreator == null) {
-            throw new BGMessageException("Для данного биллинга не настроен импорт контрагентов.");
+            throw new BGMessageExceptionTransparent("Для данного биллинга не настроен импорт контрагентов.");
         }
 
         serverCustomerCreator.createCustomer(billingId, con, form.getParamInt(CONTRACT_ID, -1),
@@ -211,7 +212,7 @@ public class ContractAction extends BaseAction {
         if (Utils.notBlankString(billingId)) {
             DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
             if (dbInfo == null) {
-                throw new BGMessageException("Не найден биллинг.");
+                throw new BGMessageExceptionTransparent("Не найден биллинг.");
             }
 
             String titlePattern = dbInfo.getSetup().get("contract_pattern." + patternId + ".title_pattern");
@@ -240,7 +241,7 @@ public class ContractAction extends BaseAction {
 
         IdTitle result = Utils.getFirst(searchResult.getList());
         if (result == null) {
-            throw new BGMessageException("Договор не найден");
+            throw new BGMessageExceptionTransparent("Договор не найден");
         }
 
         CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, processId,

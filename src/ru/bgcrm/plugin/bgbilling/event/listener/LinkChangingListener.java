@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.event.listener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddingEvent;
@@ -46,12 +47,12 @@ public class LinkChangingListener {
         DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
 
         if (dbInfo == null) {
-            throw new BGMessageException("Не найден биллинг с идентификатором: " + billingId);
+            throw new BGMessageExceptionTransparent("Не найден биллинг с идентификатором: " + billingId);
         }
 
         int customerIdParam = dbInfo.getCustomerIdParam();
         if (customerIdParam <= 0) {
-            throw new BGMessageException("Не определён параметр 'customerIdParam' для сервера.");
+            throw new BGMessageExceptionTransparent("Не определён параметр 'customerIdParam' для сервера.");
         }
 
         int contractId = link.getLinkObjectId();

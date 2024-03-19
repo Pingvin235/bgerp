@@ -1,12 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.event.listener;
 
 import java.math.BigDecimal;
-
-import ru.bgcrm.model.message.Message;
-import ru.bgcrm.model.message.config.MessageTypeConfig;
-import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessExecutor;
-
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
@@ -29,6 +24,10 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
+import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
@@ -102,7 +101,7 @@ public class HelpDeskListener {
         // стоимость
         else if (paramId == mt.getCostParamId()) {
             if (HelpDeskDAO.MODE_PACKAGE.equals(mode)) {
-                throw new BGMessageException("Режим HelpDesk договора пакетный.");
+                throw new BGMessageExceptionTransparent("Режим HelpDesk договора пакетный.");
             }
             hdDao.setTopicCost(topic.getContractId(), topicId,
                     Utils.parseBigDecimal((String) e.getValue(), BigDecimal.ZERO));
@@ -110,7 +109,7 @@ public class HelpDeskListener {
         // вхождение в пакет
         else if (paramId == mt.getPackageParamId()) {
             if (HelpDeskDAO.MODE_ON.equals(mode)) {
-                throw new BGMessageException("Режим HelpDesk договора обычный.");
+                throw new BGMessageExceptionTransparent("Режим HelpDesk договора обычный.");
             }
             hdDao.setTopicPackageState(topic.getContractId(), topicId, ((Set<Integer>) e.getValue()).size() > 0);
         }

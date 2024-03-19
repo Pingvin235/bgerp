@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -19,8 +22,6 @@ import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.UnsupportedBillingVersion;
 import ru.bgcrm.util.Utils;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 public class CashCheckDAO extends BillingDAO {
     public CashCheckDAO(User user, String billingId) throws BGException {
@@ -74,10 +75,10 @@ public class CashCheckDAO extends BillingDAO {
                     }
 
                 } catch (Exception e) {
-                    throw new BGMessageException("Чек не напечатан. " + e.getMessage());
+                    throw new BGMessageExceptionTransparent("Чек не напечатан. " + e.getMessage());
                 }
             } else {
-                throw new BGMessageException("Чек не напечатан.Ошибка.");
+                throw new BGMessageExceptionTransparent("Чек не напечатан.Ошибка.");
             }
 
             return new Pair<String, String>("", "");

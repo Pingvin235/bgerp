@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.model.BGException;
@@ -52,9 +53,9 @@ public class CardAction extends BaseAction {
         String pinCode = form.getParam("pinCode", "");
 
         if (Utils.isEmptyString(cardCode))
-            throw new BGMessageException("Введите номер карты");
+            throw new BGMessageExceptionTransparent("Введите номер карты");
         if (Utils.isEmptyString(pinCode))
-            throw new BGMessageException("Введите PIN-код карты");
+            throw new BGMessageExceptionTransparent("Введите PIN-код карты");
 
         new CardDAO(form.getUser(), billingId, moduleId).activateCard(contractId, cardCode, pinCode);
         form.setParam("cardCode", "");

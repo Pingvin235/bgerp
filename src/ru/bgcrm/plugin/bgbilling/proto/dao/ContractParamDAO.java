@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
@@ -658,7 +659,7 @@ public class ContractParamDAO extends BillingDAO {
                 }
             }
         } catch (BGException exp) {
-            throw new BGMessageException("Ошибка при копировании параметра в биллинг! [" + fromParamId + " - "
+            throw new BGMessageExceptionTransparent("Ошибка при копировании параметра в биллинг! [" + fromParamId + " - "
                     + toParamId + "] " + exp.getMessage());
         }
     }

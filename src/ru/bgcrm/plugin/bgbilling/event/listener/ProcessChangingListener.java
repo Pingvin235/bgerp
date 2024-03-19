@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.w3c.dom.Document;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -83,7 +84,7 @@ public class ProcessChangingListener {
             int statusCode = Utils.parseInt(XMLUtils.selectText(doc, "/data/table/data/row/@status_code"));
 
             if (statusCode != needStatusCode) {
-                throw new BGMessageException("Смена статуса невозможна. К процессу привязаны проблемы биллинга в препятствующих смене статусах.");
+                throw new BGMessageExceptionTransparent("Смена статуса невозможна. К процессу привязаны проблемы биллинга в препятствующих смене статусах.");
             }
         }
     }

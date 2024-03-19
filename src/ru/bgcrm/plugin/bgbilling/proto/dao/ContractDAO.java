@@ -17,6 +17,7 @@ import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
@@ -50,7 +51,13 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.ContractDAO8x;
-import ru.bgcrm.plugin.bgbilling.proto.model.*;
+import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractGroup;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
+import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
@@ -464,7 +471,7 @@ public class ContractDAO extends BillingDAO {
 
     public Contract createContract(int patternId, String date, String title, String titlePattern, int superId) throws BGMessageException {
         if (dbInfo.getCustomerIdParam() <= 0) {
-            throw new BGMessageException("Не указан параметр customerIdParam для сервера биллинга.");
+            throw new BGMessageExceptionTransparent("Не указан параметр customerIdParam для сервера биллинга.");
         }
 
         Request req = new Request();
@@ -840,7 +847,7 @@ public class ContractDAO extends BillingDAO {
         } else if ("del".equals(command)) {
             request.setAction("ContractModuleDelete");
         } else {
-            throw new BGMessageException("Неверный параметр command");
+            throw new BGMessageExceptionTransparent("Неверный параметр command");
         }
 
         transferData.postData(request, user);
@@ -1690,7 +1697,7 @@ public class ContractDAO extends BillingDAO {
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BGMessageException("Ошибка копирования имени контрагента: " + customer.getTitle() + "; "
+            throw new BGMessageExceptionTransparent("Ошибка копирования имени контрагента: " + customer.getTitle() + "; "
                     + dbInfo.getTitle() + ", " + e.getMessage());
         }
 
