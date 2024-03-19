@@ -12,6 +12,8 @@ import org.bgerp.util.Log;
  * @author Shamil Vakhitov
  */
 public class BGMessageException extends Exception {
+    private static final Log log = Log.getLog();
+
     /** Internal localizer, has priority. */
     private final Localizer lInternal;
     /** Arguments for localized message. */
@@ -49,11 +51,22 @@ public class BGMessageException extends Exception {
         return lExternal.l(super.getMessage(), args);
     }
 
+    /**
+     * Provides exception's message with substituted pattern, but without localization like {@link #getMessage(Localizer)} does.
+     * The method should not be normally called, produces WARN to log output.
+     * @return
+     */
     @Override
     public String getLocalizedMessage() {
-        throw new UnsupportedOperationException();
+        log.warn("The method 'getLocalizedMessage' should not be normally called.");
+        return Log.format(super.getLocalizedMessage(), args);
     }
 
+    /**
+     * Provides exception's message with substituted pattern, but without localization like {@link #getMessage(Localizer)} does.
+     * The method is used by jUnit tests for comparing exceptions.
+     * @return
+     */
     @Override
     public String getMessage() {
         return Log.format(super.getMessage(), args);
