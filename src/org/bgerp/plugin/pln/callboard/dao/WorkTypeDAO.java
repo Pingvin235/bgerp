@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
 import org.bgerp.plugin.pln.callboard.model.WorkType;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;

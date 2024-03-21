@@ -18,12 +18,12 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.LastModifyDAO;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.queue.Queue;

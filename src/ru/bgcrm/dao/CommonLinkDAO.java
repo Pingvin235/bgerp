@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;

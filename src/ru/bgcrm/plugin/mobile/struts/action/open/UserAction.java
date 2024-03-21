@@ -7,12 +7,12 @@ import java.util.Map;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.event.client.NewsInfoEvent;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.process.FilterEntryCounter;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;

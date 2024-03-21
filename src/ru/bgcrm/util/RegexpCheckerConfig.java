@@ -6,9 +6,8 @@ import java.util.regex.Pattern;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.model.BGMessageException;
 
 /**
  * Checks string to one of configured regexps.

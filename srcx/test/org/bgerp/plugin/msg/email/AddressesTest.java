@@ -7,11 +7,10 @@ import java.util.Map;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.junit.Assert;
 import org.junit.Test;
-
-import ru.bgcrm.model.BGMessageException;
 
 public class AddressesTest {
     private static final String lang = Localization.LANG_EN;

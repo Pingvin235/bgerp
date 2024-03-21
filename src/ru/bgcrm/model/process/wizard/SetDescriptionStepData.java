@@ -2,7 +2,8 @@ package ru.bgcrm.model.process.wizard;
 
 import java.sql.Connection;
 
-import ru.bgcrm.model.BGException;
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 

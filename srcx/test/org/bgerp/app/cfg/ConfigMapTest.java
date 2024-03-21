@@ -9,11 +9,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.config.IsolationConfig;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Utils;
 
 public class ConfigMapTest {

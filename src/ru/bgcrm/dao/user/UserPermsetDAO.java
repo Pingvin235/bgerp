@@ -15,10 +15,10 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.util.Utils;

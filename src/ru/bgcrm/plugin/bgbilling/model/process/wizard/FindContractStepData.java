@@ -3,8 +3,9 @@ package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 import java.sql.Connection;
 import java.util.List;
 
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;

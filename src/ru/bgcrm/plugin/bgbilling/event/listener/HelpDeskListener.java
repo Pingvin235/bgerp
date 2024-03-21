@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.Pageable;
 
@@ -20,8 +22,6 @@ import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.client.ProcessChangedEvent;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.event.process.ProcessChangingEvent;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
@@ -20,8 +22,6 @@ import ru.bgcrm.dao.user.UserPermsetDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.user.UserChangedEvent;
 import ru.bgcrm.model.ArrayHashMap;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.Permset;

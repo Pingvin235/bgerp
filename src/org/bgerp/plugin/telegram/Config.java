@@ -2,8 +2,7 @@ package org.bgerp.plugin.telegram;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.dist.App;
-
-import ru.bgcrm.model.BGMessageException;
+import org.bgerp.app.exception.BGMessageException;
 
 public class Config extends org.bgerp.app.cfg.Config {
 

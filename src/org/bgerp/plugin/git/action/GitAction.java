@@ -2,11 +2,11 @@ package org.bgerp.plugin.git.action;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.git.Config;
 import org.bgerp.plugin.git.Plugin;
 
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

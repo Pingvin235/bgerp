@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.exception.BGException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.IpResourceRange;
 import ru.bgcrm.util.inet.IPUtils;
 
@@ -24,7 +24,7 @@ public class ResourceDAO extends BillingModuleDAO {
 	public ResourceDAO(User user, String billingId, int moduleId) throws BGException {
 		super(user, billingId, moduleId);
 	}
-	
+
 	/**
 	 * Возвращает список свободных IP адресов.
 	 * @param categoryIds
@@ -42,17 +42,17 @@ public class ResourceDAO extends BillingModuleDAO {
 		req.setParam("max", max);
 		req.setParam("dateFrom", now);
 		req.setParam("dateTo", now);
-		
+
 		JsonNode ret = transferData.postDataReturn(req, user);
 		List<IpResourceRange> result = readJsonValue(ret.traverse(),
 				jsonTypeFactory.constructCollectionType(List.class, IpResourceRange.class));
-		
+
 		// перекодирование IP адресов
 		for (IpResourceRange r : result) {
 			r.setFrom(IPUtils.base64ToString(r.getFrom()));
 			r.setTo(IPUtils.base64ToString(r.getTo()));
 		}
-		
+
 		return result;
 	}
 

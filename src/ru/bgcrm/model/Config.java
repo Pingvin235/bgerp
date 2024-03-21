@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ConfigDAO;

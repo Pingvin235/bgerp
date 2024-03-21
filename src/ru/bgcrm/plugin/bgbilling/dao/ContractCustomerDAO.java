@@ -2,11 +2,11 @@ package ru.bgcrm.plugin.bgbilling.dao;
 
 import java.sql.Connection;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;

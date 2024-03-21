@@ -2,8 +2,8 @@ package org.bgerp.model.config;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGMessageException;
 
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Utils;
 
 /**

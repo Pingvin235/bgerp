@@ -6,8 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.wizard.LinkCustomerStepData;

@@ -8,12 +8,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGSecurityException;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ProcessQueueCache;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGSecurityException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;

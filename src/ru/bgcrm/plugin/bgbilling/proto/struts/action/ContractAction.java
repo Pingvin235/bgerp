@@ -17,14 +17,14 @@ import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGIllegalArgumentException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.ParamList;
 import ru.bgcrm.model.param.ParameterAddressValue;

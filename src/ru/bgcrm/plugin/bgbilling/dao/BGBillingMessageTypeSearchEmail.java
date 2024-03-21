@@ -4,9 +4,9 @@ import java.util.Set;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;

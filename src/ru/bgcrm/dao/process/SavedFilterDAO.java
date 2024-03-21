@@ -8,8 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.queue.config.SavedFilter;
 import ru.bgcrm.model.process.queue.config.SavedCommonFiltersConfig;
 

@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x;
 
 import java.util.List;
 
-import ru.bgcrm.model.BGException;
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;

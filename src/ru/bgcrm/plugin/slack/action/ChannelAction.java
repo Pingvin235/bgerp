@@ -1,9 +1,9 @@
 package ru.bgcrm.plugin.slack.action;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.slack.ExpressionObject;
 import ru.bgcrm.servlet.ActionServlet.Action;

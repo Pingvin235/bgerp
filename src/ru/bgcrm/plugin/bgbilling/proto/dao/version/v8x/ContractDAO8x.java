@@ -1,12 +1,14 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ru.bgcrm.model.BGException;
+
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;

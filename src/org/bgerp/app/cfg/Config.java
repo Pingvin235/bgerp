@@ -1,8 +1,7 @@
 package org.bgerp.app.cfg;
 
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.model.BGMessageException;
 
 /**
  * Configuration, created on demand in {@link ConfigMap#getConfig(Class)} and cached before it has changed.

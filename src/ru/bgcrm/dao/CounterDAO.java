@@ -7,7 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ru.bgcrm.model.BGException;
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.model.Counter;
 
 public class CounterDAO
@@ -53,7 +54,7 @@ public class CounterDAO
 	 * Возвращает счетик
 	 * @param counterId - id счетчика
 	 * @return счетчик
-	 * @throws BGException 
+	 * @throws BGException
 	 */
 	public Counter getCounter( int counterId )
 		throws BGException
@@ -88,7 +89,7 @@ public class CounterDAO
 	/**
 	 * Изменение счетчика
 	 * @param counter счетчик
-	 * @throws BGException 
+	 * @throws BGException
 	 */
 	public void updateCounter( Counter counter )
 		throws BGException
@@ -122,7 +123,7 @@ public class CounterDAO
 		}
 	}
 
-	
+
 	/**
 	 * Увеличивает счетчик на 1
 	 * @param counterId - id счетчика

@@ -14,6 +14,7 @@ import org.bgerp.app.dist.Maintenance;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.app.dist.inst.InstallerChanges.Change;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.dist.inst.VersionCheck;
 import org.bgerp.app.servlet.file.Files;
 import org.bgerp.app.servlet.file.Options;
@@ -22,7 +23,6 @@ import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.dao.NewsDAO;
-import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.AccessLogValve;

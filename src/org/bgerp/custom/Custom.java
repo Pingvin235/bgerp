@@ -20,11 +20,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.bgerp.Server;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.custom.java.CompilationResult;
 import org.bgerp.custom.java.CompilerWrapper;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.model.BGMessageException;
 
 /**
  * Customization manager.

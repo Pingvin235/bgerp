@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
@@ -14,7 +15,6 @@ import org.w3c.dom.Element;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;

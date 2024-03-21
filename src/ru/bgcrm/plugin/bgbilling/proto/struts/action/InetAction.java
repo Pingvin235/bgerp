@@ -9,9 +9,9 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.InetDAO;

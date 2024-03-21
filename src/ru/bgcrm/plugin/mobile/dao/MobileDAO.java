@@ -5,8 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.mobile.model.Account;
 
 public class MobileDAO extends CommonDAO {

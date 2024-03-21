@@ -20,6 +20,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
@@ -31,7 +32,6 @@ import com.google.common.collect.Sets;
 import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.Tables;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;

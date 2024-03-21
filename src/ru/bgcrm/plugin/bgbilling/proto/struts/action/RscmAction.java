@@ -4,10 +4,10 @@ import java.time.YearMonth;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.RscmDAO;

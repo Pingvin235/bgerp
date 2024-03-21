@@ -11,7 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpSession;
 
-import ru.bgcrm.model.BGException;
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 

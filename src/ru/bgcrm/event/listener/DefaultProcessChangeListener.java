@@ -9,6 +9,8 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -27,8 +29,6 @@ import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.struts.action.ProcessCommandExecutor;

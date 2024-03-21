@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.param.Tables;
@@ -27,7 +28,6 @@ import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.client.CustomerTitleChangedEvent;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;

@@ -12,6 +12,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
@@ -24,8 +26,6 @@ import javassist.NotFoundException;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.event.ParamChangedEvent;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;

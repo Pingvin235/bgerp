@@ -2,11 +2,12 @@ package ru.bgcrm.event.listener;
 
 import java.util.List;
 
+import org.bgerp.app.exception.BGMessageException;
+
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangedEvent;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.util.sql.ConnectionSet;

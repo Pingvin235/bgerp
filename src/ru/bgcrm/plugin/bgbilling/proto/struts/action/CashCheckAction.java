@@ -1,9 +1,9 @@
 package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CashCheckDAO;
 import ru.bgcrm.servlet.ActionServlet.Action;

@@ -1,6 +1,7 @@
 package ru.bgcrm.model.param;
 
-import ru.bgcrm.model.BGMessageException;
+import org.bgerp.app.exception.BGMessageException;
+
 import ru.bgcrm.util.Utils;
 
 public class ParameterEmailValue {

@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CerberCryptDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.cerbercrypt.CardPacket;

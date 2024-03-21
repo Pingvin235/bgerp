@@ -39,6 +39,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.util.Log;
 import org.json.JSONObject;
@@ -57,8 +59,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserAccount;
 import ru.bgcrm.plugin.bgbilling.proto.dao.PluginDAO;

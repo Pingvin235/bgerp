@@ -2,11 +2,11 @@ package ru.bgcrm.model.process.wizard;
 
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.model.BGException;
 
 public abstract class Step extends IdTitle {
     private static final Log log = Log.getLog();

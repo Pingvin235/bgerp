@@ -2,9 +2,9 @@ package org.bgerp.model.process.queue.filter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.util.Utils;
 

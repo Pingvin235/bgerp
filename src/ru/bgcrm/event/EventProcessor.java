@@ -13,12 +13,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ru.bgcrm.event.listener.EventListener;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**

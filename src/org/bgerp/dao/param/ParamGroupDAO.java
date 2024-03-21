@@ -9,8 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterGroup;
 
 public class ParamGroupDAO extends CommonDAO {

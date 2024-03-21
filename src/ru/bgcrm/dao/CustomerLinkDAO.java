@@ -9,9 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.customer.Customer;

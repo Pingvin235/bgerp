@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.exception.BGMessageException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import ru.bgcrm.dao.ConfigDAO;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.util.Utils;
 

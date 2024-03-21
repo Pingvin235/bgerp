@@ -3,8 +3,7 @@ package ru.bgcrm.util;
 import java.util.Random;
 
 import org.bgerp.app.cfg.ConfigMap;
-
-import ru.bgcrm.model.BGMessageException;
+import org.bgerp.app.exception.BGMessageException;
 
 /**
  * Password utilities.

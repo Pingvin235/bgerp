@@ -2,8 +2,6 @@ package org.bgerp.app.exception;
 
 import org.bgerp.app.l10n.Localizer;
 
-import ru.bgcrm.model.BGMessageException;
-
 /**
  * Message exception without localization of the message.
  *

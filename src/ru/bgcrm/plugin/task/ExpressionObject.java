@@ -1,8 +1,8 @@
 package ru.bgcrm.plugin.task;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
 

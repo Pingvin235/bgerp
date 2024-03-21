@@ -15,10 +15,10 @@ import java.util.regex.Pattern;
 
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.Config.InitStopException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Utils;
 
 /**

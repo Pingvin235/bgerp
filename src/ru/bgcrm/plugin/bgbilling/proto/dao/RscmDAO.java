@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Period;
 import ru.bgcrm.model.user.User;

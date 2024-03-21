@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

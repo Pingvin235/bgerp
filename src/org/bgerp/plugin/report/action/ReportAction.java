@@ -4,12 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.dao.ReportDAO;
 import org.bgerp.plugin.report.model.Config;
 import org.bgerp.plugin.report.model.Report;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

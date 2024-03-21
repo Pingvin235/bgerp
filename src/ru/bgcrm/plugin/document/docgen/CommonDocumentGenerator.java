@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.lf5.util.StreamUtils;
+import org.bgerp.app.exception.BGException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -27,7 +28,6 @@ import com.itextpdf.text.pdf.PdfStamper;
 
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.listener.EventListener;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.plugin.document.dao.DocumentDAO;
 import ru.bgcrm.plugin.document.event.DocumentGenerateEvent;

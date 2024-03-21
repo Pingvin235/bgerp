@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.bgcrm.model.BGException;
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.Wizard;

@@ -5,10 +5,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.util.Utils;
 
 public class DynActionFormTest {

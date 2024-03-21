@@ -7,11 +7,11 @@ import java.util.TreeSet;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.svc.log.Plugin;
 import org.bgerp.plugin.svc.log.dao.ActionLogDAO;
 
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

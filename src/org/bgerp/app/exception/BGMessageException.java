@@ -1,4 +1,4 @@
-package ru.bgcrm.model;
+package org.bgerp.app.exception;
 
 import java.util.Arrays;
 

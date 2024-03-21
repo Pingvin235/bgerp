@@ -750,7 +750,7 @@ javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm
 is used to sent a <<l10n, localized>> message to the user, without writing this message in the log.
 For example:
 [snippet, from="for (", to=");", remove-leading="            "]
-link:../../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L39-L41[ru.bgcrm.event.listener.ProcessClosingListener]
+link:../../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L40-L42[ru.bgcrm.event.listener.ProcessClosingListener]
 
 [[action-db]]
 ===== DB Operations

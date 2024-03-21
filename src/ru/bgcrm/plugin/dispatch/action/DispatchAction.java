@@ -5,9 +5,9 @@ import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;

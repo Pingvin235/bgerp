@@ -1,9 +1,9 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.dao.message.MessageTypeSearch;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.Utils;
 
 public abstract class MessageTypeSearchBilling extends MessageTypeSearch {

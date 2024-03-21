@@ -35,6 +35,7 @@ import org.apache.struts.upload.FormFile;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.ServletUtils;
@@ -42,7 +43,6 @@ import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.ArrayHashMap;
-import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;

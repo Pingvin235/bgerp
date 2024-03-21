@@ -2,9 +2,9 @@ package ru.bgcrm.struts.action;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 
 import ru.bgcrm.dao.Locker;
-import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.Lock;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

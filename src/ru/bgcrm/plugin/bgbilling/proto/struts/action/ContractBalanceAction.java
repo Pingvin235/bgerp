@@ -11,10 +11,10 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGIllegalArgumentException;
+import org.bgerp.app.exception.BGMessageException;
 
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Plugin;

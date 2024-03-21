@@ -3,10 +3,10 @@ package ru.bgcrm.plugin.bgbilling;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 
 public class RequestToBilling implements Runnable {

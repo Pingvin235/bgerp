@@ -1,10 +1,11 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.dialup;
 
-import ru.bgcrm.model.BGMessageException;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
+
+import org.bgerp.app.exception.BGMessageException;
+
 import java.net.InetAddress;
 import java.util.Date;
 

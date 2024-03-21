@@ -19,10 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.inst.InstalledModule;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exec.scheduler.Scheduler;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.model.BGException;
 
 /**
  * Socket listener for managing running app.

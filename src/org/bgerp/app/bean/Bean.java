@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.custom.Custom;
 import org.bgerp.util.Log;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.PluginManager;
 
 public class Bean {

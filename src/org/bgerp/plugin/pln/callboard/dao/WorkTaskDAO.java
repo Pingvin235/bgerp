@@ -10,12 +10,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.pln.callboard.model.WorkTask;
 import org.bgerp.plugin.pln.callboard.model.work.ShiftData;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.TimeUtils;
 
 public class WorkTaskDAO extends CommonDAO {

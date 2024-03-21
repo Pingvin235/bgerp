@@ -7,13 +7,13 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;

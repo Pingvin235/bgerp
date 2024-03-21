@@ -8,6 +8,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.model.base.iface.Title;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
@@ -16,7 +17,6 @@ import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.form.DynActionForm;

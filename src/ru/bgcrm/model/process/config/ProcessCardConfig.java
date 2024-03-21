@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.Utils;
 
 public class ProcessCardConfig extends Config {

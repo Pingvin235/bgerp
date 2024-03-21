@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.proto.model;
 
-import ru.bgcrm.model.BGException;
+import org.bgerp.app.exception.BGException;
 
 public class UnsupportedBillingVersion
 	extends BGException

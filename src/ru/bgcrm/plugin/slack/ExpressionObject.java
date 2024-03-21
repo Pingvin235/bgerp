@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.ParamValueDAO;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;

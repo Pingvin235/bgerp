@@ -1,6 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
@@ -11,6 +10,8 @@ import ru.bgcrm.plugin.bgbilling.proto.model.BillingUser;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import org.bgerp.app.exception.BGException;
 
 public class AdminDAO
 {

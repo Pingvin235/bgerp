@@ -6,6 +6,8 @@ import java.util.SortedMap;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.exception.BGIllegalArgumentException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -22,8 +24,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.customer.CustomerChangedEvent;
 import ru.bgcrm.event.customer.CustomerRemovedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
-import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterAddressValue;

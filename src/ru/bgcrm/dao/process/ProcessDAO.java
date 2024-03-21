@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
@@ -33,7 +34,6 @@ import org.bgerp.util.sql.PreparedQuery;
 import javassist.NotFoundException;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.message.MessageDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;

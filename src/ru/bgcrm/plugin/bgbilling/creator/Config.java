@@ -13,10 +13,10 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.Utils;
 
 public class Config extends org.bgerp.app.cfg.Config {

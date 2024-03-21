@@ -8,9 +8,8 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.model.BGException;
 
 public class GMS extends org.bgerp.app.cfg.Config {
     private static final Log log = Log.getLog();

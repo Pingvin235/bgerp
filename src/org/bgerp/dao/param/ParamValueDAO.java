@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdStringTitle;
@@ -41,7 +42,6 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterAddressValue;

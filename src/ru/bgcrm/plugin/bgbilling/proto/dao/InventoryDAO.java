@@ -1,6 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
@@ -8,6 +7,8 @@ import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDeviceInterface;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.bgerp.app.exception.BGException;
 
 public class InventoryDAO extends BillingModuleDAO {
     private static final String DEVICE_INTERFACE_SERVICE = "DeviceInterfaceService";

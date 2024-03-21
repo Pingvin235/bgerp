@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -22,8 +24,6 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.ParamList;
 import ru.bgcrm.model.param.ParameterAddressValue;

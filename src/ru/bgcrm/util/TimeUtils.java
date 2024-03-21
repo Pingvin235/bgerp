@@ -17,9 +17,9 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.PeriodSet;
 
 public class TimeUtils {

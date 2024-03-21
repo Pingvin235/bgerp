@@ -14,12 +14,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.file.SessionTemporaryFiles;
 
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

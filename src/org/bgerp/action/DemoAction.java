@@ -6,12 +6,12 @@ import java.time.Duration;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.dao.DemoDAO;
 import org.bgerp.model.DemoEntity;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

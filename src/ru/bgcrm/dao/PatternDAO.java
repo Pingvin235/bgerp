@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.bgcrm.model.BGException;
+import org.bgerp.app.exception.BGException;
+
 import ru.bgcrm.model.param.Pattern;
 
 public class PatternDAO
@@ -25,7 +26,7 @@ public class PatternDAO
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		StringBuilder query = new StringBuilder();
-		
+
 		query.append( "SELECT * FROM object_title_pattern WHERE object=? ORDER BY title" );
 		ps = con.prepareStatement( query.toString() );
 		ps.setString( 1, object );
@@ -50,7 +51,7 @@ public class PatternDAO
 		String query = null;
 		ResultSet rs = null;
 		PreparedStatement ps = null;
-		
+
 		query = "SELECT * FROM object_title_pattern WHERE id=?";
 		ps = con.prepareStatement( query );
 		ps.setInt( 1, id );
@@ -73,7 +74,7 @@ public class PatternDAO
 		int index = 1;
 		String query = null;
 		PreparedStatement ps = null;
-		
+
 		if( pattern.getId() <= 0 )
 		{
 			query = "INSERT INTO object_title_pattern SET object=?, title=?, pattern=?";
@@ -95,24 +96,24 @@ public class PatternDAO
 		}
 		ps.close();
 	}
-	
+
 	public void deletePattern( int id )
 		throws BGException
 	{
-		try 
+		try
 		{
 			String query = "DELETE FROM object_title_pattern WHERE id=?";
 			PreparedStatement ps = con.prepareStatement( query);
 			ps.setInt( 1, id );
 			ps.executeUpdate();
 			ps.close();
-		} 
-		catch( SQLException e ) 
+		}
+		catch( SQLException e )
 		{
 			throw new BGException( e );
-		}	
+		}
 	}
-	
+
 	private void setPatternData( Pattern pattern, ResultSet rs )
 	    throws SQLException
 	{

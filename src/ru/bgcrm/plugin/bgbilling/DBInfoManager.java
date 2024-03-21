@@ -8,9 +8,8 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.model.BGException;
 
 public class DBInfoManager {
     private static final Log log = Log.getLog();
