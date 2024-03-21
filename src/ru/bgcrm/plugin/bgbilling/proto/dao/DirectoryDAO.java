@@ -59,10 +59,10 @@ public class DirectoryDAO extends BillingDAO {
     public List<IdTitle> getContractStatusList(boolean onlyManual) throws BGException {
         List<IdTitle> result = null;
 
-        if (dbInfo.getVersion().compareTo("5.2") < 0) {
+        if (dbInfo.versionCompare("5.2") < 0) {
             result = FIXED_OLD_STATUS_LIST;
         }
-        else if (dbInfo.getVersion().compareTo("8.0") > 0) {
+        else if (dbInfo.versionCompare("8.0") > 0) {
             RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractStatusService", "getStatusList");
             req.setParam("onlyManual", onlyManual);
             result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
@@ -105,7 +105,7 @@ public class DirectoryDAO extends BillingDAO {
         IdTitleTreeItem contractPaymentTypes = new IdTitleTreeItem();
         contractPaymentTypes.setTitle("Все типы");
 
-        if (dbInfo.getVersion().compareTo("6.1") >= 0) {
+        if (dbInfo.versionCompare("6.1") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.balance", "PaymentService",
                     "paymentTypeTree");
             req.setParam("editable", 0);
@@ -166,7 +166,7 @@ public class DirectoryDAO extends BillingDAO {
         IdTitleTreeItem contractChargeTypes = new IdTitleTreeItem();
         contractChargeTypes.setTitle("Все типы");
 
-        if (dbInfo.getVersion().compareTo("6.1") >= 0) {
+        if (dbInfo.versionCompare("6.1") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.balance", "ChargeService",
                     "chargeTypeTree");
             req.setParam("editable", 0);

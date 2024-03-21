@@ -2,6 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
+<c:set var="dbInfo" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId]}"/>
 
 <table width="100%">
 	<tr>
@@ -42,13 +43,14 @@
 		  	<c:param name="contractId" value="${form.param.contractId}"/>
 		  </c:url>
 		  $tariffTabs.tabs( "add", "${url}", "Тарифные опции" );
-
+		<c:if test="${dbInfo.getVersion().compareTo( '9.2' ) lt 0 }">
 		  <c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
 		  	<c:param name="action" value="groupTariffList"/>
 		  	<c:param name="billingId" value="${form.param.billingId}"/>
 		  	<c:param name="contractId" value="${form.param.contractId}"/>
 		  </c:url>
 		  $tariffTabs.tabs( "add", "${url}", "Группы тарифов" );
+		 </c:if>
      });
 </script>
 

@@ -36,7 +36,7 @@ public class BalanceDAO extends BillingDAO {
     public BigDecimal getContractPaymentList(int contractId, Date dateFrom, Date dateTo, List<ContractPayment> paymentList,
             List<ContractPayment> subPaymentList) throws BGException {
 
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             BigDecimal summa = BigDecimal.ZERO;
             if (paymentList != null) {
                 RequestJsonRpc req = new RequestJsonRpc(BGBILLING_KERNEL_CONTRACT_BALANCE_9, "PaymentService", "paymentList");
@@ -106,7 +106,7 @@ public class BalanceDAO extends BillingDAO {
 
     public BigDecimal getContractChargeList(int contractId, Date dateFrom, Date dateTo, List<ContractCharge> chargeList,
             List<ContractCharge> subChargeList) throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             BigDecimal summa = BigDecimal.ZERO;
             if (chargeList != null) {
                 RequestJsonRpc req = new RequestJsonRpc(BGBILLING_KERNEL_CONTRACT_BALANCE_9, "ChargeService", "chargeList");

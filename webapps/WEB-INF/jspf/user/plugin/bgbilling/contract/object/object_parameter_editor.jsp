@@ -14,15 +14,15 @@
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 			<input type="hidden" name="objectId" value="${form.param.objectId }" />
-			<input type="hidden" name="paramId" value="${parameter.getParamId() }" />
-			<input type="hidden" name="paramType" value="${parameter.getParamType() }" />
+			<input type="hidden" name="paramId" value="${parameter.parameterId }" />
+			<input type="hidden" name="paramType" value="${parameter.typeId }" />
 
 			<c:choose>
-				<c:when test="${parameter.getParamType() eq 1}"> <!-- text -->
+				<c:when test="${parameter.typeId eq 1}"> <!-- text -->
 					<input type="text" style="width:100%;" name="textValue" value="${parameter.getValue()}"/>
 				</c:when>
 
-				<c:when test="${parameter.getParamType() eq 4}"> <!-- address -->
+				<c:when test="${parameter.typeId eq 4}"> <!-- address -->
 					<script>
 							$(function() {
 								addAddressSearch( "#${parametersInfo}" );
@@ -83,11 +83,11 @@
 						</table>
 				</c:when>
 
-				<c:when test="${parameter.getParamType() eq 3}"> <!-- date -->
+				<c:when test="${parameter.typeId eq 3}"> <!-- date -->
 					<ui:date-time paramName="dateValue" value="${parameter.getValue()}"/>
 				</c:when>
 
-				<c:when test="${parameter.getParamType() eq 2}"> <!-- list -->
+				<c:when test="${parameter.typeId eq 2}"> <!-- list -->
 					<select name="listValueId" style="width: 100%" multiline size="10" >
 						<c:forEach var="value" items="${data.valueList}">
 							 <option value="${ value.getId() }">${ value.getTitle() }</option>

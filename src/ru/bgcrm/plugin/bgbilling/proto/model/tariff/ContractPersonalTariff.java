@@ -3,27 +3,58 @@ package ru.bgcrm.plugin.bgbilling.proto.model.tariff;
 import java.util.Date;
 
 import org.bgerp.model.base.Id;
-
 import ru.bgcrm.model.PeriodSet;
 
 public class ContractPersonalTariff
 	extends Id
 	implements PeriodSet
 {
-	private int position;
-	private Date dateFrom;
-	private Date dateTo;
+
+	private int contractId;
+	private int pos;
+	private Date date1;
+	private Date date2;
 	private String title;
 	private int treeId;
 
-	public int getPosition()
-	{
-		return position;
+	private String titleWeb = null;
+
+	private String config = "";
+
+	private boolean useTitleInWeb;
+
+	public String getTitleWeb() {
+		return titleWeb;
 	}
 
-	public void setPosition( int position )
+	public void setTitleWeb(String titleWeb) {
+		this.titleWeb = titleWeb;
+	}
+
+	public String getConfig() {
+		return config;
+	}
+
+	public void setConfig(String config) {
+		this.config = config;
+	}
+
+	public boolean isUseTitleInWeb() {
+		return useTitleInWeb;
+	}
+
+	public void setUseTitleInWeb(boolean useTitleInWeb) {
+		this.useTitleInWeb = useTitleInWeb;
+	}
+
+	public int getPos()
 	{
-		this.position = position;
+		return pos;
+	}
+
+	public void setPos(int pos)
+	{
+		this.pos = pos;
 	}
 
 	public String getTitle()
@@ -46,23 +77,42 @@ public class ContractPersonalTariff
 		this.treeId = treeId;
 	}
 
-	public Date getDateFrom()
+	public Date getDate1()
 	{
-		return dateFrom;
+		return date1;
 	}
 
-	public void setDateFrom( Date dateFrom )
+	public void setDate1(Date date1)
 	{
-		this.dateFrom = dateFrom;
+		this.date1 = date1;
 	}
 
-	public Date getDateTo()
+	public Date getDate2()
 	{
-		return dateTo;
+		return date2;
 	}
 
-	public void setDateTo( Date dateTo )
+	public void setDate2(Date date2)
 	{
-		this.dateTo = dateTo;
+		this.date2 = date2;
 	}
+
+	@Override
+	public void setDateFrom(Date dateFrom) {
+		setDate1(dateFrom);
+	}
+
+	@Override
+	public void setDateTo(Date dateTo) {
+		setDate2(dateTo);
+	}
+
+	public int getContractId() {
+		return contractId;
+	}
+
+	public void setContractId(int contractId) {
+		this.contractId = contractId;
+	}
+
 }

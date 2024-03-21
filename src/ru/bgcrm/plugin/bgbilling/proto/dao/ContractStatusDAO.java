@@ -44,7 +44,7 @@ public class ContractStatusDAO extends BillingDAO {
      * @throws BGException
      */
     public List<ContractStatus> statusList(int contractId, Map<Integer, String> statusTitleMap) throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "contractStatusList");
             req.setParam("contractId", contractId);
             JsonNode ret = transferData.postDataReturn(req, user);
@@ -79,7 +79,7 @@ public class ContractStatusDAO extends BillingDAO {
      * @throws BGException
      */
     public List<ContractStatusLogItem> statusLog(int contractId, Map<Integer, String> statusTitleMap) throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "contractStatusLogSearch");
             req.setParam("contractId", contractId);
             req.setParam("page", new Page());

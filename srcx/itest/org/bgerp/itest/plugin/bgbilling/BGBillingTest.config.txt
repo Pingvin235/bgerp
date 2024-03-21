@@ -1,4 +1,3 @@
-
 # https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#config
 bgbilling:server.{@inc:cnt}.id={@BILLING_ID}
 bgbilling:server.{@cnt}.title=BGBilling
@@ -7,11 +6,11 @@ bgbilling:server.{@cnt}.requestTimeOut=20000
 # demo.bgbilling.ru
 bgbilling:server.{@cnt}.url=https://demo.bgbilling.ru/executer
 bgbilling:server.{@cnt}.customerIdParam=8
-# locally running test server
+# внутренний тестовый сервер BiTel
 #bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
-#bgbilling:server.{@cnt}.customerIdParam=100
+#bgbilling:server.{@cnt}.customerIdParam=63
 
-# common login and password for accessing billing
+# общий логин с паролем по-умолчанию для обращения к биллингу
 #bgbilling:login.{@BILLING_ID}=admin
 #bgbilling:password.{@BILLING_ID}=admin
 
@@ -38,3 +37,14 @@ messageType.200.newMessageEvent=0
 messageType.200.markMessagesReadStatusIds={@PROCESS_HD_READ_STATUS_IDS}
 # set a single HD topic ID for testing time
 #messageType.200.topicId=
+
+# импорт контрагентов  для тестового сервера BiTel
+# ИНН
+#bgbilling:creator.confirmParameters={@PARAM_RU_INN}
+#bgbilling:creator.importParameters={@PARAM_RU_INN}
+
+#bgbilling:creator.server.{@inc:cnt}.billingId={@BILLING_ID}
+#bgbilling:creator.server.{@cnt}.user=admin
+#bgbilling:creator.server.{@cnt}.pswd=admin
+#bgbilling:creator.server.{@cnt}.paramMapping=41:{@PARAM_RU_INN}
+#bgbilling:creator.server.{@cnt}.pageSize=10

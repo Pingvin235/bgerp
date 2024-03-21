@@ -37,7 +37,7 @@ public class BillDAO extends BillingModuleDAO {
 
     public List<AttributeType> getAttributeTypeList() throws BGException {
         List<AttributeType> result = new ArrayList<>();
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(BILL_MODULE, moduleId, "BillService", "attributeTypeList");
             JsonNode ret = transferData.postDataReturn(req, user);
             result = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, AttributeType.class));
@@ -48,7 +48,7 @@ public class BillDAO extends BillingModuleDAO {
 
     public List<Attribute> getAttributeList(int contractId) throws BGException {
         List<Attribute> result = new ArrayList<Attribute>();
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(BILL_MODULE, moduleId, "BillService", "attributeList");
             req.setParam("contractId", contractId);
             JsonNode ret = transferData.postDataReturn(req, user);

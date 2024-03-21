@@ -40,9 +40,9 @@ public class ContractTariffAction extends BaseAction {
                     Utils.addCommaSeparated(tariffs, tariff.getTitle());
                 }
             }
-            List<ContractPersonalTariff> personalTariffList = crmDAO.contractPersonalTaraffList(contractId);
+            List<ContractPersonalTariff> personalTariffList = crmDAO.contractPersonalTariffList(contractId);
             for (ContractPersonalTariff tariff : personalTariffList) {
-                if (tariff.getDateTo() == null) {
+                if (tariff.getDate2() == null) {
                     Utils.addCommaSeparated(tariffs, tariff.getTitle());
                 }
             }
@@ -160,7 +160,7 @@ public class ContractTariffAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-        form.getResponse().setData("personalTariffList", crmDAO.contractPersonalTaraffList(contractId));
+        form.getResponse().setData("personalTariffList", crmDAO.contractPersonalTariffList(contractId));
 
         return html(conSet, form, PATH_JSP + "/personal_tariff_list.jsp");
     }
@@ -170,7 +170,7 @@ public class ContractTariffAction extends BaseAction {
 
         if (form.getId() > 0) {
             form.getResponse().setData("personalTariff",
-                    new ContractTariffDAO(form.getUser(), billingId).getPersonalTaraff(form.getId()));
+                    new ContractTariffDAO(form.getUser(), billingId).getPersonalTariff(form.getId()));
         }
 
         return html(conSet, form, PATH_JSP + "/personal_tariff_editor.jsp");

@@ -96,7 +96,7 @@
 				<c:when test="${not empty contract.title}">
 					<c:set var="contractTabId" value="bgbilling-contractTabs-${billingId}-${contractId}"/>
 
-					<c:url var="url" value="plugin/bgbilling/contract.do">
+					<c:url var="url" value="${form.httpRequestURI}">
 						<c:param name="action" value="copyCustomerParamToContract"/>
 						<c:param name="contractId" value="${contractId}"/>
 						<c:param name="contractTitle" value="${contract.title}"/>
@@ -109,14 +109,14 @@
 						Скопировать параметры
 					</button>
 
-					<c:url var="url" value="plugin/bgbilling/contract.do">
+					<c:url var="url" value="${form.httpRequestURI}">
 						<c:param name="action" value="createCustomerFromContract"/>
 						<c:param name="customerId" value="${customer.id}"/>
 						<c:param name="contractId" value="${contractId}"/>
 						<c:param name="billingId" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].id}"/>
 					</c:url>
 
-					<button type="button" class="btn-white btn-small" onclick="$$.ajax.post('${url}').done(() => $$.bgbilling.contract.open('${billingId}', ${contractId}))"
+					<button type="button" class="btn-grey btn-small" onclick="$$.ajax.post('${url}', {control: this}).done(() => $$.bgbilling.contract.open('${billingId}', ${contractId}))"
 							title="Импорт в контрагента">Импорт</button>
 				</c:when>
 				<c:otherwise>

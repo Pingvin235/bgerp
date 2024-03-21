@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 
 public class ContractDAO8x extends ContractDAO {
-    public static final String RU_BITEL_BGBILLING_KERNEL_CONTRACT_API = ContractDAO.KERNEL_CONTRACT_API;
     public static final String CONTRACT_NOTE_SERVICE = "ContractNoteService";
 
     public ContractDAO8x(User user, String billingId) throws BGException {
@@ -42,7 +41,7 @@ public class ContractDAO8x extends ContractDAO {
     public ContractInfo getContractInfo(int contractId) throws BGException {
         ContractInfo result = null;
 
-        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                 "ContractService", "contractInfoGet");
         req.setParamContractId(contractId);
         JsonNode res = transferData.postDataReturn(req, user);
@@ -114,7 +113,7 @@ public class ContractDAO8x extends ContractDAO {
 
     @Override
     public void bgbillingUpdateContractTitleAndComment(int contractId, String comment, int patid) throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                 "ContractService", "contractTitleAndCommentUpdate");
         req.setParamContractId(contractId);
         req.setParam("title", null);
@@ -135,7 +134,7 @@ public class ContractDAO8x extends ContractDAO {
 
     @Override
     public List<ContractMemo> getMemoList(int contractId) throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
                 "contractNoteList");
         req.setParamContractId(contractId);
         req.setParam("customer", false);
@@ -167,7 +166,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     private ContractMemo8x getContractMemo8x(int memoId) throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
                 "getContractNote");
         req.setParam("contractNoteId", memoId);
         JsonNode res = transferData.postDataReturn(req, user);
@@ -181,7 +180,7 @@ public class ContractDAO8x extends ContractDAO {
 
     @Override
     public void updateMemo(int contractId, int memoId, String memoTitle, String memoText, boolean visible) throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
                 "contractNoteUpdate");
         req.setParamContractId(contractId);
         ContractMemo8x contractMemo = new ContractMemo8x();
@@ -203,7 +202,7 @@ public class ContractDAO8x extends ContractDAO {
         //contractId почемуто потерялся!
         ContractMemo8x memo = getContractMemo8x(memoId);
         if (memo != null) {
-            RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
                     "contractNoteDelete");
             req.setParamContractId(memo.getContractId());
             req.setParam("id", memoId);
@@ -298,7 +297,7 @@ public class ContractDAO8x extends ContractDAO {
     public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions)
             throws BGException {
         if (searchResult != null) {
-            RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API,
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                     "ContractService", "contractList");
             req.setParam("title", title);
             req.setParam("comment", comment);
@@ -323,26 +322,10 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public Contract getContractById(int contractId) throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, "ContractService", "contractList0");
-        req.setParamContractId(contractId);
-        req.setParam("fc", -1);
-        req.setParam("subContracts", true);
-        req.setParam("closed", true);
-        req.setParam("hidden", true);
-        req.setParam("inAllLabels", true);
-
-        JsonNode ret = transferData.postData(req, user);
-        List<Contract> contractList = readJsonValue(ret.findValue("return").traverse(),
-                jsonTypeFactory.constructCollectionType(List.class, Contract.class));
-        return contractList.stream().findFirst().orElse(null);
-    }
-
-    @Override
     public List<String[]> getContractCardTypes(int contractId) throws BGException {
         List<String[]> result = new ArrayList<>();
 
-        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, "ContractService", "contractCardList");
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractCardList");
         req.setParamContractId(contractId);
 
         List<IdStringTitle> list = readJsonValue(transferData.postDataReturn(req, user).traverse(),

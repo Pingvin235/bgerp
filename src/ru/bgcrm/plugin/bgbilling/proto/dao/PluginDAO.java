@@ -31,7 +31,7 @@ public class PluginDAO
             throws BGException {
         List<String> result = new ArrayList<String>();
         Request req = new Request();
-        if (dbInfo.getVersion().compareTo("8.0") > 0) {
+        if (dbInfo.versionCompare("8.0") > 0) {
             req.setModule("admin");
             req.setAction("MenuAndToolBar");
         } else {

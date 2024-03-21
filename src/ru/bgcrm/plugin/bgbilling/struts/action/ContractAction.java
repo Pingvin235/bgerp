@@ -46,22 +46,17 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class ContractAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
-    public static final String CUSTOMER_ID = "customerId";
-    public static final String BILLING_ID = "billingId";
-    public static final String CONTRACT_KEY = "contract";
-    public static final String CONTRACT_ID = "contractId";
-
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
         return contract(form, conSet);
     }
 
     public ActionForward customerContractList(DynActionForm form, Connection con) throws BGException {
-        int customerId = form.getParamInt(CUSTOMER_ID, 0);
+        int customerId = form.getParamInt("customerId", 0);
 
         form.getResponse().setData("list",
                 new CustomerLinkDAO(con).getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%"));
-        form.getResponse().setData(CUSTOMER_ID, customerId);
+        form.getResponse().setData("customerId", customerId);
 
         form.setRequestAttribute("contractTypesConfig", setup.getConfig(ContractTypesConfig.class));
         form.setRequestAttribute("customer", new CustomerDAO(con).getCustomerById(customerId));
@@ -83,13 +78,13 @@ public class ContractAction extends BaseAction {
     }
 
     public ActionForward contract(DynActionForm form, ConnectionSet conSet) throws BGException {
-        String billingId = form.getParam(BILLING_ID);
+        String billingId = form.getParam("billingId");
         int id = form.getId();
 
         if (Utils.notBlankString(billingId) && id > 0) {
             ContractInfo info = ContractDAO.getInstance(form.getUser(), billingId)
                     .getContractInfo(id);
-            form.getResponse().setData(CONTRACT_KEY, info);
+            form.getResponse().setData("contract", info);
 
             Customer customer = new ContractCustomerDAO(conSet.getConnection()).getContractCustomer(info);
             if (customer != null) {
@@ -102,7 +97,7 @@ public class ContractAction extends BaseAction {
 
     public ActionForward createCustomerFromContract(DynActionForm form, Connection con) throws BGMessageException {
         Config config = setup.getConfig(Config.class);
-        String billingId = form.getParam(BILLING_ID);
+        String billingId = form.getParam("billingId");
 
         if (config == null) {
             throw new BGMessageExceptionTransparent("Отсутствующая либо некорректная конфигурация импорта контрагентов.");
@@ -114,14 +109,14 @@ public class ContractAction extends BaseAction {
             throw new BGMessageExceptionTransparent("Для данного биллинга не настроен импорт контрагентов.");
         }
 
-        serverCustomerCreator.createCustomer(billingId, con, form.getParamInt(CONTRACT_ID, -1),
-                form.getParamInt(CUSTOMER_ID, -1));
+        serverCustomerCreator.createCustomer(billingId, con, form.getParamInt("contractId", -1),
+                form.getParamInt("customerId", -1));
 
         return json(con, form);
     }
 
     public ActionForward copyCustomerParamCascade(DynActionForm form, Connection con) throws Exception {
-        int customerId = form.getParamInt(CUSTOMER_ID, -1);
+        int customerId = form.getParamInt("customerId", -1);
         User user = form.getUser();
 
         ContractDAO.copyParametersToAllContracts(con, user, customerId);
@@ -130,32 +125,32 @@ public class ContractAction extends BaseAction {
     }
 
     public ActionForward copyCustomerParamToContract(DynActionForm form, Connection con) throws Exception {
-        int customerId = form.getParamInt(CUSTOMER_ID, -1);
+        int customerId = form.getParamInt("customerId", -1);
 
-        int contractId = form.getParamInt(CONTRACT_ID, -1);
+        int contractId = form.getParamInt("contractId", -1);
         String contractTitle = form.getParam("contractTitle", "");
 
-        ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), form.getParam(BILLING_ID));
+        ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), form.getParam("billingId"));
         contractDAO.copyParametersToBilling(con, customerId, contractId, contractTitle);
 
         return json(con, form);
     }
 
     public ActionForward contractFind(DynActionForm form, Connection con) throws BGException {
-        String billingId = form.getParam(BILLING_ID);
+        String billingId = form.getParam("billingId");
         String title = form.getParam("title");
 
         Pageable<IdTitle> searchResult = new Pageable<>();
         ContractDAO.getInstance(form.getUser(), billingId)
                 .searchContractByTitleComment(searchResult, title, null, null);
-        form.getResponse().setData(CONTRACT_KEY, Utils.getFirst(searchResult.getList()));
+        form.getResponse().setData("contract", Utils.getFirst(searchResult.getList()));
 
         return json(con, form);
     }
 
     public ActionForward contractCreate(DynActionForm form, Connection con) throws Exception {
-        int customerId = Utils.parseInt(form.getParam(CUSTOMER_ID));
-        String billingId = form.getParam(BILLING_ID);
+        int customerId = Utils.parseInt(form.getParam("customerId"));
+        String billingId = form.getParam("billingId");
         int patternId = Utils.parseInt(form.getParam("patternId"));
         String date = form.getParam("date");
         String titlePattern = form.getParam("titlePattern");
@@ -200,7 +195,7 @@ public class ContractAction extends BaseAction {
                 tariffDao.addTariffPlan(contract.getId(), tariffId, tariffPosition);
         }
 
-        form.getResponse().setData(CONTRACT_KEY, contract);
+        form.getResponse().setData("contract", contract);
 
         return json(con, form);
     }
@@ -225,7 +220,7 @@ public class ContractAction extends BaseAction {
     }*/
 
     public ActionForward addProcessContractLink(DynActionForm form, Connection con) throws Exception {
-        String billingId = form.getParam(BILLING_ID);
+        String billingId = form.getParam("billingId");
         int processId = form.getParamInt("processId");
         String contractTitle = form.getParam("contractTitle");
 
@@ -252,8 +247,8 @@ public class ContractAction extends BaseAction {
     }
 
     public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) throws BGException {
-        String billingId = form.getParam(BILLING_ID);
-        int contractId = form.getParamInt(CONTRACT_ID);
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
 
         List<String> whatShow = Utils.toList(form.getParam("whatShow"));
         for (String item : whatShow) {

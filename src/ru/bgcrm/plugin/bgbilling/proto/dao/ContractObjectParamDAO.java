@@ -2,11 +2,9 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
@@ -17,9 +15,15 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;
+import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrAddress;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrDate;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrList;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrText;
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
@@ -34,18 +38,27 @@ public class ContractObjectParamDAO extends BillingDAO {
         contractParameters = new HashMap<Integer, Document>();
     }
 
-    public List<ContractParameter> getParameterList(int objectId) throws BGException {
-        List<ContractParameter> parameterList = new ArrayList<ContractParameter>();
+    public List<ContractObjectParameter> getParameterList(int objectId) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                    "ContractObjectService",
+                    "contractObjectParameters");
+            req.setParam("objectId", objectId);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            return readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractObjectParameter.class));
+        } else {
+            List<ContractObjectParameter> parameterList = new ArrayList<>();
 
-        for (int paramId : getContractParamIds(objectId)) {
-            int paramType = getParamType(objectId, paramId);
-            String paramTitle = getParamTitle(objectId, paramId);
-            String paramValue = getTextParam(objectId, paramId);
+            for (int paramId : getContractParamIds(objectId)) {
+                int paramType = getParamType(objectId, paramId);
+                String paramTitle = getParamTitle(objectId, paramId);
+                String paramValue = getTextParam(objectId, paramId);
 
-            parameterList.add(new ContractParameter(paramId, paramType, paramTitle, paramValue));
+                parameterList.add(new ContractObjectParameter(paramId, paramType, paramTitle, paramValue, null));
+            }
+
+            return parameterList;
         }
-
-        return parameterList;
     }
 
     private Document getContractParams(int objectId) {
@@ -74,13 +87,21 @@ public class ContractObjectParamDAO extends BillingDAO {
         return XMLUtils.selectText(getContractParams(objectId), "/data/table/row[@param_id=" + paramId + "]/@value");
     }
 
-    public ContractParameter getParameter(int objectId, int paramId) {
-        getContractParams(objectId);
-        int paramType = getParamType(objectId, paramId);
-        String paramTitle = getParamTitle(objectId, paramId);
-        String paramValue = getTextParam(objectId, paramId);
+    public ContractObjectParameter getParameter(int objectId, int paramId) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            ContractObjectParameter parameter = getParameterList(objectId).stream()
+                    .filter(op -> op.getParameterId() == paramId)
+                    .findFirst().orElse(null);
+            return parameter;
+        } else {
+            getContractParams(objectId);
+            int paramType = getParamType(objectId, paramId);
+            String paramTitle = getParamTitle(objectId, paramId);
+            String paramValue = getTextParam(objectId, paramId);
 
-        return new ContractParameter(paramId, paramType, paramTitle, paramValue);
+            return new ContractObjectParameter(paramId, paramType, paramTitle, paramValue,null);
+        }
+
     }
 
     public int getParamType(int objectId, int paramId) {
@@ -110,7 +131,7 @@ public class ContractObjectParamDAO extends BillingDAO {
     	Request billingRequest = new Request();
     	billingRequest.setModule( CONTRACT_MODULE_ID );
     	billingRequest.setAction( "PhoneInfo" );
-    	if( dbInfo.getVersion().compareTo( "5.2" ) >= 0 )
+    	if( dbInfo.versionCompare( "5.2" ) >= 0 )
     	{
     		billingRequest.setAction( "GetPhoneInfo" );
     	}
@@ -126,7 +147,7 @@ public class ContractObjectParamDAO extends BillingDAO {
     		int itemCount = Utils.parseInt( phone.getAttribute( "count" ) );
 
     		// до 5.1 было просто зашито 5 телефонов
-    		if( dbInfo.getVersion().compareTo( "5.1" ) <= 0 )
+    		if( dbInfo.versionCompare( "5.1" ) <= 0 )
     		{
     			itemCount = 5;
     		}
@@ -187,30 +208,43 @@ public class ContractObjectParamDAO extends BillingDAO {
     }
 
     public List<IdTitle> getListParam(int objectId, int paramId) throws BGException {
-        List<IdTitle> result = new ArrayList<IdTitle>();
+        if (dbInfo.versionCompare("9.2") >= 0) {
 
-        Request req = new Request();
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                    "ParameterObjectTypeService",
+                    "getValuesForListParameter");
+            req.setParam("parameterId", paramId);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            return readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
 
-        req.setModule(CONTRACT_OBJECT_MODULE_ID);
-        req.setAction("ListParamValueGet");
-        req.setAttribute("object", objectId);
-        req.setAttribute("param", paramId);
+        } else {
 
-        Document doc = transferData.postData(req, user);
 
-        Element dataElement = doc.getDocumentElement();
-        NodeList nodeList = dataElement.getElementsByTagName("item");
-        for (int index = 0; index < nodeList.getLength(); index++) {
-            IdTitle value = new IdTitle();
-            Element element = (Element) nodeList.item(index);
+            List<IdTitle> result = new ArrayList<IdTitle>();
 
-            value.setId(Utils.parseInt(element.getAttribute("id")));
-            value.setTitle(element.getAttribute("title"));
+            Request req = new Request();
 
-            result.add(value);
+            req.setModule(CONTRACT_OBJECT_MODULE_ID);
+            req.setAction("ListParamValueGet");
+            req.setAttribute("object", objectId);
+            req.setAttribute("param", paramId);
+
+            Document doc = transferData.postData(req, user);
+
+            Element dataElement = doc.getDocumentElement();
+            NodeList nodeList = dataElement.getElementsByTagName("item");
+            for (int index = 0; index < nodeList.getLength(); index++) {
+                IdTitle value = new IdTitle();
+                Element element = (Element) nodeList.item(index);
+
+                value.setId(Utils.parseInt(element.getAttribute("id")));
+                value.setTitle(element.getAttribute("title"));
+
+                result.add(value);
+            }
+
+            return result;
         }
-
-        return result;
     }
 
     /**
@@ -221,60 +255,115 @@ public class ContractObjectParamDAO extends BillingDAO {
         return item.toParameterAddressValue(con);
     }
 
-    public void updateTextParameter(int objectId, int paramId, String value) throws BGException {
-        Request req = new Request();
+    public void updateTextParameter(int  contractId, int objectId, int paramId, String value) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                    "ContractObjectParameterService", "textParameterValueUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("parameterId", new EntityAttrText(objectId, paramId, value));
+            transferData.postDataReturn(req, user);
+        } else {
+            Request req = new Request();
 
-        req.setModule(CONTRACT_OBJECT_MODULE_ID);
-        req.setAction("TextParamValueUpdate");
-        req.setAttribute("object", objectId);
-        req.setAttribute("param", paramId);
-        req.setAttribute("value", value);
+            req.setModule(CONTRACT_OBJECT_MODULE_ID);
+            req.setAction("TextParamValueUpdate");
+            req.setAttribute("object", objectId);
+            req.setAttribute("param", paramId);
+            req.setAttribute("value", value);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        }
     }
 
-    public void updateListParameter(int objectId, int paramId, String value) throws BGException {
-        Request req = new Request();
+    public void updateListParameter(int  contractId, int objectId, int paramId, String value) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                    "ContractObjectParameterService", "listParameterValueUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("entityAttrList", new EntityAttrList(objectId, paramId, Integer.parseInt(value),null));
+            transferData.postDataReturn(req, user);
+        } else {
+            Request req = new Request();
 
-        req.setModule(CONTRACT_OBJECT_MODULE_ID);
-        req.setAction("ListParamValueUpdate");
-        req.setAttribute("object", objectId);
-        req.setAttribute("param", paramId);
-        req.setAttribute("value", value);
+            req.setModule(CONTRACT_OBJECT_MODULE_ID);
+            req.setAction("ListParamValueUpdate");
+            req.setAttribute("object", objectId);
+            req.setAttribute("param", paramId);
+            req.setAttribute("value", value);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        }
     }
 
-    public void updateAddressParameter(int objectId, int paramId, ParamAddressValue address) throws BGException {
-        Request req = new Request();
+    public void updateAddressParameter(int contractId, int objectId, int paramId, ParamAddressValue address) throws BGException {
 
-        req.setModule(CONTRACT_OBJECT_MODULE_ID);
-        req.setAction("AddressParamValueUpdate");
-        req.setAttribute("object", objectId);
-        req.setAttribute("param", paramId);
-        req.setAttribute("index", address.getIndex());
-        req.setAttribute("cityStr", address.getCityTitle());
-        req.setAttribute("streetStr", address.getStreetTitle());
-        req.setAttribute("houseAndFrac", address.getHouse());
-        req.setAttribute("hid", address.getHouseId());
-        req.setAttribute("pod", address.getPod());
-        req.setAttribute("floor", address.getFloor());
-        req.setAttribute("flat", address.getFlat());
-        req.setAttribute("room", address.getRoom());
-        req.setAttribute("comment", address.getComment());
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            EntityAttrAddress attrAddress = new EntityAttrAddress(objectId, paramId);
+            attrAddress.setHouseId(address.getHouseId());
+            attrAddress.setPod( Utils.parseInt(address.getPod()));
+            attrAddress.setFloor( Utils.parseInt(address.getFloor()));
+            attrAddress.setFlat( Utils.maskNull(address.getFlat()));
+            attrAddress.setRoom(Utils.maskNull(address.getRoom()));
+            attrAddress.setComment(Utils.maskNull(address.getComment()));
 
-        transferData.postData(req, user);
+
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                    "ContractObjectParameterService", "addressParameterValueUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("entityAttrAddress", attrAddress);
+            transferData.postDataReturn(req, user);
+        } else {
+
+            Request req = new Request();
+
+            req.setModule(CONTRACT_OBJECT_MODULE_ID);
+            req.setAction("AddressParamValueUpdate");
+            req.setAttribute("object", objectId);
+            req.setAttribute("param", paramId);
+            req.setAttribute("index", address.getIndex());
+            req.setAttribute("cityStr", address.getCityTitle());
+            req.setAttribute("streetStr", address.getStreetTitle());
+            req.setAttribute("houseAndFrac", address.getHouse());
+            req.setAttribute("hid", address.getHouseId());
+            req.setAttribute("pod", address.getPod());
+            req.setAttribute("floor", address.getFloor());
+            req.setAttribute("flat", address.getFlat());
+            req.setAttribute("room", address.getRoom());
+            req.setAttribute("comment", address.getComment());
+
+            transferData.postData(req, user);
+        }
     }
 
-    public void updateDateParameter(int objectId, int paramId, String value) throws BGException {
-        Request req = new Request();
+    public void updateDateParameter(int  contractId, int objectId, int paramId, String value) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            Date date = TimeUtils.parse(value, TimeUtils.PATTERN_DDMMYYYY);
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                    "ContractObjectParameterService", "dateParameterValueUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("entityAttrDate", new EntityAttrDate(objectId, paramId, date));
+            transferData.postDataReturn(req, user);
+        } else {
+            Request req = new Request();
 
-        req.setModule(CONTRACT_OBJECT_MODULE_ID);
-        req.setAction("DateParamValueUpdate");
-        req.setAttribute("object", objectId);
-        req.setAttribute("param", paramId);
-        req.setAttribute("value", value);
+            req.setModule(CONTRACT_OBJECT_MODULE_ID);
+            req.setAction("DateParamValueUpdate");
+            req.setAttribute("object", objectId);
+            req.setAttribute("param", paramId);
+            req.setAttribute("value", value);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        }
+    }
+
+    public List<IdTitle> getValuesForListParameter(int parameterId) {
+
+        RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                "ParameterObjectTypeService",
+                "getValuesForListParameter");
+        req.setParam("parameterId", parameterId);
+        JsonNode ret = transferData.postDataReturn(req, user);
+        return readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+
     }
 }

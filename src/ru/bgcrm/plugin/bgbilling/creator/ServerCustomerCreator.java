@@ -1,7 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.creator;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,6 +30,7 @@ import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.ParamList;
 import ru.bgcrm.model.customer.Customer;
@@ -45,6 +45,7 @@ import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.TransferData;
 import ru.bgcrm.plugin.bgbilling.creator.Config.ParameterGroupTitlePatternRule;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -108,7 +109,7 @@ public class ServerCustomerCreator {
         user.setLogin(userName);
         user.setPassword(userPassword);
 
-        log.info("Creating server creator for: " + dbInfo.getId());
+        log.info("Creating server creator for: {}", dbInfo.getId());
 
         try {
             transferData = dbInfo.getTransferData();
@@ -119,7 +120,7 @@ public class ServerCustomerCreator {
         for (String token : params.get("paramMapping", "").split(";")) {
             String[] pair = token.split(":");
             if (pair.length != 2) {
-                throw new BGException("Incorrect param map: " + token);
+                throw new BGException("Incorrect param map: {}", token);
             }
 
             String crmParam = pair[0].trim();
@@ -141,12 +142,12 @@ public class ServerCustomerCreator {
 
             Parameter param = ParameterCache.getParameter(Utils.parseInt(crmParam));
             if (param == null) {
-                throw new BGException("Can't find param: " + crmParam);
+                throw new BGException("Can't find param: {}", crmParam);
             }
 
             value.billingParamIdList = Utils.toIntegerList(billingParam);
 
-            log.info("Param mapping: " + param.getId() + " => " + value.billingParamIdList);
+            log.info("Param mapping: {} => {}", param.getId(), value.billingParamIdList);
             paramTypeMapping.put(param, value);
         }
 
@@ -170,31 +171,23 @@ public class ServerCustomerCreator {
         linkDao = new CustomerLinkDAO(con);
     }
 
-    public void createCustomer(String billingId, Connection con, int contractId, int customerId) throws BGException {
+    public void createCustomer(String billingId, Connection con, int contractId, int customerId) throws BGMessageException {
         try {
             init(con);
 
-            Request req = new Request();
-            req.setModule("contract");
-            req.setAction("FindContractByID");
-            req.setAttribute("id", contractId);
-
-            Document doc = transferData.postData(req, user);
-
-            for (Element contract : XMLUtils.selectElements(doc, "/data/contracts/item")) {
-                String title = contract.getAttribute("title");
-                createCustomer(contractId, title);
-            }
+            var contract = ContractDAO.getInstance(user, billingId).getContractById(contractId);
+            if (contract != null)
+                createCustomer(contractId, contract.getTitle(), contract.getComment());
 
             SQLUtils.commitConnection(con);
-        } catch (SQLException e) {
-            throw new BGException(e);
+        } catch (BGMessageException | BGException e) {
+            throw e;
         } catch (Exception e) {
             throw new BGException(e);
         }
     }
 
-    public void createCustomers(Connection con) throws BGException {
+    public void createCustomers(Connection con) {
         init(con);
 
         Request req = new Request();
@@ -206,7 +199,7 @@ public class ServerCustomerCreator {
         req.setPageIndex(1);
         req.setPageSize(pageSize);
 
-        log.info("Import customers for server: " + dbInfo.getId());
+        log.info("Import customers for server: {}", dbInfo.getId());
 
         try {
             Document doc = transferData.postData(req, user);
@@ -215,22 +208,24 @@ public class ServerCustomerCreator {
                 int contractId = Utils.parseInt(contract.getAttribute("id"));
                 String title = contract.getAttribute("title");
 
-                createCustomer(contractId, title);
+                int pos = title.indexOf('[');
+                String contractNumber = title.substring(0, pos).trim();
+                String customerTitle = title.substring(pos + 1, title.lastIndexOf(']')).trim();
+
+                createCustomer(contractId, contractNumber, customerTitle);
             }
+        } catch (BGException e) {
+            throw e;
         } catch (Exception e) {
             throw new BGException(e);
         }
     }
 
-    public void createCustomer(int contractId, String title) throws Exception {
-        int pos = title.indexOf('[');
-        String contractNumber = title.substring(0, pos).trim();
-        String customerTitle = title.substring(pos + 1, title.lastIndexOf(']')).trim();
-
-        log.info("FOUND CONTRACT: " + contractNumber + "; id:" + contractId + "; customerTitle: " + customerTitle);
+    public void createCustomer(int contractId, String contractNumber, String customerTitle) throws Exception {
+        log.info("FOUND CONTRACT: {}, ID: {}, customerTitle: {}", contractNumber, contractId, customerTitle);
 
         if (customerTitle.length() < minCustomerTitleLength) {
-            log.warn("Customer title length less when: " + minCustomerTitleLength);
+            log.warn("Customer title length less when: {}", minCustomerTitleLength);
             ContractParamDAO contractParamDAO = new ContractParamDAO(user, dbInfo);
             contractParamDAO.updateTextParameter(contractId, dbInfo.getCustomerIdParam(), "");
             return;
@@ -245,7 +240,7 @@ public class ServerCustomerCreator {
         Customer customer = findCustomerByTitleWithParamsConfirm(customerTitle, contractId, paramValues);
 
         if (customer != null) {
-            log.info("Found customer by title and confirm: " + customer.getId());
+            log.info("Found customer by title and confirm: {}", customer.getId());
         }
 
         if (customer == null) {
@@ -263,12 +258,12 @@ public class ServerCustomerCreator {
                 }
                 customerDao.updateCustomer(customer);
 
-                log.info("Created new customer. ID: " + customer.getId() + "; parameterGroupId: " + customer.getParamGroupId());
+                log.info("Created new customer. ID: {}; parameterGroupId: {}", customer.getId(), customer.getParamGroupId());
             } else {
                 customer.setTitle(customer.getTitle() + " | " + customerTitle);
                 customerDao.updateCustomer(customer);
 
-                log.info("Found customer by param and title: " + customer.getId());
+                log.info("Found customer by param and title: {}", customer.getId());
             }
         }
 
@@ -300,7 +295,7 @@ public class ServerCustomerCreator {
 
             result.put(billingParamId, value);
 
-            log.info(billingParamId + " => " + value);
+            log.info("{} => {}", billingParamId, value);
         }
 
         return result;
@@ -342,14 +337,14 @@ public class ServerCustomerCreator {
                     if (Parameter.TYPE_TEXT.equals(param.getType())) {
                         String val = paramValueDao.getParamText(customer.getId(), param.getId());
                         if (val != null && val.trim().equals(billingParamValue)) {
-                            log.info("Confirm param, text: " + param.getId());
+                            log.info("Confirm param, text: {}", param.getId());
 
                             return customer;
                         }
                     } else if (Parameter.TYPE_ADDRESS.equals(param.getType())) {
                         for (ParameterAddressValue addr : paramValueDao.getParamAddress(customer.getId(), param.getId()).values()) {
                             if (addr.getValue().trim().equals(billingParamValue)) {
-                                log.info("Confirm param, address: " + param.getId());
+                                log.info("Confirm param, address: {}", param.getId());
 
                                 return customer;
                             }
@@ -361,7 +356,7 @@ public class ServerCustomerCreator {
                         if (val != null) {
                             for (ParameterPhoneValueItem item : val.getItemList()) {
                                 if (contractPhones.contains(item.getPhone().trim())) {
-                                    log.info("Confirm param, phone: " + param.getId());
+                                    log.info("Confirm param, phone: {}", param.getId());
                                     return customer;
                                 }
                             }
@@ -369,7 +364,7 @@ public class ServerCustomerCreator {
                     } else if (Parameter.TYPE_DATE.equals(param.getType())) {
                         String val = TimeUtils.format(paramValueDao.getParamDate(customer.getId(), param.getId()), TimeUtils.FORMAT_TYPE_YMD);
                         if (val != null && val.trim().equals(billingParamValue)) {
-                            log.info("Confirm param, date: " + param.getId());
+                            log.info("Confirm param, date: {}", param.getId());
 
                             return customer;
                         }

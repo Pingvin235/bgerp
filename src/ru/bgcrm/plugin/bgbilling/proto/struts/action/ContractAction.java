@@ -48,6 +48,7 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractService;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
@@ -469,14 +470,16 @@ public class ContractAction extends BaseAction {
 
     public ActionForward updateContractObject(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
         String title = form.getParam("title");
         int objectId = form.getParamInt("objectId");
         int typeId = form.getParamInt("typeId");
         Date dateFrom = form.getParamDate("dateFrom");
         Date dateTo = form.getParamDate("dateTo");
 
+
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
-        contractObjectDAO.updateContractObject(objectId, title, dateFrom, dateTo, typeId, 0);
+        contractObjectDAO.updateContractObject(objectId, title, dateFrom, dateTo, typeId, contractId);
 
         return json(conSet, form);
     }
@@ -497,11 +500,11 @@ public class ContractAction extends BaseAction {
         Integer paramId = form.getParamInt("paramId");
 
         ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
-        ContractParameter parameter = paramDAO.getParameter(objectId, paramId);
+        ContractObjectParameter parameter = paramDAO.getParameter(objectId, paramId);
 
         form.getResponse().setData("parameter", parameter);
 
-        int paramType = parameter.getParamType();
+        int paramType = parameter.getTypeId();
         if (paramType <= 0) {
             throw new BGMessageExceptionTransparent("Параметр не поддерживается для редактирования");
         }
@@ -549,12 +552,13 @@ public class ContractAction extends BaseAction {
         Integer objectId = form.getParamInt("objectId");
         Integer paramBillingId = form.getParamInt("paramId");
         Integer parameterType = form.getParamInt("paramType");
+        Integer contractId = form.getParamInt("contractId");
 
         ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
 
         switch (parameterType) {
             case ParameterType.ContractObjectType.TYPE_TEXT:
-                paramDAO.updateTextParameter(objectId, paramBillingId, form.getParam("textValue"));
+                paramDAO.updateTextParameter(contractId,objectId, paramBillingId, form.getParam("textValue"));
                 break;
 
             case ParameterType.ContractObjectType.TYPE_ADDRESS:
@@ -570,15 +574,15 @@ public class ContractAction extends BaseAction {
                 address.setFloor(form.getParam("floor"));
                 address.setComment(form.getParam("comment"));
 
-                paramDAO.updateAddressParameter(objectId, paramBillingId, address);
+                paramDAO.updateAddressParameter(contractId, objectId, paramBillingId, address);
                 break;
 
             case ParameterType.ContractObjectType.TYPE_DATE:
-                paramDAO.updateDateParameter(objectId, paramBillingId, form.getParam("dateValue"));
+                paramDAO.updateDateParameter(contractId, objectId, paramBillingId, form.getParam("dateValue"));
                 break;
 
             case ParameterType.ContractObjectType.TYPE_LIST:
-                paramDAO.updateListParameter(objectId, paramBillingId, form.getParam("listValueId"));
+                paramDAO.updateListParameter(contractId, objectId, paramBillingId, form.getParam("listValueId"));
                 break;
 
             default:

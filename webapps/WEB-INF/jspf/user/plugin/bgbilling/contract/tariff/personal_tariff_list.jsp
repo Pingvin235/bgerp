@@ -36,8 +36,8 @@
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
 
-			<td align="center" nowrap="nowrap">${personalTariff.position}</td>
-			<td nowrap="nowrap">${tu.formatPeriod( personalTariff.dateFrom, personalTariff.dateTo, 'ymd' )}</td>
+			<td align="center" nowrap="nowrap">${personalTariff.pos}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( personalTariff.date1, personalTariff.date2, 'ymd' )}</td>
 			<td width="100%">${personalTariff.title}</td>
 		</tr>
 	</c:forEach>

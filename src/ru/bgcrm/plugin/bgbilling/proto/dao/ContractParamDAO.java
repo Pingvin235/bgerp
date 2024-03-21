@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.SortedMap;
 
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
@@ -33,6 +34,7 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
+import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
@@ -183,20 +185,34 @@ public class ContractParamDAO extends BillingDAO {
     }
 
     public List<IdTitle> getParamListValues(int paramId) throws BGException {
-        List<IdTitle> valueList = new ArrayList<IdTitle>();
 
-        Request req = new Request();
-        req.setModule("admin");
-        req.setAction("ListValues");
-        req.setAttribute("pid", paramId);
+        if (dbInfo.versionCompare("9.2") >= 0) {
 
-        Document doc = transferData.postData(req, user);
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                    "ContractParameterService",
+                    "contractParameterListItemList");
 
-        for (Element e : XMLUtils.selectElements(doc, "/data/values/item")) {
-            valueList.add(new IdTitle(Utils.parseInt(e.getAttribute("id")), e.getAttribute("title")));
+            req.setParam("parameterTypeId", paramId);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            return readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+
+        } else {
+
+            List<IdTitle> valueList = new ArrayList<IdTitle>();
+
+            Request req = new Request();
+            req.setModule("admin");
+            req.setAction("ListValues");
+            req.setAttribute("pid", paramId);
+
+            Document doc = transferData.postData(req, user);
+
+            for (Element e : XMLUtils.selectElements(doc, "/data/values/item")) {
+                valueList.add(new IdTitle(Utils.parseInt(e.getAttribute("id")), e.getAttribute("title")));
+            }
+
+            return valueList;
         }
-
-        return valueList;
     }
 
     public List<ParameterPhoneValueItem> getPhoneParam(int contractId, int paramId) throws BGException {
@@ -205,7 +221,7 @@ public class ContractParamDAO extends BillingDAO {
         Request billingRequest = new Request();
         billingRequest.setModule(CONTRACT_MODULE_ID);
         billingRequest.setAction("PhoneInfo");
-        if (dbInfo.getVersion().compareTo("5.2") >= 0) {
+        if (dbInfo.versionCompare("5.2") >= 0) {
             billingRequest.setAction("GetPhoneInfo");
         }
 
@@ -219,7 +235,7 @@ public class ContractParamDAO extends BillingDAO {
             int itemCount = Utils.parseInt(phone.getAttribute("count"));
 
             // до 5.1 было просто зашито 5 телефонов
-            if (dbInfo.getVersion().compareTo("5.1") <= 0) {
+            if (dbInfo.versionCompare("5.1") <= 0) {
                 itemCount = 5;
             }
 
@@ -231,7 +247,7 @@ public class ContractParamDAO extends BillingDAO {
                     continue;
 
                 // удаление форматирование из параметра
-                if (dbInfo.getVersion().compareTo("9.2") >= 0)
+                if (dbInfo.versionCompare("9.2") >= 0)
                     number = number.replaceAll("[^\\d.]", "");
 
                 ParameterPhoneValueItem item = new ParameterPhoneValueItem();
@@ -278,7 +294,7 @@ public class ContractParamDAO extends BillingDAO {
         List<String> emails = new ArrayList<String>();
         result.setEmails(emails);
 
-        if (dbInfo.getVersion().compareTo("5.2") < 0) {
+        if (dbInfo.versionCompare("5.2") < 0) {
             Element data = XMLUtils.selectElement(doc, "/data");
             for (Element e : XMLUtils.selectElements(data, "email_list/row")) {
                 emails.add(e.getAttribute("text"));
@@ -471,7 +487,7 @@ public class ContractParamDAO extends BillingDAO {
 
         int itemCount = phones.size();
         // до 5.1 было просто зашито 5 телефонов
-        if (dbInfo.getVersion().compareTo("5.1") <= 0) {
+        if (dbInfo.versionCompare("5.1") <= 0) {
             itemCount = 5;
         }
 

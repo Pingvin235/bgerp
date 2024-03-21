@@ -34,7 +34,7 @@ public class ContractScriptDAO extends BillingDAO {
     }
 
     public List<ContractScript> contractScriptList(int contractId) throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.script", "ContractScriptService", "contractScriptList");
             req.setParamContractId(contractId);
             JsonNode ret = transferData.postDataReturn(req, user);
@@ -60,7 +60,7 @@ public class ContractScriptDAO extends BillingDAO {
     }
 
     public ContractScript contractScriptGet(int scriptId) throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.script",
                     "ContractScriptService",
                     "contractScriptGet");
@@ -95,7 +95,7 @@ public class ContractScriptDAO extends BillingDAO {
     }
 
     public void contractScriptLogList(Pageable<ContractScriptLogItem> result, int contractId, String dateFrom, String dateTo) throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.script",
                     "ContractScriptService",
                     "getScriptLogList");
@@ -156,7 +156,7 @@ public class ContractScriptDAO extends BillingDAO {
 
     public void updateContractScript(int contractId, int scriptId, int scriptTypeId, String comment, String dateFrom, String dateTo)
             throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             ContractScript contractScript = new ContractScript();
             contractScript.setContractId(contractId);
             contractScript.setId(scriptId);
@@ -190,7 +190,7 @@ public class ContractScriptDAO extends BillingDAO {
     }
 
     public void deleteContractScript(int scriptId) throws BGException {
-        if (dbInfo.getVersion().compareTo("9.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.script",
                     "ContractScriptService",
                     "contractScriptDelete");

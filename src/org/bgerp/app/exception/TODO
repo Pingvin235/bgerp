@@ -1,0 +1,5 @@
+Move in the package classes:
+- BGException
+- BGIllegalArgumentException
+- BGMessageException
+- BGSecurityException

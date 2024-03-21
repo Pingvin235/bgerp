@@ -10,7 +10,7 @@
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
-			<ui:combo-single hiddenName="showEmptyParameters" value="${form.param.showEmptyParameters}" prefixText="Только заполненные:" widthTextValue="20px"
+			<ui:combo-single hiddenName="showEmptyParameters" value="${form.param.showEmptyParameters}" prefixText="Только заполненные:" widthTextValue="2em"
 				onSelect="$$.ajax.load(this.form, $('#${listUiid}'));">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">Да</li>
@@ -18,21 +18,21 @@
 				</jsp:attribute>
 			</ui:combo-single>
 
-			<ui:combo-single hiddenName="onlyFromGroup" value="${form.param.onlyFromGroup}" prefixText="Только из группы:" widthTextValue="20px"
+			<ui:combo-single hiddenName="onlyFromGroup" value="${form.param.onlyFromGroup}" prefixText="Только из группы:" widthTextValue="2em"
 				onSelect="$$.ajax.load(this.form, $('#${listUiid}'));">
 				<jsp:attribute name="valuesHtml">
 					<li value="1">Да</li>
 					<li value="0">Нет</li>
 				</jsp:attribute>
 			</ui:combo-single>
-		</form>
-		<form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
+		</form><%--
+	--%><form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 ml1" style="display: inline-block;">
 			<input type="hidden" name="action" value="parameterGroupUpdate"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
 			<ui:combo-single list="${frd.group.values}" hiddenName="paramGroupId" value="${frd.group.id}" prefixText="Группа параметров (изменить):"
-				widthTextValue="150px" onSelect="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${listUiid}')))"/>
+				widthTextValue="12em" onSelect="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${listUiid}')))"/>
 		</form>
 	</c:if>
 

@@ -8,6 +8,7 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
+import org.bgerp.itest.kernel.customer.CustomerRuTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
@@ -22,7 +23,7 @@ import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 
-@Test(groups = "bgbilling", priority = 100, dependsOnGroups = { "process", "message" })
+@Test(groups = "bgbilling", priority = 100, dependsOnGroups = { "process", "message", "customerRu" })
 public class BGBillingTest {
     private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
@@ -90,7 +91,8 @@ public class BGBillingTest {
                 "PARAM_HD_AUTO_CLOSE_ID", paramHdAutoCloseId,
                 "PROCESS_HD_OPEN_STATUS_ID", ProcessTest.statusOpenId,
                 "PROCESS_HD_CLOSE_STATUS_ID", ProcessTest.statusDoneId,
-                "PROCESS_HD_READ_STATUS_IDS", ""
+                "PROCESS_HD_READ_STATUS_IDS", "",
+                "PARAM_RU_INN", CustomerRuTest.paramInnId
             ) + ResourceHelper.getResource(this, "config.txt"));
     }
 

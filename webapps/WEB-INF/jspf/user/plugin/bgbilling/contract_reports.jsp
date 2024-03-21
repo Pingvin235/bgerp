@@ -5,11 +5,11 @@
 
 <script>
 $(function () {
-	var $tabs = $('#${uiid}').tabs();
+	const $tabs = $('#${uiid}').tabs();
 
 	<c:forEach var="item" items="${contract.moduleList}">
 		<c:choose>
-			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.bill'}">
+			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.bill.client' or item.clientPackage eq 'bitel.billing.module.services.bill'}">
 				$tabs.tabs('add', '/user/plugin/bgbilling/proto/bill.do?action=documentList&billingId=${billingId}&contractId=${contractId}&moduleId=${item.moduleId}', '${item.title}');
 			</c:when>
 			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client' or item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.client'}">

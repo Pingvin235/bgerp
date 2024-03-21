@@ -346,7 +346,7 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public void putAttach(int messageId, String title, byte[] data) throws Exception {
-        if (dbInfo.getVersion().compareTo("8.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             // ru.bitel.bgbilling.plugins.helpdesk/uploadHelpdeskFile {"date":"07.07.2023 10:34:53","size":16976,"contractId":455,"comment":"","id":0,"ownerId":-1,"title":"╥юяыштю фы  ЁръхЄюъ.docx","userId":-1,"uuid":"d35e9a13-a4d0-417c-8fd9-2d24241080d3"} => 200
             var file = new BGServerFile();
             file.setDate(new Date());
@@ -355,7 +355,7 @@ public class HelpDeskDAO extends BillingDAO {
             file.setTitle(title);
 
             transferData.uploadFile(MODULE + "/uploadHelpdeskFile", file, new ByteArrayInputStream(data), user);
-        } else if (dbInfo.getVersion().compareTo("6.2") >= 0)
+        } else if (dbInfo.versionCompare("6.2") >= 0)
             throw new UnsupportedOperationException("Для данной версии биллинга не поддерживается выгрузка вложений.");
         else {
             Request req = new Request();

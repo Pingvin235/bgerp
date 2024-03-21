@@ -1,12 +1,9 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
@@ -370,36 +367,40 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @throws BGException
      */
     private List<ContractTariffGroup> contractTariffGroupList(int contractId, boolean active) throws BGException {
-        Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
-        request.setAction("ContractTariffGroupTable");
-        request.setContractId(contractId);
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            return Collections.emptyList();
+        } else {
+            Request request = new Request();
+            request.setModule(CONTRACT_MODULE_ID);
+            request.setAction("ContractTariffGroupTable");
+            request.setContractId(contractId);
 
-        Document document = transferData.postData(request, user);
+            Document document = transferData.postData(request, user);
 
-        List<ContractTariffGroup> contractTariffGroupList = new ArrayList<ContractTariffGroup>();
-        Element dataElement = document.getDocumentElement();
-        NodeList nodeList = dataElement.getElementsByTagName("row");
+            List<ContractTariffGroup> contractTariffGroupList = new ArrayList<ContractTariffGroup>();
+            Element dataElement = document.getDocumentElement();
+            NodeList nodeList = dataElement.getElementsByTagName("row");
 
-        for (int index = 0; index < nodeList.getLength(); index++) {
-            Element rowElement = (Element) nodeList.item(index);
-            ContractTariffGroup tariffGroup = new ContractTariffGroup();
+            for (int index = 0; index < nodeList.getLength(); index++) {
+                Element rowElement = (Element) nodeList.item(index);
+                ContractTariffGroup tariffGroup = new ContractTariffGroup();
 
-            tariffGroup.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            tariffGroup.setTitle(rowElement.getAttribute("tariff_group"));
-            TimeUtils.parsePeriod(rowElement.getAttribute("period"), tariffGroup);
-            tariffGroup.setComment(rowElement.getAttribute("comment"));
+                tariffGroup.setId(Utils.parseInt(rowElement.getAttribute("id")));
+                tariffGroup.setTitle(rowElement.getAttribute("tariff_group"));
+                TimeUtils.parsePeriod(rowElement.getAttribute("period"), tariffGroup);
+                tariffGroup.setComment(rowElement.getAttribute("comment"));
 
-            if (active) {
-                if (tariffGroup.getDateTo() != null) {
+                if (active) {
+                    if (tariffGroup.getDateTo() != null) {
+                        contractTariffGroupList.add(tariffGroup);
+                    }
+                } else {
                     contractTariffGroupList.add(tariffGroup);
                 }
-            } else {
-                contractTariffGroupList.add(tariffGroup);
             }
-        }
 
-        return contractTariffGroupList;
+            return contractTariffGroupList;
+        }
     }
 
     /**
@@ -743,29 +744,38 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @return
      * @throws BGException
      */
-    public List<ContractPersonalTariff> contractPersonalTaraffList(int contractId) throws BGException {
-        Request request = new Request();
-        request.setModule(CONTRACT_TARIFF_MODULE_ID);
-        request.setAction("PersonalTariffTable");
-        request.setContractId(contractId);
+    public List<ContractPersonalTariff> contractPersonalTariffList(int contractId) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                    "ContractTariffService",
+                    "personalTariffList");
+            req.setParam("contractId", contractId);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            return readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractPersonalTariff.class));
+        } else {
+            Request request = new Request();
+            request.setModule(CONTRACT_TARIFF_MODULE_ID);
+            request.setAction("PersonalTariffTable");
+            request.setContractId(contractId);
 
-        Document document = transferData.postData(request, user);
+            Document document = transferData.postData(request, user);
 
-        List<ContractPersonalTariff> contractPersonalTariffList = new ArrayList<ContractPersonalTariff>();
+            List<ContractPersonalTariff> contractPersonalTariffList = new ArrayList<ContractPersonalTariff>();
 
-        for (Element rowElement : XMLUtils.selectElements(document, "/data/table/data/row")) {
-            ContractPersonalTariff personalTariff = new ContractPersonalTariff();
+            for (Element rowElement : XMLUtils.selectElements(document, "/data/table/data/row")) {
+                ContractPersonalTariff personalTariff = new ContractPersonalTariff();
 
-            personalTariff.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            TimeUtils.parsePeriod(rowElement.getAttribute("period"), personalTariff);
-            personalTariff.setPosition(Utils.parseInt(rowElement.getAttribute("pos")));
-            personalTariff.setTitle(rowElement.getAttribute("title"));
-            personalTariff.setTreeId(Utils.parseInt(rowElement.getAttribute("tree_id")));
+                personalTariff.setId(Utils.parseInt(rowElement.getAttribute("id")));
+                TimeUtils.parsePeriod(rowElement.getAttribute("period"), personalTariff);
+                personalTariff.setPos(Utils.parseInt(rowElement.getAttribute("pos")));
+                personalTariff.setTitle(rowElement.getAttribute("title"));
+                personalTariff.setTreeId(Utils.parseInt(rowElement.getAttribute("tree_id")));
 
-            contractPersonalTariffList.add(personalTariff);
+                contractPersonalTariffList.add(personalTariff);
+            }
+
+            return contractPersonalTariffList;
         }
-
-        return contractPersonalTariffList;
     }
 
     /**
@@ -774,55 +784,92 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @return
      * @throws BGException
      */
-    public ContractPersonalTariff getPersonalTaraff(int id) throws BGException {
-        Request request = new Request();
-        request.setModule(CONTRACT_TARIFF_MODULE_ID);
-        request.setAction("GetPersonalTariff");
-        request.setAttribute("id", id);
+    public ContractPersonalTariff getPersonalTariff(int id) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                    "ContractTariffService",
+                    "personalTariffGet");
+            req.setParam("id", id);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            return jsonMapper.convertValue(ret, ContractPersonalTariff.class);
+        } else {
+            Request request = new Request();
+            request.setModule(CONTRACT_TARIFF_MODULE_ID);
+            request.setAction("GetPersonalTariff");
+            request.setAttribute("id", id);
 
-        Document document = transferData.postData(request, user);
+            Document document = transferData.postData(request, user);
 
-        ContractPersonalTariff personalTariff = new ContractPersonalTariff();
-        Element dataElement = document.getDocumentElement();
-        NodeList nodeList = dataElement.getElementsByTagName("tariff");
+            ContractPersonalTariff personalTariff = new ContractPersonalTariff();
+            Element dataElement = document.getDocumentElement();
+            NodeList nodeList = dataElement.getElementsByTagName("tariff");
 
-        if (nodeList.getLength() > 0) {
-            Element rowElement = (Element) nodeList.item(0);
+            if (nodeList.getLength() > 0) {
+                Element rowElement = (Element) nodeList.item(0);
 
-            personalTariff.setId(id);
-            personalTariff.setDateFrom(TimeUtils.parse(rowElement.getAttribute("date1"), TimeUtils.FORMAT_TYPE_YMD));
-            personalTariff.setDateTo(TimeUtils.parse(rowElement.getAttribute("date2"), TimeUtils.FORMAT_TYPE_YMD));
-            personalTariff.setPosition(Utils.parseInt(rowElement.getAttribute("pos")));
-            personalTariff.setTitle(rowElement.getAttribute("title"));
-            personalTariff.setTreeId(Utils.parseInt(rowElement.getAttribute("tree_id")));
+                personalTariff.setId(id);
+                personalTariff.setDate1(TimeUtils.parse(rowElement.getAttribute("date1"), TimeUtils.FORMAT_TYPE_YMD));
+                personalTariff.setDate2(TimeUtils.parse(rowElement.getAttribute("date2"), TimeUtils.FORMAT_TYPE_YMD));
+                personalTariff.setPos(Utils.parseInt(rowElement.getAttribute("pos")));
+                personalTariff.setTitle(rowElement.getAttribute("title"));
+                personalTariff.setTreeId(Utils.parseInt(rowElement.getAttribute("tree_id")));
+            }
+
+            return personalTariff;
         }
-
-        return personalTariff;
     }
 
     public void deleteContractPersonalTariff(int contractId, int id) throws BGException {
-        Request request = new Request();
-        request.setModule(CONTRACT_TARIFF_MODULE_ID);
-        request.setAction("DeletePersonalTariff");
-        request.setAttribute("operation", "deactivate");
-        request.setAttribute("id", id);
-        request.setContractId(contractId);
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                    "ContractTariffService",
+                    "personalTariffDelete");
+            req.setParam("contractId", contractId);
+            req.setParam("personalTariffId", id);
+            transferData.postDataReturn(req, user);
 
-        transferData.postData(request, user);
+        } else {
+            Request request = new Request();
+            request.setModule(CONTRACT_TARIFF_MODULE_ID);
+            request.setAction("DeletePersonalTariff");
+            request.setAttribute("operation", "deactivate");
+            request.setAttribute("id", id);
+            request.setContractId(contractId);
+
+            transferData.postData(request, user);
+        }
     }
 
     public void updateContractPersonalTariff(int contractId, int tariffId, String title, int position, String dateFrom,
-            String dateTo) throws BGException {
-        Request request = new Request();
-        request.setModule(CONTRACT_TARIFF_MODULE_ID);
-        request.setAction("UpdatePersonalTariff");
-        request.setAttribute("id", tariffId);
-        request.setContractId(contractId);
-        request.setAttribute("title", title);
-        request.setAttribute("pos", position);
-        request.setAttribute("date1", dateFrom);
-        request.setAttribute("date2", dateTo);
+                                             String dateTo) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            ContractPersonalTariff personalTariff = getPersonalTariff(tariffId);
+            personalTariff = personalTariff != null ? personalTariff : new ContractPersonalTariff();
+            personalTariff.setContractId(contractId);
+            personalTariff.setTitle(title);
+            personalTariff.setPos(position);
+            personalTariff.setDate1(TimeUtils.parse(dateFrom, TimeUtils.FORMAT_TYPE_YMD));
+            personalTariff.setDate2(TimeUtils.parse(dateTo, TimeUtils.FORMAT_TYPE_YMD));
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                    "ContractTariffService",
+                    "personalTariffUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("personalTariff", personalTariff);
 
-        transferData.postData(request, user);
+            transferData.postDataReturn(req, user);
+
+        } else {
+            Request request = new Request();
+            request.setModule(CONTRACT_TARIFF_MODULE_ID);
+            request.setAction("UpdatePersonalTariff");
+            request.setAttribute("id", tariffId);
+            request.setContractId(contractId);
+            request.setAttribute("title", title);
+            request.setAttribute("pos", position);
+            request.setAttribute("date1", dateFrom);
+            request.setAttribute("date2", dateTo);
+
+            transferData.postData(request, user);
+        }
     }
 }

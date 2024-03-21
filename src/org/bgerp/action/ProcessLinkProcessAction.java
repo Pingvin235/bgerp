@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.l10n.Localizer;
+import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
@@ -149,7 +149,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             final var item = itemPair.getFirst();
 
             if (!itemPair.getSecond())
-                throw new BGMessageException(Localizer.TRANSPARENT, item.getCheckErrorMessage());
+                throw new BGMessageExceptionTransparent(item.getCheckErrorMessage());
 
             linkObjectType = item.getLinkType();
 

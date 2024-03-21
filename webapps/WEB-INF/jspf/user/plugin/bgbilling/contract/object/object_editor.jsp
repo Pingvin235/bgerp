@@ -13,14 +13,16 @@
 	<input type="hidden" name="action" value="updateContractObject"/>
 	<input type="hidden" name="objectId" value="${object.id }"/>
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
+	<input type="hidden" name="contractId" value="${form.param.contractId}"/>
+
 	<input type="hidden" name="typeId" value="${object.typeId}"/>
 
 	<div style="display:table;width:100%;white-space:nowrap">
 		<div style="display:table-cell;" nowrap="nowrap">
 			Период c
-			<ui:date-time paramName="dateFrom" value="${object.dateFrom}"/>
+			<ui:date-time paramName="dateFrom" value="${tu.format(object.dateFrom, 'ymd')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${object.dateTo}"/>
+			<ui:date-time paramName="dateTo" value="${tu.format(object.dateTo, 'ymd')}"/>
 
 			Название:
 		</div>
@@ -34,11 +36,11 @@
 		</div>
 
 		<div style="display:table-cell">
-			<input type="text" style="width:100%" value="${form.param.objectType}" readOnly/>
+			<input type="text" style="width:100%" value="${object.type}" readOnly/>
 		</div>
 
 		<div style="display:table-cell">
-			<input type="button" value="Применить" onclick="if$$.ajax.post(this.form).done(() => alert('Изменения произведены успешно!'))"/>
+			<input type="button" value="Применить" onclick="$$.ajax.post(this.form).done(() => alert('Изменения произведены успешно!'))"/>
 		</div>
 	</div>
 </form>

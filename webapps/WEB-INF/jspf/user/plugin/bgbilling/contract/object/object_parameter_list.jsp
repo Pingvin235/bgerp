@@ -22,8 +22,8 @@
 		<c:forEach var="parameter" items="${frd.parameterList}">
 			<c:if test="${ form.param.showEmptyParameters and empty parameter.getValue() or not empty parameter.getValue() }">
 				<tr>
-					<td align="center">${parameter.getParamId()}</td>
-					<td nowrap="nowrap">${parameter.getTitle() }</td>
+					<td align="center">${parameter.parameterId}</td>
+					<td nowrap="nowrap">${parameter.title }</td>
 					<td>
 					<c:set var="viewEditDivId" value="${u:uiid()}"/>
 						<div id="${viewEditDivId}">
@@ -32,7 +32,7 @@
 								<input type="hidden" name="billingId" value="${ form.param.billingId }" />
 								<input type="hidden" name="contractId" value="${ form.param.contractId }" />
 								<input type="hidden" name="objectId" value="${ form.param.objectId }" />
-								<input type="hidden" name="paramId" value="${parameter.getParamId()}" />
+								<input type="hidden" name="paramId" value="${parameter.parameterId}" />
 								<input type="hidden" name="returnUrl" value="${form.requestUrl}" />
 
 								<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') )">${parameter.getValue() }</a>

@@ -11,6 +11,7 @@
 	<html:hidden property="billingId"/>
 	<html:hidden property="contractId"/>
 	<html:hidden property="id"/>
+	<input type="hidden" name="position" value="${ personalTariff.pos }" />
 
 	<div class="in-table-cell mb1">
 		<div style="width: 100%;">
@@ -19,9 +20,9 @@
 
 		<div style="white-space: nowrap;" class="pl1">
 			c
-			<ui:date-time paramName="dateFrom" value="${tu.format(personalTariff.dateFrom, 'ymd')}"/>
+			<ui:date-time paramName="dateFrom" value="${tu.format(personalTariff.date1, 'ymd')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${tu.format(personalTariff.dateTo, 'ymd')}"/>
+			<ui:date-time paramName="dateTo" value="${tu.format(personalTariff.date2, 'ymd')}"/>
 		</div>
 	</div>
 

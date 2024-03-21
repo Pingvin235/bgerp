@@ -215,12 +215,12 @@ bgbilling:creator.importBillingIds=<billing_ids>
 * *<import_params>* - импортируемые из договора параметры контрагента;
 * *<billing_ids>* - идентификаторы биллингов, из которых запускается импорт, если не указано - каждый запуск в планировщике инициирует импорт для всех биллингов.
 
-Далее одно или несколько правил определения группы контрагента из номера договора:
+Далее одно или несколько правил определения группы параметров контрагента из номера договора:
 [source]
 ----
 # необязательный параметр, если шаблона нет - то группа выставляется всем контрагентам
 bgbilling:creator.parameterGroupRule.<id>.contractTitlePattern=<title_pattern>
-#
+
 bgbilling:creator.parameterGroupRule.<id>.paramGroupId=<param_group>
 bgbilling:creator.parameterGroupRule.<id>.titlePatternId=<title_pattern_id>
 ----
@@ -234,13 +234,11 @@ bgbilling:creator.parameterGroupRule.<id>.titlePatternId=<title_pattern_id>
 И для каждого из серверов биллинга записи:
 [source]
 ----
-#
 bgbilling:creator.server.<id>.billingId=<billing_id>
 bgbilling:creator.server.<id>.user=<user>
 bgbilling:creator.server.<id>.pswd=<pswd>
 bgbilling:creator.server.<id>.paramMapping=<mapping>
 bgbilling:creator.server.<id>.pageSize=<page_size>
-#
 ----
 Где:
 [square]
@@ -248,7 +246,7 @@ bgbilling:creator.server.<id>.pageSize=<page_size>
 * *<billing_id>* - строковый <<config-server, идентификатор>> биллинга;
 * *<user>*, *<pswd>* - логин и пароль пользователя биллинга, под которым осуществляется импорт;
 * *<page_size>* - количество договоров для импорта, выбираемых за один раз;
-* *<mapping>* - соотношение договоров контрагента и биллинга, разделённые точкой с запятой пары *<код параметра контрагента>:<код параметра договора>* для простых параметров
+* *<mapping>* - соотношение параметров контрагента и биллинга, разделённые точкой с запятой пары *<код параметра контрагента>:<код параметра договора>* для простых параметров
 и *<код параметра контрагента>[<коды значений спискового параметра через запятую>]:<код параметра договора>[<коды значений спискового параметра через запятую>]* - для спискового типа; если маппинг не задан, то код значения спискового параметра будет импортирован "как есть" из биллинга.
 
 Дополнительные необязательные параметры:
@@ -278,16 +276,16 @@ bgbilling:creator.searchParameters=74,12,14
 bgbilling:creator.titleDistance=2
 # кодовая фр., дата рожд., с.-н. пасп., д.в. пасп., кем выд. пасп, адрес проп., тел. гор, тел. сот, адрес(а) усл.
 bgbilling:creator.importParameters=72,73,74,75,76,77,78,14,12
-#
+
 # группа параметров контрагента
 bgbilling:creator.parameterGroupRule.1.paramGroupId=3
-#
+
 bgbilling:creator.server.1.billingId=ds
 bgbilling:creator.server.1.user=bgcrm
 bgbilling:creator.server.1.pswd=bgcrmv2
 bgbilling:creator.server.1.paramMapping=72:456;73:386;74:457;75:458;76:459;77:460;78:401;14:399;12:42;46:378;115[1,2]:421[14575,14576]
 bgbilling:creator.server.1.pageSize=10
-#
+
 bgbilling:creator.server.2.billingId=tks
 bgbilling:creator.server.2.user=bgcrm
 bgbilling:creator.server.2.pswd=bgcrmv2
@@ -295,11 +293,11 @@ bgbilling:creator.server.2.paramMapping=72:95;73:51;74:96;75:97;76:98;77:99;78:5
 bgbilling:creator.server.2.pageSize=10
 ----
 Импорт контрагента можно инициировать вручную в <<contract-card, карточке договора>>, либо настроить в планировщике.
-Для настройки импорта контрагента по таймеру добавьте в <<../../kernel/setup.adoc#scheduler, конфигурацию планировщика>> класс *ru.bgcrm.plugin.bgbilling.creator.CustomerCreator*, например:
+Для настройки импорта контрагента по таймеру добавьте в <<../../kernel/setup.adoc#scheduler, конфигурацию планировщика>> класс *CustomerCreator*, например:
 [source]
 ----
-scheduler.task.1.class=ru.bgcrm.plugin.bgbilling.creator.CustomerCreator
-scheduler.task.1.minutes=2,12,22,32,42,52
+scheduler.task.{@inc:cnt}.class=CustomerCreator
+scheduler.task.{@cnt}.minutes=2,12,22,32,42,52
 ----
 Мониторить выполнение задачи можно по логам.
 

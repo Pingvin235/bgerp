@@ -45,7 +45,7 @@ public class InetDAO extends BillingModuleDAO {
     }
 
     public static InetDAO getInstance(User user, DBInfo dbInfo, int moduleId) throws BGException {
-        if (dbInfo.getVersion().compareTo("8.0") > 0) {
+        if (dbInfo.versionCompare("8.0") > 0) {
             return new InetDAO8x(user, dbInfo, moduleId);
         } else {
             return new InetDAO(user, dbInfo, INET_MODULE, moduleId);
