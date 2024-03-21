@@ -77,7 +77,7 @@
 			Контрагент:
 			<span><c:choose>
 				<c:when test="${not empty customer}">
-					<a href="#" onclick="openCustomer( ${customer.id} ); return false;">${customer.title}</a>
+					<a href="#" onclick="$$.customer.open(${customer.id}); return false;">${customer.title}</a>
 					<c:set var="customerId" value="${customer.id}"/>
 				</c:when>
 				<c:otherwise>

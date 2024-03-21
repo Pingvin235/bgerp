@@ -13,7 +13,7 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.object.id}</td>
-			<td><a href="#" onclick="openCustomer( ${item.object.id} ); return false;">${item.object.title}</a></td>
+			<td><a href="#" onclick="$$.customer.open(${item.object.id}); return false;">${item.object.title}</a></td>
 			<td>${item.param.title}</td>
 			<td>${item.value}</td>
 		</tr>

@@ -108,7 +108,7 @@ Incoming variables:
 							<c:set var="customerTitle" value="${customer.split(':')[1]}"/>
 							<c:choose>
 								<c:when test="${mob}">${customerTitle}</c:when>
-								<c:otherwise><a href="#" onclick="openCustomer(${customerId}); return false;">${customerTitle}</a></c:otherwise>
+								<c:otherwise><a href="#" onclick="$$.customer.open(${customerId}); return false;">${customerTitle}</a></c:otherwise>
 							</c:choose>
 							<c:if test="${not status.last}">,</c:if>
 						</c:forEach>

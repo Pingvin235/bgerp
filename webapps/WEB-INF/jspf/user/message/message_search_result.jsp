@@ -25,7 +25,7 @@
 
 				<c:if test="${not empty customerLinkRole}">
 					<td>${customerLinkRole}</td>
-					<td><a href="#" onclick="openCustomer(${item.linkObjectId}); return false;">${u.escapeXml(item.linkObjectTitle)}</a></td>
+					<td><a href="#" onclick="$$.customer.open(${item.linkObjectId}); return false;">${u.escapeXml(item.linkObjectTitle)}</a></td>
 				</c:if>
 
 				<plugin:include endpoint="user.message.search.result.jsp"/>
