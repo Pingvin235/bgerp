@@ -22,10 +22,11 @@ import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
 
 /**
- * Scheduler task run configuration.
+ * Scheduler task configuration.
  *
+ * @author Shamil Vakhitov
  */
-public class TaskConfig implements IdTitle {
+public class TaskConfig implements IdTitle<String> {
     private static final Log log = Log.getLog();
 
     private static Set<Class<?>> runningClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
@@ -34,7 +35,6 @@ public class TaskConfig implements IdTitle {
     private final ConfigMap config;
 
     private final Class<? extends Task> clazz;
-    private final String title;
 
     private final String minute;
     private final String hour;
@@ -44,7 +44,7 @@ public class TaskConfig implements IdTitle {
     private final ExecutionTime executionTime;
     private final boolean enabled;
 
-    private AtomicBoolean running = new AtomicBoolean();
+    private final AtomicBoolean running = new AtomicBoolean();
     private Date lastRunStart;
     private Duration lastRunDuration;
 
@@ -54,7 +54,6 @@ public class TaskConfig implements IdTitle {
         this.config = config;
 
         this.clazz = (Class<? extends Task>) Bean.getClass(config.get("class"));
-        this.title = taskInstance().getTitle();
 
         String expression = new StringBuilder(100)
             .append(minute = config.get("minutes", "*")).append("\t")
@@ -81,7 +80,11 @@ public class TaskConfig implements IdTitle {
     @Dynamic
     @Override
     public String getTitle() {
-        return title;
+        try {
+            return taskInstance().getTitle();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @Dynamic
