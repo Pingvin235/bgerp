@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.util.Dynamic;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.util.TimeUtils;
 
 public class Parameter extends IdTitleComment {

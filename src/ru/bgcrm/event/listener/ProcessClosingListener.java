@@ -3,8 +3,8 @@ package ru.bgcrm.event.listener;
 import java.util.List;
 
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ProcessTypeCache;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangedEvent;

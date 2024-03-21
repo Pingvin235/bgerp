@@ -20,9 +20,9 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
+import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageDAO;

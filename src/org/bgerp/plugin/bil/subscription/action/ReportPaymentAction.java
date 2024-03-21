@@ -17,6 +17,7 @@ import java.util.TreeSet;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.plugin.bil.subscription.Config;
@@ -28,7 +29,6 @@ import org.bgerp.plugin.report.model.Data;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;

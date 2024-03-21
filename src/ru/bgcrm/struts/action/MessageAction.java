@@ -21,6 +21,7 @@ import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
@@ -31,7 +32,6 @@ import org.bgerp.util.sql.LikePattern;
 import com.google.common.collect.Maps;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeSearch;

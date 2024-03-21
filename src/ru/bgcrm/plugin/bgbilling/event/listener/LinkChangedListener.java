@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;

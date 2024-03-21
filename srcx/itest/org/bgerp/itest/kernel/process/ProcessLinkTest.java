@@ -3,6 +3,7 @@ package org.bgerp.itest.kernel.process;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.MessageHelper;
@@ -15,7 +16,6 @@ import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.model.customer.Customer;

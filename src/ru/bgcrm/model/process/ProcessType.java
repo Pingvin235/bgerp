@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.base.tree.TreeItem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import ru.bgcrm.cache.ProcessTypeCache;
 
 public class ProcessType extends TreeItem<Integer, ProcessType> implements Comparable<ProcessType> {
     private boolean useParentProperties;

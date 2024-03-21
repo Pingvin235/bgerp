@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.SimpleConfigMap;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
@@ -13,7 +14,6 @@ import org.bgerp.model.process.ProcessGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.process.Process;

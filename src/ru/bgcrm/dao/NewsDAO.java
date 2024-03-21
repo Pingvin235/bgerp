@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.cache.UserCache;
+import org.bgerp.cache.UserNewsCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;

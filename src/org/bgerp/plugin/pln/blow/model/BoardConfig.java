@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;

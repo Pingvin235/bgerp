@@ -10,10 +10,10 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.UserCache;
+import org.bgerp.cache.UserNewsCache;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.model.News;
 import ru.bgcrm.servlet.ActionServlet.Action;

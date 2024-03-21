@@ -2,8 +2,8 @@ package ru.bgcrm.model.process;
 
 import java.util.Date;
 
-import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
+import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.cache.UserCache;
 
 public class StatusChange {
     private int processId;

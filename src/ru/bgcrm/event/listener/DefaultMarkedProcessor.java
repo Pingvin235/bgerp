@@ -14,6 +14,7 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Dynamic;
@@ -23,7 +24,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ProcessChangeFunctions;
 import ru.bgcrm.dao.process.ProcessDAO;

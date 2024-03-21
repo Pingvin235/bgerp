@@ -9,12 +9,12 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.file.FileInfo;
 import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;

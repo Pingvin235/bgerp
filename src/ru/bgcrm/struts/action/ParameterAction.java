@@ -32,6 +32,8 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.customer.CustomerLogDAO;
 import org.bgerp.dao.param.ParamLogDAO;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -41,8 +43,6 @@ import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
 
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.FileDataDAO;

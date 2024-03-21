@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.util.PswdUtil;
 import ru.bgcrm.util.Utils;
 

@@ -5,9 +5,9 @@ import java.util.Set;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;

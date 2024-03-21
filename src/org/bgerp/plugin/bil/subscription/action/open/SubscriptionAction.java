@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.Plugin;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -43,7 +43,7 @@ public class SubscriptionAction extends BaseAction {
             form.setRequestAttribute("subscriptions", config.getSubscriptions());
 
         if (config.getParamLimitId() > 0)
-            form.setRequestAttribute("limits", ru.bgcrm.cache.ParameterCache.getListParamValues(config.getParamLimitId()));
+            form.setRequestAttribute("limits", org.bgerp.cache.ParameterCache.getListParamValues(config.getParamLimitId()));
 
         return html(conSet, form, JSP_PATH + "/subscription.jsp");
     }

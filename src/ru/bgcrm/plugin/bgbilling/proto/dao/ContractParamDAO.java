@@ -13,7 +13,10 @@ import java.util.SortedMap;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.cache.ParameterCache;
+
 import com.fasterxml.jackson.databind.JsonNode;
+
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
@@ -22,7 +25,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.ParamList;

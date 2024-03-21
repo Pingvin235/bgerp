@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
 import org.bgerp.app.servlet.jsp.UtilFunction;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
@@ -36,7 +37,6 @@ import org.bgerp.util.Log;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.ListItem;
 
 public class Utils {

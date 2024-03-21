@@ -3,12 +3,12 @@ package org.bgerp.itest.helper;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.cache.UserCache;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.model.process.link.ProcessLink;
 import org.testng.Assert;
 
-import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;

@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
 
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.FileData;

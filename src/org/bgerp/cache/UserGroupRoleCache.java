@@ -1,4 +1,4 @@
-package ru.bgcrm.cache;
+package org.bgerp.cache;
 
 import java.util.HashMap;
 import java.util.List;

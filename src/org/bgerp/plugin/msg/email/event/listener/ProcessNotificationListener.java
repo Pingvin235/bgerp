@@ -6,6 +6,7 @@ import java.util.Set;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.Interface;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.invoice.event.InvoicePaidEvent;
@@ -14,7 +15,6 @@ import org.bgerp.plugin.msg.email.config.ProcessNotificationConfig;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;

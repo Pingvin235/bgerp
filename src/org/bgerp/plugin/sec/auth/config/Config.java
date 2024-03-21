@@ -7,12 +7,12 @@ import java.util.List;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.cache.UserCache;
 import org.bgerp.event.AuthEvent;
 import org.bgerp.plugin.sec.auth.AuthResult;
 import org.bgerp.plugin.sec.auth.Plugin;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
 
 public class Config extends org.bgerp.app.cfg.Config {

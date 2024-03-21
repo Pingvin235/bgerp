@@ -2,7 +2,8 @@ package ru.bgcrm.event.process;
 
 import java.util.Set;
 
-import ru.bgcrm.cache.ProcessTypeCache;
+import org.bgerp.cache.ProcessTypeCache;
+
 import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;

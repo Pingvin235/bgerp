@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
@@ -26,7 +27,6 @@ import org.bgerp.util.sql.LikePattern;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.event.EventProcessor;

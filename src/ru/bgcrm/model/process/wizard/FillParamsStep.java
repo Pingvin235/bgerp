@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.util.Utils;
 
 public class FillParamsStep extends Step {

@@ -17,14 +17,14 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.event.process.queue.QueueColumnEvent;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueSelect;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ProcessHelper;
@@ -18,7 +19,6 @@ import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.plugin.pln.blow.Plugin;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.StatusChangeDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.StatusChange;

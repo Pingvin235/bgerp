@@ -14,10 +14,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.LastModifyDAO;
 import ru.bgcrm.model.Page;

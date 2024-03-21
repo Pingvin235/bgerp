@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.queue.Column;
@@ -27,7 +28,6 @@ import org.bgerp.model.process.queue.filter.FilterParam;
 import org.bgerp.model.process.queue.filter.FilterProcessType;
 import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueSelect;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.QueueSelectParams;

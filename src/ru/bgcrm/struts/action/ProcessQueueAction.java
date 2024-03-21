@@ -17,11 +17,11 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ProcessQueueCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.ProcessQueueCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.ProcessMarkedActionEvent;

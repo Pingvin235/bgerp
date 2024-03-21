@@ -7,9 +7,9 @@ import java.util.Set;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.model.process.Process;

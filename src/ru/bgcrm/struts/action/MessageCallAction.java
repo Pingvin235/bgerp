@@ -8,9 +8,9 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
+import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;

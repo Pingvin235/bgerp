@@ -18,9 +18,9 @@ import org.bgerp.action.BaseAction;
 import org.bgerp.action.FileAction;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.Event;

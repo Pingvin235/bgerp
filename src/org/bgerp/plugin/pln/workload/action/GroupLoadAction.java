@@ -9,11 +9,11 @@ import java.util.Set;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.plugin.pln.workload.Plugin;
 import org.bgerp.plugin.pln.workload.dao.GroupLoadDAO;
 import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

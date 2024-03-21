@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
@@ -38,7 +39,6 @@ import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.FileDataDAO;

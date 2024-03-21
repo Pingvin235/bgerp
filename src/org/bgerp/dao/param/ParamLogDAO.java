@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterLogItem;

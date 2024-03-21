@@ -3,13 +3,13 @@ package org.bgerp.itest.helper;
 import java.sql.SQLException;
 import java.util.Set;
 
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.model.param.Parameter;
 import org.testng.Assert;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.param.ParameterGroup;
 import ru.bgcrm.model.param.Pattern;

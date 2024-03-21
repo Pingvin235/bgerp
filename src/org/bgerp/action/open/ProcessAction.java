@@ -10,10 +10,10 @@ import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.servlet.Interface;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.SecretExpression;
 import ru.bgcrm.model.Page;

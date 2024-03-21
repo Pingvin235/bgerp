@@ -12,8 +12,8 @@ import java.util.Set;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.UserCache;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.user.User;
 
 /**

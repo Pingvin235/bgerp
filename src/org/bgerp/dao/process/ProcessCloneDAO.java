@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.StatusChangeDAO;

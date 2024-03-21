@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -18,7 +19,6 @@ import org.bgerp.plugin.git.Plugin;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;

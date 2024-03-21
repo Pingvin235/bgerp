@@ -18,14 +18,14 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ProcessQueueCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.sql.LikePattern;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.ProcessQueueCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.QueueDAO;

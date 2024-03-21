@@ -22,12 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterSearchedObject;

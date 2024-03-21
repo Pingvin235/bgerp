@@ -7,13 +7,12 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.TitleWithPath;
 import org.bgerp.util.Dynamic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import ru.bgcrm.cache.UserCache;
 
 public class Group extends IdTitle implements TitleWithPath, Cloneable {
     private int archive;

@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.cache.CustomerGroupCache;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.SearchableIdTitle;
 import ru.bgcrm.model.param.ParameterGroup;

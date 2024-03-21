@@ -7,9 +7,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.cache.ProcessTypeCache;
 import org.w3c.dom.Document;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.listener.EventListener;

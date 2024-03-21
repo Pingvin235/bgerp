@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ru.bgcrm.cache.UserCache;
+import org.bgerp.cache.UserCache;
 
 public class UserGroup {
     private int groupId;

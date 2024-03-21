@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.queue.Column;
@@ -29,7 +30,6 @@ import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

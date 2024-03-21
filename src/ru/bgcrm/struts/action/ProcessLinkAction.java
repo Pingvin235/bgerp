@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.SimpleConfigMap;
+import org.bgerp.cache.ProcessQueueCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
@@ -19,8 +21,6 @@ import org.bgerp.model.process.queue.filter.FilterOpenClose;
 import org.bgerp.model.process.queue.filter.FilterProcessType;
 import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.cache.ProcessQueueCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.client.ProcessOpenEvent;

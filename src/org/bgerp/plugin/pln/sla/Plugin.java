@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.event.process.queue.QueueColumnEvent;
 import org.bgerp.plugin.pln.sla.config.Config;
 import org.bgerp.plugin.pln.sla.config.ProcessTypeConfig;
 import org.bgerp.plugin.pln.sla.model.process.queue.Column;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;

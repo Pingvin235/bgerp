@@ -11,9 +11,9 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.cache.UserCache;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessLinkDAO;

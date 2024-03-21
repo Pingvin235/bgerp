@@ -3,11 +3,11 @@ package org.bgerp.plugin.sec.access.action;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
 
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

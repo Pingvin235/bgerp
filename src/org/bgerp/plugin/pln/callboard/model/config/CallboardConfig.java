@@ -11,9 +11,9 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.Utils;
 

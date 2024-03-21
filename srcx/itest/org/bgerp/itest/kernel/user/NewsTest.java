@@ -1,10 +1,10 @@
 package org.bgerp.itest.kernel.user;
 
+import org.bgerp.cache.UserCache;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.model.News;
 import ru.bgcrm.util.Utils;

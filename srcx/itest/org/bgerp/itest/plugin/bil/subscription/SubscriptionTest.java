@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
@@ -26,7 +27,6 @@ import org.bgerp.plugin.bil.subscription.Plugin;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;

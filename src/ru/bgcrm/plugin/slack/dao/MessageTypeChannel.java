@@ -11,6 +11,9 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.Config.InitStopException;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
@@ -20,9 +23,6 @@ import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.PropertiesDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageDAO;

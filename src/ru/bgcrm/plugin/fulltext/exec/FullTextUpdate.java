@@ -10,6 +10,7 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.exec.scheduler.Task;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
@@ -17,7 +18,6 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;

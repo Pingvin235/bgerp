@@ -9,12 +9,12 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessDAO;

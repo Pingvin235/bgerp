@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;

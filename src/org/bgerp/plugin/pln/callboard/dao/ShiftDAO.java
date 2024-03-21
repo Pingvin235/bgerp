@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.UserCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.pln.callboard.model.CallboardTask;
 import org.bgerp.plugin.pln.callboard.model.Shift;
@@ -29,7 +30,6 @@ import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig.Callboard;
 
 import java.util.Set;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.UserGroup;

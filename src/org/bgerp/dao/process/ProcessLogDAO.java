@@ -9,12 +9,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.bgerp.app.l10n.Localizer;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.process.Tables;
 import ru.bgcrm.model.EntityLogItem;

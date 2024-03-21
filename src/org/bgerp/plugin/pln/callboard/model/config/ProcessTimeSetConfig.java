@@ -4,10 +4,9 @@ import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig.Callboard;
-
-import ru.bgcrm.cache.ParameterCache;
 
 public class ProcessTimeSetConfig extends Config {
     private static final String CONFIG_PREFIX = "callboard.timeset.";

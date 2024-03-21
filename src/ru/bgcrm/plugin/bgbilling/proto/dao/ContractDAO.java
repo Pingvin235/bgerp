@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
@@ -33,7 +34,6 @@ import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;

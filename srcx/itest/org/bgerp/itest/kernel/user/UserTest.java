@@ -2,6 +2,7 @@ package org.bgerp.itest.kernel.user;
 
 import java.util.Date;
 
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.UserHelper;
@@ -10,7 +11,6 @@ import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.model.param.Parameter;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;

@@ -3,8 +3,8 @@ package ru.bgcrm.plugin.mobile.struts.action.open;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.UserCache;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.mobile.Plugin;

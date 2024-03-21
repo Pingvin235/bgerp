@@ -8,8 +8,8 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.UserCache;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;

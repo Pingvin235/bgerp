@@ -33,6 +33,7 @@ import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.app.servlet.user.event.ActionRequestEvent;
+import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -41,7 +42,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import javassist.NotFoundException;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.Locker;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;

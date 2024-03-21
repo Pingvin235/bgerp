@@ -3,7 +3,7 @@ package org.bgerp.plugin.pln.callboard.model;
 import java.util.Comparator;
 import java.util.Map;
 
-import ru.bgcrm.cache.UserCache;
+import org.bgerp.cache.UserCache;
 
 /*
  * Сортирует пользователей в группе по ФИО если не задан порядок сортировки

@@ -20,6 +20,7 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLinkSearchDAO;
@@ -28,7 +29,6 @@ import org.bgerp.model.file.FileInfo;
 import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessDAO;

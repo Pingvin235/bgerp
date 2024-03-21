@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGIllegalArgumentException;
+import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.cache.UserCache;
 import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
@@ -17,8 +19,6 @@ import org.bgerp.plugin.report.model.chart.ChartBar;
 import org.bgerp.plugin.report.model.chart.ChartPie;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.process.Tables;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;

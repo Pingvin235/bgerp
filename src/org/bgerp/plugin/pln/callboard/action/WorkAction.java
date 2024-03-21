@@ -26,6 +26,8 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.plugin.pln.callboard.Plugin;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
@@ -53,8 +55,6 @@ import org.bgerp.plugin.pln.callboard.model.work.FreeSlotRange;
 import org.bgerp.plugin.pln.callboard.model.work.ShiftData;
 import org.bgerp.plugin.pln.callboard.model.work.SlotRange;
 
-import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;

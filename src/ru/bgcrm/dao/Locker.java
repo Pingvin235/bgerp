@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.LockEvent;

@@ -951,7 +951,7 @@ Here are two samples for such cases.
 link:../../../src/org/bgerp/app/dist/lic/License.java#L153-L156[org.bgerp.app.dist.lic.License]
 
 [snippet, from="final v", to="es\");", remove-leading="            "]
-link:../../../src/ru/bgcrm/cache/UserNewsCache.java#L98-L102[ru.bgcrm.cache.UserNewsCache]
+link:../../../src/org/bgerp/cache/UserNewsCache.java#L98-L102[org.bgerp.cache.UserNewsCache]
 
 [[l10n-dev]]
 ==== Development
