@@ -16,12 +16,12 @@ import org.apache.commons.io.IOUtils;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.dist.inst.call.ExecuteSQL;
+import org.bgerp.app.dist.lic.AppLicense;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.dao.Cleaner;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.util.Log;
-import org.bgerp.util.lic.AppLicense;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

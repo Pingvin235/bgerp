@@ -6,9 +6,9 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.dist.lic.AppLicense;
+import org.bgerp.app.dist.lic.License;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.util.lic.AppLicense;
-import org.bgerp.util.lic.License;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

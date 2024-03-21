@@ -3,7 +3,7 @@ package org.bgerp.plugin.bil.subscription.model;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.bgerp.util.lic.License;
+import org.bgerp.app.dist.lic.License;
 
 import ru.bgcrm.model.param.ParameterEmailValue;
 

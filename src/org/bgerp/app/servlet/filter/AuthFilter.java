@@ -21,11 +21,11 @@ import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.Maintenance;
+import org.bgerp.app.dist.lic.AppLicense;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.util.Log;
-import org.bgerp.util.lic.AppLicense;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;

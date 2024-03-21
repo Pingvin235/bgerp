@@ -26,6 +26,7 @@ import org.bgerp.action.util.Invoker;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.dist.lic.AppLicense;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localizer;
@@ -33,7 +34,6 @@ import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.util.Log;
-import org.bgerp.util.lic.AppLicense;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;

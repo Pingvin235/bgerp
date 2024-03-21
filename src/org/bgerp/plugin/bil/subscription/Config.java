@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.dist.lic.License;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
@@ -20,7 +21,6 @@ import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.subscription.model.Subscription;
 import org.bgerp.plugin.bil.subscription.model.SubscriptionLicense;
 import org.bgerp.util.Log;
-import org.bgerp.util.lic.License;
 
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ParameterCache;
