@@ -34,10 +34,6 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import ru.bgcrm.model.ListItem;
 
 public class Utils {
     private static final Log log = Log.getLog();
@@ -804,22 +800,6 @@ public class Utils {
             }
         }
         return result;
-    }
-
-    @Deprecated
-    public static final List<ListItem> parseList(Element listElement) {
-        List<ListItem> list = new ArrayList<ListItem>();
-        NodeList nodeList = listElement.getElementsByTagName("item");
-        if (nodeList != null && nodeList.getLength() > 0) {
-            for (int index = 0; index < nodeList.getLength(); index++) {
-                Element item = (Element) nodeList.item(index);
-                ListItem listItem = new ListItem();
-                listItem.setId(Integer.parseInt(item.getAttribute("id")));
-                listItem.setTitle(item.getAttribute("title"));
-                list.add(listItem);
-            }
-        }
-        return list;
     }
 
     /**
