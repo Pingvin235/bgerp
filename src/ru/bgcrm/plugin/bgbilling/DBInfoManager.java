@@ -25,7 +25,7 @@ public class DBInfoManager {
         final String prefix = "bgbilling:server.";
         final String prefixOld = "bgbilling.";
 
-        for (Map.Entry<Integer, ConfigMap> me : setupData.subIndexed(prefix, prefixOld).entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : setupData.subSokIndexed(prefix, prefixOld).entrySet()) {
             ConfigMap params = me.getValue();
 
             //TODO: Исторически сложилось, что биллинги обозначаются строками

@@ -10,7 +10,7 @@ import java.util.Set;
  * @author Shamil Vakhitov
  */
 public class SimpleConfigMap extends ConfigMap {
-    private Map<String, String> data;
+    private final Map<String, String> data;
 
     SimpleConfigMap(Map<String, String> data) {
         this.data = data;
@@ -32,6 +32,11 @@ public class SimpleConfigMap extends ConfigMap {
     public String get(String key, String def) {
         final String result = data.get(key);
         return result != null ? result : def;
+    }
+
+    @Override
+    public String put(String key, String value) {
+        return data.put(key, value);
     }
 
     @Override

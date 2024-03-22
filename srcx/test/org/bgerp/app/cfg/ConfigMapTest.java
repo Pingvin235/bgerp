@@ -264,8 +264,8 @@ public class ConfigMapTest {
         Assert.assertEquals("2", subMap.get("key2"));
         Assert.assertNull(subMap.get("key3"));
 
-        map = SimpleConfigMap.of("prefix.1.key1", "11", "prefix.2.key2", "22", "prefix.1.key2", "12", "prefixNew.2.key1", "21", "blabla", "value");
-        maps = map.subIndexed("prefix.", "prefixNew.");
+        map = SimpleConfigMap.of("prefix.1.key1", "11", "prefix.2.key2", "22", "prefix.1.key2", "12", "prefix.new.2.key1", "21", "blabla", "value");
+        maps = map.subSokIndexed("prefix.new.", "prefix.");
 
         Assert.assertEquals(2, maps.size());
         subMap = maps.get(1);
