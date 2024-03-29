@@ -1,5 +1,5 @@
 <%@page import="ru.bgcrm.model.process.Process"%>
-<%@page import="ru.bgcrm.cache.ProcessTypeCache"%>
+<%@page import="org.bgerp.cache.ProcessTypeCache"%>
 <%@page import="ru.bgcrm.model.process.ProcessType"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
