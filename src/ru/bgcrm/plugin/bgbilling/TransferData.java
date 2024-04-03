@@ -94,7 +94,7 @@ public class TransferData {
         private static final String BITEL_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
 
         private BitelJsonDateFormat(TimeZone tz) {
-            super(tz, Locale.getDefault());
+            super(tz, Locale.getDefault(), true);
         }
 
         @Override

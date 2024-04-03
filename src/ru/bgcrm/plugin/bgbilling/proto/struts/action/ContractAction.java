@@ -290,15 +290,23 @@ public class ContractAction extends BaseAction {
             case ParameterType.ContractType.TYPE_EMAIL: {
                 List<ParameterEmailValue> emails = new ArrayList<ParameterEmailValue>();
 
-                for (String mail : Utils.toList(form.getParam("emails"), "\n")) {
-                    try {
-                        InternetAddress addr = InternetAddress.parse(mail)[0];
-                        emails.add(new ParameterEmailValue(addr.getAddress(), addr.getPersonal()));
-                    } catch (AddressException e) {
-                        throw new BGException("Некорректный адрес: " + mail, e);
+                List<String> strings = Utils.toList(form.getParam("emails"), "\n");
+
+                if (strings.isEmpty()) {
+                    Iterator<String> address = form.getParamValuesListStr("address").iterator();
+                    Iterator<String> name = form.getParamValuesListStr("name").iterator();
+                    while (address.hasNext())
+                        emails.add(new ParameterEmailValue(address.next(), name.next()));
+                } else {
+                    for (String mail : strings) {
+                        try {
+                            InternetAddress addr = InternetAddress.parse(mail)[0];
+                            emails.add(new ParameterEmailValue(addr.getAddress(), addr.getPersonal()));
+                        } catch (AddressException e) {
+                            throw new BGException("Некорректный адрес: " + mail, e);
+                        }
                     }
                 }
-
                 paramDAO.updateEmailParameter(contractId, paramBillingId, emails);
                 break;
             }

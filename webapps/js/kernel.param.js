@@ -117,6 +117,35 @@ $$.param = new function () {
 		this.delValue = delValue;
 	}
 
+	this.email  = new function () {
+		/**
+		 * Adds a new empty value to email parameter editor.
+		 * @param {HTMLButtonElement} button add button that was clicked.
+		 */
+		const addValue = (button) => {
+			const $tr = $(
+				"<tr>" +
+				"<td><input type='text' name='address' class='w100p'/></td>" +
+				"<td><input type='text' name='name' class='w100p'/></td>" +
+				"<td><button class='btn-white btn-small icon' onclick='$$.param.email.delValue(this)'><i class='ti-trash'></i></button></td>" +
+				"</tr>"
+			);
+			$(button).closest('table').find('tr:last').after($tr);
+			$tr.find("input[name='address']").focus();
+		}
+		/**
+		 * Deletes a value in phone parameter editor.
+		 * @param {HTMLButtonElement} button deletion button.
+		 */
+		const delValue = (button) => {
+			$(button).closest('tr').remove()
+		}
+
+		// public functions
+		this.addValue = addValue;
+		this.delValue = delValue;
+	}
+
 	// $$.param.treecount
 	this.treecount = new function () {
 		const treeOpen = (a) => {

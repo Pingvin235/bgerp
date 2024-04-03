@@ -5,6 +5,7 @@ import java.util.List;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 
 import ru.bgcrm.model.param.ParameterEmailValue;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrEmail;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -17,6 +18,16 @@ public class ParamEmailValue
 	private int eid; //id списка рассылок о_О
 	private List<String> subscrs; // Активированные подписки
 	private List<IdStringTitleTreeItem> subscrsTree; // Список существующих рассылок
+
+	public EntityAttrEmail getEntityAttrEmail() {
+		return entityAttrEmail;
+	}
+
+	public void setEntityAttrEmail(EntityAttrEmail entityAttrEmail) {
+		this.entityAttrEmail = entityAttrEmail;
+	}
+
+	private EntityAttrEmail entityAttrEmail;
 
 	public List<String> getEmails()
 	{

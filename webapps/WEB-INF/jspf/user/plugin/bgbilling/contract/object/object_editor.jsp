@@ -59,7 +59,7 @@
 	      $objectEditorTabs.tabs( "add", "${url}", "Параметры объекта" );
 
 	      <c:url var="url" value="/user/empty.do">
-		  	<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameters/object/object_module_list.jsp"/>
+		  	<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/contract/object/object_module_list.jsp"/>
 		  	<c:param name="billingId" value="${form.param.billingId}"/>
 		  	<c:param name="contractId" value="${form.param.contractId}"/>
 		  	<c:param name="objectId" value="${form.param.objectId}"/>

@@ -88,10 +88,20 @@
 		</c:when>
 
 		<c:when test="${paramType eq 3}"> <!-- email + subscriptions -->
-			<textarea name="emails" style="width:100%;" rows="4" id="${focusFieldUiid}">${frd.emails.getEmailsAsString()}</textarea>
-			<div class="hint">Вводите каждый адрес с новой строки</div>
-			<input type="hidden" name="eid" value="${frd.emails.eid}">
 
+
+			<c:choose>
+				<c:when test="${dbInfo.getVersion().compareTo( '9.1' ) gt 0 }">
+				<div class="mb1">
+					<%@ include file="/WEB-INF/jspf/user/parameter/edit/email/editor.jsp"%>
+				</div>
+				</c:when>
+				<c:otherwise>
+					<textarea name="emails" style="width:100%;" rows="4" id="${focusFieldUiid}">${frd.emails.getEmailsAsString()}</textarea>
+					<div class="hint">Вводите каждый адрес с новой строки</div>
+					<input type="hidden" name="eid" value="${frd.emails.eid}">
+				</c:otherwise>
+			</c:choose>
 			<c:if test="${dbInfo.getVersion().compareTo( '5.2' ) lt 0 }">
 				Рассылки: <br/>
 				<c:set var="treeValueId" value="${u:uiid()}"/>
