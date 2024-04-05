@@ -3,6 +3,7 @@ package org.bgerp.plugin.report.action;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
@@ -10,6 +11,7 @@ import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.model.base.iface.Title;
+import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
 import org.bgerp.plugin.report.model.chart.Chart;
@@ -17,10 +19,10 @@ import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
+
 
 /**
  * Parent action for all reports.
@@ -42,7 +44,20 @@ public abstract class ReportActionBase extends BaseAction implements Title {
             List<TitledAction> result = new ArrayList<>();
 
             try {
-                for (Plugin p : PluginManager.getInstance().getPluginList()) {
+                final String reportId = Plugin.ID;
+
+                // place 'Report' plugin at the first place
+                var pluginList = PluginManager.getInstance().getPluginList().stream()
+                    .sorted((p1, p2) -> {
+                        if (reportId.equals(p1.getId()) && !reportId.equals(p2.getId()))
+                            return -1;
+                        if (reportId.equals(p2.getId()) && !reportId.equals(p1.getId()))
+                            return 1;
+                        return 0;
+                    })
+                    .collect(Collectors.toList());
+
+                for (var p : pluginList) {
                     var r = new Reflections(p.getClass().getPackageName());
                     for (Class<?> reportClass : r.getSubTypesOf(ReportActionBase.class)) {
                         var reportInstance = (ReportActionBase) reportClass.getConstructor().newInstance();

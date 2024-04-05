@@ -30,7 +30,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/user/plugin/report/report/process")
 public class ReportProcessAction extends ReportActionBase {
     private static final Column COL_ID = new Column.ColumnInteger("id", "ID", null);
-    private static final Column COL_TYPE_TITLE = new Column.ColumnString("type_title", null, "Тип");
+    private static final Column COL_TYPE_TITLE = new Column.ColumnString("type_title", null, "Type");
 
     private static final Columns COLUMNS = new Columns(
         COL_ID,
@@ -38,7 +38,7 @@ public class ReportProcessAction extends ReportActionBase {
         new Column.ColumnString("user_id", null, null),
         new Column.ColumnString("user_title", null, "User"),
         new Column.ColumnDateTime("time", null, "Время", TimeUtils.FORMAT_TYPE_YMDHM),
-        new Column.ColumnString("process_description", null, "Описание")
+        new Column.ColumnString("process_description", null, "Description")
     );
 
     private final List<Chart> CHARTS = List.of(
