@@ -2,7 +2,8 @@ package org.bgerp.plugin.telegram;
 
 import java.sql.Connection;
 
-import ru.bgcrm.event.EventProcessor;
+import org.bgerp.app.event.EventProcessor;
+
 import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {

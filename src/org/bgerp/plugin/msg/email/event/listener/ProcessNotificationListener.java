@@ -3,6 +3,7 @@ package org.bgerp.plugin.msg.email.event.listener;
 import java.sql.SQLException;
 import java.util.Set;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.Interface;
@@ -17,7 +18,6 @@ import org.bgerp.util.Log;
 import javassist.NotFoundException;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.Page;

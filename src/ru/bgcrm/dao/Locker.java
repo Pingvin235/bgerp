@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.LockEvent;
 import ru.bgcrm.model.Lock;

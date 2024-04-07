@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.dao.process.FilterEntryCounter;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.FilterCounterEvent;
 import ru.bgcrm.model.process.queue.Queue;

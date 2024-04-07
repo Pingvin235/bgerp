@@ -1,12 +1,12 @@
 package ru.bgcrm.event.listener;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CustomerDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.util.sql.ConnectionSet;

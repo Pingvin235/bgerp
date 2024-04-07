@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
@@ -28,7 +29,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterEmailValue;

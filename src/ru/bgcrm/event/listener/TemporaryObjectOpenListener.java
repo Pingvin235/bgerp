@@ -11,9 +11,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.TemporaryObjectEvent;
 import ru.bgcrm.struts.form.DynActionForm;

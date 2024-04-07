@@ -1,8 +1,8 @@
 package ru.bgcrm.event.listener;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.model.param.Parameter;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangingEvent;
 import ru.bgcrm.util.RegexpCheckerConfig;
 import ru.bgcrm.util.sql.ConnectionSet;

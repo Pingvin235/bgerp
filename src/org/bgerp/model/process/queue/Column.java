@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.UserCache;
@@ -27,7 +28,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ParamValueSelect;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;

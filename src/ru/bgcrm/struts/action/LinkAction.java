@@ -6,12 +6,12 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.event.link.LinkRemovedEvent;

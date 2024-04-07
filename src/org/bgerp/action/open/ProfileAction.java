@@ -8,6 +8,7 @@ import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.servlet.Interface;
 import org.bgerp.cache.ParameterCache;
@@ -18,7 +19,6 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

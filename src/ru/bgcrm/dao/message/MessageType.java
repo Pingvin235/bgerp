@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.model.base.IdTitle;
@@ -20,7 +21,6 @@ import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.message.Message;

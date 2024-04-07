@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
@@ -12,7 +13,6 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.w3c.dom.Document;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.ProcessType;

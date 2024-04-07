@@ -9,13 +9,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.event.process.ProcessDoActionEvent;
 import ru.bgcrm.model.News;

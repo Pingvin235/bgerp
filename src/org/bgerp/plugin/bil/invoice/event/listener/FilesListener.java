@@ -1,5 +1,6 @@
 package org.bgerp.plugin.bil.invoice.event.listener;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
@@ -9,7 +10,6 @@ import org.bgerp.plugin.bil.invoice.action.InvoiceAction;
 import org.bgerp.plugin.bil.invoice.dao.InvoiceSearchDAO;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.util.Utils;
 

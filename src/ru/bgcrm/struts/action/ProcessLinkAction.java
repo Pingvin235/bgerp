@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.SimpleConfigMap;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -22,7 +23,6 @@ import org.bgerp.model.process.queue.filter.FilterProcessType;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;

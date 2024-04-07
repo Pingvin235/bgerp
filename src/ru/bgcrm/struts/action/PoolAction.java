@@ -4,9 +4,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.servlet.user.LoginStat;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

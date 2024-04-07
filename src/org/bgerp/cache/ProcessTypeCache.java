@@ -10,13 +10,13 @@ import java.util.Set;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.StatusDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;

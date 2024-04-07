@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.ClientEvent;
 import ru.bgcrm.util.sql.ConnectionSet;

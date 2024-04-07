@@ -7,6 +7,7 @@ import java.util.Map;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.cache.ProcessTypeCache;
@@ -16,7 +17,6 @@ import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;

@@ -1,8 +1,7 @@
 package ru.bgcrm.plugin.mobile;
 
-import ru.bgcrm.event.EventProcessor;
-
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 
 import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 

@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.util.Dynamic;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.event.user.UserChangedEvent;
 import ru.bgcrm.plugin.Endpoint;

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
@@ -14,7 +15,6 @@ import org.bgerp.model.base.IdTitle;
 import javassist.NotFoundException;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;

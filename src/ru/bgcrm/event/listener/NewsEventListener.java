@@ -2,10 +2,10 @@ package ru.bgcrm.event.listener;
 
 import org.bgerp.action.admin.AppAction;
 import org.bgerp.app.dist.inst.VersionCheck;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.UserNewsCache;
 import org.bgerp.event.client.NewsInfoEvent;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.util.sql.ConnectionSet;
 

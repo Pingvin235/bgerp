@@ -13,11 +13,11 @@ import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JexlException;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

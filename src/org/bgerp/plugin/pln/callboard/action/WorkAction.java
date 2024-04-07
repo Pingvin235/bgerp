@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
@@ -57,7 +58,6 @@ import org.bgerp.plugin.pln.callboard.model.work.SlotRange;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.ParamChangingEvent;
 import ru.bgcrm.event.client.ProcessChangedEvent;

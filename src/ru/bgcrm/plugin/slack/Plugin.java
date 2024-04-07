@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.event.EventProcessor;
+
 import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.plugin.Endpoint;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {

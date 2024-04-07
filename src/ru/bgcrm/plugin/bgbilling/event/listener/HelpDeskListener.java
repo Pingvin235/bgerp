@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
@@ -18,7 +19,6 @@ import org.bgerp.model.Pageable;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.client.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;

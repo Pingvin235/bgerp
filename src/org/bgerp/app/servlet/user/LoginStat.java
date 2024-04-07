@@ -9,13 +9,13 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.servlet.user.event.UserSessionClosedEvent;
 import org.bgerp.app.servlet.user.event.UserSessionCreatedEvent;
 import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;

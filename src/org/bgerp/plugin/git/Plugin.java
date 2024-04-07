@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.plugin.Endpoint;

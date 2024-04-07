@@ -22,13 +22,13 @@ import org.bgerp.event.AuthEvent;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.Maintenance;
 import org.bgerp.app.dist.lic.AppLicense;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;

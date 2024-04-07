@@ -1,9 +1,9 @@
 package ru.bgcrm.plugin.fulltext;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.Event;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.MessageRemovedEvent;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.customer.CustomerChangedEvent;

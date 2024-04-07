@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
@@ -25,7 +26,6 @@ import org.bgerp.util.sql.LikePattern;
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkRemovedEvent;
 import ru.bgcrm.event.link.LinkRemovingEvent;
 import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;

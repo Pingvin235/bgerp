@@ -1,12 +1,12 @@
 package ru.bgcrm.plugin.bgbilling.event.listener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.event.link.LinksToRemovingEvent;
 import ru.bgcrm.model.CommonObjectLink;

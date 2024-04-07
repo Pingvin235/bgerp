@@ -16,6 +16,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
@@ -29,7 +30,6 @@ import org.w3c.dom.Element;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.ParamList;

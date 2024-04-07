@@ -6,11 +6,11 @@ import java.util.List;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 

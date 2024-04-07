@@ -3,9 +3,9 @@ package org.bgerp.plugin.bil.subscription;
 import java.sql.Connection;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.plugin.bil.subscription.event.listener.PaidInvoiceListener;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 
 /**
