@@ -1,6 +1,0 @@
-Move to org.bgerp.event event classes.
-Move to org.bgerp.app.event:
-- EventProcessor
-- Event
-- UserEvent
-- ClientEvent(WithId)

@@ -2,7 +2,8 @@ package org.bgerp.app.servlet.user.event;
 
 import javax.servlet.http.HttpServletRequest;
 
-import ru.bgcrm.event.Event;
+import org.bgerp.app.event.iface.Event;
+
 import ru.bgcrm.model.user.PermissionNode;
 
 /**

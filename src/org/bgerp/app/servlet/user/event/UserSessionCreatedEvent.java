@@ -1,8 +1,7 @@
 package org.bgerp.app.servlet.user.event;
 
+import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.servlet.user.UserSession;
-
-import ru.bgcrm.event.Event;
 
 /**
  * User session created.

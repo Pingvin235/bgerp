@@ -17,14 +17,14 @@ import org.apache.struts.upload.FormFile;
 import org.bgerp.action.BaseAction;
 import org.bgerp.action.FileAction;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.event.iface.Event;
+import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.Event;
-import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;

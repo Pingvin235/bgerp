@@ -3,13 +3,14 @@ package ru.bgcrm.event.listener;
 import java.util.Date;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.iface.Event;
+import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
-import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.MessageOpenEvent;

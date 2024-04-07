@@ -1,5 +1,6 @@
 package ru.bgcrm.event.listener;
 
+import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;

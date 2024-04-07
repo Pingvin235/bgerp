@@ -1,8 +1,8 @@
 package ru.bgcrm.plugin.fulltext;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.iface.Event;
 
-import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.MessageRemovedEvent;
 import ru.bgcrm.event.ParamChangedEvent;
@@ -18,7 +18,7 @@ import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class EventListener implements ru.bgcrm.event.listener.EventListener<Event> {
+public class EventListener implements org.bgerp.app.event.iface.EventListener<Event> {
 
     public EventListener() {
         EventProcessor.subscribe(this, ParamChangedEvent.class);

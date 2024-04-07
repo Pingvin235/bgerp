@@ -7,15 +7,15 @@ import java.util.List;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.event.iface.Event;
+import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exec.Runnable;
 import org.bgerp.app.exec.scheduler.Scheduler;
 import org.bgerp.app.exec.scheduler.TasksConfig;
 import org.bgerp.model.base.IdStringTitle;
 
-import ru.bgcrm.event.Event;
 import ru.bgcrm.event.RunClassRequestEvent;
-import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

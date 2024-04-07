@@ -1,6 +1,8 @@
 package ru.bgcrm.event.listener;
 
-import ru.bgcrm.event.Event;
+import org.bgerp.app.event.iface.Event;
+import org.bgerp.app.event.iface.EventListener;
+
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**

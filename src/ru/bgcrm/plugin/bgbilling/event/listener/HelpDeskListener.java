@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
@@ -20,7 +21,6 @@ import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.client.ProcessChangedEvent;
-import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;

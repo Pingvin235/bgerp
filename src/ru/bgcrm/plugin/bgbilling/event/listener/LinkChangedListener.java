@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.util.Log;
 
@@ -14,7 +15,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.client.ProcessChangedEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
-import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;

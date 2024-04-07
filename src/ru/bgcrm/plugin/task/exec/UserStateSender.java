@@ -7,6 +7,7 @@ import java.util.Map;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.event.iface.Event;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.cache.UserNewsCache;
@@ -16,7 +17,6 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.event.Event;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.task.Plugin;

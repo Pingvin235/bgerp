@@ -1,6 +1,7 @@
 package org.bgerp.event;
 
-import ru.bgcrm.event.Event;
+import org.bgerp.app.event.iface.Event;
+
 import ru.bgcrm.model.user.User;
 
 /**

@@ -1,5 +1,4 @@
 Move from ru.bgcrm.event:
 - EventProcessor
-- Event
 - UserEvent
 - ClientEvent
