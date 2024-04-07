@@ -201,7 +201,7 @@ Step 4. Run a DB script to create DB structure:
 [source, sh]
 ----
 mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/bgerp/db_create.sql
-mysql --default-character-set=utf8 -h127.0.0.1 -ubgerp -p$ERP_DB_PWD < /opt/bgerp/db_init.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -ubgerp -p$ERP_DB_PWD bgerp < /opt/bgerp/db_init.sql
 ----
 
 Step 5. Optionally apply data from the <<demo, Demo>>:
@@ -316,7 +316,7 @@ crontab -e
 [[update]]
 == Update
 [[update-version]]
-=== Versioning
+=== Version
 Система версионирования продукта описана на нашем link:https://bgerp.org/product/#cd[веб-сайте].
 Следуя данному руководству, вы установите его актуальный *Stable Release*.
 При последующей эксплуатации рекомендуется обновляться только при выпуске очередного подобного релиза, о чём приложение информирует уведомлением в интерфейсе.
@@ -333,12 +333,14 @@ image::_res/install/app_status_update.png[width="600"]
 
 *Update* section - triggers update to the latest Stable Release if its number differs from the currently installed. The *Force* mode disable the check, update will be performed anyway.
 The following <<update-installer, command>> is executed:
+[source, sh]
 ----
 ./backup.sh && ./installer.sh update(f) && ./erp_restart.sh
 ----
 
 *Update on change* section - updates to a <<../project/workflow.adoc#build-change, Change>> package identified by *CHANGE_ID*.
 The following  <<update-installer, command>> is executed:
+[source, sh]
 ----
 ./backup.sh && ./installer.sh installc <CHANGE_ID> && ./erp_restart.sh
 ----
@@ -359,22 +361,24 @@ Executing *Update* after *Update on change* operation will bring application ser
 ====
 
 Для обновления вызовите команду:
+[source, sh]
 ----
 ./installer.sh update
 ----
 
 Для обновления системы на иную версию (не 3.0) вызовите команду:
+[source, sh]
 ----
 ./installer.sh update <version>
 ----
 
 например:
+[source, sh]
 ----
 ./installer.sh update 3.0
 ----
 
 Running without arguments prints the help.
-[source]
 ----
 Commands for installer:
         update            - update to the actual builds if they differ from currents.
@@ -386,11 +390,27 @@ Commands for installer:
 ----
 
 Recommended command for updating (argument 'db' can be excluded for speeding up and used only periodically):
+[source, sh]
 ----
 ./backup.sh db && ./installer.sh update && ./erp_restart.sh
 ----
 
 Update files are taken from version-containing URL, for example for version 3.0: https://bgerp.org/version/3.0/
+
+[[update-error]]
+=== Errors
+After performing an update created a log file `log/update_yyyy-MM-dd_HH:mm:ss.log` that has to be checked on errors after that.
+For example there might be the DB permission issue.
+----
+04-07/19:53:25 ERROR [main] ExecuteSQL - Access denied; you need (at least one of) the SYSTEM_USER privilege(s) for this operation
+----
+
+It has to be fixed using the queries to MySQL executed with *root* user.
+[source, sql]
+----
+GRANT ALTER ROUTINE ON bgerp.* TO 'bgerp'@'%';
+GRANT ALL PRIVILEGES ON bgerp.* TO 'bgerp'@'%';
+----
 
 [[update-query-history]]
 === Query History

@@ -745,7 +745,7 @@ image::_res/setup/param/treecount_table.png[]
 
 Values editor.
 
-image::_res/setup/param/treecount_editor.png[]
+image::_res/setup/param/treecount_editor.png[width="800"]
 
 [[status]]
 == App Status
