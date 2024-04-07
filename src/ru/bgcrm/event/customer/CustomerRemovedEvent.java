@@ -1,6 +1,7 @@
 package ru.bgcrm.event.customer;
 
-import ru.bgcrm.event.UserEvent;
+import org.bgerp.event.base.UserEvent;
+
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class CustomerRemovedEvent extends UserEvent {

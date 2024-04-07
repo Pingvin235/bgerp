@@ -1,8 +1,9 @@
 package org.bgerp.app.event.iface;
 
 /**
- * App's event, the interface is temporary inherited from a deprecated one for backward compatibility reasons.
- * Later that extending will be removed.
+ * App's event.
+ * The interface is temporary inherited from a deprecated one for backward compatibility reasons.
+ * Later that parent will be removed.
  *
  * @author Shamil Vakhitov
  */

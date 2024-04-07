@@ -1,6 +1,7 @@
 package ru.bgcrm.event.process;
 
-import ru.bgcrm.event.UserEvent;
+import org.bgerp.event.base.UserEvent;
+
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;

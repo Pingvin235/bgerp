@@ -1,5 +1,7 @@
 package ru.bgcrm.event;
 
+import org.bgerp.event.base.UserEvent;
+
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class MessageRemovedEvent extends UserEvent {

@@ -13,10 +13,10 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
+import org.bgerp.event.base.UserEvent;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.event.process.ProcessDoActionEvent;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.process.Process;

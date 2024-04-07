@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.document.event;
 
 import java.util.List;
 
-import ru.bgcrm.event.UserEvent;
+import org.bgerp.event.base.UserEvent;
+
 import ru.bgcrm.plugin.document.model.Document;
 import ru.bgcrm.plugin.document.model.Pattern;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -18,7 +19,7 @@ public class DocumentGenerateEvent
 	private Document resultDocument;
 	private byte[] resultBytes;
 
-	public DocumentGenerateEvent( DynActionForm form, Pattern pattern, 
+	public DocumentGenerateEvent( DynActionForm form, Pattern pattern,
 	                              String objectType, List<Integer> objectIds)
 	{
 		super( form );
@@ -34,12 +35,12 @@ public class DocumentGenerateEvent
 		resultDocument.setObjectType( objectType );
 		return resultDocument;
 	}
-	
+
 	public Document getResultDocument()
 	{
 		return resultDocument;
 	}
-	
+
 	public byte[] getResultBytes()
 	{
 		return resultBytes;
@@ -64,7 +65,7 @@ public class DocumentGenerateEvent
 	{
 		return Utils.getFirst( objectIds );
 	}
-	
+
 	public List<Integer> getObjectIds()
 	{
 		return objectIds;
@@ -74,7 +75,7 @@ public class DocumentGenerateEvent
 	{
 		return isDebug(form);
 	}
-	
+
 	public static boolean isDebug(DynActionForm form)
 	{
 		return form.getParamBoolean( "debug", false );

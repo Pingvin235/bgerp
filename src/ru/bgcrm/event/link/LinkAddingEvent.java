@@ -1,6 +1,7 @@
 package ru.bgcrm.event.link;
 
-import ru.bgcrm.event.UserEvent;
+import org.bgerp.event.base.UserEvent;
+
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.struts.form.DynActionForm;
 

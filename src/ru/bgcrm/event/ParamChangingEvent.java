@@ -1,5 +1,6 @@
 package ru.bgcrm.event;
 
+import org.bgerp.event.base.UserEvent;
 import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.struts.form.DynActionForm;

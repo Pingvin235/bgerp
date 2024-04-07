@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.event.base.UserEvent;
+
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.struts.form.DynActionForm;
 

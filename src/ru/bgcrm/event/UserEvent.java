@@ -6,10 +6,9 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Event, appeared on user's action call.
- *
- * @author Shamil Vakhitov
+ * Use {@link org.bgerp.event.base.UserEvent} instead.
  */
+@Deprecated
 public class UserEvent implements Event {
     protected final DynActionForm form;
 

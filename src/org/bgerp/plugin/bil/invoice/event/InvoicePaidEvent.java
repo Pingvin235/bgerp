@@ -1,8 +1,8 @@
 package org.bgerp.plugin.bil.invoice.event;
 
+import org.bgerp.event.base.UserEvent;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 
-import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class InvoicePaidEvent extends UserEvent {

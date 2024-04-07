@@ -1,8 +1,7 @@
 package org.bgerp.event.process.queue;
 
+import org.bgerp.event.base.UserEvent;
 import org.bgerp.model.process.queue.Column;
-
-import ru.bgcrm.event.UserEvent;
 
 public class QueueColumnEvent extends UserEvent {
     private final Column columnDefault;
