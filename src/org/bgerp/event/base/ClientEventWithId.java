@@ -1,4 +1,4 @@
-package ru.bgcrm.event.client;
+package org.bgerp.event.base;
 
 public class ClientEventWithId extends ClientEvent {
     private final int id;

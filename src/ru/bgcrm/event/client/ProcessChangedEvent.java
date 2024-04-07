@@ -1,5 +1,7 @@
 package ru.bgcrm.event.client;
 
+import org.bgerp.event.base.ClientEventWithId;
+
 /**
  * Process was changed, the UI entity has to be opened or updated if already is open.
  *

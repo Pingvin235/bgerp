@@ -1,8 +1,8 @@
-package ru.bgcrm.event.client;
+package org.bgerp.event.base;
 
 /**
  * Event sent to the front end where should be processed with a JS handler.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class ClientEvent {

@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.event.client;
 
-import ru.bgcrm.event.client.ClientEvent;
+import org.bgerp.event.base.ClientEvent;
 
 /**
  * Сообщение о необходимости открыть вкладку договора,

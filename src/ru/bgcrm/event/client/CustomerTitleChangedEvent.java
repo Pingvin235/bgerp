@@ -1,5 +1,7 @@
 package ru.bgcrm.event.client;
 
+import org.bgerp.event.base.ClientEvent;
+
 /**
  * Событие о изменении в названии контрагента,
  * для обновления упоминаний контрагента в браузере клиента.

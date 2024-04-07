@@ -1,6 +1,5 @@
 package ru.bgcrm.struts.form;
 
-import ru.bgcrm.event.client.ClientEvent;
 import ru.bgcrm.model.Page;
 
 import java.util.ArrayList;
@@ -8,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.event.base.ClientEvent;
 import org.bgerp.model.Pageable;
 
 /**

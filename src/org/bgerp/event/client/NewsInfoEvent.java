@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bgerp.app.l10n.Localizer;
-
-import ru.bgcrm.event.client.ClientEvent;
+import org.bgerp.event.base.ClientEvent;
 
 /**
  * Unread messages and news state.

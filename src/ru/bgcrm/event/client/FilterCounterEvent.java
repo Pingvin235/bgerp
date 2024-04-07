@@ -3,6 +3,8 @@ package ru.bgcrm.event.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.event.base.ClientEvent;
+
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 
 public class FilterCounterEvent extends ClientEvent {

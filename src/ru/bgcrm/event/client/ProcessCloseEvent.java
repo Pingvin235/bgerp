@@ -1,5 +1,7 @@
 package ru.bgcrm.event.client;
 
+import org.bgerp.event.base.ClientEventWithId;
+
 /**
  * The opened process UI entity has to be closed.
  *

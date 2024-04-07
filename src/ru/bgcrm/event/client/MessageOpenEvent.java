@@ -1,10 +1,12 @@
 package ru.bgcrm.event.client;
 
+import org.bgerp.event.base.ClientEvent;
+
 import ru.bgcrm.model.message.Message;
 
 /**
  * Open message for processing.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class MessageOpenEvent extends ClientEvent {
