@@ -103,7 +103,7 @@ invoice:type.<id>.provider.{@cnt}.expression=<jexlExpression>
 * *<jexlExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> expression with additional objects:
 ** *invoice* invoice object of javadoc:org.bgerp.plugin.bil.invoice.model.Invoice[]
 ** *process* invoice process javadoc:ru.bgcrm.model.process.Process[]
-** *processParam* process parameters map, result of *parameters* method in javadoc:ru.bgcrm.dao.ParamValueDAO[]
+** *processParam* process parameters map, result of *parameters* method in javadoc:org.bgerp.dao.param.ParamValueDAO[]
 
 [[usage]]
 == Usage

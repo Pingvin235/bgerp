@@ -86,7 +86,7 @@ In JEXL processor always passed the variables:
 [source,java]
 ----
 onProcessEvent.2.doExpression=<<END
-  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+  dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
   dao.updateParamText(process.getId(), 63, "тест");
 END
 ----

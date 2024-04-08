@@ -15,19 +15,19 @@ createWizard.step.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.JexlStep
 createWizard.step.{@cnt}.title=Информация о процессе
 createWizard.step.{@cnt}.doExpression=<<END
      message = "";
-     
-     paramDao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+
+     paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
      linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
      addrDao = new("ru.bgcrm.dao.AddressDAO", conSet.getConnection());
      contractDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO", ctxUser, "{@BILLING_ID}");
 
      message += "ID процесса: <b>" + process.getId() + "</b><br/>";
 
-     message += "Тип процесса: <b>"; 
+     message += "Тип процесса: <b>";
      message += ctxProcessTypeMap.get(process.getTypeId()).getTitle();
      message += "</b><br/>";
 
-     message += "Время: <b>"; 
+     message += "Время: <b>";
      timeFrom = paramDao.getParamDateTime(process.getId(), 5);
      if (timeFrom != null)
             message += tu.format(timeFrom, "ymdhm");
@@ -37,39 +37,39 @@ createWizard.step.{@cnt}.doExpression=<<END
             message += tu.format(timeTo, "ymdhm");
      message += "</b><br/>";
 
-     message += "Договор: <b>"; 
+     message += "Договор: <b>";
      contractLink = u.getFirst(linkDao.getObjectLinksWithType(process.getId(), "contract%"));
-     if (contractLink != null) 
+     if (contractLink != null)
            message += contractLink.getLinkedObjectTitle();
-     message += "</b><br/>";   
+     message += "</b><br/>";
 
      if (contractLink != null ) {
-            message += "Пароль: <b>"; 
+            message += "Пароль: <b>";
             pswd = contractDao.getContractStatisticPassword(contractLink.getLinkedObjectId());
             message += pswd;
-            message += "</b><br/>";   
+            message += "</b><br/>";
      }
-     
+
      message += "Адрес: <b>";
      addr = paramDao.getParamAddress(process.getId(), 4, 1);
-     if (addr != null) 
+     if (addr != null)
            message  += addr.getValue();
      message += "</b><br/>";
 
      if (addr != null) {
           message += "Информация по дому: <b>";
           house = addrDao.getAddressHouse(addr.getHouseId(), false, false, false);
-          if (house != null) 
-              message += house.getComment(); 
-          message += "</b><br/>";    
-     }  
+          if (house != null)
+              message += house.getComment();
+          message += "</b><br/>";
+     }
 
      message += "Телефон: <b>";
      phone = paramDao.getParamPhone(process.getId(), 16);
      if (phone != null)
          message += phone.getValue();
-     message += "</b><br/>"; 
-     
+     message += "</b><br/>";
+
      return {"filled": true, "message": message};
 END
 #

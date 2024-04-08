@@ -15,7 +15,7 @@ onProcessEvent.{@inc:cnt}.events=statusChanged:{@STATUS_IDS}
 onProcessEvent.{@cnt}.doExpression=<<END
     processId = event.getProcess().getId();
 
-    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
     listValue = u.getFirst(dao.getParamList(processId,{@PARAM_LIST_ID}));
 
     log.debug("listValue: " + listValue);
@@ -92,7 +92,7 @@ onProcessEvent.{@cnt}.doExpression=setStatus(3, "")
 [source]
 ----
 onProcessEvent.{@inc:cnt}.doExpression=<<END
-    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
     dao.updateParamText(process.getId(), 63, "тест");
 END
 ----
@@ -102,7 +102,7 @@ END
 [source]
 ----
 onProcessEvent.{@inc:cnt}.doExpression=<<END
-    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
     dao.updateParamList(process.getId(), 63, {1});
 END
 ----
@@ -113,7 +113,7 @@ END
 onProcessEvent.{@inc:cnt}.events=statusChanged
 onProcessEvent.{@cnt}.ifExpression=empty(cu.intersection(processParam.listValueIds(63), {1,2,3}))
 onProcessEvent.{@cnt}.doExpression=<<END
-    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
     dao.updateParamList(process.getId(), 63, {1});
 END
 ----
@@ -136,7 +136,7 @@ END
 ----
 onProcessEvent.{@inc:cnt}.events=created
 onProcessEvent.{@cnt}.doExpression=<<END
-    dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
     cal = new("java.util.GregorianCalendar");
     addDays = 2;
     while (addDays > 0) {
@@ -213,7 +213,7 @@ END
 [source]
 ----
 COPY_BGBILLING_PARAMS=<<END
-    paramDao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
     linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
     contractLink = u.getFirst(linkDao.getObjectLinksWithType(process.getId(),"%contract%"));
     if (contractLink != null) {

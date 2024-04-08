@@ -33,7 +33,7 @@ SUBSCR_IDS=5
 # создание и привязка договора при переходе в статус "В работе"
 onProcessEvent.{@inc:cnt}.events=statusChanged:{@STATUS_IN_WORK}
 onProcessEvent.{@cnt}.doExpression=<<END
-  curdate = new("java.util.Date");  
+  curdate = new("java.util.Date");
   contractDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO", ctxUser, "{@BILLING_ID}");
   docDao = new("ru.bgcrm.plugin.document.dao.DocumentDAO", conSet.getConnection());
   linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
@@ -44,7 +44,7 @@ onProcessEvent.{@cnt}.doExpression=<<END
                      "contract:" + contract.getBillingId(), contract.getId(), contract.getTitle());
     linkDao.addLink(link);
   } else {
-    contract = new("ru.bgcrm.plugin.bgbilling.proto.model.Contract", "{@BILLING_ID}", contractLink.getLinkedObjectId()); 
+    contract = new("ru.bgcrm.plugin.bgbilling.proto.model.Contract", "{@BILLING_ID}", contractLink.getLinkedObjectId());
   }
   // генерация карточки и добавление её в документы
   card = contractDao.getContractCard2Pdf(contract.getId(), "card_inet_gig_04102017.xsl");
@@ -64,30 +64,30 @@ createWizard.step.{@inc:cnt}.title=Проверка процесса
 createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.JexlStep
 createWizard.step.{@cnt}.checkExpression=process.getStatusId() != {@STATUS_WIZARD}
 createWizard.step.{@cnt}.doExpression=<<END
-   linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());   
+   linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
    npayDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.NPayDAO", ctxUser, "{@BILLING_ID}", {@MODULE_NPAY});
-   contractDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO", ctxUser, "{@BILLING_ID}");    
-   
+   contractDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO", ctxUser, "{@BILLING_ID}");
+
    if ({@STATUS_IN_WORK} != process.getStatusId())
       return {"filled": false, "message": "Некорректный статус для запуска мастера."};
-   
+
    contractLink = u.getFirst(linkDao.getObjectLinksWithType(process.getId(), "contract%"));
    if (contractLink == null)
        return {"filled": false, "message": "Не найден привязанный к процессу договор."};
 
    contractInfo = contractDao.getContractInfo(contractLink.getLinkedObjectId());
    if (contractInfo == null)
-      return {"filled": false, "message": "Не найден договор в биллинге."}; 
+      return {"filled": false, "message": "Не найден договор в биллинге."};
 
    if (!contractInfo.getTariffList().isEmpty())
-      return {"filled": false, "message": "Договор содержит тариф."}; 
-   
+      return {"filled": false, "message": "Договор содержит тариф."};
+
    if (!contractInfo.getStatus().equals("В подключении"))
-      return {"filled": false, "message": "Некорректный статус договора."}; 
-   
+      return {"filled": false, "message": "Некорректный статус договора."};
+
    /*if (!npayDao.getServiceList(contractLink.getLinkedObjectId()).isEmpty())
       return {"filled": false, "message": "На договоре есть абонплаты."};  */
- 
+
    // TODO: Проверка договора, тарифа и т.п.
    message = "Договор нормально проверен";
    return {"filled": true, "message": message};
@@ -97,7 +97,7 @@ createWizard.step.{@inc:cnt}.title=Переключение статуса и з
 createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetStatusStep
 createWizard.step.{@cnt}.checkExpression={@STATUS_IN_WORK} == process.getStatusId()
 #
-# отработка мастера 
+# отработка мастера
 createWizard.step.{@inc:cnt}.title=СМС рассылки, MAC/ONU, Внешний адрес
 createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.FillParamsStep
 createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
@@ -110,11 +110,11 @@ createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZAR
 createWizard.step.{@cnt}.doExpression=<<END
    // TODO: Можно переместить в шаг создания сервиса и избежать дублирования кода.
    linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
-   paramDao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+   paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
    contractLink = u.getFirst(linkDao.getObjectLinksWithType(process.getId(), "contract%"));
    if (contractLink == null)
        return {"filled": false, "message": "Не найден привязанный к процессу договор."};
-   contractId = contractLink.getLinkedObjectId(); 
+   contractId = contractLink.getLinkedObjectId();
    //
    message = "Подписка на рассылки";
    // смс рассылки
@@ -140,13 +140,13 @@ createWizard.step.{@cnt}.doExpression=<<END
    ip = "100.64.70.131"; // ip = form.getHttpRequestRemoteAddr();
    curdate = new("java.util.Date");
    searchResult = new("ru.bgcrm.model.SearchResult", 1) ;
-   statusDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractStatusDAO", ctxUser, "{@BILLING_ID}"); 
-   tariffDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO", ctxUser, "{@BILLING_ID}");  
+   statusDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractStatusDAO", ctxUser, "{@BILLING_ID}");
+   tariffDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO", ctxUser, "{@BILLING_ID}");
    inetDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.InetDAO", ctxUser, "{@BILLING_ID}", {@MODULE_INET});
    resDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ResourceDAO", ctxUser, "{@BILLING_ID}", {@MODULE_INET});
    npayDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.NPayDAO", ctxUser, "{@BILLING_ID}", {@MODULE_NPAY});
    linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
-   paramDao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+   paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
    contractLink = u.getFirst(linkDao.getObjectLinksWithType(process.getId(), "contract%"));
    if (contractLink == null)
        return {"filled": false, "message": "Не найден привязанный к процессу договор."};
@@ -164,7 +164,7 @@ createWizard.step.{@cnt}.doExpression=<<END
            return {"filled": false, "message": "Не найдено устройство."};
        message += "<br>DeviceId: " + device.getId();
        // IP адрес
-       pools = 1 =~ paramDao.getParamList(process.getId(), {@PARAM_VN_ADDR}) ? {@POOLS_WHITE} : {@POOLS_GREY}; 
+       pools = 1 =~ paramDao.getParamList(process.getId(), {@PARAM_VN_ADDR}) ? {@POOLS_WHITE} : {@POOLS_GREY};
        addr = u.getFirst(resDao.getFreeIpResourceRangeList(pools, 1, 1));
        if (addr == null)
            return {"filled": false, "message": "Ошибка выделения IP адреса"};
@@ -172,9 +172,9 @@ createWizard.step.{@cnt}.doExpression=<<END
        // VLAN
        port = session.getCircuitId();
        ident = device.getInvIdentifier();
-       message += "<br>Port: " + port + "; Ident: " + ident;    
+       message += "<br>Port: " + port + "; Ident: " + ident;
        cvlan = u.parseInt(ident.substring(0, 3));
-       block = u.parseInt(ident.substring(3));     
+       block = u.parseInt(ident.substring(3));
        perdev = 28;
        if (550 <= cvlan && cvlan <= 574) perdev = 290;
        else if (575 <= cvlan && cvlan <= 599) perdev = 600;
@@ -189,28 +189,28 @@ createWizard.step.{@cnt}.doExpression=<<END
        service.setTypeId({@SERVICE_INET_TYPE});
        service.setDeviceId(device.getId());
        service.setVlan(vlan);
-       service.setIpResId(addr.getResId()); 
+       service.setIpResId(addr.getResId());
        service.setAddrFrom(addr.getFrom());
        service.setAddrTo(addr.getTo());
        service.setLogin("");
        service.setIfaceId(u.parseInt(port));
        service.setDateFrom(curdate);
-       inetDao.updateService(service, null, true, true, 0L);  
+       inetDao.updateService(service, null, true, true, 0L);
        // группа тарифов
        if (tariffDao.contractTariffGroupList(contractId).isEmpty()) {
-          // TODO: зависимость от типа устройства   
+          // TODO: зависимость от типа устройства
           tariffDao.updateContractTariffGroup(0, contractId, {@TARIFF_GROUP_1}, curdate, null, "Мастер");
        }
-   } 
+   }
    else
        message = "Сервис существует";
-   
+
    // абонплата
    /*npayId = 0;
-   npayServ = u.getFirst(npayDao.getServiceList(contractLink.getLinkedObjectId())) 
-   if (npayServ != null) npayId = npayServ.getId();      
+   npayServ = u.getFirst(npayDao.getServiceList(contractLink.getLinkedObjectId()))
+   if (npayServ != null) npayId = npayServ.getId();
    npayDao.updateService(npayId, contractLink.getLinkedObjectId(), {@SERVICE_NPAY}, curdate, null, 0, 1, "Мастер");*/
-   
+
    // открытие статуса
    statusDao.updateStatus(contractLink.getLinkedObjectId(), {@CONTRACT_STATUS_ACTIVE}, curdate, null, "Мастер");
 

@@ -92,7 +92,7 @@ image::_res/slack_2.png[]
 ----
 onProcessEvent.1.events=statusChanged:10
 onProcessEvent.1.doExpression=<<END
-     paramDao =  new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+     paramDao =  new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
      linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
      slack.linkChannel(process);
      slack.inviteExecutors(process);
