@@ -3,7 +3,11 @@ package ru.bgcrm.model.param;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.util.Log;
+
 public class ParameterPhoneValue {
+    private static final Log log = Log.getLog();
+
     private List<ParameterPhoneValueItem> itemList;
 
     public ParameterPhoneValue() {
@@ -55,6 +59,9 @@ public class ParameterPhoneValue {
         addItems(List.of(item));
     }
 
+    /**
+     * Use {@link #addItem(ParameterPhoneValueItem)}.
+     */
     @Deprecated
     public void add(ParameterPhoneValue parameterPhoneValue) {
         if (parameterPhoneValue != null) {
@@ -62,8 +69,12 @@ public class ParameterPhoneValue {
         }
     }
 
+    /**
+     * Use {@link #toString()}
+     */
     @Deprecated
     public String getValue() {
+        log.warndMethod("getValue", "toString");
         return toString();
     }
 
