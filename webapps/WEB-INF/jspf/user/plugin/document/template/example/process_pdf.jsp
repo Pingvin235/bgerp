@@ -84,7 +84,7 @@ processor.6.responseType=file
 
 <%-- установка переменных для шаблона --%>
 ${field.set('number', processId)}
-${field.set('executors', u:objectTitleList(ctxUserList, process.getExecutorIds()))}
+${field.set('executors', u.getObjectTitles(ctxUserList, process.getExecutorIds()))}
 ${field.set('abonent', abonent)}
 ${field.set('address', address)}
 ${field.set('description', process.description)}

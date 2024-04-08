@@ -625,6 +625,10 @@ public class Utils {
         return result.toString();
     }
 
+    public static <T extends IdTitle> String getObjectTitles(List<T> fullList, Set<Integer> selectedIds) {
+        return Utils.getObjectTitles(Utils.getObjectList(fullList, selectedIds));
+    }
+
     public static final <T extends IdTitle> String getObjectTitles(Map<Integer, T> fullMap, List<Integer> selectedIds) {
         return Utils.getObjectTitles(Utils.getObjectList(fullMap, selectedIds));
     }

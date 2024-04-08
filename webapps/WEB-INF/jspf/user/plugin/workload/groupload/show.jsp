@@ -54,7 +54,7 @@
 		<tr ${bgcolor}>
 			<td><nobr>${row[2]!=null?( tu.format( row[1], 'HH:mm' ).concat("-").concat(tu.format( row[2], 'HH:mm' )) ):( tu.format( row[1], 'HH:mm' ) )}</nobr></td>
 			<td>${row[3].value}</td>
-			<td>${u:objectTitleList(ctxUserGroupList, process.groupIds)}</td>
+			<td>${u.getObjectTitles(ctxUserGroupList, process.groupIds)}</td>
 			<td>${ctxProcessTypeMap[process.typeId].title}</td>
 		</tr>
 	</c:forEach>

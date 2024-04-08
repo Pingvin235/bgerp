@@ -98,7 +98,7 @@
 			<td><ui:user-link id="${item.id}"/></td>
 			<td>${item.login}</td>
 			<td>${u.getObjectTitles(ctxUserPermsetMap, item.permsetIds)}</td>
-			<td>${u:objectTitleList(ctxUserGroupFullTitledList, item.groupIds)}</td>
+			<td>${u.getObjectTitles(ctxUserGroupFullTitledList, item.groupIds)}</td>
 			<td>${item.description}</td>
 		</tr>
 	</c:forEach>

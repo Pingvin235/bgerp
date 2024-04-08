@@ -45,7 +45,7 @@
 			<ui:select-mult list="${dispatchList}" hiddenName="dispatchId" values="${message.dispatchIds}" style="width: 100%;" showId="1"/>
 		</c:when>
 		<c:otherwise>
-			${u:objectTitleList( dispatchList, message.dispatchIds )}
+			${u.getObjectTitles( dispatchList, message.dispatchIds )}
 		</c:otherwise>
 	</c:choose>
 

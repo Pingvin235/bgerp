@@ -58,7 +58,7 @@ processor.5.responseType=file
 
 					<tr>
 						<td>${processId}</td>
-						<td>${u:objectTitleList(ctxUserList, process.getExecutorIds())}</td>
+						<td>${u.getObjectTitles(ctxUserList, process.getExecutorIds())}</td>
 						<td>
 							<c:forEach var="addr" items="${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS).values()}" varStatus="status">
 								${addr.value}

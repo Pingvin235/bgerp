@@ -202,12 +202,6 @@
 	<!-- Utils deprecated end -->
 
 	<function>
-		<name>objectTitleList</name>
-		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
-		<function-signature>String getObjectTitles(java.util.List, java.util.Set)</function-signature>
-	</function>
-
-	<function>
 		<description>File name with last motification time suffix.</description>
 		<name>fileNameWithLastModTime</name>
 		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>

@@ -104,7 +104,7 @@
 	            </tr>
 	            <tr>
 	                <td>Ответственный</td>
-	                <td colspan="2">${u:objectTitleList(ctxUserGroupList, process.getGroupIds())}</td>
+	                <td colspan="2">${u.getObjectTitles(ctxUserGroupList, process.getGroupIds())}</td>
 	                <td>Время заявки</td>
 	                <td colspan="2">
 	                	${tu.format(paramDao.getParamDateTime(process.id, PROCESS_PARAM_TIME_FROM), 'ymdhm')} -
@@ -113,7 +113,7 @@
 	            </tr>
 	            <tr>
 	                <td>Список исполнителей</td>
-	                <td colspan="5">${u:objectTitleList(ctxUserList, process.getExecutorIds())}</td>
+	                <td colspan="5">${u.getObjectTitles(ctxUserList, process.getExecutorIds())}</td>
 	            </tr>
 	            <tr>
 	                <td>Примечание</td>

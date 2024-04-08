@@ -177,7 +177,7 @@
 
 					<c:forEach var="shift" items="${pair.value}"><%--
 					--%><tr class="user" groupId="${pair.key}" userId="${shift.userIds}" team="${shift.team}"><%--
-						--%><c:set var="title" value="${u:objectTitleList( ctxUserList, shift.userIds )}"/><%--
+						--%><c:set var="title" value="${u.getObjectTitles( ctxUserList, shift.userIds )}"/><%--
 
 						--%><td class="shiftUser" title="${title}"><%--
 							--%><c:if test="${shift.team gt 0}">[${shift.team}] </c:if>${title}<%--

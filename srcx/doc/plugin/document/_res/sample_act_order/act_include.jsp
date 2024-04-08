@@ -5,7 +5,7 @@
 <p>Заказчик: ${contractInfo.comment}</p>
 <p>Адрес: ${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS, 1).value}</p>
 <p>Вид работ: ${ctxProcessTypeMap[process.typeId].title}</p>
-<p>Исполнители: ${u:objectTitleList(ctxUserList, process.getExecutorIds())}</p>
+<p>Исполнители: ${u.getObjectTitles(ctxUserList, process.getExecutorIds())}</p>
 
 <p>Производимые работы (оказываемые услуги):</p>
 <table style="width: 100%;">

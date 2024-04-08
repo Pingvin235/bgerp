@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +16,6 @@ import org.bgerp.app.dist.App;
 import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.app.servlet.jsp.tag.NewInstanceTag;
-import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Utils;
@@ -182,10 +180,6 @@ public class UtilFunction {
         log.error("Incorrect object to int transformation: {}", value);
 
         return 0;
-    }
-
-    public static <T extends IdTitle> String getObjectTitles(List<T> fullList, Set<Integer> selectedIds) {
-        return Utils.getObjectTitles(Utils.getObjectList(fullList, selectedIds));
     }
 
     /**

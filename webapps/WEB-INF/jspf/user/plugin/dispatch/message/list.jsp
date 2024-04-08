@@ -44,7 +44,7 @@
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 			<td>${item.id}</td>
 			<td>${item.title}</td>
-			<td>${u:objectTitleList( dispatchList, item.dispatchIds )}</td>
+			<td>${u.getObjectTitles( dispatchList, item.dispatchIds )}</td>
 			<td nowrap="nowrap">${tu.format( item.createTime, 'ymdhms' )}</td>
 			<td style="background-color: ${item.ready ? 'lightgreen' : ''};">${item.ready ? 'Да' : 'Нет'}</td>
 			<td nowrap="nowrap">${tu.format( item.sentTime, 'ymdhms' )}</td>

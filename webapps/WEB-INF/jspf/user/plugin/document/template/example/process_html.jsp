@@ -50,7 +50,7 @@ document:processCreateDocumentsAllowedTemplates+=,101
 			<c:set var="processId" value="${event.objectId}"/>
 			<c:set var="process" value="${processDao.getProcess(processId)}"/>
 
-			Исполнители: ${u:objectTitleList(ctxUserList, process.getExecutorIds())}<br/>
+			Исполнители: ${u.getObjectTitles(ctxUserList, process.getExecutorIds())}<br/>
 			Адрес:
 				<c:forEach var="addr" items="${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS).values()}" varStatus="status">
 					${addr.value}
