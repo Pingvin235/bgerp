@@ -1,0 +1,1 @@
+A: Custom JSP Reports. https://bgerp.org/version/3.0/doc/plugin/report/index.html#jsp

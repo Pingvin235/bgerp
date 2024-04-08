@@ -31,7 +31,7 @@
 						$('#${configParamId}').val('${node.action}' + '#' + $('#${textareaId}').val());
 						$('#${linkId}').html( '[' + $('#${textareaId}').val() + ']');
 						$('#${configDialogId}').dialog('close');">OK</button>
-					<button class="btn-white ml1" onclick="$('#${configDialogId}').dialog('close');">${l.l("Отмена")}</button>
+					<button class="btn-white ml1" onclick="$('#${configDialogId}').dialog('close');">${l.l("Cancel")}</button>
 				</div>
 			</u:sc>
 		</c:if>

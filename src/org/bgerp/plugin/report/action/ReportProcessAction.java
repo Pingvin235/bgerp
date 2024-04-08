@@ -106,42 +106,43 @@ public class ReportProcessAction extends ReportActionBase {
 
                 final var typeIds = form.getParamValues("type");
 
-                final var pq = new PreparedQuery(conSet.getSlaveConnection());
-                pq.addQuery(SQL_SELECT_COUNT_ROWS + " id, type_id, " + mode + "_user_id, " + mode + "_dt, description " + SQL_FROM + Tables.TABLE_PROCESS);
-                pq.addQuery(SQL_WHERE);
-                pq.addQuery(mode + "_dt");
-                pq.addQuery(" BETWEEN ? AND ?");
-                pq.addDate(dateFrom);
-                pq.addDate(TimeUtils.getNextDay(dateTo));
-                if (!typeIds.isEmpty())
-                    pq.addQuery(SQL_AND + "type_id IN (" + Utils.toString(typeIds) + ")");
-                pq.addQuery(SQL_ORDER_BY);
-                pq.addQuery(mode + "_dt");
-                pq.addQuery(getPageLimit(form.getPage()));
+                try (final var pq = new PreparedQuery(conSet.getSlaveConnection())) {
+                    pq.addQuery(SQL_SELECT_COUNT_ROWS + " id, type_id, " + mode + "_user_id, " + mode + "_dt, description " + SQL_FROM + Tables.TABLE_PROCESS);
+                    pq.addQuery(SQL_WHERE);
+                    pq.addQuery(mode + "_dt");
+                    pq.addQuery(" BETWEEN ? AND ?");
+                    pq.addDate(dateFrom);
+                    pq.addDate(TimeUtils.getNextDay(dateTo));
+                    if (!typeIds.isEmpty())
+                        pq.addQuery(SQL_AND + "type_id IN (" + Utils.toString(typeIds) + ")");
+                    pq.addQuery(SQL_ORDER_BY);
+                    pq.addQuery(mode + "_dt");
+                    pq.addQuery(getPageLimit(form.getPage()));
 
-                var processTypes = new TreeSet<ProcessType>();
+                    var processTypes = new TreeSet<ProcessType>();
 
-                var rs = pq.executeQuery();
-                while (rs.next()) {
-                    final var record = data.addRecord();
-                    record.add(rs.getInt(record.pos()));
+                    var rs = pq.executeQuery();
+                    while (rs.next()) {
+                        final var record = data.addRecord();
+                        record.add(rs.getInt(record.pos()));
 
-                    var processType = ProcessTypeCache.getProcessTypeSafe(rs.getInt(record.pos()));
-                    record.add(processType.getTitle());
-                    processTypes.add(processType);
+                        var processType = ProcessTypeCache.getProcessTypeSafe(rs.getInt(record.pos()));
+                        record.add(processType.getTitle());
+                        processTypes.add(processType);
 
-                    final int userId = rs.getInt(record.pos());
-                    record.add(userId);
-                    record.add(UserCache.getUser(userId).getTitle());
-                    record.add(rs.getTimestamp(record.pos()));
-                    record.add(rs.getString(record.pos()));
+                        final int userId = rs.getInt(record.pos());
+                        record.add(userId);
+                        record.add(UserCache.getUser(userId).getTitle());
+                        record.add(rs.getTimestamp(record.pos()));
+                        record.add(rs.getString(record.pos()));
+                    }
+
+                    form.setResponseData("types", processTypes.stream()
+                        .sorted((t1, t2) -> t1.getTitle().compareTo(t2.getTitle()))
+                        .collect(Collectors.toList()));
+
+                    setRecordCount(form.getPage(), pq.getPrepared());
                 }
-
-                form.setResponseData("types", processTypes.stream()
-                    .sorted((t1, t2) -> t1.getTitle().compareTo(t2.getTitle()))
-                    .collect(Collectors.toList()));
-
-                setRecordCount(form.getPage(), pq.getPrepared());
             }
         };
     }

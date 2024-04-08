@@ -4,14 +4,45 @@
 [[about]]
 == About
 The actual version of the plugin contains built-it reports, available after plugin's activation in menu *Reports*.
-These reports may be defined int the plugin itself for kernel data or in other plugins.
+These reports may be defined int the plugin itself for kernel data or in other plugins, including <<../../kernel/extension.adoc#custom, Custom>> with self-written reports.
 
+The plugin provides right now a single built-in report *Processes*. Beside that reports have the following plugins.
+[square]
+* <<../bil/invoice/index.adoc#usage-report, Invoice>>
+* <<../bil/subscription/index.adoc#usage-report, Subscription>>
+
+[[setup]]
+=== Setup
+Reports do not require some additional configuration except of restricting them using standard <<../../kernel/setup.adoc#user-user, permissions>> system.
+
+image::_res/report_permissions.png[]
+
+[[usage]]
+=== Usage
+Each report is represented with a separated item in the main menu.
+On the top placed kernel-related reports, after reports of different plugin.
+The last item opens old-style <<#jsp, JSP Reports>>.
+
+image::_res/report_menu.png[]
+
+After choosing a report, it is opened as a separated tool, providing some filters and representation.
+
+image::_res/report_processes.png[width="800"]
+
+Some reports provide diagrams support. They can be chosen using extra button.
+
+image::_res/report_processes_diagram_menu.png[]
+
+Diagrams visualize the actual shown data in graphic forms.
+
+image::_res/report_processes_diagram.png[width="800"]
+
+[[dev]]
+=== Development
 Reports are implemented with unified <<../../project/index.adoc#mvc, Action MVC API>>.
 Each report extends Java class javadoc:org.bgerp.plugin.report.action.ReportActionBase[].
 Source codes of existing reports may be used as examples for development of new.
 
-[[dev]]
-== Development
 As an report example you can have a look on the following files which together make built-it *Processes* report:
 [square]
 * link:../../../../src/org/bgerp/plugin/report/Plugin.java[org.bgerp.plugin.report.Plugin]
@@ -22,142 +53,62 @@ The relationships between the different parts of report are shown in the diagram
 
 drawio:_res/report_mvc.drawio[]
 
-
 [[jsp]]
-== JSP (Old) Reports
-JSP отчёты отображаются в отдельном подменю.
-
-image::_res/jsp_report_menu.png[]
-
-Это упрощённая старая система со следующими особенностями:
+== JSP Reports
+This is a simplified self-developed report system with the following specifics:
 [square]
-* логика и шаблон отчёта заключены в едином JSP файле;
-* отсутствует разделение прав на отчёты;
-* нет поддержки диаграмм.
+* all report logic and view included in a single JSP file
+* complex report permissions handling using permission option
+* no diagrams supported
 
-JSP отчёты должны быть перенесены в <<../../kernel/extension.adoc#custom, Custom>> репозитарий в существующем виде.
-
-Для примера рассмотрим следующую конфигурацию.
-[source]
-----
-report:report.1.title=ТП - Отчет по процессам
-report:report.1.jspFile=/WEB-INF/custom/plugin/report/custom_tp_queries_report.jsp
-----
-
-Она должна быть изменена таким образом.
-[source]
-----
-report:report.1.title=ТП - Отчет по процессам
-report:report.1.jspFile=/WEB-INF/jspf/user/plugin/custom.smartkom/report/old/custom_tp_queries_report.jsp
-----
-
-А соответствующие файлы link:https://github.com/arj57/bgerp-custom-smartkom/tree/master/webapps/WEB-INF/jspf/user/plugin/custom.smartkom/report/old[перенесены] во вновь созданный Custom репозитарий.
-
-Примеры Custom репозитариев с JSP отчётами:
-[square]
-* https://github.com/AGVMaglan/bgerp-custom-maglan
-
-////
-Плагин предназначен для разработки отчётов в HTML формате с гибкими фильтрами.
-Логика отчёта реализуется с помощью обычных либо <<../../kernel/extension.adoc#dyn, динамических>> Java классов, отображение - <<../../project/index.adoc#jsp, JSP>> шаблоном.
-Возможна разработка отчётов, где и логика выборки помещена в JSP шаблон, так называемые *JSP отчёты*.
-Данный подход обладает следующими недостатками:
-[square]
-* работа с БД удобнее и стандартнее выполняется в Java коде;
-* невозможно реализация выгрузки данных в различные форматы;
-* смешивание слоёв логики и представления усложняют сопровождение.
-
-[[config]]
-== Конфигурация
-Отчёты настраиваются в <<../../kernel/setup.adoc#config, конфигурации>>, желательно создать отдельную включаемую под отчёты.
-Для каждого отчёта добавляется запись вида:
-[source]
+[[jsp-setup]]
+=== Setup
+For each JSP add the following configuration block.
 ----
 report:report.<id>.title=<title>
-report:report.<id>.daoClass=<daoClass>
+report:report.<id>.jspFile=<jsp>
 ----
 
-Либо для JSP отчёта:
-[source]
-----
-report:report.<id>.title=<title>
-report:report.<id>.jspFile=<jspFile>
-----
-
-Где:
+Where:
 [square]
-* *<id>* - числовая идентификатор отчёта;
-* *<daoClass>* - обычный либо динамический Java класс, расширяющий
-* *<jspFile>* - путь к JSP шаблону, генерирующему отчёт, расположенный в каталоге *WEB-INF/custom/plugin/report/*.
+* *<id>* - unique numeric report's ID
+* *<title>* - title
+* *<jsp>* - path to JSP file, placed in <<../../kernel/extension.adoc#custom, Custom>> webapps
 
-=== Стандартные отчёты
-С программой поставляются встроенные отчёты, конфигурация:
-[source]
+Configuration example, using JSP from the default custom GIT.
 ----
-report:report.100.title=Процессы
-report:report.100.daoClass=ru.bgcrm.plugin.report.dao.ProcessReportDAO
+report:report.{@inc:cnt}.title=Example JSP Report
+report:report.{@cnt}.jspFile=/WEB-INF/jspf/user/plugin/custom.demo/report/jsp/example.jsp
 ----
 
-Их исходный код может использоваться в качестве примера.
+[[jsp-usage]]
+=== Usage
+All the JSP reports are shown in a single tool running by *Reports / JSP Reports* menu item.
+A needed report has to be selected in the top-placed combo box.
 
-== Оснастка "Отчеты"
-В оснастке отображаются все сконфигурированные в системе отчёты.
+image::_res/jsp_reports.png[width="800"]
 
-image::_res/report_general.png[]
+NOTE: The example JSP report is not translated to English yet.
 
-[[samples]]
-== Примеры JSP отчётов
-Числовые коды отчётов в конфигурациях примеров даны случайно и в реальной системе могут быть любыми.
+image::_res/jsp_report_example.png[width="800"]
 
-=== Пример отчёта
-Поставляется с системой для изучения. Отчёт выводит список процессов с различными фильтрами.
-В теле отчёта приведена ссылка на JSP страницу с доступными элементами ввода и выведен список справочников.
+[[jsp-migrate]]
+=== Migration of old JSP reports
+As there is no way to declare API used in JSP in deprecated, after updating from old app versions you may find your reports broken.
+Here are the typical replacement patterns for making them running again.
 
-image::_res/report_sample.png[width="600"]
+[cols="a,a", options="header"]
+|===
+|OLD
+|NEW
 
-Конфигурация:
-[source]
-----
-report:report.1.title=Пример отчёта
-report:report.1.jspFile=/WEB-INF/custom/plugin/report/example.jsp
-----
+|u:parseDate
+|tu.parse
 
-=== Пример отчёта BGBilling
-Поставляется с системой для изучения. Осуществляет прямую работу с базой биллинга.
-Необходимое дополнительное конфигурирование описано в файле *example_bgbilling.jsp*
+|u:toString
+|u.toString
 
-Конфигурация:
-[source]
-----
-report:report.2.title=Пример отчёта BGBilling
-report:report.2.jspFile=/WEB-INF/custom/plugin/report/example_bgbilling.jsp
-----
+|openUrlToParent( formUrl( this.form ), $(this.form) )
+|$$.ajax.load(this, $(this.form).parent())
+|===
 
-=== Смены ЦУС
-Конфигурация:
-[source]
-----
-report:report.3.title=Отчёт ЦУС по сменам
-report:report.3.jspFile=/WEB-INF/custom/plugin/report/ncc_smena.jsp
-----
-
-link:_res/ncc_smena.jsp[JSP файл]
-
-=== Должники BGBilling
-Выводит должников из базы BGBilling.
-
-image::_res/image_debtors.png[]
-
-Конфигурация:
-[source]
-----
-report:report.4.title=Отчет по должникам
-report:report.4.jspFile=/WEB-INF/custom/plugin/report/debtors.jsp
-----
-
-В JSP необходима дополнительная конфигурация.
-link:_res/debtors.jsp[JSP файл]
-
-В дин. коде установите корректные значения полей billingId, adressParamId, nameParamId и cityId.
-link:_res/ReportCustomDebtors.java[Dyn файл]
-////

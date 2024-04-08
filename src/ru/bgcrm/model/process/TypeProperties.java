@@ -188,18 +188,6 @@ public class TypeProperties {
         this.createStatusId = createStatus;
     }
 
-    @Deprecated
-    public int getCreateStatus() {
-        log.warndMethod("getCreateStatus", "getCreateStatusId");
-        return getCreateStatusId();
-    }
-
-    @Deprecated
-    public void setCreateStatus(int createStatus) {
-        log.warndMethod("setCreateStatus", "setCreateStatusId");
-        setCreateStatusId(createStatus);
-    }
-
     public Set<Integer> getCloseStatusIds() {
         return closeStatusIds;
     }

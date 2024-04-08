@@ -44,14 +44,12 @@ public abstract class ReportActionBase extends BaseAction implements Title {
             List<TitledAction> result = new ArrayList<>();
 
             try {
-                final String reportId = Plugin.ID;
-
                 // place 'Report' plugin at the first place
                 var pluginList = PluginManager.getInstance().getPluginList().stream()
                     .sorted((p1, p2) -> {
-                        if (reportId.equals(p1.getId()) && !reportId.equals(p2.getId()))
+                        if (Plugin.ID.equals(p1.getId()))
                             return -1;
-                        if (reportId.equals(p2.getId()) && !reportId.equals(p1.getId()))
+                        if (Plugin.ID.equals(p2.getId()))
                             return 1;
                         return 0;
                     })

@@ -77,10 +77,12 @@ public class MessagePossibleProcessTest {
 
         var messageRelatedProcessConfig = Setup.getSetup().getConfig(MessagePossibleProcessConfig.class);
         Assert.assertNotNull(messageRelatedProcessConfig);
-        Assert.assertEquals(messageRelatedProcessConfig.getSearches().size(), 3);
-        Assert.assertEquals(messageRelatedProcessConfig.getSearches().get(1).getClass(), MessagePossibleProcessSearchMessageFrom.class);
-        Assert.assertEquals(messageRelatedProcessConfig.getSearches().get(2).getClass(), MessagePossibleProcessSearchFoundLinks.class);
-        Assert.assertEquals(messageRelatedProcessConfig.getSearches().get(3).getClass(), MessagePossibleProcessSearchFoundLinksCustomerAddressCity.class);
+        var searches = messageRelatedProcessConfig.getSearches().values();
+        Assert.assertEquals(searches.size(), 3);
+        var searchesIt = searches.iterator();
+        Assert.assertEquals(searchesIt.next().getClass(), MessagePossibleProcessSearchMessageFrom.class);
+        Assert.assertEquals(searchesIt.next().getClass(), MessagePossibleProcessSearchFoundLinks.class);
+        Assert.assertEquals(searchesIt.next().getClass(), MessagePossibleProcessSearchFoundLinksCustomerAddressCity.class);
     }
 
     @Test(dependsOnMethods = "param")

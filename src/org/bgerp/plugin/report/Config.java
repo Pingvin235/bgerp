@@ -1,4 +1,4 @@
-package org.bgerp.plugin.report.model;
+package org.bgerp.plugin.report;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.plugin.report.Plugin;
+import org.bgerp.plugin.report.model.Report;
 
 /**
- * Old way of reports configuration.
+ * JSP reports configuration.
  */
-@Deprecated
 public class Config extends org.bgerp.app.cfg.Config {
     private final List<Report> reportList = new ArrayList<>();
     /** Key - report ID. */

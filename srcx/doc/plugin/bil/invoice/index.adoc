@@ -136,7 +136,6 @@ image::_res/process_invoice_attachment.png[width="800"]
 
 [[usage-report]]
 === Invoice Register Report
-
-The report allows to mark paid invoices and observe already paid for a used in a chosen month.
+The <<../../report/index.adoc#, Report>> allows to mark paid invoices and observe already paid for the current user in a chosen month.
 
 image::_res/report.png[width="800"]

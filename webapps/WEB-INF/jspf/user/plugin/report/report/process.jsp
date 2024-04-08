@@ -13,9 +13,9 @@
 				<li value="close">${l.l('Closed')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
-		${l.l("с")}:
+		<span> </span>${l.l("с")}<span> </span>
 		<ui:date-time paramName="dateFrom" value="${form.param.dateFrom}"/>
-		${l.l("по")}:
+		${l.l("по")}<span> </span>
 		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
 
 		<ui:combo-check paramName="type" values="${form.getParamValues('type')}"
