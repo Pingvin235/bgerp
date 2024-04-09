@@ -1,0 +1,9 @@
+onProcessEvent.{@inc:cnt}.events=statusChanged:{@STATUS_PROGRESS_ID}
+onProcessEvent.{@cnt}.checkExpression=process.getDescription().contains("BLA")
+onProcessEvent.{@cnt}.checkErrorMessage=Process description must contain 'BLA'
+onProcessEvent.{@cnt}.doExpression=addExecutors({ctxUser.getId()})
+# deprecated, implement method in ProcessChangeFunctions
+onProcessEvent.{@cnt}.commands=open
+
+onProcessEvent.{@inc:cnt}.events=statusChanging:{@STATUS_DONE_ID}
+onProcessEvent.{@cnt}.class=org.bgerp.plugin.custom.demo.event.listener.ProcessDefaultChangeListener

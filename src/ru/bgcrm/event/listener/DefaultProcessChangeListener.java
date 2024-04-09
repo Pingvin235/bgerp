@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
@@ -107,16 +108,17 @@ public class DefaultProcessChangeListener {
     private static class DefaultProcessChangingListenerConfig extends Config {
         private static final Log log = Log.getLog();
 
-        private final List<ConfigRule> ruleList = new ArrayList<ConfigRule>();
+        private final List<ConfigRule> ruleList = new ArrayList<>();
 
         public DefaultProcessChangingListenerConfig(ConfigMap config) {
             super(null);
 
+            // the prefix 'on.process.event' instead of 'onProcessEvent' was tested, but looks worse
             for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("onProcessEvent.").entrySet()) {
                 try {
                     ruleList.add(new ConfigRule(me.getValue()));
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
 
@@ -154,27 +156,27 @@ public class DefaultProcessChangeListener {
         private final Map<String, Object> eventMap = new HashMap<>();
         private final Map<String, Object> eventExcludeMap = new HashMap<>();
 
-        private String ifExpression;
-        private String doExpression;
+        // if the class is defined, then the rest of fields are not used
+        private final String className;
+
+        private final String ifExpression;
+        private final Rule checkRule;
+        private final String doExpression;
         private final List<String> commands;
-        private Rule checkRule;
 
         public ConfigRule(ConfigMap config) {
             extractEvents(config, Utils.toList(config.get("events", "*"), ";"), eventMap);
             extractEvents(config, Utils.toList(config.get("eventsExclude", ""), ";"), eventExcludeMap);
 
-            // если ключи checkExpression и checkErrorMessage не определены - выйдет исключение и переменная будет null
-            try {
-                checkRule = new Rule(config);
-            } catch (Exception e) {
-            }
+            className = config.get("class");
 
-            this.ifExpression = config.get("ifExpression");
-            this.doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
+            ifExpression = config.get("ifExpression");
+            checkRule = extractCheckRule(config);
+            doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
 
+            //  deprecated way of doing commands
             String commands = config.get("commands", "");
             this.commands = Utils.toList(commands, ";");
-
             if (Utils.notBlankString(commands))
                 log.warn("Used process type expression commands: {}, qty: {}", commands, this.commands.size());
         }
@@ -227,39 +229,56 @@ public class DefaultProcessChangeListener {
             }
         }
 
+        /**
+         * Extracts checking rule.
+         * @param config
+         * @return if no {@code checkExpression} or {@code checkErrorMessage} is defined, than checkRule will be null
+         */
+        private Rule extractCheckRule(ConfigMap config) {
+            try {
+                return new Rule(config);
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
         public void processEvent(ConnectionSet conSet, UserEvent e, Process process) throws Exception {
-            if (!checkEvent(e, process, eventMap)) {
+            if (!checkEvent(e, process, eventMap))
                 return;
-            }
 
-            if (checkEvent(e, process, eventExcludeMap)) {
+            if (checkEvent(e, process, eventExcludeMap))
                 return;
-            }
 
-            if (Utils.notBlankString(ifExpression) && !Expression.init(conSet, e, process).check(ifExpression)) {
-                log.debug("Skipping rule by ifExpression.");
-                return;
-            }
-
-            if (checkRule != null) {
-                checkRule.check(Expression.init(conSet, e, process), e);
-            }
-
-            log.debug("Processing commands: {}", commands);
-
-            ProcessCommandExecutor.processDoCommands(conSet.getConnection(), e.getForm(), process, e, commands);
-
-            if (Utils.notBlankString(doExpression)) {
-                log.debug("Do expression: {}", doExpression);
-
-                try {
-                    Expression.init(conSet, e, process).executeScript(doExpression);
+            if (Utils.notBlankString(className)) {
+                log.debug("Processing rule with class: {}", className);
+                @SuppressWarnings("unchecked")
+                Class<? extends EventListener<UserEvent>> listenerClass = (Class<? extends EventListener<UserEvent>>) Bean.getClass(className);
+                listenerClass.getDeclaredConstructor().newInstance().notify(e, conSet);
+            } else {
+                if (Utils.notBlankString(ifExpression) && !Expression.init(conSet, e, process).check(ifExpression)) {
+                    log.debug("Skipping rule by ifExpression.");
+                    return;
                 }
-                catch (Exception ex) {
-                    if (ex.getCause() instanceof BGMessageException)
-                        throw (BGMessageException)ex.getCause();
-                    throw new BGException(ex);
+
+                if (checkRule != null)
+                    checkRule.check(Expression.init(conSet, e, process), e);
+
+                if (Utils.notBlankString(doExpression)) {
+                    log.debug("Do expression: {}", doExpression);
+
+                    try {
+                        Expression.init(conSet, e, process).executeScript(doExpression);
+                    }
+                    catch (Exception ex) {
+                        if (ex.getCause() instanceof BGMessageException)
+                            throw (BGMessageException)ex.getCause();
+                        throw new BGException(ex);
+                    }
                 }
+
+                log.debug("Processing commands: {}", commands);
+
+                ProcessCommandExecutor.processDoCommands(conSet.getConnection(), e.getForm(), process, e, commands);
             }
         }
 

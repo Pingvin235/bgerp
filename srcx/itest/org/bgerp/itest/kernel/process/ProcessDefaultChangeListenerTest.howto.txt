@@ -1,0 +1,5 @@
+# Changing status to 'Progress'
+Is allowed only when description contain string 'BLA'.
+
+# Changing status to 'Done'
+Is allowed only when description contain string 'BLI'.

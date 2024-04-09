@@ -1,0 +1,4 @@
+column.1.title=ID
+column.1.value=id
+column.3.title=Description
+column.3.value=description

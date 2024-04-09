@@ -80,7 +80,7 @@ In JEXL processor always passed the variables:
 * все переменные контекста из javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[];
 * объект класса javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать непосредственно в скрипте.
 
-При необходимости выражения могут быть <<interface.adoc#config-multiline, многострочными>>, при этом результат (если он есть) возвращается оператором return.
+При необходимости выражения могут быть <<interface.adoc#config-multiline, многострочными>>, при этом результат (если он есть) возвращается оператором *return*.
 Пример многострочного скрипта для <<process/processing.adoc#, простого обработчика событий процесса>>:
 
 [source,java]

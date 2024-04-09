@@ -1,7 +1,7 @@
-= Простая обработка событий
+= Process Default Change Listener
 :toc:
 
-Может использоваться в простых типовых случаях, без необходимости написания динамического кода.
+Может использоваться для обработки связанных с процессом событий в простых типовых случаях, без необходимости написания Java кода.
 Позволяет гибко ограничивать в конфигурации правила правки процессов и автоматически выполняемые с ними операции.
 
 Реализуется одним или несколькими правилами в конфигурации типа процесса вида:
@@ -9,6 +9,10 @@
 ----
 onProcessEvent.<n>.events=<events>
 onProcessEvent.<n>.eventsExclude=<eventsExclude>
+
+# if the class if defined, then the rest of keys are not used
+onProcessEvent.<n>.class=<className>
+
 # обязателен хотя бы один из двух
 onProcessEvent.<n>.doExpression=<doExpression>
 onProcessEvent.<n>.commands=<commands>
@@ -22,10 +26,11 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 * *<n>* - ordered int rule's number;
 * *<events>* - обрабатываемые правилом события через точку с запятой, если параметр не указывается - то обрабатываются все события связанные с данным типом процесса;
 * *<eventsExclude>* - исключаемые из обработки правилом события через точку с запятой, если параметр не указывается - то никакие событие не исключаются;
+* *<className>* - <<../extension.adoc#custom-usage, Custom>> class implementing javadoc:org.bgerp.app.event.iface.EventListener[] and performing all the logic;
 * *<ifExpression>* - <<#jexl, JEXL>> выражение проверки условия при котором отрабатывают команды макроса;
 * *<checkExpression>* - <<#jexl, JEXL>> выражение проверки условия при невыполнении которого генерируется ошибка *<checkErrorMessage>*, используется только с checkErrorMessage;
 * *<checkErrorMessage>* - текст ошибки, сообщаемой при невыполнении условия *<checkExpression>*;
-* *<doExpression>* - выполняемый JEXL скрипт;
+* *<doExpression>* - выполняемый <<#jexl, JEXL>> скрипт;
 * *<commands>* - deprecated way, <<#commands, команды>> макроса обработки;
 
 В *<events>* поддержаны следующие события:

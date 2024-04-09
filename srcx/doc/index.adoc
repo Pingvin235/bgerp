@@ -11,8 +11,8 @@
 ** <<kernel/customer.adoc#, Контрагент>>
 ** <<kernel/process/index.adoc#, Process>>
 *** <<kernel/process/queue.adoc#, Очередь>>
-*** <<kernel/process/processing.adoc#, Простая обработка событий>>
-**** <<kernel/process/processing_samples.adoc#, Примеры простой обработки событий>>
+*** <<kernel/process/processing.adoc#, Default Change Listener>>
+**** <<kernel/process/processing_samples.adoc#, Examples>>
 *** <<kernel/process/wizard.adoc#, Мастер>>
 ** <<kernel/message/index.adoc#, Messages>>
 ** <<kernel/extension.adoc#, Extension>>
