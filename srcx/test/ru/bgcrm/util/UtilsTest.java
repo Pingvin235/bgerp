@@ -3,8 +3,12 @@ package ru.bgcrm.util;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.bgerp.model.base.IdTitle;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -67,5 +71,14 @@ public class UtilsTest {
         Assert.assertEquals(new BigDecimal("2.33"), Utils.parseBigDecimal("2.33"));
         Assert.assertEquals(BigDecimal.ZERO, Utils.parseBigDecimal("fufu"));
         Assert.assertEquals(new BigDecimal("1.00"), Utils.parseBigDecimal(1).setScale(2));
+    }
+
+    @Test
+    public void getGetObjectTitles() {
+        List<IdTitle> list = List.of(new IdTitle(1, "A"), new IdTitle(2, "B"), new IdTitle(3, "C"));
+        Map<Integer, IdTitle> map = list.stream().collect(Collectors.toMap(IdTitle::getId, Function.identity()));
+        Assert.assertEquals("A, B, C", Utils.getObjectTitles(list));
+        Assert.assertEquals("C, A, B", Utils.getObjectTitles(map, List.of(3, 1, 2)));
+        Assert.assertEquals("B, C", Utils.getObjectTitles(list, Set.of(2, 3)));
     }
 }

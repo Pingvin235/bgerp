@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -35,6 +36,7 @@ import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
+@Dynamic
 public class Utils {
     private static final Log log = Log.getLog();
 
@@ -582,53 +584,30 @@ public class Utils {
     }
 
     /**
-     * Возвращает наименования объектов через запятую.
-     * @param list
-     * @return
+     * Concatenates object titles to a comma separated string.
+     * @param list the list of titled objects
+     * @return comma separated string
      */
     public static final <T extends Title> String getObjectTitles(Collection<T> list) {
-        return getObjectTitles(list, null);
+        return list == null ? "" : list.stream().map(Title::getTitle).collect(Collectors.joining(DEFAULT_DELIM));
     }
 
     /**
-     * Возвращает наименования объектов с указанным началом строки.
-     * @param list
-     * @param startValues начало строки.
-     * @return
+     * Concatenates object titles to a comma separated string.
+     * @param fullList the full object list, defines the resulting order
+     * @param selectedIds the selected IDs
+     * @return comma separated string
      */
-    public static final <T extends Title> String getObjectTitles(Collection<T> list, String startValues) {
-        return getObjectTitles(list, startValues, DEFAULT_DELIM);
-    }
-
-    /**
-     * Возвращает наименования объектов с указанием начала строки и разделителя.
-     * @param list
-     * @param startValues начало строки.
-     * @param delim разделитель наименований объектов.
-     * @return
-     */
-    public static <T extends Title> String getObjectTitles(Collection<T> list, String startValues, String delim) {
-        StringBuilder result = new StringBuilder();
-        if (notEmptyString(startValues)) {
-            result.append(startValues);
-        }
-
-        if (list != null) {
-            for (T object : list) {
-                if (result.length() != 0) {
-                    result.append(delim);
-                }
-                result.append(object.getTitle());
-            }
-        }
-
-        return result.toString();
-    }
-
     public static <T extends IdTitle> String getObjectTitles(List<T> fullList, Set<Integer> selectedIds) {
         return Utils.getObjectTitles(Utils.getObjectList(fullList, selectedIds));
     }
 
+    /**
+     * Concatenates object titles to a comma separated string.
+     * @param fullMap the full object map
+     * @param selectedIds the selected IDs, defines the resulting order
+     * @return comma separated string
+     */
     public static final <T extends IdTitle> String getObjectTitles(Map<Integer, T> fullMap, List<Integer> selectedIds) {
         return Utils.getObjectTitles(Utils.getObjectList(fullMap, selectedIds));
     }
@@ -657,7 +636,6 @@ public class Utils {
      * @param selectedIds the IDs list.
      * @return
      */
-    @Dynamic
     public static final <T extends IdTitle> List<T> getObjectList(Map<Integer, T> fullMap, List<Integer> selectedIds) {
         List<T> result = new ArrayList<T>();
 
