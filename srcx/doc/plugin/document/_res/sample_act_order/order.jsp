@@ -45,7 +45,7 @@
 
 	<c:forEach var="process" items="${processList}" varStatus="status">
     	<u:sc>
-	    	<c:set var="contractLink" value="${u:getFirst(processLinkDao.getObjectLinksWithType(process.id, 'contract%'))}"/>
+	    	<c:set var="contractLink" value="${u.getFirst(processLinkDao.getObjectLinksWithType(process.id, 'contract%'))}"/>
 
 	    	<c:if test="${not empty contractLink}">
 		    	<u:newInstance var="billingDao" clazz="ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO">
@@ -75,7 +75,7 @@
 	            </tr>
 	            <tr>
 	                <td rowspan="3" style="font-style: italic">Клиент</td>
-	                <td colspan="5">${contractInfo.comment}<br/>ТП: ${u:toString(contractInfo.getTariffList())}</td>
+	                <td colspan="5">${contractInfo.comment}<br/>ТП: ${u.toString(contractInfo.getTariffList())}</td>
 	            </tr>
 	            <tr>
 	                <td colspan="2" style="font-style: italic">Контакты</td>
@@ -89,7 +89,7 @@
 	                <td>Баланс: ${contractInfo.balanceOut}</td>
 	            </tr>
 	            <tr>
-	            	<c:set var="addr" value="${u:getFirst(paramDao.getParamAddressExt(process.id, PROCESS_PARAM_ADDRESS, true).values())}"/>
+	            	<c:set var="addr" value="${u.getFirst(paramDao.getParamAddressExt(process.id, PROCESS_PARAM_ADDRESS, true).values())}"/>
 
 	                <td rowspan="2" style="font-style: italic">Адрес</td>
 	                <td rowspan="2" colspan="2">${addr.value}</td>

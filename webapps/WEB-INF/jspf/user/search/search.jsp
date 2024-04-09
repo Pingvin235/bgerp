@@ -3,7 +3,7 @@
 
 <div style="height: 100%; width: 100%; display: table-row;">
 	<div style="vertical-align: top; display: table-cell; min-width: 25em; max-width: 25em;" class="in-w100p">
-		<c:set var="allowedForms" value="${u:toSet( form.permission['allowedForms'] )}" scope="request"/>
+		<c:set var="allowedForms" value="${u.toSet(form.permission['allowedForms'])}" scope="request"/>
 		<c:set var="defaultForm" value="${form.permission['defaultForm']}"/>
 
 		<u:sc>

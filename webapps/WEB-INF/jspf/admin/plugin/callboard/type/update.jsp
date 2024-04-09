@@ -39,7 +39,7 @@
 
 			<h2>Обозначение в табеле</h2>
 
-			<input type="text" name="shortcuts" value="${u:toString( workType.shortcutList )}" style="width: 100%;"/>
+			<input type="text" name="shortcuts" value="${u.toString( workType.shortcutList )}" style="width: 100%;"/>
 			<div class="hint">Сокращения для табеля через запятую.</div>
 
 

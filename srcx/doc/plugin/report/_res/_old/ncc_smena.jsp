@@ -3,7 +3,7 @@
 
 <h2>Отчёт за смену.</h2>
 
-<c:set var="processTypeIds" value="${u:toString( processQueueMap[u:int(4)].processTypeIds )}"/>
+<c:set var="processTypeIds" value="${u.toString( processQueueMap[u:int(4)].processTypeIds )}"/>
 
 <c:set var="openStatusId" value="10"/>
 <c:set var="closeStatusId" value="8"/>

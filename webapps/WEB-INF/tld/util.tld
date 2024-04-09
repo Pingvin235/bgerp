@@ -162,45 +162,6 @@
 		<function-signature>Integer getInt(java.lang.Object)</function-signature>
 	</function>
 
-	<!-- Utils deprecated usage, call u. methods instead -->
-	<function>
-		<name>maskEmpty</name>
-		<function-class>ru.bgcrm.util.Utils</function-class>
-		<function-signature>String maskEmpty(java.lang.String,java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>toString</name>
-		<function-class>ru.bgcrm.util.Utils</function-class>
-		<function-signature>String toString(java.util.Collection)</function-signature>
-	</function>
-	<function>
-		<name>toSet</name>
-		<function-class>ru.bgcrm.util.Utils</function-class>
-		<function-signature>Set toSet(java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>toList</name>
-		<function-class>ru.bgcrm.util.Utils</function-class>
-		<function-signature>List toList(java.lang.String)</function-signature>
-	</function>
-	<function>
-		<description>Deprecated, use direct u.toIntegerSet call.</description>
-		<name>toIntegerSet</name>
-		<function-class>ru.bgcrm.util.Utils</function-class>
-		<function-signature>Set toIntegerSet(java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>getObjectIds</name>
-		<function-class>ru.bgcrm.util.Utils</function-class>
-		<function-signature>java.lang.String getObjectIds(java.util.Collection)</function-signature>
-	</function>
-	<function>
-		<name>getFirst</name>
-		<function-class>ru.bgcrm.util.Utils</function-class>
-		<function-signature>Object getFirst(java.util.Collection)</function-signature>
-	</function>
-	<!-- Utils deprecated end -->
-
 	<function>
 		<description>File name with last motification time suffix.</description>
 		<name>fileNameWithLastModTime</name>

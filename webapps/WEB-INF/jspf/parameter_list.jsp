@@ -280,7 +280,7 @@
 						<c:set var="valueTitle" value="${item.valueTitle}"/>
 
 						<c:if test="${'date, datetime'.contains(parameter.type) }">
-							<c:set var="type" value="${u:maskEmpty(parameter.configMap.type, 'ymd')}"/>
+							<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
 							<c:set var="valueTitle" value="${tu.format(item.value, type )}"/>
 						</c:if>
 
@@ -338,7 +338,7 @@
 							</c:otherwise>
 						</c:choose>
 
-						<c:set var="saveOn" value="${u:maskEmpty(parameter.configMap.saveOn, 'editor')}"/>
+						<c:set var="saveOn" value="${u.maskEmpty(parameter.configMap.saveOn, 'editor')}"/>
 						<%-- для параметров типа date, datetime --%>
 						<c:set var="editable" value="${parameter.configMap.editable}"/>
 

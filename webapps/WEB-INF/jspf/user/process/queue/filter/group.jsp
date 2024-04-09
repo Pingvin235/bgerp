@@ -17,7 +17,7 @@
 			<c:set var="values" value="${savedParamsFilters.getParamValues(groupParamName)}"/>
 		</c:if>
 
-		<c:set var="savedExecutors" value="${u:toString( savedParamsFilters.getParamValuesListStr(executorParamName) )}"/>
+		<c:set var="savedExecutors" value="${u.toString( savedParamsFilters.getParamValuesListStr(executorParamName) )}"/>
 
 		<ui:combo-check id="${groupListId}"
 			paramName="${groupParamName}"

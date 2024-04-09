@@ -34,7 +34,7 @@
 		 кнопки сохранения в этом случае скрыты --%>
 	<c:set var="changeAttrs">onchange="$(this).attr( 'changed', '1');"</c:set>
 	<c:set var="onEnter">onkeypress="if( enterPressed( event ) ){ ${saveCommand} }"</c:set>
-	<c:set var="saveOn" value="${u:maskEmpty(parameter.configMap.saveOn, 'editor')}"/>
+	<c:set var="saveOn" value="${u.maskEmpty(parameter.configMap.saveOn, 'editor')}"/>
 
 	<c:set var="onBlur" value=""/>
 	<c:if test="${saveOn eq 'focusLost'}">
@@ -145,7 +145,7 @@
 			</c:when>
 
 			<c:when test="${parameter.type eq 'blob'}">
-				<c:set var="rows" value="rows='${u:maskEmpty(parameter.configMap.rows, '4')}'"/>
+				<c:set var="rows" value="rows='${u.maskEmpty(parameter.configMap.rows, '4')}'"/>
 				<textarea id="${focusFieldUiid}" name="value" ${rows}  style="width: 100%;" ${changeAttrs} ${onBlur}>${data.value}</textarea>
 			</c:when>
 

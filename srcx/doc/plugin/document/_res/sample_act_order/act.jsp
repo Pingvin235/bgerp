@@ -6,7 +6,7 @@
 	<c:forEach var="processId" items="${event.getObjectIds()}" varStatus="status">
 		<u:sc>
 	    	<c:set var="process" value="${processDao.getProcess(processId)}"/>
-	    	<c:set var="contractLink" value="${u:getFirst(processLinkDao.getObjectLinksWithType(processId, 'contract%'))}"/>
+	    	<c:set var="contractLink" value="${u.getFirst(processLinkDao.getObjectLinksWithType(processId, 'contract%'))}"/>
 
 	    	<c:if test="${not empty contractLink}">
 		    	<u:newInstance var="billingDao" clazz="ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO">
