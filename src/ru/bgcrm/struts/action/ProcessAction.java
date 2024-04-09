@@ -542,8 +542,7 @@ public class ProcessAction extends BaseAction {
                 }
 
                 if (!exist)
-                    throw new BGException(
-                            "Запрещено добавлять группу " + UserCache.getUserGroup(item.getGroupId()).getTitle() + " с ролью " + item.getRoleId());
+                    throw new BGMessageException("Forbidden to add group {} with role {}", UserCache.getUserGroup(item.getGroupId()).getTitle(), item.getRoleId());
             }
         }
 
