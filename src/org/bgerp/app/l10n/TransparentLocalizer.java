@@ -1,7 +1,10 @@
 package org.bgerp.app.l10n;
 
+import org.bgerp.util.Log;
+
 /**
- * Localizer, returning a parameter string without modification.
+ * Localizer, returning a pattern string without translation.
+ * Only with applied substitutions.
  *
  * @author Shamil Vakhitov
  */
@@ -12,6 +15,6 @@ public class TransparentLocalizer extends Localizer {
 
     @Override
     public String l(String pattern, Object... args) {
-        return pattern;
+        return Log.format(pattern, args);
     }
 }

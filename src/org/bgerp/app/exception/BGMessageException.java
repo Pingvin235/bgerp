@@ -2,7 +2,6 @@ package org.bgerp.app.exception;
 
 import java.util.Arrays;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
 
@@ -16,6 +15,8 @@ public class BGMessageException extends Exception {
 
     /** Internal localizer, has priority. */
     private final Localizer lInternal;
+    /** Message pattern. */
+    private final String pattern;
     /** Arguments for localized message. */
     private final Object[] args;
 
@@ -35,8 +36,9 @@ public class BGMessageException extends Exception {
      * @param args message arguments.
      */
     public BGMessageException(Localizer lInternal, String pattern, Object... args) {
-        super(pattern);
+        super();
         this.lInternal = lInternal;
+        this.pattern = pattern;
         this.args = args;
     }
 
@@ -48,7 +50,7 @@ public class BGMessageException extends Exception {
     public String getMessage(Localizer lExternal) {
         if (this.lInternal != null)
             lExternal = this.lInternal;
-        return lExternal.l(super.getMessage(), args);
+        return lExternal.l(pattern, args);
     }
 
     /**
@@ -59,17 +61,32 @@ public class BGMessageException extends Exception {
     @Override
     public String getLocalizedMessage() {
         log.warn("The method 'getLocalizedMessage' should not be normally called.");
-        return Log.format(super.getLocalizedMessage(), args);
+        return Log.format(pattern, args);
     }
 
     /**
      * Provides exception's message with substituted pattern, but without localization like {@link #getMessage(Localizer)} does.
-     * The method is used by jUnit tests for comparing exceptions.
+     * The method should not be normally called, produces WARN to log output.
      * @return
      */
     @Override
     public String getMessage() {
-        return Log.format(super.getMessage(), args);
+        log.warn("The method 'getMessage' should not be normally called.");
+        return Log.format(pattern, args);
+    }
+
+    @Override
+    public String toString() {
+        return "BGMessageException [pattern=" + pattern + ", args=" + Arrays.toString(args) + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((pattern == null) ? 0 : pattern.hashCode());
+        result = prime * result + Arrays.deepHashCode(args);
+        return result;
     }
 
     @Override
@@ -81,10 +98,11 @@ public class BGMessageException extends Exception {
         if (getClass() != obj.getClass())
             return false;
         BGMessageException other = (BGMessageException) obj;
-        // added manually
-        if (StringUtils.compare(getMessage(), other.getMessage()) != 0)
+        if (pattern == null) {
+            if (other.pattern != null)
+                return false;
+        } else if (!pattern.equals(other.pattern))
             return false;
-        // lInternal is skipped as there is no equals method available
         if (!Arrays.deepEquals(args, other.args))
             return false;
         return true;
