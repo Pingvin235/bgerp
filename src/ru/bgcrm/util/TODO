@@ -1,5 +1,4 @@
 PatternFormatter
-LevenshteinDistance
     to org.bgerp.util.text
 NodeListElementIterator
 XMLUtils
