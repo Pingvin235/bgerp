@@ -7,7 +7,6 @@ import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.Locker;
-import ru.bgcrm.dao.Tables;
 import ru.bgcrm.event.listener.CustomerSystemListener;
 import ru.bgcrm.event.listener.DefaultProcessChangeListener;
 import ru.bgcrm.event.listener.Files;

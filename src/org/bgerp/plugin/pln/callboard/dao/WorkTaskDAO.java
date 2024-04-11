@@ -1,6 +1,6 @@
 package org.bgerp.plugin.pln.callboard.dao;
 
-import static org.bgerp.plugin.pln.callboard.dao.Tables.*;
+import static org.bgerp.plugin.pln.callboard.dao.Tables.TABLE_CALLBOARD_TASK;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +13,7 @@ import java.util.Map;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.pln.callboard.model.WorkTask;
 import org.bgerp.plugin.pln.callboard.model.work.ShiftData;
+import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -89,7 +90,7 @@ public class WorkTaskDAO extends CommonDAO {
                 ps = con.prepareStatement(query);
 
                 ps.setInt(1, task.getGraphId());
-                ps.setTimestamp(2, TimeUtils.convertDateToTimestamp(task.getTime()));
+                ps.setTimestamp(2, TimeConvert.toTimestamp(task.getTime()));
                 ps.setInt(3, task.getSlotFrom());
                 ps.setInt(4, task.getGroupId());
                 ps.setInt(5, task.getUserId());
@@ -112,7 +113,7 @@ public class WorkTaskDAO extends CommonDAO {
             ps = con.prepareStatement(query);
 
             ps.setInt(1, task.getGraphId());
-            ps.setTimestamp(2, TimeUtils.convertDateToTimestamp(task.getTime()));
+            ps.setTimestamp(2, TimeConvert.toTimestamp(task.getTime()));
             ps.setInt(3, task.getSlotFrom());
             ps.setInt(4, task.getGroupId());
             ps.setInt(5, task.getUserId());
@@ -135,7 +136,7 @@ public class WorkTaskDAO extends CommonDAO {
             pq.addQuery("DELETE FROM " + TABLE_CALLBOARD_TASK + " WHERE graph=? AND `group`=? AND time=? ");
             pq.addInt(task.getGraphId());
             pq.addInt(task.getGroupId());
-            pq.addTimestamp(TimeUtils.convertDateToTimestamp(task.getTime()));
+            pq.addTimestamp(TimeConvert.toTimestamp(task.getTime()));
 
             if (task.getTeam() > 0) {
                 pq.addQuery("AND team=?");
@@ -168,7 +169,7 @@ public class WorkTaskDAO extends CommonDAO {
         WorkTask result = new WorkTask();
 
         result.setGraphId(rs.getInt("graph"));
-        result.setTime(TimeUtils.convertTimestampToDate(rs.getTimestamp("time")));
+        result.setTime(rs.getTimestamp("time"));
         result.setSlotFrom(rs.getInt("slot_from"));
         // result.setSlotTo( rs.getInt( "slot_to" ) );
         result.setGroupId(rs.getInt("group"));

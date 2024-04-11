@@ -44,7 +44,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         if (config == null)
             return;
 
-        log.debug("SLA config is defined");
+        log.info("SLA config is defined");
 
         // process changes
         EventProcessor.subscribe((e, conSet) -> {

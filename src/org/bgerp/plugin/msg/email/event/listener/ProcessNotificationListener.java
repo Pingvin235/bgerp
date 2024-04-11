@@ -11,8 +11,10 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.invoice.event.InvoicePaidEvent;
+import org.bgerp.plugin.msg.email.ExpressionObject;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.plugin.msg.email.config.ProcessNotificationConfig;
+import org.bgerp.plugin.pln.agree.event.AgreementEvent;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
@@ -35,31 +37,28 @@ public class ProcessNotificationListener {
         EventProcessor.subscribe(this::messageAdded, ProcessMessageAddedEvent.class);
         EventProcessor.subscribe(this::processChanged, ProcessChangedEvent.class);
         EventProcessor.subscribe(this::invoicePaid, InvoicePaidEvent.class);
+        EventProcessor.subscribe(this::agreement, AgreementEvent.class);
     }
 
-    private void messageAdded(ProcessMessageAddedEvent e, ConnectionSet conSet) {
+    private void messageAdded(ProcessMessageAddedEvent e, ConnectionSet conSet) throws Exception {
         Process process = e.getProcess();
 
         var config = config(process.getTypeId());
         if (config == null)
             return;
 
-        try {
-            var l = localizer(e.getForm());
-            var text = new StringBuilder(500).append(l.l("email.notification.message", e.getMessage().getText(),
-                    Interface.getUrlUser() + "/process#" + process.getId()));
+        var l = localizer(e.getForm());
+        var text = new StringBuilder(500)
+                .append(l.l("email.notification.message", e.getMessage().getText(), Interface.getUrlUser() + "/process#" + process.getId()));
 
-            // may be add here history of incoming messages
-            String subject = subject(process, e.getMessage().getId());
+        // may be add here history of incoming messages
+        String subject = subject(process, e.getMessage().getId());
 
-            new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
-                    .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
-        } catch (Exception ex) {
-            log.error(ex);
-        }
+        new ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
+                .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
     }
 
-    private void processChanged(ProcessChangedEvent e, ConnectionSet conSet) {
+    private void processChanged(ProcessChangedEvent e, ConnectionSet conSet) throws Exception {
         if (!e.isExecutors() && !e.isStatus())
             return;
 
@@ -69,50 +68,65 @@ public class ProcessNotificationListener {
         if (config == null)
             return;
 
-        try {
-            var l = localizer(e.getForm());
-            var text = new StringBuilder(2000)
-                    .append(l.l(e.isExecutors() ? "email.notification.executors" : "email.notification.status",
-                            Interface.getUrlUser() + "/process#" + process.getId()));
+        var l = localizer(e.getForm());
+        var text = new StringBuilder(2000)
+                .append(l.l(e.isExecutors() ? "email.notification.executors" : "email.notification.status",
+                        Interface.getUrlUser() + "/process#" + process.getId()));
 
-            int messageId = messages(conSet, process, l, text);
-            String subject = subject(process, messageId);
+        int messageId = messages(conSet, process, l, text);
+        String subject = subject(process, messageId);
 
-            new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
-                    .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
-        } catch (Exception ex) {
-            log.error(ex);
-        }
+        new ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
+                .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
     }
 
-    private void invoicePaid(InvoicePaidEvent e, ConnectionSet conSet) {
-        try {
-            var invoice = e.getInvoice();
+    private void invoicePaid(InvoicePaidEvent e, ConnectionSet conSet) throws Exception {
+        var invoice = e.getInvoice();
 
-            var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(invoice.getProcessId());
+        var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(invoice.getProcessId());
 
-            var config = config(process.getTypeId());
-            if (config == null)
-                return;
+        var config = config(process.getTypeId());
+        if (config == null)
+            return;
 
-            var customer = Utils.getFirst(new ProcessLinkDAO(conSet.getSlaveConnection(), e.getForm()).getLinkCustomers(process.getId(), null));
-            String customerTitle = customer != null ? customer.getTitle() : "???";
+        var customer = Utils.getFirst(new ProcessLinkDAO(conSet.getSlaveConnection(), e.getForm()).getLinkCustomers(process.getId(), null));
+        String customerTitle = customer != null ? customer.getTitle() : "???";
 
-            var l = localizer(e.getForm());
-            String text = l.l("email.notification.invoice.paid",
-                customerTitle,
-                invoice.monthsPeriod(Localization.getLang(e.getForm().getHttpRequest())),
-                Utils.format(invoice.getAmount()),
-                TimeUtils.format(invoice.getCreateTime(), TimeUtils.FORMAT_TYPE_YMD),
-                Interface.getUrlUser() + "/process#" + process.getId());
+        var l = localizer(e.getForm());
+        String text = l.l("email.notification.invoice.paid",
+            customerTitle,
+            invoice.monthsPeriod(Localization.getLang(e.getForm().getHttpRequest())),
+            Utils.format(invoice.getAmount()),
+            TimeUtils.format(invoice.getCreateTime(), TimeUtils.FORMAT_TYPE_YMD),
+            Interface.getUrlUser() + "/process#" + process.getId());
 
-            String subject = l.l("Paid invoice {}", invoice.getNumber());
+        String subject = l.l("Paid invoice {}", invoice.getNumber());
 
-            new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
-                    .sendMessageToExecutors(config.userEmailParamId(), subject, text);
-        } catch (Exception ex) {
-            log.error(ex);
+        new ExpressionObject(process, e.getForm(), conSet.getSlaveConnection()).sendMessageToExecutors(config.userEmailParamId(), subject, text);
+    }
+
+    private void agreement(AgreementEvent e, ConnectionSet conSet) throws Exception {
+        var process = e.getProcess();
+
+        var config = config(process.getTypeId());
+        if (config == null)
+            return;
+
+        String subject;
+        String text;
+
+        var l = localizer(e.getForm());
+
+        if (e.isDone()) {
+            subject = l.l("Agreement was done") + " " + subject(process, 0);
+            text = l.l("agree.notification.agreement.done");
+        } else {
+            subject = l.l("Agreement is needed") + " " + subject(process, 0);
+            text = l.l("agree.notification.agreement");
+            // TODO: Executors list.
         }
+
+        new ExpressionObject(process, e.getForm(), conSet.getSlaveConnection()).sendMessageToExecutors(config.userEmailParamId(), subject, text);
     }
 
     private Localizer localizer(DynActionForm form) {

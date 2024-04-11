@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<p><en>Only members of {} group can do the status change</en><ru>Только члены группы {} могут делать эту смену статуса</ru></p>
+	<p><en>Not all the required executors have agreed</en><ru>Не все необходимые исполнители согласовали</ru></p>
+	<!--
+	<p><en></en><ru></ru></p>
+	-->
+</data>

@@ -27,6 +27,7 @@ import org.bgerp.plugin.pln.callboard.model.Shift;
 import org.bgerp.plugin.pln.callboard.model.WorkShift;
 import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig.Callboard;
+import org.bgerp.util.TimeConvert;
 
 import java.util.Set;
 
@@ -693,7 +694,7 @@ public class ShiftDAO extends CommonDAO {
 
             ps.setInt(1, group);
             ps.setInt(2, team);
-            ps.setTimestamp(3, TimeUtils.convertDateToTimestamp(date));
+            ps.setTimestamp(3, TimeConvert.toTimestamp(date));
             ps.setInt(4, graph);
             ps.setInt(5, process_id);
 
@@ -786,8 +787,8 @@ public class ShiftDAO extends CommonDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                result.add(new CallboardTask(rs.getInt("process_id"), rs.getInt("group"), rs.getInt("team"),
-                        rs.getInt("graph"), TimeUtils.convertTimestampToDate(rs.getTimestamp("date"))));
+                result.add(new CallboardTask(rs.getInt("process_id"), rs.getInt("group"), rs.getInt("team"), rs.getInt("graph"),
+                        rs.getTimestamp("date")));
             }
 
             ps.close();

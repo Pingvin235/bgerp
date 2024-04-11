@@ -1,0 +1,7 @@
+agree:status.from={@STATUS_FROM_ID}
+agree:status.to={@STATUS_TO_ID}
+agree:executor.group={@GROUP_ID}
+# by default is 0
+#agree:executor.role=0
+# all executors has to agree
+#agree:executor.all=1

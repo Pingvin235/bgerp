@@ -19,7 +19,6 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
 
-import ru.bgcrm.dao.Tables;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
