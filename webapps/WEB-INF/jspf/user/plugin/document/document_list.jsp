@@ -2,9 +2,8 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
-<c:set var="uploadFormId" value="${u:uiid()}"/>
 
-<div class="in-table-cell" id="${uiid}">
+<div class="in-table-cell">
 	<html:form action="${form.httpRequestURI}" styleClass="in-table-cell">
 		<html:hidden property="id"/>
 		<html:hidden property="scope"/>
@@ -88,7 +87,7 @@
 
 <%@ include file="/WEB-INF/jspf/error_div.jsp"%>
 
-<table class="data mt05 hl">
+<table id="${uiid}" class="data mt05 hl">
 	<tr>
 		<td width="30">ID</td>
 		<td>${l.l('Название')}</td>
@@ -114,7 +113,7 @@
 
 		<tr>
 			<td>${item.id}</td>
-			<td><a href="${url}" target="_blank">${item.fileData.title}</a></td>
+			<td><a href="${url}" class="preview" target="_blank">${item.fileData.title}</a></td>
 			<td>${tu.format(item.fileData.time, 'ymdhms')}</td>
 			<td>
 				<ui:button type="del" styleClass="btn-small" onclick="
@@ -125,3 +124,9 @@
 		</tr>
 	</c:forEach>
 </table>
+
+<script>
+	$(function () {
+		$('#${uiid} a.preview').preview();
+	})
+</script>
