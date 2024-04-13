@@ -7,7 +7,6 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -491,26 +490,6 @@ public class Utils {
             sb.append(configLine).append(separator);
         }
         return sb.toString();
-    }
-
-    /**
-     * Преобразует несколько элементов в набор.
-     * @param value
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static final <T> Set<T> toSet(T... value) {
-        return new HashSet<T>(Arrays.asList(value));
-    }
-
-    /**
-     * Преобразует несколько элементов в список.
-     * @param value
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static final <T> List<T> toList(T... value) {
-        return Arrays.asList(value);
     }
 
     /**
