@@ -5,8 +5,8 @@ import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Data;
 
 public class ChartBar extends Chart2D {
-    public ChartBar(String ltitle, Column categories, Column values) {
-        super(ltitle, categories, values);
+    public ChartBar(String ltitle, Column categories) {
+        super(ltitle, categories);
     }
 
     /**
@@ -27,7 +27,7 @@ public class ChartBar extends Chart2D {
         xAxis.putObject("axisLabel")
                 .put("interval", "0")
                 .put("rotate", "45")
-                .put("height", 400);
+                /* .put("height", 400) does nothing*/;
 
         var xData = xAxis.putArray("data");
 

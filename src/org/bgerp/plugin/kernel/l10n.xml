@@ -45,7 +45,7 @@
 	<p><en>Parameters</en><ru>Параметры</ru></p>
 	<p><ru>История статусов</ru><en>Status history</en></p>
 	<p><en>User</en><ru>Пользователь</ru></p>
-	<p><ru>Время</ru><en>Time</en></p>
+	<p><en>Time</en><ru>Время</ru></p>
 	<p><en>Close</en><ru>Закрыть</ru></p>
 	<p><ru>ИСПОЛНИТЕЛИ БЕЗ ГРУПП</ru><en>EXECUTORS WITHOUT GROUPS</en></p>
 	<p><ru>-Я</ru><en>-I</en></p>
@@ -224,7 +224,7 @@
 	<p><ru>Показать</ru><en>Show</en></p>
 	<p><ru>Лог изменений</ru><en>Change log</en></p>
 	<p><ru>Создан (статус)</ru><en>Created (status)</en></p>
-	<p><ru>Исполнители</ru><en>Executors</en></p>
+	<p><en>Executors</en><ru>Исполнители</ru></p>
 	<p><ru>Роль</ru><en>Role</en></p>
 	<p><ru>Создан с</ru><en>Created from</en></p>
 	<p><ru>по</ru><en>to</en></p>

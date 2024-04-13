@@ -4,13 +4,13 @@
 <c:set var="title">
 	<c:choose>
 		<c:when test="${not empty filter.title}">${filter.title}</c:when>
-		<c:otherwise>${l.l('Исполнители')}</c:otherwise>
+		<c:otherwise>${l.l('Executors')}</c:otherwise>
 	</c:choose>
 </c:set>
 
 <c:set var="code">
 	<ui:combo-check id="${executorListId}"
-		prefixText="${empty filter.title ? l.l('Исполнители') : filter.title}:"
+		prefixText="${empty filter.title ? l.l('Executors') : filter.title}:"
 		showFilter="1"
 		widthTextValue="10em"/>
 </c:set>

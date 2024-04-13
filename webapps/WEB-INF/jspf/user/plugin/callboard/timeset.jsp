@@ -32,7 +32,7 @@
 <c:if test="${not empty slotList}">
 	<table class="data mt1 hl">
 		<tr>
-			<td>${l.l('Время')}</td>
+			<td>${l.l('Time')}</td>
 			<td width="50%">${l.l('Group')}</td>
 			<td width="50%">${l.l('Users')}</td>
 			<td>&nbsp;</td>

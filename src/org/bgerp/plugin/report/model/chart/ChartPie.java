@@ -5,8 +5,8 @@ import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Data;
 
 public class ChartPie extends Chart2D {
-    public ChartPie(String ltitle, Column categories, Column values) {
-        super(ltitle, categories, values);
+    public ChartPie(String ltitle, Column categories) {
+        super(ltitle, categories);
     }
 
     /**

@@ -69,8 +69,19 @@ public abstract class Column implements Titled {
     }
 
     public static class ColumnString extends Column {
+        private boolean commaSeparatedValues;
+
         public ColumnString(String id, String title, String ltitle) {
             super(id, title, ltitle);
+        }
+
+        public ColumnString withCommaSeparatedValues() {
+            this.commaSeparatedValues = true;
+            return this;
+        }
+
+        public boolean isCommaSeparatedValues() {
+            return commaSeparatedValues;
         }
 
         @Override
@@ -132,20 +143,4 @@ public abstract class Column implements Titled {
         }
     }
 
-    /**
-     * Count of unique and not empty values in another column.
-     * This column used only for {@link Chart}.
-     */
-    public static class ColumnCount extends Column {
-        private final Column column;
-
-        public ColumnCount(Column column) {
-            super("", null, null);
-            this.column = column;
-        }
-
-        public Column getColumn() {
-            return column;
-        }
-    }
 }

@@ -5,7 +5,7 @@
 <shell:title text="${l.l('Report')}"/>
 <shell:state text="${l.l('Процессы')}"/>
 
-<div class="report center1020">
+<div class="report">
 	<html:form action="${form.httpRequestURI}">
 		<ui:combo-single hiddenName="mode" widthTextValue="5em" value="${form.param.mode}">
 			<jsp:attribute name="valuesHtml">
@@ -41,6 +41,7 @@
 					<td><ui:user-link id="${u:int(r.get('user_id'))}"/></td>
 					<td>${r.getString('time')}</td>
 					<td>${r.get('process_description')}</td>
+					<td>${r.get('executors')}</td>
 				</tr>
 			</c:forEach>
 		</table>

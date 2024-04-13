@@ -34,7 +34,7 @@
 									onChange="updateExecutors( $('#${groupListId}'), $('#${executorListId}'), '${groupParamName}', '${executorParamName}' ,'${showEmptyExecutor}', '');"/>
 
 								<ui:combo-check
-									id="${executorListId}" prefixText="${l.l('Исполнители')}:"
+									id="${executorListId}" prefixText="${l.l('Executors')}:"
 									widthTextValue="150px" showFilter="1"/>
 							</u:sc>
 						</div>

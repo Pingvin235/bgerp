@@ -13,7 +13,7 @@
 					<td>${l.l('Type')}</td>
 					<td>${l.l('Тема')}</td>
 					<td>${l.l('От')}</td>
-					<td>${l.l('Время')}</td>
+					<td>${l.l('Time')}</td>
 					<td>${l.l('Process')}</td>
 				</tr>
 
@@ -63,7 +63,7 @@
 						</c:if>
 						<td>${l.l('Тема')}</td>
 						<td>${l.l('От')}</td>
-						<td>${l.l('Время')}</td>
+						<td>${l.l('Time')}</td>
 					</tr>
 
 					<c:set var="today" value="<%=new java.util.Date()%>"/>

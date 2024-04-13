@@ -13,7 +13,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Deprecated action for supporting JSP reports.
+ * Action for supporting JSP reports.
  *
  * @author Shamil Vakhitov
  */
