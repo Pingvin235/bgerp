@@ -762,10 +762,31 @@ Down on the page is placed App restart button and tables with logs.
 
 image::_res/setup/status/restart_logs.png[width="800"]
 
-[[status-warn]]
-IMPORTANT: Size of *bgerp.warn.log* must be zero, check messages there case and perform required fixes if its not.
-
 In the bottom of the page are placed tools for <<install.adoc#update-installer-ui, updating>>.
+
+[[status-warn]]
+=== Warnings
+Size of `bgerp.warn.log` must be zero, check messages there case and perform required fixes if its not.
+
+Here is the list of typical issies there and ways to fix it.
+
+[cols="a,a", options="header"]
+|===
+|Error's Sample
+|Solution
+
+|Processor - Configuration key 'page' is no longer needed in processor definition: /WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+|Delete *page* key for <<process/queue.adoc#processor, processors>> configurations.
+
+|Bean class was found by an old name: ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchCall
+|Find the mentioned *class* key value in server configuration and replace it to *MessageTypeSearchCall* without package.
+
+|CommonObjectLink - Deprecated method 'getLinkedObjectId' was called. Use 'getLinkObjectId' instead.
+|Replace in process configurations *getLinkedObjectId* to *getLinkObjectId*
+
+|ParamValueFunction - Deprecated method 'listValueTitles' was called. Use 'getValue' instead.
+|Replace in process configurations *u.toString(processParam.listValueTitles(<ID>))* to *processParam.getValue(<ID>)*
+|===
 
 [[execution]]
 == Execution

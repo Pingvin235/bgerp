@@ -51,20 +51,20 @@
 *** <<plugin/svc/backup/index.adoc#, Backup>>
 *** <<plugin/svc/dba/index.adoc#, DBA>>
 *** <<plugin/svc/log/index.adoc#, Log>>
-* Решения
-** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
-** <<ext/letter.adoc#, Учёт писем>>
-** <<ext/service_desk.adoc#, Service Desk>>
-** <<ext/blow_jira.adoc#, Blow JIRA>>
+// * Решения
+// ** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
+// ** <<ext/letter.adoc#, Учёт писем>>
+// ** <<ext/service_desk.adoc#, Service Desk>>
+// ** <<ext/blow_jira.adoc#, Blow JIRA>>
 * Release Notes
 ** <<changes/0/index.adoc#, Pre-Stable>>
 // changesDoc - don't remove, marker for Gradle task 'changesDoc'
-** <<changes/1393/index.adoc#, 1393>>
-** <<changes/1392/index.adoc#, 1392>>
-** <<changes/1391/index.adoc#, 1391>>
-** <<changes/1390/index.adoc#, 1390>>
-** <<changes/1389/index.adoc#, 1389>>
-** <<changes/1388/index.adoc#, 1388>>
+** <<changes/1393/index.adoc#, 1393 (2403)>>
+** <<changes/1392/index.adoc#, 1392 (2311)>>
+** <<changes/1391/index.adoc#, 1391 (2306)>>
+** <<changes/1390/index.adoc#, 1390 (2302)>>
+** <<changes/1389/index.adoc#, 1389 (2210)>>
+** <<changes/1388/index.adoc#, 1388 (2207)>>
 * <<project/index.adoc#, Project>>
 ** <<project/workflow.adoc#, Workflow>>
 ** <<project/db.adoc#, Database>>
