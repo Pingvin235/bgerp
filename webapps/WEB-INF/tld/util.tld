@@ -174,4 +174,16 @@
 		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>java.lang.String docUrl(java.lang.String)</function-signature>
 	</function>
+
+	<!-- utils deprecated usages with warnings, call u. methods instead -->
+	<function>
+		<name>toString</name>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>String toString(java.util.Collection)</function-signature>
+	</function>
+	<function>
+		<name>objectTitleList</name>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>String objectTitleList(java.util.List, java.util.Set)</function-signature>
+	</function>
 </taglib>

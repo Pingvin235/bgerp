@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ import org.bgerp.app.dist.App;
 import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.app.servlet.jsp.tag.NewInstanceTag;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Utils;
@@ -324,5 +326,17 @@ public class UtilFunction {
             return InstallerChanges.UPDATE_TO_CHANGE_URL + "/" + changeId + "/doc/" + url;
 
         return App.URL + "/doc/" + m.getVersion() + "/manual/" + url;
+    }
+
+    @Deprecated
+    public static final String toString(Collection<?> valuesList) {
+        log.warndJsp("u:toString", "u.toString");
+        return Utils.toString(valuesList);
+    }
+
+    @Deprecated
+    public static <T extends IdTitle> String objectTitleList(List<T> fullList, Set<Integer> selectedIds) {
+        log.warndJsp("u:objectTitleList", "u.getObjectTitles");
+        return Utils.getObjectTitles(Utils.getObjectList(fullList, selectedIds));
     }
 }
