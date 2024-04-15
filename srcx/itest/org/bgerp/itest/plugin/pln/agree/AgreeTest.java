@@ -29,7 +29,7 @@ public class AgreeTest {
 
     @Test
     public void userGroup() throws Exception {
-        userGroupId = UserHelper.addGroup(TITLE, -1, "");
+        userGroupId = UserHelper.addGroup(TITLE, 0, "");
 
         UserHelper.addUserGroups(UserTest.USER_ADMIN_ID, userGroupId);
         UserHelper.addUserGroups(UserTest.userKarlId, userGroupId);

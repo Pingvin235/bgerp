@@ -43,7 +43,7 @@ public class BlowTest {
 
     @Test
     public void userGroup() throws Exception {
-        userGroupId = UserHelper.addGroup(TITLE, -1, "");
+        userGroupId = UserHelper.addGroup(TITLE, 0, "");
 
         UserHelper.addUserGroups(userKarlId = UserTest.userKarlId, userGroupId);
         UserHelper.addUserGroups(userLeonId = UserTest.userLeonId, userGroupId);

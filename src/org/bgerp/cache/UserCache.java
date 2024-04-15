@@ -211,15 +211,16 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static List<Group> getGroupPath(final int id) {
-        final List<Group> result = new ArrayList<Group>();
+        final List<Group> result = new ArrayList<>();
 
-        Group script = new Group();
-        script.setParentId(id);
+        Group group = new Group();
+        group.setParentId(id);
 
-        while (script.getParentId() != 0) {
-            script = HOLDER.getInstance().userGroupMap.get(script.getParentId());
-            result.add(0, script);
+        while (group.getParentId() != 0) {
+            group = HOLDER.getInstance().userGroupMap.get(group.getParentId());
+            result.add(0, group);
         }
+
         return result;
     }
 
@@ -241,7 +242,7 @@ public class UserCache extends Cache<UserCache> {
 
             group = groupMap.get(parentId);
             if (group == null) {
-                log.warn("Not found parent group with id: " + parentId);
+                log.warn("Not found parent group with ID: {}", parentId);
                 break;
             }
 

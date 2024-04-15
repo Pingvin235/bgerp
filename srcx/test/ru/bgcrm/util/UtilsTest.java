@@ -80,5 +80,6 @@ public class UtilsTest {
         Assert.assertEquals("A, B, C", Utils.getObjectTitles(list));
         Assert.assertEquals("C, A, B", Utils.getObjectTitles(map, List.of(3, 1, 2)));
         Assert.assertEquals("B, C", Utils.getObjectTitles(list, Set.of(2, 3)));
+        Assert.assertEquals("", Utils.getObjectTitles(List.of()));
     }
 }
