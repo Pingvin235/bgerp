@@ -119,7 +119,7 @@ publish-doc-master:
     script:
         - sh gradlew doc
         - echo "$KEY_DOC" > ./doc.id_rsa && chmod 600 ./doc.id_rsa
-        - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/doc/ cdn@bgerp.org:/home/cdn/www/change/15055/doc/
+        - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/doc/ cdn@bgerp.org:/home/cdn/www/change/0/doc/
     rules:
         - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "p15055-documentation-master"
 
