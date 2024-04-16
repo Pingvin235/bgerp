@@ -1,5 +1,6 @@
 package ru.bgcrm.util;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +26,7 @@ import org.bgerp.util.Log;
 public class MailMsg {
     private static final Log log = Log.getLog();
 
-    private String encoding;
+    private final String encoding;
     private MimeMessage msg;
 
     public MailMsg(ConfigMap paramMap) {
@@ -90,6 +91,7 @@ public class MailMsg {
         }
     }
 
+    @Deprecated
     public void sendMessage(String recipient, String subject, String txt, String type) {
         try {
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
@@ -102,6 +104,7 @@ public class MailMsg {
         }
     }
 
+    @Deprecated
     public void sendMessage(List<String> mails, String subject, Multipart mp) {
         for (int i = 0; i < mails.size(); i++) {
             try {
@@ -124,6 +127,7 @@ public class MailMsg {
      * @param subject тема
      * @param mp тело сообщения
      */
+    @Deprecated
     public void sendMessage(String recipient, String subject, Multipart mp) {
         try {
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
@@ -136,6 +140,7 @@ public class MailMsg {
         }
     }
 
+    @Deprecated
     public void sendMessageEx(String mails, String subject, String content, String contentType) {
         try {
             StringTokenizer st = new StringTokenizer(mails, ",;\r\n ");
@@ -155,6 +160,7 @@ public class MailMsg {
         }
     }
 
+    @Deprecated
     public void sendMessageAndHandle(String Recipient, String subject, Multipart mp) throws MessagingException {
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Recipient));
         msg.setSubject(subject, encoding);
@@ -163,6 +169,7 @@ public class MailMsg {
         sendMessage();
     }
 
+    @Deprecated
     public void sendMessageAndHandleEx(String mails, String subject, String content, String contentType) throws MessagingException {
         StringTokenizer st = new StringTokenizer(mails, ",;\r\n ");
         while (st.hasMoreTokens())
@@ -178,6 +185,14 @@ public class MailMsg {
     }
 
     private void sendMessage() throws MessagingException {
+        try {
+            var bos = new ByteArrayOutputStream(1000);
+            msg.writeTo(bos);
+            log.info("Sending a mail:\n{}", new String(bos.toByteArray(), encoding));
+        } catch (Exception e) {
+            log.error(e);
+        }
+
         Transport transport = msg.getSession().getTransport();
         transport.connect();
         transport.sendMessage(msg, msg.getAllRecipients());

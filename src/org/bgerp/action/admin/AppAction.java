@@ -14,8 +14,8 @@ import org.bgerp.app.dist.Maintenance;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.app.dist.inst.InstallerChanges.Change;
-import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.dist.inst.VersionCheck;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.servlet.file.Files;
 import org.bgerp.app.servlet.file.Options;
 import org.bgerp.app.servlet.file.Order;
@@ -38,8 +38,8 @@ public class AppAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/app";
 
     @Dynamic
-    public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log", "bgerp*",
-            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log", "*log*",
+            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.NORMAL_FS));
     @Dynamic
     public static final Files LOG_ACCESS = new Files(AppAction.class, "logAccess", AccessLogValve.DIR, "*",
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
