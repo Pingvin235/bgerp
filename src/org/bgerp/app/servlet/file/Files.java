@@ -11,14 +11,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.exception.BGIllegalArgumentException;
+
+import com.google.common.collect.Lists;
 
 import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -31,20 +31,25 @@ import ru.bgcrm.util.Utils;
  */
 public class Files {
     private final Class<? extends BaseAction> actionClass;
-    /** Base dir, only the files there are shown. */
     private final Path basedir;
     private final String id;
-    /** Wildcard for filtering files. '*' is supported. */
-    private final String wildcard;
-    /** Extended possibilities. */
     private final Options options;
+    private final FileFilter fileFilter;
 
-    public Files(Class<? extends BaseAction> actionClass, String id, String basedir, String wildcard, Options options) {
+    /**
+     * Constructor
+     * @param actionClass the linked action class
+     * @param id unique ID of the files
+     * @param basedir base dir, only the files there are shown
+     * @param options extended possibilities
+     * @param wildcards wildcards for filtering files, '*' is supported
+     */
+    public Files(Class<? extends BaseAction> actionClass, String id, String basedir, Options options, String... wildcards) {
         this.actionClass = actionClass;
         this.id = id;
         this.basedir = Paths.get(basedir);
-        this.wildcard = wildcard;
         this.options = options;
+        this.fileFilter = new WildcardFileFilter(wildcards);
     }
 
     /**
@@ -111,8 +116,6 @@ public class Files {
      * @return
      */
     public List<File> list() {
-        FileFilter fileFilter = new WildcardFileFilter(wildcard);
-
         File basedir = this.basedir.toFile();
 
         List<File> result =

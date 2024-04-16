@@ -38,17 +38,17 @@ public class AppAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/app";
 
     @Dynamic
-    public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log", "*log*",
-            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.NORMAL_FS));
+    public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log",
+            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.NORMAL_FS), "*bgerp*", "*mail*");
     @Dynamic
-    public static final Files LOG_ACCESS = new Files(AppAction.class, "logAccess", AccessLogValve.DIR, "*",
-            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    public static final Files LOG_ACCESS = new Files(AppAction.class, "logAccess", AccessLogValve.DIR,
+            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "*");
     @Dynamic
-    public static final Files LOG_UPDATE = new Files(AppAction.class, "logUpdate", "log", "update_*",
-            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    public static final Files LOG_UPDATE = new Files(AppAction.class, "logUpdate", "log",
+            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "update_*");
     @Dynamic
-    public static final Files UPDATE_ZIP = new Files(AppAction.class, "updateZip", Utils.getTmpDir(), "update_*.zip",
-            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    public static final Files UPDATE_ZIP = new Files(AppAction.class, "updateZip", Utils.getTmpDir(),
+            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "update_*.zip");
 
     public ActionForward status(DynActionForm form, ConnectionSet conSet) throws Exception {
         if (VersionCheck.INSTANCE.isUpdateNeeded())

@@ -18,10 +18,10 @@ public class CustomAction extends BaseAction {
     private static final String JSP_CUSTOM = PATH_JSP + "/custom.jsp";
 
     /** Accessed from JSP. */
-    public static final Files CUSTOM_SRC = new Files(CustomAction.class, "custom", "custom", "*",
-            new Options().withDownloadEnabled().withOrder(Order.NORMAL_FS));
-    public static final Files CUSTOM_JAR = new Files(CustomAction.class, "customJar", "lib/app", "custom.jar",
-            new Options().withDeletionEnabled());
+    public static final Files CUSTOM_SRC = new Files(CustomAction.class, "custom", "custom",
+            new Options().withDownloadEnabled().withOrder(Order.NORMAL_FS), "*");
+    public static final Files CUSTOM_JAR = new Files(CustomAction.class, "customJar", "lib/app",
+            new Options().withDeletionEnabled(), "custom.jar");
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {

@@ -18,8 +18,8 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class BackupAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
-    public static final Files FILE_BACKUP = new Files(BackupAction.class, "fileBackup", "backup", "*",
-            new Options().withOrder(Order.LAST_MODIFIED_DESC).withDeletionEnabled().withDownloadEnabled());
+    public static final Files FILE_BACKUP = new Files(BackupAction.class, "fileBackup", "backup",
+            new Options().withOrder(Order.LAST_MODIFIED_DESC).withDeletionEnabled().withDownloadEnabled(), "*");
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
