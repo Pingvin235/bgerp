@@ -11,6 +11,8 @@ import ru.bgcrm.struts.form.DynActionForm;
  * @author Shamil Vakhitov
  */
 public class UserEvent extends ru.bgcrm.event.UserEvent {
+    private boolean processing = true;
+
     public UserEvent(DynActionForm form) {
         super(form);
     }
@@ -21,5 +23,20 @@ public class UserEvent extends ru.bgcrm.event.UserEvent {
 
     public User getUser() {
         return form.getUser();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean processing() {
+        return processing;
+    }
+
+    /**
+     * Stops the event processing.
+     */
+    public void stopProcessing() {
+        processing = false;
     }
 }

@@ -3,7 +3,6 @@ package org.bgerp.app.event;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -30,18 +29,39 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class EventProcessor {
     private static final Log log = Log.getLog();
 
-    private static final Map<Class<?>, List<EventListener<?>>> SUBSCRIBERS = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, List<PrioritizedListener>> SUBSCRIBERS = new ConcurrentHashMap<>();
     private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("EventProcessor-%d").build());
 
     /**
-     * Subscribes a listener to events of defined classes.
+     * Subscribes a listener to events of a class.
      * @param l the listener.
      * @param clazz the event class.
      */
     public static <E extends Event> void subscribe(EventListener<? super E> l, Class<E> clazz) {
-        SUBSCRIBERS
-            .computeIfAbsent(clazz, c -> new ArrayList<>())
-            .add(l);
+        subscribe(l, clazz, 0);
+    }
+
+    /**
+     * Subscribes a listener to events of a class.
+     * @param l the listener.
+     * @param clazz the event class.
+     * @param priority the listener's priority, high priority listeners process events earlier.
+     */
+    @SuppressWarnings({ "unchecked" })
+    public static <E extends Event> void subscribe(EventListener<? super E> l, Class<E> clazz, int priority) {
+        List<PrioritizedListener> list = SUBSCRIBERS.computeIfAbsent(clazz, c -> new ArrayList<>());
+
+        var item = new PrioritizedListener((EventListener<Event>) l, priority);
+
+        // insert before an item with less priority
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).priority() < priority) {
+                list.add(i, item);
+                return;
+            }
+        }
+        // add listener to the end
+        list.add(item);
     }
 
     /**
@@ -58,14 +78,16 @@ public class EventProcessor {
      * @param conSet a DB connections set.
      * @throws BGMessageException
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void processEvent(Event event, ConnectionSet conSet) throws Exception {
         log.trace("Processing event: {}", event);
 
-        List<EventListener<?>> listeners = SUBSCRIBERS.get(event.getClass());
+        List<PrioritizedListener> listeners = SUBSCRIBERS.get(event.getClass());
         if (listeners != null)
-            for (EventListener l : listeners)
-                processEvent(event, l, conSet);
+            for (var item : listeners) {
+                if (!event.processing())
+                    break;
+                processEvent(event, item.listener(), conSet);
+            }
     }
 
     private static void processEvent(Event event, EventListener<Event> listener, ConnectionSet conSet) throws Exception {
@@ -91,23 +113,5 @@ public class EventProcessor {
 
     private static boolean isDebugMode() {
         return java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("jdwp") >= 0;
-    }
-
-    private static class RequestTask implements Callable<byte[]> {
-        private ConnectionSet conSet;
-        private Event event;
-        private EventListener<Event> listener;
-
-        public RequestTask(EventListener<Event> listener, Event event, ConnectionSet conSet) {
-            this.listener = listener;
-            this.event = event;
-            this.conSet = conSet;
-        }
-
-        @Override
-        public byte[] call() throws Exception {
-            listener.notify(event, conSet);
-            return new byte[0];
-        }
     }
 }
