@@ -1,0 +1,60 @@
+= Plugin Agree
+:toc:
+
+[[about]]
+== About
+The plugin allows to control process' switches between two statuses with an agreement procedure, performed by executors from a special agreement group.
+
+During an agreement procedure <<../../msg/email/index.adoc#setup-process-type-change-notification, email>> notifications are sent ot all the involved process executors.
+
+NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
+
+[[setup]]
+== Setup
+Enable the plugin via <<../../../kernel/setup.adoc#config-plugin, server config>>:
+----
+agree:enable=1
+----
+
+[[setup-process-type]]
+=== Process Type
+For every process type, where you need the agreement procedure enabled, add the following block in <<../../../kernel/process/index.adoc#setup-type, properties configuration>>.
+----
+agree:status.from=<statusFromId>
+agree:status.to=<statusToId>
+agree:executor.group=<groupId>
+# by default is 0
+#agree:executor.role=<roleId>
+# how many executors has to agree, 0 - all of them, default - 1
+#agree:executor.required.qty=1
+----
+
+Where:
+[square]
+* *<statusFromId>* - process status ID starting an agreement procedure;
+* *<statusToId>* - process status ID finishing an agreement procedure;
+* *<groupId>* - agreement user group ID;
+* *<roleId>* - execution role ID for the group.
+
+[[usage]]
+== Usage
+After a process with configured type has switched to the starting status, the plugin adds there the configured agreement group with all the users from it as process executors.
+
+image::_res/process_agreement_start.png[width="800"]
+
+Depending of the process type properties configuration, only one or all of them have to switch the process to the finishing status.
+This transition is allowed only for executors from the agreement group.
+
+image::_res/process_agreement_status_change.png[width="800"]
+
+Or in case of objections write to the process notes. That can be later responded by the process executors, so all the discussion is kept in the process messages.
+
+image::_res/process_agreement_reject_note.png[width="800"]
+
+After moving a process to the agreement finishing status by one of the agreement executors, it has been removed from the process executors, as no move involved person in it.
+If only one agreed person is needed or no more agreement executors are left in the process, the process status will stay as the finished.
+
+In case of all agreement persons required and some of those still presented as the process executors, the process status has switched back to the agreement start,
+to allow rest of agreement executors do their agreements as well.
+
+image::_res/process_agreement_status_history.png[width="800"]

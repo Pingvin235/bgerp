@@ -6,20 +6,24 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class AgreementEvent extends UserEvent {
-    private final Process process;
-    private final boolean done;
+    public static enum Mode {
+        START, PROGRESS, FINISH
+    }
 
-    public AgreementEvent(DynActionForm form, Process process, boolean done) {
+    private final Process process;
+    private final Mode mode;
+
+    public AgreementEvent(DynActionForm form, Process process, Mode mode) {
         super(form);
         this.process = process;
-        this.done = done;
+        this.mode = mode;
     }
 
     public Process getProcess() {
         return process;
     }
 
-    public boolean isDone() {
-        return done;
+    public Mode getMode() {
+        return mode;
     }
 }

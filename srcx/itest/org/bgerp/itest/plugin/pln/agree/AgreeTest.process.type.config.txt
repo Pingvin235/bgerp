@@ -3,5 +3,8 @@ agree:status.to={@STATUS_TO_ID}
 agree:executor.group={@GROUP_ID}
 # by default is 0
 #agree:executor.role=0
-# all executors has to agree
-#agree:executor.all=1
+# how many executors has to agree, 0 - all of them, default - 1
+#agree:executor.required.qty=1
+
+# send emails about process modifications to first user parameter with type 'email'
+email:change.notification.user.email.param=0

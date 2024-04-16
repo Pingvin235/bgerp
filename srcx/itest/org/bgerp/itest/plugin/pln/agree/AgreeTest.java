@@ -48,6 +48,10 @@ public class AgreeTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, statusFromId, statusToId, ProcessTest.statusDoneId));
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
+        props.setTransactionProperties(ProcessTest.statusOpenId, statusFromId, true);
+        props.setTransactionProperties(statusFromId, ProcessTest.statusOpenId, true);
+        props.setTransactionProperties(statusFromId, statusToId, true);
+        props.setTransactionProperties(statusToId, ProcessTest.statusDoneId, true);
         props.setConfig(ConfigHelper.generateConstants(
             "STATUS_FROM_ID", statusFromId,
             "STATUS_TO_ID", statusToId,
@@ -65,6 +69,8 @@ public class AgreeTest {
     public void processQueue() throws Exception {
         int queueId = ProcessHelper.addQueue(TITLE, ResourceHelper.getResource(this, "process.queue.config.txt"), Set.of(processTypeId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
+        UserHelper.addUserProcessQueues(UserTest.userKarlId, Set.of(queueId));
+        UserHelper.addUserProcessQueues(UserTest.userLeonId, Set.of(queueId));
     }
 
     @Test(dependsOnMethods = "processType")

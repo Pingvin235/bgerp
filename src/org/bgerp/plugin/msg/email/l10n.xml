@@ -36,40 +36,9 @@ That allow us quicker proceed your request.
 
 </en>
 	</p>
-	<p>
-		<sys>email.notification.executors</sys>
-		<en>Process executors have been changed.
-
-Open process: {}
-
-For quick response answer on the E-Mail with preserved ID in subject.
-
-</en>
-		<ru>Изменён состав исполнителей процесса.
-
-Открыть процесс: {}
-
-Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.
-
-</ru>
-	</p>
-	<p>
-		<sys>email.notification.status</sys>
-		<en>Process status has been changed.
-
-Open process: {}
-
-For quick response answer on the E-Mail with preserved ID in subject.
-
-</en>
-		<ru>Изменён статус процесса.
-
-Открыть процесс: {}
-
-Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.
-
-</ru>
-	</p>
+	<!-- notifications begin -->
+	<!-- kernel -->
+	<p><en>New message in process</en><ru>Новое сообщение в процессе</ru></p>
 	<p>
 		<sys>email.notification.message</sys>
 		<en>New message in process, where you are an executor.
@@ -89,6 +58,36 @@ For quick response answer on the E-Mail with preserved ID in subject.</en>
 
 Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
 	</p>
+	<p><en>Process executors changed</en><ru>Изменились исполнители процесса</ru></p>
+	<p>
+		<sys>email.notification.executors</sys>
+		<en>Process executors have been changed.
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.</en>
+		<ru>Изменён состав исполнителей процесса.
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
+	</p>
+	<p><en>Process status changed</en><ru>Изменился статус процесса</ru></p>
+	<p>
+		<sys>email.notification.status</sys>
+		<en>Process status has been changed.
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.</en>
+		<ru>Изменён статус процесса.
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
+	</p>
+	<p><en>Incoming message #</en><ru>Входящее сообщение #</ru></p>
+	<!-- invoice -->
 	<p>
 		<sys>email.notification.invoice.paid</sys>
 		<en>Customer: {}
@@ -105,7 +104,14 @@ Open process: {}</en>
 Открыть процесс: {}</ru>
 	</p>
 	<p><en>Paid invoice {}</en><ru>Оплачен счёт {}</ru></p>
-	<p><en>Incoming message #</en><ru>Входящее сообщение #</ru></p>
+	<!-- agree -->
+	<p><en>Agreement has started</en><ru>Согласование начато</ru></p>
+	<p><sys>agree.notification.start</sys><en>Agreement has started by {}</en><ru>Согласование начато {}</ru></p>
+	<p><en>Agreement in progress</en><ru>Согласование продолжается</ru></p>
+	<p><sys>agree.notification.progress</sys><en>Agreement was perfomed by {}</en><ru>Согласование было выполнено {}</ru></p>
+	<p><en>Agreement was finished</en><ru>Согласование завершено</ru></p>
+	<p><sys>agree.notification.finish</sys><en>Agreement was finished by {}</en><ru>Согласование было завершено {}</ru></p>
+	<!-- notifications end -->
 	<p>
 		<sys>email.recipients.input.hint</sys>
 		<en>Use comma or Enter for address separation.</en>
@@ -116,5 +122,6 @@ Open process: {}</en>
 	<p><en>Parameter with ID {} not found or has no 'email' type.</en><ru>Параметр с ID {} не найден или его тип не 'email'.</ru></p>
 	<!--
 		<p><en></en><ru></ru></p>
+		<p><sys></sys><en></en><ru></ru></p>
 	-->
 </data>

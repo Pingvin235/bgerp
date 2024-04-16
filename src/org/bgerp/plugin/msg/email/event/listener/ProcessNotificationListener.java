@@ -52,7 +52,7 @@ public class ProcessNotificationListener {
                 .append(l.l("email.notification.message", e.getMessage().getText(), Interface.getUrlUser() + "/process#" + process.getId()));
 
         // may be add here history of incoming messages
-        String subject = subject(process, e.getMessage().getId());
+        String subject = l.l("New message in process") + " " + subject(process, e.getMessage().getId());
 
         new ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
                 .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
@@ -69,12 +69,15 @@ public class ProcessNotificationListener {
             return;
 
         var l = localizer(e.getForm());
+
         var text = new StringBuilder(2000)
                 .append(l.l(e.isExecutors() ? "email.notification.executors" : "email.notification.status",
                         Interface.getUrlUser() + "/process#" + process.getId()));
 
         int messageId = messages(conSet, process, l, text);
-        String subject = subject(process, messageId);
+        String subject =
+            l.l(e.isExecutors() ? "Process executors changed" : "Process status changed") +
+            " " + subject(process, messageId);
 
         new ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
                 .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
@@ -112,18 +115,25 @@ public class ProcessNotificationListener {
         if (config == null)
             return;
 
-        String subject;
-        String text;
+        String subject = null, text = null;
 
         var l = localizer(e.getForm());
 
-        if (e.isDone()) {
-            subject = l.l("Agreement was done") + " " + subject(process, 0);
-            text = l.l("agree.notification.agreement.done");
-        } else {
-            subject = l.l("Agreement is needed") + " " + subject(process, 0);
-            text = l.l("agree.notification.agreement");
-            // TODO: Executors list.
+        String userTitle = e.getForm().getUser().getTitle();
+
+        switch (e.getMode()) {
+            case START -> {
+                subject = l.l("Agreement has started") + " " + subject(process, 0);
+                text = l.l("agree.notification.start", userTitle);
+            }
+            case PROGRESS -> {
+                subject = l.l("Agreement in progress") + " " + subject(process, 0);
+                text = l.l("agree.notification.progress", userTitle);
+            }
+            case FINISH -> {
+                subject = l.l("Agreement was finished") + " " + subject(process, 0);
+                text = l.l("agree.notification.finish", userTitle);
+            }
         }
 
         new ExpressionObject(process, e.getForm(), conSet.getSlaveConnection()).sendMessageToExecutors(config.userEmailParamId(), subject, text);
@@ -147,7 +157,9 @@ public class ProcessNotificationListener {
 
         var list = messages.getList();
         if (!list.isEmpty()) {
-            messageId = Utils.getFirst(list).getId();
+            messageId = list.get(0).getId();
+
+            text.append("\n\n");
 
             for (var m : list) {
                 text
@@ -160,12 +172,13 @@ public class ProcessNotificationListener {
                     .append("\n\n");
             }
         }
+
         return messageId;
     }
 
     private String subject(Process process, int messageId) {
         String result = "#" + process.getId() +
-            " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] ";
+            " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "]";
 
         if (messageId > 0)
             result += " QA:" + messageId;

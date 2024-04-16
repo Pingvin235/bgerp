@@ -39,7 +39,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
             log.debug("Agree status changing for process {}", process.getId());
 
-            typeConfig.statusChanged(e.getForm(), conSet, process);
-        }, ProcessChangedEvent.class);
+            typeConfig.statusChanged(e, conSet, process);
+        }, ProcessChangedEvent.class, 1);
     }
 }

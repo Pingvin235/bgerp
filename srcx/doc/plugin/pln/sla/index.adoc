@@ -31,7 +31,7 @@ Where:
 
 [[setup-process-type]]
 === Process Type
-For every process type, supporting SLA, the created parameters have to be added in properties and in configuration defined initial parameter
+For every process type, supporting SLA, the created parameters have to be added in properties and in <<../../../kernel/process/index.adoc#setup-type, configuration>> defined initial parameter
 values in minutes from the creation time. Beside that have to be defined background colors for amounts of left minutes.
 
 Example of configuration:
