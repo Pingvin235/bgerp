@@ -48,7 +48,7 @@ public class SavedCommonFiltersConfig {
     public void deleteSavedCommonFilter(int queueId, String title, String url) {
         SavedFilter filter = null;
         for (SavedFilter filterSet : getSetList(queueId)) {
-            log.debug(filterSet);
+            log.debug(String.valueOf(filterSet));
             if (filterSet.getTitle().equals(title) && filterSet.getUrl().equals(url)) {
                 filter = filterSet;
                 break;

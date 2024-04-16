@@ -1511,49 +1511,6 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public WebRequestLimit getWebRequestLimit(int contractId) throws BGException {
-
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("WebRequestLimit");
-        request.setContractId(contractId);
-        Document doc = null;
-        try {
-            doc = transferData.postData(request, user);
-        } catch (BGException e) {
-            log.debug(e);//может быть отказ по правам, ошибка ли это?
-        }
-        return new WebRequestLimit(doc);
-    }
-
-    public enum WebRequestLimitMode {
-        COMMON(1), DISABLED(2), PERSONAL(3);
-
-        private final int mode;
-
-        WebRequestLimitMode(int mode) {
-            this.mode = mode;
-        }
-
-        public int getMode() {
-            return this.mode;
-        }
-    }
-
-    public WebRequestLimit updateWebRequestLimit(int contractId, WebRequestLimitMode mode, int limit) throws BGException {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("WebRequestLimit");
-        request.setContractId(contractId);
-        request.setAttribute("mode", mode.getMode());
-
-        if (mode == WebRequestLimitMode.PERSONAL) {
-            request.setAttribute("limit", limit);
-        }
-
-        return new WebRequestLimit(transferData.postData(request, user));
-    }
-
     public List<IdTitle> getParameterList(int parameterTypeId) throws BGException {
         List<IdTitle> paramList;
         if (dbInfo.versionCompare("7.0") >= 0) {

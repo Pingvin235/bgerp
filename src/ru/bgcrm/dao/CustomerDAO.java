@@ -81,8 +81,6 @@ public class CustomerDAO extends CommonDAO {
             query.append(" ORDER BY title");
             query.append(getPageLimit(page));
 
-            log.debug(query);
-
             ps.addQuery(query.toString());
 
             extractCustomersWithRef(page, list, referenceTemplate, ps);

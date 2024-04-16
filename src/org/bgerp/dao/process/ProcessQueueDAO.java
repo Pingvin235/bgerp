@@ -95,7 +95,7 @@ public class ProcessQueueDAO extends ProcessDAO {
         }
         query.append(getPageLimit(page));
 
-        log.debug(query);
+        log.debug(query.toString());
 
         var ps = con.prepareStatement(query.toString());
 

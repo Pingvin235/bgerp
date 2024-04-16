@@ -12,14 +12,6 @@ import org.apache.logging.log4j.util.StackLocatorUtil;
  * @author Shamil Vakhitov
  */
 public class Log {
-    /** Wrapped logger. */
-    private final Logger logger;
-
-    /** Make private later, temporary protected for backward compatible inherited class. */
-    protected Log(Logger logger) {
-        this.logger = logger;
-    }
-
     /**
      * Class connected logger.
      * @param clazz the class.
@@ -38,24 +30,28 @@ public class Log {
     }
 
     /**
-     * Executes {@link #log(Priority, String)} with {@link Level#TRACE}
+     * Formats message using pattern with substitutions.
+     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
+     * @param args parameters for replacements in {@code message}.
+     * @return
      */
-    public void trace(Object message) {
-        log(Level.TRACE, message);
+    public static String format(String message, Object... args) {
+        return new FormattedMessage(message, args).getFormattedMessage();
+    }
+
+    /** Wrapped logger. */
+    private final Logger logger;
+
+    /** Make private later, temporary protected for backward compatible inherited class. */
+    protected Log(Logger logger) {
+        this.logger = logger;
     }
 
     /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#TRACE}
      */
-    public void trace(String pattern, Object... params) {
-        log(Level.TRACE, pattern, params);
-    }
-
-    /**
-     * Executes {@link #log(Priority, String)} with {@link Level#DEBUG}
-     */
-    public void debug(Object message) {
-        log(Level.DEBUG, message);
+    public void trace(String message, Object... params) {
+        log(Level.TRACE, message, params);
     }
 
     /**
@@ -71,25 +67,11 @@ public class Log {
     }
 
     /**
-     * Executes {@link #log(Priority, String)} with {@link Level#INFO}.
-     */
-    public void info(Object message) {
-        log(Level.INFO, message);
-    }
-
-    /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#INFO}.
      */
     public void info(String message, Object... args) {
         log(Level.INFO, message, args);
     }
-
-    /* TODO: Think about commenting in the similar way methods info, error, debug with a single String parameter.
-     * Executes {@link #log(Priority, String)} with {@link Level#WARN}.
-    public void warn(Object message) {
-        log(Level.WARN, message);
-    }
-    */
 
     /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#WARN}.
@@ -100,6 +82,8 @@ public class Log {
 
     /**
      * Special warn call for deprecation messages.
+     * @param message the message text pattern.
+     * @param args
      */
     public void warnd(String message, Object... args) {
         warn(message, args);
@@ -127,13 +111,6 @@ public class Log {
     }
 
     /**
-     * Executes {@link #log(Priority, String)} with {@link Level#ERROR}.
-     */
-    public void error(Object message) {
-        log(Level.ERROR, message);
-    }
-
-    /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#ERROR}.
      */
     public void error(String message, Object... args) {
@@ -142,7 +119,7 @@ public class Log {
 
     /**
      * Logs error message from {@code e} and stack trace.
-     * @param e exception.
+     * @param e the exception.
      */
     public void error(Throwable e) {
         logger.error(e.getMessage(), e);
@@ -158,6 +135,15 @@ public class Log {
     }
 
     /**
+     * Wraps function to {@link Logger}.
+     * @param level
+     * @param message
+     */
+    public final void log(Priority level, Object message) {
+        logger.log(level, message);
+    }
+
+    /**
      * Writes log message with possibilities of pattern definitions.
      * @param level log level.
      * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
@@ -167,24 +153,5 @@ public class Log {
         if (logger.isEnabledFor(level)) {
             logger.log(level, format(message, args));
         }
-    }
-
-    /**
-     * Formats message using pattern with substitutions.
-     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
-     * @param args parameters for replacements in {@code pattern}.
-     * @return
-     */
-    public static String format(String message, Object... args) {
-        return new FormattedMessage(message, args).getFormattedMessage();
-    }
-
-    /**
-     * Wraps function to {@link Logger}.
-     * @param level
-     * @param message
-     */
-    public final void log(Priority level, Object message) {
-        logger.log(level, message);
     }
 }

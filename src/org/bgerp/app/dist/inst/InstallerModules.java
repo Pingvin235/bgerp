@@ -128,7 +128,7 @@ public class InstallerModules {
                 for (ModuleFile fi : listForInstall) {
                     File file = new File(TMP_DIR_PATH + "/" + fi.fileName);
                     var im = new InstallerModule(Setup.getSetup(), new File("."), file);
-                    log.info(im.getReport());
+                    log.info(im.getReport().toString());
                     file.deleteOnExit();
                 }
             }

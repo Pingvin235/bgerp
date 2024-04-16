@@ -56,7 +56,7 @@ public class SavedPanelConfig extends Config {
     public void removeSavedPanelSet(Integer queueId) {
         savedPanelSet.remove(queueId);
         log.debug("check after remove " + savedPanelSet.contains(queueId));
-        log.debug(savedPanelSet);
+        log.debug(String.valueOf(savedPanelSet));
     }
 
     public void updateConfig(Preferences userConfig) {
