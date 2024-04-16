@@ -36,6 +36,7 @@ import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
+import org.bgerp.util.log.SessionLogAppender;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -53,7 +54,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.action.PoolAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.SessionLogAppender;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

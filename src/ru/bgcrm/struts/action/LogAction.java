@@ -4,10 +4,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
+import org.bgerp.util.log.SessionLogAppender;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.SessionLogAppender;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path ="/user/log")

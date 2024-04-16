@@ -1,4 +1,4 @@
-package ru.bgcrm.util;
+package org.bgerp.util.log;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -13,33 +13,34 @@ import org.apache.commons.collections.buffer.CircularFifoBuffer;
 import org.apache.log4j.WriterAppender;
 
 /**
- * Сборщик логов сессии пользователя в память.
+ * In-memory log appender for the current user' session.
+ *
+ * @author Shamil Vakhitov
  */
 public class SessionLogAppender extends WriterAppender {
     public static final String TRACKING_KEY = SessionLogAppender.class.getName();
     private static final int MAX_LOG_LINES = 1000;
+    /** key - thread, value - tracked session */
+    private static final Map<Thread, TrackedSession> TRACKED_SESSIONS = new ConcurrentHashMap<>();
 
     public SessionLogAppender() {
         setWriter(new SessionBufferWriter());
     }
 
-    /** Ключ - поток, значение - отслеживаемая сессия. */
-    private static final Map<Thread, TrackedSession> trackedSessions = new ConcurrentHashMap<>();
-
     /**
-     * Обновляет поток для отслеживаемой сессии и регистрирует его при необходимости.
-     * @param session
+     * Add to tracked the current thread for a session
+     * @param session the session
      */
     public static final void trackSession(HttpSession session, boolean create) {
         TrackedSession tracked = untrackSession(session);
         if (tracked == null && create)
             tracked = new TrackedSession(session);
         if (tracked != null)
-            trackedSessions.put(Thread.currentThread(), tracked);
+            TRACKED_SESSIONS.put(Thread.currentThread(), tracked);
     }
 
     public static final TrackedSession untrackSession(HttpSession session) {
-        Collection<TrackedSession> valuesIterator = trackedSessions.values();
+        Collection<TrackedSession> valuesIterator = TRACKED_SESSIONS.values();
         for (TrackedSession tracked : valuesIterator) {
             if (tracked.session == session) {
                 valuesIterator.remove(tracked);
@@ -54,7 +55,7 @@ public class SessionLogAppender extends WriterAppender {
     }
 
     private static TrackedSession getTrackedSession(HttpSession session) {
-        return trackedSessions.values().stream()
+        return TRACKED_SESSIONS.values().stream()
                 .filter(ts -> ts.session == session)
                 .findAny().orElse(null);
     }
@@ -62,7 +63,7 @@ public class SessionLogAppender extends WriterAppender {
     public static final String getSessionLog(HttpSession session) {
         StringBuilder result = new StringBuilder(MAX_LOG_LINES * 200);
 
-        TrackedSession tracked = trackedSessions.values().stream()
+        TrackedSession tracked = TRACKED_SESSIONS.values().stream()
                 .filter(ts -> ts.session == session)
                 .findAny().orElse(null);
         if (tracked != null) {
@@ -85,7 +86,7 @@ public class SessionLogAppender extends WriterAppender {
     private class SessionBufferWriter extends Writer {
         @Override
         public void write(char[] cbuf, int off, int len) throws IOException {
-            TrackedSession tracked = trackedSessions.get(Thread.currentThread());
+            TrackedSession tracked = TRACKED_SESSIONS.get(Thread.currentThread());
             if (tracked != null) {
                 tracked.buffer.add(Arrays.copyOfRange(cbuf, off, off + len));
             }
