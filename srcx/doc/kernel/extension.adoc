@@ -149,7 +149,7 @@ processReference.1.stringExpression=u.escapeXml( u.maskNull( u.getFirst( process
 Log4j - библиотека логирования для Java. Настройка логирования производится в файле *log4j.properties*,
 изменение файла можно производить при работающем приложении. Вид файла при установке системы:
 
-[snippet, from="# lib"]
+[snippet, from="# factory"]
 link:../../../build/bgerp/files/log4j.properties[log4j.properties]
 
 Сообщения в логе разделяются на уровни (в порядке возрастания): *DEBUG*, *INFO*, *WARN*, *ERROR*, *FATAL*.
