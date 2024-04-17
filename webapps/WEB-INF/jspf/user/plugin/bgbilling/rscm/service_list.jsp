@@ -1,15 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="uiid" value="${u:uiid()}"/>
-
-<html:form action="/user/plugin/bgbilling/proto/rscm" styleId="${uiid}">
+<html:form action="${form.httpRequestURI}" styleId="${uiid}">
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
 	<input type="hidden" name="action" value="serviceList"/>
 
-	<c:url var="url" value="/user/plugin/bgbilling/proto/rscm.do">
+	<c:url var="url" value="${form.httpRequestURI}">
 		<c:param name="action" value="serviceGet"/>
 		<c:param name="contractId" value="${form.param.contractId}"/>
 		<c:param name="billingId" value="${form.param.billingId}"/>
@@ -17,20 +15,18 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
 
-	<button type="button" class="btn-green mr1" title="Добавить услугу" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
+	<ui:button type="add" title="Добавить услугу" onclick="$$.ajax.load('${url}', $(this.form).parent())" styleClass="mr1"/>
 
-	<div id="dateFilter" style="display: inline-block;">
-		<ui:date-month-days/>
-	</div>
+	<ui:date-month-days/>
 
-	<c:set var="sendForm">$$.ajax.load($('#${uiid}'), $('#${uiid}').parent());</c:set>
+	<ui:button type="out" styleClass="ml1" onclick="$$.ajax.load(this, $(this.form).parent())" title="Вывести"/>
 
-	<button type="button" class="ml2 btn-grey" onclick="${sendForm}" title="Вывести">=&gt;</button>
-
-	<ui:page-control nextCommand=";${sendForm}" />
+	<ui:page-control/>
 </html:form>
 
-<table class="data" id="${uiid}">
+<c:set var="uiid" value="${u:uiid()}"/>
+
+<table class="data hl mt1" id="${uiid}">
 	<tr>
 		<td width="30"></td>
 		<td>Дата</td>
@@ -41,23 +37,11 @@
 	</tr>
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
-			<c:url var="editU" value="${url}">
-				<c:param name="id" value="${item.id}"/>
-			</c:url>
-			<c:set var="editCommand" value="$$.ajax.load('${editU}', $('#${uiid}').parent())"/>
-
-			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/rscm.do">
-				<c:param name="action" value="serviceDelete"/>
-				<c:param name="contractId" value="${form.param.contractId}"/>
-				<c:param name="billingId" value="${form.param.billingId}"/>
-				<c:param name="moduleId" value="${form.param.moduleId}"/>
-				<c:param name="id" value="${item.id}"/>
-				<c:param name="month" value="${tu.format(item.date, 'ymd')}"/>
-			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
-
 			<td nowrap="nowrap">
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+				<c:url var="editUrl" value="${url}">
+					<c:param name="id" value="${item.id}"/>
+				</c:url>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $(this.closest('table')).parent())"/>
 			</td>
 			<td nowrap="nowrap">${tu.format(item.date, 'ymd')}</td>
 			<td>${item.serviceTitle}</td>

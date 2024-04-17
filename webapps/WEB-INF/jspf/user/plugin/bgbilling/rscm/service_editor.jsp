@@ -1,13 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="uiid" value="${u:uiid()}"/>
-
 <c:set var="service" value="${frd.service}"/>
 
 <h1>Редактор</h1>
 
-<html:form action="/user/plugin/bgbilling/proto/rscm" styleId="${uiid}">
+<html:form action="${form.httpRequestURI}">
 	<input type="hidden" name="action" value="serviceUpdate" />
 	<html:hidden property="contractId" value="${form.param.contractId}" />
 	<html:hidden property="billingId"/>
@@ -26,7 +24,7 @@
 
 		<div style="white-space:nowrap;" class="pl1" style="width: 50%;">
 			Дата:
-			<ui:date-time paramName="date" value="${tu.format( service.date, 'ymd' )}"/>
+			<ui:date-time paramName="date" value="${tu.format(service.date, 'ymd')}"/>
 			Кол.-во:
 			<input type="text" value="${service.amount}" name="amount" style="text-align: center;"/>
 		</div>
@@ -36,7 +34,7 @@
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${service.comment}</textarea>
 
 	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').parent()))">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());">Oтмена</button>
+		<ui:button type="ok" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $(this.form).parent()))"/>
+		<ui:button type="cancel" styleClass="ml1" onclick="$$.ajax.load('${form.returnUrl}', $(this.form).parent());"/>
 	</div>
 </html:form>
