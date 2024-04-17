@@ -66,7 +66,6 @@ public class InetDAO extends BillingModuleDAO {
      *
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<InetService> getServiceList(int contractId) throws BGException {
         List<InetService> result = new ArrayList<>();

@@ -251,7 +251,6 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      * @param statusIds опциональный фильтр по статусам процессов.
      * @param paramFilter опциональный фильтр по параметру, передаётся в {@link ParamValueDAO#getParamJoinFilters(String, String)}.
      * @param open опциональный фильтр по открытости процесса.
-     * @throws BGException
      * @see {@link org.bgerp.dao.process.ProcessLinkSearchDAO}
      */
     @Deprecated

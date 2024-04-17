@@ -38,7 +38,6 @@ public class DispatchDAO extends BillingDAO {
      * Возвращает список контактов договора.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<Contact> getContactList(int contractId) throws BGException {
         RequestJsonRpc req = new RequestJsonRpc(DISPATCH_MODULE_ID, "DispatchService", "getContacts");

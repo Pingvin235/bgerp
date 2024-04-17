@@ -33,7 +33,6 @@ public class NPayDAO extends BillingModuleDAO {
      * Возвращает список абонплат договора.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<NPayService> getServiceList(int contractId) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -88,7 +87,6 @@ public class NPayDAO extends BillingModuleDAO {
      * Возвращает абонплату договора по коду записи.
      * @param id
      * @return
-     * @throws BGException
      */
     public NPayService getService(int id) throws BGException {
         if (dbInfo.versionCompare("8.0") > 0) {
@@ -124,7 +122,6 @@ public class NPayDAO extends BillingModuleDAO {
     /**
      * Изменяет либо добавляет абонплату договора.
      * @param service
-     * @throws BGException
      */
     public void updateService(NPayService service) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -146,7 +143,6 @@ public class NPayDAO extends BillingModuleDAO {
      * @param objectId
      * @param count
      * @param comment
-     * @throws BGException
      */
     public void updateService(int id, int contractId, int serviceId, Date dateFrom, Date dateTo, int objectId, int count, String comment)
             throws BGException {
@@ -174,7 +170,6 @@ public class NPayDAO extends BillingModuleDAO {
      * Удаляет абонплату договора.
      * @param contractId
      * @param id
-     * @throws BGException
      */
     public void deleteService( int id) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {

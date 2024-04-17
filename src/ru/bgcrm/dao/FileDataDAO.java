@@ -170,7 +170,6 @@ public class FileDataDAO extends CommonDAO {
     /**
      * Storage directory statistics.
      * @return
-     * @throws BGException
      */
     public FileStat stat() throws BGException {
         checkDir();

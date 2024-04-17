@@ -391,7 +391,6 @@ public class TransferData {
      * @param request
      * @param user
      * @return
-     * @throws BGException
      */
     public Document postData(Request request, User user) throws BGException {
         try {
@@ -415,7 +414,6 @@ public class TransferData {
      * @param request
      * @param user
      * @return елемент {@code data} из ответа.
-     * @throws BGException
      */
     public JsonNode postData(RequestJsonRpc request, User user) throws BGException {
         try {
@@ -440,7 +438,6 @@ public class TransferData {
      * @param request
      * @param user
      * @return  елемент {@code return} из ответа.
-     * @throws BGException
      */
     public JsonNode postDataReturn(RequestJsonRpc request, User user) throws BGException {
         return postData(request, user).path("return");
@@ -451,7 +448,6 @@ public class TransferData {
      * @param request
      * @param user
      * @return
-     * @throws BGException
      */
     public byte[] postDataGetBytes(Request request, User user) throws BGException {
         try {
@@ -467,7 +463,6 @@ public class TransferData {
      * @param request
      * @param user
      * @return
-     * @throws BGException
      */
     public String postDataGetString(Request request, User user) throws BGException {
         try {

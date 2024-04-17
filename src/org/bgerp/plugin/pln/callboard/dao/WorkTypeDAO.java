@@ -103,7 +103,6 @@ public class WorkTypeDAO extends CommonDAO {
      * По-возможности использовать {@link CallboardCache#getWorkTypeMap()}
      *
      * @return
-     * @throws BGException
      */
     public Map<Integer, WorkType> getWorkTypeMap() throws BGException {
         return getWorkTypeMap(false);

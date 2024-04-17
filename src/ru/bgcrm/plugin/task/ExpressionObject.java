@@ -27,7 +27,6 @@ public class ExpressionObject {
     /**
      * TODO: Запустить немедленно задачу.
      * @param task
-     * @throws BGException
      */
     public void runTask(Task task) throws BGException {
 

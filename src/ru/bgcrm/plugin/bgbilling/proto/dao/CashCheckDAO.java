@@ -90,7 +90,6 @@ public class CashCheckDAO extends BillingDAO {
     /**
      * Возвращает список регистраторов с выбранным первым.
      * @return
-     * @throws BGException
      */
     public List<IdTitle> getRegistratorList() throws BGException {
         List<IdTitle> registratorList = new ArrayList<IdTitle>();

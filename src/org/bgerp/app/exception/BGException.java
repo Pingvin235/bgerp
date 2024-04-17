@@ -39,7 +39,6 @@ public class BGException extends RuntimeException {
     /**
      * For calling from scripts.
      * @param message
-     * @throws BGException
      */
     public static void throwNew(String message) throws BGException {
         throw new BGException(message);

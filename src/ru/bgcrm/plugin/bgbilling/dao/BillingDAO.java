@@ -96,7 +96,6 @@ public class BillingDAO {
      *
      * @param values
      * @return
-     * @throws BGException
      */
     public Integer getParameterId(String values) throws BGException {
         StringTokenizer st = new StringTokenizer(values, ",;");

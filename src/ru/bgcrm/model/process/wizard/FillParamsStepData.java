@@ -129,7 +129,6 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
      * к процессу через поиск связей процесс-контрагент базе данных.
      * @param connection
      * @return
-     * @throws BGException
      */
     private int getLinkedCustomerId(Connection connection) throws BGException {
         int customerId = 0;

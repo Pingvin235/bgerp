@@ -35,7 +35,6 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * @param objectId код объекта.
      * @param typeLike MySQL Like выражение для фильтрации, необязательно.
      * @return
-     * @throws BGException
      */
     public List<CommonObjectLink> getObjectLinksWithType(int objectId, String typeLike) throws BGException {
         return getObjectLinks(objectId, getTable(), getColumnName(), typeLike);
@@ -64,7 +63,6 @@ public abstract class CommonLinkDAO extends CommonDAO {
     /**
      * Привязка объекта.
      * @param link
-     * @throws BGException
      */
     public void addLink(CommonObjectLink link) throws BGException {
         addLink(getTable(), getColumnName(), link);
@@ -73,7 +71,6 @@ public abstract class CommonLinkDAO extends CommonDAO {
     /**
      * Привязка объекта если он не привязан к данному объекту.
      * @param link
-     * @throws BGException
      */
     public void addLinkIfNotExist(CommonObjectLink link) throws BGException {
         if (!isLinkExists(link)) {
@@ -85,7 +82,6 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * Проверка наличия привязки.
      * @param link
      * @return
-     * @throws BGException
      */
     public boolean isLinkExists(CommonObjectLink link) throws BGException {
         boolean result = false;

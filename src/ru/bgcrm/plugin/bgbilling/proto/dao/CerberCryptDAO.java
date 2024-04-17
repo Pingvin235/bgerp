@@ -86,7 +86,6 @@ public class CerberCryptDAO extends BillingModuleDAO {
      * @param cardId
      * @param date -- дата на которую необходимо вывести пакеты, не должна быть null;
      * @return
-     * @throws BGException
      */
     public List<CardPacket> getCardPackets(int contractId, int cardId, Date date) throws BGException {
         if (dbInfo.versionCompare("6.2") >= 0) {

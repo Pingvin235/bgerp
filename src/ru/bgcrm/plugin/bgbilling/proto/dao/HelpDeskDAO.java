@@ -44,7 +44,6 @@ public class HelpDeskDAO extends BillingDAO {
      * Requests a single topic with related massages.
      * @param topicId the topic ID.
      * @return the topic - messages pair, or {@code null}
-     * @throws BGException
      */
     public Pair<HdTopic, List<HdMessage>> getTopicWithMessages(int topicId) throws BGException {
         Pair<HdTopic, List<HdMessage>> result = null;

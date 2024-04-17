@@ -260,7 +260,6 @@ public class ProcessTypeDAO extends CommonDAO {
     /**
      * Обновляет свойства типа процесса.
      * @param type
-     * @throws BGException
      */
     public void updateTypeProperties(ProcessType type) throws BGException {
         try {
@@ -339,7 +338,6 @@ public class ProcessTypeDAO extends CommonDAO {
      * Выбирает дерево типов процессов из базы, возвращая его корневой элемент.
      * Возможно получение этих же данных из кэша {@link ProcessTypeCache#getTypeTreeRoot()}.
      * @return
-     * @throws BGException
      */
     public ProcessType getTypeTreeRoot() throws BGException {
         try {

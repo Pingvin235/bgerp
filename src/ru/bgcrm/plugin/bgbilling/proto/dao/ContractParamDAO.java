@@ -111,7 +111,6 @@ public class ContractParamDAO extends BillingDAO {
      * Вызывает {@link #getParameterListWithDir(int, boolean, boolean)} с false, false.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<ContractParameter> getParameterList(int contractId) throws BGException {
         return getParameterListWithDir(contractId, false, false).getSecond();
@@ -123,7 +122,6 @@ public class ContractParamDAO extends BillingDAO {
      * @param loadGroups загружать группы.
       * @param onlyGroup учитывать группу параметров договора.
      * @return
-     * @throws BGException
      */
     public Pair<ParamList, List<ContractParameter>> getParameterListWithDir(int contractId, boolean loadGroups,
             boolean onlyGroup) throws BGException {
@@ -165,7 +163,6 @@ public class ContractParamDAO extends BillingDAO {
      * Кэшированние результата убрано, т.к. потенциально может съесть много памяти.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public Document getContractParams(int contractId) throws BGException {
         Request request = new Request();

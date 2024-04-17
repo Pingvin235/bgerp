@@ -41,7 +41,6 @@ public class ContractStatusDAO extends BillingDAO {
      * Возвращает список статусов договора с периодами.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<ContractStatus> statusList(int contractId, Map<Integer, String> statusTitleMap) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -76,7 +75,7 @@ public class ContractStatusDAO extends BillingDAO {
      * Лог изменений статуса договора.
      * @param contractId
      * @return
-     * @throws BGException
+     *
      */
     public List<ContractStatusLogItem> statusLog(int contractId, Map<Integer, String> statusTitleMap) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {

@@ -435,7 +435,6 @@ public class CustomerDAO extends CommonDAO {
      * @param searchResult
      * @param phoneParamIdList
      * @param phoneNumbers
-     * @throws BGException
      */
     public void searchCustomerListByPhone(Pageable<Customer> searchResult, Collection<Integer> phoneParamIdList, String... phoneNumbers)
             throws BGException {
@@ -494,7 +493,6 @@ public class CustomerDAO extends CommonDAO {
      * @param searchResult
      * @param linkedObjectTypeLike LIKE строка типа привязанного объекта.
      * @param linkedObjectTitle LIKE строка наименования привязанного объекта.
-     * @throws BGException
      */
     public void searchCustomerByLinkedObjectTitle(Pageable<Customer> searchResult, String linkedObjectTypeLike, String linkedObjectTitle)
             throws BGException {
@@ -563,7 +561,6 @@ public class CustomerDAO extends CommonDAO {
      * Получение набора контрагентов по их ID
      * @param customerIds идентификаторы контрагентов
      * @return
-     * @throws BGException
      */
     public static Set<Customer> getCustomers(Connection connection, Collection<Integer> customerIds) throws BGException {
         Set<Customer> customers = new HashSet<Customer>();
@@ -592,7 +589,6 @@ public class CustomerDAO extends CommonDAO {
      * Получение набора контрагентов по их ID
      * @param customerIds идентификаторы контрагентов
      * @return
-     * @throws BGException
      */
     public Set<Customer> getCustomers(Collection<Integer> customerIds) throws BGException {
         return getCustomers(con, customerIds);
@@ -733,7 +729,6 @@ public class CustomerDAO extends CommonDAO {
      * @param title подстрока, поиск идёт с помощью LIKE выражения.
      * @param count количество первых названий.
      * @return
-     * @throws BGException
      */
     public List<String> getCustomerTitles(String title, int count) throws BGException {
         List<String> result = new ArrayList<String>();

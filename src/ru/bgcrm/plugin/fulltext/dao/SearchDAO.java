@@ -114,7 +114,6 @@ public class SearchDAO extends CommonDAO {
      * Помечает объект необходимым для обновления.
      * @param objectType
      * @param objectId
-     * @throws BGException
      */
     public void scheduleUpdate(String objectType, int objectId) throws SQLException {
         log.debug("Updated record, objectType: {}; objectId: {}", objectType, objectId);
@@ -128,7 +127,6 @@ public class SearchDAO extends CommonDAO {
      * Удаляет запись об объекте.
      * @param objectType
      * @param objectId
-     * @throws BGException
      */
     public void delete(String objectType, int objectId) throws BGException {
         log.debug("Deleted record, objectType: {}; objectId: {}", objectType, objectId);
@@ -147,7 +145,6 @@ public class SearchDAO extends CommonDAO {
     /**
      * Удаляет запись об объекте.
      * @param item
-     * @throws BGException
      */
     public void delete(SearchItem item) throws BGException {
         delete(item.getObjectType(), item.getObjectId());
@@ -157,7 +154,6 @@ public class SearchDAO extends CommonDAO {
      * Выбирает записи необходимые для обновления.
      * @param secondsOld последнее изменение объекта более чем секунд назад.
      * @param maxCount максимальное количество.
-     * @throws BGException
      */
     public List<SearchItem> getScheduledUpdates(int secondsOld, int maxCount) throws BGException {
         List<SearchItem> result = new ArrayList<>();
@@ -188,7 +184,6 @@ public class SearchDAO extends CommonDAO {
     /**
      * Обновляет искомый текст записи.
      * @param item
-     * @throws BGException
      */
     public void update(SearchItem item) throws BGException {
         try {

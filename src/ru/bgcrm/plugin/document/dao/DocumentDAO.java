@@ -31,7 +31,6 @@ public class DocumentDAO extends CommonDAO {
      * @param objectId
      * @param data
      * @param title
-     * @throws BGException
      */
     public void add(String objectType, int objectId, byte[] data, String title) throws BGException {
         try {
@@ -91,7 +90,6 @@ public class DocumentDAO extends CommonDAO {
      * Возвращает документ по его ID.
      * @param id
      * @return
-     * @throws BGException
      */
     public Document getDocumentById(int id) throws BGException {
         Document result = null;
@@ -121,7 +119,6 @@ public class DocumentDAO extends CommonDAO {
      * @param result
      * @param objectType
      * @param objectId
-     * @throws BGException
      */
     public void searchObjectDocuments(Pageable<Document> result, String objectType, int objectId)
             throws BGException {

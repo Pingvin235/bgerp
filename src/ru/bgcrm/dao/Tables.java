@@ -10,7 +10,5 @@ public class Tables {
     public static final String TABLE_NEWS = " news ";
     public static final String TABLE_NEWS_USER = " news_user ";
 
-    public static final String TABLE_COUNTER = " counter ";
-
     public static final String TABLE_FILE_DATA = " file_data ";
 }

@@ -27,7 +27,6 @@ public class ExpressionObject {
     /**
      * Вызывает {@link #linkChannel(Process, String)} c name = null.
      * @param process
-     * @throws BGException
      */
     public void linkChannel(Process process) throws BGException {
         linkChannel(process, null);
@@ -37,7 +36,6 @@ public class ExpressionObject {
      * Привязывает процесс к каналу Slack, если ещё не привязан.
      * @param process процесса.
      * @param channelName наименование канала, если null - будет использован код процесса.
-     * @throws BGException
      */
     public void linkChannel(Process process, String channelName) throws BGException {
         Connection con = Setup.getSetup().getDBConnectionFromPool();
@@ -68,7 +66,6 @@ public class ExpressionObject {
     /**
      * Приглашает исполнителей процесса в привязанный канал.
      * @param process
-     * @throws BGException
      */
     public void inviteExecutors(Process process) throws BGException {
         Connection con = Setup.getSetup().getDBConnectionFromPool();
@@ -127,7 +124,6 @@ public class ExpressionObject {
      * Установливает топик привязанного к процессу канала.
      * @param process
      * @param topic
-     * @throws BGException
      */
     public void setTopic(Process process, String topic) throws BGException {
         findChannelAndDo(process, (proto, channelId) -> {
@@ -139,7 +135,6 @@ public class ExpressionObject {
      * Установливает назачение привязанного к процессу канала.
      * @param process
      * @param purpose
-     * @throws BGException
      */
     public void setPurpose(Process process, String purpose) throws BGException {
         findChannelAndDo(process, (proto, channelId) -> {
@@ -151,7 +146,6 @@ public class ExpressionObject {
      * Изменяет статус архив / не архив привязанного к процессу канала.
      * @param process
      * @param archive - статус.
-     * @throws BGException
      */
     public void archive(Process process, boolean archive) throws BGException {
         findChannelAndDo(process, (proto, channelId) -> {
@@ -167,7 +161,6 @@ public class ExpressionObject {
      * @param process
      * @param userId
      * @param messageText
-     * @throws BGException
      */
     public void sendMessage(Process process, int userId, String messageText) throws BGException {
         Connection con = Setup.getSetup().getDBConnectionFromPool();

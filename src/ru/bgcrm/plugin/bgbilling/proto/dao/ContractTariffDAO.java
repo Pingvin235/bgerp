@@ -155,7 +155,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает список тарифов договора.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<ContractTariff> contractTariffList(int contractId) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -231,7 +230,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param showUsed только используемые тарифы
      * @param tariffList список для загрузки списка тарифов, либо null, если не нужно
      * @return
-     * @throws BGException
      */
     public ContractTariff getContractTariffPlan(int id, int moduleId, int contractId, boolean useFilter,
             boolean showUsed, boolean contractGroupFilter, List<IdTitle> tariffList) throws BGException {
@@ -294,7 +292,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param dateFrom с даты
      * @param dateTo по дату
      * @param comment комментарий
-     * @throws BGException
      */
     public void updateContractTariffPlan(int contractId, int id, int tpid, int position, String dateFrom, String dateTo, String comment)
             throws BGException {
@@ -332,7 +329,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Удаляет тариф договора.
      * @param contractId код договора
      * @param id код записи с тарифным планом
-     * @throws BGException
      */
     public void deleteContractTariffPlan(int contractId, int id) throws BGException {
         Request request = new Request();
@@ -354,7 +350,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает список всех групп тарифов на договоре.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<ContractTariffGroup> contractTariffGroupList(int contractId) throws BGException {
         return contractTariffGroupList(contractId, false);
@@ -365,7 +360,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId код договора.
      * @param active выводить только активные в данный момент группы, с открытой второй датой.
      * @return
-     * @throws BGException
      */
     private List<ContractTariffGroup> contractTariffGroupList(int contractId, boolean active) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -408,7 +402,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает группу тарифов договора.
      * @param id код записи.
      * @return
-     * @throws BGException
      */
     public ContractTariffGroup getContractTariffGroup(int id) throws BGException {
         Request request = new Request();
@@ -443,7 +436,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param dateFrom с даты.
      * @param dateTo по дату.
      * @param comment примечение.
-     * @throws BGException
      */
     public void updateContractTariffGroup(int id, int contractId, int tariffGroupId, Date dateFrom, Date dateTo,
             String comment) throws BGException {
@@ -484,7 +476,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает список тарифных опций договора.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<ContractTariffOption> contractTariffOptionList(int contractId) throws BGException {
         List<ContractTariffOption> list = new ArrayList<>();
@@ -523,7 +514,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает историю тарифных опций на договоре.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<ContractTariffOption> contractTariffOptionHistory(int contractId) throws BGException {
         List<ContractTariffOption> list = new ArrayList<>();
@@ -584,7 +574,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает список доступных тарифных опций.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<IdTitle> contractAvailableOptionList(int contractId) throws BGException {
         List<IdTitle> availableOptionList = new ArrayList<IdTitle>();
@@ -618,36 +607,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         return availableOptionList;
     }
 
-    /*
-     * TODO: Реализуется в getContractTariff, но не очень красиво.
-     * Возвраащает список доступных тарифов.
-     * @param contractId код договора.
-     * @param onlyUsed только используемые тарифы.
-     * @param filterContract фильтр по доступным для договора тарифам.
-     * @param filterTariffGroup фильтр по группам тарифов.
-     * @return
-     * @throws BGException
-     public List<IdTitle> contractAvailableTariffList(int contractId, boolean onlyUsed, boolean filterContract, boolean filterTariffGroup) throws BGException {
-        List<IdTitle> result = new ArrayList<>();
-
-        Request req = new Request();
-        req.setModule(CONTRACT_MODULE_ID);
-        req.setAction("ContractTariffPlan");
-        req.setAttribute("showUsed", Utils.booleanToStringInt(onlyUsed));
-        req.setAttribute("useFilter", Utils.booleanToStringInt(filterContract));
-        req.setAttribute("tariffGroupFilter", Utils.booleanToStringInt(filterTariffGroup));
-        req.setContractId(contractId);
-
-        Document document = transferData.postData(req, user);
-        for (Element rowElement : XMLUtils.selectElements(document, "/data/tariffPlans/item")) {
-            IdTitle type = new IdTitle();
-            type.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            type.setTitle(rowElement.getAttribute("title"));
-        }
-
-        return result;
-    }
-    */
 
     public List<IdTitle> activateModeList(int contractId, int optionId) throws BGException {
         List<IdTitle> activateModeList = new ArrayList<IdTitle>();
@@ -718,7 +677,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Деактивирует тарифную опцию на договоре.
      * @param contractId
      * @param id
-     * @throws BGException
      */
     public void deactivateContractOption(int contractId, int id) throws BGException {
         if (dbInfo.versionCompare("6.2") >= 0) {
@@ -743,7 +701,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает список персональных тарифов договора.
      * @param contractId
      * @return
-     * @throws BGException
      */
     public List<ContractPersonalTariff> contractPersonalTariffList(int contractId) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -783,7 +740,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * Возвращает персональный тариф договора.
      * @param id
      * @return
-     * @throws BGException
      */
     public ContractPersonalTariff getPersonalTariff(int id) throws BGException {
         if (dbInfo.versionCompare("9.2") >= 0) {

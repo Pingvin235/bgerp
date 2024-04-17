@@ -206,7 +206,6 @@ public class ContractDAO extends BillingDAO {
      * @param house
      * @param flat
      * @param room
-     * @throws BGException
      */
     public void searchContractByObjectAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options,
             Set<Integer> paramIds, int streetId, String house, String flat, String room) throws BGException {
@@ -512,7 +511,7 @@ public class ContractDAO extends BillingDAO {
      * Возвращает большиство актуальных данных о договоре.
      * @param contractId
      * @return
-     * @throws BGException
+     *
      *//*
     public ContractInfo getContractInfo(int contractId) throws BGException {
         return contractInfoDAO.getContractInfo(contractId);
@@ -1189,7 +1188,7 @@ public class ContractDAO extends BillingDAO {
      * статистики
      *
      * @return 0 - управление разблокировано, 1 - управление заблокировано
-     * @throws BGException
+     *
      */
     public int getContractLimitManage(int contractId) throws BGException {
         Request billingRequest = new Request();
@@ -1209,7 +1208,7 @@ public class ContractDAO extends BillingDAO {
      *
      * @param mode
      *            0 - управление разблокировано, 1 - управление заблокировано
-     * @throws BGException
+     *
      */
     public void updateContractLimitManage(int contractId, int mode) throws BGException {
         Request billingRequest = new Request();

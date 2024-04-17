@@ -101,7 +101,6 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromObjectId object ID исходного.
      * @param toObjectId object ID целевого.
      * @param paramId коды параметра.
-     * @throws SQLException, BGException
      */
     public void copyParam(int fromObjectId, int toObjectId, int paramId) throws SQLException, BGException {
         copyParam(fromObjectId, paramId, toObjectId, paramId);
@@ -113,8 +112,6 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromParamId param ID исходного.
      * @param toObjectId object ID целевого
      * @param toParamId param ID целевого.
-     * @throws SQLException
-     * @throws BGException
      */
     public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException, BGException {
         String query = null;
