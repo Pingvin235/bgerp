@@ -171,7 +171,7 @@ public class FileDataDAO extends CommonDAO {
      * Storage directory statistics.
      * @return
      */
-    public FileStat stat() throws BGException {
+    public FileStat stat() {
         checkDir();
         return new FileStat(storeDir);
     }
@@ -212,7 +212,7 @@ public class FileDataDAO extends CommonDAO {
         return batchSize < files.length;
     }
 
-    private void checkDir() throws BGException {
+    private void checkDir() {
         if (!storeDir.exists() || !storeDir.isDirectory()) {
             throw new BGException("Not found directory file storage");
         }

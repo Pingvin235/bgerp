@@ -282,7 +282,7 @@ public class DefaultProcessChangeListener {
             }
         }
 
-        private boolean checkEvent(UserEvent e, Process process, Map<String, Object> eventMap) throws BGException {
+        private boolean checkEvent(UserEvent e, Process process, Map<String, Object> eventMap) {
             if (eventMap.containsKey(EVENT_ALL)) {
                 return true;
             }
@@ -366,7 +366,7 @@ public class DefaultProcessChangeListener {
         private final String checkErrorMessage;
         private final boolean showEvent;
 
-        public Rule(ConfigMap rule) throws BGException {
+        public Rule(ConfigMap rule) {
             expression = rule.get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
             checkErrorMessage = rule.get(Expression.CHECK_ERROR_MESSAGE_CONFIG_KEY);
             showEvent = rule.getBoolean("checkErrorShowEvent", false);

@@ -8,7 +8,6 @@ import org.bgerp.action.BaseAction;
 import org.bgerp.action.open.ProcessAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGSecurityException;
 import org.bgerp.model.Pageable;
@@ -111,7 +110,7 @@ public class MessageAction extends BaseAction {
         return json(conSet, form);
     }
 
-    private void linkCustomers(ConnectionSet conSet, String email, int processId) throws BGException {
+    private void linkCustomers(ConnectionSet conSet, String email, int processId) {
         var searchResult = new Pageable<ParameterSearchedObject<Customer>>();
         new CustomerDAO(conSet.getSlaveConnection()).searchCustomerListByEmail(searchResult, null, email);
         if (!searchResult.getList().isEmpty()) {

@@ -40,7 +40,7 @@ public class BGException extends RuntimeException {
      * For calling from scripts.
      * @param message
      */
-    public static void throwNew(String message) throws BGException {
+    public static void throwNew(String message) {
         throw new BGException(message);
     }
 }

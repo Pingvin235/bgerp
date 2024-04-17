@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
@@ -25,11 +24,11 @@ public class CerberCryptDAO extends BillingModuleDAO {
     private static final String CERBERCRYPT_MODULE = "ru.bitel.bgbilling.modules.cerbercrypt";
     private static final String CERBERCRYPT_MODULE_ID = "cerbercrypt";
 
-    public CerberCryptDAO(User user, String billingId, int moduleId) throws BGException {
+    public CerberCryptDAO(User user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
     }
 
-    public List<Long> getFreeCards() throws BGException {
+    public List<Long> getFreeCards() {
         /*WSCardActions service = getWebService(WSCardActions_Service.class, WSCardActions.class, moduleId);
         try {
             List<Long> cardNumbers = service.getFreeCardNumbers();
@@ -41,7 +40,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
         throw new UnsupportedOperationException();
     }
 
-    public List<UserCard> getUserCardList(int contractId, boolean includeSlaveCards) throws BGException {
+    public List<UserCard> getUserCardList(int contractId, boolean includeSlaveCards) {
         if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(CERBERCRYPT_MODULE, moduleId, "UserCardService", "getUserCardList");
             req.setParam("cid", contractId);
@@ -87,7 +86,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
      * @param date -- дата на которую необходимо вывести пакеты, не должна быть null;
      * @return
      */
-    public List<CardPacket> getCardPackets(int contractId, int cardId, Date date) throws BGException {
+    public List<CardPacket> getCardPackets(int contractId, int cardId, Date date) {
         if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(CERBERCRYPT_MODULE, moduleId, "CardPacketService", "cardPacketTable");
             req.setParam("cid", contractId);
@@ -135,11 +134,11 @@ public class CerberCryptDAO extends BillingModuleDAO {
         }
     }
 
-    public List<CardPacket> getCardPackets(int contractId, int cardId) throws BGException {
+    public List<CardPacket> getCardPackets(int contractId, int cardId) {
         return getCardPackets(contractId, cardId, new Date());
     }
 
-    private int getPacketTypeId(int packetId) throws BGException {
+    private int getPacketTypeId(int packetId) {
         Request req = new Request();
         req.setModule(CERBERCRYPT_MODULE_ID);
         req.setAction("GetCardPacket");
@@ -184,7 +183,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
         }
     }
 
-    public List<IdTitle> getPacketList(boolean virtualCinema) throws BGException {
+    public List<IdTitle> getPacketList(boolean virtualCinema) {
         List<IdTitle> packets = new ArrayList<IdTitle>();
 
         Request request = new Request();
@@ -202,14 +201,14 @@ public class CerberCryptDAO extends BillingModuleDAO {
         return packets;
     }
 
-    public void updateUserCard(UserCard userCard) throws BGException {
+    public void updateUserCard(UserCard userCard) {
         //TODO:Проверить работоспособность!
         RequestJsonRpc req = new RequestJsonRpc(CERBERCRYPT_MODULE, moduleId, "UserCardService", "updateUserCard");
         req.setParam("uc", userCard);
         transferData.postData(req, user);
     }
 
-    public List<IdTitle> dealerList(Date dateFrom, Date dateTo, String title) throws BGException {
+    public List<IdTitle> dealerList(Date dateFrom, Date dateTo, String title) {
         List<IdTitle> dealerList = new ArrayList<IdTitle>();
 
         Request request = new Request();

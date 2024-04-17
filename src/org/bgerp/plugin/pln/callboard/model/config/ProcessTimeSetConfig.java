@@ -3,7 +3,6 @@ package org.bgerp.plugin.pln.callboard.model.config;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig.Callboard;
@@ -16,7 +15,7 @@ public class ProcessTimeSetConfig extends Config {
     private final int daysShow;
     private final int changeStatusToId;
 
-    public ProcessTimeSetConfig(ConfigMap config) throws BGException {
+    public ProcessTimeSetConfig(ConfigMap config) {
         super(null);
 
         callboard = Setup.getSetup().getConfig(CallboardConfig.class).get(config.getInt(CONFIG_PREFIX + "graphId", 0));

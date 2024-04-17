@@ -255,7 +255,7 @@ public class ParamDAO extends CommonDAO {
         return nodes;
     }
 
-    public void deleteParameter(int id) throws BGException {
+    public void deleteParameter(int id) {
         try {
             String query = "DELETE FROM " + Tables.TABLE_PARAM_PREF + " WHERE id=?";
             PreparedStatement ps = con.prepareStatement(query);
@@ -404,7 +404,7 @@ public class ParamDAO extends CommonDAO {
     }
 
     public void getParameterList(Pageable<Parameter> searchResult, String objectType, String titleOrCommentOrConfigFilter, int paramGroupId,
-            Set<Integer> parameterIdList) throws BGException {
+            Set<Integer> parameterIdList) {
         try {
             Page page = searchResult.getPage();
 

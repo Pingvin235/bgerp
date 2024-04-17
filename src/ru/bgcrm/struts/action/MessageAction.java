@@ -447,7 +447,7 @@ public class MessageAction extends BaseAction {
         return json(con, form);
     }
 
-    private MessageType getType(int typeId) throws BGException {
+    private MessageType getType(int typeId) {
         var config = setup.getConfig(MessageTypeConfig.class);
 
         var type = config.getTypeMap().get(typeId);

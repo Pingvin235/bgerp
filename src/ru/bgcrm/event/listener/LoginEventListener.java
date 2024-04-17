@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.event.base.ClientEvent;
 
 import ru.bgcrm.event.GetPoolTasksEvent;
@@ -20,7 +19,7 @@ public class LoginEventListener {
     public LoginEventListener() {
         EventProcessor.subscribe(new EventListener<GetPoolTasksEvent>() {
             @Override
-            public void notify(GetPoolTasksEvent e, ConnectionSet connectionSet) throws BGException {
+            public void notify(GetPoolTasksEvent e, ConnectionSet connectionSet) {
                 processEvent(connectionSet, e);
             }
 
@@ -35,7 +34,7 @@ public class LoginEventListener {
         eventList.add(event);
     }
 
-    private void processEvent(ConnectionSet connectionSet, GetPoolTasksEvent e) throws BGException {
+    private void processEvent(ConnectionSet connectionSet, GetPoolTasksEvent e) {
         List<ClientEvent> eventList = onLoginEvents.remove(e.getUser().getId());
         if (eventList != null) {
             for (ClientEvent event : eventList) {

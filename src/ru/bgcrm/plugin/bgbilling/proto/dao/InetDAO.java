@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,17 +33,17 @@ public class InetDAO extends BillingModuleDAO {
 
     protected final String inetModule ;
 
-    protected InetDAO(User user, DBInfo dbInfo, String module, int moduleId) throws BGException {
+    protected InetDAO(User user, DBInfo dbInfo, String module, int moduleId) {
         super(user, dbInfo, moduleId);
         inetModule = module;
     }
 
-    protected InetDAO(User user, String billingId, String module, int moduleId) throws BGException {
+    protected InetDAO(User user, String billingId, String module, int moduleId) {
         super(user, billingId, moduleId);
         inetModule = module;
     }
 
-    public static InetDAO getInstance(User user, DBInfo dbInfo, int moduleId) throws BGException {
+    public static InetDAO getInstance(User user, DBInfo dbInfo, int moduleId) {
         if (dbInfo.versionCompare("8.0") > 0) {
             return new InetDAO8x(user, dbInfo, moduleId);
         } else {
@@ -52,7 +51,7 @@ public class InetDAO extends BillingModuleDAO {
         }
     }
 
-    public static InetDAO getInstance(User user, String billingId, int moduleId) throws BGException {
+    public static InetDAO getInstance(User user, String billingId, int moduleId) {
         if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
             return new InetDAO8x(user, billingId, moduleId);
         } else {
@@ -67,7 +66,7 @@ public class InetDAO extends BillingModuleDAO {
      * @param contractId
      * @return
      */
-    public List<InetService> getServiceList(int contractId) throws BGException {
+    public List<InetService> getServiceList(int contractId) {
         List<InetService> result = new ArrayList<>();
 
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SERV_SERVICE, "inetServTree");
@@ -86,7 +85,7 @@ public class InetDAO extends BillingModuleDAO {
         }
     }
 
-    public InetService getService(int id) throws BGException {
+    public InetService getService(int id) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SERV_SERVICE, "inetServGet");
         req.setParam("inetServId", id);
 
@@ -95,7 +94,7 @@ public class InetDAO extends BillingModuleDAO {
     }
 
     public void updateService(InetService inetServ, List<InetServiceOption> optionList, boolean generateLogin,
-            boolean generatePassword, long saWaitTimeout) throws BGException {
+            boolean generatePassword, long saWaitTimeout) {
         if (optionList == null)
             optionList = Collections.emptyList();
 
@@ -109,14 +108,14 @@ public class InetDAO extends BillingModuleDAO {
         transferData.postData(req, user);
     }
 
-    public void deleteService(int id) throws BGException {
+    public void deleteService(int id) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SERV_SERVICE, "inetServDelete");
         req.setParam("id", id);
         req.setParam("force", false);
         transferData.postData(req, user);
     }
 
-    public void updateServiceState(int serviceId, int state) throws BGException {
+    public void updateServiceState(int serviceId, int state) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SERV_SERVICE, "inetServStateModify");
         req.setParam("inetServId", serviceId);
         req.setParam("deviceState", state);
@@ -125,14 +124,14 @@ public class InetDAO extends BillingModuleDAO {
         transferData.postData(req, user);
     }
 
-    public List<InetServiceType> getServiceTypeList() throws BGException {
+    public List<InetServiceType> getServiceTypeList() {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SERV_SERVICE, "inetServTypeList");
 
         return readJsonValue(transferData.postDataReturn(req, user).traverse(),
                 jsonTypeFactory.constructCollectionType(List.class, InetServiceType.class));
     }
 
-    public InetDevice getDevice(int deviceId) throws BGException {
+    public InetDevice getDevice(int deviceId) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_DEVICE_SERVICE, "inetDeviceGet");
         req.setParam("id", deviceId);
 
@@ -140,7 +139,7 @@ public class InetDAO extends BillingModuleDAO {
         return jsonMapper.convertValue(fromValue, InetDevice.class);
     }
 
-    public InetDevice getRootDevice(Set<Integer> deviceTypeIds, Set<Integer> deviceGroupIds) throws BGException {
+    public InetDevice getRootDevice(Set<Integer> deviceTypeIds, Set<Integer> deviceGroupIds) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_DEVICE_SERVICE, "inetDeviceRoot");
         req.setParam("identifier", null);
         req.setParam("host", null);
@@ -158,7 +157,7 @@ public class InetDAO extends BillingModuleDAO {
         return jsonMapper.convertValue(fromValue, InetDevice.class);
     }
 
-    public List<InetDeviceManagerMethod> getDeviceManagerMethodList(int deviceTypeId) throws BGException {
+    public List<InetDeviceManagerMethod> getDeviceManagerMethodList(int deviceTypeId) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_DEVICE_SERVICE, "deviceManagerMethodList");
         req.setParam("deviceTypeId", deviceTypeId);
 
@@ -169,7 +168,7 @@ public class InetDAO extends BillingModuleDAO {
         return methodList;
     }
 
-    public String deviceManage(int deviceId, int serviceId, int connectionId, String operation) throws BGException {
+    public String deviceManage(int deviceId, int serviceId, int connectionId, String operation) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_DEVICE_SERVICE, "deviceManage");
         req.setParam("id", deviceId);
         req.setParam("servId", serviceId);
@@ -180,7 +179,7 @@ public class InetDAO extends BillingModuleDAO {
         return jsonMapper.convertValue(transferData.postDataReturn(req, user), String.class);
     }
 
-    public void getSessionAliveContractList(Pageable<InetSessionLog> result, int contractId) throws BGException {
+    public void getSessionAliveContractList(Pageable<InetSessionLog> result, int contractId) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "inetSessionAliveContractList");
         req.setParamContractId(contractId);
         req.setParam("trafficTypeIds", new int[] { 0 });
@@ -192,7 +191,7 @@ public class InetDAO extends BillingModuleDAO {
     }
 
     public void getSessionLogContractList(Pageable<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo)
-            throws BGException {
+            {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "inetSessionLogContractList");
         req.setParamContractId(contractId);
         req.setParam("dateFrom", dateFrom);
@@ -205,7 +204,7 @@ public class InetDAO extends BillingModuleDAO {
     }
 
     public void getSessionAliveList(Pageable<InetSessionLog> result, Set<Integer> deviceIds, Set<Integer> contractIds, String contract, String login,
-            String ip, String callingStation, Date timeFrom, Date timeTo) throws BGException {
+            String ip, String callingStation, Date timeFrom, Date timeTo) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "inetSessionAliveList");
         req.setParam("deviceIds", deviceIds);
         req.setParam("contractIds", contractIds);
@@ -220,7 +219,7 @@ public class InetDAO extends BillingModuleDAO {
         extractSessions(result, req);
     }
 
-    private void extractSessions(Pageable<InetSessionLog> result, RequestJsonRpc req) throws BGException {
+    private void extractSessions(Pageable<InetSessionLog> result, RequestJsonRpc req) {
         JsonNode ret = transferData.postDataReturn(req, user);
         List<InetSessionLog> sessionList = readJsonValue(ret.findValue("list").traverse(),
                 jsonTypeFactory.constructCollectionType(List.class, InetSessionLog.class));
@@ -229,7 +228,7 @@ public class InetDAO extends BillingModuleDAO {
         result.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
     }
 
-    public Set<Integer> vlanResourceCategoryIds(int deviceId) throws BGException {
+    public Set<Integer> vlanResourceCategoryIds(int deviceId) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SERV_SERVICE, "vlanResourceCategoryIds");
         req.setParam("deviceId", deviceId);
 

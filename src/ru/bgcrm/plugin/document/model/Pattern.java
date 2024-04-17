@@ -50,7 +50,7 @@ public class Pattern extends IdTitle implements GetJsp {
     @Deprecated
     private ConfigMap positionMap;
 
-    public Pattern(int id, ConfigMap params) throws BGException {
+    public Pattern(int id, ConfigMap params) {
         super(id, params.get("title"));
 
         this.params = params;

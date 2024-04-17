@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.Pageable;
 
@@ -20,12 +19,12 @@ import ru.bgcrm.util.sql.ConnectionSet;
 // TODO: Сделать параметры с конфигурацией что искать.
 @Bean
 public class MessageTypeSearchEmail extends MessageTypeSearch {
-    public MessageTypeSearchEmail(ConfigMap config) throws BGException {
+    public MessageTypeSearchEmail(ConfigMap config) {
         super(config);
     }
 
     @Override
-    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) throws BGException {
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) {
         String email = message.getFrom();
 
         Pageable<ParameterSearchedObject<Customer>> searchResult = new Pageable<ParameterSearchedObject<Customer>>();

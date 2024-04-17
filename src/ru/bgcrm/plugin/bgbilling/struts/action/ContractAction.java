@@ -51,7 +51,7 @@ public class ContractAction extends BaseAction {
         return contract(form, conSet);
     }
 
-    public ActionForward customerContractList(DynActionForm form, Connection con) throws BGException {
+    public ActionForward customerContractList(DynActionForm form, Connection con) {
         int customerId = form.getParamInt("customerId", 0);
 
         form.getResponse().setData("list",
@@ -77,7 +77,7 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/customer_contract_list_create_tariff.jsp");
     }
 
-    public ActionForward contract(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contract(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int id = form.getId();
 
@@ -136,7 +136,7 @@ public class ContractAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward contractFind(DynActionForm form, Connection con) throws BGException {
+    public ActionForward contractFind(DynActionForm form, Connection con) {
         String billingId = form.getParam("billingId");
         String title = form.getParam("title");
 
@@ -200,7 +200,7 @@ public class ContractAction extends BaseAction {
         return json(con, form);
     }
 
-    /*public ActionForward getContractCreatePattern(DynActionForm form, Connection con) throws BGException {
+    /*public ActionForward getContractCreatePattern(DynActionForm form, Connection con) {
         String billingId = form.getParam(BILLING_ID);
         int patternId = Utils.parseInt(form.getParam("patternId"));
 
@@ -246,7 +246,7 @@ public class ContractAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 

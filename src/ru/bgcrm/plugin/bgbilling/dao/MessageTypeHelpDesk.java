@@ -90,7 +90,7 @@ public class MessageTypeHelpDesk extends MessageType {
     // количество выбираемых тем
     private final int pageSize;
 
-    public MessageTypeHelpDesk(Setup setup, int id, ConfigMap config) throws BGException {
+    public MessageTypeHelpDesk(Setup setup, int id, ConfigMap config) {
         super(setup, id, config.get("title"), config);
         this.billingId = config.get("billingId");
         this.topicId = config.getInt("topicId");
@@ -163,7 +163,7 @@ public class MessageTypeHelpDesk extends MessageType {
         return markMessagesReadStatusIds;
     }
 
-    public DBInfo getDbInfo() throws BGException {
+    public DBInfo getDbInfo() {
         return DBInfoManager.getDbInfo(billingId);
     }
 
@@ -325,7 +325,7 @@ public class MessageTypeHelpDesk extends MessageType {
         return process;
     }
 
-    // protected boolean isTopicClosed(HelpDeskDAO hdDao, int topicId) throws BGException {
+    // protected boolean isTopicClosed(HelpDeskDAO hdDao, int topicId) {
     //     Pageable<HdTopic> result2 = new Pageable<HdTopic>();
     //     result2.getPage().setPageIndex(1);
     //     result2.getPage().setPageSize(pageSize);

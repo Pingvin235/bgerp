@@ -313,7 +313,7 @@ public class MessageDAO extends CommonDAO {
         }
     }
 
-    public List<Message> getUnsendMessageList(int type, int maxCount) throws BGException {
+    public List<Message> getUnsendMessageList(int type, int maxCount) {
         List<Message> result = new ArrayList<Message>();
 
         try {
@@ -341,7 +341,7 @@ public class MessageDAO extends CommonDAO {
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from)
-            throws BGException {
+            {
         searchMessageList(searchResult, processId, typeId, direction, processed, withAttach,
                 dateFrom, dateTo, from, true);
     }
@@ -350,7 +350,7 @@ public class MessageDAO extends CommonDAO {
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
-            boolean reverseOrder) throws BGException {
+            boolean reverseOrder) {
         searchMessageList(searchResult, processId, typeId, direction, processed, withAttach,
                 dateFrom, dateTo, from, true, null);
     }
@@ -359,7 +359,7 @@ public class MessageDAO extends CommonDAO {
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
-            boolean reverseOrder, Set<Integer> tagIds) throws BGException {
+            boolean reverseOrder, Set<Integer> tagIds) {
         searchMessageList(searchResult, processId != null ? Collections.singleton(processId) : null, typeId != null ? Collections.singleton(typeId) : null,
                 direction, processed, withAttach, dateFrom, dateTo, from, true, tagIds);
     }
@@ -368,7 +368,7 @@ public class MessageDAO extends CommonDAO {
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Collection<Integer> processIds, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
-            boolean reverseOrder, Set<Integer> tagIds) throws BGException {
+            boolean reverseOrder, Set<Integer> tagIds) {
         searchMessageList(searchResult, processIds, typeId != null ? Collections.singleton(typeId) : null, direction, processed, withAttach,
                 dateFrom, dateTo, from, true, tagIds);
     }
@@ -377,7 +377,7 @@ public class MessageDAO extends CommonDAO {
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Collection<Integer> processIds, Set<Integer> typeIds,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
-            boolean reverseOrder, Set<Integer> tagIds) throws BGException {
+            boolean reverseOrder, Set<Integer> tagIds) {
         try {
             Page page = searchResult.getPage();
 

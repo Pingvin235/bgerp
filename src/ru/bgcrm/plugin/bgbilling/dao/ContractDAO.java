@@ -46,16 +46,16 @@ public class ContractDAO extends BillingDAO {
         public static final int CLOSED = 2;
     }
 
-    public ContractDAO(User user, String billingId) throws BGException {
+    public ContractDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    public ContractDAO(User user, DBInfo dbInfo) throws BGException {
+    public ContractDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
     @Deprecated
-    public void copyAddress(ParameterAddressValue address, int contractId, int toParamId) throws BGException {
+    public void copyAddress(ParameterAddressValue address, int contractId, int toParamId) {
         Request request = new Request();
 
         request.setModule("contract");

@@ -3,10 +3,9 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Period;
@@ -18,15 +17,15 @@ import ru.bgcrm.plugin.bgbilling.proto.model.rscm.RscmService;
 public class RscmDAO extends BillingModuleDAO {
     private static final String RSCM_MODULE_ID = "ru.bitel.bgbilling.modules.rscm";
 
-    public RscmDAO(User user, String billingId, int moduleId) throws BGException {
+    public RscmDAO(User user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
     }
 
-    public RscmDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+    public RscmDAO(User user, DBInfo dbInfo, int moduleId) {
         super(user, dbInfo.getId(), moduleId);
     }
 
-    public void getServices(Pageable<RscmService> result, int contractId, Date dateFrom, Date dateTo) throws BGException {
+    public void getServices(Pageable<RscmService> result, int contractId, Date dateFrom, Date dateTo) {
         RequestJsonRpc req = new RequestJsonRpc(RSCM_MODULE_ID, moduleId, "RSCMService", "searchRSCMContractService");
         req.setParamContractId(contractId);
         req.setParam("period", new Period(dateFrom, dateTo));
@@ -40,7 +39,7 @@ public class RscmDAO extends BillingModuleDAO {
         result.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
     }
 
-    public RscmService getService(int contractId, int contractServiceId) throws BGException {
+    public RscmService getService(int contractId, int contractServiceId) {
         RequestJsonRpc req = new RequestJsonRpc(RSCM_MODULE_ID, moduleId, "RSCMService", "getRSCMContractService");
         req.setParamContractId(contractId);
         req.setParam("rscmContractServiceId", contractServiceId);
@@ -49,14 +48,14 @@ public class RscmDAO extends BillingModuleDAO {
         return jsonMapper.convertValue(ret, RscmService.class);
     }
 
-    public void updateService(RscmService service) throws BGException {
+    public void updateService(RscmService service) {
         RequestJsonRpc req = new RequestJsonRpc(RSCM_MODULE_ID, moduleId, "RSCMService", "updateRSCMContractService");
         req.setParam("rscmContractService", service);
 
         transferData.postData(req, user);
     }
 
-    public void deleteService(int contractId, int contractServiceId, Date month) throws BGException {
+    public void deleteService(int contractId, int contractServiceId, Date month) {
         RequestJsonRpc req = new RequestJsonRpc(RSCM_MODULE_ID, moduleId, "RSCMService", "deleteRSCMContractService");
         req.setParamContractId(contractId);
         req.setParam("rscmContractServiceId", contractServiceId);

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
@@ -28,7 +27,7 @@ public class SetContractTariffStepData extends StepData<SetContractTariffStep> {
 	}
 
 	@Override
-	public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+	public boolean isFilled(DynActionForm form, Connection con) {
 		CommonObjectLink contractLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%"));
 		if (contractLink == null)
 			return false;

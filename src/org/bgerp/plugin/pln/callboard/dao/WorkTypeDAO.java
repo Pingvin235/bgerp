@@ -27,7 +27,7 @@ public class WorkTypeDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchWorkType(Pageable<WorkType> searchResult, int category) throws BGException {
+    public void searchWorkType(Pageable<WorkType> searchResult, int category) {
         if (searchResult != null) {
             try {
                 Page page = searchResult.getPage();
@@ -61,11 +61,11 @@ public class WorkTypeDAO extends CommonDAO {
         }
     }
 
-    public List<WorkType> getWorkTypeList() throws BGException {
+    public List<WorkType> getWorkTypeList() {
         return getWorkTypeList(null);
     }
 
-    public List<WorkType> getWorkTypeList(Set<?> workTypeIds) throws BGException {
+    public List<WorkType> getWorkTypeList(Set<?> workTypeIds) {
         List<WorkType> result = new ArrayList<WorkType>();
 
         try {
@@ -104,11 +104,11 @@ public class WorkTypeDAO extends CommonDAO {
      *
      * @return
      */
-    public Map<Integer, WorkType> getWorkTypeMap() throws BGException {
+    public Map<Integer, WorkType> getWorkTypeMap() {
         return getWorkTypeMap(false);
     }
 
-    public Map<Integer, WorkType> getWorkTypeMap(boolean dynamicOnly) throws BGException {
+    public Map<Integer, WorkType> getWorkTypeMap(boolean dynamicOnly) {
         Map<Integer, WorkType> result = new HashMap<Integer, WorkType>();
 
         try {
@@ -144,7 +144,7 @@ public class WorkTypeDAO extends CommonDAO {
         return result;
     }
 
-    public void updateWorkType(WorkType workType) throws BGException {
+    public void updateWorkType(WorkType workType) {
         int index = 1;
         PreparedStatement ps = null;
 
@@ -181,7 +181,7 @@ public class WorkTypeDAO extends CommonDAO {
         }
     }
 
-    public WorkType getWorkType(int id) throws BGException {
+    public WorkType getWorkType(int id) {
         WorkType result = null;
 
         try {
@@ -202,7 +202,7 @@ public class WorkTypeDAO extends CommonDAO {
         return result;
     }
 
-    public void deleteWorkType(int id) throws BGException {
+    public void deleteWorkType(int id) {
         try {
             PreparedStatement ps = null;
 
@@ -222,7 +222,7 @@ public class WorkTypeDAO extends CommonDAO {
         }
     }
 
-    public void updateWorkDaysCalendar(int calendarId, int type, Date date) throws BGException {
+    public void updateWorkDaysCalendar(int calendarId, int type, Date date) {
         PreparedStatement ps = null;
 
         try {
@@ -250,7 +250,7 @@ public class WorkTypeDAO extends CommonDAO {
         }
     }
 
-    public void copyWorkDaysCalendar(int calendarId, int from, int to) throws BGException {
+    public void copyWorkDaysCalendar(int calendarId, int from, int to) {
         PreparedStatement ps = null;
 
         try {
@@ -271,7 +271,7 @@ public class WorkTypeDAO extends CommonDAO {
     }
 
     // TODO: Добавить период выборки.
-    public Map<Date, Integer> getWorkDaysCalendarExcludes(int calendarId) throws BGException {
+    public Map<Date, Integer> getWorkDaysCalendarExcludes(int calendarId) {
         Map<Date, Integer> resultSet = new HashMap<Date, Integer>();
 
         try {
@@ -294,7 +294,7 @@ public class WorkTypeDAO extends CommonDAO {
         return resultSet;
     }
 
-    private static WorkType getWorkTypeFromRs(ResultSet rs) throws BGException {
+    private static WorkType getWorkTypeFromRs(ResultSet rs) {
         WorkType result = new WorkType();
 
         try {

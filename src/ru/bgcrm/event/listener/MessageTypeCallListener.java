@@ -6,7 +6,6 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
@@ -40,7 +39,7 @@ public class MessageTypeCallListener implements EventListener<Event> {
     }
 
     @Override
-    public void notify(Event e, ConnectionSet connectionSet) throws BGException {
+    public void notify(Event e, ConnectionSet connectionSet) {
         if (!(e instanceof GetPoolTasksEvent)) {
             return;
         }

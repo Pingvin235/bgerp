@@ -13,7 +13,6 @@ import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -91,7 +90,7 @@ public class MessageTypeConfig extends Config {
     }
 
     private static class MessageTypeUnknown extends MessageType {
-        public MessageTypeUnknown(int id) throws BGException {
+        public MessageTypeUnknown(int id) {
             super(null, id, "??? " + id, new Preferences());
         }
 
@@ -105,7 +104,7 @@ public class MessageTypeConfig extends Config {
         }
 
         @Override
-        public void updateMessage(Connection con, DynActionForm form, Message message) throws BGException {
+        public void updateMessage(Connection con, DynActionForm form, Message message) {
         }
 
         @Override

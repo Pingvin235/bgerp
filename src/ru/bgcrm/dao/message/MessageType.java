@@ -42,7 +42,7 @@ public abstract class MessageType extends IdTitle {
     protected volatile boolean reading;
     protected volatile Integer unprocessedMessagesCount;
 
-    protected MessageType(Setup setup, int id, String title, ConfigMap config) throws BGException {
+    protected MessageType(Setup setup, int id, String title, ConfigMap config) {
         this.setup = setup;
         this.configMap = config;
 

@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CustomerDAO;
@@ -16,7 +15,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Bean
 public class MessageTypeSearchCustomerByTitle extends MessageTypeSearch {
-    public MessageTypeSearchCustomerByTitle(ConfigMap config) throws BGException {
+    public MessageTypeSearchCustomerByTitle(ConfigMap config) {
         super(config);
     }
 
@@ -26,7 +25,7 @@ public class MessageTypeSearchCustomerByTitle extends MessageTypeSearch {
     }
 
     @Override
-    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) throws BGException {
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) {
         Pageable<Customer> searchResult = new Pageable<Customer>();
         new CustomerDAO(conSet.getConnection()).searchCustomerList(searchResult, "%" + form.getParam("title") + "%");
 

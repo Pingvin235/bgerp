@@ -34,12 +34,12 @@ public class ContractObjectParamDAO extends BillingDAO {
     private static final String CONTRACT_OBJECT_MODULE_ID = "contract.object";
     private Map<Integer, Document> contractParameters;
 
-    public ContractObjectParamDAO(User user, String billingId) throws BGException {
+    public ContractObjectParamDAO(User user, String billingId) {
         super(user, billingId);
         contractParameters = new HashMap<Integer, Document>();
     }
 
-    public List<ContractObjectParameter> getParameterList(int objectId) throws BGException {
+    public List<ContractObjectParameter> getParameterList(int objectId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
                     "ContractObjectService",
@@ -176,7 +176,7 @@ public class ContractObjectParamDAO extends BillingDAO {
     	return result;
     }*/
 
-    public ParamAddressValue getAddressParam(int objectId, int paramId) throws BGException {
+    public ParamAddressValue getAddressParam(int objectId, int paramId) {
         ParamAddressValue result = new ParamAddressValue();
 
         Request req = new Request();
@@ -208,7 +208,7 @@ public class ContractObjectParamDAO extends BillingDAO {
         return result;
     }
 
-    public List<IdTitle> getListParam(int objectId, int paramId) throws BGException {
+    public List<IdTitle> getListParam(int objectId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
 
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
@@ -256,7 +256,7 @@ public class ContractObjectParamDAO extends BillingDAO {
         return item.toParameterAddressValue(con);
     }
 
-    public void updateTextParameter(int  contractId, int objectId, int paramId, String value) throws BGException {
+    public void updateTextParameter(int  contractId, int objectId, int paramId, String value) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
                     "ContractObjectParameterService", "textParameterValueUpdate");
@@ -276,7 +276,7 @@ public class ContractObjectParamDAO extends BillingDAO {
         }
     }
 
-    public void updateListParameter(int  contractId, int objectId, int paramId, String value) throws BGException {
+    public void updateListParameter(int  contractId, int objectId, int paramId, String value) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
                     "ContractObjectParameterService", "listParameterValueUpdate");
@@ -296,7 +296,7 @@ public class ContractObjectParamDAO extends BillingDAO {
         }
     }
 
-    public void updateAddressParameter(int contractId, int objectId, int paramId, ParamAddressValue address) throws BGException {
+    public void updateAddressParameter(int contractId, int objectId, int paramId, ParamAddressValue address) {
 
         if (dbInfo.versionCompare("9.2") >= 0) {
             EntityAttrAddress attrAddress = new EntityAttrAddress(objectId, paramId);
@@ -336,7 +336,7 @@ public class ContractObjectParamDAO extends BillingDAO {
         }
     }
 
-    public void updateDateParameter(int  contractId, int objectId, int paramId, String value) throws BGException {
+    public void updateDateParameter(int  contractId, int objectId, int paramId, String value) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             Date date = TimeUtils.parse(value, TimeUtils.PATTERN_DDMMYYYY);
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",

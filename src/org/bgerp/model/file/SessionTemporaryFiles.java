@@ -26,7 +26,7 @@ public class SessionTemporaryFiles {
         return Utils.getTmpDir() + "/" + session.getId() + "-" + fileId;
     }
 
-    public static Map<Integer, FileInfo> getFiles(DynActionForm form, String paramName) throws BGException {
+    public static Map<Integer, FileInfo> getFiles(DynActionForm form, String paramName) {
         Map<Integer, FileInfo> result = new HashMap<Integer, FileInfo>();
 
         if (form.getHttpRequest() != null) {

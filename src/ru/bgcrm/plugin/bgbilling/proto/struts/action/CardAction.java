@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.base.IdTitle;
@@ -22,7 +21,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class CardAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/card";
 
-    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");

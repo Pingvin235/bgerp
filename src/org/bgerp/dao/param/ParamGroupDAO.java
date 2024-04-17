@@ -123,7 +123,7 @@ public class ParamGroupDAO extends CommonDAO {
         }
     }
 
-    public void deleteParameterGroup(int id) throws BGException {
+    public void deleteParameterGroup(int id) {
         try {
             String query = "DELETE FROM param_group_title WHERE id=?";
             PreparedStatement ps = con.prepareStatement(query);

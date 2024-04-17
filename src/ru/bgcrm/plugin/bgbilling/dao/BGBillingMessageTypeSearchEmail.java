@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.CommonObjectLink;
@@ -19,14 +18,14 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class BGBillingMessageTypeSearchEmail extends MessageTypeSearchBilling {
     private final Set<Integer> paramIds;
 
-    public BGBillingMessageTypeSearchEmail(ConfigMap config) throws BGException {
+    public BGBillingMessageTypeSearchEmail(ConfigMap config) {
         super(config);
         paramIds = Utils.toIntegerSet(config.get("paramIds"));
     }
 
     @Override
     public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
-            throws BGException {
+            {
         String email = message.getFrom();
 
         Pageable<Contract> searchResult = new Pageable<Contract>();

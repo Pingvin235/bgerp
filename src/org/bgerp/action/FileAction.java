@@ -93,7 +93,7 @@ public class FileAction extends BaseAction {
             throw new BGMessageException("File '{}' is bigger than allowed {} MB", file.getFileName(), maxSizeMb);
     }
 
-    public ActionForward temporaryDelete(DynActionForm form, Connection con) throws BGException {
+    public ActionForward temporaryDelete(DynActionForm form, Connection con) {
         log.debug("Deleting temporary file: {}", form.getId());
 
         HttpSession session = form.getHttpRequest().getSession(true);

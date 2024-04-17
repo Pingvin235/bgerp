@@ -8,7 +8,6 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
@@ -44,7 +43,7 @@ public class MessageTypeForumPost extends MessageType {
     private final String topicMarkClosed;
     private final Forum forum;
 
-    public MessageTypeForumPost(Setup setup, int id, ConfigMap config) throws BGException {
+    public MessageTypeForumPost(Setup setup, int id, ConfigMap config) {
         super(setup, id, config.get("title"), config);
 
         userNameParam = ParameterCache.getParameter(config.getInt("userNameParamId", 0));

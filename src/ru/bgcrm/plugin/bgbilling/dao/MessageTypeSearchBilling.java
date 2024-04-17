@@ -9,7 +9,7 @@ import ru.bgcrm.util.Utils;
 public abstract class MessageTypeSearchBilling extends MessageTypeSearch {
     protected final String billingId;
 
-    protected MessageTypeSearchBilling(ConfigMap config) throws BGException {
+    protected MessageTypeSearchBilling(ConfigMap config) {
         super(config);
 
         this.billingId = config.get("billingId");

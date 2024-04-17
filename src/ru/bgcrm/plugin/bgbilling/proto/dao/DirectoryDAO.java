@@ -48,15 +48,15 @@ public class DirectoryDAO extends BillingDAO {
         FIXED_OLD_STATUS_LIST.add(new IdTitle(ContractStatus.DISABLED, "заблокирован"));
     }
 
-    public DirectoryDAO(User user, String billingId) throws BGException {
+    public DirectoryDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    public DirectoryDAO(User user, DBInfo dbInfo) throws BGException {
+    public DirectoryDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
-    public List<IdTitle> getContractStatusList(boolean onlyManual) throws BGException {
+    public List<IdTitle> getContractStatusList(boolean onlyManual) {
         List<IdTitle> result = null;
 
         if (dbInfo.versionCompare("5.2") < 0) {
@@ -77,7 +77,7 @@ public class DirectoryDAO extends BillingDAO {
         return result;
     }
 
-    public List<IdTitle> scriptTypeList() throws BGException {
+    public List<IdTitle> scriptTypeList() {
         Request request = new Request();
         request.setModule(ADMIN_MODULE_ID);
         request.setAction("ListDirectory");
@@ -101,7 +101,7 @@ public class DirectoryDAO extends BillingDAO {
         return scriptTypeList;
     }
 
-    public IdTitleTreeItem getContractPaymentTypes(Set<Integer> allowedTypeIds) throws BGException {
+    public IdTitleTreeItem getContractPaymentTypes(Set<Integer> allowedTypeIds) {
         IdTitleTreeItem contractPaymentTypes = new IdTitleTreeItem();
         contractPaymentTypes.setTitle("Все типы");
 
@@ -162,7 +162,7 @@ public class DirectoryDAO extends BillingDAO {
         return contractPaymentTypes;
     }
 
-    public IdTitleTreeItem getContractChargeTypes(Set<Integer> allowedTypeIds) throws BGException {
+    public IdTitleTreeItem getContractChargeTypes(Set<Integer> allowedTypeIds) {
         IdTitleTreeItem contractChargeTypes = new IdTitleTreeItem();
         contractChargeTypes.setTitle("Все типы");
 
@@ -224,7 +224,7 @@ public class DirectoryDAO extends BillingDAO {
         return contractChargeTypes;
     }
 
-    public List<IdTitle> getServiceTypeList(int moduleId) throws BGException {
+    public List<IdTitle> getServiceTypeList(int moduleId) {
         if (dbInfo.versionCompare("8.0") > 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.module", moduleId, "ModuleService", "moduleServiceList");
             req.setParam("moduleId", moduleId);
@@ -247,7 +247,7 @@ public class DirectoryDAO extends BillingDAO {
     }
 
 
-    public List<IdTitle> getRegistredTariffGroupList(int selectedTariffGroupId) throws BGException {
+    public List<IdTitle> getRegistredTariffGroupList(int selectedTariffGroupId) {
         Request request = new Request();
         request.setModule(TARIFF_MODULE_ID);
         request.setAction("ListTariffGroups");
@@ -274,7 +274,7 @@ public class DirectoryDAO extends BillingDAO {
         return registerGroupTariffList;
     }
 
-    public List<IdTitle> getBillingModuleList() throws BGException {
+    public List<IdTitle> getBillingModuleList() {
         Request request = new Request();
         request.setModule(SERVICE_MODULE_ID);
         request.setAction("Modules");
@@ -297,7 +297,7 @@ public class DirectoryDAO extends BillingDAO {
         return moduleList;
     }
 
-    public List<IdTitle> getContractGroups() throws BGException {
+    public List<IdTitle> getContractGroups() {
         Request request = new Request();
         request.setModule(ADMIN_MODULE_ID);
         request.setAction("GetContractGroupList");
@@ -319,7 +319,7 @@ public class DirectoryDAO extends BillingDAO {
         return groupList;
     }
 
-    public List<IdTitle> contractObjectTypeList() throws BGException {
+    public List<IdTitle> contractObjectTypeList() {
         Request request = new Request();
         request.setModule(CONTRACT_OBJECT_MODULE_ID);
         request.setAction("TypeList");
@@ -343,7 +343,7 @@ public class DirectoryDAO extends BillingDAO {
         return objectTypeList;
     }
 
-    public ContractObjectModuleInfo contractObjectModuleList(int objectId) throws BGException {
+    public ContractObjectModuleInfo contractObjectModuleList(int objectId) {
         Request request = new Request();
         request.setModule(CONTRACT_OBJECT_MODULE_ID);
         request.setAction("ObjectModuleTable");
@@ -385,7 +385,7 @@ public class DirectoryDAO extends BillingDAO {
         return moduleInfo;
     }
 
-    public Map<Integer, UserInfo> getUsersInfo() throws BGException {
+    public Map<Integer, UserInfo> getUsersInfo() {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService",
                 "userInfoList");
         JsonNode res = transferData.postDataReturn(req, user);

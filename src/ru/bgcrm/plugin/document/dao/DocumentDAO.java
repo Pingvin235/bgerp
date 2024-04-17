@@ -32,7 +32,7 @@ public class DocumentDAO extends CommonDAO {
      * @param data
      * @param title
      */
-    public void add(String objectType, int objectId, byte[] data, String title) throws BGException {
+    public void add(String objectType, int objectId, byte[] data, String title) {
         try {
             FileData fileData = new FileData();
             fileData.setTitle(title);
@@ -91,7 +91,7 @@ public class DocumentDAO extends CommonDAO {
      * @param id
      * @return
      */
-    public Document getDocumentById(int id) throws BGException {
+    public Document getDocumentById(int id) {
         Document result = null;
 
         String query = SQL_SELECT + " doc.*, fd.*  " + SQL_FROM + TABLE_DOCUMENT + " AS doc " + SQL_INNER_JOIN
@@ -121,7 +121,7 @@ public class DocumentDAO extends CommonDAO {
      * @param objectId
      */
     public void searchObjectDocuments(Pageable<Document> result, String objectType, int objectId)
-            throws BGException {
+            {
         List<Document> list = result.getList();
 
         try {

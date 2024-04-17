@@ -55,7 +55,7 @@ public class DBInfo {
         return serverUrl;
     }
 
-    public void setUrl(String url) throws BGException {
+    public void setUrl(String url) {
         this.url = url;
         try {
             serverUrl = new URI(url).toURL();

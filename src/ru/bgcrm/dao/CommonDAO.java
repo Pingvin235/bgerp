@@ -246,7 +246,7 @@ public class CommonDAO {
     }
 
     protected Map<Integer, Set<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn)
-            throws BGException {
+            {
         try {
             Map<Integer, Set<Integer>> result = new HashMap<Integer, Set<Integer>>();
 
@@ -274,7 +274,7 @@ public class CommonDAO {
     }
 
     protected Map<Integer, List<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn,
-            String posColumn) throws BGException {
+            String posColumn) {
         try {
             Map<Integer, List<Integer>> result = new HashMap<Integer, List<Integer>>();
 

@@ -134,7 +134,7 @@ public class WorkTypeTime {
 
     private static final Pattern OLD_TIME_PATTERN = Pattern.compile("\\d{2}/\\d{2}/\\d{4}\\s+(\\d{2}):(\\d{2})");
 
-    private static final int getMinutes(String value) throws BGException {
+    private static final int getMinutes(String value) {
         int result = Utils.parseInt(value, -1);
 
         // старый формат, использованный при сохранении

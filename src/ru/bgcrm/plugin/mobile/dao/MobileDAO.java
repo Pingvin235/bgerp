@@ -18,7 +18,7 @@ public class MobileDAO extends CommonDAO {
         super(con);
     }
 
-    public void registerAccount(Account account) throws BGException {
+    public void registerAccount(Account account) {
         try {
             String query = SQL_DELETE_FROM + TABLE_ACCOUNT + " WHERE object_type=? AND object_id=?";
             PreparedStatement ps = con.prepareStatement(query);
@@ -40,7 +40,7 @@ public class MobileDAO extends CommonDAO {
         }
     }
 
-    public Account findAccount(String key, String objectType) throws BGException {
+    public Account findAccount(String key, String objectType) {
         Account result = null;
         try {
             String query = SQL_SELECT_ALL_FROM + TABLE_ACCOUNT + SQL_WHERE + " mkey=? AND object_type=?";

@@ -14,15 +14,15 @@ import ru.bgcrm.plugin.bgbilling.proto.model.inet.version.v8x.InetServiceType8x;
 public class InetDAO8x extends InetDAO {
     private static final String INET_MODULE = "ru.bitel.bgbilling.modules.inet";
 
-    public InetDAO8x(User user, String billingId, int moduleId) throws BGException {
+    public InetDAO8x(User user, String billingId, int moduleId) {
         super(user, billingId, INET_MODULE, moduleId);
     }
 
-    public InetDAO8x(User user, DBInfo dbInfo, int moduleId) throws BGException {
+    public InetDAO8x(User user, DBInfo dbInfo, int moduleId) {
         super(user, dbInfo, INET_MODULE, moduleId);
     }
 
-    public List<InetServiceType> getServiceTypeList() throws BGException {
+    public List<InetServiceType> getServiceTypeList() {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, "InetServService", "inetServTypeList");
 
         return readJsonValue(transferData.postDataReturn(req, user).traverse(),

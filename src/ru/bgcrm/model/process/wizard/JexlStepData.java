@@ -3,8 +3,6 @@ package ru.bgcrm.model.process.wizard;
 import java.sql.Connection;
 import java.util.Map;
 
-import org.bgerp.app.exception.BGException;
-
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.SingleConnectionSet;
@@ -18,7 +16,7 @@ public class JexlStepData extends StepData<JexlStep> {
     }
 
     @Override
-    public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+    public boolean isFilled(DynActionForm form, Connection con) {
         Map<String, Object> context = Expression.context(new SingleConnectionSet(con), form, null, data.getProcess());
         Map<?, ?> state = (Map<?, ?>) new Expression(context).executeScript(step.getDoExpression());
         if (state == null)

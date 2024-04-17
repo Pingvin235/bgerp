@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.bgerp.app.exception.BGException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -29,11 +28,11 @@ public class ContractStatusDAO extends BillingDAO {
     private static final String CONTRACT_STATUS_MODULE_ID = "ru.bitel.bgbilling.kernel.contract.status";
     private static final String MODULE = "contract.status";
 
-    public ContractStatusDAO(User user, String billingId) throws BGException {
+    public ContractStatusDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    public ContractStatusDAO(User user, DBInfo dbInfo) throws BGException {
+    public ContractStatusDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
@@ -42,7 +41,7 @@ public class ContractStatusDAO extends BillingDAO {
      * @param contractId
      * @return
      */
-    public List<ContractStatus> statusList(int contractId, Map<Integer, String> statusTitleMap) throws BGException {
+    public List<ContractStatus> statusList(int contractId, Map<Integer, String> statusTitleMap) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "contractStatusList");
             req.setParam("contractId", contractId);
@@ -77,7 +76,7 @@ public class ContractStatusDAO extends BillingDAO {
      * @return
      *
      */
-    public List<ContractStatusLogItem> statusLog(int contractId, Map<Integer, String> statusTitleMap) throws BGException {
+    public List<ContractStatusLogItem> statusLog(int contractId, Map<Integer, String> statusTitleMap) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "contractStatusLogSearch");
             req.setParam("contractId", contractId);
@@ -122,7 +121,7 @@ public class ContractStatusDAO extends BillingDAO {
         TimeUtils.parsePeriod(element.getAttribute("period"), status);
     }
 
-    public void updateStatus(int contractId, int statusId, Date dateFrom, Date dateTo, String comment) throws BGException {
+    public void updateStatus(int contractId, int statusId, Date dateFrom, Date dateTo, String comment) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractStatusService", "changeContractStatus");
             req.setParam("contractId", Collections.singletonList(contractId));

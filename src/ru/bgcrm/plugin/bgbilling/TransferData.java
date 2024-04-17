@@ -392,7 +392,7 @@ public class TransferData {
      * @param user
      * @return
      */
-    public Document postData(Request request, User user) throws BGException {
+    public Document postData(Request request, User user) {
         try {
             initSession(user);
 
@@ -415,7 +415,7 @@ public class TransferData {
      * @param user
      * @return елемент {@code data} из ответа.
      */
-    public JsonNode postData(RequestJsonRpc request, User user) throws BGException {
+    public JsonNode postData(RequestJsonRpc request, User user) {
         try {
             initSession(user);
 
@@ -439,7 +439,7 @@ public class TransferData {
      * @param user
      * @return  елемент {@code return} из ответа.
      */
-    public JsonNode postDataReturn(RequestJsonRpc request, User user) throws BGException {
+    public JsonNode postDataReturn(RequestJsonRpc request, User user) {
         return postData(request, user).path("return");
     }
 
@@ -449,7 +449,7 @@ public class TransferData {
      * @param user
      * @return
      */
-    public byte[] postDataGetBytes(Request request, User user) throws BGException {
+    public byte[] postDataGetBytes(Request request, User user) {
         try {
             UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
             return postDataAsync(request, userAccount.getLogin(), userAccount.getPassword());
@@ -464,7 +464,7 @@ public class TransferData {
      * @param user
      * @return
      */
-    public String postDataGetString(Request request, User user) throws BGException {
+    public String postDataGetString(Request request, User user) {
         try {
             return new String(postDataGetBytes(request, user), responseEncoding);
         } catch (UnsupportedEncodingException e) {
@@ -511,7 +511,7 @@ public class TransferData {
         return id;
     }
 
-    private void initSession(User user) throws BGException {
+    private void initSession(User user) {
         if (dbInfo.getPluginSet() == null) {
             // т.к. PluginDAO обратится к этому же методу - то сразу
             // устанавливаем pluginSet, чтобы был не null, иначе - бесконечная рекурсия

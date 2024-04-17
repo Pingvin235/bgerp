@@ -28,11 +28,11 @@ public class UserPermsetDAO extends UserDAO {
         super(con);
     }
 
-    public void searchPermset(Pageable<Permset> searchResult) throws BGException {
+    public void searchPermset(Pageable<Permset> searchResult) {
         searchPermset(searchResult, null);
     }
 
-    public void searchPermset(Pageable<Permset> searchResult, String filterLike) throws BGException {
+    public void searchPermset(Pageable<Permset> searchResult, String filterLike) {
         Page page = searchResult.getPage();
         try {
             List<Permset> list = searchResult.getList();
@@ -70,7 +70,7 @@ public class UserPermsetDAO extends UserDAO {
         }
     }
 
-    public List<Permset> getPermsetList() throws BGException {
+    public List<Permset> getPermsetList() {
         List<Permset> result = new ArrayList<Permset>();
 
         try {
@@ -89,7 +89,7 @@ public class UserPermsetDAO extends UserDAO {
         return result;
     }
 
-    public Permset getPermsetById(int id) throws BGException {
+    public Permset getPermsetById(int id) {
         Permset result = null;
 
         try {
@@ -125,7 +125,7 @@ public class UserPermsetDAO extends UserDAO {
         return result;
     }
 
-    public void updatePermset(Permset userGroup) throws BGException {
+    public void updatePermset(Permset userGroup) {
         int index = 1;
         PreparedStatement ps;
 
@@ -165,7 +165,7 @@ public class UserPermsetDAO extends UserDAO {
         updatePermissions(action, config, TABLE_PERMSET_PERMISSION, "permset_id", permsetId);
     }
 
-    public Map<String, ConfigMap> getPermissions(int permsetId) throws BGException {
+    public Map<String, ConfigMap> getPermissions(int permsetId) {
         try {
             String query = "SELECT * FROM " + TABLE_PERMSET_PERMISSION + " WHERE permset_id=?";
 
@@ -189,7 +189,7 @@ public class UserPermsetDAO extends UserDAO {
         }
     }
 
-    public void replacePermissions(int fromPermsetId, int toPermsetId) throws BGException {
+    public void replacePermissions(int fromPermsetId, int toPermsetId) {
         try {
             String query = "DELETE FROM " + TABLE_PERMSET_PERMISSION + " WHERE permset_id=?";
 

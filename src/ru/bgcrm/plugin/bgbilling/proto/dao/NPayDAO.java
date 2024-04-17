@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -21,11 +20,11 @@ import ru.bgcrm.util.XMLUtils;
 public class NPayDAO extends BillingModuleDAO {
     private static final String NPAY_MODULE_ID = "npay";
 
-    public NPayDAO(User user, String billingId, int moduleId) throws BGException {
+    public NPayDAO(User user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
     }
 
-    public NPayDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+    public NPayDAO(User user, DBInfo dbInfo, int moduleId) {
         super(user, dbInfo.getId(), moduleId);
     }
 
@@ -34,7 +33,7 @@ public class NPayDAO extends BillingModuleDAO {
      * @param contractId
      * @return
      */
-    public List<NPayService> getServiceList(int contractId) throws BGException {
+    public List<NPayService> getServiceList(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectList");
             req.setParamContractId(contractId);
@@ -88,7 +87,7 @@ public class NPayDAO extends BillingModuleDAO {
      * @param id
      * @return
      */
-    public NPayService getService(int id) throws BGException {
+    public NPayService getService(int id) {
         if (dbInfo.versionCompare("8.0") > 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectGet");
             req.setParam("id", id);
@@ -123,7 +122,7 @@ public class NPayDAO extends BillingModuleDAO {
      * Изменяет либо добавляет абонплату договора.
      * @param service
      */
-    public void updateService(NPayService service) throws BGException {
+    public void updateService(NPayService service) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectUpdate");
             req.setParam("serviceObject", service);
@@ -145,7 +144,7 @@ public class NPayDAO extends BillingModuleDAO {
      * @param comment
      */
     public void updateService(int id, int contractId, int serviceId, Date dateFrom, Date dateTo, int objectId, int count, String comment)
-            throws BGException {
+            {
         Request req = new Request();
         req.setModule(NPAY_MODULE_ID);
         req.setAction("ServiceObjectUpdate");
@@ -171,7 +170,7 @@ public class NPayDAO extends BillingModuleDAO {
      * @param contractId
      * @param id
      */
-    public void deleteService( int id) throws BGException {
+    public void deleteService( int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectDelete");
             req.setParam("id", id);

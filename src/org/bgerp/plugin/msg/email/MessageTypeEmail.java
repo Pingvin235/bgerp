@@ -505,7 +505,7 @@ public class MessageTypeEmail extends MessageType {
         return result;
     }
 
-    private Message processMessage(Connection con, Message msg) throws BGException {
+    private Message processMessage(Connection con, Message msg) {
         String subject = "";
 
         try {
@@ -673,7 +673,7 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
-    public Message messageLinkedToProcess(Message message) throws BGException {
+    public Message messageLinkedToProcess(Message message) {
         Message result = new Message();
 
         String text = message.getText().replace("\r", "");

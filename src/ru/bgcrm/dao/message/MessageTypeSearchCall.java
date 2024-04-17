@@ -8,7 +8,6 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -28,7 +27,7 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
     private String phonePreprocessJexl;
     private List<String> commands;
 
-    public MessageTypeSearchCall(ConfigMap config) throws BGException {
+    public MessageTypeSearchCall(ConfigMap config) {
         super(config);
 
         // может добавится customerByTextParam:<paramId>
@@ -37,7 +36,7 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
     }
 
     @Override
-    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) throws BGException {
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) {
         String numberFrom = preprocessNumber(message, phonePreprocessJexl);
 
         log.debug("Search by numberFrom: {}", numberFrom);

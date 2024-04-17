@@ -24,7 +24,7 @@ public class WorkTaskDAO extends CommonDAO {
         super(con);
     }
 
-    public void loadWorkTask(int graphId, Date date, Map<Integer, List<ShiftData>> dataMap) throws BGException {
+    public void loadWorkTask(int graphId, Date date, Map<Integer, List<ShiftData>> dataMap) {
         try {
             String query = "SELECT * FROM " + TABLE_CALLBOARD_TASK + " WHERE graph=? AND ?<=time AND time<? " +
             // AND `group` IN(" + Utils.toString( dataMap.keySet() ) + ")
@@ -57,7 +57,7 @@ public class WorkTaskDAO extends CommonDAO {
         }
     }
 
-    public WorkTask getTaskByProcessId(int processId) throws BGException {
+    public WorkTask getTaskByProcessId(int processId) {
         try {
             WorkTask result = null;
 
@@ -78,7 +78,7 @@ public class WorkTaskDAO extends CommonDAO {
         }
     }
 
-    public void addTask(WorkTask task) throws BGException {
+    public void addTask(WorkTask task) {
         try {
             String query = null;
             PreparedStatement ps = null;
@@ -130,7 +130,7 @@ public class WorkTaskDAO extends CommonDAO {
         }
     }
 
-    public void removeTask(WorkTask task) throws BGException {
+    public void removeTask(WorkTask task) {
         try {
             PreparedQuery pq = new PreparedQuery(con);
             pq.addQuery("DELETE FROM " + TABLE_CALLBOARD_TASK + " WHERE graph=? AND `group`=? AND time=? ");
@@ -153,7 +153,7 @@ public class WorkTaskDAO extends CommonDAO {
         }
     }
 
-    public void removeTaskForProcess(int processId) throws BGException {
+    public void removeTaskForProcess(int processId) {
         try {
             String query = "DELETE FROM " + TABLE_CALLBOARD_TASK + " WHERE process_id=?";
             PreparedStatement ps = con.prepareStatement(query);

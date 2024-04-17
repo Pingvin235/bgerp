@@ -57,7 +57,7 @@ public class CustomerDAO extends CommonDAO {
      * @param title
      * @throws SQLException
      */
-    public void searchCustomerList(Pageable<Customer> searchResult, String title) throws BGException {
+    public void searchCustomerList(Pageable<Customer> searchResult, String title) {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<Customer> list = searchResult.getList();
@@ -93,7 +93,7 @@ public class CustomerDAO extends CommonDAO {
      * @param groupIds - группы.
      * @throws SQLException
      */
-    public void searchCustomerList(Pageable<Customer> searchResult, Set<Integer> groupIds) throws BGException {
+    public void searchCustomerList(Pageable<Customer> searchResult, Set<Integer> groupIds) {
         Page page = searchResult.getPage();
         List<Customer> list = searchResult.getList();
 
@@ -138,7 +138,7 @@ public class CustomerDAO extends CommonDAO {
         extractCustomersWithRef(page, list, referenceTemplate, ps);
     }
 
-    public Customer extractCustomerWithRef(int customerId) throws BGException {
+    public Customer extractCustomerWithRef(int customerId) {
         try {
             int index = 1;
             StringBuilder query = new StringBuilder();
@@ -189,7 +189,7 @@ public class CustomerDAO extends CommonDAO {
         }
     }
 
-    private void extractCustomersWithRef(Page page, List<Customer> list, String referenceTemplate, PreparedQuery ps) throws BGException {
+    private void extractCustomersWithRef(Page page, List<Customer> list, String referenceTemplate, PreparedQuery ps) {
         try {
             final ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -241,7 +241,7 @@ public class CustomerDAO extends CommonDAO {
      * @throws SQLException
      */
     public void searchCustomerListByEmail(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> emailParamIdList, String email)
-            throws BGException {
+            {
         new OldParamSearchDAO(con).searchObjectListByEmail(TABLE_CUSTOMER, rs -> getCustomerFromRs(rs, "c."), searchResult, emailParamIdList,
                 email);
     }
@@ -381,7 +381,7 @@ public class CustomerDAO extends CommonDAO {
      * @throws SQLException
      */
     public void searchCustomerListByAddress(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> addressParamIdList,
-            int houseId, String houseFlat, String houseRoom) throws BGException {
+            int houseId, String houseFlat, String houseRoom) {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<ParameterSearchedObject<Customer>> list = searchResult.getList();
@@ -437,7 +437,7 @@ public class CustomerDAO extends CommonDAO {
      * @param phoneNumbers
      */
     public void searchCustomerListByPhone(Pageable<Customer> searchResult, Collection<Integer> phoneParamIdList, String... phoneNumbers)
-            throws BGException {
+            {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<Customer> list = searchResult.getList();
@@ -495,7 +495,7 @@ public class CustomerDAO extends CommonDAO {
      * @param linkedObjectTitle LIKE строка наименования привязанного объекта.
      */
     public void searchCustomerByLinkedObjectTitle(Pageable<Customer> searchResult, String linkedObjectTypeLike, String linkedObjectTitle)
-            throws BGException {
+            {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<Customer> list = searchResult.getList();
@@ -538,7 +538,7 @@ public class CustomerDAO extends CommonDAO {
      * @param customerId
      * @return
      */
-    public Customer getCustomerById(int customerId) throws BGException {
+    public Customer getCustomerById(int customerId) {
         Customer customer = null;
 
         try {
@@ -562,7 +562,7 @@ public class CustomerDAO extends CommonDAO {
      * @param customerIds идентификаторы контрагентов
      * @return
      */
-    public static Set<Customer> getCustomers(Connection connection, Collection<Integer> customerIds) throws BGException {
+    public static Set<Customer> getCustomers(Connection connection, Collection<Integer> customerIds) {
         Set<Customer> customers = new HashSet<Customer>();
 
         String sql = "SELECT * FROM customer WHERE customer.id IN ( ";
@@ -590,7 +590,7 @@ public class CustomerDAO extends CommonDAO {
      * @param customerIds идентификаторы контрагентов
      * @return
      */
-    public Set<Customer> getCustomers(Collection<Integer> customerIds) throws BGException {
+    public Set<Customer> getCustomers(Collection<Integer> customerIds) {
         return getCustomers(con, customerIds);
     }
 
@@ -730,7 +730,7 @@ public class CustomerDAO extends CommonDAO {
      * @param count количество первых названий.
      * @return
      */
-    public List<String> getCustomerTitles(String title, int count) throws BGException {
+    public List<String> getCustomerTitles(String title, int count) {
         List<String> result = new ArrayList<String>();
 
         try {
@@ -781,7 +781,7 @@ public class CustomerDAO extends CommonDAO {
         return customer;
     }
 
-    private void logCustomerChange(Customer customer, Customer oldCustomer) throws BGException, SQLException {
+    private void logCustomerChange(Customer customer, Customer oldCustomer) throws SQLException {
         if (history) {
             EntityLogDAO entityLogDAO = new EntityLogDAO(this.con, TABLE_CUSTOMER_LOG);
             entityLogDAO.insertEntityLog(customer.getId(), userId, customer.toLog(con, oldCustomer));

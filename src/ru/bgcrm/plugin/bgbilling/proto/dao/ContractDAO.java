@@ -82,7 +82,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public static ContractDAO getInstance(User user, DBInfo dbInfo) throws BGException {
+    public static ContractDAO getInstance(User user, DBInfo dbInfo) {
         if (dbInfo.versionCompare("8.0") > 0) {
             return new ContractDAO8x(user, dbInfo);
         } else {
@@ -90,7 +90,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public static ContractDAO getInstance(User user, String billingId) throws BGException {
+    public static ContractDAO getInstance(User user, String billingId) {
         if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
             return new ContractDAO8x(user, billingId);
         } else {
@@ -98,15 +98,15 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    protected ContractDAO(User user, String billingId) throws BGException {
+    protected ContractDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    protected ContractDAO(User user, DBInfo dbInfo) throws BGException {
+    protected ContractDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
-    public Contract getContractById(int contractId) throws BGException {
+    public Contract getContractById(int contractId) {
         Contract result = null;
 
         if (dbInfo.versionCompare("8.0") > 0) {
@@ -146,7 +146,7 @@ public class ContractDAO extends BillingDAO {
      * filter=0&
      */
     public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions)
-            throws BGException {
+            {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<IdTitle> contractList = searchResult.getList();
@@ -185,7 +185,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     // http://192.168.169.8:8080/bgbilling/executer?id=698669&module=contract&value=29.08.2014&action=UpdateContractDate2&cid=698669
-    public void updateContractDateTo(int contractId, Date date) throws BGException {
+    public void updateContractDateTo(int contractId, Date date) {
         Request request = new Request();
         request.setAction("UpdateContractDate2");
         request.setModule("contract");
@@ -208,7 +208,7 @@ public class ContractDAO extends BillingDAO {
      * @param room
      */
     public void searchContractByObjectAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options,
-            Set<Integer> paramIds, int streetId, String house, String flat, String room) throws BGException {
+            Set<Integer> paramIds, int streetId, String house, String flat, String room) {
         final Page page = result.getPage();
         Request req = new Request();
         req.setPage(page);
@@ -252,7 +252,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public void searchContractByAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options, Set<Integer> paramIds,
-            int streetId, int houseId, String house, String flat, String room) throws BGException {
+            int streetId, int houseId, String house, String flat, String room) {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -328,7 +328,7 @@ public class ContractDAO extends BillingDAO {
      * title="7214493603...
      */
     public void searchContractByTextParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String value)
-            throws BGException {
+            {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -349,7 +349,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public void searchContractByPhoneParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String phone)
-            throws BGException {
+            {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -370,7 +370,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public void searchContractByDateParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, Date dateFrom, Date dateTo)
-            throws BGException {
+            {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -420,7 +420,7 @@ public class ContractDAO extends BillingDAO {
      * "AA0023-05 [ Сахибгареева Ирина Фанилевна ]"/><item...
      */
     public void searchContractByEmailParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String email)
-            throws BGException {
+            {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -437,7 +437,7 @@ public class ContractDAO extends BillingDAO {
         addSearchResult(result, page, req);
     }
 
-    public void addSearchResult(Pageable<Contract> result, final Page page, Request req) throws BGException {
+    public void addSearchResult(Pageable<Contract> result, final Page page, Request req) {
         setPage(req, page);
 
         Document doc = transferData.postData(req, user);
@@ -513,14 +513,14 @@ public class ContractDAO extends BillingDAO {
      * @return
      *
      *//*
-    public ContractInfo getContractInfo(int contractId) throws BGException {
+    public ContractInfo getContractInfo(int contractId) {
         return contractInfoDAO.getContractInfo(contractId);
     }*/
 
 
 
 
-    public List<ContractMemo> getMemoList(int contractId) throws BGException {
+    public List<ContractMemo> getMemoList(int contractId) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("ContractMemo");
@@ -547,7 +547,7 @@ public class ContractDAO extends BillingDAO {
         return contractMemos;
     }
 
-    public ContractMemo getMemo(int contractId, int memoId) throws BGException {
+    public ContractMemo getMemo(int contractId, int memoId) {
         ContractMemo memo = null;
 
         Request request = new Request();
@@ -570,7 +570,7 @@ public class ContractDAO extends BillingDAO {
         return memo;
     }
 
-    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText, boolean visible) throws BGException {
+    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText, boolean visible) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("UpdateContractMemo");
@@ -587,7 +587,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText) throws BGException {
+    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("UpdateContractMemo");
@@ -604,7 +604,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public void deleteMemo(int contractId, int memoId) throws BGException {
+    public void deleteMemo(int contractId, int memoId) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("DeleteContractMemo");
@@ -614,7 +614,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public void faceLog(Pageable<ContractFace> result, int contractId) throws BGException {
+    public void faceLog(Pageable<ContractFace> result, int contractId) {
         List<ContractFace> list = result.getList();
 
         Request request = new Request();
@@ -639,7 +639,7 @@ public class ContractDAO extends BillingDAO {
         getPage(result.getPage(), XMLUtils.selectElement(document, "/data/table"));
     }
 
-    public void updateFace(int contractId, int face) throws BGException {
+    public void updateFace(int contractId, int face) {
         Request req = new Request();
         req.setModule("contract");
         req.setAction("SetFcContract");
@@ -649,7 +649,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    public void modeLog(Pageable<ContractMode> result, int contractId) throws BGException {
+    public void modeLog(Pageable<ContractMode> result, int contractId) {
         List<ContractMode> list = result.getList();
 
         Request request = new Request();
@@ -674,7 +674,7 @@ public class ContractDAO extends BillingDAO {
         getPage(result.getPage(), XMLUtils.selectElement(document, "/data/table"));
     }
 
-    public void updateMode(int contractId, int mode) throws BGException {
+    public void updateMode(int contractId, int mode) {
         Request req = new Request();
         req.setModule("contract");
         req.setAction("UpdateContractMode");
@@ -685,7 +685,7 @@ public class ContractDAO extends BillingDAO {
     }
 
 
-    public List<ContractGroup> getContractLabelTreeItemList(int contractId) throws BGException {
+    public List<ContractGroup> getContractLabelTreeItemList(int contractId) {
         List<ContractGroup> groups = new ArrayList<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.label", "ContractLabelService",
@@ -698,7 +698,7 @@ public class ContractDAO extends BillingDAO {
         return groups;
     }
 
-    public Pair<List<IdTitle>, Set<Integer>> groupsGet(int contractId) throws BGException {
+    public Pair<List<IdTitle>, Set<Integer>> groupsGet(int contractId) {
         List<IdTitle> groupList = new ArrayList<>();
         Set<Integer> selectedIds = new HashSet<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -742,7 +742,7 @@ public class ContractDAO extends BillingDAO {
         return new Pair<>(groupList, selectedIds);
     }
 
-    public void updateGroup(String command, int contractId, int groupId) throws BGException {
+    public void updateGroup(String command, int contractId, int groupId) {
         if (dbInfo.versionCompare("5.2") < 0) {
             Request request = new Request();
             request.setModule("contract");
@@ -775,7 +775,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public List<IdTitle> additionalActionList(int contractId) throws BGException {
+    public List<IdTitle> additionalActionList(int contractId) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("AdditionalActionList");
@@ -799,7 +799,7 @@ public class ContractDAO extends BillingDAO {
         return additionalActionList;
     }
 
-    public String executeAdditionalAction(int contractId, int actionId) throws BGException {
+    public String executeAdditionalAction(int contractId, int actionId) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("AdditionalAction");
@@ -820,7 +820,7 @@ public class ContractDAO extends BillingDAO {
         return result.toString();
     }
 
-    public Pair<List<IdTitle>, List<IdTitle>> moduleList(int contractId) throws BGException {
+    public Pair<List<IdTitle>, List<IdTitle>> moduleList(int contractId) {
         List<IdTitle> selectedList = new ArrayList<>();
         List<IdTitle> availableList = new ArrayList<>();
 
@@ -857,7 +857,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public BigDecimal limit(int contractId, Pageable<LimitLogItem> log, List<LimitChangeTask> taskList) throws BGException {
+    public BigDecimal limit(int contractId, Pageable<LimitLogItem> log, List<LimitChangeTask> taskList) {
         BigDecimal result;
         Document doc = null;
 
@@ -938,7 +938,7 @@ public class ContractDAO extends BillingDAO {
         return result;
     }
 
-    public void updateLimit(int contractId, BigDecimal limit, int days, String comment) throws BGException {
+    public void updateLimit(int contractId, BigDecimal limit, int days, String comment) {
         if (days > 0) {
             if (dbInfo.versionCompare("6.2") >= 0) {
                 RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_LIMIT, "ContractLimitService",
@@ -969,7 +969,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public void deleteLimitTask(int contractId, int id) throws BGException {
+    public void deleteLimitTask(int contractId, int id) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("LimitChangeTaskDelete");
@@ -979,12 +979,12 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public String getContractStatisticPassword(int contractId) throws BGException {
+    public String getContractStatisticPassword(int contractId) {
         Document contractCard = new ContractDAO(this.user, this.dbInfo).getContractCardDoc(contractId);
         return XMLUtils.selectText(contractCard, "/data/contract/@pswd");
     }
 
-    public List<IdTitle> getContractAddress(int contractId) throws BGException {
+    public List<IdTitle> getContractAddress(int contractId) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("ContractAddressList");
@@ -1008,7 +1008,7 @@ public class ContractDAO extends BillingDAO {
         return contractAddress;
     }
 
-    public void updateContractPassword(int contractId, String value, boolean generate) throws BGException {
+    public void updateContractPassword(int contractId, String value, boolean generate) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("UpdateContractPassword");
@@ -1022,7 +1022,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public String getContractFullCard(int contractId) throws BGException {
+    public String getContractFullCard(int contractId) {
         Request req = new Request();
 
         req.setModule("contract");
@@ -1033,7 +1033,7 @@ public class ContractDAO extends BillingDAO {
         return transferData.postDataGetString(req, user);
     }
 
-    public Document getContractCardDoc(int contractId) throws BGException {
+    public Document getContractCardDoc(int contractId) {
         Request req = new Request();
 
         req.setModule("contract");
@@ -1044,7 +1044,7 @@ public class ContractDAO extends BillingDAO {
         return transferData.postData(req, user);
     }
 
-    public List<String[]> getContractCardTypes(int contractId) throws BGException {
+    public List<String[]> getContractCardTypes(int contractId) {
         Request req = new Request();
 
         req.setModule("contract");
@@ -1061,7 +1061,7 @@ public class ContractDAO extends BillingDAO {
         return result;
     }
 
-    public byte[] getContractCard2Pdf(int contractId, String type) throws BGException {
+    public byte[] getContractCard2Pdf(int contractId, String type) {
         Request req = new Request();
 
         req.setModule("contract");
@@ -1073,7 +1073,7 @@ public class ContractDAO extends BillingDAO {
         return transferData.postDataGetBytes(req, user);
     }
 
-    public void bgbillingOpenContract(int contractId) throws BGException {
+    public void bgbillingOpenContract(int contractId) {
         Request req = new Request();
 
         req.setModule("admin");
@@ -1084,7 +1084,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    public void bgbillingUpdateContractTitleAndComment(int contractId, String comment, int patid) throws BGException {
+    public void bgbillingUpdateContractTitleAndComment(int contractId, String comment, int patid) {
         Request req = new Request();
 
         req.setModule("contract");
@@ -1111,7 +1111,7 @@ public class ContractDAO extends BillingDAO {
      * IdTitle( Utils.parseInt( e.getAttribute( "id" ) ), e.getAttribute(
      * "title" ) ) ); } return actions; }
      */
-    public List<IdTitle> bgbillingGetContractPatternList() throws BGException {
+    public List<IdTitle> bgbillingGetContractPatternList() {
         Request req = new Request();
 
         req.setModule("contract");
@@ -1139,7 +1139,7 @@ public class ContractDAO extends BillingDAO {
      * Использовать {@link ContractHierarchyDAO#getSubContracts(int)}.
      */
     @Deprecated
-    public List<Integer> getSubContracts(int contractId) throws BGException {
+    public List<Integer> getSubContracts(int contractId) {
         return new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId);
     }
 
@@ -1147,16 +1147,16 @@ public class ContractDAO extends BillingDAO {
      * Использовать {@link ContractHierarchyDAO#addSubcontract(int, int)}.
      */
     @Deprecated
-    public void addSubcontract(int superContractId, int subContractId) throws BGException {
+    public void addSubcontract(int superContractId, int subContractId) {
         new ContractHierarchyDAO(user, dbInfo).addSubcontract(superContractId, subContractId);
     }
 
     @Deprecated
-    public List<IdTitle> getAdditionalActionList(int contractId) throws BGException {
+    public List<IdTitle> getAdditionalActionList(int contractId) {
         return additionalActionList(contractId);
     }
 
-    public List<IdTitle> getStreetsByCity(int cityId) throws BGException {
+    public List<IdTitle> getStreetsByCity(int cityId) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("GetStreetsByCity");
@@ -1174,7 +1174,7 @@ public class ContractDAO extends BillingDAO {
         return streets;
     }
 
-    public OpenContract openContract() throws BGException {
+    public OpenContract openContract() {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("OpenContract");
@@ -1190,7 +1190,7 @@ public class ContractDAO extends BillingDAO {
      * @return 0 - управление разблокировано, 1 - управление заблокировано
      *
      */
-    public int getContractLimitManage(int contractId) throws BGException {
+    public int getContractLimitManage(int contractId) {
         Request billingRequest = new Request();
         billingRequest.setModule("contract");
         billingRequest.setAction("ContractLimitManage");
@@ -1210,7 +1210,7 @@ public class ContractDAO extends BillingDAO {
      *            0 - управление разблокировано, 1 - управление заблокировано
      *
      */
-    public void updateContractLimitManage(int contractId, int mode) throws BGException {
+    public void updateContractLimitManage(int contractId, int mode) {
         Request billingRequest = new Request();
         billingRequest.setModule("contract");
         billingRequest.setAction("UpdateContractLimitManage");
@@ -1255,7 +1255,7 @@ public class ContractDAO extends BillingDAO {
             this.ip = ip;
         }
 
-        public WebContractLogonLogEntry(Element element) throws BGException {
+        public WebContractLogonLogEntry(Element element) {
             String dt = element.getAttribute("date");
 
             if (dt == null || dt.length() == 0) {
@@ -1296,7 +1296,7 @@ public class ContractDAO extends BillingDAO {
             this.sessionId = sessionId;
         }
 
-        public WebContractLogonLogSuccess(Element element) throws BGException {
+        public WebContractLogonLogSuccess(Element element) {
             super(element);
 
             setPasswordType(element.getAttribute("passwordType"));
@@ -1333,7 +1333,7 @@ public class ContractDAO extends BillingDAO {
             this.errorCode = errorCode;
         }
 
-        public WebContractLogonLogError(Element element) throws BGException {
+        public WebContractLogonLogError(Element element) {
             super(element);
 
             setLogin(element.getAttribute("login"));
@@ -1351,7 +1351,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public void getWebContractLogonLog(Pageable<WebContractLogonLogEntry> searchResult, int contractId, WebContractLogonLogType type, Date date1,
-            Date date2) throws BGException {
+            Date date2) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("WebContractLogonLog");
@@ -1465,7 +1465,7 @@ public class ContractDAO extends BillingDAO {
             this.ip = ip;
         }
 
-        public WebRequestLastLogon(Element element) throws BGException {
+        public WebRequestLastLogon(Element element) {
             if (element == null) {
                 return;
             }
@@ -1499,7 +1499,7 @@ public class ContractDAO extends BillingDAO {
             this.lastLogon = lastLogon;
         }
 
-        public WebRequestLimit(Document document) throws BGException {
+        public WebRequestLimit(Document document) {
             if (document == null) {
                 setWebLimit(new WebLimit(null));
                 setLastLogon(new WebRequestLastLogon(null));
@@ -1510,7 +1510,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public List<IdTitle> getParameterList(int parameterTypeId) throws BGException {
+    public List<IdTitle> getParameterList(int parameterTypeId) {
         List<IdTitle> paramList;
         if (dbInfo.versionCompare("7.0") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.param", "ContractParameterService",
@@ -1533,7 +1533,7 @@ public class ContractDAO extends BillingDAO {
         return paramList;
     }
 
-    public ContractInfo getContractInfo(int contractId) throws BGException {
+    public ContractInfo getContractInfo(int contractId) {
         ContractInfo result = null;
 
         Request req = new Request();

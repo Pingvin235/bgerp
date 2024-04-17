@@ -5,7 +5,6 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
@@ -25,7 +24,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class BGBillingMessageTypeSearchContractByTitleAndComment extends MessageTypeSearchBilling {
     private static final Log log = Log.getLog();
 
-    public BGBillingMessageTypeSearchContractByTitleAndComment(ConfigMap config) throws BGException {
+    public BGBillingMessageTypeSearchContractByTitleAndComment(ConfigMap config) {
         super(config);
     }
 
@@ -36,7 +35,7 @@ public class BGBillingMessageTypeSearchContractByTitleAndComment extends Message
 
     @Override
     public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
-            throws BGException {
+            {
         DBInfo dbInfo = DBInfoManager.getDbInfo(billingId);
         if (dbInfo == null) {
             log.warn("Billing not found: " + billingId);

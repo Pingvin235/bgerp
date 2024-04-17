@@ -37,14 +37,14 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class UserAction extends org.bgerp.action.BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/user";
 
-    public ActionForward permsetList(DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetList(DynActionForm form, Connection con) {
         new UserPermsetDAO(con).searchPermset(new Pageable<Permset>(form),
                 LikePattern.SUB.get(form.getParam("filter")));
 
         return html(con, form, PATH_JSP + "/permset/list.jsp");
     }
 
-    public ActionForward permsetGet(DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetGet(DynActionForm form, Connection con) {
 
         Permset permset = new UserPermsetDAO(con).getPermsetById(form.getId());
         if (permset != null) {
@@ -94,7 +94,7 @@ public class UserAction extends org.bgerp.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward permsetReplacePermissions(DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetReplacePermissions(DynActionForm form, Connection con) {
         new UserPermsetDAO(con).replacePermissions(form.getParamInt("fromId"), form.getId());
 
         UserCache.flush(con);
@@ -102,7 +102,7 @@ public class UserAction extends org.bgerp.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward groupList(DynActionForm form, Connection con) throws BGException {
+    public ActionForward groupList(DynActionForm form, Connection con) {
         String filter = form.getParam("filter", "");
 
         int parentId = form.getParamInt("parentGroupId", 0);

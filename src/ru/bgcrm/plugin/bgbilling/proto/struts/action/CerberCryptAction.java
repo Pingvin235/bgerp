@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 
@@ -23,7 +22,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class CerberCryptAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/cerbercrypt";
 
-    public ActionForward cardPacketList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward cardPacketList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer cardId = form.getParamInt("cardId");
@@ -76,7 +75,7 @@ public class CerberCryptAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward updateCard(DynActionForm form,  ConnectionSet conSet) throws BGException {
+    public ActionForward updateCard(DynActionForm form,  ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
 
         UserCard userCard = new UserCard();
@@ -110,7 +109,7 @@ public class CerberCryptAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward getFreeCards(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getFreeCards(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int moduleId = form.getParamInt("moduleId");
 
@@ -120,7 +119,7 @@ public class CerberCryptAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "");
     }
 
-    public ActionForward getPacketList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getPacketList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         boolean virtualCinema = form.getParamBoolean("virtualCinema", false);
 

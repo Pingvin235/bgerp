@@ -4,7 +4,6 @@ import java.time.YearMonth;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 
@@ -22,7 +21,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class RscmAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/rscm";
 
-    public ActionForward serviceList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");

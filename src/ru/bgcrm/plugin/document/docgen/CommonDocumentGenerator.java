@@ -54,7 +54,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
     }
 
     @Override
-    public void notify(Event e, ConnectionSet conSet) throws BGException {
+    public void notify(Event e, ConnectionSet conSet) {
         this.event = (DocumentGenerateEvent) e;
         this.conSet = conSet;
 

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
@@ -28,7 +27,7 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
 	}
 
 	@Override
-	public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+	public boolean isFilled(DynActionForm form, Connection con) {
 		CommonObjectLink contractLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%"));
 		if (contractLink == null)
 			return false;

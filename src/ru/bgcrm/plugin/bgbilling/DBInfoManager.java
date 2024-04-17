@@ -66,7 +66,7 @@ public class DBInfoManager {
         return instance;
     }
 
-    public static DBInfo getDbInfo(String billingId) throws BGException {
+    public static DBInfo getDbInfo(String billingId) {
         DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
         if (dbInfo == null) {
             throw new BGException("Не найден биллинг: " + billingId);

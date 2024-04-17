@@ -39,7 +39,7 @@ public class CustomerLinkDAO extends CommonLinkDAO {
         return Customer.OBJECT_TYPE;
     }
 
-    public void searchCustomerByLink(Pageable<Customer> searchResult, CommonObjectLink link) throws BGException {
+    public void searchCustomerByLink(Pageable<Customer> searchResult, CommonObjectLink link) {
         Page page = searchResult.getPage();
         List<Customer> list = searchResult.getList();
 

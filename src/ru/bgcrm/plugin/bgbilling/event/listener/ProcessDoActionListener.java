@@ -159,7 +159,7 @@ public class ProcessDoActionListener {
     }
 
     private String getLinkedContractParamText(ProcessDoActionEvent e, ConnectionSet conSet, Process process, String billingId, int billingParamId,
-            boolean addPrefix, String paramPrefix) throws BGException {
+            boolean addPrefix, String paramPrefix) {
         CommonObjectLink link = Utils
                 .getFirst(new ProcessLinkDAO(conSet.getConnection()).getObjectLinksWithType(process.getId(), Contract.OBJECT_TYPE + ":" + billingId));
         if (link == null) {

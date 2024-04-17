@@ -72,7 +72,7 @@ public class StatusChangeDAO extends CommonDAO {
         ps.close();
     }
 
-    public void searchProcessStatus(Pageable<StatusChange> searchResult, int processId, Set<Integer> statusIds) throws BGException {
+    public void searchProcessStatus(Pageable<StatusChange> searchResult, int processId, Set<Integer> statusIds) {
         try {
             if (searchResult != null) {
                 Page page = searchResult.getPage();
@@ -110,7 +110,7 @@ public class StatusChangeDAO extends CommonDAO {
         }
     }
 
-    public List<StatusChange> getProcessStatus(int processId, int statusId) throws BGException {
+    public List<StatusChange> getProcessStatus(int processId, int statusId) {
         List<StatusChange> list = new ArrayList<StatusChange>();
 
         if (statusId <= 0) {

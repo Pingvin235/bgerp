@@ -113,10 +113,9 @@ public class Bean {
      * @param className the full class name or a simple {@link Bean} name.
      * @param args optional constructor arguments.
      * @return created object instance.
-     * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public static final <T> T newInstance(String name) throws BGException, ClassNotFoundException {
+    public static final <T> T newInstance(String name) throws ClassNotFoundException {
         try {
             Class<T> clazz = (Class<T>) getClass(name);
             if (clazz != null) {

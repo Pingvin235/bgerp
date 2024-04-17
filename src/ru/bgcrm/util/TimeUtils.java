@@ -433,13 +433,13 @@ public class TimeUtils {
         return TimeConvert.toTimestamp(date);
     }
 
-    public static final XMLGregorianCalendar convertDateToXMLCalendar(Date date) throws BGException {
+    public static final XMLGregorianCalendar convertDateToXMLCalendar(Date date) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         return convertCalendarToXMLCalendar(calendar);
     }
 
-    public static final XMLGregorianCalendar convertCalendarToXMLCalendar(GregorianCalendar calendar) throws BGException {
+    public static final XMLGregorianCalendar convertCalendarToXMLCalendar(GregorianCalendar calendar) {
         try {
             return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
         } catch (DatatypeConfigurationException e) {

@@ -180,7 +180,7 @@ public class ProcessDAO extends CommonDAO {
 
     /** Use {@link org.bgerp.dao.process.ProcessSearchDAO} */
     @Deprecated
-    public List<Process> getProcessList(Collection<Integer> processIds) throws BGException {
+    public List<Process> getProcessList(Collection<Integer> processIds) {
         List<Process> processList = new ArrayList<Process>();
         try {
             String query = "SELECT process.* " + SQL_FROM + TABLE_PROCESS + " AS process " + "WHERE process.id IN ( "

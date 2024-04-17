@@ -47,7 +47,7 @@ public class BillingDAO {
         return dbInfo.getVersion();
     }
 
-    public BillingDAO(User user, String billingId) throws BGException {
+    public BillingDAO(User user, String billingId) {
         this.user = user;
         this.dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
         if (dbInfo == null) {
@@ -56,14 +56,14 @@ public class BillingDAO {
         init();
     }
 
-    public BillingDAO(User user, DBInfo dbInfo) throws BGException {
+    public BillingDAO(User user, DBInfo dbInfo) {
         this.user = user;
         this.dbInfo = dbInfo;
 
         init();
     }
 
-    private void init() throws BGException {
+    private void init() {
         try {
             this.transferData = dbInfo.getTransferData();
             this.jsonMapper = transferData.getObjectMapper();
@@ -73,7 +73,7 @@ public class BillingDAO {
         }
     }
 
-    public Document doRequest(Request req) throws BGException {
+    public Document doRequest(Request req) {
         return transferData.postData(req, user);
     }
 
@@ -97,7 +97,7 @@ public class BillingDAO {
      * @param values
      * @return
      */
-    public Integer getParameterId(String values) throws BGException {
+    public Integer getParameterId(String values) {
         StringTokenizer st = new StringTokenizer(values, ",;");
         while (st.hasMoreTokens()) {
             String token = st.nextToken();
@@ -138,7 +138,7 @@ public class BillingDAO {
         return result.toString();
     }
 
-    protected <T> T readJsonValue(JsonParser p, JavaType valueType) throws BGException {
+    protected <T> T readJsonValue(JsonParser p, JavaType valueType) {
         try {
             return jsonMapper.readValue(p, valueType);
         } catch (Exception e) {

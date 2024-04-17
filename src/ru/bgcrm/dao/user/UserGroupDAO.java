@@ -27,15 +27,15 @@ public class UserGroupDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchGroup(Pageable<Group> searchResult, int parentId) throws BGException {
+    public void searchGroup(Pageable<Group> searchResult, int parentId) {
         searchGroup(searchResult, parentId, 0, "");
     }
 
-    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive) throws BGException {
+    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive) {
         searchGroup(searchResult, parentId, 0, "");
     }
 
-    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive, String filter) throws BGException {
+    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive, String filter) {
         Page page = searchResult.getPage();
         try {
             List<Group> list = searchResult.getList();
@@ -72,7 +72,7 @@ public class UserGroupDAO extends CommonDAO {
         }
     }
 
-    public List<Group> getGroupList() throws BGException {
+    public List<Group> getGroupList() {
         List<Group> result = new ArrayList<Group>();
 
         try {
@@ -91,7 +91,7 @@ public class UserGroupDAO extends CommonDAO {
         return result;
     }
 
-    public Group getGroupById(int id) throws BGException {
+    public Group getGroupById(int id) {
         Group result = null;
 
         try {
@@ -113,7 +113,7 @@ public class UserGroupDAO extends CommonDAO {
         return result;
     }
 
-    public void updateGroup(Group group) throws BGException {
+    public void updateGroup(Group group) {
         try {
             PreparedStatement ps = null;
 
@@ -162,11 +162,11 @@ public class UserGroupDAO extends CommonDAO {
         return getIds(TABLE_USER_GROUP_PERMSET, "group_id", "permset_id", "pos", groupId);
     }
 
-    public Map<Integer, List<Integer>> getAllGroupPermsetIds() throws BGException {
+    public Map<Integer, List<Integer>> getAllGroupPermsetIds() {
         return getGroupedIds(TABLE_USER_GROUP_PERMSET, "group_id", "permset_id", "pos");
     }
 
-    public Map<Integer, Set<Integer>> getAllGroupQueueIds() throws BGException {
+    public Map<Integer, Set<Integer>> getAllGroupQueueIds() {
         return getGroupedIds(TABLE_USER_GROUP_QUEUE, "group_id", "queue_id");
     }
 

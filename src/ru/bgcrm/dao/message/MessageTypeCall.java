@@ -10,7 +10,6 @@ import java.util.Map;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
@@ -65,7 +64,7 @@ public class MessageTypeCall extends MessageType {
 
     private final String checkExpressionCallStore;
 
-    public MessageTypeCall(Setup setup, int id, ConfigMap config) throws BGException {
+    public MessageTypeCall(Setup setup, int id, ConfigMap config) {
         super(setup, id, config.get("title"), config);
         checkExpressionCallStore = config.get(Expression.CHECK_EXPRESSION_CONFIG_KEY + "CallStore");
     }

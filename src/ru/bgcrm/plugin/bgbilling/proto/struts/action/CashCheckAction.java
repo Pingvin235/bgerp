@@ -1,7 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 
 import ru.bgcrm.model.Pair;
@@ -12,7 +11,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/plugin/bgbilling/proto/cashcheck")
 public class CashCheckAction extends ContractAction {
-    public ActionForward registratorList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward registratorList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         CashCheckDAO cashCkeckDao = new CashCheckDAO(form.getUser(), billingId);
 

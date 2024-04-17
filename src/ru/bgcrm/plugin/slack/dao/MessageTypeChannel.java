@@ -9,15 +9,14 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.Config.InitStopException;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
-import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
@@ -116,7 +115,7 @@ public class MessageTypeChannel extends MessageType {
     }
 
     @Override
-    public void messageDelete(ConnectionSet conSet, String... messageId) throws BGException {
+    public void messageDelete(ConnectionSet conSet, String... messageId) {
         throw new UnsupportedOperationException();
     }
 

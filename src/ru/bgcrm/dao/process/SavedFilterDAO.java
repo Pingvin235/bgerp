@@ -20,7 +20,7 @@ public class SavedFilterDAO extends CommonDAO {
         super(con);
     }
 
-    public String getFilterUrlById(int id) throws BGException {
+    public String getFilterUrlById(int id) {
         try {
             String query = "SELECT url FROM " + TABLE_PROCESS_COMMON_FILTER + " WHERE id=?";
             PreparedStatement ps = con.prepareStatement(query);
@@ -38,7 +38,7 @@ public class SavedFilterDAO extends CommonDAO {
         return "";
     }
 
-    public ArrayList<SavedFilter> getFilters(int queueId) throws BGException {
+    public ArrayList<SavedFilter> getFilters(int queueId) {
         try {
             String query = "SELECT * FROM " + TABLE_PROCESS_COMMON_FILTER + " WHERE queue_id = ?";
             PreparedStatement ps = con.prepareStatement(query);

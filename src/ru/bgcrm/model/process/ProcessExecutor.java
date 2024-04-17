@@ -147,7 +147,7 @@ public class ProcessExecutor {
         return resultSet;
     }
 
-    public static final Set<ProcessExecutor> parseUnsafe(Set<String> values, Set<ProcessGroup> processGroups) throws BGException {
+    public static final Set<ProcessExecutor> parseUnsafe(Set<String> values, Set<ProcessGroup> processGroups) {
         Set<ProcessExecutor> resultSet = new LinkedHashSet<ProcessExecutor>();
 
         for (String item : values) {

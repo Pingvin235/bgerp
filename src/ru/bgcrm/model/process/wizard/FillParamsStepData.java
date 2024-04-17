@@ -7,14 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.ParameterValuePair;
-
-import java.util.Set;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ParamValueFunction;
@@ -107,7 +105,7 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
     }
 
     // в id возвращается код объекта
-    private int getObjectId(Connection connection) throws BGException {
+    private int getObjectId(Connection connection) {
         int objectId = 0;
 
         if ("linkedCustomer".equals(step.getType())) {
@@ -130,7 +128,7 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
      * @param connection
      * @return
      */
-    private int getLinkedCustomerId(Connection connection) throws BGException {
+    private int getLinkedCustomerId(Connection connection) {
         int customerId = 0;
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(connection);
         List<CommonObjectLink> processCustomerlinkList = processLinkDAO

@@ -148,7 +148,7 @@ public class UserDAO extends CommonDAO {
      * @throws SQLException
      */
     public void searchUserListByEmail(Pageable<ParameterSearchedObject<User>> searchResult,
-            List<Integer> emailParamIdList, String email) throws BGException {
+            List<Integer> emailParamIdList, String email) {
         new OldParamSearchDAO(con).searchObjectListByEmail(TABLE_USER, rs -> getFromRS(rs, "c.", false, false), searchResult,
                 emailParamIdList, email);
     }
@@ -269,7 +269,7 @@ public class UserDAO extends CommonDAO {
         return getIds(TABLE_USER_GROUP, "user_id", "group_id", userId);
     }
 
-    public Map<Integer, Set<Integer>> getAllUserGroupIds() throws BGException {
+    public Map<Integer, Set<Integer>> getAllUserGroupIds() {
         return getGroupedIds(TABLE_USER_GROUP, "user_id", "group_id");
     }
 
@@ -277,7 +277,7 @@ public class UserDAO extends CommonDAO {
         return getIds(TABLE_USER_PERMSET, "user_id", "permset_id", "pos", userId);
     }
 
-    public Map<Integer, List<Integer>> getAllUserPermsetIds() throws BGException {
+    public Map<Integer, List<Integer>> getAllUserPermsetIds() {
         return getGroupedIds(TABLE_USER_PERMSET, "user_id", "permset_id", "pos");
     }
 
@@ -285,7 +285,7 @@ public class UserDAO extends CommonDAO {
         return getIds(TABLE_USER_QUEUE, "user_id", "queue_id", userId);
     }
 
-    public Map<Integer, Set<Integer>> getAllUserQueueIds() throws BGException {
+    public Map<Integer, Set<Integer>> getAllUserQueueIds() {
         return getGroupedIds(TABLE_USER_QUEUE, "user_id", "queue_id");
     }
 
@@ -391,7 +391,7 @@ public class UserDAO extends CommonDAO {
         }
     }
 
-    public User getUserByLogin(String name) throws BGException {
+    public User getUserByLogin(String name) {
         User result = null;
 
         try {
@@ -529,7 +529,7 @@ public class UserDAO extends CommonDAO {
         }
     }
 
-    public Map<String, ConfigMap> getPermissions(int userId) throws BGException {
+    public Map<String, ConfigMap> getPermissions(int userId) {
         try {
             PreparedStatement ps = null;
 
@@ -613,7 +613,7 @@ public class UserDAO extends CommonDAO {
         ps.close();
     }
 
-    public List<UserGroup> getUserGroupList(int userId, Date date) throws BGException {
+    public List<UserGroup> getUserGroupList(int userId, Date date) {
         List<UserGroup> result = new ArrayList<UserGroup>();
 
         try {

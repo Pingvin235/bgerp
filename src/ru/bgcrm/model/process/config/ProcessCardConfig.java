@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.util.Utils;
 
 public class ProcessCardConfig extends Config {
     private List<Item> itemList = new ArrayList<Item>();
 
-    public ProcessCardConfig(ConfigMap config) throws BGException {
+    public ProcessCardConfig(ConfigMap config) {
         super(null);
         for (ConfigMap pm : config.subIndexed("processCard.").values()) {
             itemList.add(new Item(pm));

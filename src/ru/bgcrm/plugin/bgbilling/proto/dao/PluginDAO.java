@@ -3,7 +3,6 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -14,15 +13,15 @@ import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.util.XMLUtils;
 
 public class PluginDAO extends BillingDAO {
-    public PluginDAO(User user, DBInfo dbInfo) throws BGException {
+    public PluginDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
-    public PluginDAO(User user, String billingId) throws BGException {
+    public PluginDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    public List<String> getInstalledPlugins() throws BGException {
+    public List<String> getInstalledPlugins() {
         List<String> result = new ArrayList<String>();
         Request req = new Request();
         if (dbInfo.versionCompare("8.0") > 0) {

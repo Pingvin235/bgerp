@@ -36,7 +36,7 @@ public class HelpDeskDAO extends BillingDAO {
     public static final String MODE_ON = "on";
     public static final String MODE_PACKAGE = "package";
 
-    public HelpDeskDAO(User user, DBInfo dbInfo) throws BGException {
+    public HelpDeskDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
@@ -45,7 +45,7 @@ public class HelpDeskDAO extends BillingDAO {
      * @param topicId the topic ID.
      * @return the topic - messages pair, or {@code null}
      */
-    public Pair<HdTopic, List<HdMessage>> getTopicWithMessages(int topicId) throws BGException {
+    public Pair<HdTopic, List<HdMessage>> getTopicWithMessages(int topicId) {
         Pair<HdTopic, List<HdMessage>> result = null;
 
         Request req = new Request();
@@ -90,7 +90,7 @@ public class HelpDeskDAO extends BillingDAO {
         return msg;
     }
 
-    public void updateMessage(int topicId, HdMessage msg) throws BGException {
+    public void updateMessage(int topicId, HdMessage msg) {
         Request req = new Request();
         req.setModule(MODULE);
         req.setAction("UpdateMessage");
@@ -109,7 +109,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public HdMessage getMessage(int topicId, int messageId) throws BGException {
+    public HdMessage getMessage(int topicId, int messageId) {
         HdMessage result = null;
 
         Request req = new Request();
@@ -141,7 +141,7 @@ public class HelpDeskDAO extends BillingDAO {
         return result;
     }
 
-    public void searchTopicsWithMessages(Pageable<Pair<HdTopic, List<HdMessage>>> result, int topicId) throws BGException {
+    public void searchTopicsWithMessages(Pageable<Pair<HdTopic, List<HdMessage>>> result, int topicId) {
         Request req = new Request();
         req.setModule(MODULE);
         req.setAction("GetTopics");
@@ -172,7 +172,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public void markMessageRead(int messageId) throws BGException {
+    public void markMessageRead(int messageId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             var req = new RequestJsonRpc(MODULE, "HelpdeskService", "messageAdminReadSet");
             req.setParam("messageId", messageId);
@@ -188,7 +188,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public void setTopicState(int topicId, boolean stateClose) throws BGException {
+    public void setTopicState(int topicId, boolean stateClose) {
         Pair<HdTopic, List<HdMessage>> topic = getTopicWithMessages(topicId);
         if (topic.getFirst() == null) {
             throw new BGException("Тема не найдена:" + topicId);
@@ -218,7 +218,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public void setTopicExecutor(int topicId, int billingUserId) throws BGException {
+    public void setTopicExecutor(int topicId, int billingUserId) {
         if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicBindSet");
             req.setParam("topicId", topicId);
@@ -236,7 +236,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public void setTopicExecutorMe(int topicId) throws BGException {
+    public void setTopicExecutorMe(int topicId) {
         if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicBindSet");
             req.setParam("topicId", topicId);
@@ -254,7 +254,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public void setTopicStatus(int contractId, int topicId, int status) throws BGException {
+    public void setTopicStatus(int contractId, int topicId, int status) {
         if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicStatusUpdate");
             req.setParam("topicId", topicId);
@@ -273,7 +273,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public void setTopicAutoClose(int contractId, int topicId, boolean value) throws BGException {
+    public void setTopicAutoClose(int contractId, int topicId, boolean value) {
         if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicAutocloseUpdate");
             req.setParam("topicId", topicId);
@@ -294,7 +294,7 @@ public class HelpDeskDAO extends BillingDAO {
 
     /*http://billing:8081/executer?module=ru.bitel.bgbilling.plugins.helpdesk&topicId=3353&action=ApplyTopicCost&BGBillingSecret=xetRCA4SyqpIAa65qSD0jWhJ&cost=000&cid=448&
     [ length = 106 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="0C58E78318A89B3515C8B9A6AA3FBB6D" status="ok"/>*/
-    public void setTopicCost(int contractId, int topicId, BigDecimal cost) throws BGException {
+    public void setTopicCost(int contractId, int topicId, BigDecimal cost) {
         Request req = new Request();
         req.setModule(MODULE);
         req.setAction("ApplyTopicCost");
@@ -307,7 +307,7 @@ public class HelpDeskDAO extends BillingDAO {
 
     /*http://billing:8081/executer?id=3353&module=ru.bitel.bgbilling.plugins.helpdesk&action=SetTopicPackageState&BGBillingSecret=S2Wu0TsiHS2iT7GdN7VGbZ1a&cid=448&include=true&
     [ length = 186 ] xml = <?xml version="1.0" encoding="windows-1251"?><data errcode="3623339397" secret="2230A92B18D6EDE54B664D5777DBD3FD" status="error">Нет не использованных обращений в активных пакетах</data>*/
-    public void setTopicPackageState(int contractId, int topicId, boolean inPackage) throws BGException {
+    public void setTopicPackageState(int contractId, int topicId, boolean inPackage) {
         Request req = new Request();
         req.setModule(MODULE);
         req.setAction("SetTopicPackageState");
@@ -370,7 +370,7 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    public String getContractMode(int contractId) throws BGException {
+    public String getContractMode(int contractId) {
         if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskParamService", "getContractCurrentMode");
             req.setParamContractId(contractId);

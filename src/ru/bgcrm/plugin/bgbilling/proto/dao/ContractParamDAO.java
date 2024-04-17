@@ -54,11 +54,11 @@ import ru.bgcrm.util.XMLUtils;
 public class ContractParamDAO extends BillingDAO {
     private static final String CONTRACT_MODULE_ID = "contract";
 
-    public ContractParamDAO(User user, String billingId) throws BGException {
+    public ContractParamDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    public ContractParamDAO(User user, DBInfo dbInfo) throws BGException {
+    public ContractParamDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
@@ -112,7 +112,7 @@ public class ContractParamDAO extends BillingDAO {
      * @param contractId
      * @return
      */
-    public List<ContractParameter> getParameterList(int contractId) throws BGException {
+    public List<ContractParameter> getParameterList(int contractId) {
         return getParameterListWithDir(contractId, false, false).getSecond();
     }
 
@@ -124,7 +124,7 @@ public class ContractParamDAO extends BillingDAO {
      * @return
      */
     public Pair<ParamList, List<ContractParameter>> getParameterListWithDir(int contractId, boolean loadGroups,
-            boolean onlyGroup) throws BGException {
+            boolean onlyGroup) {
         Pair<ParamList, List<ContractParameter>> result = new Pair<>();
 
         ParamList groupDir = new ParamList();
@@ -164,7 +164,7 @@ public class ContractParamDAO extends BillingDAO {
      * @param contractId
      * @return
      */
-    public Document getContractParams(int contractId) throws BGException {
+    public Document getContractParams(int contractId) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("ContractParameters");
@@ -173,12 +173,12 @@ public class ContractParamDAO extends BillingDAO {
         return transferData.postData(request, user);
     }
 
-    public String getTextParam(int contractId, int paramId) throws BGException {
+    public String getTextParam(int contractId, int paramId) {
         ContractParameter contractParam = getParameter(contractId, paramId);
         return contractParam != null ? contractParam.getValue() : "";
     }
 
-    public ContractParameter getParameter(int contractId, int paramId) throws BGException {
+    public ContractParameter getParameter(int contractId, int paramId) {
         for (ContractParameter param : getParameterListWithDir(contractId, false, false).getSecond()) {
             if (param.getParamId() == paramId) {
                 return param;
@@ -187,7 +187,7 @@ public class ContractParamDAO extends BillingDAO {
         return null;
     }
 
-    public List<IdTitle> getParamListValues(int paramId) throws BGException {
+    public List<IdTitle> getParamListValues(int paramId) {
 
         if (dbInfo.versionCompare("9.2") >= 0) {
 
@@ -218,7 +218,7 @@ public class ContractParamDAO extends BillingDAO {
         }
     }
 
-    public List<ParameterPhoneValueItem> getPhoneParam(int contractId, int paramId) throws BGException {
+    public List<ParameterPhoneValueItem> getPhoneParam(int contractId, int paramId) {
         List<ParameterPhoneValueItem> result = new ArrayList<>();
 
         Request billingRequest = new Request();
@@ -264,7 +264,7 @@ public class ContractParamDAO extends BillingDAO {
         return result;
     }
 
-    private List<IdStringTitleTreeItem> getEmailSubscrTree(Element treeElm) throws BGException {
+    private List<IdStringTitleTreeItem> getEmailSubscrTree(Element treeElm) {
         // Рекурсивный сбор элементов дерева
         List<IdStringTitleTreeItem> treeValues = new ArrayList<IdStringTitleTreeItem>();
 
@@ -283,7 +283,7 @@ public class ContractParamDAO extends BillingDAO {
     }
 
 
-    public ParamEmailValue getEmailParam(int contractId, int paramId) throws BGException {
+    public ParamEmailValue getEmailParam(int contractId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
 
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
@@ -351,7 +351,7 @@ public class ContractParamDAO extends BillingDAO {
         }
     }
 
-    public ParamAddressValue getAddressParam(int contractId, int paramId) throws BGException {
+    public ParamAddressValue getAddressParam(int contractId, int paramId) {
         ParamAddressValue result = null;
 
         Request req = new Request();
@@ -385,7 +385,7 @@ public class ContractParamDAO extends BillingDAO {
         return result;
     }
 
-    public ParamList getListParamValue(int contractId, int paramId) throws BGException {
+    public ParamList getListParamValue(int contractId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
                     "ContractService",
@@ -431,7 +431,7 @@ public class ContractParamDAO extends BillingDAO {
         }
     }
 
-    public void updateFlagParameter(int contractId, int paramId, boolean value) throws BGException {
+    public void updateFlagParameter(int contractId, int paramId, boolean value) {
         Request req = new Request();
 
         req.setModule(CONTRACT_MODULE_ID);
@@ -443,7 +443,7 @@ public class ContractParamDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    public void updateTextParameter(int contractId, int paramId, String value) throws BGException {
+    public void updateTextParameter(int contractId, int paramId, String value) {
         Request req = new Request();
 
         req.setModule(CONTRACT_MODULE_ID);
@@ -455,7 +455,7 @@ public class ContractParamDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    public void updateListParameter(int contractId, int paramId, int value) throws BGException {
+    public void updateListParameter(int contractId, int paramId, int value) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             EntityAttrList attrEmail = new EntityAttrList( contractId, paramId,value,null );
 
@@ -479,11 +479,11 @@ public class ContractParamDAO extends BillingDAO {
         }
     }
 
-    public void updateListParameter(int contractId, int paramId, String value) throws BGException {
+    public void updateListParameter(int contractId, int paramId, String value) {
         updateListParameter(contractId, paramId, Utils.parseInt(value));
     }
 
-    public void updateAddressParameter(int contractId, int paramId, ParamAddressValue address) throws BGException {
+    public void updateAddressParameter(int contractId, int paramId, ParamAddressValue address) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             EntityAttrAddress attrAddress = new EntityAttrAddress(0, paramId);
             attrAddress.setHouseId(address.getHouseId());
@@ -521,7 +521,7 @@ public class ContractParamDAO extends BillingDAO {
         }
     }
 
-    public void updateDateParameter(int contractId, int paramId, Date value) throws BGException {
+    public void updateDateParameter(int contractId, int paramId, Date value) {
         Request req = new Request();
 
         req.setModule(CONTRACT_MODULE_ID);
@@ -533,7 +533,7 @@ public class ContractParamDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    public void updateDateParameter(int contractId, int paramId, String value) throws BGException {
+    public void updateDateParameter(int contractId, int paramId, String value) {
         Request req = new Request();
 
         req.setModule(CONTRACT_MODULE_ID);
@@ -545,7 +545,7 @@ public class ContractParamDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    public void updatePhoneParameter(int contractId, int paramId, ParameterPhoneValue phoneValue) throws BGException {
+    public void updatePhoneParameter(int contractId, int paramId, ParameterPhoneValue phoneValue) {
         Request req = new Request();
 
         req.setModule(CONTRACT_MODULE_ID);
@@ -573,7 +573,7 @@ public class ContractParamDAO extends BillingDAO {
     }
 
     public void updateEmailParameter(int contractId, int paramId, Collection<ParameterEmailValue> emailValues)
-            throws BGException {
+            {
 
         if (dbInfo.versionCompare("9.2") >= 0) {
 
@@ -614,7 +614,7 @@ public class ContractParamDAO extends BillingDAO {
         }
     }
 
-    public void updateParameterGroup(int contractId, int groupId) throws BGException {
+    public void updateParameterGroup(int contractId, int groupId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
                     "ContractService",

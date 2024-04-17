@@ -34,7 +34,7 @@ public class MessageTypeCallRegister implements EventListener<Event> {
     public MessageTypeCallRegister() {}
 
     @Override
-    public void notify(Event e, ConnectionSet connectionSet) throws BGException {
+    public void notify(Event e, ConnectionSet connectionSet) {
         RunClassRequestEvent event = (RunClassRequestEvent) e;
 
         DynActionForm form = event.getForm();

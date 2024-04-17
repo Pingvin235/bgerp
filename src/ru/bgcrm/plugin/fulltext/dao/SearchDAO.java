@@ -128,7 +128,7 @@ public class SearchDAO extends CommonDAO {
      * @param objectType
      * @param objectId
      */
-    public void delete(String objectType, int objectId) throws BGException {
+    public void delete(String objectType, int objectId) {
         log.debug("Deleted record, objectType: {}; objectId: {}", objectType, objectId);
         try {
             String query = SQL_DELETE_FROM + TABLE + SQL_WHERE + "object_type=? AND object_id=?";
@@ -146,7 +146,7 @@ public class SearchDAO extends CommonDAO {
      * Удаляет запись об объекте.
      * @param item
      */
-    public void delete(SearchItem item) throws BGException {
+    public void delete(SearchItem item) {
         delete(item.getObjectType(), item.getObjectId());
     }
 
@@ -155,7 +155,7 @@ public class SearchDAO extends CommonDAO {
      * @param secondsOld последнее изменение объекта более чем секунд назад.
      * @param maxCount максимальное количество.
      */
-    public List<SearchItem> getScheduledUpdates(int secondsOld, int maxCount) throws BGException {
+    public List<SearchItem> getScheduledUpdates(int secondsOld, int maxCount) {
         List<SearchItem> result = new ArrayList<>();
         try {
             String query =
@@ -185,7 +185,7 @@ public class SearchDAO extends CommonDAO {
      * Обновляет искомый текст записи.
      * @param item
      */
-    public void update(SearchItem item) throws BGException {
+    public void update(SearchItem item) {
         try {
             String query = SQL_UPDATE + TABLE + SQL_SET + "data=?, scheduled_dt=NULL" + SQL_WHERE + "object_type=? AND object_id=?";
             PreparedStatement ps = con.prepareStatement(query);

@@ -3,8 +3,6 @@ package ru.bgcrm.model.process.wizard;
 import java.sql.Connection;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
-
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
@@ -19,7 +17,7 @@ public class LinkCustomerStepData extends StepData<LinkCustomerStep> {
     }
 
     @Override
-    public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+    public boolean isFilled(DynActionForm form, Connection con) {
         //TODO: Предусмотреть одну выборку с джойном.
         List<CommonObjectLink> linkList = new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(),
                 Customer.OBJECT_TYPE);

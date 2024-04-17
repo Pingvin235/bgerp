@@ -2,7 +2,6 @@ package ru.bgcrm.plugin.bgbilling.dao;
 
 import java.sql.Connection;
 
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -17,7 +16,7 @@ public class ContractCustomerDAO extends CommonDAO {
         super(con);
     }
 
-    public Customer getContractCustomer(Contract contract) throws BGException {
+    public Customer getContractCustomer(Contract contract) {
         CommonObjectLink link = new CommonObjectLink();
         link.setLinkObjectType(Contract.OBJECT_TYPE + ":" + contract.getBillingId());
         link.setLinkObjectId(contract.getId());

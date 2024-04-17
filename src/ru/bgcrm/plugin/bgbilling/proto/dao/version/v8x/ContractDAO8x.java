@@ -1,13 +1,21 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
@@ -23,24 +31,20 @@ import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
-
 
 public class ContractDAO8x extends ContractDAO {
     public static final String CONTRACT_NOTE_SERVICE = "ContractNoteService";
 
-    public ContractDAO8x(User user, String billingId) throws BGException {
+    public ContractDAO8x(User user, String billingId) {
         super(user, billingId);
     }
 
-    public ContractDAO8x(User user, DBInfo dbInfo) throws BGException {
+    public ContractDAO8x(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
     @Override
-    public ContractInfo getContractInfo(int contractId) throws BGException {
+    public ContractInfo getContractInfo(int contractId) {
         ContractInfo result = null;
 
         RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API,
@@ -114,7 +118,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public void bgbillingUpdateContractTitleAndComment(int contractId, String comment, int patid) throws BGException {
+    public void bgbillingUpdateContractTitleAndComment(int contractId, String comment, int patid) {
         RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                 "ContractService", "contractTitleAndCommentUpdate");
         req.setParamContractId(contractId);
@@ -125,7 +129,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public void deleteLimitTask(int contractId, int id) throws BGException {
+    public void deleteLimitTask(int contractId, int id) {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.limit", "ContractLimitService",
                 "cancelLimitChangeTask");
 
@@ -135,7 +139,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public List<ContractMemo> getMemoList(int contractId) throws BGException {
+    public List<ContractMemo> getMemoList(int contractId) {
         RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
                 "contractNoteList");
         req.setParamContractId(contractId);
@@ -155,7 +159,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public ContractMemo getMemo(int contractId, int memoId) throws BGException {
+    public ContractMemo getMemo(int contractId, int memoId) {
         ContractMemo8x contractMemo = getContractMemo8x(memoId);
         DirectoryDAO directoryDAO = new DirectoryDAO(user, dbInfo);
         Map<Integer, UserInfo> users = directoryDAO.getUsersInfo();
@@ -167,7 +171,7 @@ public class ContractDAO8x extends ContractDAO {
         return item;
     }
 
-    private ContractMemo8x getContractMemo8x(int memoId) throws BGException {
+    private ContractMemo8x getContractMemo8x(int memoId) {
         RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
                 "getContractNote");
         req.setParam("contractNoteId", memoId);
@@ -176,12 +180,12 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText) throws BGException {
+    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText) {
         updateMemo(contractId, memoId, memoTitle, memoText, false);
     }
 
     @Override
-    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText, boolean visible) throws BGException {
+    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText, boolean visible) {
         RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
                 "contractNoteUpdate");
         req.setParamContractId(contractId);
@@ -200,7 +204,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public void deleteMemo(int contractId, int memoId) throws BGException {
+    public void deleteMemo(int contractId, int memoId) {
         //contractId почемуто потерялся!
         ContractMemo8x memo = getContractMemo8x(memoId);
         if (memo != null) {
@@ -287,7 +291,7 @@ public class ContractDAO8x extends ContractDAO {
         }
     }
     @Override
-    public List<IdTitle> getParameterList(int parameterTypeId) throws BGException {
+    public List<IdTitle> getParameterList(int parameterTypeId) {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.param", "ContractParameterServiceOld",
                 "getContractParameterPrefList");
         req.setParam("paramType", parameterTypeId);
@@ -297,7 +301,7 @@ public class ContractDAO8x extends ContractDAO {
 
     @Override
     public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions)
-            throws BGException {
+            {
         if (searchResult != null) {
             RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                     "ContractService", "contractList");
@@ -324,7 +328,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     @Override
-    public List<String[]> getContractCardTypes(int contractId) throws BGException {
+    public List<String[]> getContractCardTypes(int contractId) {
         List<String[]> result = new ArrayList<>();
 
         RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractCardList");

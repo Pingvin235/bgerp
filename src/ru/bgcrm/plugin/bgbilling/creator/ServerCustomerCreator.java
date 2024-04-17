@@ -90,7 +90,7 @@ public class ServerCustomerCreator {
         private List<Integer> billingListValues = Collections.emptyList();
     }
 
-    public ServerCustomerCreator(Config config, ConfigMap params) throws BGException {
+    public ServerCustomerCreator(Config config, ConfigMap params) {
         this.config = config;
 
         billingId = params.get("billingId");

@@ -60,7 +60,7 @@ public class MessageCallAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward numberFree(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward numberFree(DynActionForm form, ConnectionSet conSet) {
         getCallMessageType(form).numberFree(form.getUserId());
 
         return json(conSet, form);
@@ -90,7 +90,7 @@ public class MessageCallAction extends BaseAction {
         return json(con, form);
     }
 
-    private MessageTypeCall getCallMessageType(DynActionForm form) throws BGException {
+    private MessageTypeCall getCallMessageType(DynActionForm form) {
         MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
         int typeId = form.getParamInt("typeId");

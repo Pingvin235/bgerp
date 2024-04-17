@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.bgerp.app.exception.BGException;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.user.User;
@@ -17,11 +15,11 @@ import ru.bgcrm.util.inet.IPUtils;
 public class ResourceDAO extends BillingModuleDAO {
     private static final String RESOURCE_MODULE_ID = "ru.bitel.oss.systems.inventory.resource";
 
-    public ResourceDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+    public ResourceDAO(User user, DBInfo dbInfo, int moduleId) {
         super(user, dbInfo, moduleId);
     }
 
-    public ResourceDAO(User user, String billingId, int moduleId) throws BGException {
+    public ResourceDAO(User user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
     }
 
@@ -32,7 +30,7 @@ public class ResourceDAO extends BillingModuleDAO {
      * @param max
      * @return
      */
-    public List<IpResourceRange> getFreeIpResourceRangeList(Set<Integer> categoryIds, int range, int max) throws BGException {
+    public List<IpResourceRange> getFreeIpResourceRangeList(Set<Integer> categoryIds, int range, int max) {
         RequestJsonRpc req = new RequestJsonRpc(RESOURCE_MODULE_ID, moduleId, "ResourceService",
                 "freeIpResourceRangeList");
         Date now = new Date();
@@ -55,7 +53,7 @@ public class ResourceDAO extends BillingModuleDAO {
         return result;
     }
 
-    public Integer getFreeVlan(Set<Integer> vlanResourceCategoryIds, Date dateFrom, Date dateTo) throws BGException {
+    public Integer getFreeVlan(Set<Integer> vlanResourceCategoryIds, Date dateFrom, Date dateTo) {
         RequestJsonRpc req = new RequestJsonRpc(RESOURCE_MODULE_ID, moduleId, "ResourceService",
                 "freeVlan");
         Date now = new Date();

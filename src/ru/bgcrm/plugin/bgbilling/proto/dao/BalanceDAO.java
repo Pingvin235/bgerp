@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import org.bgerp.app.exception.BGException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.Period;
 import ru.bgcrm.model.user.User;
@@ -30,12 +29,12 @@ public class BalanceDAO extends BillingDAO {
     private static final String CONTRACT_MODULE_ID = "contract";
     public static final String BGBILLING_KERNEL_CONTRACT_BALANCE_9 = "ru.bitel.bgbilling.kernel.contract.balance";
 
-    public BalanceDAO(User user, String billingId) throws BGException {
+    public BalanceDAO(User user, String billingId) {
         super(user, billingId);
     }
 
     public BigDecimal getContractPaymentList(int contractId, Date dateFrom, Date dateTo, List<ContractPayment> paymentList,
-            List<ContractPayment> subPaymentList) throws BGException {
+            List<ContractPayment> subPaymentList) {
 
         if (dbInfo.versionCompare("9.2") >= 0) {
             BigDecimal summa = BigDecimal.ZERO;
@@ -106,7 +105,7 @@ public class BalanceDAO extends BillingDAO {
     }
 
     public BigDecimal getContractChargeList(int contractId, Date dateFrom, Date dateTo, List<ContractCharge> chargeList,
-            List<ContractCharge> subChargeList) throws BGException {
+            List<ContractCharge> subChargeList) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             BigDecimal summa = BigDecimal.ZERO;
             if (chargeList != null) {
@@ -176,7 +175,7 @@ public class BalanceDAO extends BillingDAO {
     }
 
     public BigDecimal getContractAccountList(int contractId, Date dateFrom, Date dateTo, List<ContractAccount> accountList,
-            List<ContractAccount> subAccountList) throws BGException {
+            List<ContractAccount> subAccountList) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("ContractAccounts");
@@ -215,7 +214,7 @@ public class BalanceDAO extends BillingDAO {
         return Utils.parseBigDecimal(XMLUtils.selectText(doc, "/data/table/@summa"));
     }
 
-    public BigDecimal[] getContractBalanceList(int contractId, Date dateFrom, Date dateTo, List<ContractBalanceGeneral> list) throws BGException {
+    public BigDecimal[] getContractBalanceList(int contractId, Date dateFrom, Date dateTo, List<ContractBalanceGeneral> list) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("ContractBalanceGeneral");
@@ -246,7 +245,7 @@ public class BalanceDAO extends BillingDAO {
         return summs;
     }
 
-    public BigDecimal getContractBalanceDetailList(int contractId, Date dateFrom, Date dateTo, List<ContractBalanceDetail> list) throws BGException {
+    public BigDecimal getContractBalanceDetailList(int contractId, Date dateFrom, Date dateTo, List<ContractBalanceDetail> list) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("ContractBalanceDetail");
@@ -271,11 +270,11 @@ public class BalanceDAO extends BillingDAO {
         return Utils.parseBigDecimal(XMLUtils.selectText(doc, "/data/table/@summa"));
     }
 
-    public int addContractPayment(int contractId, BigDecimal summa, Date date, int typeId, String comment) throws BGException {
+    public int addContractPayment(int contractId, BigDecimal summa, Date date, int typeId, String comment) {
         return updateContractPayment(0, contractId, summa, date, typeId, comment);
     }
 
-    public int updateContractPayment(int id, int contractId, BigDecimal summa, Date date, int typeId, String comment) throws BGException {
+    public int updateContractPayment(int id, int contractId, BigDecimal summa, Date date, int typeId, String comment) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("UpdateContractPayment");
@@ -295,11 +294,11 @@ public class BalanceDAO extends BillingDAO {
         return Utils.parseInt(XMLUtils.getElement(doc, "data").getAttribute("id"));
     }
 
-    public int addContractCharge(int contractId, BigDecimal summa, Date date, int typeId, String comment) throws BGException {
+    public int addContractCharge(int contractId, BigDecimal summa, Date date, int typeId, String comment) {
         return updateContractCharge(0, contractId, summa, date, typeId, comment);
     }
 
-    public int updateContractCharge(int id, int contractId, BigDecimal summa, Date date, int typeId, String comment) throws BGException {
+    public int updateContractCharge(int id, int contractId, BigDecimal summa, Date date, int typeId, String comment) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("UpdateContractCharge");
@@ -319,7 +318,7 @@ public class BalanceDAO extends BillingDAO {
         return Utils.parseInt(XMLUtils.getElement(doc, "data").getAttribute("id"));
     }
 
-    public ContractPayment getContractPayment(int paymentId) throws BGException {
+    public ContractPayment getContractPayment(int paymentId) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("ContractPayment");
@@ -345,7 +344,7 @@ public class BalanceDAO extends BillingDAO {
         return null;
     }
 
-    public ContractCharge getContractCharge(int chargeId) throws BGException {
+    public ContractCharge getContractCharge(int chargeId) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("ContractCharge");
@@ -372,7 +371,7 @@ public class BalanceDAO extends BillingDAO {
         return null;
     }
 
-    public void deleteContractCharge(int chargeId, int contractId) throws BGException {
+    public void deleteContractCharge(int chargeId, int contractId) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("DeleteContractCharge");
@@ -382,7 +381,7 @@ public class BalanceDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public void deleteContractPayment(int paymentId, int contractId) throws BGException {
+    public void deleteContractPayment(int paymentId, int contractId) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("DeleteContractPayment");
@@ -393,19 +392,19 @@ public class BalanceDAO extends BillingDAO {
     }
 
     @Deprecated
-    public List<ContractPayment> getContractPaymentList(int contractId, Date dateFrom, Date dateTo) throws BGException {
+    public List<ContractPayment> getContractPaymentList(int contractId, Date dateFrom, Date dateTo) {
         List<ContractPayment> result = new ArrayList<ContractPayment>();
         getContractPaymentList(contractId, dateFrom, dateTo, result, null);
         return result;
     }
 
     @Deprecated
-    public BigDecimal getContractBalanceSum(int contractId, Date dateFrom, Date dateTo) throws BGException {
+    public BigDecimal getContractBalanceSum(int contractId, Date dateFrom, Date dateTo) {
         return ContractDAO.getInstance(user, dbInfo).getContractInfo(contractId).getBalanceOut();
     }
 
     @Deprecated
-    public BigDecimal getContractAccountSum(int contractId, Date dateFrom, Date dateTo) throws BGException {
+    public BigDecimal getContractAccountSum(int contractId, Date dateFrom, Date dateTo) {
         return getContractAccountList(contractId, dateFrom, dateTo, null, null);
     }
 }

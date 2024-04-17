@@ -53,7 +53,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     // правила определения группы параметров контрагента из номера договора
     private final List<ParameterGroupTitlePatternRule> paramGroupRuleList = new ArrayList<>();
 
-    public Config(ConfigMap setup) throws BGException {
+    public Config(ConfigMap setup) {
         super(setup);
 
         final String prefix = "bgbilling:creator.";
@@ -113,7 +113,7 @@ public class Config extends org.bgerp.app.cfg.Config {
         return null;
     }
 
-    private List<Parameter> loadFields(ConfigMap setup, String prefix, Set<String> allowedTypes) throws BGException {
+    private List<Parameter> loadFields(ConfigMap setup, String prefix, Set<String> allowedTypes) {
         List<Parameter> parameters = new ArrayList<Parameter>();
 
         for (int paramId : Utils.toIntegerList(setup.get(prefix))) {

@@ -6,7 +6,6 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -28,7 +27,7 @@ public class BGBillingMessageTypeSearchCall extends MessageTypeSearchBilling {
     private final List<String> commands;
     private final String phonePreprocessJexl;
 
-    public BGBillingMessageTypeSearchCall(ConfigMap config) throws BGException {
+    public BGBillingMessageTypeSearchCall(ConfigMap config) {
         super(config);
 
         // contractByTextParam:<paramId>;contractByComment
@@ -38,7 +37,7 @@ public class BGBillingMessageTypeSearchCall extends MessageTypeSearchBilling {
 
     @Override
     public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
-            throws BGException {
+            {
         String numberFrom = ru.bgcrm.dao.message.MessageTypeSearchCall.preprocessNumber(message, phonePreprocessJexl);
 
         log.debug("Search by numberFrom: {}", numberFrom);

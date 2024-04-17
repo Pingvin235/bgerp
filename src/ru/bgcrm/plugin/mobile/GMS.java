@@ -8,7 +8,6 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Log;
 
 public class GMS extends org.bgerp.app.cfg.Config {
@@ -48,6 +47,6 @@ public class GMS extends org.bgerp.app.cfg.Config {
         }
     }
 
-    public void sendUpdateStateCommand(String key) throws BGException {}
+    public void sendUpdateStateCommand(String key) {}
 
 }

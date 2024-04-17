@@ -23,11 +23,11 @@ public class CustomerGroupDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchGroup(Pageable<CustomerGroup> searchResult) throws BGException {
+    public void searchGroup(Pageable<CustomerGroup> searchResult) {
         searchResult.getList().addAll(getGroupList());
     }
 
-    public List<CustomerGroup> getGroupList() throws BGException {
+    public List<CustomerGroup> getGroupList() {
         List<CustomerGroup> result = new ArrayList<CustomerGroup>();
 
         try {
@@ -46,7 +46,7 @@ public class CustomerGroupDAO extends CommonDAO {
         return result;
     }
 
-    public CustomerGroup getGroupById(int id) throws BGException {
+    public CustomerGroup getGroupById(int id) {
         CustomerGroup result = null;
 
         try {
@@ -66,7 +66,7 @@ public class CustomerGroupDAO extends CommonDAO {
         return result;
     }
 
-    public void updateGroup(CustomerGroup group) throws BGException {
+    public void updateGroup(CustomerGroup group) {
         try {
             PreparedStatement ps = null;
 

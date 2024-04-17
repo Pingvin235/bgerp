@@ -49,7 +49,7 @@ public class ShiftDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchShift(Pageable<Shift> searchResult, int category) throws BGException {
+    public void searchShift(Pageable<Shift> searchResult, int category) {
         if (searchResult != null) {
             try {
                 Page page = searchResult.getPage();
@@ -82,7 +82,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public List<Shift> getShiftList(int category) throws BGException {
+    public List<Shift> getShiftList(int category) {
         List<Shift> list = new ArrayList<Shift>();
 
         try {
@@ -112,7 +112,7 @@ public class ShiftDAO extends CommonDAO {
         return list;
     }
 
-    public List<Shift> getShiftList(Set<Integer> shiftIds) throws BGException {
+    public List<Shift> getShiftList(Set<Integer> shiftIds) {
         List<Shift> list = new ArrayList<Shift>();
 
         try {
@@ -142,7 +142,7 @@ public class ShiftDAO extends CommonDAO {
         return list;
     }
 
-    public Map<Integer, Shift> getAllShiftMap() throws BGException {
+    public Map<Integer, Shift> getAllShiftMap() {
         Map<Integer, Shift> result = new HashMap<Integer, Shift>();
 
         try {
@@ -171,7 +171,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public static Shift getShiftFromRs(ResultSet rs) throws BGException {
+    public static Shift getShiftFromRs(ResultSet rs) {
         Shift result = new Shift();
 
         try {
@@ -190,7 +190,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public Shift getShift(int id, int category) throws BGException {
+    public Shift getShift(int id, int category) {
         Shift result = null;
 
         try {
@@ -213,11 +213,11 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public Shift getShift(int id) throws BGException {
+    public Shift getShift(int id) {
         return getShift(id, 0);
     }
 
-    public void deleteShift(int id) throws BGException {
+    public void deleteShift(int id) {
         try {
             PreparedStatement ps = null;
 
@@ -237,7 +237,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public void updateShift(Shift shift) throws BGException {
+    public void updateShift(Shift shift) {
         int index = 1;
         PreparedStatement ps = null;
 
@@ -276,7 +276,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public WorkShift getWorkShift(int graphId, int groupId, int userId, Date date) throws BGException {
+    public WorkShift getWorkShift(int graphId, int groupId, int userId, Date date) {
         WorkShift resultWorkShift = new WorkShift();
 
         try {
@@ -350,7 +350,7 @@ public class ShiftDAO extends CommonDAO {
      * Возвращает мап Группа - List из Рабочих смен
      */
     public Map<Integer, List<WorkShift>> getWorkShift(Callboard callboard, Date fromDate, Date toDate,
-            Map<Integer, List<Integer>> groupWithUsersSet) throws BGException {
+            Map<Integer, List<Integer>> groupWithUsersSet) {
         Map<Integer, List<WorkShift>> resultMap = new LinkedHashMap<Integer, List<WorkShift>>();
 
         try {
@@ -499,7 +499,7 @@ public class ShiftDAO extends CommonDAO {
 
     // первый ключ - пользователь, далее - и данные по смене
     public Map<Integer, Map<Date, WorkShift>> getUserShifts(int graphId, Date fromDate, Date toDate)
-            throws BGException {
+            {
         Map<Integer, Map<Date, WorkShift>> result = new HashMap<Integer, Map<Date, WorkShift>>();
 
         try {
@@ -542,7 +542,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public Set<WorkShift> getWorkShiftSetFor(Date date, int userId) throws BGException {
+    public Set<WorkShift> getWorkShiftSetFor(Date date, int userId) {
         Set<WorkShift> result = new HashSet<WorkShift>();
 
         try {
@@ -567,7 +567,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public Map<Date, Set<WorkShift>> getMonthWorkShift(Date date, int groupId) throws BGException {
+    public Map<Date, Set<WorkShift>> getMonthWorkShift(Date date, int groupId) {
         Map<Date, Set<WorkShift>> resultMap = new LinkedHashMap<Date, Set<WorkShift>>();
 
         Calendar calendar = Calendar.getInstance();
@@ -609,7 +609,7 @@ public class ShiftDAO extends CommonDAO {
         return resultMap;
     }
 
-    private WorkShift getWorkShiftFromRs(ResultSet rs) throws BGException {
+    private WorkShift getWorkShiftFromRs(ResultSet rs) {
         WorkShift result = new WorkShift();
 
         try {
@@ -633,7 +633,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public void updateWorkShift(WorkShift workShift) throws BGException {
+    public void updateWorkShift(WorkShift workShift) {
         PreparedStatement ps = null;
 
         try {
@@ -667,7 +667,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public void deleteWorkShift(int graphId, int groupId, int userId, Date date) throws BGException {
+    public void deleteWorkShift(int graphId, int groupId, int userId, Date date) {
         try {
             PreparedStatement ps = con.prepareStatement(
                     "DELETE FROM " + TABLE_SHIFT_USER + " WHERE graph=? AND `group`=? AND user=? AND date=? ");
@@ -684,7 +684,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public void addCallboardTask(int process_id, int group, int team, int graph, Date date) throws BGException {
+    public void addCallboardTask(int process_id, int group, int team, int graph, Date date) {
         PreparedStatement ps = null;
 
         try {
@@ -705,7 +705,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public void deleteCallboardTask(int process_id, int group, int team, int graph, Date date) throws BGException {
+    public void deleteCallboardTask(int process_id, int group, int team, int graph, Date date) {
         try {
             PreparedStatement ps = con
                     .prepareStatement("DELETE FROM " + org.bgerp.plugin.pln.callboard.dao.Tables.TABLE_CALLBOARD_TASK
@@ -724,7 +724,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public void deleteCallboardTask(int process_id) throws BGException {
+    public void deleteCallboardTask(int process_id) {
         try {
             PreparedStatement ps = con.prepareStatement("DELETE FROM "
                     + org.bgerp.plugin.pln.callboard.dao.Tables.TABLE_CALLBOARD_TASK + " WHERE process_id=? ");
@@ -737,7 +737,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public boolean isTimeOccupied(int group, int team, int graph, Date date) throws BGException {
+    public boolean isTimeOccupied(int group, int team, int graph, Date date) {
         boolean result = false;
 
         try {
@@ -765,7 +765,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public List<CallboardTask> getDateTaskList(Date date) throws BGException {
+    public List<CallboardTask> getDateTaskList(Date date) {
         List<CallboardTask> result = new ArrayList<CallboardTask>();
 
         Calendar calendar = Calendar.getInstance();
@@ -803,7 +803,7 @@ public class ShiftDAO extends CommonDAO {
      * Находит пользователей с рабочими сменами, которые состоят в одной бригаде в
      * один и тот же день, в одной группе вместе с переданной сменой
      */
-    public List<WorkShift> findSameWorkShift(WorkShift workShift) throws BGException {
+    public List<WorkShift> findSameWorkShift(WorkShift workShift) {
         List<WorkShift> resultList = new ArrayList<WorkShift>();
 
         try {
@@ -834,7 +834,7 @@ public class ShiftDAO extends CommonDAO {
         return resultList;
     }
 
-    public void updateShiftOrder(int graphId, int groupId, Map<Integer, Integer> orderMap) throws BGException {
+    public void updateShiftOrder(int graphId, int groupId, Map<Integer, Integer> orderMap) {
         try {
             PreparedStatement ps = con
                     .prepareStatement("DELETE FROM " + TABLE_SHIFT_ORDER + " WHERE graph_id=? AND group_id=? ");
@@ -865,7 +865,7 @@ public class ShiftDAO extends CommonDAO {
         }
     }
 
-    public Map<Integer, Integer> getShiftOrder(int graphId, int groupId) throws BGException {
+    public Map<Integer, Integer> getShiftOrder(int graphId, int groupId) {
         Map<Integer, Integer> result = new HashMap<Integer, Integer>();
 
         try {
@@ -889,7 +889,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    public void setDynamicShiftTime(int workShiftId, int timeBegin, int timeEnd) throws BGException {
+    public void setDynamicShiftTime(int workShiftId, int timeBegin, int timeEnd) {
         try {
             PreparedStatement ps = con.prepareStatement("UPDATE " + TABLE_SHIFT_USER
                     + " SET is_dynamic=0, time_from=?, time_to=? WHERE id=? AND is_dynamic=1  ");
@@ -906,7 +906,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public int getSameWorkTypeShiftCount(int workTypeId, int workShiftId, int time_from, int time_to)
-            throws BGException {
+            {
         int result = 0;
 
         try {

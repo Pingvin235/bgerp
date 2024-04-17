@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
@@ -25,7 +24,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ContractTariffAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/contract/tariff";
 
-    public ActionForward tariff(DynActionForm form, ConnectionSet conSet) throws BGException, ParseException {
+    public ActionForward tariff(DynActionForm form, ConnectionSet conSet) throws ParseException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -81,7 +80,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/tariff.jsp");
     }
 
-    public ActionForward contractTariffList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractTariffList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -91,7 +90,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/contract_tariff_list.jsp");
     }
 
-    public ActionForward getContractTariff(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getContractTariff(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -129,7 +128,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward updateContractTariff(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateContractTariff(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         String dateFrom = form.getParam("dateFrom");
         String dateTo = form.getParam("dateTo");
@@ -145,7 +144,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteСontractTariff(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteСontractTariff(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -155,7 +154,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward personalTariffList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward personalTariffList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -165,7 +164,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/personal_tariff_list.jsp");
     }
 
-    public ActionForward getPersonalTariff(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getPersonalTariff(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
 
         if (form.getId() > 0) {
@@ -176,7 +175,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/personal_tariff_editor.jsp");
     }
 
-    public ActionForward updatePersonalTariff(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updatePersonalTariff(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer position = form.getParamInt("position");
@@ -190,7 +189,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deletePersonalTariff(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deletePersonalTariff(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -200,7 +199,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward tariffOptionList(DynActionForm form, ConnectionSet conSet) throws BGException, ParseException {
+    public ActionForward tariffOptionList(DynActionForm form, ConnectionSet conSet) throws ParseException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -212,7 +211,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/tariff_option_list.jsp");
     }
 
-    public ActionForward tariffOptionEditor(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward tariffOptionEditor(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int optionId = form.getParamInt("optionId");
@@ -233,7 +232,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/tariff_option_editor.jsp");
     }
 
-    public ActionForward activateTariffOption(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward activateTariffOption(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -247,7 +246,7 @@ public class ContractTariffAction extends BaseAction {
     }
 
     public ActionForward deleteTariffOption(DynActionForm form, ConnectionSet conSet)
-            throws BGException, ParseException {
+            throws ParseException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer optionId = form.getParamInt("optionId");
@@ -258,7 +257,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward groupTariffList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward groupTariffList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -268,7 +267,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/group_tariff_list.jsp");
     }
 
-    public ActionForward getContractTariffGroup(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getContractTariffGroup(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
 
         if (form.getId() > 0) {
@@ -282,7 +281,7 @@ public class ContractTariffAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/group_tariff_editor.jsp");
     }
 
-    public ActionForward updateContractTariffGroup(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateContractTariffGroup(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         String dateFrom = form.getParam("dateFrom");
         String dateTo = form.getParam("dateTo");
@@ -297,7 +296,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteContractTariffGroup(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteContractTariffGroup(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);

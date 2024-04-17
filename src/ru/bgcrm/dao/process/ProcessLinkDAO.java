@@ -89,7 +89,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     public void linkToAnotherObject(int objectFromId, String typeObjectFrom, int objectToId, String typeObjectTo,
-            String typePrefix, String excludeType) throws BGException {
+            String typePrefix, String excludeType) {
         try {
             StringBuilder query = new StringBuilder(200);
 

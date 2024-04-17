@@ -12,7 +12,7 @@ public class FilterStatusUser extends Filter {
     private String statusTitle;
     private int statusId;
 
-    public FilterStatusUser(int id, ConfigMap filter, String type) throws BGException {
+    public FilterStatusUser(int id, ConfigMap filter, String type) {
         super(id, filter);
 
         int statusId = Utils.parseInt(StringUtils.substringAfter(type, ":"));

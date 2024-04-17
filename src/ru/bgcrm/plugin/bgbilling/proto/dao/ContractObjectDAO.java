@@ -33,17 +33,17 @@ public class ContractObjectDAO
     private static final String CONTRACT_OBJECT_MODULE_ID = "contract.object";
 
     public ContractObjectDAO(User user, String billingId)
-            throws BGException {
+            {
         super(user, billingId);
     }
 
     public ContractObjectDAO(User user, DBInfo dbInfo)
-            throws BGException {
+            {
         super(user, dbInfo);
     }
 
     public ContractObject getContractObject(int objectId)
-            throws BGException {
+            {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
                     "ContractObjectService",
@@ -92,7 +92,7 @@ public class ContractObjectDAO
     }
 
     public ContractObjectModuleInfo contractObjectModuleList(int objectId)
-            throws BGException {
+            {
         Request request = new Request();
         request.setModule(CONTRACT_OBJECT_MODULE_ID);
         request.setAction("ObjectModuleTable");
@@ -135,7 +135,7 @@ public class ContractObjectDAO
     }
 
     public void deleteContractObject(int contractId, int objectId)
-            throws BGException {
+            {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
                     "ContractObjectService", "contractObjectDelete");
@@ -153,7 +153,7 @@ public class ContractObjectDAO
     }
 
     public void updateContractObject(ContractObject object)
-            throws BGException {
+            {
         updateContractObject(object.getId(),
                 object.getTitle(),
                 object.getDateFrom(),
@@ -163,7 +163,7 @@ public class ContractObjectDAO
     }
 
     public void createContractObject(ContractObject object, int contractId)
-            throws BGException {
+            {
         object.setId(updateContractObject(object.getId(),
                 object.getTitle(),
                 object.getDateFrom(),
@@ -173,7 +173,7 @@ public class ContractObjectDAO
     }
 
     public int updateContractObject(int objectId, String title, Date dateFrom, Date dateTo, int typeId, int contractId)
-            throws BGException {
+            {
         if (dbInfo.versionCompare("9.2") >= 0) {
             ContractObject contractObject = new ContractObject();
             contractObject.setContractId(contractId);
@@ -215,7 +215,7 @@ public class ContractObjectDAO
     }
 
     public List<ContractObject> getContractObjects(int contractId)
-            throws BGException {
+            {
         List<ContractObject> objects = new ArrayList<ContractObject>();
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService",
@@ -250,7 +250,7 @@ public class ContractObjectDAO
     }
 
     public Map<Integer, String> getContractObjectsType()
-            throws BGException {
+            {
         List<ContractObject> objects = new ArrayList<ContractObject>();
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ObjectTypeService",

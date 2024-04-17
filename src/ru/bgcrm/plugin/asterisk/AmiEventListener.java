@@ -30,7 +30,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
     private ManagerConnection managerConnection;
     private volatile boolean run = true;
 
-    public AmiEventListener(MessageTypeCall messageType, ConfigMap config) throws BGException {
+    public AmiEventListener(MessageTypeCall messageType, ConfigMap config) {
         this.messageType = messageType;
         this.config = config;
 

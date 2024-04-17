@@ -14,7 +14,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public abstract class MessageTypeSearch implements GetJsp {
     private final String title;
 
-    public MessageTypeSearch(ConfigMap config) throws BGException {
+    public MessageTypeSearch(ConfigMap config) {
         this.title = config.get("title", "Безымянный тип");
     }
 

@@ -21,7 +21,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         super(con);
     }
 
-    public static CommonLinkDAO getLinkDAO(String objectType, Connection con) throws BGException {
+    public static CommonLinkDAO getLinkDAO(String objectType, Connection con) {
         if (Process.OBJECT_TYPE.equals(objectType)) {
             return new ProcessLinkDAO(con);
         } else if (Customer.OBJECT_TYPE.equals(objectType)) {
@@ -36,7 +36,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * @param typeLike MySQL Like выражение для фильтрации, необязательно.
      * @return
      */
-    public List<CommonObjectLink> getObjectLinksWithType(int objectId, String typeLike) throws BGException {
+    public List<CommonObjectLink> getObjectLinksWithType(int objectId, String typeLike) {
         return getObjectLinks(objectId, getTable(), getColumnName(), typeLike);
     }
 
@@ -45,7 +45,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         return link;
     }
 
-    public void updateLinkTitles(int linkedObjectId, String linkedObjectTypeLike, String title) throws BGException {
+    public void updateLinkTitles(int linkedObjectId, String linkedObjectTypeLike, String title) {
         try {
             String query = "UPDATE " + getTable() + " SET object_title=? " + "WHERE object_id=? AND object_type LIKE ?";
 
@@ -64,7 +64,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * Привязка объекта.
      * @param link
      */
-    public void addLink(CommonObjectLink link) throws BGException {
+    public void addLink(CommonObjectLink link) {
         addLink(getTable(), getColumnName(), link);
     }
 
@@ -72,7 +72,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * Привязка объекта если он не привязан к данному объекту.
      * @param link
      */
-    public void addLinkIfNotExist(CommonObjectLink link) throws BGException {
+    public void addLinkIfNotExist(CommonObjectLink link) {
         if (!isLinkExists(link)) {
             addLink(link);
         }
@@ -83,7 +83,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * @param link
      * @return
      */
-    public boolean isLinkExists(CommonObjectLink link) throws BGException {
+    public boolean isLinkExists(CommonObjectLink link) {
         boolean result = false;
 
         try {
@@ -107,7 +107,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * Удаляет ссылку объекта на один другой объект.
      * @param link
      */
-    public void deleteLink(CommonObjectLink link) throws BGException {
+    public void deleteLink(CommonObjectLink link) {
         deleteLink(getTable(), getColumnName(), link);
     }
 
@@ -116,7 +116,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * @param objectId
      * @throws SQLException
      */
-    public void deleteObjectLinks(int objectId) throws BGException {
+    public void deleteObjectLinks(int objectId) {
         try {
             String query = "DELETE FROM " + getTable() + " WHERE " + getColumnName() + "=?";
             PreparedStatement ps = con.prepareStatement(query);
@@ -132,7 +132,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * Удаляет все ссылки объектов данного типа на какой-то другой объект.
      * @param link
      */
-    public void deleteLinksTo(CommonObjectLink link) throws BGException {
+    public void deleteLinksTo(CommonObjectLink link) {
         deleteLinksTo(getTable(), link);
     }
 
@@ -140,11 +140,11 @@ public abstract class CommonLinkDAO extends CommonDAO {
      * Удаляет все ссылки объектов данного типа на другие типы объектов.
      * @param link
      */
-    public void deleteLinksWithType(CommonObjectLink link) throws BGException {
+    public void deleteLinksWithType(CommonObjectLink link) {
         deleteLinksWithType(getTable(), getColumnName(), link);
     }
 
-    private List<CommonObjectLink> getObjectLinks(int objectId, String tableName, String columnName, String typeLike) throws BGException {
+    private List<CommonObjectLink> getObjectLinks(int objectId, String tableName, String columnName, String typeLike) {
         List<CommonObjectLink> result = new ArrayList<CommonObjectLink>();
 
         try {
@@ -187,7 +187,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         return result;
     }
 
-    private void addLink(String tableName, String columnName, CommonObjectLink link) throws BGException {
+    private void addLink(String tableName, String columnName, CommonObjectLink link) {
         try {
             StringBuilder query = new StringBuilder(200);
 
@@ -211,11 +211,11 @@ public abstract class CommonLinkDAO extends CommonDAO {
         }
     }
 
-    public void copyLinks(int objectFromId, int objectToId, String typePrefix) throws BGException {
+    public void copyLinks(int objectFromId, int objectToId, String typePrefix) {
         copyLinks(objectFromId, objectToId, typePrefix, null);
     }
 
-    public void copyLinks(int objectFromId, int objectToId, String typePrefix, String excludeType) throws BGException {
+    public void copyLinks(int objectFromId, int objectToId, String typePrefix, String excludeType) {
         try {
             StringBuilder query = new StringBuilder(200);
 
@@ -266,7 +266,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         }
     }
 
-    private void deleteLink(String tableName, String columnName, CommonObjectLink link) throws BGException {
+    private void deleteLink(String tableName, String columnName, CommonObjectLink link) {
         try {
             StringBuilder query = new StringBuilder(200);
 
@@ -287,7 +287,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         }
     }
 
-    private void deleteLinksTo(String tableName, CommonObjectLink link) throws BGException {
+    private void deleteLinksTo(String tableName, CommonObjectLink link) {
         try {
             StringBuilder query = new StringBuilder(200);
 
@@ -306,7 +306,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
         }
     }
 
-    private void deleteLinksWithType(String tableName, String columnName, CommonObjectLink link) throws BGException {
+    private void deleteLinksWithType(String tableName, String columnName, CommonObjectLink link) {
         try {
             StringBuilder query = new StringBuilder(200);
 

@@ -255,7 +255,7 @@ public class OldParamSearchDAO extends CommonDAO {
     }
 
     public <T> void searchObjectListByEmail(String tableName, Extractor<T> extractor,
-            Pageable<ParameterSearchedObject<T>> searchResult, List<Integer> emailParamIdList, String email) throws BGException {
+            Pageable<ParameterSearchedObject<T>> searchResult, List<Integer> emailParamIdList, String email) {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<ParameterSearchedObject<T>> list = searchResult.getList();

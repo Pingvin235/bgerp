@@ -34,11 +34,11 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     private static final String TARIFF_OPTION_MODULE_ID = "tariff.option";
     private static final String CONTRACT_TARIFF_MODULE_ID = "contract.tariff";
 
-    public ContractTariffDAO(User user, String billingId) throws BGException {
+    public ContractTariffDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    public ContractTariffDAO(User user, DBInfo dbInfo) throws BGException {
+    public ContractTariffDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
@@ -67,7 +67,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         return list;
     } */
 
-    public void addTariffPlan(int contractId, int tariffId, int position) throws BGException {
+    public void addTariffPlan(int contractId, int tariffId, int position) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             ContractTariff contractTariff = new ContractTariff();
             contractTariff.setContractId(contractId);
@@ -91,7 +91,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         }
     }
 
-    /*public void setTariffPlan(int contractId, int tariffId, int position) throws BGException {
+    /*public void setTariffPlan(int contractId, int tariffId, int position) {
         Request request = new Request();
         request.setModule("contract");
         request.setAction("ContractTariffPlans");
@@ -121,7 +121,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         }
     }*/
 
-    public void setTariffPlan(int contractId, int tariffId) throws BGException {
+    public void setTariffPlan(int contractId, int tariffId) {
         List<ContractTariff> list = contractTariffList(contractId);
 
         ContractTariff contractTariff = null;
@@ -156,7 +156,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @return
      */
-    public List<ContractTariff> contractTariffList(int contractId) throws BGException {
+    public List<ContractTariff> contractTariffList(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractTariffService", "contractTariffList");
             req.setParamContractId(contractId);
@@ -198,7 +198,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         }
     }
 
-    private void setTariffPlanTitles(Iterable<ContractTariff> list) throws BGException {
+    private void setTariffPlanTitles(Iterable<ContractTariff> list) {
         Map<Integer, String> titles = new TreeMap<>();
         for (ContractTariff contractTariff : list) {
             contractTariff.setTitle(titles.computeIfAbsent(contractTariff.getTariffPlanId(), tariffPlanId -> {
@@ -215,7 +215,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         }
     }
 
-    private void contractTariffUpdate(ContractTariff contractTariff) throws BGException {
+    private void contractTariffUpdate(ContractTariff contractTariff) {
         RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractTariffService", "contractTariffUpdate");
         req.setParam("contractTariff", contractTariff);
         transferData.postData(req, user);
@@ -232,7 +232,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @return
      */
     public ContractTariff getContractTariffPlan(int id, int moduleId, int contractId, boolean useFilter,
-            boolean showUsed, boolean contractGroupFilter, List<IdTitle> tariffList) throws BGException {
+            boolean showUsed, boolean contractGroupFilter, List<IdTitle> tariffList) {
         ContractTariff result = null;
 
         Request request = new Request();
@@ -279,7 +279,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
     @Deprecated
     public ContractTariff getContractTariffPlan(int id, int moduleId, int contractId, boolean useFilter,
-            boolean showUsed, List<IdTitle> tariffList) throws BGException {
+            boolean showUsed, List<IdTitle> tariffList) {
         return getContractTariffPlan(id, moduleId, contractId, useFilter, showUsed, false, tariffList);
     }
 
@@ -294,7 +294,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param comment комментарий
      */
     public void updateContractTariffPlan(int contractId, int id, int tpid, int position, String dateFrom, String dateTo, String comment)
-            throws BGException {
+            {
         if (dbInfo.versionCompare("9.2") >= 0) {
             ContractTariff contractTariff = new ContractTariff();
             contractTariff.setContractId(contractId);
@@ -330,7 +330,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId код договора
      * @param id код записи с тарифным планом
      */
-    public void deleteContractTariffPlan(int contractId, int id) throws BGException {
+    public void deleteContractTariffPlan(int contractId, int id) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("DeleteContractTariffPlan");
@@ -341,7 +341,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     @Deprecated
-    public List<ContractTariffGroup> contractActiveTariffGroup(int contractId) throws BGException {
+    public List<ContractTariffGroup> contractActiveTariffGroup(int contractId) {
         return contractTariffGroupList(contractId, true);
     }
 
@@ -351,7 +351,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @return
      */
-    public List<ContractTariffGroup> contractTariffGroupList(int contractId) throws BGException {
+    public List<ContractTariffGroup> contractTariffGroupList(int contractId) {
         return contractTariffGroupList(contractId, false);
     }
 
@@ -361,7 +361,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param active выводить только активные в данный момент группы, с открытой второй датой.
      * @return
      */
-    private List<ContractTariffGroup> contractTariffGroupList(int contractId, boolean active) throws BGException {
+    private List<ContractTariffGroup> contractTariffGroupList(int contractId, boolean active) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             return Collections.emptyList();
         } else {
@@ -403,7 +403,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param id код записи.
      * @return
      */
-    public ContractTariffGroup getContractTariffGroup(int id) throws BGException {
+    public ContractTariffGroup getContractTariffGroup(int id) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("GetContractTariffGroup");
@@ -438,7 +438,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param comment примечение.
      */
     public void updateContractTariffGroup(int id, int contractId, int tariffGroupId, Date dateFrom, Date dateTo,
-            String comment) throws BGException {
+            String comment) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("UpdateContractTariffGroup");
@@ -458,12 +458,12 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
     @Deprecated
     public void updateContractTariffGroup(int contractId, int id, int tariffGroupId, String dateFrom, String dateTo,
-            String comment) throws BGException {
+            String comment) {
         updateContractTariffGroup(id, contractId, tariffGroupId, TimeUtils.parse(dateFrom, TimeUtils.PATTERN_YYYYMMDD),
                 TimeUtils.parse(dateTo, TimeUtils.PATTERN_YYYYMMDD), comment);
     }
 
-    public void deleteContractTariffGroup(int tariffId) throws BGException {
+    public void deleteContractTariffGroup(int tariffId) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("DeleteContractTariffGroup");
@@ -477,7 +477,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @return
      */
-    public List<ContractTariffOption> contractTariffOptionList(int contractId) throws BGException {
+    public List<ContractTariffOption> contractTariffOptionList(int contractId) {
         List<ContractTariffOption> list = new ArrayList<>();
 
         if (dbInfo.versionCompare("6.2") >= 0) {
@@ -515,7 +515,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @return
      */
-    public List<ContractTariffOption> contractTariffOptionHistory(int contractId) throws BGException {
+    public List<ContractTariffOption> contractTariffOptionHistory(int contractId) {
         List<ContractTariffOption> list = new ArrayList<>();
 
         if (dbInfo.versionCompare("6.2") >= 0) {
@@ -575,7 +575,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @return
      */
-    public List<IdTitle> contractAvailableOptionList(int contractId) throws BGException {
+    public List<IdTitle> contractAvailableOptionList(int contractId) {
         List<IdTitle> availableOptionList = new ArrayList<IdTitle>();
 
         if (dbInfo.versionCompare("6.2") >= 0) {
@@ -608,7 +608,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
 
-    public List<IdTitle> activateModeList(int contractId, int optionId) throws BGException {
+    public List<IdTitle> activateModeList(int contractId, int optionId) {
         List<IdTitle> activateModeList = new ArrayList<IdTitle>();
 
         if (dbInfo.versionCompare("6.2") >= 0) {
@@ -639,7 +639,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         return activateModeList;
     }
 
-    public void activateContractOption(int contractId, int optionId, int modeId, boolean web) throws BGException {
+    public void activateContractOption(int contractId, int optionId, int modeId, boolean web) {
         if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(TARIFF_OPTION_SERVICE_MODULE_ID, "TariffOptionService", "contractTariffOptionActivate");
             req.setParamContractId(contractId);
@@ -661,7 +661,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         }
     }
 
-    public void reactivateContractOption(int contractId, int id) throws BGException {
+    public void reactivateContractOption(int contractId, int id) {
         // TODO: Для новых версий.
         Request request = new Request();
         request.setModule(TARIFF_OPTION_MODULE_ID);
@@ -678,7 +678,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @param id
      */
-    public void deactivateContractOption(int contractId, int id) throws BGException {
+    public void deactivateContractOption(int contractId, int id) {
         if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(TARIFF_OPTION_SERVICE_MODULE_ID, "TariffOptionService", "contractTariffOptionDeactivate");
             req.setParamContractId(contractId);
@@ -702,7 +702,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @return
      */
-    public List<ContractPersonalTariff> contractPersonalTariffList(int contractId) throws BGException {
+    public List<ContractPersonalTariff> contractPersonalTariffList(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
                     "ContractTariffService",
@@ -741,7 +741,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param id
      * @return
      */
-    public ContractPersonalTariff getPersonalTariff(int id) throws BGException {
+    public ContractPersonalTariff getPersonalTariff(int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
                     "ContractTariffService",
@@ -776,7 +776,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         }
     }
 
-    public void deleteContractPersonalTariff(int contractId, int id) throws BGException {
+    public void deleteContractPersonalTariff(int contractId, int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
                     "ContractTariffService",
@@ -798,7 +798,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     public void updateContractPersonalTariff(int contractId, int tariffId, String title, int position, String dateFrom,
-                                             String dateTo) throws BGException {
+                                             String dateTo) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             ContractPersonalTariff personalTariff = getPersonalTariff(tariffId);
             personalTariff = personalTariff != null ? personalTariff : new ContractPersonalTariff();

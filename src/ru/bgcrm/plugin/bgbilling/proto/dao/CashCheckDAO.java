@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.model.base.IdTitle;
@@ -24,7 +23,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.UnsupportedBillingVersion;
 import ru.bgcrm.util.Utils;
 
 public class CashCheckDAO extends BillingDAO {
-    public CashCheckDAO(User user, String billingId) throws BGException {
+    public CashCheckDAO(User user, String billingId) {
         super(user, billingId);
     }
 
@@ -91,7 +90,7 @@ public class CashCheckDAO extends BillingDAO {
      * Возвращает список регистраторов с выбранным первым.
      * @return
      */
-    public List<IdTitle> getRegistratorList() throws BGException {
+    public List<IdTitle> getRegistratorList() {
         List<IdTitle> registratorList = new ArrayList<IdTitle>();
 
         int selectedRegistratorId = 0;
@@ -146,7 +145,7 @@ public class CashCheckDAO extends BillingDAO {
         return registratorList;
     }
 
-    public IdTitle getCurrentPrinter() throws BGException {
+    public IdTitle getCurrentPrinter() {
         if (dbInfo.versionCompare("6.1") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(CASHCHECK_MODULE_ID, "CashcheckService", "getCurrentPrinter");
 

@@ -28,7 +28,7 @@ public class ExpressionObject {
      * Вызывает {@link #linkChannel(Process, String)} c name = null.
      * @param process
      */
-    public void linkChannel(Process process) throws BGException {
+    public void linkChannel(Process process) {
         linkChannel(process, null);
     }
 
@@ -37,7 +37,7 @@ public class ExpressionObject {
      * @param process процесса.
      * @param channelName наименование канала, если null - будет использован код процесса.
      */
-    public void linkChannel(Process process, String channelName) throws BGException {
+    public void linkChannel(Process process, String channelName) {
         Connection con = Setup.getSetup().getDBConnectionFromPool();
         try {
             ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
@@ -67,7 +67,7 @@ public class ExpressionObject {
      * Приглашает исполнителей процесса в привязанный канал.
      * @param process
      */
-    public void inviteExecutors(Process process) throws BGException {
+    public void inviteExecutors(Process process) {
         Connection con = Setup.getSetup().getDBConnectionFromPool();
         try {
             ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
@@ -125,7 +125,7 @@ public class ExpressionObject {
      * @param process
      * @param topic
      */
-    public void setTopic(Process process, String topic) throws BGException {
+    public void setTopic(Process process, String topic) {
         findChannelAndDo(process, (proto, channelId) -> {
             proto.channelSetTopic(channelId, topic);
         });
@@ -136,7 +136,7 @@ public class ExpressionObject {
      * @param process
      * @param purpose
      */
-    public void setPurpose(Process process, String purpose) throws BGException {
+    public void setPurpose(Process process, String purpose) {
         findChannelAndDo(process, (proto, channelId) -> {
             proto.channelSetPurpose(channelId, purpose);
         });
@@ -147,7 +147,7 @@ public class ExpressionObject {
      * @param process
      * @param archive - статус.
      */
-    public void archive(Process process, boolean archive) throws BGException {
+    public void archive(Process process, boolean archive) {
         findChannelAndDo(process, (proto, channelId) -> {
             if (archive)
                 proto.channelArchive(channelId);
@@ -162,7 +162,7 @@ public class ExpressionObject {
      * @param userId
      * @param messageText
      */
-    public void sendMessage(Process process, int userId, String messageText) throws BGException {
+    public void sendMessage(Process process, int userId, String messageText) {
         Connection con = Setup.getSetup().getDBConnectionFromPool();
         try {
             MessageTypeChannel type = MessageTypeChannel.getMessageType();
@@ -191,7 +191,7 @@ public class ExpressionObject {
 
     }
 
-    private void findChannelAndDo(Process process, ChannelOperation operation) throws BGException {
+    private void findChannelAndDo(Process process, ChannelOperation operation) {
         Connection con = Setup.getSetup().getDBConnectionFromPool();
         try {
             ProcessLinkDAO linkDao = new ProcessLinkDAO(con);

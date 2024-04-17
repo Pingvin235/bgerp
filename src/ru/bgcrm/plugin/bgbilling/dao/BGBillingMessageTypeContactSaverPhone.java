@@ -34,7 +34,7 @@ public class BGBillingMessageTypeContactSaverPhone extends ru.bgcrm.dao.message.
 
     @Override
     public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode)
-            throws BGException {
+            {
         CommonObjectLink contractLink = Utils
                 .getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(process.getId(), Contract.OBJECT_TYPE + "%"));
         if (contractLink == null) {

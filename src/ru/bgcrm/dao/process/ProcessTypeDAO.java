@@ -178,7 +178,7 @@ public class ProcessTypeDAO extends CommonDAO {
 
     /** Use {@link ProcessTypeCache} */
     @Deprecated
-    public List<Status> getSortedProcessTypeStatusList(ProcessType type, List<Integer> sortingId) throws BGException {
+    public List<Status> getSortedProcessTypeStatusList(ProcessType type, List<Integer> sortingId) {
         List<Status> result = new ArrayList<Status>();
 
         List<Status> statusList = getProcessTypeStatusList(type);
@@ -196,7 +196,7 @@ public class ProcessTypeDAO extends CommonDAO {
 
     /** Use {@link ProcessTypeCache} */
     @Deprecated
-    public List<Status> getProcessTypeStatusList(ProcessType type) throws BGException {
+    public List<Status> getProcessTypeStatusList(ProcessType type) {
         try {
             List<Status> result = new ArrayList<Status>();
 
@@ -261,7 +261,7 @@ public class ProcessTypeDAO extends CommonDAO {
      * Обновляет свойства типа процесса.
      * @param type
      */
-    public void updateTypeProperties(ProcessType type) throws BGException {
+    public void updateTypeProperties(ProcessType type) {
         try {
             StringBuilder query = new StringBuilder();
             query.append(SQL_UPDATE);
@@ -339,7 +339,7 @@ public class ProcessTypeDAO extends CommonDAO {
      * Возможно получение этих же данных из кэша {@link ProcessTypeCache#getTypeTreeRoot()}.
      * @return
      */
-    public ProcessType getTypeTreeRoot() throws BGException {
+    public ProcessType getTypeTreeRoot() {
         try {
             ProcessType result = new ProcessType();
             result.setId(0);
@@ -406,7 +406,7 @@ public class ProcessTypeDAO extends CommonDAO {
         return type;
     }
 
-    private void setChildCount(int chilsId, int countCorrect) throws BGException {
+    private void setChildCount(int chilsId, int countCorrect) {
         try {
             ResultSet rs = null;
             PreparedStatement ps = null;

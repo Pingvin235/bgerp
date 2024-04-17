@@ -24,7 +24,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class BillAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/bill";
 
-    public ActionForward attributeList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward attributeList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -35,7 +35,7 @@ public class BillAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/attribute_list.jsp");
     }
 
-    public ActionForward docTypeList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward docTypeList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -47,7 +47,7 @@ public class BillAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/doc_type_list.jsp");
     }
 
-    public ActionForward docTypeAdd(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward docTypeAdd(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -57,7 +57,7 @@ public class BillAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward docTypeDelete(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward docTypeDelete(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -67,7 +67,7 @@ public class BillAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward documentList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward documentList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -84,7 +84,7 @@ public class BillAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/document_list.jsp");
     }
 
-    public ActionForward getDocument(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getDocument(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int moduleId = form.getParamInt("moduleId");
         String type = form.getParam("type");
@@ -102,7 +102,7 @@ public class BillAction extends BaseAction {
         return null;
     }
 
-    public ActionForward setPayed(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward setPayed(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int moduleId = form.getParamInt("moduleId");
 

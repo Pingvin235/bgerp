@@ -188,7 +188,7 @@ public class HelpDeskListener {
         }
     }
 
-    private Pair<MessageTypeHelpDesk, Integer> getTypeAndTopic(Connection con, int processId) throws BGException {
+    private Pair<MessageTypeHelpDesk, Integer> getTypeAndTopic(Connection con, int processId) {
         ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
 
         List<CommonObjectLink> linkList = linkDao.getObjectLinksWithType(processId, "bgbilling-helpdesk%");

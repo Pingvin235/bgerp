@@ -20,7 +20,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class ProcessReferenceConfig extends Config {
     private List<ProcessReferenceConfigItem> itemList = new ArrayList<>();
 
-    public ProcessReferenceConfig(ConfigMap config) throws BGException {
+    public ProcessReferenceConfig(ConfigMap config) {
         super(null);
 
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("processReference.").entrySet()) {
@@ -53,7 +53,7 @@ public class ProcessReferenceConfig extends Config {
         private Set<String> objectTypes = Collections.emptySet();
         private String macros;
 
-        public ProcessReferenceConfigItem(ConfigMap setup) throws BGException {
+        public ProcessReferenceConfigItem(ConfigMap setup) {
             this.objectTypes = Utils.toSet(setup.get("objectTypes"));
             this.macros = setup.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY);
 

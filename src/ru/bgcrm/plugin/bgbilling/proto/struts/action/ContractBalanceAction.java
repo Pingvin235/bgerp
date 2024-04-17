@@ -38,7 +38,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ContractBalanceAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/contract/balance";
 
-    public ActionForward balanceEditor(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward balanceEditor(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         String item = form.getParam("item");
 
@@ -204,7 +204,7 @@ public class ContractBalanceAction extends BaseAction {
         return new Date[] { dateFrom, dateTo };
     }
 
-    public ActionForward updateBalance(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateBalance(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         String item = form.getParam("item");
@@ -227,7 +227,7 @@ public class ContractBalanceAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deletePayment(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deletePayment(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer paymentId = form.getParamInt("paymentId");
         Integer contractId = form.getParamInt("contractId");
@@ -238,7 +238,7 @@ public class ContractBalanceAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteCharge(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteCharge(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer chargeId = form.getParamInt("chargeId");
         Integer contractId = form.getParamInt("contractId");

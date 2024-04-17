@@ -3,7 +3,6 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,15 +17,15 @@ import ru.bgcrm.util.XMLUtils;
 public class CardDAO extends BillingModuleDAO {
     private static final String CARD_MODULE_ID = "card";
 
-    public CardDAO(User user, String billingId, int moduleId) throws BGException {
+    public CardDAO(User user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
     }
 
-    public CardDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+    public CardDAO(User user, DBInfo dbInfo, int moduleId) {
         super(user, dbInfo.getId(), moduleId);
     }
 
-    public List<IdTitle> CardContractInfo(int contractId, int serviceId, List<CardActivationData> activeCardList) throws BGException {
+    public List<IdTitle> CardContractInfo(int contractId, int serviceId, List<CardActivationData> activeCardList) {
 
         Request request = new Request();
         request.setModule(CARD_MODULE_ID);
@@ -56,7 +55,7 @@ public class CardDAO extends BillingModuleDAO {
         return serviceList;
     }
 
-    public void activateCard(int contractId, String cardCode, String pinCode) throws BGException {
+    public void activateCard(int contractId, String cardCode, String pinCode) {
         Request request = new Request();
         request.setModule(CARD_MODULE_ID);
         request.setModuleID(String.valueOf(moduleId));

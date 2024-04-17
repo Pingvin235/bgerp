@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
@@ -27,7 +26,7 @@ public class Locker {
     public Locker() {
         EventProcessor.subscribe(new EventListener<GetPoolTasksEvent>() {
             @Override
-            public void notify(GetPoolTasksEvent e, ConnectionSet conSet) throws BGException {
+            public void notify(GetPoolTasksEvent e, ConnectionSet conSet) {
                 Set<Lock> locks = locksByUser.get(e.getUser().getId());
                 if (locks != null) {
                     for (Lock lock : locks) {

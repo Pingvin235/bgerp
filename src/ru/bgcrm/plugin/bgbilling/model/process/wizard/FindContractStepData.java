@@ -3,8 +3,6 @@ package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 import java.sql.Connection;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
-
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.wizard.StepData;
@@ -20,7 +18,7 @@ public class FindContractStepData extends StepData<FindContractStep> {
 	}
 
 	@Override
-	public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+	public boolean isFilled(DynActionForm form, Connection con) {
 		if (contractLinkList == null) {
 			ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
 			contractLinkList = linkDao.getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%");

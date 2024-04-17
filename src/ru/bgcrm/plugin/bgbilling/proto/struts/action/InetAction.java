@@ -39,7 +39,7 @@ public class InetAction extends BaseAction {
     public static final String DATE_TO = "dateTo";
     public static final String DEVICE_ID = "deviceId";
 
-    public ActionForward serviceTree(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceTree(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         form.getResponse().setData("list", inetDao.getServiceList(form.getParamInt(CONTRACT_ID)));
@@ -47,7 +47,7 @@ public class InetAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/service_tree.jsp");
     }
 
-    public ActionForward serviceGet(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceGet(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam(BILLING_ID);
         int moduleId = form.getParamInt(MODULE_ID);
         int contractId = form.getParamInt(CONTRACT_ID);
@@ -82,7 +82,7 @@ public class InetAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/service_editor.jsp");
     }
 
-    public ActionForward serviceUpdate(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceUpdate(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         InetService service = form.getId() > 0 ? inetDao.getService(form.getId()) : new InetService();
@@ -145,7 +145,7 @@ public class InetAction extends BaseAction {
         }
     }
 
-    public ActionForward serviceDelete(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceDelete(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         inetDao.deleteService(form.getId());
@@ -153,7 +153,7 @@ public class InetAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward sessionAliveContractList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward sessionAliveContractList(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         Pageable<InetSessionLog> result = new Pageable<>(form);
@@ -163,7 +163,7 @@ public class InetAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/contract_report.jsp");
     }
 
-    public ActionForward sessionLogContractList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward sessionLogContractList(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         Pageable<InetSessionLog> result = new Pageable<>(form);
@@ -173,7 +173,7 @@ public class InetAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/contract_report.jsp");
     }
 
-    private void setDeviceTitles(InetDAO inetDao, Pageable<InetSessionLog> pageable) throws BGException {
+    private void setDeviceTitles(InetDAO inetDao, Pageable<InetSessionLog> pageable) {
         Map<Integer, InetDevice> deviceMap = new TreeMap<>();
         for (var item : pageable.getList()) {
             var device = deviceMap.computeIfAbsent(item.getDeviceId(), id -> {
@@ -202,7 +202,7 @@ public class InetAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward serviceMenu(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceMenu(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         int deviceId = form.getParamInt(DEVICE_ID);
@@ -213,7 +213,7 @@ public class InetAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/service_menu.jsp");
     }
 
-    public ActionForward serviceDeviceManage(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceDeviceManage(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         int deviceId = form.getParamInt(DEVICE_ID);
@@ -226,7 +226,7 @@ public class InetAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward serviceStateModify(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceStateModify(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         int state = form.getParamInt("state");
@@ -235,7 +235,7 @@ public class InetAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward interfaceListGet(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward interfaceListGet(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
         InventoryDAO inventoryDAO = new InventoryDAO(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
         int deviceId = form.getParamInt(DEVICE_ID);
@@ -250,7 +250,7 @@ public class InetAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/service/interface_editor.jsp");
     }
 
-    public ActionForward getFreeVlan(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getFreeVlan(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
         ResourceDAO resourceDAO = new ResourceDAO(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
@@ -267,7 +267,7 @@ public class InetAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward devicesGet(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward devicesGet(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
         form.setResponseData("rootDevice", inetDao.getRootDevice(Utils.toIntegerSet(form.getParam("deviceTypeIds")), Utils.toIntegerSet(form.getParam("deviceGroupIds"))));
         return html(conSet, form, PATH_JSP + "/service/device_tree.jsp");

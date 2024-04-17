@@ -389,7 +389,7 @@ public class WorkAction extends BaseAction {
         return json(con, form);
     }
 
-    private List<FreeSlotRange> getFreeSlots(Connection con, Process process, Callboard callboard, Date dateFrom, Date dateTo) throws BGException {
+    private List<FreeSlotRange> getFreeSlots(Connection con, Process process, Callboard callboard, Date dateFrom, Date dateTo) {
         List<FreeSlotRange> result = new ArrayList<>();
 
         Set<Integer> processGroupIds = ProcessGroup.getGroupsWithRole(process.getGroups(), 0);
@@ -1029,7 +1029,7 @@ public class WorkAction extends BaseAction {
 
     // Список групп
     protected List<Integer> getGroupList(DynActionForm form, Callboard callboard, boolean excludeHidden, Set<Integer> allowOnlyGroups)
-            throws BGException {
+            {
         List<Integer> result = new ArrayList<Integer>();
 
         Set<Integer> groupsFilter = Collections.emptySet();
@@ -1064,7 +1064,7 @@ public class WorkAction extends BaseAction {
 
     //Группа - Список пользователей, входящих в эту группу
     protected Map<Integer, List<Integer>> getGroupWithUsersMap(Connection con, Callboard callboard, List<Integer> groupIds, Calendar dateFrom,
-            Calendar dateTo) throws BGException {
+            Calendar dateTo) {
         Map<Integer, List<Integer>> resultMap = new LinkedHashMap<Integer, List<Integer>>();
 
         Set<Integer> userInSubGroups = new HashSet<Integer>();
@@ -1088,7 +1088,7 @@ public class WorkAction extends BaseAction {
         return resultMap;
     }
 
-    private List<Integer> getGroupUsers(Connection con, Callboard callboard, int groupId, Calendar dateFrom, Calendar dateTo) throws BGException {
+    private List<Integer> getGroupUsers(Connection con, Callboard callboard, int groupId, Calendar dateFrom, Calendar dateTo) {
         List<Integer> userList = new ArrayList<Integer>();
 
         Map<Integer, Integer> shiftOrderMap = new ShiftDAO(con).getShiftOrder(callboard.getId(), groupId);

@@ -2,8 +2,6 @@ package ru.bgcrm.model.process.wizard;
 
 import java.sql.Connection;
 
-import org.bgerp.app.exception.BGException;
-
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class SetStatusStepData extends StepData<SetStatusStep> {
@@ -12,7 +10,7 @@ public class SetStatusStepData extends StepData<SetStatusStep> {
     }
 
     @Override
-    public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+    public boolean isFilled(DynActionForm form, Connection con) {
         return true;
     }
 }
