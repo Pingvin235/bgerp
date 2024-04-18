@@ -155,7 +155,7 @@ public class ParamValueFunction {
                         .collect(Collectors.joining("; "));
                 }
                 case BLOB -> {
-                    return paramDao.getParamBlob(objectId, paramId);
+                    return Utils.maskNull(paramDao.getParamBlob(objectId, paramId));
                 }
                 case DATE -> {
                     return TimeUtils.format(paramDao.getParamDate(objectId, paramId), param.getDateParamFormat());
@@ -168,7 +168,7 @@ public class ParamValueFunction {
                     return value != null ? value.toString() : "";
                 }
                 case TEXT -> {
-                    return paramDao.getParamText(objectId, paramId);
+                    return Utils.maskNull(paramDao.getParamText(objectId, paramId));
                 }
                 case FILE -> {
                     SortedMap<Integer, FileData> value = paramDao.getParamFile(objectId, paramId);
@@ -270,7 +270,7 @@ public class ParamValueFunction {
      */
     @Deprecated
     public String getParamText(int paramId) throws SQLException {
-        log.warndMethod("getParamText", "ParamValueDAO.getParamText");
+        log.warndMethod("getParamText", "getValue");
         return paramDao.getParamText(objectId, paramId);
     }
 
@@ -279,7 +279,7 @@ public class ParamValueFunction {
      */
     @Deprecated
     public Date getParamDate(int paramId) throws SQLException {
-        log.warndMethod("getParamDate", "ParamValueDAO.getParamDate");
+        log.warndMethod("getParamDate", "getValue");
         return paramDao.getParamDate(objectId, paramId);
     }
 
@@ -288,7 +288,7 @@ public class ParamValueFunction {
      */
     @Deprecated
     public Date getParamDateTime(int paramId) throws SQLException {
-        log.warndMethod("getParamDateTime", "ParamValueDAO.getParamDateTime");
+        log.warndMethod("getParamDateTime", "getValue");
         return paramDao.getParamDateTime(objectId, paramId);
     }
 
