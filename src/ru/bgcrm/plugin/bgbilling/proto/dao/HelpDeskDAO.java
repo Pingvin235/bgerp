@@ -326,8 +326,13 @@ public class HelpDeskDAO extends BillingDAO {
             req.setParamContractId(contractId);
             req.setParam("fileId", id);
 
-            JsonNode node = transferData.postData(req, user);
-            result = Base64.getDecoder().decode(node.path("fileData").textValue());
+            if (dbInfo.versionCompare("9.2") >= 0) {
+                JsonNode node = transferData.postDataReturn(req, user);
+                result = Base64.getDecoder().decode(node.path("data").textValue());
+            } else {
+                JsonNode node = transferData.postData(req, user);
+                result = Base64.getDecoder().decode(node.path("fileData").textValue());
+            }
         } else {
             Request req = new Request();
             req.setModule(MODULE);
