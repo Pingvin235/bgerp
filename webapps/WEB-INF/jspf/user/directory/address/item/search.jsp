@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<ui:page-control pageFormId="${formUiid}"/>
+<%@ include file="../address_page_control.jsp"%>
 
 <table class="data">
 	<tr>
