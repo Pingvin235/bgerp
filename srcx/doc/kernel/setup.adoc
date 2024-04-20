@@ -195,7 +195,7 @@ include::../skip_at_first.adocf[]
 The application stores almost all the data in MySQL DB server, access credentials for that are defined in *properties* file.
 There are also stored file's metadata, but file bodies are persisted in `filestorage` directory.
 
-NOTE: In former versions file bodies were stored as a flat list, that may be changed <<run, running>> javadoc:org.bgerp.task.MoveToSubDirs[] class.
+NOTE: In former versions file bodies were stored as a flat list, that may be changed <<run, running>> javadoc:org.bgerp.exec.MoveToSubDirs[] class.
 
 [[user]]
 == Пользователи и права

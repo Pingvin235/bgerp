@@ -698,7 +698,7 @@ javadoc:ru.bgcrm.struts.action.admin.UserAction[] has some example method names:
 * permsetGet;
 * permsetUpdate.
 
-Another set of examples from javadoc:ru.bgcrm.struts.action.admin.AppAction[]:
+Another set of examples from javadoc:org.bgerp.action.admin.AppAction[]:
 [suare]
 * status - provides application status;
 * update - triggers update installation;
@@ -746,7 +746,7 @@ Said that, action methods declarations and DAO just need to use *throws java.lan
 
 javadoc:ru.bgcrm.model.BGException[] class is typically used for system-generated exceptions and is rarely used elsewhere.
 
-javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm.model.BGException[],
+javadoc:org.bgerp.app.exception.BGMessageException[],
 is used to sent a <<l10n, localized>> message to the user, without writing this message in the log.
 For example:
 [snippet, from="for (", to=");", remove-leading="            "]

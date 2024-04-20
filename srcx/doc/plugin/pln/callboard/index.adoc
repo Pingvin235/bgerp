@@ -150,7 +150,7 @@ rule.<pos>.duration=<duration>
 * *process* - объект класса javadoc:ru.bgcrm.model.process.Process[] - процесс;
 * *processParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры процесса;
 * *processLink* - объект класса javadoc:ru.bgcrm.dao.expression.ProcessLinkFunction[] - для работы с привязками процесса;
-* *shift* - объект класса javadoc:ru.bgcrm.struts.action.WorkAction.ShiftData[].
+* *shift* - объект класса javadoc:org.bgerp.plugin.pln.callboard.model.work.ShiftData[].
 
 Для определения сколько времени данный тип работы в данной смене будет обрабатывать конкретный процесс правила проходятся последовательно.
 Положительно значение длительности означает, что данный тип работы пригоден для обработки процесса.
