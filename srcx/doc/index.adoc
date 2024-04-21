@@ -41,7 +41,6 @@
 ** Messaging
 *** <<plugin/msg/email/index.adoc#, E-Mail>>
 *** <<plugin/msg/sms/index.adoc#, SMS>>
-*** <<plugin/phpbb/index.adoc#, PHPBB>>
 *** <<plugin/slack/index.adoc#, Slack>>
 *** <<plugin/telegram/index.adoc#, Telegram>>
 ** Security

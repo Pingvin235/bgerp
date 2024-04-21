@@ -246,7 +246,6 @@ The following plugins provide support for different text message types:
 * <<../../plugin/msg/email/index.adoc#, E-Mail>>
 * <<../../plugin/feedback/index.adoc#, Feedback>>
 * <<../../plugin/bgbilling/index.adoc#helpdesk, BGBilling>> HelpDesk
-* <<../../plugin/phpbb/index.adoc#, phpBB>> forum
 * <<../../plugin/slack/index.adoc#, Slack>>
 
 [[setup-tag]]
