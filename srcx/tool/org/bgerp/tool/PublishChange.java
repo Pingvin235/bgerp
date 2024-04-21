@@ -32,14 +32,8 @@ public class PublishChange extends PublishBase {
         var updateFile = publishFile("update");
         var updateLibFile = publishFile("update_lib");
 
-        var docDir = new File(targetDistrDir + "/../doc");
-        if (docDir.exists() && docDir.isDirectory()) {
-            log.info("Sync doc");
-            new RuntimeRunner("rsync", "--delete", "-Pav",
-                "-e", "ssh " + String.join(" ", SSH_OPTIONS), docDir.toString(),
-                SSH_LOGIN + ":" + sshDir).run();
-        } else
-            log.info("Doc directory is missing: {}", docDir);
+        var docDir = publishDir(targetDistrDir, "doc");
+        var javaDocDir = publishDir(targetDistrDir, "javadoc");
 
         var changesName = targetDistrDir + "/../../build/changes." + changeId + ".txt";
         var changesFile = new File(changesName);
@@ -65,6 +59,8 @@ public class PublishChange extends PublishBase {
                 log.info(changeDir + "/" + updateLibFile);
             if (docDir.exists())
                 log.info(changeDir + "/doc");
+            if (javaDocDir.exists())
+                log.info(changeDir + "/javadoc");
             if (changesFile.exists())
                 log.info(changeDir + "/changes.txt");
         }
@@ -93,6 +89,27 @@ public class PublishChange extends PublishBase {
         }
 
         return null;
+    }
+
+    /**
+     * Copies a directory to remote system.
+     * @param targetDistrDir
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    private File publishDir(String targetDistrDir, String name) throws Exception {
+        var dir = new File(targetDistrDir + "/../" + name);
+
+        if (dir.exists() && dir.isDirectory()) {
+            log.info("Sync {}", name);
+            new RuntimeRunner("rsync", "--delete", "-Pav",
+                "-e", "ssh " + String.join(" ", SSH_OPTIONS), dir.toString(),
+                SSH_LOGIN + ":" + sshDir).run();
+        } else
+            log.info("{} directory is missing: {}", name, dir);
+
+        return dir;
     }
 
     public static void main(String[] args) throws Exception {

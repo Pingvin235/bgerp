@@ -1,4 +1,4 @@
-= BGERP 3.0 CD
+= BGERP {pzdc-site-title}
 :nofooter:
 
 * Kernel

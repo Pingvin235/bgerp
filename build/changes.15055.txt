@@ -1,0 +1,6 @@
+A: PzdcDoc 2.7
+- Updated and improved CSS
+- Java libraries update
+- Search fix
+- Passing command line attributes to Generator. Site title.
+- Relative path for javadoc macros

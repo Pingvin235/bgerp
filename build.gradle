@@ -159,7 +159,7 @@ dependencies {
     implementation fileTree(dir: 'lib', include: ['*.jar'])
 
     // documentation library
-    doc 'org.pzdcdoc:pzdcdoc:2.6'
+    doc 'org.pzdcdoc:pzdcdoc:2.7'
 
     // tool libraries
     tool 'org.apache.ant:ant:1.10.12'
@@ -276,6 +276,25 @@ def getChangeIdOrThrow() {
     return changeId
 }
 
+/*
+    Gets title for doc sites.
+*/
+def getTitle() {
+    def title = version + "." + getBuild()
+    def changeId = getChangeId()
+
+    // pre-stable release
+    if (changeId == '15055') {
+        title += '.0'
+    }
+    // not stable release
+    else if (changeId != '11862') {
+        title += '.' + changeId
+    }
+
+    return title;
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -297,16 +316,32 @@ compileJava {
 }
 
 task doc(type: JavaExec, description: 'Builds manual') {
+    doFirst {
+        def title = getTitle()
+
+        args '--attribute'
+        args "pzdc-site-title=$title"
+
+        if (file("$buildDir/javadoc").exists()) {
+            args '--attribute'
+            args 'pzdc-javadoc=../javadoc'
+        }
+
+        println "Generator's args: ${args}"
+    }
+    mustRunAfter 'updateProperties'
+    mustRunAfter 'jdoc'
     classpath =  configurations.doc
     mainClass = 'org.pzdcdoc.Generator'
     args '--in', 'srcx/doc', '--out', "$buildDir/doc"
 }
 
-task jdoc(type: Javadoc) {
+task jdoc(type: Javadoc, description: 'Builds JavaDoc API') {
     options.encoding = 'UTF-8'
     failOnError = false
     classpath = configurations.runtimeClasspath
     source = sourceSets.main.allJava
+    title = "BGERP ${->getTitle()} API"
     destinationDir = file("$buildDir/javadoc")
 }
 
