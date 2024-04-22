@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.apache.logging.log4j.message.FormattedMessage;
 import org.apache.logging.log4j.util.StackLocatorUtil;
+import org.bouncycastle.util.Arrays;
 
 /**
  * Logging wrapper around Log4j version 1 with additional functions from version 2.
@@ -150,8 +151,7 @@ public class Log {
      * @param args parameters for replacements in {@code pattern}.
      */
     private final void log(Priority level, String message, Object... args) {
-        if (logger.isEnabledFor(level)) {
-            logger.log(level, format(message, args));
-        }
+        if (logger.isEnabledFor(level))
+            logger.log(level, Arrays.isNullOrEmpty(args) ? message : format(message, args));
     }
 }
