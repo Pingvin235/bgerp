@@ -61,7 +61,7 @@
 				<jsp:attribute name="valuesHtml">
 					<li value="">${l.l('Any')}</li>
 					<c:forEach var="type" items="${frd.typeList}">
-						<li value="${type}">${ctxProcessTypeMap[type]}</li>
+						<li value="${type}">${ctxProcessTypeMap[type].title}</li>
 					</c:forEach>
 				</jsp:attribute>
 			</ui:combo-single>
