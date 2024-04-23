@@ -915,10 +915,6 @@ Parameter type *money* values.
 |comment
 |VARCHAR
 |comment
-
-|flags
-|INT
-|value
 |===
 
 === param_pref

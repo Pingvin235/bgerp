@@ -55,17 +55,6 @@ public class ParameterPhoneValueItem {
         log.warndMethod("setFormat", null);
     }
 
-    @Deprecated
-    public int getFlags() {
-        log.warndMethod("getFlags", null);
-        return 0;
-    }
-
-    @Deprecated
-    public void setFlags(int flags) {
-        log.warndMethod("setFlags", null);
-    }
-
     @Override
     public String toString() {
         Setup setup = Setup.getSetup();

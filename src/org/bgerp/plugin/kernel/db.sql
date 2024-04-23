@@ -499,11 +499,11 @@ CREATE TABLE IF NOT EXISTS param_phone_item (
 	phone VARCHAR(15) NOT NULL,
 	format VARCHAR(2) NOT NULL,
 	comment VARCHAR(255) NOT NULL,
-	flags INT NOT NULL,
 	PRIMARY KEY (id,param_id,n) ,
 	KEY phone (phone)
 );
 ALTER TABLE param_phone_item MODIFY phone VARCHAR(15) NOT NULL;
+CALL drop_column_if_exists('param_phone_item', 'flags');
 
 CREATE TABLE IF NOT EXISTS param_text (
 	id INT NOT NULL,
