@@ -11,7 +11,6 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 

@@ -14,7 +14,6 @@ import org.bgerp.app.servlet.Interface;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.OldParamSearchDAO;
-import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;

@@ -16,6 +16,7 @@ final class GuardSupportedPool {
     public GuardSupportedPool(GenericObjectPool<PoolableConnection> pool) {
         this.pool = pool;
         this.dataSource = new PoolingDataSource<>(pool) {
+            @SuppressWarnings({ "resource", "unchecked", "rawtypes" })
             @Override
             public Connection getConnection() throws SQLException {
                 try {

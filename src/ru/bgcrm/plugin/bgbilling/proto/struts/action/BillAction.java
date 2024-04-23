@@ -12,8 +12,6 @@ import org.bgerp.model.Pageable;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.BillDAO;
-import ru.bgcrm.plugin.bgbilling.proto.model.bill.Bill;
-import ru.bgcrm.plugin.bgbilling.proto.model.bill.Invoice;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

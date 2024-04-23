@@ -46,8 +46,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractServiceDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractStatusDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractService;
