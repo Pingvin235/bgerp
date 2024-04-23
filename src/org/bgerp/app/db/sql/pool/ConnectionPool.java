@@ -693,7 +693,7 @@ public class ConnectionPool {
             }
 
             if (sb.isEmpty())
-                sb.append("No connections to db");
+                sb.append("No connections to DB");
         } else
             sb.append("Pool trace is off. Check db.trace option");
 
