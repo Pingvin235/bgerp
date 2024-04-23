@@ -1,15 +1,15 @@
 {
     "files.exclude": {
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true,
-        "**/target": true,
-        "**/work": true,
-        "**/log": true,
-        "**/gradle": true,
-        "**/bin": true,
-        "**/.gradle": true
+        ".classpath": true,
+        ".project": true,
+        ".settings": true,
+        ".factorypath": true,
+        "target": true,
+        "work": true,
+        "log": true,
+        "gradle": true,
+        "bin": true,
+        ".gradle": true
     },
     "java.jdt.ls.java.home": "C:\\Java\\jdk-21.0.0.35",
     "java.configuration.updateBuildConfiguration": "automatic",
