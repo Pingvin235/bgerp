@@ -10,8 +10,6 @@ public class Tables {
     public static final String TABLE_ADDRESS_QUARTER = " address_quarter ";
     public static final String TABLE_ADDRESS_STREET = " address_street ";
     public static final String TABLE_ADDRESS_HOUSE = " address_house ";
-    @Deprecated
-    public static final String TABLE_ADDRESS_CONFIG = " address_config ";
 
     public static final String TABLE_PARAM_ADDRESS = " param_address ";
     public static final String TABLE_PARAM_BLOB = " param_blob ";

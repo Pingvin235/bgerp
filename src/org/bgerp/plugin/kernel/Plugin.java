@@ -63,14 +63,15 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         return Set.of(
             new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_AREA, Type.DIRECTORY),
             new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_CITY, Type.DIRECTORY),
-            new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_CONFIG, Type.DIRECTORY),
             new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_COUNTRY, Type.DIRECTORY),
             new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_HOUSE, Type.DIRECTORY),
             new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_QUARTER, Type.DIRECTORY),
             new Table(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET, Type.DIRECTORY),
             new Table(IfaceStateDAO.TABLE_NAME, Type.TRASH),
-            // old table for update logs in ExecuteSQL
-            new Table("sql_patches_history", Type.DEPRECATED)
+            // update logs in ExecuteSQL
+            new Table("sql_patches_history", Type.DEPRECATED),
+            new Table("analytic_house_capacity", Type.DEPRECATED),
+            new Table("address_config", Type.DEPRECATED)
         );
     }
 

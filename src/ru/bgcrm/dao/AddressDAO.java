@@ -98,10 +98,6 @@ public class AddressDAO extends CommonDAO {
         }
 
         ps.close();
-        /* if (addressCountry != null) {
-            ConfigDAO configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-            addressCountry.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_COUNTRY, addressCountry.getId()));
-        } */
 
         return addressCountry;
     }
@@ -186,10 +182,6 @@ public class AddressDAO extends CommonDAO {
             }
         }
         ps.close();
-        /* if (addressCity != null) {
-            ConfigDAO configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-            addressCity.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_CITY, addressCity.getId()));
-        } */
 
         return addressCity;
     }
@@ -369,10 +361,6 @@ public class AddressDAO extends CommonDAO {
             }
         }
         ps.close();
-        /* if (addressItem != null) {
-            ConfigDAO configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-            addressItem.setConfig(configDAO.getConfigRecordMap(tableName, addressItem.getId()));
-        } */
 
         return addressItem;
     }
@@ -461,10 +449,6 @@ public class AddressDAO extends CommonDAO {
 
         }
         ps.close();
-        /* if (addressHouse != null) {
-            ConfigDAO configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-            addressHouse.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_HOUSE, addressHouse.getId()));
-        } */
 
         return addressHouse;
     }
@@ -519,9 +503,6 @@ public class AddressDAO extends CommonDAO {
                 ps.executeUpdate();
                 ps.close();
             }
-
-            /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_COUNTRY, value.getId(),
-                    value.getConfig()); */
         }
         return value;
     }
@@ -551,8 +532,6 @@ public class AddressDAO extends CommonDAO {
         ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();
-
-        /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_COUNTRY, id, new ArrayList<ConfigRecord>()); */
     }
 
     public AddressCity updateAddressCity(AddressCity city) throws SQLException {
@@ -580,7 +559,6 @@ public class AddressDAO extends CommonDAO {
                 ps.executeUpdate();
                 ps.close();
             }
-            /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_CITY, city.getId(), city.getConfig()); */
         }
         return city;
     }
@@ -599,8 +577,6 @@ public class AddressDAO extends CommonDAO {
         ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();
-
-        /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_CITY, id, new ArrayList<ConfigRecord>()); */
     }
 
     private void checkItem(int id, String table, String title) throws SQLException, BGMessageException {
@@ -668,7 +644,6 @@ public class AddressDAO extends CommonDAO {
                 ps.executeUpdate();
                 ps.close();
             }
-            /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(tableName, addressItem.getId(), addressItem.getConfig()); */
         }
         return addressItem;
     }
@@ -701,8 +676,6 @@ public class AddressDAO extends CommonDAO {
         ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();
-
-        /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(tableName, id, new ArrayList<ConfigRecord>()); */
     }
 
     public AddressHouse updateAddressHouse(AddressHouse addressHouse) throws SQLException {
@@ -742,7 +715,6 @@ public class AddressDAO extends CommonDAO {
                 ps.executeUpdate();
                 ps.close();
             }
-            /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_HOUSE, addressHouse.getId(), addressHouse.getConfig()); */
         }
         return addressHouse;
     }
@@ -772,8 +744,6 @@ public class AddressDAO extends CommonDAO {
         ps.setInt(1, id);
         ps.executeUpdate();
         ps.close();
-
-        /* new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_HOUSE, id, new ArrayList<ConfigRecord>()); */
     }
 
     public static AddressHouse getAddressHouseFromRs(ResultSet rs, String prefix, int loadLevel) throws SQLException {
@@ -850,22 +820,13 @@ public class AddressDAO extends CommonDAO {
             query.append(" )");
         }
 
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setTimestamp(1, new Timestamp(time));
+        try (var ps = con.prepareStatement(query.toString())) {
+            ps.setTimestamp(1, new Timestamp(time));
 
-        ResultSet rs = ps.executeQuery();
-        AddressCountry addressCountry;
-        // ConfigDAO configDAO;
-        while (rs.next()) {
-            addressCountry = getAddressCountryFromRs(rs, "");
-            /* if (result != null) {
-                configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-                addressCountry.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_COUNTRY, addressCountry.getId()));
-            } */
-            result.add(addressCountry);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                result.add(getAddressCountryFromRs(rs, ""));
         }
-
-        ps.close();
 
         return result;
     }
@@ -883,19 +844,13 @@ public class AddressDAO extends CommonDAO {
             query.append(" )");
         }
 
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setTimestamp(1, new Timestamp(time));
+        try (var ps = con.prepareStatement(query.toString())) {
+            ps.setTimestamp(1, new Timestamp(time));
 
-        ResultSet rs = ps.executeQuery();
-        AddressCity addressCity;
-        // ConfigDAO configDAO;
-        while (rs.next()) {
-            addressCity = getAddressCityFromRs(rs, "");
-            /* configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-            addressCity.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_CITY, addressCity.getId())); */
-            result.add(addressCity);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                result.add(getAddressCityFromRs(rs, ""));
         }
-        ps.close();
 
         return result;
     }
@@ -915,19 +870,13 @@ public class AddressDAO extends CommonDAO {
             query.append(" )");
         }
 
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setTimestamp(1, new Timestamp(time));
+        try (PreparedStatement ps = con.prepareStatement(query.toString())) {
+            ps.setTimestamp(1, new Timestamp(time));
 
-        ResultSet rs = ps.executeQuery();
-        AddressHouse addressHouse;
-        // ConfigDAO configDAO;
-        while (rs.next()) {
-            addressHouse = getAddressHouseFromRs(rs, "h.", 0);
-            /* configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-            addressHouse.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_HOUSE, addressHouse.getId())); */
-            result.add(addressHouse);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                result.add(getAddressHouseFromRs(rs, "h.", 0));
         }
-        ps.close();
 
         return result;
     }
@@ -945,19 +894,13 @@ public class AddressDAO extends CommonDAO {
             query.append(" )");
         }
 
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setTimestamp(1, new Timestamp(time));
+        try (var ps = con.prepareStatement(query.toString())) {
+            ps.setTimestamp(1, new Timestamp(time));
 
-        ResultSet rs = ps.executeQuery();
-        AddressItem addressItem;
-        // ConfigDAO configDAO;
-        while (rs.next()) {
-            addressItem = getAddressItemFromRs(rs, "");
-            /* configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-            addressItem.setConfig(configDAO.getConfigRecordMap(tableName, addressItem.getId())); */
-            result.add(addressItem);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+                result.add(getAddressItemFromRs(rs, ""));
         }
-        ps.close();
 
         return result;
     }

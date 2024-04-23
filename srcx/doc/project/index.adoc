@@ -484,7 +484,7 @@ Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
 Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
 [snippet, from="UNIQUE", to="n),", remove-leading="	"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L434-L434[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L425-L425[src/org/bgerp/plugin/kernel/db.sql]
 
 [[plugin-db-cache]]
 ===== Database Queries Cache
@@ -493,7 +493,7 @@ The cache might be reset using <<../kernel/install.adoc#update-installer, instal
 
 To force re-execution a query, add a whitespace before ending semicolon on the query line.
 [snippet, from="CALL drop_key_if_exists", to=");"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L383-L383[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L374-L374[src/org/bgerp/plugin/kernel/db.sql]
 
 [[cache]]
 ===== Cache

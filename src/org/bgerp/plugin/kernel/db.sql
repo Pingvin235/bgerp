@@ -92,15 +92,6 @@ CALL add_unique_key_if_not_exists('address_house', 'street_number', '(street_id,
 CALL add_column_if_not_exists('address_house', 'post_index', 'VARCHAR(10) NOT NULL AFTER frac');
 ALTER TABLE address_house MODIFY frac VARCHAR(50) NOT NULL;
 
--- the table can be deleted later
-CREATE TABLE IF NOT EXISTS address_config (
-	`table_id` VARCHAR(50) NOT NULL,
-	`record_id` INT NOT NULL,
-	`key` VARCHAR(50) NOT NULL,
-	`value` TEXT,
-	PRIMARY KEY (`table_id`,`record_id`,`key`)
-);
-
 CREATE TABLE IF NOT EXISTS customer (
 	id INT NOT NULL AUTO_INCREMENT,
 	title VARCHAR(255) NOT NULL,
@@ -759,7 +750,6 @@ CREATE TABLE IF NOT EXISTS param_treecount_value (
 
 -- TODO: The columns or tables are not already in use. For  activation of deletion, place uncommented line prior the comment.
 -- drop_column_if_exists('message', 'processed');
--- DROP TABLE IF EXISTS analytic_house_capacity;
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");
