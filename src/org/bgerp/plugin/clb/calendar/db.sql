@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS `calendar_event` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `calendar_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS calendar_event (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  calendar_id INT NOT NULL,
   `year` INT NOT NULL,
-  `type_id` INT NOT NULL,
-  `from_dt` DATETIME NOT NULL,
-  `to_dt` DATETIME NOT NULL,
-  `amount` INT NOT NULL
+  type_id INT NOT NULL,
+  from_dt DATETIME NOT NULL,
+  to_dt DATETIME NOT NULL,
+  amount INT NOT NULL
 );
 
 -- ! after must be only a new line !;

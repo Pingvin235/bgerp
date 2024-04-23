@@ -147,17 +147,17 @@ delimiter ;
 
 -- #ENDB#;
 
-CREATE TABLE IF NOT EXISTS `config_global` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`parent_id` int NOT NULL,
-	`active` tinyint(1) NOT NULL,
-	`title` varchar(255) NOT NULL,
-	`data` longtext,
-	`dt` datetime NOT NULL,
-	`user_id` int(11) NOT NULL,
-	`last_modify_user_id` int(11) NOT NULL,
-	`last_modify_dt` datetime NOT NULL,
-	PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS config_global (
+	id INT NOT NULL AUTO_INCREMENT,
+	parent_id INT NOT NULL,
+	active TINYINT NOT NULL,
+	title VARCHAR(255) NOT NULL,
+	`data` LONGTEXT,
+	dt DATETIME NOT NULL,
+	user_id INT NOT NULL,
+	last_modify_user_id INT NOT NULL,
+	last_modify_dt DATETIME NOT NULL,
+	PRIMARY KEY (id)
 );
 
 CALL add_column_if_not_exists('config_global', 'last_modify_dt', 'DATETIME NOT NULL');

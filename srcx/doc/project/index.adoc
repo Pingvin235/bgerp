@@ -483,7 +483,7 @@ Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 <<db.adoc#, DB Structure>> is documented in the common <<workflow.adoc#doc, process>>, simultaneously with making changes.
 
 Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
-[snippet, from="UNIQUE", to="`),", remove-leading="	"]
+[snippet, from="UNIQUE", to="n),", remove-leading="	"]
 link:../../../src/org/bgerp/plugin/kernel/db.sql#L443-L443[src/org/bgerp/plugin/kernel/db.sql]
 
 [[plugin-db-cache]]
