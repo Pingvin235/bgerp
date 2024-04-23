@@ -15,9 +15,9 @@ import org.bgerp.util.Log;
 public class SQLUtils {
     private static final Log log = Log.getLog();
 
-    private static final Map<String, String> formatMap = new ConcurrentHashMap<String, String>();
-    public static Set<String> tables = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(64));
-    private static Set<String> existColumns = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(32));
+    private static final Map<String, String> formatMap = new ConcurrentHashMap<>();
+    public static Set<String> tables = Collections.newSetFromMap(new ConcurrentHashMap<>(64));
+    private static Set<String> existColumns = Collections.newSetFromMap(new ConcurrentHashMap<>(32));
 
     /**
      * Safe closing of DB connection if it isn't {@code null} and not closed already.
@@ -209,7 +209,7 @@ public class SQLUtils {
     }
 
     public Set<String> getTableColumns(Connection con, String tableName) throws SQLException {
-        Set<String> result = new HashSet<String>();
+        Set<String> result = new HashSet<>();
 
         String query = "SHOW COLUMNS FROM " + tableName;
         PreparedStatement ps = con.prepareStatement(query);

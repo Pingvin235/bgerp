@@ -124,7 +124,7 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static List<User> getUserList(final Set<Integer> groupIds) {
-        final List<User> result = new ArrayList<User>();
+        final List<User> result = new ArrayList<>();
 
         for (final User user : HOLDER.getInstance().userList) {
             if (CollectionUtils.intersection(groupIds, user.getGroupIds()).size() > 0) {
@@ -136,7 +136,7 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static Set<Group> getUserGroupChildSet(final int groupId) {
-        final Set<Group> resultSet = new HashSet<Group>();
+        final Set<Group> resultSet = new HashSet<>();
 
         for (final Group group : HOLDER.getInstance().userGroupList) {
             if (group.getParentId() == groupId) {
@@ -148,11 +148,11 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static Set<Group> getUserGroupChildFullSet(final int groupId) {
-        final Set<Group> resultSet = new HashSet<Group>();
+        final Set<Group> resultSet = new HashSet<>();
         resultSet.addAll(getUserGroupChildSet(groupId));
 
         if (resultSet.size() > 0) {
-            final List<Group> groupList = new ArrayList<Group>(resultSet);
+            final List<Group> groupList = new ArrayList<>(resultSet);
 
             for (int i = 0; i < groupList.size(); i++) {
                 if (groupList.get(i).getChildCount() > 0) {
@@ -257,7 +257,7 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static List<UserGroup> getUserGroupList(final int id) {
-        return HOLDER.getInstance().userGroupListsMap.get(id) == null ? new ArrayList<UserGroup>()
+        return HOLDER.getInstance().userGroupListsMap.get(id) == null ? new ArrayList<>()
                 : HOLDER.getInstance().userGroupListsMap.get(id);
     }
 
@@ -266,7 +266,7 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static List<UserGroup> getUserGroupList(final int id, final int parentId, final Date actualDate) {
-        final List<UserGroup> resultList = new ArrayList<UserGroup>();
+        final List<UserGroup> resultList = new ArrayList<>();
 
         final List<UserGroup> groupList = HOLDER.getInstance().userGroupListsMap.get(id);
         if (groupList != null) {
@@ -319,7 +319,7 @@ public class UserCache extends Cache<UserCache> {
 
             result.userList = userDAO.getUserList();
 
-            result.userMapById = new HashMap<Integer, User>() {
+            result.userMapById = new HashMap<>() {
                 @Override
                 public User get(final Object key) {
                     final Integer id = (Integer) key;
@@ -339,7 +339,7 @@ public class UserCache extends Cache<UserCache> {
                 result.userMapById.put(user.getId(), user);
             }
 
-            result.activeUserMapByLogin = new TreeMap<String, User>();
+            result.activeUserMapByLogin = new TreeMap<>();
             for (final User user : result.userList) {
                 if (user.getStatus() != User.STATUS_DISABLED) {
                     result.activeUserMapByLogin.put(user.getLogin(), user);
@@ -349,19 +349,19 @@ public class UserCache extends Cache<UserCache> {
             // группы
             result.userGroupList = groupDAO.getGroupList();
 
-            result.userGroupMap = new HashMap<Integer, Group>(result.userGroupList.size());
+            result.userGroupMap = new HashMap<>(result.userGroupList.size());
             for (final Group group : result.userGroupList) {
                 result.userGroupMap.put(group.getId(), group);
             }
 
-            result.userGroupFullTitledList = new ArrayList<Group>();
+            result.userGroupFullTitledList = new ArrayList<>();
             for (final Group group : result.userGroupList) {
                 final Group fullTitled = group.clone();
                 fullTitled.setTitle(UserCache.getUserGroupWithPath(result.userGroupMap, group.getId(), false));
                 result.userGroupFullTitledList.add(fullTitled);
             }
 
-            result.userGroupFullTitledMap = new HashMap<Integer, Group>(result.userGroupFullTitledList.size());
+            result.userGroupFullTitledMap = new HashMap<>(result.userGroupFullTitledList.size());
             for (final Group group : result.userGroupFullTitledList) {
                 result.userGroupFullTitledMap.put(group.getId(), group);
             }
@@ -372,7 +372,7 @@ public class UserCache extends Cache<UserCache> {
             // наборы прав
             result.userPermsetList = permsetDAO.getPermsetList();
 
-            result.userPermsetMap = new HashMap<Integer, Permset>(result.userPermsetList.size());
+            result.userPermsetMap = new HashMap<>(result.userPermsetList.size());
             for (final Permset permset : result.userPermsetList) {
                 result.userPermsetMap.put(permset.getId(), permset);
             }
@@ -402,7 +402,7 @@ public class UserCache extends Cache<UserCache> {
                 }
 
                 // действующие группы пользователя
-                final List<Group> userGroupList = new ArrayList<Group>();
+                final List<Group> userGroupList = new ArrayList<>();
                 for (final Group group : result.userGroupList) {
                     if (user.getGroupIds().contains(group.getId())) {
                         userGroupList.add(group);
@@ -410,7 +410,7 @@ public class UserCache extends Cache<UserCache> {
                 }
 
                 // действующие наборы прав пользователя
-                final List<Integer> userPermsetIds = new ArrayList<Integer>();
+                final List<Integer> userPermsetIds = new ArrayList<>();
                 // сначала собираются все наборы групп в порядке алфавита, установленных у пользователя
                 // наборы в каждой группе установлены в определённом порядке
                 for (final Group group : userGroupList) {
@@ -498,7 +498,7 @@ public class UserCache extends Cache<UserCache> {
     }
 
     private Set<Integer> getActualUserGroupIdSet(final Date actualDate, final List<UserGroup> ugList) {
-        final Set<Integer> activeGroupSet = new HashSet<Integer>();
+        final Set<Integer> activeGroupSet = new HashSet<>();
 
         for (final UserGroup ug : ugList) {
             if (TimeUtils.dateInRange(actualDate, ug.getDateFrom(), ug.getDateTo())) {

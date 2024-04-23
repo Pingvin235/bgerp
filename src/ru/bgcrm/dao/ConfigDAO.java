@@ -248,7 +248,7 @@ public class ConfigDAO extends CommonDAO {
 
     @Deprecated
     public List<ConfigRecord> getConfigRecordList(String tableId, int recordId) throws SQLException {
-        List<ConfigRecord> result = new ArrayList<ConfigRecord>();
+        List<ConfigRecord> result = new ArrayList<>();
 
         PreparedStatement ps = con
                 .prepareStatement("SELECT * FROM " + tableName + " WHERE table_id=? AND record_id=? ORDER BY `key`");
@@ -270,7 +270,7 @@ public class ConfigDAO extends CommonDAO {
         // таблица может быть передана из констант, тогда она окружена пробелами
         tableId = tableId.trim();
 
-        Map<String, String> configMap = new HashMap<String, String>();
+        Map<String, String> configMap = new HashMap<>();
         for (ConfigRecord configRecord : getConfigRecordList(tableId, recordId)) {
             configMap.put(configRecord.getKey(), configRecord.getValue());
         }
@@ -283,7 +283,7 @@ public class ConfigDAO extends CommonDAO {
         tableId = tableId.trim();
 
         if (config != null) {
-            List<ConfigRecord> configList = new ArrayList<ConfigRecord>();
+            List<ConfigRecord> configList = new ArrayList<>();
             for (String key : config.keySet()) {
                 ConfigRecord configRecord = new ConfigRecord();
                 configRecord.setKey(key);

@@ -21,8 +21,8 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
     private String comment;
     private String config;
     private ConfigMap configMap = new Preferences();
-    private Set<Integer> queueIds = new HashSet<Integer>();
-    private List<Integer> permsetIds = new ArrayList<Integer>();
+    private Set<Integer> queueIds = new HashSet<>();
+    private List<Integer> permsetIds = new ArrayList<>();
 
     public String getConfig() {
         return config;
@@ -96,7 +96,7 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
     }
 
     public Set<Integer> getChildSet() {
-        Set<Integer> resultSet = new HashSet<Integer>();
+        Set<Integer> resultSet = new HashSet<>();
 
         for (Group group : UserCache.getUserGroupChildSet(id)) {
             resultSet.add(group.getId());
@@ -121,7 +121,7 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
 
     public Set<Integer> getParentGroupTreeSet() {
         int parent = parentId;
-        Set<Integer> resultSet = new HashSet<Integer>();
+        Set<Integer> resultSet = new HashSet<>();
 
         while (parent > 0) {
             resultSet.add(parent);

@@ -132,7 +132,7 @@ public class NewsDAO extends CommonDAO {
     }
 
     public void updateNewsGroups(News news, Set<Integer> groupIds) throws SQLException {
-        Set<Integer> userIds = new HashSet<Integer>();
+        Set<Integer> userIds = new HashSet<>();
         for (User user : UserCache.getUserList()) {
             if (CollectionUtils.intersection(user.getGroupIds(), groupIds).size() > 0) {
                 userIds.add(user.getId());
@@ -208,7 +208,7 @@ public class NewsDAO extends CommonDAO {
         ps.executeUpdate();
         ps.close();
 
-        Set<Integer> newsUserIds = new HashSet<Integer>();
+        Set<Integer> newsUserIds = new HashSet<>();
 
         ps = con.prepareStatement("SELECT user_id FROM " + TABLE_NEWS_USER + " WHERE news_id=?");
         ps.setInt(1, newsId);

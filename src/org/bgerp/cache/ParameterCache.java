@@ -158,7 +158,7 @@ public class ParameterCache extends Cache<ParameterCache> {
 
                         Connection con = Setup.getSetup().getDBConnectionFromPool();
                         try {
-                            List<IdTitle> listValues = new ArrayList<IdTitle>();
+                            List<IdTitle> listValues = new ArrayList<>();
 
                             Set<Integer> availableValues = Utils
                                     .toIntegerSet(param.getConfigMap().get(Parameter.LIST_PARAM_AVAILABLE_VALUES_KEY, ""));
@@ -203,7 +203,7 @@ public class ParameterCache extends Cache<ParameterCache> {
         }
 
         if (listValues == null) {
-            listValues = new ArrayList<IdTitle>();
+            listValues = new ArrayList<>();
         }
 
         return listValues;
@@ -274,7 +274,7 @@ public class ParameterCache extends Cache<ParameterCache> {
             result.objectTypeParameters = paramDAO.getParameterMapByObjectType();
             result.paramGroupParams = paramDAO.getParameterIdsByGroupIds();
 
-            result.parameterMap = new HashMap<Integer, Parameter>();
+            result.parameterMap = new HashMap<>();
             for (List<Parameter> paramList : result.objectTypeParameters.values()) {
                 for (Parameter p : paramList) {
                     result.parameterMap.put(p.getId(), p);
@@ -282,7 +282,7 @@ public class ParameterCache extends Cache<ParameterCache> {
             }
 
             result.listParamValues = paramDAO.getListParamValuesMap();
-            result.listParamValuesFromDir = new ConcurrentHashMap<Integer, List<IdTitle>>();
+            result.listParamValuesFromDir = new ConcurrentHashMap<>();
 
             result.treeParamRootNodes = paramDAO.getTreeParamRootNodes();
         } catch (Exception e) {

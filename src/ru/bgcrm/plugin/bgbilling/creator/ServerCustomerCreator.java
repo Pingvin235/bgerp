@@ -77,7 +77,7 @@ public class ServerCustomerCreator {
 
     // соответствие параметра контрагента параметр(ам) биллинга
     // несколько параметров биллинга поддержаны для адреса
-    private Map<Parameter, ParamMappingValue> paramTypeMapping = new HashMap<Parameter, ParamMappingValue>();
+    private Map<Parameter, ParamMappingValue> paramTypeMapping = new HashMap<>();
 
     private Connection con;
     private CustomerDAO customerDao;
@@ -231,7 +231,7 @@ public class ServerCustomerCreator {
             return;
         }
 
-        Pageable<Customer> result = new Pageable<Customer>();
+        Pageable<Customer> result = new Pageable<>();
         customerDao.searchCustomerList(result, LikePattern.SUB.get(customerTitle));
 
         // строковые представления параметров договоров
@@ -275,7 +275,7 @@ public class ServerCustomerCreator {
     private Map<Integer, String> getContractParamValues(int contractId) throws Exception {
         log.info("Load contract parameters.");
 
-        Map<Integer, String> result = new HashMap<Integer, String>();
+        Map<Integer, String> result = new HashMap<>();
 
         ContractParamDAO contractParamDAO = new ContractParamDAO(user, dbInfo);
         Document doc = contractParamDAO.getContractParams(contractId);
@@ -303,7 +303,7 @@ public class ServerCustomerCreator {
 
     // поиск контрагента по имени с подтверждением по параметрам
     private Customer findCustomerByTitleWithParamsConfirm(String customerTitle, int contractId, Map<Integer, String> paramValues) throws Exception {
-        Pageable<Customer> result = new Pageable<Customer>();
+        Pageable<Customer> result = new Pageable<>();
         result.getPage().setPageSize(300);
         result.getPage().setPageIndex(1);
 
@@ -350,7 +350,7 @@ public class ServerCustomerCreator {
                             }
                         }
                     } else if (Parameter.TYPE_PHONE.equals(param.getType())) {
-                        Set<String> contractPhones = new HashSet<String>(Arrays.asList(billingParamValue.split(";")));
+                        Set<String> contractPhones = new HashSet<>(Arrays.asList(billingParamValue.split(";")));
 
                         ParameterPhoneValue val = paramValueDao.getParamPhone(customer.getId(), param.getId());
                         if (val != null) {
@@ -396,7 +396,7 @@ public class ServerCustomerCreator {
                     ParamAddressValue paramAddressValue = contractParamDAO.getAddressParam(contractId, billingParamId);
                     ParameterAddressValue billingAddr = ContractParamDAO.toCrmObject(paramAddressValue, con);
 
-                    Pageable<ParameterSearchedObject<Customer>> searchResult = new Pageable<ParameterSearchedObject<Customer>>();
+                    Pageable<ParameterSearchedObject<Customer>> searchResult = new Pageable<>();
                     customerDao.searchCustomerListByAddress(searchResult, Collections.singletonList(param.getId()), billingAddr.getHouseId(),
                             billingAddr.getFlat(), billingAddr.getRoom());
 
@@ -412,7 +412,7 @@ public class ServerCustomerCreator {
                 } else if (Parameter.TYPE_PHONE.equals(param.getType())) {
                     String[] phones = stringValue.split(";");
 
-                    Pageable<Customer> searchResult = new Pageable<Customer>();
+                    Pageable<Customer> searchResult = new Pageable<>();
                     customerDao.searchCustomerListByPhone(searchResult, Collections.singletonList(param.getId()), phones);
 
                     Customer customer = searchCustomer(searchResult, param.getId(), customerTitle);
@@ -421,7 +421,7 @@ public class ServerCustomerCreator {
                     }
 
                 } else if (Parameter.TYPE_TEXT.equals(param.getType())) {
-                    Pageable<Customer> searchResult = new Pageable<Customer>();
+                    Pageable<Customer> searchResult = new Pageable<>();
                     customerDao.searchCustomerListByText(searchResult, Collections.singletonList(param.getId()), LikePattern.SUB.get(stringValue));
 
                     Customer customer = searchCustomer(searchResult, param.getId(), customerTitle);
@@ -494,7 +494,7 @@ public class ServerCustomerCreator {
                         log.error("Incorrect date param: " + stringValue);
                     }
                 } else if (Parameter.TYPE_PHONE.equals(param.getType())) {
-                    Set<String> billingValues = new HashSet<String>(Arrays.asList(stringValue.split(";")));
+                    Set<String> billingValues = new HashSet<>(Arrays.asList(stringValue.split(";")));
 
                     ParameterPhoneValue customerParamValue = paramValueDao.getParamPhone(customer.getId(), param.getId());
                     if (customerParamValue != null) {
@@ -504,7 +504,7 @@ public class ServerCustomerCreator {
                         }
                     } else {
                         customerParamValue = new ParameterPhoneValue();
-                        customerParamValue.setItemList(new ArrayList<ParameterPhoneValueItem>());
+                        customerParamValue.setItemList(new ArrayList<>());
                     }
 
                     // если остались номера которых нет
@@ -584,7 +584,7 @@ public class ServerCustomerCreator {
                         log.info("Add list param value, param: " + param.getId() + "; value: " + billingValue.getId());
                     }
                 } else if (Parameter.TYPE_EMAIL.equals(param.getType())) {
-                    Map<String, String> billingValues = new HashMap<String, String>();
+                    Map<String, String> billingValues = new HashMap<>();
                     for (String value : Arrays.asList(stringValue.split("[;,]"))) {
                         value = value.trim();
                         if (Utils.isEmptyString(value)) {

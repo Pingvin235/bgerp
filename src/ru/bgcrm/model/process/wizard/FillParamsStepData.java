@@ -66,12 +66,12 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
             Set<Entry<Integer, ConfigMap>> showParamSet = processType.getProperties().getConfigMap()
                     .subIndexed("showParam.").entrySet();
 
-            Set<Integer> hideParamIds = new HashSet<Integer>();
+            Set<Integer> hideParamIds = new HashSet<>();
             // показывает параметры процесса только в том случае, если выполняется JEXL выражение: showParam.<paramId>.checkExpression=<expr>
             for (Entry<Integer, ConfigMap> entry : showParamSet) {
                 String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
-                Map<String, Object> context = new HashMap<String, Object>();
+                Map<String, Object> context = new HashMap<>();
                 context.put(User.OBJECT_TYPE, data.getUser());
                 context.put(Process.OBJECT_TYPE, process);
                 context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,

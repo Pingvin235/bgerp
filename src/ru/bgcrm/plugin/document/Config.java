@@ -24,7 +24,7 @@ public class Config extends org.bgerp.app.cfg.Config {
 
                 SortedMap<Integer, Pattern> map = patterns.get(pattern.getScope());
                 if (map == null) {
-                    map = new TreeMap<Integer, Pattern>();
+                    map = new TreeMap<>();
                     patterns.put(pattern.getScope(), map);
                 }
                 map.put(pattern.getId(), pattern);
@@ -35,7 +35,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     public List<Pattern> getPatterns(String scope, String objectType, String objectTitle) {
-        List<Pattern> result = new ArrayList<Pattern>();
+        List<Pattern> result = new ArrayList<>();
 
         SortedMap<Integer, Pattern> patterns = this.patterns.get(scope);
         if (patterns != null) {

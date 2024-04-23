@@ -45,7 +45,7 @@ public class CashCheckDAO extends BillingDAO {
 
             JsonNode result = transferData.postDataReturn(req, user);
 
-            return new Pair<String, String>(result.path("summa").textValue(), result.path("submit").textValue());
+            return new Pair<>(result.path("summa").textValue(), result.path("submit").textValue());
         } else if (dbInfo.versionCompare("5.1") <= 0) {
             if (paymentId > 0) {
                 try {
@@ -70,7 +70,7 @@ public class CashCheckDAO extends BillingDAO {
                     if (nodeList.getLength() > 0) {
                         Element element = (Element) nodeList.item(0);
 
-                        return new Pair<String, String>(element.getAttribute("summa"), element.getAttribute("submit"));
+                        return new Pair<>(element.getAttribute("summa"), element.getAttribute("submit"));
                     }
 
                 } catch (Exception e) {
@@ -80,7 +80,7 @@ public class CashCheckDAO extends BillingDAO {
                 throw new BGMessageExceptionTransparent("Чек не напечатан.Ошибка.");
             }
 
-            return new Pair<String, String>("", "");
+            return new Pair<>("", "");
         } else {
             throw new UnsupportedBillingVersion("5.1 и с 6.1");
         }
@@ -91,7 +91,7 @@ public class CashCheckDAO extends BillingDAO {
      * @return
      */
     public List<IdTitle> getRegistratorList() {
-        List<IdTitle> registratorList = new ArrayList<IdTitle>();
+        List<IdTitle> registratorList = new ArrayList<>();
 
         int selectedRegistratorId = 0;
 

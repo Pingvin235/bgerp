@@ -36,7 +36,7 @@ public class ContractObjectParamDAO extends BillingDAO {
 
     public ContractObjectParamDAO(User user, String billingId) {
         super(user, billingId);
-        contractParameters = new HashMap<Integer, Document>();
+        contractParameters = new HashMap<>();
     }
 
     public List<ContractObjectParameter> getParameterList(int objectId) {
@@ -116,7 +116,7 @@ public class ContractObjectParamDAO extends BillingDAO {
     public List<Integer> getContractParamIds(int objectId) {
         NodeList nodes = XMLUtils.selectNodeList(getContractParams(objectId), "/data/table/row/@param_id");
 
-        List<Integer> paramList = new ArrayList<Integer>();
+        List<Integer> paramList = new ArrayList<>();
 
         for (int i = 0; i < nodes.getLength(); i++) {
             paramList.add(Utils.parseInt(nodes.item(i).getNodeValue()));
@@ -221,7 +221,7 @@ public class ContractObjectParamDAO extends BillingDAO {
         } else {
 
 
-            List<IdTitle> result = new ArrayList<IdTitle>();
+            List<IdTitle> result = new ArrayList<>();
 
             Request req = new Request();
 

@@ -66,13 +66,13 @@ public class AddressTest {
         Assert.assertEquals(result.getList().size(), 1);
         Assert.assertEquals(result.getList().get(0).getTitle(), "Карла Маркса");
 
-        result = new Pageable<AddressItem>();
+        result = new Pageable<>();
         dao.searchAddressStreetList(result, null, Set.of("уфа", "ма").stream().map(LikePattern.SUB::get).collect(Collectors.toList()), false, true);
         Assert.assertEquals(result.getList().size(), 2);
         Assert.assertEquals(result.getList().get(0).getTitle(), "Габдуллы Амантая");
         Assert.assertEquals(result.getList().get(1).getTitle(), "Карла Маркса");
 
-        result = new Pageable<AddressItem>();
+        result = new Pageable<>();
         dao.searchAddressStreetList(result, Set.of(cityUfa.getId()), List.of(LikePattern.SUB.get("Маркс")), false, true);
         Assert.assertEquals(result.getList().size(), 1);
         Assert.assertEquals(result.getList().get(0).getTitle(), "Карла Маркса");

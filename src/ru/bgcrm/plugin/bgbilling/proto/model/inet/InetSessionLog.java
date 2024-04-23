@@ -49,8 +49,8 @@ public class InetSessionLog extends InetSession {
     private Set<Integer> deviceOptions;
 
     //нельзя тут ставить this.getClass() , не серилизуется потом это
-    private Map<Integer, Long> trafficMap = new HashMap<Integer, Long>();
-    private Map<Integer, InetSessionLogAccount> accountMap = new HashMap<Integer, InetSessionLogAccount>();
+    private Map<Integer, Long> trafficMap = new HashMap<>();
+    private Map<Integer, InetSessionLogAccount> accountMap = new HashMap<>();
 
     private List<InetSessionLog> children;
 

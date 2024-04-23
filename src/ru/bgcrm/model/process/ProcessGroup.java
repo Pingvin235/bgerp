@@ -106,7 +106,7 @@ public class ProcessGroup implements Comparable<ProcessGroup> {
     }
 
     public static final Set<Integer> toGroupSet(Set<ProcessGroup> processGroups) {
-        Set<Integer> resultSet = new HashSet<Integer>();
+        Set<Integer> resultSet = new HashSet<>();
 
         for (ProcessGroup processGroup : processGroups) {
             resultSet.add(processGroup.getGroupId());
@@ -130,7 +130,7 @@ public class ProcessGroup implements Comparable<ProcessGroup> {
     }
 
     public static Set<ProcessGroup> parseFromStringSet(Set<String> values) {
-        Set<ProcessGroup> resultSet = new HashSet<ProcessGroup>();
+        Set<ProcessGroup> resultSet = new HashSet<>();
 
         for (String value : values) {
             if (value.indexOf(":") > -1) {
@@ -147,7 +147,7 @@ public class ProcessGroup implements Comparable<ProcessGroup> {
     }
 
     public static Set<Integer> getGroupsWithRole(Set<ProcessGroup> processGroupSet, int role) {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         for (ProcessGroup value : processGroupSet) {
             if (value.getRoleId() == role) {

@@ -24,7 +24,7 @@ public class ContractInfoTreeView
 			setChildren( children );
 		}
 
-		this.actionParameters = new ArrayList<ParameterValue>();
+		this.actionParameters = new ArrayList<>();
 		for( int i = 0; i < actionParameters.length; i++ )
 			this.actionParameters.add( actionParameters[i] );
 	}
@@ -34,9 +34,9 @@ public class ContractInfoTreeView
 		setTitle( title );
 		setValue( value );
 		detailInfo( detailInfo );
-		children = new ArrayList<ContractInfoTreeView>();
+		children = new ArrayList<>();
 
-		this.actionParameters = new ArrayList<ParameterValue>();
+		this.actionParameters = new ArrayList<>();
 		for( int i = 0; i < actionParameters.length; i++ )
 			this.actionParameters.add( actionParameters[i] );
 	}

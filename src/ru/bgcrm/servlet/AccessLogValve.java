@@ -133,7 +133,7 @@ public class AccessLogValve extends org.apache.catalina.valves.AccessLogValve {
 
         };
 
-        List<AccessLogElement> superList = new ArrayList<AccessLogElement>();
+        List<AccessLogElement> superList = new ArrayList<>();
         for (AccessLogElement superEl : super.createLogElements()) {
             superList.add(superEl);
         }

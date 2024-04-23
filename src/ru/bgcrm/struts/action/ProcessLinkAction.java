@@ -72,7 +72,7 @@ public class ProcessLinkAction extends ProcessAction {
                 filters.add(new FilterProcessType(0, SimpleConfigMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId))));
             }
 
-            Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
+            Pageable<Object[]> searchResult = new Pageable<>(form);
 
             new ProcessQueueDAO(con, form).searchProcess(searchResult, null, queue, form);
 
@@ -83,7 +83,7 @@ public class ProcessLinkAction extends ProcessAction {
             queue.replaceRowsForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
         } else {
-            Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>(form);
+            Pageable<Pair<String, Process>> searchResult = new Pageable<>(form);
             processLinkDAO.searchLinkedProcessList(searchResult, LikePattern.START.get(objectType), id, null,
                     paramProcessTypeId, form.getParamValues("statusId"), form.getParam("paramFilter"),
                     paramOpen);
@@ -167,7 +167,7 @@ public class ProcessLinkAction extends ProcessAction {
                 ProcessType type = getProcessType(process.getTypeId());
                 List<Integer> paramIds = type.getProperties().getParameterIds();
                 List<Integer> linkedParamIds = linkedType.getProperties().getParameterIds();
-                List<Integer> paramIdsBothHave = new ArrayList<Integer>(linkedParamIds);
+                List<Integer> paramIdsBothHave = new ArrayList<>(linkedParamIds);
                 paramIdsBothHave.retainAll(paramIds);
 
                 new ParamValueDAO(con).copyParams(linkedId, process.getId(), StringUtils.join(paramIdsBothHave, ","));

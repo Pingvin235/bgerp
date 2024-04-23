@@ -18,7 +18,7 @@ import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.Utils;
 
 public class CallboardConfig extends Config {
-    private final Map<Integer, Callboard> itemMap = new LinkedHashMap<Integer, Callboard>();
+    private final Map<Integer, Callboard> itemMap = new LinkedHashMap<>();
 
     public CallboardConfig(ConfigMap config) {
         super(null);
@@ -36,7 +36,7 @@ public class CallboardConfig extends Config {
         if (CollectionUtils.isEmpty(allowOnlyIds)) {
             return itemMap.values();
         } else {
-            List<Callboard> result = new ArrayList<Callboard>();
+            List<Callboard> result = new ArrayList<>();
             for (Callboard callboard : itemMap.values()) {
                 if (allowOnlyIds.contains(callboard.getId())) {
                     result.add(callboard);

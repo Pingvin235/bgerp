@@ -21,7 +21,7 @@ public class ContractCustomerDAO extends CommonDAO {
         link.setLinkObjectType(Contract.OBJECT_TYPE + ":" + contract.getBillingId());
         link.setLinkObjectId(contract.getId());
 
-        Pageable<Customer> customerSearch = new Pageable<Customer>();
+        Pageable<Customer> customerSearch = new Pageable<>();
         new CustomerLinkDAO(con).searchCustomerByLink(customerSearch, link);
 
         return Utils.getFirst(customerSearch.getList());

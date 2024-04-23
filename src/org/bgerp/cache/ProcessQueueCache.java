@@ -40,7 +40,7 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
     }
 
     public static List<Queue> getUserQueueList(User user) {
-        List<Queue> result = new ArrayList<Queue>();
+        List<Queue> result = new ArrayList<>();
 
         for (Queue queue : holder.getInstance().queueList) {
             if (user.getQueueIds().contains(queue.getId())) {

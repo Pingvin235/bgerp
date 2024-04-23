@@ -53,7 +53,7 @@ public class DocumentAction extends BaseAction {
         String objectTitle = form.getParam("objectTitle");
         int objectId = Utils.parseInt(form.getParam("objectId"));
 
-        documentDao.searchObjectDocuments(new Pageable<Document>(form), objectType, objectId);
+        documentDao.searchObjectDocuments(new Pageable<>(form), objectType, objectId);
         Collection<Pattern> patterns = config.getPatterns(scope, objectType, objectTitle);
 
         if (Process.OBJECT_TYPE.equals(scope)) {

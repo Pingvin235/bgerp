@@ -73,7 +73,7 @@ public class UserGroupDAO extends CommonDAO {
     }
 
     public List<Group> getGroupList() {
-        List<Group> result = new ArrayList<Group>();
+        List<Group> result = new ArrayList<>();
 
         try {
             String query = "SELECT * FROM " + TABLE_USER_GROUP_TITLE + " ORDER BY title";

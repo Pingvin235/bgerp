@@ -195,7 +195,7 @@ public class ConnectionPool {
                     }
                 };
             } else {
-                connectionPool = new GenericObjectPool<PoolableConnection>(poolableConFactory);
+                connectionPool = new GenericObjectPool<>(poolableConFactory);
             }
 
             connectionPool.setMaxIdle(prefs.getInt(prefix + "maxIdle", MAX_IDLE_DEFAULT));

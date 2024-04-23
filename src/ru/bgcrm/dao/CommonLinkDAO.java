@@ -145,7 +145,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
     }
 
     private List<CommonObjectLink> getObjectLinks(int objectId, String tableName, String columnName, String typeLike) {
-        List<CommonObjectLink> result = new ArrayList<CommonObjectLink>();
+        List<CommonObjectLink> result = new ArrayList<>();
 
         try {
             StringBuilder query = new StringBuilder(200);

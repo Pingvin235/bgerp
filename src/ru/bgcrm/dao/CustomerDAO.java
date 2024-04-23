@@ -363,7 +363,7 @@ public class CustomerDAO extends CommonDAO {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new ParameterSearchedObject<Customer>(getCustomerFromRs(rs, "c."), rs.getInt(1), rs.getString(2)));
+                list.add(new ParameterSearchedObject<>(getCustomerFromRs(rs, "c."), rs.getInt(1), rs.getString(2)));
             }
 
             setRecordCount(page, ps.getPrepared());
@@ -420,7 +420,7 @@ public class CustomerDAO extends CommonDAO {
             try (ps) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    list.add(new ParameterSearchedObject<Customer>(getCustomerFromRs(rs, "c."), rs.getInt(1), rs.getString(2)));
+                    list.add(new ParameterSearchedObject<>(getCustomerFromRs(rs, "c."), rs.getInt(1), rs.getString(2)));
                 }
 
                 setRecordCount(page, ps.getPrepared());
@@ -563,7 +563,7 @@ public class CustomerDAO extends CommonDAO {
      * @return
      */
     public static Set<Customer> getCustomers(Connection connection, Collection<Integer> customerIds) {
-        Set<Customer> customers = new HashSet<Customer>();
+        Set<Customer> customers = new HashSet<>();
 
         String sql = "SELECT * FROM customer WHERE customer.id IN ( ";
         sql += Utils.toString(customerIds);
@@ -731,7 +731,7 @@ public class CustomerDAO extends CommonDAO {
      * @return
      */
     public List<String> getCustomerTitles(String title, int count) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         try {
             String query = " SELECT title FROM " + TABLE_CUSTOMER + " WHERE title LIKE ? " + " GROUP BY title ORDER BY title LIMIT ?";

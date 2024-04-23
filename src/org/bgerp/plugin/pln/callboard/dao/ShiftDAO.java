@@ -38,7 +38,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class ShiftDAO extends CommonDAO {
-    private static Comparator<WorkTypeTime> workShiftComparator = new Comparator<WorkTypeTime>() {
+    private static Comparator<WorkTypeTime> workShiftComparator = new Comparator<>() {
         @Override
         public int compare(WorkTypeTime w1, WorkTypeTime w2) {
             return w1.getWorkTypeId() - w2.getWorkTypeId();
@@ -83,7 +83,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public List<Shift> getShiftList(int category) {
-        List<Shift> list = new ArrayList<Shift>();
+        List<Shift> list = new ArrayList<>();
 
         try {
             ResultSet rs = null;
@@ -113,7 +113,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public List<Shift> getShiftList(Set<Integer> shiftIds) {
-        List<Shift> list = new ArrayList<Shift>();
+        List<Shift> list = new ArrayList<>();
 
         try {
             ResultSet rs = null;
@@ -143,7 +143,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public Map<Integer, Shift> getAllShiftMap() {
-        Map<Integer, Shift> result = new HashMap<Integer, Shift>();
+        Map<Integer, Shift> result = new HashMap<>();
 
         try {
             ResultSet rs = null;
@@ -293,7 +293,7 @@ public class ShiftDAO extends CommonDAO {
 
             if (rs.first()) {
                 resultWorkShift = getWorkShiftFromRs(rs);
-                List<WorkTypeTime> workTypeTimeList = new ArrayList<WorkTypeTime>();
+                List<WorkTypeTime> workTypeTimeList = new ArrayList<>();
 
                 do {
                     workTypeTimeList.add(new WorkTypeTime(false, rs.getInt("work_type"), rs.getInt("time_from"),
@@ -351,12 +351,12 @@ public class ShiftDAO extends CommonDAO {
      */
     public Map<Integer, List<WorkShift>> getWorkShift(Callboard callboard, Date fromDate, Date toDate,
             Map<Integer, List<Integer>> groupWithUsersSet) {
-        Map<Integer, List<WorkShift>> resultMap = new LinkedHashMap<Integer, List<WorkShift>>();
+        Map<Integer, List<WorkShift>> resultMap = new LinkedHashMap<>();
 
         try {
             final int graphId = callboard.getId();
 
-            Map<Key, List<WorkShift>> workShiftData = new HashMap<Key, List<WorkShift>>();
+            Map<Key, List<WorkShift>> workShiftData = new HashMap<>();
 
             // убрать в далёком будущем, 03.10.2014
             // когда-то использовался формат хранения под кодом основной группы, потом был
@@ -390,7 +390,7 @@ public class ShiftDAO extends CommonDAO {
                 Key key = new Key(shift.getGroupId(), shift.getUserId());
                 List<WorkShift> shiftList = workShiftData.get(key);
                 if (shiftList == null) {
-                    workShiftData.put(key, shiftList = new ArrayList<WorkShift>());
+                    workShiftData.put(key, shiftList = new ArrayList<>());
                 }
 
                 shiftList.add(shift);
@@ -399,14 +399,14 @@ public class ShiftDAO extends CommonDAO {
 
             // перебор групп
             for (Entry<Integer, List<Integer>> entry : groupWithUsersSet.entrySet()) {
-                List<WorkShift> workShiftList = new ArrayList<WorkShift>();
+                List<WorkShift> workShiftList = new ArrayList<>();
                 // перебор пользователей
                 for (Integer user : entry.getValue()) {
                     Key key = new Key(entry.getKey(), user);
                     List<WorkShift> shiftList = workShiftData.get(key);
 
                     if (shiftList != null) {
-                        Map<Date, WorkShift> dateWorkShift = new HashMap<Date, WorkShift>();
+                        Map<Date, WorkShift> dateWorkShift = new HashMap<>();
 
                         for (WorkShift workShift : shiftList) {
                             /*
@@ -458,7 +458,7 @@ public class ShiftDAO extends CommonDAO {
     // пользователь входит в группу
     public Map<Integer, Map<Integer, Set<Date>>> getAvailableDateForShift(Callboard callboard,
             Map<Integer, List<Integer>> groupWithUsersMap, Date fromDate, Date toDate) {
-        Map<Integer, Map<Integer, Set<Date>>> result = new HashMap<Integer, Map<Integer, Set<Date>>>();
+        Map<Integer, Map<Integer, Set<Date>>> result = new HashMap<>();
 
         Calendar calTo = TimeUtils.convertDateToCalendar(toDate);
 
@@ -468,11 +468,11 @@ public class ShiftDAO extends CommonDAO {
                 groupId = callboard.getGroupId();
             }
 
-            Map<Integer, Set<Date>> groupUserDates = new HashMap<Integer, Set<Date>>();
+            Map<Integer, Set<Date>> groupUserDates = new HashMap<>();
             result.put(groupId, groupUserDates);
 
             for (Integer userId : groupUsers.getValue()) {
-                Set<Date> userDates = new HashSet<Date>();
+                Set<Date> userDates = new HashSet<>();
                 groupUserDates.put(userId, userDates);
 
                 List<UserGroup> userGroups = UserCache.getUserGroupList(userId);
@@ -500,7 +500,7 @@ public class ShiftDAO extends CommonDAO {
     // первый ключ - пользователь, далее - и данные по смене
     public Map<Integer, Map<Date, WorkShift>> getUserShifts(int graphId, Date fromDate, Date toDate)
             {
-        Map<Integer, Map<Date, WorkShift>> result = new HashMap<Integer, Map<Date, WorkShift>>();
+        Map<Integer, Map<Date, WorkShift>> result = new HashMap<>();
 
         try {
             String query = "SELECT * FROM " + TABLE_SHIFT_USER
@@ -517,7 +517,7 @@ public class ShiftDAO extends CommonDAO {
 
                 Map<Date, WorkShift> dayUserShift = result.get(workShift.getUserId());
                 if (dayUserShift == null) {
-                    result.put(workShift.getUserId(), dayUserShift = new HashMap<Date, WorkShift>());
+                    result.put(workShift.getUserId(), dayUserShift = new HashMap<>());
                 }
 
                 WorkShift existWorkShift = dayUserShift.get(workShift.getDate());
@@ -543,7 +543,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public Set<WorkShift> getWorkShiftSetFor(Date date, int userId) {
-        Set<WorkShift> result = new HashSet<WorkShift>();
+        Set<WorkShift> result = new HashSet<>();
 
         try {
             ResultSet rs = null;
@@ -568,7 +568,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public Map<Date, Set<WorkShift>> getMonthWorkShift(Date date, int groupId) {
-        Map<Date, Set<WorkShift>> resultMap = new LinkedHashMap<Date, Set<WorkShift>>();
+        Map<Date, Set<WorkShift>> resultMap = new LinkedHashMap<>();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -594,7 +594,7 @@ public class ShiftDAO extends CommonDAO {
                 if (resultMap.containsKey(workShift.getDate())) {
                     resultMap.get(workShift.getDate()).add(workShift);
                 } else {
-                    Set<WorkShift> workShiftSet = new LinkedHashSet<WorkShift>();
+                    Set<WorkShift> workShiftSet = new LinkedHashSet<>();
                     workShiftSet.add(workShift);
 
                     resultMap.put(workShift.getDate(), workShiftSet);
@@ -621,7 +621,7 @@ public class ShiftDAO extends CommonDAO {
             result.setTeam(rs.getInt("team"));
             result.setShiftId(rs.getInt("shift"));
 
-            List<WorkTypeTime> workTypeTimeList = new ArrayList<WorkTypeTime>();
+            List<WorkTypeTime> workTypeTimeList = new ArrayList<>();
             workTypeTimeList.add(new WorkTypeTime(rs.getBoolean("is_dynamic"), rs.getInt("work_type"),
                     rs.getInt("time_from"), rs.getInt("time_to"), rs.getString("comment")));
 
@@ -766,7 +766,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public List<CallboardTask> getDateTaskList(Date date) {
-        List<CallboardTask> result = new ArrayList<CallboardTask>();
+        List<CallboardTask> result = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -804,7 +804,7 @@ public class ShiftDAO extends CommonDAO {
      * один и тот же день, в одной группе вместе с переданной сменой
      */
     public List<WorkShift> findSameWorkShift(WorkShift workShift) {
-        List<WorkShift> resultList = new ArrayList<WorkShift>();
+        List<WorkShift> resultList = new ArrayList<>();
 
         try {
             ResultSet rs = null;
@@ -866,7 +866,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     public Map<Integer, Integer> getShiftOrder(int graphId, int groupId) {
-        Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> result = new HashMap<>();
 
         try {
             ResultSet rs = null;
@@ -945,23 +945,23 @@ public class ShiftDAO extends CommonDAO {
     // FIXME: Неведомая функция со сложной логикой, оставлена со старой версии!!!
     // Разобраться, что делает, т.к. возможно не нужна..
     private boolean checkWorkShiftTimeOrder(List<WorkTypeTime> workShiftList) {
-        Set<Integer> beginTimeSet = new HashSet<Integer>();
-        Set<Integer> endTimeSet = new HashSet<Integer>();
-        Set<Integer> copyTimeSet = new HashSet<Integer>();
+        Set<Integer> beginTimeSet = new HashSet<>();
+        Set<Integer> endTimeSet = new HashSet<>();
+        Set<Integer> copyTimeSet = new HashSet<>();
 
         for (WorkTypeTime workTypeTime : workShiftList) {
             beginTimeSet.add(workTypeTime.getDayMinuteFrom());
             endTimeSet.add(workTypeTime.getDayMinuteTo());
         }
 
-        copyTimeSet = new HashSet<Integer>(beginTimeSet);
+        copyTimeSet = new HashSet<>(beginTimeSet);
         beginTimeSet.removeAll(endTimeSet);
         endTimeSet.removeAll(copyTimeSet);
 
         if (beginTimeSet.size() == 1 && endTimeSet.size() == 1) {
             int count = 0;
-            int lastTime = new ArrayList<Integer>(beginTimeSet).get(0);
-            List<WorkTypeTime> sortedShiftList = new ArrayList<WorkTypeTime>();
+            int lastTime = new ArrayList<>(beginTimeSet).get(0);
+            List<WorkTypeTime> sortedShiftList = new ArrayList<>();
 
             while (sortedShiftList.size() < workShiftList.size()) {
                 for (WorkTypeTime workTypeTime : workShiftList) {

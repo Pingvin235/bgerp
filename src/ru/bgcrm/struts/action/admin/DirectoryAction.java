@@ -78,7 +78,7 @@ public class DirectoryAction extends BaseAction {
         var request = form.getHttpRequest();
 
         setDirectoryList(request);
-        Pageable<Parameter> searchResult = new Pageable<Parameter>(form);
+        Pageable<Parameter> searchResult = new Pageable<>(form);
 
         paramDAO.getParameterList(searchResult, getObjectType(form.getParam("directoryId")),
                 LikePattern.SUB.get(form.getParam("filter")), 0, null);
@@ -88,7 +88,7 @@ public class DirectoryAction extends BaseAction {
 
     public ActionForward parameterUseProcess(DynActionForm form, Connection con) throws Exception {
         Integer paramId = Utils.parseInt(form.getParam("parameterId"));
-        List<String> containProcess = new ArrayList<String>();
+        List<String> containProcess = new ArrayList<>();
         Map<Integer, ProcessType> processTypeMap = ProcessTypeCache.getProcessTypeMap();
 
         for (int i = 0; i < processTypeMap.size(); i++) {

@@ -9,7 +9,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.callboard.model.Shortcut;
 
 public class ShortcutConfig extends Config {
-    private final Map<Integer, Shortcut> shortcutMap = new LinkedHashMap<Integer, Shortcut>();
+    private final Map<Integer, Shortcut> shortcutMap = new LinkedHashMap<>();
 
     public ShortcutConfig(ConfigMap setup) {
         super(null);

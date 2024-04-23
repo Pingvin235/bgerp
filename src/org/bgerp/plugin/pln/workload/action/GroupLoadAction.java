@@ -86,7 +86,7 @@ public class GroupLoadAction extends BaseAction {
      * @return
      */
     private Set<Integer> allProcessTypeIds(Set<Integer> processTypeIds) {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         for (Integer processTypeId : processTypeIds) {
             ProcessType processType = ProcessTypeCache.getProcessType(processTypeId);

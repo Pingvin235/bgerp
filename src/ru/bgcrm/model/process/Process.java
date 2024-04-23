@@ -215,7 +215,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRole(int roleId) {
-        Set<ProcessGroup> groupsWithRole = new HashSet<ProcessGroup>();
+        Set<ProcessGroup> groupsWithRole = new HashSet<>();
         for (ProcessGroup group : groups) {
             if (group.getRoleId() == roleId) {
                 groupsWithRole.add(group);
@@ -240,7 +240,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRoles(Set<Integer> roleIds) {
-        Set<ProcessGroup> groupsWithRole = new HashSet<ProcessGroup>();
+        Set<ProcessGroup> groupsWithRole = new HashSet<>();
         for (ProcessGroup group : groups) {
             if (roleIds.contains(group.getRoleId())) {
                 groupsWithRole.add(group);
@@ -420,7 +420,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public Set<Integer> getRoleSet() {
-        Set<Integer> resultSet = new HashSet<Integer>();
+        Set<Integer> resultSet = new HashSet<>();
 
         for (ProcessGroup processGroup : groups) {
             if (!resultSet.contains(processGroup.getRoleId())) {
@@ -432,7 +432,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public Set<Integer> getAllowedToChangeStatusIds() {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         ProcessType type = ProcessTypeCache.getProcessType(typeId);
         if (type == null) {

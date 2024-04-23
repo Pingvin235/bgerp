@@ -38,7 +38,7 @@ public class UserAction extends org.bgerp.action.BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/user";
 
     public ActionForward permsetList(DynActionForm form, Connection con) {
-        new UserPermsetDAO(con).searchPermset(new Pageable<Permset>(form),
+        new UserPermsetDAO(con).searchPermset(new Pageable<>(form),
                 LikePattern.SUB.get(form.getParam("filter")));
 
         return html(con, form, PATH_JSP + "/permset/list.jsp");
@@ -112,7 +112,7 @@ public class UserAction extends org.bgerp.action.BaseAction {
 
         request.setAttribute("groupPath", UserCache.getGroupPath(parentId));
 
-        new UserGroupDAO(con).searchGroup(new Pageable<Group>(form), parentId, archive, filter);
+        new UserGroupDAO(con).searchGroup(new Pageable<>(form), parentId, archive, filter);
 
         int id = form.getParamInt("markGroup", -1);
         if (id > 0) {

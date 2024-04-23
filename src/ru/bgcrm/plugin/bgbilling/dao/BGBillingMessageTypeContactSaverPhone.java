@@ -46,7 +46,7 @@ public class BGBillingMessageTypeContactSaverPhone extends ru.bgcrm.dao.message.
         String billingId = StringUtils.substringAfterLast(contractLink.getLinkObjectType(), ":");
 
         ContractParamDAO paramDao = new ContractParamDAO(form.getUser(), billingId);
-        List<ParameterPhoneValueItem> values = new ArrayList<ParameterPhoneValueItem>();
+        List<ParameterPhoneValueItem> values = new ArrayList<>();
         for (ParameterPhoneValueItem item : paramDao.getPhoneParam(contractLink.getLinkObjectId(), paramId)) {
             values.add(item);
         }

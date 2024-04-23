@@ -40,14 +40,14 @@ import ru.bgcrm.util.sql.ConnectionSet;
  */
 public class HelpDeskListener {
     public HelpDeskListener() {
-        EventProcessor.subscribe(new EventListener<ProcessChangingEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(ProcessChangingEvent e, ConnectionSet connectionSet) throws Exception {
                 processChanged(e, connectionSet);
             }
         }, ProcessChangingEvent.class);
 
-        EventProcessor.subscribe(new EventListener<ParamChangedEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(ParamChangedEvent e, ConnectionSet connectionSet) throws BGMessageException {
                 paramChanged(e, connectionSet);
@@ -165,7 +165,7 @@ public class HelpDeskListener {
                 if (mt.getMarkMessagesReadStatusIds().contains(e.getStatusChange().getStatusId())) {
                     MessageDAO messageDao = new MessageDAO(conSet.getConnection());
 
-                    Pageable<Message> searchResult = new Pageable<Message>();
+                    Pageable<Message> searchResult = new Pageable<>();
                     messageDao.searchMessageList(searchResult, e.getProcess().getId(), mt.getId(),
                             Message.DIRECTION_INCOMING, null, null, null, null, null);
 
@@ -197,7 +197,7 @@ public class HelpDeskListener {
             for (MessageTypeHelpDesk mt : messageTypes) {
                 for (CommonObjectLink link : linkList) {
                     if (link.getLinkObjectType().equals(mt.getObjectType())) {
-                        return new Pair<MessageTypeHelpDesk, Integer>(mt, link.getLinkObjectId());
+                        return new Pair<>(mt, link.getLinkObjectId());
                     }
                 }
             }
@@ -207,7 +207,7 @@ public class HelpDeskListener {
     }
 
     private Set<MessageTypeHelpDesk> getMessageTypes() {
-        Set<MessageTypeHelpDesk> result = new HashSet<MessageTypeHelpDesk>();
+        Set<MessageTypeHelpDesk> result = new HashSet<>();
 
         MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
         for (MessageType type : config.getTypeMap().values()) {

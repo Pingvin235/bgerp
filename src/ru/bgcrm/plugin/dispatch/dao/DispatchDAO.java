@@ -38,7 +38,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public void dispatchUpdate(Dispatch dispatch) throws SQLException {
-        update(dispatch, new RecordUpdater<Dispatch>() {
+        update(dispatch, new RecordUpdater<>() {
             @Override
             public String getInsertQuery() throws SQLException {
                 return SQL_INSERT_INTO + Tables.TABLE_DISPATCH + " (title, comment) VALUES (?,?)";
@@ -46,7 +46,7 @@ public class DispatchDAO extends CommonDAO {
 
             @Override
             public Pair<String, Integer> getUpdateQuery() throws SQLException {
-                return new Pair<String, Integer>(SQL_UPDATE + Tables.TABLE_DISPATCH + " SET title=?, comment=? WHERE id=?", 3);
+                return new Pair<>(SQL_UPDATE + Tables.TABLE_DISPATCH + " SET title=?, comment=? WHERE id=?", 3);
             }
 
             @Override
@@ -58,7 +58,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public Dispatch dispatchGet(int id) throws SQLException {
-        return getById(Tables.TABLE_DISPATCH, id, new ObjectExtractor<Dispatch>() {
+        return getById(Tables.TABLE_DISPATCH, id, new ObjectExtractor<>() {
             @Override
             public Dispatch extract(ResultSet rs) throws SQLException {
                 return getDispatchFromRs(rs);
@@ -71,7 +71,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public List<Dispatch> dispatchList(Set<Integer> ids) throws SQLException {
-        List<Dispatch> result = new ArrayList<Dispatch>();
+        List<Dispatch> result = new ArrayList<>();
 
         String query = "SELECT * FROM " + Tables.TABLE_DISPATCH;
         if (CollectionUtils.isNotEmpty(ids)) {
@@ -100,7 +100,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public List<Dispatch> accountSubscriptions(String email) throws SQLException {
-        List<Dispatch> result = new ArrayList<Dispatch>();
+        List<Dispatch> result = new ArrayList<>();
 
         String query = "SELECT d.* FROM " + Tables.TABLE_DISPATCH + " AS d " + "INNER JOIN " + Tables.TABLE_ACCOUNT_SUBSCRIPTION
                 + " AS subscr ON d.id=subscr.dispatch_id AND subscr.account=?" + "ORDER BY d.title";
@@ -141,7 +141,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public List<DispatchMessage> messageUnsentList() throws SQLException {
-        List<DispatchMessage> result = new ArrayList<DispatchMessage>();
+        List<DispatchMessage> result = new ArrayList<>();
 
         String query = "SELECT * FROM " + Tables.TABLE_DISPATCH_MESSAGE + "WHERE ready AND sent_dt IS NULL " + "ORDER BY create_dt";
         PreparedStatement ps = con.prepareStatement(query);
@@ -156,7 +156,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public DispatchMessage messageGet(int id) throws SQLException {
-        return getById(Tables.TABLE_DISPATCH_MESSAGE, id, new ObjectExtractor<DispatchMessage>() {
+        return getById(Tables.TABLE_DISPATCH_MESSAGE, id, new ObjectExtractor<>() {
             @Override
             public DispatchMessage extract(ResultSet rs) throws SQLException {
                 return getMessageFromRs(rs);
@@ -169,7 +169,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public List<String> messageAccountList(int messageId) throws SQLException {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         String query = "SELECT DISTINCT account FROM " + Tables.TABLE_ACCOUNT_SUBSCRIPTION + "AS subscr " + "INNER JOIN "
                 + Tables.TABLE_DISPATCH_MESSAGE_DISPATCH + " AS mess_disp ON subscr.dispatch_id=mess_disp.dispatch_id AND mess_disp.message_id=?";
@@ -201,7 +201,7 @@ public class DispatchDAO extends CommonDAO {
     }
 
     public void messageUpdate(DispatchMessage message) throws Exception {
-        update(message, new RecordUpdater<DispatchMessage>() {
+        update(message, new RecordUpdater<>() {
             @Override
             public String getInsertQuery() throws SQLException {
                 return "INSERT INTO " + Tables.TABLE_DISPATCH_MESSAGE + " (dispatch_ids, title, text, ready, create_dt, sent_dt) " + "VALUES (?,?,?,?,?,?)";
@@ -209,7 +209,7 @@ public class DispatchDAO extends CommonDAO {
 
             @Override
             public Pair<String, Integer> getUpdateQuery() throws SQLException {
-                return new Pair<String, Integer>(
+                return new Pair<>(
                         "UPDATE  " + Tables.TABLE_DISPATCH_MESSAGE + " SET dispatch_ids=?, title=?, text=?, ready=?, create_dt=?, sent_dt=? " + "WHERE id=?",
                         7);
             }

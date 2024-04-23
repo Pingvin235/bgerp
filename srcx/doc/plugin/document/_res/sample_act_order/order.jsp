@@ -24,12 +24,12 @@
 		for (Integer processId : event.getObjectIds())
 		    processList.add(processDao.getProcess(processId));
 
-		Collections.sort(processList, new Comparator<Process> () {
-		    @Override
-		    public int compare(Process p1, Process p2) {
-		        return Utils.toString(p1.getExecutorIds()).compareTo(Utils.toString(p2.getExecutorIds()));
-		    }
-		});
+		Collections.sort(processList, new Comparator<>() {
+            @Override
+            public int compare(Process p1, Process p2) {
+                return Utils.toString(p1.getExecutorIds()).compareTo(Utils.toString(p2.getExecutorIds()));
+            }
+        });
 	%>
 
 	<table style="width: 100%;">

@@ -96,33 +96,33 @@ public class DirectoryAddressAction extends BaseAction {
 
         if ("house".equals(searchMode)) {
             String addressHouse = form.getParam("addressHouse");
-            Pageable<AddressHouse> searchResult = new Pageable<AddressHouse>(form);
+            Pageable<AddressHouse> searchResult = new Pageable<>(form);
             addressDAO.searchAddressHouseList(searchResult, addressStreetId, addressHouse, true, true, true, true);
         } else if ("item".equals(searchMode)) {
             if ("area".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
-                Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
+                Pageable<AddressItem> searchResult = new Pageable<>(form);
                 addressDAO.searchAddressAreaList(searchResult, addressCityId,
                         Utils.isEmptyString(addressItemTitle) ? null : List.of(LikePattern.SUB.get(addressItemTitle)), true, true);
             } else if ("quarter".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
-                Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
+                Pageable<AddressItem> searchResult = new Pageable<>(form);
                 addressDAO.searchAddressQuarterList(searchResult, addressCityId,
                         Utils.isEmptyString(addressItemTitle) ? null : List.of(LikePattern.SUB.get(addressItemTitle)), true, true);
             } else if ("street".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
-                Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
+                Pageable<AddressItem> searchResult = new Pageable<>(form);
                 addressDAO.searchAddressStreetList(searchResult, Collections.singleton(addressCityId),
                         Utils.isEmptyString(addressItemTitle) ? null : List.of(LikePattern.SUB.get(addressItemTitle)), true, true);
             }
         } else if ("city".equals(searchMode)) {
             String addressCityTitle = form.getParam("addressCityTitle");
-            Pageable<AddressCity> searchResult = new Pageable<AddressCity>(form);
+            Pageable<AddressCity> searchResult = new Pageable<>(form);
             addressDAO.searchAddressCityList(searchResult, addressCountryId, LikePattern.SUB.get(addressCityTitle), true,
                     allowedCityIds);
         } else if ("country".equals(searchMode)) {
             String addressCountryTitle = form.getParam("addressCountryTitle");
-            Pageable<AddressCountry> searchResult = new Pageable<AddressCountry>(form);
+            Pageable<AddressCountry> searchResult = new Pageable<>(form);
             addressDAO.searchAddressCountryList(searchResult, LikePattern.SUB.get(addressCountryTitle));
         }
 
@@ -173,15 +173,15 @@ public class DirectoryAddressAction extends BaseAction {
             final int cityId = addressHouse.getAddressStreet().getCityId();
             HttpServletRequest request = form.getHttpRequest();
 
-            Pageable<AddressItem> searchResultStreet = new Pageable<AddressItem>();
+            Pageable<AddressItem> searchResultStreet = new Pageable<>();
             addressDAO.searchAddressStreetList(searchResultStreet, cityId);
             request.setAttribute("parameterAddressStreetList", searchResultStreet.getList());
 
-            Pageable<AddressItem> searchResultArea = new Pageable<AddressItem>();
+            Pageable<AddressItem> searchResultArea = new Pageable<>();
             addressDAO.searchAddressAreaList(searchResultArea, cityId);
             request.setAttribute("parameterAddressAreaList", searchResultArea.getList());
 
-            Pageable<AddressItem> searchResultQuarter = new Pageable<AddressItem>();
+            Pageable<AddressItem> searchResultQuarter = new Pageable<>();
             addressDAO.searchAddressQuarterList(searchResultQuarter, cityId);
             request.setAttribute("parameterAddressQuarterList", searchResultQuarter.getList());
         } else if (getAddressItem(form, con)) {
@@ -316,7 +316,7 @@ public class DirectoryAddressAction extends BaseAction {
             }*/
             addressDAO.updateAddressHouse(addressHouse);
             //
-            List<HouseCapacityItem> houseCapacityItems = new ArrayList<HouseCapacityItem>();
+            List<HouseCapacityItem> houseCapacityItems = new ArrayList<>();
             analyticDAO.deleteHouseCapacityItem(addressHouse.getId());
             String houseCapacity = form.getParam("capacity", "");
             for (String item : houseCapacity.split("\n")) {
@@ -535,7 +535,7 @@ public class DirectoryAddressAction extends BaseAction {
         int streetId = Utils.parseInt(form.getParam("streetId"));
         String house = form.getParam("house", "");
 
-        Pageable<AddressHouse> searchResult = new Pageable<AddressHouse>(form);
+        Pageable<AddressHouse> searchResult = new Pageable<>(form);
         addressDAO.searchAddressHouseList(searchResult, streetId, house);
 
         return json(conSet, form);

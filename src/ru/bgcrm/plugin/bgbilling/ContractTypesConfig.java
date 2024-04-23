@@ -10,7 +10,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.plugin.bgbilling.model.ContractType;
 
 public class ContractTypesConfig extends Config {
-    private SortedMap<Integer, ContractType> typeMap = new TreeMap<Integer, ContractType>();
+    private SortedMap<Integer, ContractType> typeMap = new TreeMap<>();
 
     public ContractTypesConfig(ConfigMap config) {
         this(config, "bgbilling:contractType.");

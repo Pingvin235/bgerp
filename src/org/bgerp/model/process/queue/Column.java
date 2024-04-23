@@ -408,7 +408,7 @@ public class Column {
             openTag = " CAST((";
             closeTag = ") AS UNSIGNED) ";
         }
-        return new Pair<String, String>(openTag, closeTag);
+        return new Pair<>(openTag, closeTag);
     }
 
     // функция добавляет выбор требуемого параметра в нужном формате или без формата (value),

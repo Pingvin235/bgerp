@@ -76,9 +76,9 @@ public class BillAction extends BaseAction {
 
         BillDAO billDao = new BillDAO(form.getUser(), billingId, moduleId);
         if ("bill".equals(mode)) {
-            billDao.searchBillList(contractId, new Pageable<Bill>(form));
+            billDao.searchBillList(contractId, new Pageable<>(form));
         } else {
-            billDao.searchInvoiceList(contractId, new Pageable<Invoice>(form));
+            billDao.searchInvoiceList(contractId, new Pageable<>(form));
         }
 
         return html(conSet, form, PATH_JSP + "/document_list.jsp");

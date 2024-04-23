@@ -7,7 +7,7 @@ import java.util.Set;
 import ru.bgcrm.model.Page;
 
 public class Request {
-	private Map<String, Object> data = new HashMap<String, Object>();
+	private Map<String, Object> data = new HashMap<>();
 
 	public Request() {
 	}

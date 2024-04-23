@@ -17,7 +17,7 @@ public class SavePageContextTag extends TagSupport {
     private Map<String, Object> savedAttributes;
 
     public int doStartTag() throws JspException {
-        savedAttributes = new HashMap<String, Object>();
+        savedAttributes = new HashMap<>();
 
         Enumeration<String> attributeNames = pageContext.getAttributeNamesInScope(PageContext.PAGE_SCOPE);
         while (attributeNames.hasMoreElements()) {

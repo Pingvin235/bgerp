@@ -7,7 +7,7 @@ import java.util.Map;
 import org.bgerp.app.cfg.ConfigMap;
 
 class TrashDatabaseSelector {
-    private List<TableMapRow> configRowList = new ArrayList<TableMapRow>();
+    private List<TableMapRow> configRowList = new ArrayList<>();
 
     public TrashDatabaseSelector(ConfigMap setup) {
         ConfigMap configRows = setup.sub("trash.table.map.");

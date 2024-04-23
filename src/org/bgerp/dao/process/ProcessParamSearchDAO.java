@@ -90,10 +90,10 @@ public class ProcessParamSearchDAO extends SearchDAO {
 
             var rs = pq.executeQuery();
             while (rs.next())
-                list.add(new ParameterSearchedObject<Process>(
-                    ProcessDAO.getProcessFromRs(rs, "p."),
-                    rs.getInt("param.param_id"),
-                    rs.getString("param.value")));
+                list.add(new ParameterSearchedObject<>(
+                        ProcessDAO.getProcessFromRs(rs, "p."),
+                        rs.getInt("param.param_id"),
+                        rs.getString("param.value")));
 
             page.setRecordCount(foundRows(pq.getPrepared()));
         }

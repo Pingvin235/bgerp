@@ -34,7 +34,7 @@ public class RegexpCheckerConfig extends Config {
             try {
                 Pattern pattern = Pattern.compile(regexp);
                 if (regexpList == null) {
-                    regexpList = new ArrayList<Pattern>();
+                    regexpList = new ArrayList<>();
                 }
                 regexpList.add(pattern);
 

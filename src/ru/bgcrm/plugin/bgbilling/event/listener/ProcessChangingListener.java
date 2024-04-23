@@ -28,7 +28,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Deprecated
 public class ProcessChangingListener {
     public ProcessChangingListener() {
-        EventProcessor.subscribe(new EventListener<ProcessChangingEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(ProcessChangingEvent e, ConnectionSet connectionSet) throws BGMessageException {
                 processChanging(e, connectionSet);
@@ -57,7 +57,7 @@ public class ProcessChangingListener {
             return;
         }
 
-        Map<String, Integer> billingStatusMap = new HashMap<String, Integer>();
+        Map<String, Integer> billingStatusMap = new HashMap<>();
         for (String token : needStatus.split(";")) {
             String[] pair = token.split(":");
             if (pair.length != 2) {

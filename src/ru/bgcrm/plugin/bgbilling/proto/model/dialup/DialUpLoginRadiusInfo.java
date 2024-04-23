@@ -10,8 +10,8 @@ public class DialUpLoginRadiusInfo
 
 	private String realmGroup;
 	private int attributeMode;
-	private final List<DialUpLoginAttrSet> attrSetList = new ArrayList<DialUpLoginAttrSet>();
-	private final List<DialUpLoginAttr> attrList = new ArrayList<DialUpLoginAttr>();
+	private final List<DialUpLoginAttrSet> attrSetList = new ArrayList<>();
+	private final List<DialUpLoginAttr> attrList = new ArrayList<>();
 
 	public String getRealmGroup()
 	{

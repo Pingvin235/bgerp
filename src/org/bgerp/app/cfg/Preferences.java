@@ -235,7 +235,7 @@ public class Preferences extends ConfigMap {
     }
 
     public Map<String, String> getHashValuesWithPrefix(String prefix) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
             String param_name = e.getKey();
@@ -276,7 +276,7 @@ public class Preferences extends ConfigMap {
      * @return
      */
     public List<Map<String, String>> parseObjects(String prefix) {
-        Map<String, Map<String, String>> tmpMap = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> tmpMap = new HashMap<>();
         Map<String, String> values = getHashValuesWithPrefix(prefix);
         for (Map.Entry<String, String> value : values.entrySet()) {
             String id = null;
@@ -292,7 +292,7 @@ public class Preferences extends ConfigMap {
 
             Map<String, String> data = tmpMap.get(id);
             if (data == null) {
-                data = new HashMap<String, String>();
+                data = new HashMap<>();
                 data.put("id", id);
                 tmpMap.put(id, data);
             }
@@ -300,10 +300,10 @@ public class Preferences extends ConfigMap {
             data.put(key, value.getValue());
         }
 
-        List<Map<String, String>> res = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> res = new ArrayList<>();
         res.addAll(tmpMap.values());
 
-        Collections.sort(res, new Comparator<Map<String, String>>() {
+        Collections.sort(res, new Comparator<>() {
             public int compare(Map<String, String> o1, Map<String, String> o2) {
                 Integer id1 = Utils.parseInt(o1.get("id"));
                 Integer id2 = Utils.parseInt(o2.get("id"));
@@ -317,7 +317,7 @@ public class Preferences extends ConfigMap {
 
     @Deprecated
     public Map<String, Map<String, String>> parseObjectsNoOrder(String prefix) {
-        Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> result = new HashMap<>();
         Map<String, String> values = getHashValuesWithPrefix(prefix);
         for (Map.Entry<String, String> value : values.entrySet()) {
             String id = null;
@@ -333,7 +333,7 @@ public class Preferences extends ConfigMap {
 
             Map<String, String> data = result.get(id);
             if (data == null) {
-                data = new HashMap<String, String>();
+                data = new HashMap<>();
                 data.put("id", String.valueOf(id));
                 result.put(id, data);
             }

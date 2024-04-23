@@ -138,7 +138,7 @@ public class ConnectionSet {
      */
     public Connection getTrashConnection(String tableName, int defaultType) {
         if (trashConnections == null) {
-            trashConnections = new HashMap<String, Connection[]>();
+            trashConnections = new HashMap<>();
         }
 
         Connection[] connections = trashConnections.get(tableName);
@@ -182,7 +182,7 @@ public class ConnectionSet {
         }
 
         if (trashConnections != null) {
-            Set<Connection> commited = new HashSet<Connection>();
+            Set<Connection> commited = new HashSet<>();
 
             for (Connection[] connections : trashConnections.values()) {
                 for (int i = 0, size = connections.length; i < size; i++) {

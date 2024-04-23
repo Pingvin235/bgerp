@@ -71,7 +71,7 @@ public class ProcessQueueAction extends BaseAction {
         if (queue == null)
             throw new BGException("Queue not found: " + queueId);
 
-        Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
+        Pageable<Object[]> searchResult = new Pageable<>(form);
         searchResult.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
 
         new ProcessQueueDAO(conSet.getSlaveConnection()).searchProcess(searchResult, null, queue, form);

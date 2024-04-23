@@ -42,7 +42,7 @@ public class ZipUtils {
      * @return
      */
     public static SortedMap<String, byte[]> getFileEntriesFromZipByPrefix(ZipInputStream zis, String prefix) {
-        SortedMap<String, byte[]> result = new TreeMap<String, byte[]>();
+        SortedMap<String, byte[]> result = new TreeMap<>();
         ZipEntry ze = null;
         try {
             while ((ze = zis.getNextEntry()) != null) {
@@ -66,7 +66,7 @@ public class ZipUtils {
      * @return
      */
     public static Map<String, byte[]> getEntriesFromZip(ZipInputStream zis, String subst) {
-        Map<String, byte[]> result = new HashMap<String, byte[]>();
+        Map<String, byte[]> result = new HashMap<>();
         ZipEntry ze = null;
         try {
             while ((ze = zis.getNextEntry()) != null) {

@@ -141,7 +141,7 @@ public class ParameterAction extends BaseAction {
             for (Entry<Integer, ConfigMap> entry : type.getProperties().getConfigMap().subIndexed("showParam.").entrySet()) {
                 String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
-                Map<String, Object> context = new HashMap<String, Object>();
+                Map<String, Object> context = new HashMap<>();
                 context.put(User.OBJECT_TYPE, form.getUser());
                 context.put(Process.OBJECT_TYPE, process);
                 context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, process.getId()));
@@ -306,7 +306,7 @@ public class ParameterAction extends BaseAction {
 
         String valuesSortMode = param.getConfigMap().get("sort.mode", "");
         if (valuesSortMode.equals("byTitle")) {
-            Collections.sort(listValues, new Comparator<IdTitle>() {
+            Collections.sort(listValues, new Comparator<>() {
                 public int compare(IdTitle first, IdTitle second) {
                     return first.getTitle().compareTo(second.getTitle());
                 }
@@ -500,7 +500,7 @@ public class ParameterAction extends BaseAction {
             case LIST -> {
                 ListParamConfig config = parameter.getConfigMap().getConfig(ListParamConfig.class);
 
-                Map<Integer, String> values = new HashMap<Integer, String>();
+                Map<Integer, String> values = new HashMap<>();
 
                 for (String value : form.getParamValuesStr("value")) {
                     int val = Utils.parseInt(StringUtils.substringBefore(value, ":"));

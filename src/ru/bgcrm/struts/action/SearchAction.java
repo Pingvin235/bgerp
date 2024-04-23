@@ -139,7 +139,7 @@ public class SearchAction extends BaseAction {
         if ("userId".equals(searchBy)) {
             int mode = form.getParamInt("mode");
 
-            processDao.searchProcessListForUser(new Pageable<Process>(form), form.getUserId(), mode);
+            processDao.searchProcessListForUser(new Pageable<>(form), form.getUserId(), mode);
 
             return html(conSet, form, JSP_PROCESS);
         } else if ("id".equals(searchBy)) {

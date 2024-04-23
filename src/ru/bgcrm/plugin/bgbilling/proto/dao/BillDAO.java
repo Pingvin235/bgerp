@@ -46,7 +46,7 @@ public class BillDAO extends BillingModuleDAO {
     }
 
     public List<Attribute> getAttributeList(int contractId) {
-        List<Attribute> result = new ArrayList<Attribute>();
+        List<Attribute> result = new ArrayList<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(BILL_MODULE, moduleId, "BillService", "attributeList");
             req.setParam("contractId", contractId);
@@ -87,8 +87,8 @@ public class BillDAO extends BillingModuleDAO {
     [ length = 1018 ] xml = <?xml version="1.0" encoding="UTF-8"?><data secret="78E9394018B4F006CF649748BE860984" status="ok"><list_select><item id="5" title="Предоплата"/><item id="19" title="Хостинг"/></list_select><list_avaliable><item id="18" title="Предоплата услуг технической поддержки"/><item id="1" title="Продажа ПО (5.x)"/><item id="33" title="Продажа ПО (6.х)"/><item id="32" title="Продажа ПО (экспорт $)"/><item id="25" title="Продажа ПО (экспорт)"/><item id="24" title="Продление домена (COM)"/><item id="35" title="Продление домена (PRO)"/><item id="20" title="Продление домена (RU)"/><item id="26" title="Продление домена (SU)"/><item id="30" title="Продление домена (РФ)"/><item id="31" title="Работы по настройке программного продукта (модули DialUp, IPN, Bill, Npay)"/><item id="27" title="Регистрация домена (COM)"/><item id="21" title="Регистрация домена (RU)"/><item id="29" title="Регистрация домена (SU)"/><item id="28" title="Регистрация домена (РФ)"/><item id="3" title="Техническая поддержка"/></list_avaliable></data>
      */
     public Pair<List<IdTitle>, List<IdTitle>> getContractDocTypeList(int contractId, String type) {
-        List<IdTitle> listSelected = new ArrayList<IdTitle>();
-        List<IdTitle> listAvailable = new ArrayList<IdTitle>();
+        List<IdTitle> listSelected = new ArrayList<>();
+        List<IdTitle> listAvailable = new ArrayList<>();
 
         Request req = new Request();
         req.setModule(BILL_MODULE_ID);
@@ -105,7 +105,7 @@ public class BillDAO extends BillingModuleDAO {
             listAvailable.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
         }
 
-        return new Pair<List<IdTitle>, List<IdTitle>>(listSelected, listAvailable);
+        return new Pair<>(listSelected, listAvailable);
     }
 
     //http://billing:8081/executer?module=bill&selectedItems=5&action=ContractDocTypeAdd&mid=10&BGBillingSecret=M9xZ2FFsNBkYCjSGO3sRNMCn&cid=1783&

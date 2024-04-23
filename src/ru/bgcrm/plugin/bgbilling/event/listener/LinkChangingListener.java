@@ -22,14 +22,14 @@ import ru.bgcrm.util.sql.ConnectionSet;
  */
 public class LinkChangingListener {
     public LinkChangingListener() {
-        EventProcessor.subscribe(new EventListener<LinkAddingEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(LinkAddingEvent e, ConnectionSet connectionSet) throws BGMessageException {
                 customerChanging(e, e.getLink().getObjectId());
             }
         }, LinkAddingEvent.class);
 
-        EventProcessor.subscribe(new EventListener<LinksToRemovingEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(LinksToRemovingEvent e, ConnectionSet connectionSet) throws BGMessageException {
                 customerChanging(e, 0);

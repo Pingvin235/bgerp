@@ -22,7 +22,7 @@ public class PatternDAO
 	public List<Pattern> getPatternList( String object )
 	    throws SQLException
 	{
-		List<Pattern> result = new ArrayList<Pattern>();
+		List<Pattern> result = new ArrayList<>();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		StringBuilder query = new StringBuilder();

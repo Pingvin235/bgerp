@@ -97,7 +97,7 @@ public class WorkTypeTime {
     }
 
     public static final List<WorkTypeTime> createFromString(String config) {
-        List<WorkTypeTime> result = new ArrayList<WorkTypeTime>();
+        List<WorkTypeTime> result = new ArrayList<>();
         Preferences setup = new Preferences(config);
 
         Map<Integer, ConfigMap> sortedMap = setup.subIndexed("rule.");

@@ -51,7 +51,7 @@ public class CallboardPlanConfig extends Config {
     }
 
     public List<Date> getDateTimes(Date date) {
-        List<Date> result = new ArrayList<Date>();
+        List<Date> result = new ArrayList<>();
 
         for (int minute = dayMinuteFrom; minute < dayMinuteTo; minute += dayMinuteStep) {
             Calendar time = TimeUtils.convertDateToCalendar(date);

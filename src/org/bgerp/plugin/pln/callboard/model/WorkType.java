@@ -147,7 +147,7 @@ public class WorkType
 	{
 		if( ruleExpressionList == null )
 		{
-			ruleExpressionList = new ArrayList<Rule>();
+			ruleExpressionList = new ArrayList<>();
 			for( ConfigMap pm : new Preferences( ruleConfig ).subIndexed( "rule." ).values() )
 			{
 				ruleExpressionList.add( new Rule( pm ) );
@@ -166,7 +166,7 @@ public class WorkType
 	{
 		int result = -1;
 
-		Map<String, Object> context = new HashMap<String, Object>( 4 );
+		Map<String, Object> context = new HashMap<>(4);
 		context.put( Process.OBJECT_TYPE, process );
 		context.put( Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction( con, process.getId() ) );
 		context.put( ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction( con, process.getId() ) );

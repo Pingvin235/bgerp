@@ -22,7 +22,7 @@ public class PluginDAO extends BillingDAO {
     }
 
     public List<String> getInstalledPlugins() {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         Request req = new Request();
         if (dbInfo.versionCompare("8.0") > 0) {
             req.setModule("admin");

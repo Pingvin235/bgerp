@@ -14,10 +14,10 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class UserGroupRoleCache extends Cache<UserGroupRoleCache> {
-    private static CacheHolder<UserGroupRoleCache> holder = new CacheHolder<UserGroupRoleCache>(new UserGroupRoleCache());
+    private static CacheHolder<UserGroupRoleCache> holder = new CacheHolder<>(new UserGroupRoleCache());
 
     static {
-        EventProcessor.subscribe(new EventListener<SetupChangedEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(SetupChangedEvent e, ConnectionSet connectionSet) {
                 holder.flush(connectionSet.getConnection());
@@ -43,7 +43,7 @@ public class UserGroupRoleCache extends Cache<UserGroupRoleCache> {
         UserGroupRoleCache result = new UserGroupRoleCache();
 
         result.userGroupRoleList = Utils.parseIdTitleList(Setup.getSetup().get("processGroupRoles", "0:Выполнение"));
-        result.userGroupRoleMap = new HashMap<Integer, IdTitle>(result.userGroupRoleList.size());
+        result.userGroupRoleMap = new HashMap<>(result.userGroupRoleList.size());
         for (IdTitle role : result.userGroupRoleList) {
             result.userGroupRoleMap.put(role.getId(), role);
         }

@@ -22,7 +22,7 @@ public class ParamGroupDAO extends CommonDAO {
     }
 
     public List<ParameterGroup> getParameterGroupList(String object) throws SQLException {
-        List<ParameterGroup> list = new ArrayList<ParameterGroup>();
+        List<ParameterGroup> list = new ArrayList<>();
 
         String query = null;
         ResultSet rs = null;
@@ -64,7 +64,7 @@ public class ParamGroupDAO extends CommonDAO {
     }
 
     public Set<Integer> getParameterIdsForGroup(int parameterGroupId) throws SQLException {
-        Set<Integer> ids = new HashSet<Integer>();
+        Set<Integer> ids = new HashSet<>();
 
         String query = null;
         ResultSet rs = null;

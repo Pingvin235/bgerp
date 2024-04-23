@@ -22,7 +22,7 @@ public class CellRange {
     int cells;
     // на сколько слотов разбит
     private final int slotCount;
-    List<WorkTask> taskList = new ArrayList<WorkTask>();
+    List<WorkTask> taskList = new ArrayList<>();
 
     CellRange(WorkType workType, WorkTypeTime workTypeTime, int cells) {
         this.workType = workType;
@@ -45,7 +45,7 @@ public class CellRange {
 
     // возвращает свободные слоты либо занятые каким-то процессом
     public List<SlotRange> getSlotRanges() {
-        List<SlotRange> result = new ArrayList<SlotRange>();
+        List<SlotRange> result = new ArrayList<>();
 
         if (workTypeTime != null) {
             Iterator<WorkTask> taskIterator = taskList.iterator();
@@ -102,7 +102,7 @@ public class CellRange {
     11-22/16:03:30 DEBUG [http-bio-9089-exec-9] WorkAction - Checking free ranges: 0-4, 5-11
      */
     public List<int[]> getFreeSlotRanges() {
-        List<int[]> rangeList = new ArrayList<int[]>();
+        List<int[]> rangeList = new ArrayList<>();
 
         int[] currentRange = null;
 

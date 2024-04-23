@@ -17,7 +17,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class UserAction extends BaseAction {
 
     public ActionForward userList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Pageable<User> searchResult = new Pageable<User>(form);
+        Pageable<User> searchResult = new Pageable<>(form);
         new UserDAO(conSet.getSlaveConnection()).searchUser(searchResult,
                 LikePattern.SUB.get(form.getParam("title")),
                 form.getParamValues("group"), null, new Date(), form.getParamValues("permset"), 0);

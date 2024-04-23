@@ -43,7 +43,7 @@ public class PartyAction extends BaseAction {
                 form.setResponseData("members", members);
 
                 List<Pair<Integer, BigDecimal>> amounts = members.stream()
-                    .map(m -> new Pair<Integer, BigDecimal>(m.getId(), m.paymentsAmount()))
+                    .map(m -> new Pair<>(m.getId(), m.paymentsAmount()))
                     .collect(Collectors.toList());
                 form.setResponseData("balance", new PartyBalance(amounts));
             }

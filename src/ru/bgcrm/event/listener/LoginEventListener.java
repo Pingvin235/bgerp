@@ -17,7 +17,7 @@ public class LoginEventListener {
     private static final Map<Integer, List<ClientEvent>> onLoginEvents = new ConcurrentHashMap<>();
 
     public LoginEventListener() {
-        EventProcessor.subscribe(new EventListener<GetPoolTasksEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(GetPoolTasksEvent e, ConnectionSet connectionSet) {
                 processEvent(connectionSet, e);
@@ -29,7 +29,7 @@ public class LoginEventListener {
     public static void addOnLoginEvent(int userId, ClientEvent event) {
         List<ClientEvent> eventList = onLoginEvents.get(userId);
         if (eventList == null) {
-            onLoginEvents.put(userId, eventList = new ArrayList<ClientEvent>());
+            onLoginEvents.put(userId, eventList = new ArrayList<>());
         }
         eventList.add(event);
     }

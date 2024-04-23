@@ -50,7 +50,7 @@ public class TabelDAO extends CommonDAO {
     private static final int HOLIDAY_POS = 3;
 
     // правый столбик "Отработано за" по сокращениям позиция в столбе
-    private static final Map<String, int[]> SHORTCUT_POS = new HashMap<String, int[]>();
+    private static final Map<String, int[]> SHORTCUT_POS = new HashMap<>();
     static {
         SHORTCUT_POS.put("Я", new int[] { 0 });
         SHORTCUT_POS.put("Н", new int[] { 2 });
@@ -160,7 +160,7 @@ public class TabelDAO extends CommonDAO {
                     paramDao.getParamText(user.getId(), callboard.getTabelConfig().getParamTabelNumber()));
 
             // ключ - строка
-            final Map<String, Integer> neyavkMap = new HashMap<String, Integer>(4);
+            final Map<String, Integer> neyavkMap = new HashMap<>(4);
 
             @SuppressWarnings("unchecked")
             final Map<Date, WorkShift> dateShifts = (Map<Date, WorkShift>) Utils.maskNull(userShifts.get(user.getId()),
@@ -174,7 +174,7 @@ public class TabelDAO extends CommonDAO {
             int userWorkMinutes = 0;
 
             // по дням сокращения
-            final LinkedHashMap<Integer, LinkedHashMap<String, Integer>> dayLabels = new LinkedHashMap<Integer, LinkedHashMap<String, Integer>>(
+            final LinkedHashMap<Integer, LinkedHashMap<String, Integer>> dayLabels = new LinkedHashMap<>(
                     31);
 
             // выборка сокращений
@@ -194,7 +194,7 @@ public class TabelDAO extends CommonDAO {
                 final boolean curDayHoliday = curDayType != null && curDayType.getFirst().isHoliday();
 
                 // ключ - код типа работ. значение - суммарное число минут в эти сутки
-                LinkedHashMap<String, Integer> labels = new LinkedHashMap<String, Integer>();
+                LinkedHashMap<String, Integer> labels = new LinkedHashMap<>();
                 dayLabels.put(day, labels);
 
                 // смены предыдущих суток, может что перешло на эти
@@ -301,7 +301,7 @@ public class TabelDAO extends CommonDAO {
                     log.debug("su: " + suMinutesRest / 60 + "; mins: " + suMinutesRest);
                 }
 
-                List<LinkedHashMap<String, Integer>> dayLabelsList = new ArrayList<LinkedHashMap<String, Integer>>(
+                List<LinkedHashMap<String, Integer>> dayLabelsList = new ArrayList<>(
                         dayLabels.values());
                 Collections.reverse(dayLabelsList);
 
@@ -337,7 +337,7 @@ public class TabelDAO extends CommonDAO {
             // одна смена не может дважды попасть как день одного типа (например Я/С)
             // должно дать один день явки в итоге и день сверухрочки, а не два дня явки и
             // день сверхурочки
-            Set<Integer> dayInPosition = new HashSet<Integer>(3);
+            Set<Integer> dayInPosition = new HashSet<>(3);
 
             // суммирование сокращений
             for (Map.Entry<Integer, LinkedHashMap<String, Integer>> meD : dayLabels.entrySet()) {
@@ -435,7 +435,7 @@ public class TabelDAO extends CommonDAO {
     }
 
     private List<CellRangeAddress> getRangesForCopy(HSSFSheet sheet) {
-        List<CellRangeAddress> rangesForCopy = new ArrayList<CellRangeAddress>();
+        List<CellRangeAddress> rangesForCopy = new ArrayList<>();
         for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
             CellRangeAddress range = sheet.getMergedRegion(i);
             if (USER_ROW_FROM <= range.getFirstRow() && range.getFirstRow() < USER_ROW_FROM + USER_ROWS

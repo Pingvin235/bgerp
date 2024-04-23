@@ -16,7 +16,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 public class Pageable<T> {
     private Page page = new Page();
     // final, because initially added response.data
-    private final List<T> list = new ArrayList<T>();
+    private final List<T> list = new ArrayList<>();
 
     public Pageable() {}
 

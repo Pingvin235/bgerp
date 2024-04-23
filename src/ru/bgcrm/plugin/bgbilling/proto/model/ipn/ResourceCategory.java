@@ -24,7 +24,7 @@ public class ResourceCategory
 	{
 		if( subcategoryList == null )
 		{
-			subcategoryList = new ArrayList<ResourceCategory>();
+			subcategoryList = new ArrayList<>();
 		}
 		subcategoryList.add( item );
 	}

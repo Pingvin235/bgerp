@@ -206,7 +206,7 @@ public class OpenContract
 
     public OpenContract( Document document )
     {
-        setFilters( new LinkedList<IdTitle>() );
+        setFilters(new LinkedList<>() );
         for( Element filter : XMLUtils.selectElements( document,
                                                        "/data/filters/item" ) )
         {
@@ -214,7 +214,7 @@ public class OpenContract
                                            filter.getAttribute( "title" ) ) );
         }
 
-        setCities( new LinkedList<IdTitle>() );
+        setCities(new LinkedList<>() );
         for( Element city : XMLUtils.selectElements( document,
                                                      "/data/cities/item" ) )
         {
@@ -222,7 +222,7 @@ public class OpenContract
                                           city.getAttribute( "title" ) ) );
         }
 
-        setStreets( new LinkedList<IdTitle>() );
+        setStreets(new LinkedList<>() );
         for( Element street : XMLUtils.selectElements( document,
                                                        "/data/streets/item" ) )
         {

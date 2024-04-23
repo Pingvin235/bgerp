@@ -177,7 +177,7 @@ public class UserDAO extends CommonDAO {
     }
 
     public List<User> getUserList(Set<Integer> groupIds, String userTitleMask, boolean loadPassword) throws SQLException {
-        List<User> result = new ArrayList<User>();
+        List<User> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder().append("SELECT DISTINCT user.* FROM user ");
         if (groupIds != null && groupIds.size() > 0) {
@@ -203,7 +203,7 @@ public class UserDAO extends CommonDAO {
     }
 
     public List<User> getUserList(Set<Integer> groupFilter, Date dateGroupFrom, Date dateGroupTo) throws SQLException {
-        List<User> result = new ArrayList<User>();
+        List<User> result = new ArrayList<>();
 
         PreparedQuery psDelay = new PreparedQuery(con);
 
@@ -239,7 +239,7 @@ public class UserDAO extends CommonDAO {
     }
 
     public Map<Integer, List<UserGroup>> getAllUserGroups() throws SQLException {
-        Map<Integer, List<UserGroup>> result = new HashMap<Integer, List<UserGroup>>();
+        Map<Integer, List<UserGroup>> result = new HashMap<>();
 
         String query = "SELECT * FROM " + TABLE_USER_GROUP;
         PreparedStatement ps = con.prepareStatement(query);
@@ -253,7 +253,7 @@ public class UserDAO extends CommonDAO {
             if (result.get(userId) != null) {
                 result.get(userId).add(userGroup);
             } else {
-                List<UserGroup> groupList = new ArrayList<UserGroup>();
+                List<UserGroup> groupList = new ArrayList<>();
 
                 groupList.add(userGroup);
                 result.put(userId, groupList);
@@ -538,7 +538,7 @@ public class UserDAO extends CommonDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            Map<String, ConfigMap> perms = new HashMap<String, ConfigMap>();
+            Map<String, ConfigMap> perms = new HashMap<>();
 
             while (rs.next()) {
                 String action = rs.getString("action");
@@ -614,7 +614,7 @@ public class UserDAO extends CommonDAO {
     }
 
     public List<UserGroup> getUserGroupList(int userId, Date date) {
-        List<UserGroup> result = new ArrayList<UserGroup>();
+        List<UserGroup> result = new ArrayList<>();
 
         try {
             PreparedQuery pq = new PreparedQuery(con);

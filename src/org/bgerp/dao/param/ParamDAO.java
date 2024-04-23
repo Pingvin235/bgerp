@@ -231,7 +231,7 @@ public class ParamDAO extends CommonDAO {
     }
 
     private List<IdStringTitleTreeItem> convertTreeValuesConfigToNodeList(String valuesConfig) {
-        List<IdStringTitleTreeItem> nodes = new ArrayList<IdStringTitleTreeItem>();
+        List<IdStringTitleTreeItem> nodes = new ArrayList<>();
         if (valuesConfig == null) {
             return nodes;
         }
@@ -274,7 +274,7 @@ public class ParamDAO extends CommonDAO {
     }
 
     public Map<String, List<Parameter>> getParameterMapByObjectType() throws SQLException {
-        Map<String, List<Parameter>> result = new HashMap<String, List<Parameter>>();
+        Map<String, List<Parameter>> result = new HashMap<>();
 
         StringBuilder query = new StringBuilder();
 
@@ -289,7 +289,7 @@ public class ParamDAO extends CommonDAO {
 
             List<Parameter> paramList = result.get(param.getObject());
             if (paramList == null) {
-                paramList = new ArrayList<Parameter>();
+                paramList = new ArrayList<>();
                 result.put(param.getObject(), paramList);
             }
 
@@ -301,7 +301,7 @@ public class ParamDAO extends CommonDAO {
     }
 
     public Map<Integer, Set<Integer>> getParameterIdsByGroupIds() throws SQLException {
-        Map<Integer, Set<Integer>> result = new HashMap<Integer, Set<Integer>>();
+        Map<Integer, Set<Integer>> result = new HashMap<>();
 
         StringBuilder query = new StringBuilder(200);
         query.append("SELECT group_id, param_id FROM ");
@@ -314,7 +314,7 @@ public class ParamDAO extends CommonDAO {
 
             Set<Integer> paramIds = result.get(groupId);
             if (paramIds == null) {
-                paramIds = new HashSet<Integer>();
+                paramIds = new HashSet<>();
                 result.put(groupId, paramIds);
             }
             paramIds.add(rs.getInt(2));
@@ -325,7 +325,7 @@ public class ParamDAO extends CommonDAO {
     }
 
     public Map<Integer, List<IdTitle>> getListParamValuesMap() throws SQLException {
-        Map<Integer, List<IdTitle>> result = new LinkedHashMap<Integer, List<IdTitle>>();
+        Map<Integer, List<IdTitle>> result = new LinkedHashMap<>();
 
         StringBuilder query = new StringBuilder(200);
 
@@ -342,7 +342,7 @@ public class ParamDAO extends CommonDAO {
 
             List<IdTitle> valueList = result.get(paramId);
             if (valueList == null) {
-                result.put(paramId, valueList = new ArrayList<IdTitle>());
+                result.put(paramId, valueList = new ArrayList<>());
             }
 
             valueList.add(new IdTitle(rs.getInt(1), rs.getString(3)));
@@ -379,7 +379,7 @@ public class ParamDAO extends CommonDAO {
     }
 
     private Map<Integer, String> convertListValuesConfigToMap(String valuesConfig) {
-        Map<Integer, String> listValuesMap = new LinkedHashMap<Integer, String>();
+        Map<Integer, String> listValuesMap = new LinkedHashMap<>();
 
         if (valuesConfig == null) {
             return listValuesMap;
@@ -469,7 +469,7 @@ public class ParamDAO extends CommonDAO {
     }
 
     public List<Parameter> getParameterList(String objectType, int paramGroupId, Set<Integer> parameterIdList) throws SQLException {
-        List<Parameter> result = new ArrayList<Parameter>();
+        List<Parameter> result = new ArrayList<>();
 
         ResultSet rs = null;
         PreparedStatement ps = null;

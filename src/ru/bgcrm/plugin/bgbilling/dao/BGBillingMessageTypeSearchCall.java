@@ -54,7 +54,7 @@ public class BGBillingMessageTypeSearchCall extends MessageTypeSearchBilling {
             } else if (command.startsWith("contractByPhoneParam:")) {
                 String paramIds = StringUtils.substringAfter(command, ":");
 
-                Pageable<Contract> searchResult = new Pageable<Contract>();
+                Pageable<Contract> searchResult = new Pageable<>();
                 ContractDAO.getInstance(form.getUser(), billingId).searchContractByPhoneParam(searchResult, null,
                         Utils.toIntegerSet(paramIds), numberFrom);
 

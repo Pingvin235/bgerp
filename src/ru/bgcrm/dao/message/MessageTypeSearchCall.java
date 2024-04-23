@@ -45,7 +45,7 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
             if (command.startsWith("customerByPhoneParam:")) {
                 String paramIds = StringUtils.substringAfter(command, ":");
 
-                Pageable<Customer> searchResult = new Pageable<Customer>();
+                Pageable<Customer> searchResult = new Pageable<>();
 
                 new CustomerDAO(conSet.getConnection()).searchCustomerListByPhone(searchResult,
                         Utils.toIntegerSet(paramIds), numberFrom);
@@ -63,7 +63,7 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
         if (Utils.notBlankString(phonePreprocessJexl)) {
             log.debug("Using preprocess JEXL: '{}'", phonePreprocessJexl);
 
-            Map<String, Object> map = new HashMap<String, Object>(1);
+            Map<String, Object> map = new HashMap<>(1);
             map.put("numberFrom", message.getFrom());
 
             numberFrom = new Expression(map).getString(phonePreprocessJexl);

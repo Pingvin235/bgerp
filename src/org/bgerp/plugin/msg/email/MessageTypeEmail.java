@@ -233,7 +233,7 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public List<Message> newMessageList(ConnectionSet conSet) throws Exception {
-        List<Message> result = new ArrayList<Message>();
+        List<Message> result = new ArrayList<>();
 
         long time = System.currentTimeMillis();
         try (var store = mailConfig.getImapStore();

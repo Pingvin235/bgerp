@@ -74,7 +74,7 @@ public class NewsAction extends BaseAction {
                 new NewsDAO(con).updateNewsUsers(news, Utils.getObjectIdsSet(UserCache.getActiveUsers()));
             }
         } else {
-            Set<Integer> userSet = new HashSet<Integer>();
+            Set<Integer> userSet = new HashSet<>();
             userSet.add(requestUserId);
 
             new NewsDAO(con).updateNewsUsers(news, userSet);
@@ -95,7 +95,7 @@ public class NewsAction extends BaseAction {
     public ActionForward newsList(DynActionForm form, Connection con) throws Exception {
         Boolean read = form.getParamBoolean("read", null);
 
-        Pageable<News> searchResult = new Pageable<News>(form);
+        Pageable<News> searchResult = new Pageable<>(form);
 
         new NewsDAO(con).searchNewsList(searchResult, form.getUserId(), read, form.getParam("text"));
 

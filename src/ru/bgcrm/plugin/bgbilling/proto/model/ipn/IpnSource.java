@@ -8,7 +8,7 @@ import org.bgerp.model.base.IdTitle;
 public class IpnSource
 	extends IdTitle
 {
-	private List<IdTitle> ifaceList = new ArrayList<IdTitle>();
+	private List<IdTitle> ifaceList = new ArrayList<>();
 
 	public IpnSource()
 	{

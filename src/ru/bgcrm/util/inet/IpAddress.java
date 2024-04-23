@@ -122,7 +122,7 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
         }
     }
 
-    public static final Comparator<byte[]> comparator = new Comparator<byte[]>() {
+    public static final Comparator<byte[]> comparator = new Comparator<>() {
         @Override
         public int compare(byte[] o1, byte[] o2) {
             return IpAddress.compare(o1, 0, o1.length, o2, 0, o2.length);

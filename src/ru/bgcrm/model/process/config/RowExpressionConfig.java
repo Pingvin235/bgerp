@@ -10,7 +10,7 @@ import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.util.Utils;
 
 public class RowExpressionConfig extends Config {
-    private Map<String, Expressions> mediaExpressions = new HashMap<String, Expressions>();
+    private Map<String, Expressions> mediaExpressions = new HashMap<>();
 
     public RowExpressionConfig(ConfigMap config) {
         super(null);

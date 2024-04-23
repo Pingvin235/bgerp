@@ -12,7 +12,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 public class ProcessMarkedActionEvent extends UserEvent {
     private final Processor processor;
     private final List<Integer> processIds;
-    private final Map<String, String> parameters = new HashMap<String, String>();
+    private final Map<String, String> parameters = new HashMap<>();
 
     // ответ уже отправлен в HttpServletResponse
     private boolean streamResponse;

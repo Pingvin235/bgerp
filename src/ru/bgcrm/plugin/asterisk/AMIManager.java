@@ -27,7 +27,7 @@ public class AMIManager {
     static final int CONNECT_TIMEOUT = 5 * 60 * 1000;
     static final int RECONNECT_TIMEOUT = 60 * 1000;
 
-    private List<AmiEventListener> threadList = new ArrayList<AmiEventListener>();
+    private List<AmiEventListener> threadList = new ArrayList<>();
 
     public AMIManager() {
         if (instance != null) {
@@ -49,7 +49,7 @@ public class AMIManager {
             for (AmiEventListener listener : threadList) {
                 listener.logoff();
             }
-            threadList = new ArrayList<AmiEventListener>();
+            threadList = new ArrayList<>();
 
             Setup setup = Setup.getSetup();
 

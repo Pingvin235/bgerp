@@ -24,7 +24,7 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     protected T id;
     protected T parentId;
     protected String title;
-    protected List<C> children = new ArrayList<C>();
+    protected List<C> children = new ArrayList<>();
 
     public T getId() {
         return id;

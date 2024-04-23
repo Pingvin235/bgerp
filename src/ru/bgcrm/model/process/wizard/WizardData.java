@@ -16,7 +16,7 @@ public class WizardData {
     private final Process process;
     private final DynActionForm form;
     private final User user;
-    private final List<StepData<?>> stepDataList = new ArrayList<StepData<?>>();
+    private final List<StepData<?>> stepDataList = new ArrayList<>();
     private final boolean allFilled;
 
     public WizardData(Connection con, DynActionForm form, Wizard wizard, Process process, List<Step> stepList)

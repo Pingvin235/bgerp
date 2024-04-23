@@ -13,7 +13,7 @@ public class Shift extends IdTitle {
     private String comment = "";
     private String color = "";
     private String symbol = "";
-    private List<WorkTypeTime> workTypeTimeList = new ArrayList<WorkTypeTime>();
+    private List<WorkTypeTime> workTypeTimeList = new ArrayList<>();
 
     public boolean isUseOwnColor() {
         return useOwnColor;

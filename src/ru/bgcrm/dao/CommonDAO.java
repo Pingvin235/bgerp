@@ -202,7 +202,7 @@ public class CommonDAO {
     }
 
     protected Set<Integer> getIds(String tableName, String linkColumn, String selectColumn, int id) throws SQLException {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=?";
 
@@ -229,7 +229,7 @@ public class CommonDAO {
      */
     protected List<Integer> getIds(String tableName, String linkColumn, String selectColumn, String posColumn, int id)
             throws SQLException {
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
 
         String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=? "
                 + " ORDER BY " + posColumn;
@@ -248,7 +248,7 @@ public class CommonDAO {
     protected Map<Integer, Set<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn)
             {
         try {
-            Map<Integer, Set<Integer>> result = new HashMap<Integer, Set<Integer>>();
+            Map<Integer, Set<Integer>> result = new HashMap<>();
 
             String query = SQL_SELECT + linkColumn + "," + selectColumn + SQL_FROM + tableName + SQL_ORDER_BY
                     + linkColumn;
@@ -261,7 +261,7 @@ public class CommonDAO {
 
                 Set<Integer> values = result.get(key);
                 if (values == null) {
-                    result.put(key, values = new HashSet<Integer>());
+                    result.put(key, values = new HashSet<>());
                 }
                 values.add(value);
             }
@@ -276,7 +276,7 @@ public class CommonDAO {
     protected Map<Integer, List<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn,
             String posColumn) {
         try {
-            Map<Integer, List<Integer>> result = new HashMap<Integer, List<Integer>>();
+            Map<Integer, List<Integer>> result = new HashMap<>();
 
             String query = SQL_SELECT + linkColumn + "," + selectColumn + SQL_FROM + tableName +
             // сортировка по выбираемому значению для однозначного порядка в случае нулевых позиций
@@ -290,7 +290,7 @@ public class CommonDAO {
 
                 List<Integer> values = result.get(key);
                 if (values == null) {
-                    result.put(key, values = new ArrayList<Integer>());
+                    result.put(key, values = new ArrayList<>());
                 }
                 values.add(value);
             }

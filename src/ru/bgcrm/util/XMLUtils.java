@@ -285,7 +285,7 @@ public class XMLUtils {
      * @return Iterable&lt;Element&gt;.
      */
     public static Iterable<Element> elements(final NodeList nodeList) {
-        return new Iterable<Element>() {
+        return new Iterable<>() {
             @Override
             public Iterator<Element> iterator() {
                 return new NodeListElementIterator(nodeList);

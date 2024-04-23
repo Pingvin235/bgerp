@@ -98,26 +98,26 @@ public class ContractAction extends BaseAction {
                 contractDAO.searchContractByObjectAddressParam(result, searchOptions, null,
                         form.getParamInt("streetId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
             } else if ("id".equals(searchBy)) {
-                Pageable<IdTitle> result = new Pageable<IdTitle>(form);
+                Pageable<IdTitle> result = new Pageable<>(form);
                 Contract contract = contractDAO.getContractById(form.getParamInt("id"));
                 if (contract != null) {
                     result.getList().add(new IdTitle(contract.getId(), contract.getTitle()));
                 }
             } else if ("title".equals(searchBy) || "comment".equals(searchBy)) {
-                Pageable<IdTitle> result = new Pageable<IdTitle>(form);
+                Pageable<IdTitle> result = new Pageable<>(form);
                 contractDAO.searchContractByTitleComment(result, form.getParam("title"), form.getParam("comment"),
                         searchOptions);
             } else if (searchBy.equals("parameter_text")) {
-                Pageable<Contract> result = new Pageable<Contract>(form);
+                Pageable<Contract> result = new Pageable<>(form);
                 contractDAO.searchContractByTextParam(result, searchOptions,
                         getParasmIdsSet(form), form.getParam("value"));
             } else if (searchBy.equals("parameter_date")) {
-                Pageable<Contract> result = new Pageable<Contract>(form);
+                Pageable<Contract> result = new Pageable<>(form);
                 contractDAO.searchContractByDateParam(result, searchOptions,
                         getParasmIdsSet(form),
                         form.getParamDate("date_from"), form.getParamDate("date_to"));
             } else if (searchBy.equals("parameter_phone")) {
-                Pageable<Contract> result = new Pageable<Contract>(form);
+                Pageable<Contract> result = new Pageable<>(form);
                 contractDAO.searchContractByPhoneParam(result, searchOptions,
                         getParasmIdsSet(form), form.getParam("value"));
             }
@@ -142,7 +142,7 @@ public class ContractAction extends BaseAction {
             return contractParameterList;
         }
 
-        List<ContractParameter> filteredContractParameterList = new ArrayList<ContractParameter>();
+        List<ContractParameter> filteredContractParameterList = new ArrayList<>();
 
         for (ContractParameter contractParameter : contractParameterList) {
             if (requiredParameterIds.contains(contractParameter.getParamId())) {
@@ -288,7 +288,7 @@ public class ContractAction extends BaseAction {
                 break;
             }
             case ParameterType.ContractType.TYPE_EMAIL: {
-                List<ParameterEmailValue> emails = new ArrayList<ParameterEmailValue>();
+                List<ParameterEmailValue> emails = new ArrayList<>();
 
                 List<String> strings = Utils.toList(form.getParam("emails"), "\n");
 
@@ -661,7 +661,7 @@ public class ContractAction extends BaseAction {
         String dateFrom = form.getParam("dateFrom");
         String dateTo = form.getParam("dateTo");
 
-        Pageable<ContractScriptLogItem> result = new Pageable<ContractScriptLogItem>(form);
+        Pageable<ContractScriptLogItem> result = new Pageable<>(form);
 
         ContractScriptDAO crmDAO = new ContractScriptDAO(form.getUser(), billingId);
         crmDAO.contractScriptLogList(result, contractId, dateFrom, dateTo);
@@ -699,7 +699,7 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
-        contractDao.faceLog(new Pageable<ContractFace>(form), contractId);
+        contractDao.faceLog(new Pageable<>(form), contractId);
 
         form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
@@ -720,7 +720,7 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
-        contractDao.modeLog(new Pageable<ContractMode>(form), contractId);
+        contractDao.modeLog(new Pageable<>(form), contractId);
 
         form.getResponse().setData("contractInfo", contractDao.getContractInfo(contractId));
 
@@ -795,8 +795,8 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
-        Pageable<LimitLogItem> limitList = new Pageable<LimitLogItem>(form);
-        List<LimitChangeTask> taskList = new ArrayList<LimitChangeTask>();
+        Pageable<LimitLogItem> limitList = new Pageable<>(form);
+        List<LimitChangeTask> taskList = new ArrayList<>();
 
         BigDecimal limit = ContractDAO.getInstance(form.getUser(), billingId).limit(contractId, limitList, taskList);
 

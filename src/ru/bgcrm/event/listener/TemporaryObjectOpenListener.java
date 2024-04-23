@@ -59,7 +59,7 @@ public class TemporaryObjectOpenListener extends Thread {
         try {
             while (true) {
                 if (tasksForUserLoad.size() > 0) {
-                    Set<Integer> userIds = new HashSet<Integer>(tasksForUserLoad);
+                    Set<Integer> userIds = new HashSet<>(tasksForUserLoad);
                     tasksForUserLoad.clear();
 
                     try (var con = Setup.getSetup().getDBConnectionFromPool()) {
@@ -74,7 +74,7 @@ public class TemporaryObjectOpenListener extends Thread {
 
                             Set<Integer> existUserSet = userTempProcessMapIds.get(userId);
                             if (existUserSet == null) {
-                                userTempProcessMapIds.put(userId, existUserSet = new HashSet<Integer>());
+                                userTempProcessMapIds.put(userId, existUserSet = new HashSet<>());
                             }
 
                             existUserSet.add(processId);

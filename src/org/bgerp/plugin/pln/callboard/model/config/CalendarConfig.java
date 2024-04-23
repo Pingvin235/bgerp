@@ -11,7 +11,7 @@ import org.bgerp.plugin.pln.callboard.model.WorkDaysCalendar;
 import org.bgerp.plugin.pln.callboard.model.WorkDaysCalendarRule;
 
 public class CalendarConfig extends Config {
-    private final Map<Integer, WorkDaysCalendar> calendarMap = new LinkedHashMap<Integer, WorkDaysCalendar>();
+    private final Map<Integer, WorkDaysCalendar> calendarMap = new LinkedHashMap<>();
 
     public CalendarConfig(ConfigMap config) {
         super(null);

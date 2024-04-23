@@ -182,7 +182,7 @@ public class MessageTypeChannel extends MessageType {
 
                 log.debug("Channel: {}", name);
 
-                Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
+                Pageable<Pair<String, Process>> searchResult = new Pageable<>();
                 linkDAO.searchLinkedProcessList(searchResult, Plugin.LINK_TYPE_CHANNEL, 1, channelId, null, null, null, null);
 
                 Pair<String, Process> pair = Utils.getFirst(searchResult.getList());

@@ -216,7 +216,7 @@ public class ContractObjectDAO
 
     public List<ContractObject> getContractObjects(int contractId)
             {
-        List<ContractObject> objects = new ArrayList<ContractObject>();
+        List<ContractObject> objects = new ArrayList<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService",
                     "contractObjectList");
@@ -251,7 +251,7 @@ public class ContractObjectDAO
 
     public Map<Integer, String> getContractObjectsType()
             {
-        List<ContractObject> objects = new ArrayList<ContractObject>();
+        List<ContractObject> objects = new ArrayList<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ObjectTypeService",
                     "objectTypeList");

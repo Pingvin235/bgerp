@@ -36,7 +36,7 @@ public class ListParamConfig extends Config {
         }
 
         if (allowCommentValues != null || needCommentValues != null) {
-            commentValues = new HashMap<Integer, String>() {
+            commentValues = new HashMap<>() {
                 @Override
                 public String get(Object key) {
                     String result = null;

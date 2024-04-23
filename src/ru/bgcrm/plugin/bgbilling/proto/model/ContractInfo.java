@@ -60,12 +60,12 @@ public class ContractInfo extends Contract {
     private BigDecimal balanceCharge = BigDecimal.ZERO;
     private BigDecimal balanceOut = BigDecimal.ZERO;
     private BigDecimal balanceLimit = BigDecimal.ZERO;
-    private List<IdTitle> groupList = new ArrayList<IdTitle>();
-    private List<ModuleInfo> moduleList = new ArrayList<ModuleInfo>();
-    private List<IdTitle> tariffList = new ArrayList<IdTitle>();
-    private List<IdTitle> scriptList = new ArrayList<IdTitle>();
+    private List<IdTitle> groupList = new ArrayList<>();
+    private List<ModuleInfo> moduleList = new ArrayList<>();
+    private List<IdTitle> tariffList = new ArrayList<>();
+    private List<IdTitle> scriptList = new ArrayList<>();
     private int comments = 0;
-    private List<Integer> subContractIds = new ArrayList<Integer>();
+    private List<Integer> subContractIds = new ArrayList<>();
 
     public String getComment() {
         return comment;
@@ -256,7 +256,7 @@ public class ContractInfo extends Contract {
     }
 
     public void setObjects(Integer active, Integer full) {
-        this.objects = new Pair<Integer, Integer>(active, full);
+        this.objects = new Pair<>(active, full);
     }
 
     @Deprecated

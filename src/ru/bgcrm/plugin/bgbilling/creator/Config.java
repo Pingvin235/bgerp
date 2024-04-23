@@ -20,9 +20,9 @@ import org.bgerp.model.param.Parameter;
 import ru.bgcrm.util.Utils;
 
 public class Config extends org.bgerp.app.cfg.Config {
-    private static final Set<String> ALLOWED_CONFIRM_PARAM_TYPES = new HashSet<String>(Arrays.asList(TYPE_ADDRESS, TYPE_TEXT, TYPE_PHONE, TYPE_DATE));
-    private static final Set<String> ALLOWED_SEARCH_PARAM_TYPES = new HashSet<String>(Arrays.asList(TYPE_ADDRESS, TYPE_TEXT, TYPE_PHONE));
-    private static final Set<String> ALLOWED_IMPORT_PARAM_TYPES = new HashSet<String>(
+    private static final Set<String> ALLOWED_CONFIRM_PARAM_TYPES = new HashSet<>(Arrays.asList(TYPE_ADDRESS, TYPE_TEXT, TYPE_PHONE, TYPE_DATE));
+    private static final Set<String> ALLOWED_SEARCH_PARAM_TYPES = new HashSet<>(Arrays.asList(TYPE_ADDRESS, TYPE_TEXT, TYPE_PHONE));
+    private static final Set<String> ALLOWED_IMPORT_PARAM_TYPES = new HashSet<>(
             Arrays.asList(TYPE_ADDRESS, TYPE_TEXT, TYPE_PHONE, TYPE_DATE, TYPE_LIST, TYPE_EMAIL));
 
     public static final class ParameterGroupTitlePatternRule {
@@ -114,7 +114,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     private List<Parameter> loadFields(ConfigMap setup, String prefix, Set<String> allowedTypes) {
-        List<Parameter> parameters = new ArrayList<Parameter>();
+        List<Parameter> parameters = new ArrayList<>();
 
         for (int paramId : Utils.toIntegerList(setup.get(prefix))) {
             if (paramId <= 0) {

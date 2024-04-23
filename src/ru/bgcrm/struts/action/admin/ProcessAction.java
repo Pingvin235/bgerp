@@ -51,14 +51,14 @@ public class ProcessAction extends BaseAction {
 
     // статусы
     public ActionForward statusList(DynActionForm form, Connection con) throws Exception {
-        new StatusDAO(con).searchStatus(new Pageable<Status>(form));
+        new StatusDAO(con).searchStatus(new Pageable<>(form));
 
         return html(con, form, PATH_JSP + "/status/list.jsp");
     }
 
     public ActionForward statusUseProcess(DynActionForm form, Connection con) throws Exception {
         Integer statusId = Utils.parseInt(form.getParam("statusId"));
-        List<String> containProcess = new ArrayList<String>();
+        List<String> containProcess = new ArrayList<>();
         Map<Integer, ProcessType> processTypeMap = ProcessTypeCache.getProcessTypeMap();
 
         for (int i = 0; i < processTypeMap.size(); i++) {
@@ -118,7 +118,7 @@ public class ProcessAction extends BaseAction {
         int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
 
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
-        processTypeDAO.searchProcessType(new Pageable<ProcessType>(form), parentId, LikePattern.SUB.get(form.getParam("filter", "")));
+        processTypeDAO.searchProcessType(new Pageable<>(form), parentId, LikePattern.SUB.get(form.getParam("filter", "")));
 
         if (parentId >= 0) {
             request.setAttribute("typePath", ProcessTypeCache.getTypePath(parentId));
@@ -246,7 +246,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward queueList(DynActionForm form, Connection con) throws Exception {
         Set<Integer> queueIds = Utils.toIntegerSet(form.getPermission().get("allowedQueueIds"));
 
-        new QueueDAO(con).searchQueue(new Pageable<Queue>(form), queueIds, form.getParam("filter"));
+        new QueueDAO(con).searchQueue(new Pageable<>(form), queueIds, form.getParam("filter"));
 
         return html(con, form, PATH_JSP + "/queue/list.jsp");
     }
@@ -342,7 +342,7 @@ public class ProcessAction extends BaseAction {
             request.setAttribute("statusList", Utils.getObjectList(ProcessTypeCache.getStatusMap(), type.getProperties().getStatusIds()));
             request.setAttribute("processType", type);
 
-            Pageable<Permset> groupList = new Pageable<Permset>();
+            Pageable<Permset> groupList = new Pageable<>();
             groupDAO.searchPermset(groupList);
             request.setAttribute("groupList", groupList);
 

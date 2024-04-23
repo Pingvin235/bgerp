@@ -38,7 +38,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
 
         form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
 
-        new WorkTypeDAO(con).searchWorkType(new Pageable<WorkType>(form), categoryId);
+        new WorkTypeDAO(con).searchWorkType(new Pageable<>(form), categoryId);
 
         return html(con, form, PATH_JSP + "/type/list.jsp");
     }
@@ -69,7 +69,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
 
         int category = form.getParamInt("categoryId", 0);
 
-        Set<Integer> allowCategorySet = new HashSet<Integer>();
+        Set<Integer> allowCategorySet = new HashSet<>();
         for (IdTitle item : getAvailableCategories(form.getPermission())) {
             allowCategorySet.add(item.getId());
         }
@@ -122,13 +122,13 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
 
         form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
 
-        new ShiftDAO(con).searchShift(new Pageable<Shift>(form), categoryId);
+        new ShiftDAO(con).searchShift(new Pageable<>(form), categoryId);
 
         return html(con, form, PATH_JSP + "/shift/list.jsp");
     }
 
     public ActionForward shiftGet(DynActionForm form, Connection con) throws Exception {
-        Map<Integer, WorkType> workTypeMap = new HashMap<Integer, WorkType>();
+        Map<Integer, WorkType> workTypeMap = new HashMap<>();
         Set<Integer> categoryIds = getAvailableCategoryIds(form.getPermission());
 
         for (Entry<Integer, WorkType> entry : CallboardCache.getWorkTypeMap().entrySet()) {
@@ -145,7 +145,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
         }
 
         form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
-        form.getResponse().setData("workTypeList", new ArrayList<WorkType>(workTypeMap.values()));
+        form.getResponse().setData("workTypeList", new ArrayList<>(workTypeMap.values()));
 
         return html(con, form, PATH_JSP + "/shift/update.jsp");
     }
@@ -168,7 +168,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
         String color = form.getParam("color", "");
 
         //правила
-        List<WorkTypeTime> ruleList = new ArrayList<WorkTypeTime>();
+        List<WorkTypeTime> ruleList = new ArrayList<>();
         try {
             for (String item : form.getParamArray("rule")) {
                 WorkTypeTime workTypeTime = new WorkTypeTime();

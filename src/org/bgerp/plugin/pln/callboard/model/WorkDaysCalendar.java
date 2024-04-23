@@ -14,7 +14,7 @@ import ru.bgcrm.util.TimeUtils;
 
 public class WorkDaysCalendar extends IdTitle {
     private String comment = "";
-    private List<WorkDaysCalendarRule> rules = new ArrayList<WorkDaysCalendarRule>();
+    private List<WorkDaysCalendarRule> rules = new ArrayList<>();
 
     public WorkDaysCalendar() {
     }
@@ -42,7 +42,7 @@ public class WorkDaysCalendar extends IdTitle {
         if (excludeDates != null) {
             result = excludeDates.get(date);
             if (result != null) {
-                return new Pair<DayType, Boolean>(config.getType(result), true);
+                return new Pair<>(config.getType(result), true);
             }
         }
 
@@ -55,7 +55,7 @@ public class WorkDaysCalendar extends IdTitle {
         }
 
         if (result != null) {
-            return new Pair<DayType, Boolean>(config.getType(result), false);
+            return new Pair<>(config.getType(result), false);
         }
 
         return null;

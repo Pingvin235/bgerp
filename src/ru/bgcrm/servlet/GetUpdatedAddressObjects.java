@@ -53,12 +53,12 @@ public class GetUpdatedAddressObjects
         	log.debug( "time=" + httpServletRequest.getParameter( "time" ) + "; selectedCities=" + selectedCities );
         }
         
-        List<AddressCity> cities = new ArrayList<AddressCity>();
-        List<AddressItem> areas = new ArrayList<AddressItem>();
-        List<AddressItem> quarters = new ArrayList<AddressItem>();
-        List<AddressItem> streets = new ArrayList<AddressItem>();
-        List<AddressCountry> countries = new ArrayList<AddressCountry>();
-        List<AddressHouse> houses = new ArrayList<AddressHouse>();
+        List<AddressCity> cities = new ArrayList<>();
+        List<AddressItem> areas = new ArrayList<>();
+        List<AddressItem> quarters = new ArrayList<>();
+        List<AddressItem> streets = new ArrayList<>();
+        List<AddressCountry> countries = new ArrayList<>();
+        List<AddressHouse> houses = new ArrayList<>();
         
         Connection con = setup.getDBConnectionFromPool();
 		try 

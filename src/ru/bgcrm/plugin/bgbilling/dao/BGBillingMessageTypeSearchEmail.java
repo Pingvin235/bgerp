@@ -28,7 +28,7 @@ public class BGBillingMessageTypeSearchEmail extends MessageTypeSearchBilling {
             {
         String email = message.getFrom();
 
-        Pageable<Contract> searchResult = new Pageable<Contract>();
+        Pageable<Contract> searchResult = new Pageable<>();
         ContractDAO.getInstance(form.getUser(), billingId).searchContractByEmailParam(searchResult, null, paramIds,
                 email);
 

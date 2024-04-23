@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
  */
 public class RangeChecker
 {
-	private List<long[]> rangeList = new ArrayList<long[]>(); 
+	private List<long[]> rangeList = new ArrayList<>();
 	
 	public RangeChecker( String ranges )
 	{

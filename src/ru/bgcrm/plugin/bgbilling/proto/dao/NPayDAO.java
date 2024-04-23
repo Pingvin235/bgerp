@@ -54,7 +54,7 @@ public class NPayDAO extends BillingModuleDAO {
 
             Document document = transferData.postData(req, user);
 
-            List<NPayService> serviceList = new ArrayList<NPayService>();
+            List<NPayService> serviceList = new ArrayList<>();
 
             if (document != null) {
                 Element dataElement = document.getDocumentElement();

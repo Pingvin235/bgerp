@@ -9,7 +9,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.util.Utils;
 
 public class ProcessCardConfig extends Config {
-    private List<Item> itemList = new ArrayList<Item>();
+    private List<Item> itemList = new ArrayList<>();
 
     public ProcessCardConfig(ConfigMap config) {
         super(null);

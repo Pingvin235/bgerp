@@ -44,7 +44,7 @@ public class ContractHierarchyDAO
     	Document document = transferData.postData( request, user );
     	Element contractElement = (Element)document.getElementsByTagName( CONTRACT_MODULE_ID ).item( 0 );
     	NodeList subContractElementList = contractElement.getElementsByTagName( "sub" );
-    	List<Integer> subContractList = new ArrayList<Integer>();
+    	List<Integer> subContractList = new ArrayList<>();
 
     	for( int index = 0; index < subContractElementList.getLength(); index++ )
     	{
@@ -99,7 +99,7 @@ public class ContractHierarchyDAO
     	Element dataElement = document.getDocumentElement();
     	NodeList nodeList = dataElement.getElementsByTagName( "sub" );
 
-    	List<IdTitle> subContractList = new ArrayList<IdTitle>();
+    	List<IdTitle> subContractList = new ArrayList<>();
     	for( int index = 0; index < nodeList.getLength(); index++ )
     	{
     		Element rowElement = (Element)nodeList.item( index );

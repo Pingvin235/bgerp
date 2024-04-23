@@ -71,7 +71,7 @@ public class UserPermsetDAO extends UserDAO {
     }
 
     public List<Permset> getPermsetList() {
-        List<Permset> result = new ArrayList<Permset>();
+        List<Permset> result = new ArrayList<>();
 
         try {
             String query = "SELECT * FROM " + TABLE_USER_PERMSET_TITLE + " ORDER BY title";
@@ -172,7 +172,7 @@ public class UserPermsetDAO extends UserDAO {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, permsetId);
 
-            Map<String, ConfigMap> perms = new HashMap<String, ConfigMap>();
+            Map<String, ConfigMap> perms = new HashMap<>();
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

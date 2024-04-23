@@ -28,7 +28,7 @@ public class CustomerGroupDAO extends CommonDAO {
     }
 
     public List<CustomerGroup> getGroupList() {
-        List<CustomerGroup> result = new ArrayList<CustomerGroup>();
+        List<CustomerGroup> result = new ArrayList<>();
 
         try {
             String query = "SELECT * FROM " + TABLE_CUSTOMER_GROUP_TITLE + " ORDER BY title";

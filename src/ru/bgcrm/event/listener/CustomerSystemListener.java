@@ -15,7 +15,7 @@ public class CustomerSystemListener {
     private static final Log log = Log.getLog();
 
     public CustomerSystemListener() {
-        EventProcessor.subscribe(new EventListener<ParamChangedEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(ParamChangedEvent e, ConnectionSet connectionSet) {
                 paramChanged(e, connectionSet);

@@ -58,7 +58,7 @@ public class TableChangeMonitor extends Thread {
 
                         List<Runnable> runList = runnableMap.get(tableName);
                         if (runList == null) {
-                            runnableMap.put(tableName, runList = new ArrayList<Runnable>());
+                            runnableMap.put(tableName, runList = new ArrayList<>());
                         }
                         runList.add(callback);
                     }

@@ -13,7 +13,7 @@ import org.bgerp.util.Log;
 public class CallboardCache extends Cache<CallboardCache> {
     private static Log log = Log.getLog();
 
-    private static CacheHolder<CallboardCache> holder = new CacheHolder<CallboardCache>(new CallboardCache());
+    private static CacheHolder<CallboardCache> holder = new CacheHolder<>(new CallboardCache());
 
     public static WorkType getWorkType(int id) {
         return holder.getInstance().workTypeMap.get(id);

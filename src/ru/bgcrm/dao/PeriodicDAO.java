@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class PeriodicDAO extends CommonDAO {
     /** Cache of existing table names. */
-    protected static final Set<String> EXISTING_TABLES = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+    protected static final Set<String> EXISTING_TABLES = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     protected PeriodicDAO(Connection con) {
         super(con);

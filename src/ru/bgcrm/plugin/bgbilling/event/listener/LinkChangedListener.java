@@ -29,7 +29,7 @@ public class LinkChangedListener {
     private static final Log log = Log.getLog();
 
     public LinkChangedListener() {
-        EventProcessor.subscribe(new EventListener<LinkAddedEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(LinkAddedEvent e, ConnectionSet connectionSet) throws Exception {
                 linkAdded(e, connectionSet);

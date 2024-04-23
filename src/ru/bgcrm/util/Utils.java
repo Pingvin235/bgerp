@@ -383,7 +383,7 @@ public class Utils {
      * @return
      */
     public static final List<Integer> toIntegerList(String valuesStr, String delims) {
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
 
         if (notBlankString(valuesStr)) {
             StringTokenizer st = new StringTokenizer(valuesStr.trim(), delims);
@@ -403,7 +403,7 @@ public class Utils {
      * @return
      */
     public static final Set<Integer> toIntegerSet(String valuesStr) {
-        Set<Integer> result = new LinkedHashSet<Integer>();
+        Set<Integer> result = new LinkedHashSet<>();
 
         if (notBlankString(valuesStr)) {
             StringTokenizer st = new StringTokenizer(valuesStr.trim(), ",;");
@@ -424,7 +424,7 @@ public class Utils {
      * @return
      */
     public static final Set<String> toSet(String valuesStr, String delims) {
-        Set<String> result = new LinkedHashSet<String>();
+        Set<String> result = new LinkedHashSet<>();
         if (notBlankString(valuesStr)) {
             StringTokenizer st = new StringTokenizer(valuesStr.trim(), delims);
             while (st.hasMoreTokens()) {
@@ -440,7 +440,7 @@ public class Utils {
      * @return
      */
     public static final Set<String> toSet(String valuesStr) {
-        Set<String> result = new HashSet<String>();
+        Set<String> result = new HashSet<>();
         if (notBlankString(valuesStr)) {
             StringTokenizer st = new StringTokenizer(valuesStr.trim(), ",;");
             while (st.hasMoreTokens()) {
@@ -466,7 +466,7 @@ public class Utils {
      * @return list of tokens, each of that is not empty string.
      */
     public static final List<String> toList(String value, String delims) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         if (notBlankString(value)) {
             StringTokenizer st = new StringTokenizer(value.trim(), delims);
@@ -498,7 +498,7 @@ public class Utils {
      * @return
      */
     public static final <T extends IdTitle> List<Integer> getObjectIdsList(Collection<T> list) {
-        List<Integer> result = new ArrayList<Integer>(list.size());
+        List<Integer> result = new ArrayList<>(list.size());
         for (T object : list) {
             result.add(object.getId());
         }
@@ -511,7 +511,7 @@ public class Utils {
      * @return
      */
     public static final <T extends IdTitle> Set<Integer> getObjectIdsSet(Collection<T> list) {
-        Set<Integer> result = new HashSet<Integer>(list.size());
+        Set<Integer> result = new HashSet<>(list.size());
         for (T object : list) {
             result.add(object.getId());
         }
@@ -598,7 +598,7 @@ public class Utils {
      * @return
      */
     public static final <T extends IdTitle> List<T> getObjectList(List<T> fullList, Collection<Integer> selectedIds) {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
 
         for (T object : fullList) {
             if (selectedIds != null && selectedIds.contains(object.getId())) {
@@ -616,7 +616,7 @@ public class Utils {
      * @return
      */
     public static final <T extends IdTitle> List<T> getObjectList(Map<Integer, T> fullMap, List<Integer> selectedIds) {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
 
         for (int id : selectedIds) {
             T object = fullMap.get(id);
@@ -634,7 +634,7 @@ public class Utils {
      * @return
      */
     public static final List<IdTitle> parseIdTitleList(String value) {
-        List<IdTitle> result = new ArrayList<IdTitle>();
+        List<IdTitle> result = new ArrayList<>();
 
         StringTokenizer st = new StringTokenizer(value, ";,");
         while (st.hasMoreTokens()) {
@@ -656,7 +656,7 @@ public class Utils {
      * @return
      */
     public static final List<IdTitle> parseIdTitleList(String value, String noPairValue) {
-        List<IdTitle> result = new ArrayList<IdTitle>();
+        List<IdTitle> result = new ArrayList<>();
 
         if (value == null) {
             return result;
@@ -729,7 +729,7 @@ public class Utils {
         String result = "";
         if (pattern != null) {
             result = pattern;
-            Set<Integer> parameterIdList = new HashSet<Integer>();
+            Set<Integer> parameterIdList = new HashSet<>();
             int last = 0;
             while (true) {
                 int found = pattern.indexOf("${param_", last);
@@ -744,7 +744,7 @@ public class Utils {
             List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(object, -1);
             List<ParameterValuePair> valueList = paramValueDAO.loadParameters(paramList, objectId, false);
 
-            Map<Integer, ParameterValuePair> valueMap = new HashMap<Integer, ParameterValuePair>();
+            Map<Integer, ParameterValuePair> valueMap = new HashMap<>();
             for (ParameterValuePair value : valueList) {
                 valueMap.put(value.getParameter().getId(), value);
             }

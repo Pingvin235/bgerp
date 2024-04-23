@@ -46,14 +46,14 @@ public class ShiftData {
 
     public void addTask(WorkTask task) {
         if (taskList == null) {
-            taskList = new ArrayList<WorkTask>();
+            taskList = new ArrayList<>();
         }
         taskList.add(task);
     }
 
     public List<CellRange> getCellRanges(CallboardPlanConfig planConfig) {
         // для каждого wtt указано сколько слотов он занимает, если не указано
-        List<CellRange> result = new ArrayList<CellRange>();
+        List<CellRange> result = new ArrayList<>();
 
         CellRange currentRange = null;
 

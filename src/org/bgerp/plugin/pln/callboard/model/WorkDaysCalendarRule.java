@@ -31,7 +31,7 @@ public class WorkDaysCalendarRule {
     }
 
     public static List<WorkDaysCalendarRule> createFromString(String ruleString) {
-        List<WorkDaysCalendarRule> result = new ArrayList<WorkDaysCalendarRule>();
+        List<WorkDaysCalendarRule> result = new ArrayList<>();
 
         try {
             for (String rule : Utils.toSet(ruleString, ";")) {

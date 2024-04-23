@@ -7,7 +7,7 @@ public class ParameterGroup {
     private int id = -1;
     private String title;
     private String object;
-    private Set<Integer> parameterIds = new HashSet<Integer>();
+    private Set<Integer> parameterIds = new HashSet<>();
 
     public int getId() {
         return id;

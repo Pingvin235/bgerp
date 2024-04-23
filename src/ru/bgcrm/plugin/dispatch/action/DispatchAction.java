@@ -21,7 +21,7 @@ public class DispatchAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
     public ActionForward dispatchList(DynActionForm form, Connection con) throws Exception {
-        new DispatchDAO(con).searchDispatch(new Pageable<Dispatch>(form));
+        new DispatchDAO(con).searchDispatch(new Pageable<>(form));
 
         return html(con, form, PATH_JSP + "/dispatch/list.jsp");
     }
@@ -48,7 +48,7 @@ public class DispatchAction extends BaseAction {
     public ActionForward messageList(DynActionForm form, ConnectionSet conSet) throws Exception {
         form.getHttpRequest().setAttribute("dispatchList", new DispatchDAO(conSet.getSlaveConnection()).dispatchList(null));
 
-        new DispatchDAO(conSet.getConnection()).messageSearch(new Pageable<DispatchMessage>(form), form.getParamBoolean("sent", null));
+        new DispatchDAO(conSet.getConnection()).messageSearch(new Pageable<>(form), form.getParamBoolean("sent", null));
 
         return html(conSet, form, PATH_JSP + "/message/list.jsp");
     }

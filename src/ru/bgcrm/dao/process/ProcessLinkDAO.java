@@ -174,7 +174,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
     private List<Process> getFromLinkProcess(int processId, String linkType, boolean onlyOpen, String joinQuery,
             Set<Integer> typeIds) throws SQLException {
-        List<Process> result = new ArrayList<Process>();
+        List<Process> result = new ArrayList<>();
 
         PreparedQuery pq = new PreparedQuery(con);
         pq.addQuery("SELECT process.* FROM " + TABLE_PROCESS + " AS process ");
@@ -294,7 +294,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
             ResultSet rs = pq.executeQuery();
             while (rs.next()) {
-                list.add(new Pair<String, Process>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
+                list.add(new Pair<>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
             }
 
             PreparedStatement ps = pq.getPrepared();
@@ -331,7 +331,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      * @throws SQLException
      */
     public Set<Integer> getLinkedProcessTypeIdList(String objectType, int objectId) throws SQLException {
-        Set<Integer> list = new TreeSet<Integer>();
+        Set<Integer> list = new TreeSet<>();
 
         String query =
             "SELECT DISTINCT process.type_id FROM " + TABLE_PROCESS + " AS process " +
@@ -394,7 +394,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
         ResultSet rs = pq.executeQuery();
         while (rs.next()) {
-            list.add(new Pair<String, Process>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
+            list.add(new Pair<>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
         }
 
         if (page != null)

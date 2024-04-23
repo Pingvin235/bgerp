@@ -13,7 +13,7 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.util.Utils;
 
 public class CategoryConfig extends Config {
-    private List<Category> list = new ArrayList<Category>();
+    private List<Category> list = new ArrayList<>();
 
     public CategoryConfig(ConfigMap config) {
         super(null);
@@ -25,7 +25,7 @@ public class CategoryConfig extends Config {
     }
 
     public List<Category> getCategoryList(Set<Integer> allowOnly) {
-        List<Category> result = new ArrayList<Category>();
+        List<Category> result = new ArrayList<>();
 
         for (Category cat : this.list) {
             if (CollectionUtils.isEmpty(allowOnly) || allowOnly.contains(cat.getId()) || cat.isForAll()) {

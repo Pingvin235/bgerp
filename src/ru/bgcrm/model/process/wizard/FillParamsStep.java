@@ -42,7 +42,7 @@ public class FillParamsStep extends Step {
     }
 
     public List<Parameter> getParamList() {
-        List<Parameter> paramList = new ArrayList<Parameter>();
+        List<Parameter> paramList = new ArrayList<>();
 
         // сохранение списка параметров убрано, чтобы из кэша брались актуальные параметры
         for (int paramId : Utils.toIntegerList(config.get("parameterIds"))) {

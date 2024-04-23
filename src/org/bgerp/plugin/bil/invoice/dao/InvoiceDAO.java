@@ -140,7 +140,8 @@ public class InvoiceDAO extends PeriodicDAO {
         result.setSentUserId(rs.getInt("sent_user_id"));
         result.setPaymentDate(rs.getDate("payment_date"));
         result.setPaymentUserId(rs.getInt("payment_user_id"));
-        result.setPositions(BaseAction.MAPPER.readValue(rs.getString("positions"), new TypeReference<List<Position>>() {}));
+        result.setPositions(BaseAction.MAPPER.readValue(rs.getString("positions"), new TypeReference<>() {
+        }));
 
         result.setId(rs.getInt("id"));
         result.setTypeId(rs.getInt("type_id"));

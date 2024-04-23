@@ -25,7 +25,7 @@ public class IpnRange
     private int portTo;
     private int plan;
     private String ifaces;
-    private List<String> ifaceList = new ArrayList<String>();
+    private List<String> ifaceList = new ArrayList<>();
     private String comment;
     private int objectId;
 

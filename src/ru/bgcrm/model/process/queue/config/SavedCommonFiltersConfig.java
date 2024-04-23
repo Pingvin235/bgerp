@@ -10,8 +10,8 @@ import org.bgerp.util.Log;
 import ru.bgcrm.util.Utils;
 
 public class SavedCommonFiltersConfig {
-    private Map<Integer, List<SavedFilter>> queueSavedCommonFilterSetsMap = new HashMap<Integer, List<SavedFilter>>();
-    private Map<Integer, SavedFilter> savedCommonFilterSetMap = new HashMap<Integer, SavedFilter>();
+    private Map<Integer, List<SavedFilter>> queueSavedCommonFilterSetsMap = new HashMap<>();
+    private Map<Integer, SavedFilter> savedCommonFilterSetMap = new HashMap<>();
     public static final String QUEUE_SAVED_COMMON_FILTER_SET_PREFIX = "queueSavedCommonFilterSet.";
     private int lastId;
     private Log log = Log.getLog();
@@ -35,7 +35,7 @@ public class SavedCommonFiltersConfig {
     private List<SavedFilter> getSetList(int queueId) {
         List<SavedFilter> setList = queueSavedCommonFilterSetsMap.get(queueId);
         if (setList == null) {
-            queueSavedCommonFilterSetsMap.put(queueId, setList = new ArrayList<SavedFilter>());
+            queueSavedCommonFilterSetsMap.put(queueId, setList = new ArrayList<>());
         }
         return setList;
     }

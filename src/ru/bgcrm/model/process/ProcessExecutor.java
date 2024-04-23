@@ -104,7 +104,7 @@ public class ProcessExecutor {
     }
 
     public static final Set<ProcessExecutor> parseSafe(String value, Set<ProcessGroup> processGroups) {
-        Set<ProcessExecutor> resultSet = new LinkedHashSet<ProcessExecutor>();
+        Set<ProcessExecutor> resultSet = new LinkedHashSet<>();
         Set<String> parsedValues = Utils.toSet(value, ",");
 
         for (String item : parsedValues) {
@@ -148,7 +148,7 @@ public class ProcessExecutor {
     }
 
     public static final Set<ProcessExecutor> parseUnsafe(Set<String> values, Set<ProcessGroup> processGroups) {
-        Set<ProcessExecutor> resultSet = new LinkedHashSet<ProcessExecutor>();
+        Set<ProcessExecutor> resultSet = new LinkedHashSet<>();
 
         for (String item : values) {
             List<Integer> parsedList = Utils.toIntegerList(item, ":");
@@ -162,7 +162,7 @@ public class ProcessExecutor {
             else if (parsedList.size() == 1) {
                 User user = UserCache.getUser(parsedList.get(0));
 
-                Set<Integer> processGroupIds = new HashSet<Integer>();
+                Set<Integer> processGroupIds = new HashSet<>();
 
                 for (ProcessGroup processGroup : processGroups) {
                     if (user.getGroupIds().contains(processGroup.getGroupId())) {
@@ -197,7 +197,7 @@ public class ProcessExecutor {
     }
 
     public static final Set<Integer> toGroupSet(Set<ProcessExecutor> processExecutors) {
-        Set<Integer> resultSet = new HashSet<Integer>();
+        Set<Integer> resultSet = new HashSet<>();
 
         for (ProcessExecutor processExecutor : processExecutors) {
             resultSet.add(processExecutor.getGroupId());
@@ -207,7 +207,7 @@ public class ProcessExecutor {
     }
 
     public static final Set<Integer> toExecutorSet(Set<ProcessExecutor> processExecutors) {
-        Set<Integer> resultSet = new HashSet<Integer>();
+        Set<Integer> resultSet = new HashSet<>();
 
         for (ProcessExecutor processExecutor : processExecutors) {
             resultSet.add(processExecutor.getUserId());
@@ -217,7 +217,7 @@ public class ProcessExecutor {
     }
 
     public static final Set<ProcessExecutor> toProcessExecutorSet(Set<Integer> userIds, ProcessGroup processGroup) {
-        Set<ProcessExecutor> result = new HashSet<ProcessExecutor>();
+        Set<ProcessExecutor> result = new HashSet<>();
 
         for (Integer userId : userIds) {
             result.add(new ProcessExecutor(userId, processGroup.getGroupId(), processGroup.getRoleId()));
@@ -231,7 +231,7 @@ public class ProcessExecutor {
     }
 
     public static final Set<ProcessExecutor> getProcessExecutors(Set<ProcessExecutor> processExecutors, Set<ProcessGroup> processGroups) {
-        Set<ProcessExecutor> result = new HashSet<ProcessExecutor>();
+        Set<ProcessExecutor> result = new HashSet<>();
 
         for (ProcessExecutor pe : processExecutors) {
             if (processGroups.contains(pe.createProcessGroup())) {
@@ -259,7 +259,7 @@ public class ProcessExecutor {
     }
 
     public static Set<Integer> getExecutorsWithRole(Set<ProcessExecutor> processExecutorSet, int role) {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         for (ProcessExecutor value : processExecutorSet) {
             if (value.getRoleId() == role) {

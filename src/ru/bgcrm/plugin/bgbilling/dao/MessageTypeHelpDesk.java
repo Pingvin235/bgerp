@@ -347,7 +347,7 @@ public class MessageTypeHelpDesk extends MessageType {
         HelpDeskDAO hdDao = new HelpDeskDAO(user, dbInfo);
 
         // ключ - Id сообщения в биллинге, значение - в ЦРМ, если есть
-        Map<Integer, Message> messageMap = new HashMap<Integer, Message>();
+        Map<Integer, Message> messageMap = new HashMap<>();
 
         // все сообщения из данного HD топика в данном процессе
         Pageable<Message> messages = new Pageable<>();

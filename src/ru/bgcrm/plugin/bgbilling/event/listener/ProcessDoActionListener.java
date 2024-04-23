@@ -25,7 +25,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ProcessDoActionListener {
     public ProcessDoActionListener() {
-        EventProcessor.subscribe(new EventListener<ProcessDoActionEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(ProcessDoActionEvent e, ConnectionSet connectionSet) throws Exception {
                 doCommand(e, connectionSet);

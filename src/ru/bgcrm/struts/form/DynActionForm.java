@@ -661,7 +661,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     public void setParamArray(String name, Collection<?> values) {
-        List<String> result = new ArrayList<String>(values.size());
+        List<String> result = new ArrayList<>(values.size());
         for (Object value : values) {
             result.add(String.valueOf(value));
         }
@@ -674,7 +674,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * @return not {@code null} set with all the parameter values parsed to integer.
      */
     public Set<Integer> getParamValues(String name) {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         String[] array = param.getArray(name);
         if (array != null) {
@@ -707,7 +707,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * @return not {@code null} list with all the parameter values parsed to integer.
      */
     public List<Integer> getParamValuesList(String name) {
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
 
         String[] array = param.getArray(name);
         if (array != null) {
@@ -739,7 +739,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * @return not {@code null} list with all the parameter values.
      */
     public List<String> getParamValuesListStr(String name, String exclude) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         String[] array = param.getArray(name);
         if (array != null) {

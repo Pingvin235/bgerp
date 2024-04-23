@@ -42,7 +42,7 @@ public class ContractServiceDAO
 	public List<ContractService> getContractServiceList( int contractId, int moduleId )
 		throws BGException
 	{
-		List<ContractService> result = new ArrayList<ContractService>();
+		List<ContractService> result = new ArrayList<>();
 
 		Request req = new Request();
 
@@ -78,7 +78,7 @@ public class ContractServiceDAO
     	throws BGException
     {
 		ContractService service = null;
-		List<IdTitle> serviceList = new ArrayList<IdTitle>();
+		List<IdTitle> serviceList = new ArrayList<>();
 
 		Request req = new Request();
 
@@ -108,7 +108,7 @@ public class ContractServiceDAO
 			serviceList.add( new IdTitle( item ) );
 		}
 
-		return new Pair<ContractService, List<IdTitle>>( service, serviceList );
+		return new Pair<>(service, serviceList);
     }
 
 	/*http://127.0.0.1:8080/bgbilling/executer?id=487978&sid=74&module=contract&action=UpdateContractService&date2=01.11.2009&

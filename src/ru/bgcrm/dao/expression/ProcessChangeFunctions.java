@@ -59,7 +59,7 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
     public void addGroups(Set<Integer> groupIds, int roleId) throws Exception {
         ProcessType type = ProcessAction.getProcessType(process.getTypeId());
 
-        Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getGroups());
+        Set<ProcessGroup> processGroups = new HashSet<>(process.getGroups());
         Set<ProcessGroup> addingProcessGroups = ProcessGroup.toProcessGroupSet(groupIds, roleId);
         if (type.getProperties().getAllowedGroups().size() > 0) {
             addingProcessGroups = new HashSet<ProcessGroup>(

@@ -20,7 +20,7 @@ public class IpnGate
 	private String address;
 	private String comment;
 
-	private final List<IpnGate> childList = new ArrayList<IpnGate>();
+	private final List<IpnGate> childList = new ArrayList<>();
 
 	//<row address=" г. Уфа, 1-й пер. Водников, д. 5В" comment="Ленина 10/2" host="1.1.1.1" id="95" parent_id="0" port="1" type="PPPoe_script_test" typeId="62"/>
 	public IpnGate( Element el )

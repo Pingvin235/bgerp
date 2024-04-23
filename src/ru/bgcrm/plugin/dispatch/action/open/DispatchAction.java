@@ -25,7 +25,7 @@ public class DispatchAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_OPEN;
 
     public ActionForward dispatchList(DynActionForm form, Connection con) throws Exception {
-        new DispatchDAO(con).searchDispatch(new Pageable<Dispatch>(form));
+        new DispatchDAO(con).searchDispatch(new Pageable<>(form));
         return html(con, form, PATH_JSP + "/list.jsp");
     }
 
@@ -41,7 +41,7 @@ public class DispatchAction extends BaseAction {
         DispatchDAO dispatchDao = new DispatchDAO(con);
 
         // generate mail text
-        dispatchDao.searchDispatch(new Pageable<Dispatch>());
+        dispatchDao.searchDispatch(new Pageable<>());
 
         Session session = config.getMailConfig().getSmtpSession(Setup.getSetup());
         DispatchCommandProcessor.sendDispatchStateList(con, config, session, email);

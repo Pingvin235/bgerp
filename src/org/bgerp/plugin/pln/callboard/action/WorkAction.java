@@ -122,7 +122,7 @@ public class WorkAction extends BaseAction {
                     groupWithUsersMap);
 
             // ключ - группа, значение - список бригад с пользователями
-            Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<Integer, List<ShiftData>>();
+            Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<>();
 
             form.getResponse().setData("groupDataMap", groupDataMap);
 
@@ -318,7 +318,7 @@ public class WorkAction extends BaseAction {
                     groupWithUsersMap);
 
             // ключ - группа, значение - список бригад с пользователями
-            Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<Integer, List<ShiftData>>();
+            Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<>();
 
             separateShiftData(date, workShiftMap, groupDataMap);
 
@@ -335,7 +335,7 @@ public class WorkAction extends BaseAction {
                     for (CellRange range : data.getCellRanges(callboard.getPlanConfig())) {
                         for (SlotRange slotRange : range.getSlotRanges()) {
                             if (range.getDayMinuteFrom(slotRange) == dayMinuteFrom) {
-                                result = new Pair<CellRange, SlotRange>(range, slotRange);
+                                result = new Pair<>(range, slotRange);
                                 break MAIN_LOOP;
                             }
                         }
@@ -393,7 +393,7 @@ public class WorkAction extends BaseAction {
         List<FreeSlotRange> result = new ArrayList<>();
 
         Set<Integer> processGroupIds = ProcessGroup.getGroupsWithRole(process.getGroups(), 0);
-        Set<Integer> groupIds = new HashSet<Integer>(getGroupList(null, callboard, false, null));
+        Set<Integer> groupIds = new HashSet<>(getGroupList(null, callboard, false, null));
 
         @SuppressWarnings("unchecked")
         Integer groupId = (Integer) Utils.getFirst(CollectionUtils.intersection(processGroupIds, groupIds));
@@ -415,7 +415,7 @@ public class WorkAction extends BaseAction {
 
             while (!date.after(dateTo)) {
                 // ключ - группа, значение - список бригад с пользователями
-                Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<Integer, List<ShiftData>>();
+                Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<>();
 
                 separateShiftData(date, workShiftMap, groupDataMap);
 
@@ -488,7 +488,7 @@ public class WorkAction extends BaseAction {
 
             List<ShiftData> groupData = groupDataMap.get(groupId);
             if (groupData == null) {
-                groupData = new ArrayList<ShiftData>();
+                groupData = new ArrayList<>();
                 groupDataMap.put(groupId, groupData);
             }
 
@@ -517,7 +517,7 @@ public class WorkAction extends BaseAction {
                     existData = new ShiftData();
                     existData.team = team;
                     existData.shiftId = shiftId;
-                    existData.userIds = new HashSet<Integer>(Arrays.asList(new Integer[] { userId }));
+                    existData.userIds = new HashSet<>(Arrays.asList(new Integer[]{userId}));
                     existData.workTypeTimeList = shift.getWorkTypeTimeList();
 
                     groupData.add(existData);
@@ -544,14 +544,14 @@ public class WorkAction extends BaseAction {
         Date fromDate = form.getParamDate("fromDate");
         Date toDate = form.getParamDate("toDate");
 
-        Map<Integer, List<Integer>> groupWithUsersMap = new LinkedHashMap<Integer, List<Integer>>();
+        Map<Integer, List<Integer>> groupWithUsersMap = new LinkedHashMap<>();
 
         if (fromDate != null && toDate != null) {
             if (fromDate.compareTo(toDate) > 0) {
                 throw new BGException("Дата начала позже даты конца");
             }
 
-            List<Date> dateSet = new ArrayList<Date>();
+            List<Date> dateSet = new ArrayList<>();
 
             Date day = fromDate;
             while (day.compareTo(toDate) <= 0) {
@@ -570,7 +570,7 @@ public class WorkAction extends BaseAction {
                     WorkDaysCalendar calendar = setup.getConfig(CalendarConfig.class).getCalendar(callboard.getCalendarId());
                     Map<Date, Integer> excludeDates = new WorkTypeDAO(con).getWorkDaysCalendarExcludes(callboard.getCalendarId());
 
-                    Map<Date, Pair<DayType, Boolean>> dateTypeMap = new HashMap<Date, Pair<DayType, Boolean>>();
+                    Map<Date, Pair<DayType, Boolean>> dateTypeMap = new HashMap<>();
                     form.getResponse().setData("dateTypeMap", dateTypeMap);
 
                     for (Date date : dateSet) {
@@ -587,7 +587,7 @@ public class WorkAction extends BaseAction {
                 log.debug("callboardGet2: " + (System.currentTimeMillis() - time) + " ms.");
 
                 Map<Integer, Shift> allShiftMap = new ShiftDAO(con).getAllShiftMap();
-                Map<Integer, Shift> avaiableShiftMap = new LinkedHashMap<Integer, Shift>();
+                Map<Integer, Shift> avaiableShiftMap = new LinkedHashMap<>();
                 Set<Integer> availableCategoryIds = getAvailableCategoryIds(perm);
 
                 for (Entry<Integer, Shift> entry : allShiftMap.entrySet()) {
@@ -634,7 +634,7 @@ public class WorkAction extends BaseAction {
     }
 
     private List<WorkType> getAvailableWorkTypeList(Connection con, ConfigMap perm) throws Exception {
-        List<WorkType> resultList = new ArrayList<WorkType>();
+        List<WorkType> resultList = new ArrayList<>();
         Set<Integer> availableCategoryIds = getAvailableCategoryIds(perm);
 
         for (WorkType workType : new WorkTypeDAO(con).getWorkTypeList()) {
@@ -797,7 +797,7 @@ public class WorkAction extends BaseAction {
         List<Integer> groups = WorkAction.class.getDeclaredConstructor().newInstance().getGroupList(form, callboard, false, null);
         List<UserGroup> userGroupList = UserCache.getUserGroupList(userId);
 
-        List<UserGroup> result = new ArrayList<UserGroup>();
+        List<UserGroup> result = new ArrayList<>();
 
         for (Integer group : groups) {
             for (UserGroup userGroup : userGroupList) {
@@ -878,7 +878,7 @@ public class WorkAction extends BaseAction {
         int graphId = form.getParamInt("graphId", 0);
         int groupId = form.getParamInt("groupId", 0);
 
-        Map<Integer, Integer> userOrderMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> userOrderMap = new HashMap<>();
 
         for (String item : Utils.toSet(form.getParam("order", ""))) {
             if (item.contains(":")) {
@@ -963,7 +963,7 @@ public class WorkAction extends BaseAction {
 
         Map<Date, Integer> excludeDates = new WorkTypeDAO(con).getWorkDaysCalendarExcludes(form.getId());
 
-        Map<Date, Pair<DayType, Boolean>> dateTypeMap = new HashMap<Date, Pair<DayType, Boolean>>();
+        Map<Date, Pair<DayType, Boolean>> dateTypeMap = new HashMap<>();
         form.getResponse().setData("dateTypeMap", dateTypeMap);
 
         Calendar dateFrom = new GregorianCalendar(selectedYear, Calendar.JANUARY, 1);
@@ -1030,7 +1030,7 @@ public class WorkAction extends BaseAction {
     // Список групп
     protected List<Integer> getGroupList(DynActionForm form, Callboard callboard, boolean excludeHidden, Set<Integer> allowOnlyGroups)
             {
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> result = new ArrayList<>();
 
         Set<Integer> groupsFilter = Collections.emptySet();
         if (form != null) {
@@ -1065,9 +1065,9 @@ public class WorkAction extends BaseAction {
     //Группа - Список пользователей, входящих в эту группу
     protected Map<Integer, List<Integer>> getGroupWithUsersMap(Connection con, Callboard callboard, List<Integer> groupIds, Calendar dateFrom,
             Calendar dateTo) {
-        Map<Integer, List<Integer>> resultMap = new LinkedHashMap<Integer, List<Integer>>();
+        Map<Integer, List<Integer>> resultMap = new LinkedHashMap<>();
 
-        Set<Integer> userInSubGroups = new HashSet<Integer>();
+        Set<Integer> userInSubGroups = new HashSet<>();
 
         //поверять только среди тех групп, в которые входит пользователь
         for (Integer groupId : groupIds) {
@@ -1089,7 +1089,7 @@ public class WorkAction extends BaseAction {
     }
 
     private List<Integer> getGroupUsers(Connection con, Callboard callboard, int groupId, Calendar dateFrom, Calendar dateTo) {
-        List<Integer> userList = new ArrayList<Integer>();
+        List<Integer> userList = new ArrayList<>();
 
         Map<Integer, Integer> shiftOrderMap = new ShiftDAO(con).getShiftOrder(callboard.getId(), groupId);
         for (User user : UserCache.getUserList()) {

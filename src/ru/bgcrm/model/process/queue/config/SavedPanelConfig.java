@@ -17,7 +17,7 @@ public class SavedPanelConfig extends Config {
     public static final String QUEUE_CURRENT = "queueCurrent";
 
     // ключ - ID очереди
-    private Set<Integer> savedPanelSet = new HashSet<Integer>();
+    private Set<Integer> savedPanelSet = new HashSet<>();
 
     private Integer currentSelected = 0;
 

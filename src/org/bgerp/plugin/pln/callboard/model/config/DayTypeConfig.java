@@ -9,7 +9,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.callboard.model.DayType;
 
 public class DayTypeConfig extends Config {
-    private final Map<Integer, DayType> typeMap = new LinkedHashMap<Integer, DayType>();
+    private final Map<Integer, DayType> typeMap = new LinkedHashMap<>();
 
     public DayTypeConfig(ConfigMap config) {
         super(null);

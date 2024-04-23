@@ -156,10 +156,10 @@ public class JasperReport {
 
         final int size = printColumns.size();
 
-        List<Map<String, Object>> jdata = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> jdata = new ArrayList<>();
 
         for (Object[] objects : data) {
-            Map<String, Object> map = new HashMap<String, Object>(size);
+            Map<String, Object> map = new HashMap<>(size);
             jdata.add(map);
 
             for (int i = 0; i < size; i++) {

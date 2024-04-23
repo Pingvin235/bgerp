@@ -111,7 +111,7 @@ public class StatusChangeDAO extends CommonDAO {
     }
 
     public List<StatusChange> getProcessStatus(int processId, int statusId) {
-        List<StatusChange> list = new ArrayList<StatusChange>();
+        List<StatusChange> list = new ArrayList<>();
 
         if (statusId <= 0) {
             return list;

@@ -6,7 +6,7 @@ import java.util.List;
 import org.bgerp.model.base.IdTitle;
 
 public class SearchableIdTitle extends IdTitle {
-    private List<String> searchMode = new ArrayList<String>();
+    private List<String> searchMode = new ArrayList<>();
 
     public List<String> getSearchMode() {
         return searchMode;

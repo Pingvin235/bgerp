@@ -101,9 +101,9 @@ public class ProcessCommandExecutor {
 
                 ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
             } else if (command.equals("clearGroups")) {
-                ProcessAction.processGroupsUpdate(form, con, process, new HashSet<ProcessGroup>());
+                ProcessAction.processGroupsUpdate(form, con, process, new HashSet<>());
             } else if (command.equals("clearExecutors")) {
-                ProcessAction.processExecutorsUpdate(form, con, process, process.getGroups(), new HashSet<ProcessExecutor>());
+                ProcessAction.processExecutorsUpdate(form, con, process, process.getGroups(), new HashSet<>());
             } else if (command.equals("refreshCurrentQueue")) {
                 form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent());
             } else if (command.equals("open")) {
@@ -133,7 +133,7 @@ public class ProcessCommandExecutor {
                 news.setUserId(event.getForm().getUserId());
                 news.setPopup(command.startsWith("newsPopup"));
 
-                Set<Integer> userIds = new HashSet<Integer>(process.getExecutorIds());
+                Set<Integer> userIds = new HashSet<>(process.getExecutorIds());
 
                 news.setTitle(subject);
 

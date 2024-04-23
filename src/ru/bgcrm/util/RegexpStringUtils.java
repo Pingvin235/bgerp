@@ -20,7 +20,7 @@ public class RegexpStringUtils {
         Pattern pattern = Pattern.compile(regexpTemplate);
         Matcher matcher = pattern.matcher(text);
 
-        List<String> variables = new ArrayList<String>();
+        List<String> variables = new ArrayList<>();
 
         try {
             while (matcher.find()) {

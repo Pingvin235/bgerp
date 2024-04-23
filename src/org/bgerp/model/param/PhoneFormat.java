@@ -26,12 +26,12 @@ public class PhoneFormat {
         // Первоначальная сортировка префиксов по количеству цифр.
         // Результат - мэп, ключ - количество цифр в префиксе
         String[] prefixsArray = formats.split(",");
-        Map<Integer, List<String>> prefixs = new HashMap<Integer, List<String>>();
+        Map<Integer, List<String>> prefixs = new HashMap<>();
         for (int i = 0; i < prefixsArray.length; ++i) {
             int countDigits = phoneUnformatted(prefixsArray[i]).length();
             List<String> list = prefixs.get(countDigits);
             if (list == null) {
-                list = new ArrayList<String>();
+                list = new ArrayList<>();
                 prefixs.put(countDigits, list);
             }
             list.add(prefixsArray[i]);

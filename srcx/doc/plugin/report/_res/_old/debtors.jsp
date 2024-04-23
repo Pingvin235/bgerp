@@ -61,7 +61,7 @@
 							List<Integer> values = (List<Integer>)pageContext.getAttribute( "sortF" );
 							if( values == null || values.isEmpty() )
 							{
-								values = new ArrayList<Integer>();
+								values = new ArrayList<>();
 								values.add( 4 );
 								pageContext.setAttribute( "sortF", values );
 							}

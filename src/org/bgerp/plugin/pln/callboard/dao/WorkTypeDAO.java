@@ -66,7 +66,7 @@ public class WorkTypeDAO extends CommonDAO {
     }
 
     public List<WorkType> getWorkTypeList(Set<?> workTypeIds) {
-        List<WorkType> result = new ArrayList<WorkType>();
+        List<WorkType> result = new ArrayList<>();
 
         try {
             ResultSet rs = null;
@@ -109,7 +109,7 @@ public class WorkTypeDAO extends CommonDAO {
     }
 
     public Map<Integer, WorkType> getWorkTypeMap(boolean dynamicOnly) {
-        Map<Integer, WorkType> result = new HashMap<Integer, WorkType>();
+        Map<Integer, WorkType> result = new HashMap<>();
 
         try {
             ResultSet rs = null;
@@ -272,7 +272,7 @@ public class WorkTypeDAO extends CommonDAO {
 
     // TODO: Добавить период выборки.
     public Map<Date, Integer> getWorkDaysCalendarExcludes(int calendarId) {
-        Map<Date, Integer> resultSet = new HashMap<Date, Integer>();
+        Map<Date, Integer> resultSet = new HashMap<>();
 
         try {
             ResultSet rs = null;

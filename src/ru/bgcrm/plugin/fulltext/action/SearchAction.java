@@ -24,13 +24,13 @@ public class SearchAction extends BaseAction {
 
         SearchDAO searchDao = new SearchDAO(conSet.getSlaveConnection());
         if (Customer.OBJECT_TYPE.equals(objectType)) {
-            searchDao.searchCustomer(new Pageable<Customer>(form), filter);
+            searchDao.searchCustomer(new Pageable<>(form), filter);
             return forward(conSet, form, objectType);
         } else if (Process.OBJECT_TYPE.equals(objectType)) {
-            searchDao.searchProcess(new Pageable<Process>(form), filter);
+            searchDao.searchProcess(new Pageable<>(form), filter);
             return forward(conSet, form, objectType);
         } else if (Message.OBJECT_TYPE.equals(objectType)) {
-            searchDao.searchMessages(new Pageable<Pair<Message, Process>>(form), filter);
+            searchDao.searchMessages(new Pageable<>(form), filter);
             return forward(conSet, form, objectType);
         }
 

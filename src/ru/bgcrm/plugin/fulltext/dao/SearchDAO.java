@@ -104,7 +104,7 @@ public class SearchDAO extends CommonDAO {
         while (rs.next()) {
             Message m = MessageDAO.getMessageFromRs(rs, "m.");
             Process p = ProcessDAO.getProcessFromRs(rs, "p.");
-            result.getList().add(new Pair<Message, Process>(m, p));
+            result.getList().add(new Pair<>(m, p));
         }
         result.getPage().setRecordCount(foundRows(ps));
         ps.close();

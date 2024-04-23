@@ -46,8 +46,8 @@ public class InetServiceType extends IdTitle {
      */
     public static final int ADDRESS_TYPE_NONE_OR_SINGLE = 7;
 
-    private Set<Integer> deviceTypeIds = new HashSet<Integer>();
-    private Set<Integer> deviceGroupIds = new HashSet<Integer>();
+    private Set<Integer> deviceTypeIds = new HashSet<>();
+    private Set<Integer> deviceGroupIds = new HashSet<>();
 
     private int trafficTypeLinkId;
 
@@ -85,7 +85,7 @@ public class InetServiceType extends IdTitle {
 
     private boolean needRestriction;
 
-    private Set<Integer> parentTypeIds = new HashSet<Integer>();
+    private Set<Integer> parentTypeIds = new HashSet<>();
 
     private boolean ipFromParentRange;
 

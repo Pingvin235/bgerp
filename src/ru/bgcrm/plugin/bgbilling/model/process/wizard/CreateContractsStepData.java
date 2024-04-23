@@ -51,9 +51,9 @@ public class CreateContractsStepData extends StepData<CreateContractsStep> {
     }
 
     public List<ContractType> getAllowedTypeList() {
-        ArrayList<ContractType> result = new ArrayList<ContractType>();
+        ArrayList<ContractType> result = new ArrayList<>();
 
-        Set<Integer> existsTypes = new HashSet<Integer>();
+        Set<Integer> existsTypes = new HashSet<>();
         for (CommonObjectLink link : contractLinkList) {
             existsTypes.add(link.getConfigMap().getInt("type", 0));
         }

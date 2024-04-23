@@ -39,7 +39,7 @@ public class ParameterPhoneValue {
      */
     public void addItems(List<ParameterPhoneValueItem> itemList) {
         if (this.itemList == null) {
-            this.itemList = new ArrayList<ParameterPhoneValueItem>();
+            this.itemList = new ArrayList<>();
         }
 
         for (ParameterPhoneValueItem item : itemList) {

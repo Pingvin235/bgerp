@@ -105,7 +105,7 @@ public class OldParamSearchDAO extends CommonDAO {
      * @throws SQLException
      */
     public Set<Integer> searchObjectByParameterPhone(int parameterId, ParameterPhoneValue parameterPhoneValue) throws SQLException {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         StringBuilder query = new StringBuilder();
         query.append(SQL_SELECT);
@@ -151,7 +151,7 @@ public class OldParamSearchDAO extends CommonDAO {
      * @throws SQLException
      */
     public Set<Integer> searchObjectByParameterAddress(int parameterId, ParameterAddressValue parameterAddressValue) throws SQLException {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         StringBuilder query = new StringBuilder();
         query.append(SQL_SELECT);
@@ -195,7 +195,7 @@ public class OldParamSearchDAO extends CommonDAO {
      * @throws SQLException
      */
     public Set<Integer> searchObjectByParameterText(int parameterId, String parameterTextValue) throws SQLException {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         StringBuilder query = new StringBuilder();
         query.append(SQL_SELECT);
@@ -290,7 +290,7 @@ public class OldParamSearchDAO extends CommonDAO {
 
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    list.add(new ParameterSearchedObject<T>(extractor.extract(rs), rs.getInt(1), rs.getString(2)));
+                    list.add(new ParameterSearchedObject<>(extractor.extract(rs), rs.getInt(1), rs.getString(2)));
                 }
 
                 setRecordCount(page, ps);

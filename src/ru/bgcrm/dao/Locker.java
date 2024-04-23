@@ -20,11 +20,11 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class Locker {
     private static final Log log = Log.getLog();
 
-    private static Map<String, Lock> locksById = new ConcurrentHashMap<String, Lock>();
-    private static Map<Integer, Set<Lock>> locksByUser = new ConcurrentHashMap<Integer, Set<Lock>>();
+    private static Map<String, Lock> locksById = new ConcurrentHashMap<>();
+    private static Map<Integer, Set<Lock>> locksByUser = new ConcurrentHashMap<>();
 
     public Locker() {
-        EventProcessor.subscribe(new EventListener<GetPoolTasksEvent>() {
+        EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(GetPoolTasksEvent e, ConnectionSet conSet) {
                 Set<Lock> locks = locksByUser.get(e.getUser().getId());
@@ -60,7 +60,7 @@ public class Locker {
 
         Set<Lock> locks = locksByUser.get(lock.getUserId());
         if (locks == null) {
-            locksByUser.put(lock.getUserId(), locks = new HashSet<Lock>());
+            locksByUser.put(lock.getUserId(), locks = new HashSet<>());
         }
 
         locksById.put(lock.getId(), lock);

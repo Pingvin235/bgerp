@@ -72,7 +72,7 @@ public class SavedFiltersConfig extends Config {
     private List<SavedFilterSet> getQueueSetList(int queueId) {
         List<SavedFilterSet> setList = queueSavedFilterSetsMap.get(queueId);
         if (setList == null) {
-            queueSavedFilterSetsMap.put(queueId, setList = new ArrayList<SavedFilterSet>());
+            queueSavedFilterSetsMap.put(queueId, setList = new ArrayList<>());
         }
         return setList;
     }

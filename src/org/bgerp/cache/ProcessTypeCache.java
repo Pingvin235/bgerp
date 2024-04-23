@@ -68,7 +68,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static List<ProcessType> getTypeList(Set<Integer> ids) {
-        List<ProcessType> result = new ArrayList<ProcessType>();
+        List<ProcessType> result = new ArrayList<>();
 
         for (ProcessType type : holder.getInstance().typeList) {
             if (ids.contains(type.getId())) {
@@ -80,7 +80,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static List<ProcessType> getTypeList(String objectType) throws Exception {
-        List<ProcessType> result = new ArrayList<ProcessType>();
+        List<ProcessType> result = new ArrayList<>();
 
         var filter = new TypeFilter(objectType);
         for (ProcessType type : holder.getInstance().typeList) {
@@ -129,7 +129,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static List<Status> getTypeStatusList(ProcessType type, int currentStatusId) {
-        List<Status> result = new ArrayList<Status>();
+        List<Status> result = new ArrayList<>();
 
         Set<Integer> allowedStatusSet = type.getProperties().getAllowedStatusSet(currentStatusId);
         allowedStatusSet.add(currentStatusId);
@@ -157,7 +157,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static List<ProcessType> getTypePath(int id) {
-        List<ProcessType> result = new ArrayList<ProcessType>();
+        List<ProcessType> result = new ArrayList<>();
 
         ProcessType type = new ProcessType();
         type.setParentId(id);
@@ -198,7 +198,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
             ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
 
             result.typeList = typeDAO.getFullProcessTypeList();
-            result.typeMap = new HashMap<Integer, ProcessType>();
+            result.typeMap = new HashMap<>();
 
             for (ProcessType type : result.typeList) {
                 if (!type.isUseParentProperties())
@@ -209,7 +209,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
             result.tree = typeDAO.getTypeTreeRoot();
 
             result.statusList = new StatusDAO(con).getStatusList();
-            result.statusMap = new HashMap<Integer, Status>();
+            result.statusMap = new HashMap<>();
             for (Status status : result.statusList)
                 result.statusMap.put(status.getId(), status);
         } catch (Exception e) {

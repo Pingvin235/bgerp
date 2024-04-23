@@ -515,7 +515,7 @@ public class TransferData {
         if (dbInfo.getPluginSet() == null) {
             // т.к. PluginDAO обратится к этому же методу - то сразу
             // устанавливаем pluginSet, чтобы был не null, иначе - бесконечная рекурсия
-            Set<String> pluginSet = new HashSet<String>();
+            Set<String> pluginSet = new HashSet<>();
             dbInfo.setPluginSet(pluginSet);
 
             pluginSet.addAll(new PluginDAO(user, dbInfo).getInstalledPlugins());

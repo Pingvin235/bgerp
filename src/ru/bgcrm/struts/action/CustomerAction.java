@@ -154,7 +154,7 @@ public class CustomerAction extends BaseAction {
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con);
         CustomerDAO customerDAO = new CustomerDAO(con);
 
-        Pageable<Parameter> searchResult = new Pageable<Parameter>();
+        Pageable<Parameter> searchResult = new Pageable<>();
         paramDAO.getParameterList(searchResult, Customer.OBJECT_TYPE, "", 0, null);
 
         List<Parameter> customerParameterList = searchResult.getList();

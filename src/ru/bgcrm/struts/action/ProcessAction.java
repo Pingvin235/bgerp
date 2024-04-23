@@ -178,7 +178,7 @@ public class ProcessAction extends BaseAction {
         ProcessType type = ProcessTypeCache.getProcessType(typeId);
 
         if (type != null) {
-            List<Group> groups = new ArrayList<Group>();
+            List<Group> groups = new ArrayList<>();
             for (int groupId : Utils.toIntegerSet(type.getProperties().getConfigMap().get("onCreateSelectGroup"))) {
                 groups.add(UserCache.getUserGroup(groupId));
             }
@@ -337,7 +337,7 @@ public class ProcessAction extends BaseAction {
 
         int statusId = Utils.parseInt(form.getParam("statusId"));
         if ("prev".equals(form.getParam("statusId"))) {
-            Pageable<StatusChange> searchResult = new Pageable<StatusChange>();
+            Pageable<StatusChange> searchResult = new Pageable<>();
             new StatusChangeDAO(con).searchProcessStatus(searchResult, process.getId(), null);
             if (searchResult.getList().size() < 2) {
                 throw new BGMessageException("У процесса не было предыдущего статуса.");
@@ -404,7 +404,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processStatusHistory(DynActionForm form, Connection con) throws Exception {
-        new StatusChangeDAO(con).searchProcessStatus(new Pageable<StatusChange>(form), form.getId(), form.getParamValues("statusId"));
+        new StatusChangeDAO(con).searchProcessStatus(new Pageable<>(form), form.getId(), form.getParamValues("statusId"));
         return html(con, form, PATH_JSP + "/process/status_history.jsp");
     }
 
@@ -515,7 +515,7 @@ public class ProcessAction extends BaseAction {
         Set<ProcessGroup> allowedGroups = ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getAllowedGroups();
 
         Set<String> groupRoleSet = form.getParamValuesStr("groupRole");
-        Set<ProcessGroup> processGroupList = new LinkedHashSet<ProcessGroup>();
+        Set<ProcessGroup> processGroupList = new LinkedHashSet<>();
 
         for (String item : groupRoleSet) {
             ProcessGroup processGroup = new ProcessGroup();
@@ -634,7 +634,7 @@ public class ProcessAction extends BaseAction {
             Collection<Integer> denyGroupIds = CollectionUtils.subtract(ProcessGroup.toGroupSet(processGroups), allowOnlyGroupIds);
             if (denyGroupIds.size() > 0)
                 throw new BGMessageException("Запрещена правка исполнителей в группах:\n"
-                        + Utils.getObjectList(UserCache.getUserGroupList(), new HashSet<Integer>(denyGroupIds)));
+                        + Utils.getObjectList(UserCache.getUserGroupList(), new HashSet<>(denyGroupIds)));
         }
 
         checkExecutorRestriction(process);
@@ -648,7 +648,7 @@ public class ProcessAction extends BaseAction {
             Collection<Integer> denyUserIds = CollectionUtils.subtract(changingExecutorIds, allowOnlyUsers);
             if (denyUserIds.size() > 0)
                 throw new BGMessageException(
-                        "Запрещена правка исполнителей:\n" + Utils.getObjectList(UserCache.getUserList(), new HashSet<Integer>(denyUserIds)));
+                        "Запрещена правка исполнителей:\n" + Utils.getObjectList(UserCache.getUserList(), new HashSet<>(denyUserIds)));
         }
 
         Set<Integer> allowOnlyProcessTypeIds = Utils.toIntegerSet(perm.get("allowOnlyProcessTypeIds"));
@@ -670,7 +670,7 @@ public class ProcessAction extends BaseAction {
         }
 
         // текущие исполнители
-        Set<ProcessExecutor> executors = new LinkedHashSet<ProcessExecutor>(process.getExecutors());
+        Set<ProcessExecutor> executors = new LinkedHashSet<>(process.getExecutors());
 
         // удаление исполнителей привязанных к обновляемым группоролям, они будут заменены
         Iterator<ProcessExecutor> currentExecutorsIt = executors.iterator();
@@ -707,7 +707,7 @@ public class ProcessAction extends BaseAction {
 
             if (groupId > 0 && maxCount > 0) {
                 int count = 0;
-                List<User> userList = UserCache.getUserList(new HashSet<Integer>(Arrays.asList(new Integer[] { groupId })));
+                List<User> userList = UserCache.getUserList(new HashSet<>(Arrays.asList(new Integer[]{groupId})));
 
                 for (Integer executorId : executorIds) {
                     User executor = UserCache.getUser(executorId);
@@ -793,13 +793,13 @@ public class ProcessAction extends BaseAction {
     public ActionForward unionLog(DynActionForm form, Connection con) throws Exception {
         new ProcessLogDAO(con).searchProcessLog(form.l,
                 getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
-                new Pageable<EntityLogItem>(form));
+                new Pageable<>(form));
 
         return html(con, form, "/WEB-INF/jspf/union_log.jsp");
     }
 
     public ActionForward userProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        new ProcessDAO(conSet.getSlaveConnection()).searchProcessListForUser(new Pageable<Process>(form),
+        new ProcessDAO(conSet.getSlaveConnection()).searchProcessListForUser(new Pageable<>(form),
                 form.getUserId(), form.getParamBoolean("open", null));
 
         return html(conSet, form, PATH_JSP + "/user_process_list.jsp");

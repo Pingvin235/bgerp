@@ -35,7 +35,7 @@ public abstract class StepData<T extends Step> {
             return true;
         }
 
-        Map<String, Object> context = new HashMap<String, Object>();
+        Map<String, Object> context = new HashMap<>();
         context.put(Process.OBJECT_TYPE, data.getProcess());
         context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
                 new ParamValueFunction(con, data.getProcess().getId()));

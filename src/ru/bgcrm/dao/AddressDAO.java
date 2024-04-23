@@ -838,7 +838,7 @@ public class AddressDAO extends CommonDAO {
     }
 
     public List<AddressCountry> getUpdatedCountries(long time, int[] countriesId) throws SQLException {
-        List<AddressCountry> result = new ArrayList<AddressCountry>();
+        List<AddressCountry> result = new ArrayList<>();
 
         String ids = getIdsString(countriesId);
         StringBuilder query = new StringBuilder("SELECT * FROM ");
@@ -871,7 +871,7 @@ public class AddressDAO extends CommonDAO {
     }
 
     public List<AddressCity> getUpdatedCities(long time, int[] citiesId) throws SQLException {
-        List<AddressCity> result = new ArrayList<AddressCity>();
+        List<AddressCity> result = new ArrayList<>();
 
         String ids = getIdsString(citiesId);
         StringBuilder query = new StringBuilder("SELECT * FROM ");
@@ -901,7 +901,7 @@ public class AddressDAO extends CommonDAO {
     }
 
     public List<AddressHouse> getUpdatedHouses(long time, int[] citiesId) throws SQLException {
-        List<AddressHouse> result = new ArrayList<AddressHouse>();
+        List<AddressHouse> result = new ArrayList<>();
 
         String ids = getIdsString(citiesId);
         StringBuilder query = new StringBuilder("SELECT h.* FROM ");
@@ -933,7 +933,7 @@ public class AddressDAO extends CommonDAO {
     }
 
     private List<AddressItem> getUpdatedItems(String tableName, long time, int[] citiesId) throws SQLException {
-        List<AddressItem> result = new ArrayList<AddressItem>();
+        List<AddressItem> result = new ArrayList<>();
 
         String ids = getIdsString(citiesId);
         StringBuilder query = new StringBuilder("SELECT * FROM ");
@@ -975,9 +975,9 @@ public class AddressDAO extends CommonDAO {
     }
 
     public List<Integer> getCountryIdByCityId(int[] citiesId) throws SQLException {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
 
-        Set<Integer> countryIdSet = new HashSet<Integer>();
+        Set<Integer> countryIdSet = new HashSet<>();
         String ids = getIdsString(citiesId);
         StringBuilder query = new StringBuilder("SELECT country_id FROM ");
         query.append(Tables.TABLE_ADDRESS_CITY);
@@ -1010,7 +1010,7 @@ public class AddressDAO extends CommonDAO {
      * @return
      */
     public List<AddressItem> getAddressStreetsBySubstring(String streetSubstring, List<Integer> cityIds) throws SQLException {
-        List<AddressItem> matchStreets = new ArrayList<AddressItem>();
+        List<AddressItem> matchStreets = new ArrayList<>();
         if (cityIds == null || cityIds.size() > 0) {
             StringBuilder query = new StringBuilder("SELECT * FROM ");
             query.append(Tables.TABLE_ADDRESS_STREET);
@@ -1067,7 +1067,7 @@ public class AddressDAO extends CommonDAO {
     }
 
     public List<Integer> getHouseIdsByStreetAndHouse(int streetId, String house, List<Integer> cityIds) throws SQLException {
-        List<Integer> houseIds = new ArrayList<Integer>();
+        List<Integer> houseIds = new ArrayList<>();
         if (cityIds == null || cityIds.size() > 0) {
             AddressHouse houseAndFrac = new AddressHouse().withHouseAndFrac(house);
 

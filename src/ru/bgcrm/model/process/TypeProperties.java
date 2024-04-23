@@ -141,7 +141,7 @@ public class TypeProperties {
     }
 
     public Set<Integer> getAllowedStatusSet(int fromStatus) {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         for (Map.Entry<TransactionKey, TransactionProperties> me : transactionPropertiesMap.entrySet()) {
             TransactionKey key = me.getKey();

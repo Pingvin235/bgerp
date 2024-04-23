@@ -20,14 +20,14 @@ public class SessionTemporaryFiles {
     public static final String STORE_KEY = "SessionTemporaryFiles";
 
     public AtomicInteger fileIndex = new AtomicInteger(1);
-    public Map<Integer, String> fileTitleMap = new ConcurrentHashMap<Integer, String>();
+    public Map<Integer, String> fileTitleMap = new ConcurrentHashMap<>();
 
     public static String getStoreFilePath(HttpSession session, int fileId) {
         return Utils.getTmpDir() + "/" + session.getId() + "-" + fileId;
     }
 
     public static Map<Integer, FileInfo> getFiles(DynActionForm form, String paramName) {
-        Map<Integer, FileInfo> result = new HashMap<Integer, FileInfo>();
+        Map<Integer, FileInfo> result = new HashMap<>();
 
         if (form.getHttpRequest() != null) {
             HttpSession session = form.getHttpRequest().getSession(true);

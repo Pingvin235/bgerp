@@ -98,7 +98,7 @@ public class FileData extends IdTitle {
     }
 
     public static List<FileData> parse(String str) {
-        List<FileData> result = new ArrayList<FileData>();
+        List<FileData> result = new ArrayList<>();
 
         StringTokenizer st = new StringTokenizer(str, ";");
         while (st.hasMoreTokens()) {

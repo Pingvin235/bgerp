@@ -71,7 +71,7 @@ public class ContractBalanceAction extends BaseAction {
     }
 
     private Set<Integer> getTypePermission(DynActionForm form, String billingId, String key) {
-        Set<Integer> allowedTypeIds = new HashSet<Integer>();
+        Set<Integer> allowedTypeIds = new HashSet<>();
         ConfigMap permission = form.getPermission();
         if (permission != null) {
             String paymentTypeConfig = permission.get(key);
@@ -95,7 +95,7 @@ public class ContractBalanceAction extends BaseAction {
 
         BalanceDAO balanceDAO = new BalanceDAO(form.getUser(), billingId);
 
-        List<ContractBalanceGeneral> balanceList = new ArrayList<ContractBalanceGeneral>();
+        List<ContractBalanceGeneral> balanceList = new ArrayList<>();
 
         form.getResponse().setData("list", balanceList);
         form.getResponse().setData("summs",
@@ -112,7 +112,7 @@ public class ContractBalanceAction extends BaseAction {
 
         BalanceDAO balanceDAO = new BalanceDAO(form.getUser(), billingId);
 
-        List<ContractBalanceDetail> balanceList = new ArrayList<ContractBalanceDetail>();
+        List<ContractBalanceDetail> balanceList = new ArrayList<>();
         form.getResponse().setData("list", balanceList);
 
         Date[] period = getPeriod(form);
@@ -130,10 +130,10 @@ public class ContractBalanceAction extends BaseAction {
 
         BalanceDAO balanceDAO = new BalanceDAO(form.getUser(), billingId);
 
-        List<ContractPayment> paymentList = new ArrayList<ContractPayment>();
+        List<ContractPayment> paymentList = new ArrayList<>();
         form.getResponse().setData("list", paymentList);
 
-        List<ContractPayment> subPaymentList = new ArrayList<ContractPayment>();
+        List<ContractPayment> subPaymentList = new ArrayList<>();
         form.getResponse().setData("subList", subPaymentList);
 
         Date[] period = getPeriod(form);
@@ -152,10 +152,10 @@ public class ContractBalanceAction extends BaseAction {
 
         BalanceDAO balanceDAO = new BalanceDAO(form.getUser(), billingId);
 
-        List<ContractCharge> chargeList = new ArrayList<ContractCharge>();
+        List<ContractCharge> chargeList = new ArrayList<>();
         form.getResponse().setData("list", chargeList);
 
-        List<ContractCharge> subChargeList = new ArrayList<ContractCharge>();
+        List<ContractCharge> subChargeList = new ArrayList<>();
         form.getResponse().setData("subList", subChargeList);
 
         Date[] period = getPeriod(form);
@@ -176,10 +176,10 @@ public class ContractBalanceAction extends BaseAction {
 
         Date[] period = getPeriod(form);
 
-        List<ContractAccount> chargeList = new ArrayList<ContractAccount>();
+        List<ContractAccount> chargeList = new ArrayList<>();
         form.getResponse().setData("list", chargeList);
 
-        List<ContractAccount> subChargeList = new ArrayList<ContractAccount>();
+        List<ContractAccount> subChargeList = new ArrayList<>();
         form.getResponse().setData("subList", subChargeList);
 
         form.getResponse().setData("summa",

@@ -17,7 +17,7 @@ public class CustomerAction extends BaseAction {
 
     public ActionForward groupList(DynActionForm form, ConnectionSet conSet) throws Exception {
         CustomerGroupDAO customerGroupDAO = new CustomerGroupDAO(conSet.getConnection());
-        customerGroupDAO.searchGroup(new Pageable<CustomerGroup>(form));
+        customerGroupDAO.searchGroup(new Pageable<>(form));
 
         return html(conSet, form, PATH_JSP + "/list.jsp");
     }

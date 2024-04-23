@@ -68,7 +68,7 @@ public class QueueDAO extends CommonDAO {
     }
 
     public List<Queue> getQueueList() throws SQLException {
-        List<Queue> result = new ArrayList<Queue>();
+        List<Queue> result = new ArrayList<>();
 
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -163,7 +163,7 @@ public class QueueDAO extends CommonDAO {
     }
 
     public List<QueueProcessStat> getQueueProcessStat(Queue queue) throws SQLException {
-        List<QueueProcessStat> result = new ArrayList<QueueProcessStat>();
+        List<QueueProcessStat> result = new ArrayList<>();
 
         if (queue.getProcessTypeIds().size() > 0) {
 
@@ -204,7 +204,7 @@ public class QueueDAO extends CommonDAO {
     }
 
     public List<QueueUserStat> getQueueUserStat(Queue queue, String userIds) throws SQLException {
-        List<QueueUserStat> result = new ArrayList<QueueUserStat>();
+        List<QueueUserStat> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder();
         query.append(SQL_SELECT);

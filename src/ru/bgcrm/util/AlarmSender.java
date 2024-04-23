@@ -41,11 +41,11 @@ public class AlarmSender extends Thread {
     private String mail;
     // минимальный интервал, в миллисекундах между алармами какого-то типа
     // его возможно переопределять в конфигурации
-    private volatile Map<String, Long> minAlarmInterval = new HashMap<String, Long>();
+    private volatile Map<String, Long> minAlarmInterval = new HashMap<>();
     // последнее время добавление аларма какого-то типа
-    private Map<String, Long> lastAlarmTime = new ConcurrentHashMap<String, Long>();
+    private Map<String, Long> lastAlarmTime = new ConcurrentHashMap<>();
     // очередь алармов
-    private BlockingQueue<AlarmErrorMessage> alarmQueue = new ArrayBlockingQueue<AlarmErrorMessage>(256);
+    private BlockingQueue<AlarmErrorMessage> alarmQueue = new ArrayBlockingQueue<>(256);
 
     private float memoryCheckThreshold = 0.85f;
 
@@ -64,7 +64,7 @@ public class AlarmSender extends Thread {
 
     //TODO: Сделать автоматическую перезагрузку интервалов при изменении конфигурации.
     private void reloadMinAlarmIntervals() {
-        Map<String, Long> newMinIntervalMap = new HashMap<String, Long>();
+        Map<String, Long> newMinIntervalMap = new HashMap<>();
 
         Map<String, String> intervals = setup.getHashValuesWithPrefix("alarm.min.interval.");
         for (Map.Entry<String, String> me : intervals.entrySet()) {

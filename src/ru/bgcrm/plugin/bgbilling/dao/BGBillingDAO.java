@@ -55,7 +55,7 @@ public class BGBillingDAO
 
 	public Map<String, Document> doRequestToBilling( Collection<String> dBkeys, User user, Request req )
 	{
-		Map<String, Document> result = new HashMap<String, Document>( dBkeys.size() );
+		Map<String, Document> result = new HashMap<>(dBkeys.size());
 
 		DBInfoManager dBinfoManager = DBInfoManager.getInstance();
 

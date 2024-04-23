@@ -97,7 +97,7 @@ public class ContractTariffAction extends BaseAction {
         boolean useFilter = form.getParamBoolean("useFilter", false);
         boolean showUsed = form.getParamBoolean("showUsed", false);
 
-        List<IdTitle> tariffList = new ArrayList<IdTitle>();
+        List<IdTitle> tariffList = new ArrayList<>();
         form.getResponse().setData("tariffList", tariffList);
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);

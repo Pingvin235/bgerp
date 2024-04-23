@@ -108,7 +108,7 @@ public class ProcessLinkProcessSearchDAO extends ProcessSearchDAO {
 
             var rs = pq.executeQuery();
             while (rs.next())
-                list.add(new Pair<String, Process>(rs.getString(1), ProcessDAO.getProcessFromRs(rs, "p.")));
+                list.add(new Pair<>(rs.getString(1), ProcessDAO.getProcessFromRs(rs, "p.")));
 
             page.setRecordCount(foundRows(pq.getPrepared()));
         }

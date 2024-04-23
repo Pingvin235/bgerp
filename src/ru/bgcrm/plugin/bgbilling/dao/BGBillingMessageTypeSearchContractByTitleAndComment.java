@@ -51,7 +51,7 @@ public class BGBillingMessageTypeSearchContractByTitleAndComment extends Message
             return;
         }
 
-        Pageable<IdTitle> searchResult = new Pageable<IdTitle>();
+        Pageable<IdTitle> searchResult = new Pageable<>();
         ContractDAO.getInstance(form.getUser(), billingId).searchContractByTitleComment(searchResult, title, comment,
                 new SearchOptions(false, false, false));
 

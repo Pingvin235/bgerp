@@ -27,7 +27,7 @@ public class MessageTypeSearchEmail extends MessageTypeSearch {
     public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) {
         String email = message.getFrom();
 
-        Pageable<ParameterSearchedObject<Customer>> searchResult = new Pageable<ParameterSearchedObject<Customer>>();
+        Pageable<ParameterSearchedObject<Customer>> searchResult = new Pageable<>();
         new CustomerDAO(conSet.getConnection()).searchCustomerListByEmail(searchResult,
                 Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)), email);
 

@@ -48,7 +48,7 @@ public class ParamValueFunction {
      * @return
      */
     public List<String> addressValues(int paramId, String formatName) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, formatName);
         for (ParameterAddressValue addr : value) {
@@ -66,7 +66,7 @@ public class ParamValueFunction {
     public Set<Integer> addressCityIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
 
-        Set<Integer> result = new HashSet<Integer>(value.size());
+        Set<Integer> result = new HashSet<>(value.size());
         for (ParameterAddressValue addr : value) {
             result.add(addr.getHouse().getAddressStreet().getCityId());
         }
@@ -82,7 +82,7 @@ public class ParamValueFunction {
     public Set<Integer> addressStreetIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
 
-        Set<Integer> result = new HashSet<Integer>(value.size());
+        Set<Integer> result = new HashSet<>(value.size());
         for (ParameterAddressValue addr : value) {
             result.add(addr.getHouse().getStreetId());
         }
@@ -98,7 +98,7 @@ public class ParamValueFunction {
     public Set<Integer> addressQuarterIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
 
-        Set<Integer> result = new HashSet<Integer>(value.size());
+        Set<Integer> result = new HashSet<>(value.size());
         for (ParameterAddressValue addr : value) {
             result.add(addr.getHouse().getQuarterId());
         }
@@ -114,7 +114,7 @@ public class ParamValueFunction {
     public Set<Integer> addressAreaIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
 
-        Set<Integer> result = new HashSet<Integer>(value.size());
+        Set<Integer> result = new HashSet<>(value.size());
         for (ParameterAddressValue addr : value) {
             result.add(addr.getHouse().getAreaId());
         }
@@ -254,7 +254,7 @@ public class ParamValueFunction {
                 return Collections.emptySet();
             }
 
-            result = new HashSet<String>();
+            result = new HashSet<>();
             for (IdTitle value : paramDao.getParamListWithTitles(objectId, paramId)) {
                 result.add(value.getTitle());
             }

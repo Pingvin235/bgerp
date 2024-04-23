@@ -13,7 +13,7 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.util.Utils;
 
 public class PrintQueueConfig extends Config {
-    private LinkedHashMap<Integer, PrintType> printTypes = new LinkedHashMap<Integer, PrintType>();
+    private LinkedHashMap<Integer, PrintType> printTypes = new LinkedHashMap<>();
 
     public PrintQueueConfig(ConfigMap config) {
         super(null);
@@ -43,8 +43,8 @@ public class PrintQueueConfig extends Config {
         private final String orientation;
         private final String fileName;
 
-        private final List<String> columnIds = new ArrayList<String>();
-        private final List<Integer> columnWidths = new ArrayList<Integer>();
+        private final List<String> columnIds = new ArrayList<>();
+        private final List<Integer> columnWidths = new ArrayList<>();
 
         private PrintType(int id, ConfigMap config) {
             super(id, config.get("title"));

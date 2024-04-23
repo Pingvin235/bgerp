@@ -28,7 +28,7 @@ public class ProcessLinkFunction {
      * @return list of links.
      */
     public List<String> linkTitles(String typeLike) throws Exception {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {
             result.add(link.getLinkObjectTitle());
         }

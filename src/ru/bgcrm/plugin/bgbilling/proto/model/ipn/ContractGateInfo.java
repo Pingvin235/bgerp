@@ -6,8 +6,8 @@ import java.util.List;
 public class ContractGateInfo
 {
 	private int statusId;
-	private List<ContractGate> gateList = new ArrayList<ContractGate>();
-	private List<ContractGateLogItem> statusLog = new ArrayList<ContractGateLogItem>();
+	private List<ContractGate> gateList = new ArrayList<>();
+	private List<ContractGateLogItem> statusLog = new ArrayList<>();
 
 	public void setStatusId( int statusId )
 	{

@@ -175,7 +175,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
             Document document = transferData.postData(request, user);
 
-            List<ContractTariff> contractTariffList = new ArrayList<ContractTariff>();
+            List<ContractTariff> contractTariffList = new ArrayList<>();
             Element dataElement = document.getDocumentElement();
             NodeList nodeList = dataElement.getElementsByTagName("row");
 
@@ -372,7 +372,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
             Document document = transferData.postData(request, user);
 
-            List<ContractTariffGroup> contractTariffGroupList = new ArrayList<ContractTariffGroup>();
+            List<ContractTariffGroup> contractTariffGroupList = new ArrayList<>();
             Element dataElement = document.getDocumentElement();
             NodeList nodeList = dataElement.getElementsByTagName("row");
 
@@ -576,7 +576,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @return
      */
     public List<IdTitle> contractAvailableOptionList(int contractId) {
-        List<IdTitle> availableOptionList = new ArrayList<IdTitle>();
+        List<IdTitle> availableOptionList = new ArrayList<>();
 
         if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(TARIFF_OPTION_SERVICE_MODULE_ID, "TariffOptionService", "tariffOptionListAvailable");
@@ -609,7 +609,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
 
     public List<IdTitle> activateModeList(int contractId, int optionId) {
-        List<IdTitle> activateModeList = new ArrayList<IdTitle>();
+        List<IdTitle> activateModeList = new ArrayList<>();
 
         if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(TARIFF_OPTION_SERVICE_MODULE_ID, "TariffOptionService", "tariffOptionActivateModeList");
@@ -718,7 +718,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
             Document document = transferData.postData(request, user);
 
-            List<ContractPersonalTariff> contractPersonalTariffList = new ArrayList<ContractPersonalTariff>();
+            List<ContractPersonalTariff> contractPersonalTariffList = new ArrayList<>();
 
             for (Element rowElement : XMLUtils.selectElements(document, "/data/table/data/row")) {
                 ContractPersonalTariff personalTariff = new ContractPersonalTariff();

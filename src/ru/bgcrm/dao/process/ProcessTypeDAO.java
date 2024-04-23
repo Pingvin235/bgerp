@@ -134,9 +134,9 @@ public class ProcessTypeDAO extends CommonDAO {
      * @throws Exception
      */
     public List<ProcessType> getFullProcessTypeList() throws Exception {
-        List<ProcessType> result = new ArrayList<ProcessType>();
+        List<ProcessType> result = new ArrayList<>();
 
-        Map<Integer, ProcessType> typeMap = new HashMap<Integer, ProcessType>();
+        Map<Integer, ProcessType> typeMap = new HashMap<>();
 
         //TODO: Может сделать сортировку по parent_id, title, тогда бы можно было за один проход загружать всё.
         PreparedStatement ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " ORDER BY title");
@@ -179,7 +179,7 @@ public class ProcessTypeDAO extends CommonDAO {
     /** Use {@link ProcessTypeCache} */
     @Deprecated
     public List<Status> getSortedProcessTypeStatusList(ProcessType type, List<Integer> sortingId) {
-        List<Status> result = new ArrayList<Status>();
+        List<Status> result = new ArrayList<>();
 
         List<Status> statusList = getProcessTypeStatusList(type);
 
@@ -198,7 +198,7 @@ public class ProcessTypeDAO extends CommonDAO {
     @Deprecated
     public List<Status> getProcessTypeStatusList(ProcessType type) {
         try {
-            List<Status> result = new ArrayList<Status>();
+            List<Status> result = new ArrayList<>();
 
             ResultSet rs = null;
             PreparedStatement ps = null;
@@ -344,7 +344,7 @@ public class ProcessTypeDAO extends CommonDAO {
             ProcessType result = new ProcessType();
             result.setId(0);
 
-            Map<Integer, List<ProcessType>> byParentMap = new HashMap<Integer, List<ProcessType>>();
+            Map<Integer, List<ProcessType>> byParentMap = new HashMap<>();
 
             StringBuilder query = new StringBuilder();
             query.append(SQL_SELECT);
@@ -362,7 +362,7 @@ public class ProcessTypeDAO extends CommonDAO {
 
                 List<ProcessType> childList = byParentMap.get(type.getParentId());
                 if (childList == null) {
-                    childList = new ArrayList<ProcessType>();
+                    childList = new ArrayList<>();
                     byParentMap.put(type.getParentId(), childList);
                 }
                 childList.add(type);

@@ -45,7 +45,7 @@ public class SavedFilterDAO extends CommonDAO {
             ps.setInt(1, queueId);
             ResultSet rs = ps.executeQuery();
 
-            ArrayList<SavedFilter> commonFilters = new ArrayList<SavedFilter>();
+            ArrayList<SavedFilter> commonFilters = new ArrayList<>();
 
             while (rs.next()) {
                 commonFilters.add(new SavedFilter(rs.getInt("queue_id"), rs.getInt("id"), rs.getString("title"), rs.getString("url")));

@@ -130,7 +130,7 @@ public class ExpressionTest {
 
     @Test
     public void testIfExpr() {
-        Map<String, Object> map = new HashMap<String, Object>(1);
+        Map<String, Object> map = new HashMap<>(1);
         map.put("numberFrom", "13333333333");
 
         String expr = "if (numberFrom.length() == 11) { numberFrom = numberFrom.substring(1) }; return numberFrom;";
@@ -149,7 +149,7 @@ public class ExpressionTest {
 
     @Test
     public void testConcatenationNull() {
-        Map<String, Object> map = new HashMap<String, Object>(1);
+        Map<String, Object> map = new HashMap<>(1);
         map.put("a", "t");
         String expr = "b = null;" +
                 "return a + b;";

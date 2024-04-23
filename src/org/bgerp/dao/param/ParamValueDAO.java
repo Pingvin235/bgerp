@@ -115,7 +115,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException, BGException {
         String query = null;
-        ArrayList<PreparedStatement> psList = new ArrayList<PreparedStatement>();
+        ArrayList<PreparedStatement> psList = new ArrayList<>();
 
         Parameter paramFrom = ParameterCache.getParameter(fromParamId);
         if (paramFrom == null) {
@@ -340,7 +340,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs, String formatName)
             throws SQLException {
-        SortedMap<Integer, ParameterAddressValue> result = new TreeMap<Integer, ParameterAddressValue>();
+        SortedMap<Integer, ParameterAddressValue> result = new TreeMap<>();
 
         StringBuilder query = new StringBuilder(300);
         query.append("SELECT * FROM " + Tables.TABLE_PARAM_ADDRESS + " AS param ");
@@ -494,7 +494,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public SortedMap<Integer, ParameterEmailValue> getParamEmail(int id, int paramId) throws SQLException {
-        SortedMap<Integer, ParameterEmailValue> emailItems = new TreeMap<Integer, ParameterEmailValue>();
+        SortedMap<Integer, ParameterEmailValue> emailItems = new TreeMap<>();
 
         String query = "SELECT * FROM " + Tables.TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? " + "ORDER BY n ";
 
@@ -575,7 +575,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public Set<Integer> getParamList(int id, int paramId) throws SQLException {
-        Set<Integer> result = new HashSet<Integer>();
+        Set<Integer> result = new HashSet<>();
 
         String query = "SELECT value FROM " + Tables.TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
 
@@ -601,7 +601,7 @@ public class ParamValueDAO extends CommonDAO {
     @Deprecated
     public List<IdTitle> getParamListWithTitles(int id, int paramId) throws SQLException {
         List<IdTitleComment> values = getParamListWithTitlesAndComments(id, paramId);
-        return new ArrayList<IdTitle>(values);
+        return new ArrayList<>(values);
     }
 
     /**
@@ -612,7 +612,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public Map<Integer, String> getParamListWithComments(int id, int paramId) throws SQLException {
-        Map<Integer, String> result = new LinkedHashMap<Integer, String>();
+        Map<Integer, String> result = new LinkedHashMap<>();
 
         String query = "SELECT value, comment FROM " + Tables.TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
 
@@ -637,7 +637,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     @Deprecated
     public List<IdTitleComment> getParamListWithTitlesAndComments(int id, int paramId) throws SQLException {
-        List<IdTitleComment> result = new ArrayList<IdTitleComment>();
+        List<IdTitleComment> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder();
 
@@ -711,7 +711,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     @Deprecated
     public List<IdTitle> getParamListCountWithTitles(int id, int paramId) throws SQLException {
-        List<IdTitle> result = new ArrayList<IdTitle>();
+        List<IdTitle> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder();
 
@@ -805,7 +805,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public Set<String> getParamTree(int id, int paramId) throws SQLException {
-        Set<String> result = new HashSet<String>();
+        Set<String> result = new HashSet<>();
 
         String query = "SELECT value FROM " + Tables.TABLE_PARAM_TREE + "WHERE id=? AND param_id=?";
 
@@ -1680,7 +1680,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id, boolean offEncryption) throws SQLException {
-        Map<String, List<Integer>> paramTypeMap = new HashMap<String, List<Integer>>();
+        Map<String, List<Integer>> paramTypeMap = new HashMap<>();
 
         List<ParameterValuePair> result = new ArrayList<>(paramList.size());
         Map<Integer, ParameterValuePair> paramMap = new HashMap<>(paramList.size());
@@ -1757,7 +1757,7 @@ public class ParamValueDAO extends CommonDAO {
 
                 Set<Integer> pids = tableParamsMap.get(tableName);
                 if (pids == null) {
-                    tableParamsMap.put(tableName, pids = new HashSet<Integer>());
+                    tableParamsMap.put(tableName, pids = new HashSet<>());
                 }
                 pids.add(paramId);
             }
@@ -1824,7 +1824,7 @@ public class ParamValueDAO extends CommonDAO {
             if (Parameter.TYPE_ADDRESS.equals(type)) {
                 Map<Integer, ParameterAddressValue> values = (Map<Integer, ParameterAddressValue>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new TreeMap<Integer, ParameterAddressValue>());
+                    param.setValue(values = new TreeMap<>());
 
                 ParameterAddressValue val = new ParameterAddressValue();
                 val.setValue(rs.getString("value"));
@@ -1838,7 +1838,7 @@ public class ParamValueDAO extends CommonDAO {
             } else if (Parameter.TYPE_EMAIL.equals(type)) {
                 Map<Integer, String> values = (Map<Integer, String>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new TreeMap<Integer, String>());
+                    param.setValue(values = new TreeMap<>());
 
                 if (!"".equals(rs.getString("comment"))) {
                     values.put(rs.getInt("n"), rs.getString("value") + " [" + rs.getString("comment") + "]");
@@ -1848,13 +1848,13 @@ public class ParamValueDAO extends CommonDAO {
             } else if (Parameter.TYPE_FILE.equals(type)) {
                 Map<String, FileData> values = (Map<String, FileData>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new LinkedHashMap<String, FileData>());
+                    param.setValue(values = new LinkedHashMap<>());
 
                 values.put(rs.getString("pf.n"), FileDataDAO.getFromRs(rs, "fd."));
             } else if (Parameter.TYPE_LIST.equals(type)) {
                 List<IdTitle> values = (List<IdTitle>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new ArrayList<IdTitle>());
+                    param.setValue(values = new ArrayList<>());
 
                 IdTitle value = new IdTitle(rs.getInt("value"), rs.getString("title"));
 
@@ -1866,7 +1866,7 @@ public class ParamValueDAO extends CommonDAO {
             } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
                 List<IdTitle> values = (List<IdTitle>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new ArrayList<IdTitle>());
+                    param.setValue(values = new ArrayList<>());
                 values.add(new IdTitle(
                     rs.getInt("val.value"),
                     rs.getString("dir.title") + ": " + Utils.format(rs.getBigDecimal("val.count"))

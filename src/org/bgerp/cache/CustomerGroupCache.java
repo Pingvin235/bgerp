@@ -15,7 +15,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class CustomerGroupCache extends Cache<CustomerGroupCache> {
     private static Log log = Log.getLog();
 
-    private static CacheHolder<CustomerGroupCache> holder = new CacheHolder<CustomerGroupCache>(new CustomerGroupCache());
+    private static CacheHolder<CustomerGroupCache> holder = new CacheHolder<>(new CustomerGroupCache());
 
     public static List<CustomerGroup> getGroupList() {
         return holder.getInstance().groupList;
@@ -42,7 +42,7 @@ public class CustomerGroupCache extends Cache<CustomerGroupCache> {
         Connection con = setup.getDBConnectionFromPool();
         try {
             result.groupList = new CustomerGroupDAO(con).getGroupList();
-            result.groupMapById = new HashMap<Integer, CustomerGroup>();
+            result.groupMapById = new HashMap<>();
 
             for (CustomerGroup group : result.groupList) {
                 result.groupMapById.put(group.getId(), group);

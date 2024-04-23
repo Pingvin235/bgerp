@@ -96,9 +96,9 @@ public class MessageTypeCall extends MessageType {
     private Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> getRegMaps() {
         Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> result = registedMap.get(id);
         if (result == null) {
-            registedMap.put(id, result = new Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>>());
-            result.setFirst(new HashMap<String, CallRegistration>());
-            result.setSecond(new HashMap<Integer, CallRegistration>());
+            registedMap.put(id, result = new Pair<>());
+            result.setFirst(new HashMap<>());
+            result.setSecond(new HashMap<>());
         }
         return result;
     }
@@ -149,7 +149,7 @@ public class MessageTypeCall extends MessageType {
 
     @Override
     public List<Message> newMessageList(ConnectionSet conSet) throws SQLException {
-        Pageable<Message> searchResult = new Pageable<Message>();
+        Pageable<Message> searchResult = new Pageable<>();
 
         new MessageSearchDAO(conSet.getConnection())
             .withTypeId(id)

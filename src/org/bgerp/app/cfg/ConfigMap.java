@@ -220,7 +220,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
      * @return
      */
     public ConfigMap sub(String... prefixes) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
             String paramKey = e.getKey();
@@ -310,7 +310,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
                         continue;
                     }
 
-                    ConfigMap map = result.computeIfAbsent(id, unused -> new SimpleConfigMap(new HashMap<String, String>()));
+                    ConfigMap map = result.computeIfAbsent(id, unused -> new SimpleConfigMap(new HashMap<>()));
 
                     if (pref.length == 2)
                         map.put(pref[1], e.getValue());
@@ -378,7 +378,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
 
                     Map<String, String> map = resultMap.get(pref[0]);
                     if (map == null) {
-                        resultMap.put(pref[0], map = new HashMap<String, String>());
+                        resultMap.put(pref[0], map = new HashMap<>());
                         result.put(pref[0], new SimpleConfigMap(map));
                     }
 
@@ -416,7 +416,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
 
             Map<String, String> data = result.get(id);
             if (data == null) {
-                data = new HashMap<String, String>();
+                data = new HashMap<>();
                 data.put("id", String.valueOf(id));
                 result.put(id, data);
             }
@@ -436,7 +436,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     public final <K extends Config> K getConfig(final Class<K> clazz) {
         synchronized (this) {
             if (configMap == null) {
-                configMap = new ConcurrentHashMap<Class<?>, Config>();
+                configMap = new ConcurrentHashMap<>();
             }
         }
 

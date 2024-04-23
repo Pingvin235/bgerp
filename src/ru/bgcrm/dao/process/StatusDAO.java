@@ -100,7 +100,7 @@ public class StatusDAO extends CommonDAO {
     }
 
     public List<Status> getStatusList() throws SQLException {
-        List<Status> result = new ArrayList<Status>();
+        List<Status> result = new ArrayList<>();
 
         ResultSet rs = null;
         PreparedStatement ps = null;
@@ -116,7 +116,7 @@ public class StatusDAO extends CommonDAO {
     }
 
     public List<Status> getStatusList(Set<Integer> ids) throws SQLException {
-        List<Status> result = new ArrayList<Status>();
+        List<Status> result = new ArrayList<>();
 
         ResultSet rs = null;
         PreparedStatement ps = null;

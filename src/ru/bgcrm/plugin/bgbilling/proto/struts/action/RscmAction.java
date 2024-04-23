@@ -28,7 +28,7 @@ public class RscmAction extends BaseAction {
         Date dateFrom = form.getParamDate("dateFrom", TimeConvert.toDate(YearMonth.now()));
         Date dateTo = form.getParamDate("dateTo", TimeUtils.getEndMonth(new Date()));
 
-        new RscmDAO(form.getUser(), billingId, moduleId).getServices(new Pageable<RscmService>(form), contractId, dateFrom, dateTo);
+        new RscmDAO(form.getUser(), billingId, moduleId).getServices(new Pageable<>(form), contractId, dateFrom, dateTo);
 
         return html(conSet, form, PATH_JSP + "/service_list.jsp");
     }

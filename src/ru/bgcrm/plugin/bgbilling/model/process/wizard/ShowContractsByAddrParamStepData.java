@@ -158,7 +158,7 @@ public class ShowContractsByAddrParamStepData
 					ParameterAddressValue val;
 					if( values.size() > 0 )
 					{
-						Map<String, Document> result = new HashMap<String, Document>();
+						Map<String, Document> result = new HashMap<>();
 
 						for( Map.Entry<Integer, ConfigMap> entry : step.getBillingConfig().entrySet() )
 						{

@@ -201,7 +201,7 @@ public class ContractParamDAO extends BillingDAO {
 
         } else {
 
-            List<IdTitle> valueList = new ArrayList<IdTitle>();
+            List<IdTitle> valueList = new ArrayList<>();
 
             Request req = new Request();
             req.setModule("admin");
@@ -266,7 +266,7 @@ public class ContractParamDAO extends BillingDAO {
 
     private List<IdStringTitleTreeItem> getEmailSubscrTree(Element treeElm) {
         // Рекурсивный сбор элементов дерева
-        List<IdStringTitleTreeItem> treeValues = new ArrayList<IdStringTitleTreeItem>();
+        List<IdStringTitleTreeItem> treeValues = new ArrayList<>();
 
         for (Element e : XMLUtils.selectElements(treeElm, "item")) {
             IdStringTitleTreeItem cur = new IdStringTitleTreeItem();
@@ -313,7 +313,7 @@ public class ContractParamDAO extends BillingDAO {
             Document doc = transferData.postData(billingRequest, user);
 
             // Список емейлов
-            List<String> emails = new ArrayList<String>();
+            List<String> emails = new ArrayList<>();
             result.setEmails(emails);
 
             if (dbInfo.versionCompare("5.2") < 0) {

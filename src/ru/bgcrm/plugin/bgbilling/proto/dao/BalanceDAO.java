@@ -393,7 +393,7 @@ public class BalanceDAO extends BillingDAO {
 
     @Deprecated
     public List<ContractPayment> getContractPaymentList(int contractId, Date dateFrom, Date dateTo) {
-        List<ContractPayment> result = new ArrayList<ContractPayment>();
+        List<ContractPayment> result = new ArrayList<>();
         getContractPaymentList(contractId, dateFrom, dateTo, result, null);
         return result;
     }

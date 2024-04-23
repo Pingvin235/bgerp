@@ -16,8 +16,8 @@ public class DBInfoManager {
 
     private static DBInfoManager instance;
 
-    private Map<String, DBInfo> dbInfoMap = new HashMap<String, DBInfo>();
-    private List<DBInfo> dbInfoList = new ArrayList<DBInfo>();
+    private Map<String, DBInfo> dbInfoMap = new HashMap<>();
+    private List<DBInfo> dbInfoList = new ArrayList<>();
 
     private static final Set<String> SUPPORTED_VERSIONS = Set.of("5.1", "5.2", "6.0", "6.1", "6.2", "7.0", "7.1", "7.2", "8.0", "8.2", "9.2");
 

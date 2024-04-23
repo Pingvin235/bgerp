@@ -314,7 +314,7 @@ public class MessageDAO extends CommonDAO {
     }
 
     public List<Message> getUnsendMessageList(int type, int maxCount) {
-        List<Message> result = new ArrayList<Message>();
+        List<Message> result = new ArrayList<>();
 
         try {
             String query = "SELECT * FROM " + TABLE_MESSAGE + "WHERE type_id=? AND direction=? AND to_dt IS NULL "
@@ -461,7 +461,7 @@ public class MessageDAO extends CommonDAO {
      * @throws Exception
      */
     public List<Message> getProcessMessageList(int processId, int beforeMessageId) throws Exception {
-        List<Message> list = new ArrayList<Message>();
+        List<Message> list = new ArrayList<>();
 
         var pq = new PreparedQuery(con,
             SQL_SELECT_COUNT_ROWS + " * FROM " + TABLE_MESSAGE +  "WHERE process_id=?");

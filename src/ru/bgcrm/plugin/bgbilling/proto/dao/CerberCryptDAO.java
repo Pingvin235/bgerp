@@ -51,7 +51,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
         }
         // TODO: Убрать позже вместе со сгенерированными классами сервисов.
         else {
-            List<UserCard> usetCards = new ArrayList<UserCard>();
+            List<UserCard> usetCards = new ArrayList<>();
 
             Request request = new Request();
             request.setModule(CERBERCRYPT_MODULE_ID);
@@ -98,7 +98,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
             return readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, CardPacket.class));
         } else {
-            List<CardPacket> cardPackets = new ArrayList<CardPacket>();
+            List<CardPacket> cardPackets = new ArrayList<>();
 
             Request request = new Request();
             request.setModule(CERBERCRYPT_MODULE_ID);
@@ -184,7 +184,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
     }
 
     public List<IdTitle> getPacketList(boolean virtualCinema) {
-        List<IdTitle> packets = new ArrayList<IdTitle>();
+        List<IdTitle> packets = new ArrayList<>();
 
         Request request = new Request();
         request.setModule(CERBERCRYPT_MODULE_ID);
@@ -209,7 +209,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
     }
 
     public List<IdTitle> dealerList(Date dateFrom, Date dateTo, String title) {
-        List<IdTitle> dealerList = new ArrayList<IdTitle>();
+        List<IdTitle> dealerList = new ArrayList<>();
 
         Request request = new Request();
         request.setAction("DealerTable");

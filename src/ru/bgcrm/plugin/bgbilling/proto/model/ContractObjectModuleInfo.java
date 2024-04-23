@@ -102,8 +102,8 @@ public class ContractObjectModuleInfo
 	}
 
 	private Integer objectId;
-	private List<ContractObjectModule> moduleList = new ArrayList<ContractObjectModule>();
-	private List<ContractObjectModuleData> moduleDataList = new ArrayList<ContractObjectModuleData>();
+	private List<ContractObjectModule> moduleList = new ArrayList<>();
+	private List<ContractObjectModuleData> moduleDataList = new ArrayList<>();
 
 	public List<ContractObjectModule> getModuleList()
 	{

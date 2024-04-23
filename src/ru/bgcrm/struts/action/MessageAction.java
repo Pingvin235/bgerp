@@ -308,7 +308,7 @@ public class MessageAction extends BaseAction {
                 .withDateFrom(form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null))
                 .withFrom(LikePattern.SUB.get(form.getParam("from")))
                 .orderFromTimeReverse(reverseOrder)
-                .search(new Pageable<Message>(form));
+                .search(new Pageable<>(form));
         } else {
             // when external system isn't available, an empty table of messages should be however shown
             try {

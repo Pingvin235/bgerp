@@ -17,10 +17,10 @@ import ru.bgcrm.util.Utils;
 
 public class Wizard {
     // шаги, которые необходимо заполнить при создании процесса
-    private final List<Step> createStepList = new ArrayList<Step>();
+    private final List<Step> createStepList = new ArrayList<>();
 
     // шаги, открываемы при доступе к карточке процесса
-    private final List<Step> stepList = new ArrayList<Step>();
+    private final List<Step> stepList = new ArrayList<>();
 
     // для кого отображать кнопку мастера
     private String expression;
@@ -63,7 +63,7 @@ public class Wizard {
             return true;
         }
 
-        Map<String, Object> context = new HashMap<String, Object>();
+        Map<String, Object> context = new HashMap<>();
         context.put(Process.OBJECT_TYPE, process);
         context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, process.getId()));
 

@@ -102,7 +102,7 @@ public class CompilerWrapper {
         CompilationResult result = listener.getCompilationResult();
         result.setResult(callResult);
 
-        return new Pair<CompilationResult, List<CompiledUnit>>(result, compiledFiles(outputDir));
+        return new Pair<>(result, compiledFiles(outputDir));
     }
 
     private static String classpath = null;
@@ -129,7 +129,7 @@ public class CompilerWrapper {
      * @return
      */
     private List<CompiledUnit> compiledFiles(File directory) {
-        List<CompiledUnit> result = new ArrayList<CompiledUnit>();
+        List<CompiledUnit> result = new ArrayList<>();
 
         for (File tmpdirFile : directory.listFiles()) {
             // если файл (а не папка), добавляем его данные в список

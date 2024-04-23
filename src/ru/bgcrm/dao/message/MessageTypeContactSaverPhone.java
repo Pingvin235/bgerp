@@ -42,7 +42,7 @@ public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTy
 
         ParamValueDAO paramDao = new ParamValueDAO(con);
 
-        List<ParameterPhoneValueItem> values = new ArrayList<ParameterPhoneValueItem>();
+        List<ParameterPhoneValueItem> values = new ArrayList<>();
 
         ParameterPhoneValue currentValue = paramDao.getParamPhone(customerLink.getLinkObjectId(), paramId);
         values = currentValue.getItemList();

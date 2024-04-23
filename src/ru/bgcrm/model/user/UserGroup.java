@@ -44,7 +44,7 @@ public class UserGroup {
     }
 
     public static List<Group> toGroupList(List<UserGroup> userGroupList) {
-        List<Group> resultList = new ArrayList<Group>();
+        List<Group> resultList = new ArrayList<>();
 
         for (UserGroup userGroup : userGroupList) {
             resultList.add(UserCache.getUserGroup(userGroup.getGroupId()));

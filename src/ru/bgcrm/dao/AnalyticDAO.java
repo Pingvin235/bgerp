@@ -31,7 +31,7 @@ public class AnalyticDAO
     public List<HouseCapacity> getHouseCapacityList( String name, Period period )
         throws Exception
     {
-        List<HouseCapacity> list = new ArrayList<HouseCapacity>();
+        List<HouseCapacity> list = new ArrayList<>();
 
         if( name != null && !"none".equals( name ) && period != null )
         {
@@ -49,7 +49,7 @@ public class AnalyticDAO
             ps.close();
 
             // создаем Map по списку
-            Map<Integer, HouseCapacity> map = new HashMap<Integer, HouseCapacity>();
+            Map<Integer, HouseCapacity> map = new HashMap<>();
             for( HouseCapacity houseCapacity : list )
             {
                 map.put( houseCapacity.getCityId(), houseCapacity );
@@ -156,7 +156,7 @@ public class AnalyticDAO
     public List<HouseCapacityItem> getHouseCapacityItemList( int houseId )
         throws SQLException
     {
-        List<HouseCapacityItem> list = new ArrayList<HouseCapacityItem>();
+        List<HouseCapacityItem> list = new ArrayList<>();
 
         ResultSet rs = null;
         StringBuilder query = null;

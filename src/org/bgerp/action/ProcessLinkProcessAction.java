@@ -163,7 +163,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
                 ProcessType type = getProcessType(process.getTypeId());
                 List<Integer> paramIds = type.getProperties().getParameterIds();
                 List<Integer> linkedParamIds = linkedType.getProperties().getParameterIds();
-                List<Integer> paramIdsBothHave = new ArrayList<Integer>(linkedParamIds);
+                List<Integer> paramIdsBothHave = new ArrayList<>(linkedParamIds);
                 paramIdsBothHave.retainAll(paramIds);
 
                 new ParamValueDAO(con).copyParams(linkedId, process.getId(), StringUtils.join(paramIdsBothHave, ","));
