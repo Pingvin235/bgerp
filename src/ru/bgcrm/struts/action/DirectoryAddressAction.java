@@ -1,7 +1,6 @@
 package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +18,12 @@ import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.dao.AnalyticDAO;
-import ru.bgcrm.model.analytic.HouseCapacityItem;
 import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressCountry;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -131,7 +127,6 @@ public class DirectoryAddressAction extends BaseAction {
 
     public ActionForward addressGet(DynActionForm form, Connection con) throws Exception {
         AddressDAO addressDAO = new AddressDAO(con);
-        AnalyticDAO analyticDAO = new AnalyticDAO(con);
 
         int addressHouseId = Utils.parseInt(form.getParam("addressHouseId"), -1);
         int addressStreetId = Utils.parseInt(form.getParam("addressItemId"), -1);
@@ -146,18 +141,6 @@ public class DirectoryAddressAction extends BaseAction {
                 addressHouse.setAddressStreet(addressDAO.getAddressStreet(addressStreetId, true, true));
             }
 
-            // ёмкость домов
-            List<HouseCapacityItem> houseCapacityItems = analyticDAO.getHouseCapacityItemList(addressHouse.getId());
-            StringBuffer buf = new StringBuffer();
-            for (HouseCapacityItem item : houseCapacityItems) {
-                buf.append(item.getServiceType());
-                buf.append("\t");
-                buf.append(TimeUtils.format(item.getDate(), TimeUtils.FORMAT_TYPE_YMD));
-                buf.append("\t");
-                buf.append(item.getValue());
-                buf.append("\n");
-            }
-
             if (Utils.isBlankString(form.getParam("addressCountryTitle"))) {
                 form.setParam("addressCountryTitle", addressHouse.getAddressStreet().getAddressCity().getAddressCountry().getTitle());
                 form.setParam("addressCityTitle", addressHouse.getAddressStreet().getAddressCity().getTitle());
@@ -165,9 +148,7 @@ public class DirectoryAddressAction extends BaseAction {
             }
 
             form.getResponse().setData("house", addressHouse);
-            form.getResponse().setData("capacity", houseCapacityItems);
 
-            form.setParam("capacity", buf.toString());
             form.setParam("config", getConfigString(addressHouse.getConfig()));
 
             final int cityId = addressHouse.getAddressStreet().getCityId();
@@ -253,7 +234,6 @@ public class DirectoryAddressAction extends BaseAction {
 
     public ActionForward addressUpdate(DynActionForm form, Connection con) throws Exception {
         AddressDAO addressDAO = new AddressDAO(con);
-        AnalyticDAO analyticDAO = new AnalyticDAO(con);
 
         int addressHouseId = Utils.parseInt(form.getParam("addressHouseId"), -1);
         int addressStreetId = Utils.parseInt(form.getParam("addressItemId"), -1);
@@ -269,13 +249,6 @@ public class DirectoryAddressAction extends BaseAction {
             addressHouse.setId(addressHouseId);
             addressHouse.setStreetId(addressStreetId);
             addressHouse.setAddressStreet(addressDAO.getAddressStreet(addressStreetId, true, true));
-
-            // TODO: Переписать на единую систему параметров!!!
-            /* String boxIndexKey = setup.get("directory.address.config.post_index.key", "s.box.index");
-            String flatAmountKey = setup.get("directory.address.config.flat_amount.key", ".i.flat.amount");
-            String commentInternetKey = setup.get("directory.address.config.comment_internet.key", "billing.service.type.internet");
-            String commentKtvKey = setup.get("directory.address.config.comment_ktv.key", "billing.service.type.tv");
-            String routeKey = setup.get("directory.address.config.route.key", "s.route");*/
 
             checkCityAllow(allowedCityIds, addressHouse.getAddressStreet().getCityId());
 
@@ -294,49 +267,7 @@ public class DirectoryAddressAction extends BaseAction {
             String postIndex = form.getParam("postIndex", "");
             addressHouse.setPostIndex(postIndex);
 
-            /* // оставлено для совместимости на уровне БД, может кто-то ещё берёт из address_config индексы
-            if (postIndex != null && !postIndex.isEmpty()) {
-                addressHouse.getConfig().put(boxIndexKey, postIndex);
-            }
-            String flatAmount = form.getParam("flatAmount");
-            if (flatAmount != null && !flatAmount.isEmpty()) {
-                addressHouse.getConfig().put(flatAmountKey, String.valueOf(Utils.parseInt(flatAmount, 0)));
-            }
-            String commentInternet = form.getParam("commentInternet");
-            if (commentInternet != null && !commentInternet.isEmpty()) {
-                addressHouse.getConfig().put(commentInternetKey, commentInternet.trim());
-            }
-            String commentKtv = form.getParam("commentKtv");
-            if (commentKtv != null && !commentKtv.isEmpty()) {
-                addressHouse.getConfig().put(commentKtvKey, commentKtv.trim());
-            }
-            String route = form.getParam("route");
-            if (route != null && !route.isEmpty()) {
-                addressHouse.getConfig().put(routeKey, route.trim());
-            }*/
             addressDAO.updateAddressHouse(addressHouse);
-            //
-            List<HouseCapacityItem> houseCapacityItems = new ArrayList<>();
-            analyticDAO.deleteHouseCapacityItem(addressHouse.getId());
-            String houseCapacity = form.getParam("capacity", "");
-            for (String item : houseCapacity.split("\n")) {
-                String[] tokens = item.trim().split(" |\t");
-                if (tokens.length == 3) {
-                    HouseCapacityItem capacityItem = new HouseCapacityItem();
-                    capacityItem.setHouseId(addressHouse.getId());
-                    capacityItem.setServiceType(tokens[0]);
-                    capacityItem.setDate(TimeUtils.parse(tokens[1], TimeUtils.FORMAT_TYPE_YMD));
-                    capacityItem.setValue(Utils.parseInt(tokens[2], -1));
-                    if (capacityItem.getValue() > 0) {
-                        houseCapacityItems.add(capacityItem);
-                    }
-                }
-            }
-            if (houseCapacityItems.size() > 0) {
-                for (HouseCapacityItem houseCapacityItem : houseCapacityItems) {
-                    analyticDAO.updateHouseCapacityItem(houseCapacityItem);
-                }
-            }
 
             if (addressHouseId > 0)
                 new ParamValueDAO(con).updateParamsAddressOnHouseUpdate(addressHouseId);

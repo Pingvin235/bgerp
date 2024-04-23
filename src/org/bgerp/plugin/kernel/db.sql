@@ -101,15 +101,6 @@ CREATE TABLE IF NOT EXISTS address_config (
 	PRIMARY KEY (`table_id`,`record_id`,`key`)
 );
 
--- the table can be deleted later
-CREATE TABLE IF NOT EXISTS analytic_house_capacity (
-	house_id INT NOT NULL,
-	`service_type` VARCHAR(25) NOT NULL,
-	dt DATE NOT NULL,
-	`value` INT NOT NULL,
-	PRIMARY KEY (house_id,`service_type`,dt)
-);
-
 CREATE TABLE IF NOT EXISTS customer (
 	id INT NOT NULL AUTO_INCREMENT,
 	title VARCHAR(255) NOT NULL,
@@ -768,6 +759,7 @@ CREATE TABLE IF NOT EXISTS param_treecount_value (
 
 -- TODO: The columns or tables are not already in use. For  activation of deletion, place uncommented line prior the comment.
 -- drop_column_if_exists('message', 'processed');
+-- DROP TABLE IF EXISTS analytic_house_capacity;
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");
