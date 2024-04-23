@@ -1167,10 +1167,6 @@ Cтроковые параметры
 |VARCHAR
 |название привязанного объекта (избыточное поле)
 
-|dt_created
-|DATETIME
-|дата создания привязки
-
 |config
 |VARCHAR
 |configuration in key-value format

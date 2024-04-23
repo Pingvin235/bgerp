@@ -113,7 +113,6 @@ CREATE TABLE IF NOT EXISTS customer_link (
 	object_type VARCHAR(30) NOT NULL,
 	object_id INT NOT NULL DEFAULT '-1',
 	object_title VARCHAR(100) NOT NULL,
-	`dt_created` DATETIME NOT NULL,
 	config VARCHAR(100) NOT NULL,
 	PRIMARY KEY (customer_id,object_type,object_id),
 	KEY object_id (object_id)
@@ -121,6 +120,7 @@ CREATE TABLE IF NOT EXISTS customer_link (
 CALL add_key_if_not_exists('customer_link', 'object_id', '(object_id)');
 CALL add_column_if_not_exists('customer_link', 'config', 'VARCHAR(100) NOT NULL');
 ALTER TABLE customer_link MODIFY object_title VARCHAR(100);
+CALL drop_column_if_exists('customer_link', 'dt_created');
 
 CREATE TABLE IF NOT EXISTS customer_group_title (
 	id INT NOT NULL AUTO_INCREMENT,
@@ -248,7 +248,6 @@ CREATE TABLE IF NOT EXISTS process_link (
 	object_type VARCHAR(30) NOT NULL,
 	object_id INT NOT NULL DEFAULT '-1',
 	object_title VARCHAR(100) NOT NULL,
-	`dt_created` DATETIME NOT NULL,
 	config VARCHAR(100) NOT NULL,
 	PRIMARY KEY (process_id,object_type,object_id),
 	KEY object_id (object_id)
@@ -257,6 +256,7 @@ CALL add_key_if_not_exists('process_link', 'object_id', '(object_id)');
 CALL add_column_if_not_exists('process_link', 'config', 'VARCHAR(100) NOT NULL');
 ALTER TABLE process_link MODIFY object_title VARCHAR(100);
 CALL add_key_if_not_exists('process_link', 'object_title', '(object_title)');
+CALL drop_column_if_exists('process_link', 'dt_created');
 
 CREATE TABLE IF NOT EXISTS queue (
 	id INT NOT NULL AUTO_INCREMENT,
