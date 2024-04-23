@@ -174,7 +174,7 @@ public class ParameterAction extends BaseAction {
 
         List<ParameterValuePair> parameterValuePairList = new ParamValueDAO(con).loadParameters(paramList, id, offEncryption);
 
-        form.getResponse().setData("list", parameterValuePairList);
+        form.setResponseData("list", parameterValuePairList);
     }
 
     public ActionForward parameterGet(DynActionForm form, ConnectionSet conSet) throws Exception {

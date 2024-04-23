@@ -72,7 +72,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        form.getResponse().setData("containProcess", containProcess);
+        form.setResponseData("containProcess", containProcess);
 
         return html(con, form, JSP_USED_IN_TYPES);
     }
@@ -90,7 +90,7 @@ public class ProcessAction extends BaseAction {
 
         Status status = statusDAO.getStatus(form.getId());
         if (status != null) {
-            form.getResponse().setData("status", status);
+            form.setResponseData("status", status);
         }
 
         return html(con, form, PATH_JSP + "/status/update.jsp");
@@ -141,7 +141,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessType type = processTypeDAO.getProcessType(form.getId());
         if (type != null) {
-            form.getResponse().setData("type", type);
+            form.setResponseData("type", type);
         }
 
         return html(con, form, PATH_JSP + "/type/update.jsp");
@@ -218,7 +218,7 @@ public class ProcessAction extends BaseAction {
         List<String> queueList = ProcessQueueCache.getQueueList().stream()
             .filter(q -> q.getProcessTypeIds().contains(typeId)).map(Queue::getTitle)
             .collect(Collectors.toList());
-        form.getResponse().setData("queueTitleList", queueList);
+        form.setResponseData("queueTitleList", queueList);
 
         return html(con, form, PATH_JSP + "/type/type_used.jsp");
     }
@@ -263,7 +263,7 @@ public class ProcessAction extends BaseAction {
         Queue queue = queueDAO.getQueue(id);
         if (queue != null) {
             queue.setProcessTypeIds(queueDAO.getQueueProcessTypeIds(id));
-            form.getResponse().setData("queue", queue);
+            form.setResponseData("queue", queue);
         }
 
         request.setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
@@ -336,8 +336,8 @@ public class ProcessAction extends BaseAction {
 
         ProcessType type = typeDAO.getProcessType(form.getId());
         if (type != null) {
-            form.getResponse().setData("properties", type.getProperties());
-            form.getResponse().setData("config", type.getProperties().getConfig());
+            form.setResponseData("properties", type.getProperties());
+            form.setResponseData("config", type.getProperties().getConfig());
 
             request.setAttribute("statusList", Utils.getObjectList(ProcessTypeCache.getStatusMap(), type.getProperties().getStatusIds()));
             request.setAttribute("processType", type);

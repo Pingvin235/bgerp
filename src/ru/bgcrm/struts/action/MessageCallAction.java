@@ -39,7 +39,7 @@ public class MessageCallAction extends BaseAction {
         boolean check = form.getParamBoolean("check", true);
         if (check && reg != null) {
             User user = UserCache.getUser(reg.getUserId());
-            form.getResponse().setData("regUser", new IdTitle(user.getId(), user.getTitle()));
+            form.setResponseData("regUser", new IdTitle(user.getId(), user.getTitle()));
         } else {
             if (reg != null) {
                 News news = new News();

@@ -21,7 +21,7 @@ import ru.bgcrm.struts.form.DynActionForm;
             test.add( new DateInfo( "11-21", "blue", "123" ) );
             test.add( new DateInfo( "11-25", "", "123fsdgfdfgdf" ) );
     }
-    e.getForm().getResponse().setData( "dayColorList", test );
+    e.getForm().setResponseData( "dayColorList", test );
  *
  */
 public class DateChangingEvent extends UserEvent {

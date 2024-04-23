@@ -29,7 +29,7 @@ public class BillAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
 
-        form.getResponse().setData("list",
+        form.setResponseData("list",
                 new BillDAO(form.getUser(), billingId, moduleId).getAttributeList(contractId));
 
         return html(conSet, form, PATH_JSP + "/attribute_list.jsp");
@@ -41,8 +41,8 @@ public class BillAction extends BaseAction {
         int moduleId = form.getParamInt("moduleId");
 
         BillDAO billDao = new BillDAO(form.getUser(), billingId, moduleId);
-        form.getResponse().setData("billTypeList", billDao.getContractDocTypeList(contractId, "bill"));
-        form.getResponse().setData("invoiceTypeList", billDao.getContractDocTypeList(contractId, "invoice"));
+        form.setResponseData("billTypeList", billDao.getContractDocTypeList(contractId, "bill"));
+        form.setResponseData("invoiceTypeList", billDao.getContractDocTypeList(contractId, "invoice"));
 
         return html(conSet, form, PATH_JSP + "/doc_type_list.jsp");
     }

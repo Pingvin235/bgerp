@@ -53,7 +53,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
         }
 
         if (workType != null) {
-            form.getResponse().setData("workType", workType);
+            form.setResponseData("workType", workType);
         }
 
         request.setAttribute("shortcutMap", setup.getConfig(ShortcutConfig.class).getShortcutMap());
@@ -140,12 +140,12 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
         Shift shift = new ShiftDAO(con).getShift(form.getId());
 
         if (shift != null) {
-            form.getResponse().setData("shift", shift);
-            form.getResponse().setData("workTypeMap", workTypeMap);
+            form.setResponseData("shift", shift);
+            form.setResponseData("workTypeMap", workTypeMap);
         }
 
         form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
-        form.getResponse().setData("workTypeList", new ArrayList<>(workTypeMap.values()));
+        form.setResponseData("workTypeList", new ArrayList<>(workTypeMap.values()));
 
         return html(con, form, PATH_JSP + "/shift/update.jsp");
     }

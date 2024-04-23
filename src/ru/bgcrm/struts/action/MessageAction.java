@@ -568,7 +568,7 @@ public class MessageAction extends BaseAction {
             messageUpdateTags(form, con);
         }
 
-        form.getResponse().setData("message", message);
+        form.setResponseData("message", message);
 
         return json(con, form);
     }

@@ -25,7 +25,7 @@ public class CustomerAction extends BaseAction {
     public ActionForward groupGet(DynActionForm form, ConnectionSet conSet) throws Exception {
         CustomerGroup group = new CustomerGroupDAO(conSet.getConnection()).getGroupById(form.getId());
         if (group != null) {
-            form.getResponse().setData("group", group);
+            form.setResponseData("group", group);
         }
 
         return html(conSet, form, PATH_JSP + "/update.jsp");

@@ -45,10 +45,10 @@ public class ContractTariffAction extends BaseAction {
                     Utils.addCommaSeparated(tariffs, tariff.getTitle());
                 }
             }
-            form.getResponse().setData("tariffs", tariffs);
+            form.setResponseData("tariffs", tariffs);
 
         } catch (Exception e) {
-            form.getResponse().setData("tariffs", "Нет прав просмотра");
+            form.setResponseData("tariffs", "Нет прав просмотра");
         }
 
         try {
@@ -58,9 +58,9 @@ public class ContractTariffAction extends BaseAction {
             for (ContractTariffOption option : optionList) {
                 Utils.addCommaSeparated(options, option.getOptionTitle());
             }
-            form.getResponse().setData("options", options);
+            form.setResponseData("options", options);
         } catch (Exception e) {
-            form.getResponse().setData("options", "Нет прав просмотра");
+            form.setResponseData("options", "Нет прав просмотра");
         }
 
         try {
@@ -72,9 +72,9 @@ public class ContractTariffAction extends BaseAction {
                     Utils.addCommaSeparated(groups, group.getTitle());
                 }
             }
-            form.getResponse().setData("groups", groups);
+            form.setResponseData("groups", groups);
         } catch (Exception e) {
-            form.getResponse().setData("groups", "Нет прав просмотра");
+            form.setResponseData("groups", "Нет прав просмотра");
         }
 
         return html(conSet, form, PATH_JSP + "/tariff.jsp");
@@ -85,7 +85,7 @@ public class ContractTariffAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-        form.getResponse().setData("tariffList", crmDAO.contractTariffList(contractId));
+        form.setResponseData("tariffList", crmDAO.contractTariffList(contractId));
 
         return html(conSet, form, PATH_JSP + "/contract_tariff_list.jsp");
     }
@@ -98,12 +98,12 @@ public class ContractTariffAction extends BaseAction {
         boolean showUsed = form.getParamBoolean("showUsed", false);
 
         List<IdTitle> tariffList = new ArrayList<>();
-        form.getResponse().setData("tariffList", tariffList);
+        form.setResponseData("tariffList", tariffList);
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-        form.getResponse().setData("contractTariff", crmDAO.getContractTariffPlan(form.getId(), moduleId, contractId,
+        form.setResponseData("contractTariff", crmDAO.getContractTariffPlan(form.getId(), moduleId, contractId,
                 useFilter, showUsed, false, tariffList));
-        form.getResponse().setData("moduleList", new DirectoryDAO(form.getUser(), billingId).getBillingModuleList());
+        form.setResponseData("moduleList", new DirectoryDAO(form.getUser(), billingId).getBillingModuleList());
 
         return html(conSet, form, PATH_JSP + "/contract_tariff_editor.jsp");
     }
@@ -159,7 +159,7 @@ public class ContractTariffAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-        form.getResponse().setData("personalTariffList", crmDAO.contractPersonalTariffList(contractId));
+        form.setResponseData("personalTariffList", crmDAO.contractPersonalTariffList(contractId));
 
         return html(conSet, form, PATH_JSP + "/personal_tariff_list.jsp");
     }
@@ -168,7 +168,7 @@ public class ContractTariffAction extends BaseAction {
         String billingId = form.getParam("billingId");
 
         if (form.getId() > 0) {
-            form.getResponse().setData("personalTariff",
+            form.setResponseData("personalTariff",
                     new ContractTariffDAO(form.getUser(), billingId).getPersonalTariff(form.getId()));
         }
 
@@ -205,8 +205,8 @@ public class ContractTariffAction extends BaseAction {
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 
-        form.getResponse().setData("list", crmDAO.contractTariffOptionList(contractId));
-        form.getResponse().setData("history", crmDAO.contractTariffOptionHistory(contractId));
+        form.setResponseData("list", crmDAO.contractTariffOptionList(contractId));
+        form.setResponseData("history", crmDAO.contractTariffOptionHistory(contractId));
 
         return html(conSet, form, PATH_JSP + "/tariff_option_list.jsp");
     }
@@ -224,9 +224,9 @@ public class ContractTariffAction extends BaseAction {
             form.setParam("optionId", String.valueOf(optionId));
         }
 
-        form.getResponse().setData("availableOptionList", optionList);
+        form.setResponseData("availableOptionList", optionList);
         if (optionId > 0) {
-            form.getResponse().setData("activateModeList", crmDAO.activateModeList(contractId, optionId));
+            form.setResponseData("activateModeList", crmDAO.activateModeList(contractId, optionId));
         }
 
         return html(conSet, form, PATH_JSP + "/tariff_option_editor.jsp");
@@ -262,7 +262,7 @@ public class ContractTariffAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-        form.getResponse().setData("tariffGroupList", crmDAO.contractTariffGroupList(contractId));
+        form.setResponseData("tariffGroupList", crmDAO.contractTariffGroupList(contractId));
 
         return html(conSet, form, PATH_JSP + "/group_tariff_list.jsp");
     }
@@ -273,9 +273,9 @@ public class ContractTariffAction extends BaseAction {
         if (form.getId() > 0) {
             ContractTariffGroup groupTariff = new ContractTariffDAO(form.getUser(), billingId)
                     .getContractTariffGroup(form.getId());
-            form.getResponse().setData("tariffGroup", groupTariff);
+            form.setResponseData("tariffGroup", groupTariff);
         }
-        form.getResponse().setData("registredTariffGroupList",
+        form.setResponseData("registredTariffGroupList",
                 new DirectoryDAO(form.getUser(), billingId).getRegistredTariffGroupList(0));
 
         return html(conSet, form, PATH_JSP + "/group_tariff_editor.jsp");

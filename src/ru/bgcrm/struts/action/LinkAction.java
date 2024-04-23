@@ -107,7 +107,7 @@ public class LinkAction extends BaseAction {
 
         List<CommonObjectLink> list = CommonLinkDAO.getLinkDAO(link.getObjectType(), con).getObjectLinksWithType(link.getObjectId(),
                 LikePattern.START.get(link.getLinkObjectType()));
-        form.getResponse().setData("list", list);
+        form.setResponseData("list", list);
 
         if (Process.OBJECT_TYPE.equals(link.getObjectType())) {
             Process process = new ProcessDAO(con).getProcess(form.getId());

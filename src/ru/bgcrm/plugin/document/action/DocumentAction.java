@@ -145,7 +145,7 @@ public class DocumentAction extends BaseAction {
 
             return null;
         } else {
-            form.getResponse().setData("document", document);
+            form.setResponseData("document", document);
             return json(conSet, form);
         }
     }

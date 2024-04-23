@@ -54,7 +54,7 @@ public class ProcessQueueAction extends ProcessAction {
     private static final String QUEUE_FULL_FILTER_PARAMS = "queueCurrentSavedFiltersParam.";
 
     public ActionForward queue(DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.getResponse().setData("list", ProcessQueueCache.getUserQueueList(form.getUser()));
+        form.setResponseData("list", ProcessQueueCache.getUserQueueList(form.getUser()));
 
         return html(conSet, form, PATH_JSP + "/queue/queue.jsp");
     }
@@ -233,12 +233,12 @@ public class ProcessQueueAction extends ProcessAction {
             SavedCommonFiltersConfig commonConfig = new SavedCommonFiltersConfig(commonFilters);
             request.setAttribute("commonConfig", commonConfig);
 
-            form.getResponse().setData("queue", queue);
-            // form.getResponse().setData("statusList", new StatusDAO(con).getStatusList());
+            form.setResponseData("queue", queue);
+            // form.setResponseData("statusList", new StatusDAO(con).getStatusList());
 
             var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
             applyProcessTypePermission(typeList, form);
-            form.getResponse().setData("typeList", typeList);
+            form.setResponseData("typeList", typeList);
 
             Preferences personalizationMap = user.getPersonalizationMap();
             String persConfigBefore = personalizationMap.getDataString();

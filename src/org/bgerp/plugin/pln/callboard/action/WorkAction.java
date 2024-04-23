@@ -92,12 +92,12 @@ public class WorkAction extends BaseAction {
 
         CallboardConfig config = setup.getConfig(CallboardConfig.class);
 
-        form.getResponse().setData("callboardList", config.getCallboards(Utils.toIntegerSet(perm.get("allowOnlyCallboards"))));
+        form.setResponseData("callboardList", config.getCallboards(Utils.toIntegerSet(perm.get("allowOnlyCallboards"))));
 
         //определение начальной и конечной даты, формирование сета с датами для шапки графика
         Date date = form.getParamDate("date");
 
-        form.getResponse().setData("date", date);
+        form.setResponseData("date", date);
 
         // дата и график выбраны
         if (date != null && graphId > 0) {
@@ -110,7 +110,7 @@ public class WorkAction extends BaseAction {
                 form.getHttpRequest().setAttribute("dayType", calendar.getDayType(date, excludeDates));
             }
 
-            form.getResponse().setData("callboard", callboard);
+            form.setResponseData("callboard", callboard);
 
             // подгруппы с пользователями в ними, под ключом 0 - не вошедшие ни в одну из подгрупп
             Map<Integer, List<Integer>> groupWithUsersMap = getGroupWithUsersMap(con, callboard,
@@ -124,13 +124,13 @@ public class WorkAction extends BaseAction {
             // ключ - группа, значение - список бригад с пользователями
             Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<>();
 
-            form.getResponse().setData("groupDataMap", groupDataMap);
+            form.setResponseData("groupDataMap", groupDataMap);
 
             separateShiftData(date, workShiftMap, groupDataMap);
 
             new WorkTaskDAO(con).loadWorkTask(graphId, date, groupDataMap);
 
-            form.getResponse().setData("workTypeMap", CallboardCache.getWorkTypeMap());
+            form.setResponseData("workTypeMap", CallboardCache.getWorkTypeMap());
         }
 
         return html(con, form, PATH_JSP + "/plan.jsp");
@@ -537,7 +537,7 @@ public class WorkAction extends BaseAction {
 
         log.debug("callboardGet1: " + (System.currentTimeMillis() - time) + " ms.");
 
-        form.getResponse().setData("callboardList",
+        form.setResponseData("callboardList",
                 config.getCallboards(Utils.toIntegerSet(perm.get("allowOnlyCallboards", perm.get("allowOnlyTabels")))));
 
         //определние начальной и конечной даты, формирование сета с датами для шапки графика
@@ -559,7 +559,7 @@ public class WorkAction extends BaseAction {
                 day = TimeUtils.getNextDay(day);
             }
 
-            form.getResponse().setData("dateSet", dateSet);
+            form.setResponseData("dateSet", dateSet);
 
             form.getHttpRequest().setAttribute("prevDate", TimeUtils.getPrevDay(fromDate));
 
@@ -571,7 +571,7 @@ public class WorkAction extends BaseAction {
                     Map<Date, Integer> excludeDates = new WorkTypeDAO(con).getWorkDaysCalendarExcludes(callboard.getCalendarId());
 
                     Map<Date, Pair<DayType, Boolean>> dateTypeMap = new HashMap<>();
-                    form.getResponse().setData("dateTypeMap", dateTypeMap);
+                    form.setResponseData("dateTypeMap", dateTypeMap);
 
                     for (Date date : dateSet) {
                         dateTypeMap.put(date, calendar.getDayType(date, excludeDates));
@@ -582,7 +582,7 @@ public class WorkAction extends BaseAction {
                         getGroupList(form, callboard, true, Utils.toIntegerSet(form.getPermission().get("allowOnlyGroups"))),
                         TimeUtils.convertDateToCalendar(fromDate), TimeUtils.convertDateToCalendar(toDate));
 
-                form.getResponse().setData("callboard", callboard);
+                form.setResponseData("callboard", callboard);
 
                 log.debug("callboardGet2: " + (System.currentTimeMillis() - time) + " ms.");
 
@@ -598,25 +598,25 @@ public class WorkAction extends BaseAction {
 
                 log.debug("callboardGet3: " + (System.currentTimeMillis() - time) + " ms.");
 
-                form.getResponse().setData("shiftMap", allShiftMap);
-                form.getResponse().setData("avaiableShiftMap", avaiableShiftMap);
+                form.setResponseData("shiftMap", allShiftMap);
+                form.setResponseData("avaiableShiftMap", avaiableShiftMap);
 
                 Map<Integer, List<WorkShift>> workShiftMap = new ShiftDAO(con).getWorkShift(callboard, fromDate, toDate, groupWithUsersMap);
-                form.getResponse().setData("workShiftMap", workShiftMap);
-                form.getResponse().setData("availableDays",
+                form.setResponseData("workShiftMap", workShiftMap);
+                form.setResponseData("availableDays",
                         new ShiftDAO(con).getAvailableDateForShift(callboard, groupWithUsersMap, fromDate, toDate));
 
                 log.debug("callboardGet4: " + (System.currentTimeMillis() - time) + " ms.");
 
-                form.getResponse().setData("groupWithUsersMap", groupWithUsersMap);
+                form.setResponseData("groupWithUsersMap", groupWithUsersMap);
 
                 log.debug("callboardGet5: " + (System.currentTimeMillis() - time) + " ms.");
 
-                form.getResponse().setData("workTypeList", getAvailableWorkTypeList(con, perm));
+                form.setResponseData("workTypeList", getAvailableWorkTypeList(con, perm));
 
                 log.debug("callboardGet6: " + (System.currentTimeMillis() - time) + " ms.");
 
-                form.getResponse().setData("allowOnlyCategories", getAvailableCategories(perm));
+                form.setResponseData("allowOnlyCategories", getAvailableCategories(perm));
             }
 
             log.debug("callboardGet: " + (System.currentTimeMillis() - time) + " ms.");
@@ -775,10 +775,10 @@ public class WorkAction extends BaseAction {
 
             shiftDAO.updateWorkShift(workShift);
 
-            form.getResponse().setData("minutes",
+            form.setResponseData("minutes",
                     WorkTypeTime.getWorkMinutesInDay(shift.getWorkTypeTimeList(), date, form.getParamBoolean("lastDate", false) ? date : null));
         } else {
-            form.getResponse().setData("minutes", 0);
+            form.setResponseData("minutes", 0);
         }
 
         return json(con, form);
@@ -927,14 +927,14 @@ public class WorkAction extends BaseAction {
             throw new BGException("У вас нет прав на просмотр шаблонов смен в этой категории");
         }
 
-        form.getResponse().setData("workTypeMap", CallboardCache.getWorkTypeMap());
-        form.getResponse().setData("shiftList",
+        form.setResponseData("workTypeMap", CallboardCache.getWorkTypeMap());
+        form.setResponseData("shiftList",
                 categoryId > 0 ? new ShiftDAO(con).getShiftList(categoryId) : new ShiftDAO(con).getShiftList(shiftIds));
 
         if (graphId > 0 && setup.subIndexed("callboard.").containsKey(graphId)) {
-            form.getResponse().setData("minimalVersion", setup.subIndexed("callboard.").get(graphId).getInt("minimalVersion", 0));
+            form.setResponseData("minimalVersion", setup.subIndexed("callboard.").get(graphId).getInt("minimalVersion", 0));
         } else {
-            form.getResponse().setData("minimalVersion", 0);
+            form.setResponseData("minimalVersion", 0);
         }
 
         return html(con, form, PATH_JSP + "/callboard/available_shift.jsp");
@@ -942,7 +942,7 @@ public class WorkAction extends BaseAction {
 
 
     public ActionForward workDaysCalendarList(DynActionForm form, Connection con) throws Exception {
-        form.getResponse().setData("workDaysCalendarList", setup.getConfig(CalendarConfig.class).getCalendars());
+        form.setResponseData("workDaysCalendarList", setup.getConfig(CalendarConfig.class).getCalendars());
         return html(con, form, PATH_JSP + "/calendar/list.jsp");
     }
 
@@ -964,7 +964,7 @@ public class WorkAction extends BaseAction {
         Map<Date, Integer> excludeDates = new WorkTypeDAO(con).getWorkDaysCalendarExcludes(form.getId());
 
         Map<Date, Pair<DayType, Boolean>> dateTypeMap = new HashMap<>();
-        form.getResponse().setData("dateTypeMap", dateTypeMap);
+        form.setResponseData("dateTypeMap", dateTypeMap);
 
         Calendar dateFrom = new GregorianCalendar(selectedYear, Calendar.JANUARY, 1);
         Calendar dateTo = new GregorianCalendar(selectedYear, Calendar.DECEMBER, 31);
@@ -976,8 +976,8 @@ public class WorkAction extends BaseAction {
             dateFrom.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        form.getResponse().setData("calendar", calendar);
-        form.getResponse().setData("dayTypes", dayTypesConfig.getTypes());
+        form.setResponseData("calendar", calendar);
+        form.setResponseData("dayTypes", dayTypesConfig.getTypes());
 
         return html(con, form, PATH_JSP + "/calendar/update.jsp");
     }

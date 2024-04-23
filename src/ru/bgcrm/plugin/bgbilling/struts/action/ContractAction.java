@@ -54,9 +54,9 @@ public class ContractAction extends BaseAction {
     public ActionForward customerContractList(DynActionForm form, Connection con) {
         int customerId = form.getParamInt("customerId", 0);
 
-        form.getResponse().setData("list",
+        form.setResponseData("list",
                 new CustomerLinkDAO(con).getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%"));
-        form.getResponse().setData("customerId", customerId);
+        form.setResponseData("customerId", customerId);
 
         form.setRequestAttribute("contractTypesConfig", setup.getConfig(ContractTypesConfig.class));
         form.setRequestAttribute("customer", new CustomerDAO(con).getCustomerById(customerId));
@@ -84,11 +84,11 @@ public class ContractAction extends BaseAction {
         if (Utils.notBlankString(billingId) && id > 0) {
             ContractInfo info = ContractDAO.getInstance(form.getUser(), billingId)
                     .getContractInfo(id);
-            form.getResponse().setData("contract", info);
+            form.setResponseData("contract", info);
 
             Customer customer = new ContractCustomerDAO(conSet.getConnection()).getContractCustomer(info);
             if (customer != null) {
-                form.getResponse().setData("customer", customer);
+                form.setResponseData("customer", customer);
             }
         }
 
@@ -143,7 +143,7 @@ public class ContractAction extends BaseAction {
         Pageable<IdTitle> searchResult = new Pageable<>();
         ContractDAO.getInstance(form.getUser(), billingId)
                 .searchContractByTitleComment(searchResult, title, null, null);
-        form.getResponse().setData("contract", Utils.getFirst(searchResult.getList()));
+        form.setResponseData("contract", Utils.getFirst(searchResult.getList()));
 
         return json(con, form);
     }
@@ -195,7 +195,7 @@ public class ContractAction extends BaseAction {
                 tariffDao.addTariffPlan(contract.getId(), tariffId, tariffPosition);
         }
 
-        form.getResponse().setData("contract", contract);
+        form.setResponseData("contract", contract);
 
         return json(con, form);
     }
@@ -212,7 +212,7 @@ public class ContractAction extends BaseAction {
 
             String titlePattern = dbInfo.getSetup().get("contract_pattern." + patternId + ".title_pattern");
             if (Utils.notBlankString(titlePattern)) {
-                form.getResponse().setData("value", titlePattern);
+                form.setResponseData("value", titlePattern);
             }
         }
 
@@ -253,7 +253,7 @@ public class ContractAction extends BaseAction {
         List<String> whatShow = Utils.toList(form.getParam("whatShow"));
         for (String item : whatShow) {
             if ("memo".equals(item)) {
-                form.getResponse().setData("memoList", ContractDAO
+                form.setResponseData("memoList", ContractDAO
                         .getInstance(form.getUser(), billingId).getMemoList(contractId));
             }
             // TODO: Выбор остальных вариантов.

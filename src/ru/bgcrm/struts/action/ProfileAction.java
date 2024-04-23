@@ -39,9 +39,9 @@ public class ProfileAction extends BaseAction {
         String subAction = form.getParam("subAction") == null ? "" : form.getParam("subAction");
 
         if (user != null) {
-            form.getResponse().setData("user", user);
-            form.getResponse().setData("userGroupList", UserCache.getUserGroupList(user.getId(), new Date()));
-            form.getResponse().setData("grantedPermission", userDAO.getPermissions(user.getId()));
+            form.setResponseData("user", user);
+            form.setResponseData("userGroupList", UserCache.getUserGroupList(user.getId(), new Date()));
+            form.setResponseData("grantedPermission", userDAO.getPermissions(user.getId()));
         }
 
         if (subAction.equals("parameters")) {

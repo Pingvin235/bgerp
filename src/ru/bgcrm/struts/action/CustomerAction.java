@@ -53,7 +53,7 @@ public class CustomerAction extends BaseAction {
 
         new CustomerDAO(conSet.getConnection()).updateCustomer(customer);
 
-        form.getResponse().setData("customer", customer);
+        form.setResponseData("customer", customer);
 
         return json(conSet, form);
     }
@@ -68,7 +68,7 @@ public class CustomerAction extends BaseAction {
         Customer customer = customerDAO.getCustomerById(form.getId());
         if (customer != null) {
             customer.setGroupIds(customerDAO.getGroupIds(form.getId()));
-            form.getResponse().setData("customer", customer);
+            form.setResponseData("customer", customer);
 
             // TODO: Переделать на кэш.
             var request = form.getHttpRequest();
@@ -127,7 +127,7 @@ public class CustomerAction extends BaseAction {
         Customer customer = customerDAO.getCustomerById(form.getId());
         if (customer != null) {
             customer.setGroupIds(customerDAO.getGroupIds(form.getId()));
-            form.getResponse().setData("customer", customer);
+            form.setResponseData("customer", customer);
         }
 
         return html(conSet, form, PATH_JSP + "/customer.jsp");
@@ -137,7 +137,7 @@ public class CustomerAction extends BaseAction {
         List<String> titles = new CustomerDAO(conSet.getConnection()).getCustomerTitles(
                 LikePattern.SUB.get(form.getParam("title")),
                 setup.getInt("customer.search.by.title.count", 10));
-        form.getResponse().setData("list", titles);
+        form.setResponseData("list", titles);
 
         return html(conSet, form, PATH_JSP + "/customer.jsp");
     }

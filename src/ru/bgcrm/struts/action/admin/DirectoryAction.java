@@ -102,7 +102,7 @@ public class DirectoryAction extends BaseAction {
             }
         }
 
-        form.getResponse().setData("containProcess", containProcess);
+        form.setResponseData("containProcess", containProcess);
 
         return html(con, form, ProcessAction.JSP_USED_IN_TYPES);
     }
@@ -112,7 +112,7 @@ public class DirectoryAction extends BaseAction {
 
         Parameter parameter = paramDAO.getParameter(form.getId());
         if (parameter != null) {
-            form.getResponse().setData("parameter", parameter);
+            form.setResponseData("parameter", parameter);
         }
 
         var request = form.getHttpRequest();
@@ -173,7 +173,7 @@ public class DirectoryAction extends BaseAction {
     public ActionForward patternTitleGet(DynActionForm form, Connection con) throws Exception {
         Pattern pattern = new PatternDAO(con).getPattern(form.getId());
         if (pattern != null) {
-            form.getResponse().setData("pattern", pattern);
+            form.setResponseData("pattern", pattern);
         }
 
         var request = form.getHttpRequest();
@@ -223,7 +223,7 @@ public class DirectoryAction extends BaseAction {
         ParameterGroup parameterGroup = paramGroupDAO.getParameterGroup(id);
         if (parameterGroup != null) {
             parameterGroup.setParameterIds(paramGroupDAO.getParameterIdsForGroup(id));
-            form.getResponse().setData("group", parameterGroup);
+            form.setResponseData("group", parameterGroup);
         }
 
         var request = form.getHttpRequest();

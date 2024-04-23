@@ -42,7 +42,7 @@ public class InetAction extends BaseAction {
     public ActionForward serviceTree(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
-        form.getResponse().setData("list", inetDao.getServiceList(form.getParamInt(CONTRACT_ID)));
+        form.setResponseData("list", inetDao.getServiceList(form.getParamInt(CONTRACT_ID)));
 
         return html(conSet, form, PATH_JSP + "/service_tree.jsp");
     }
@@ -54,10 +54,10 @@ public class InetAction extends BaseAction {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), billingId, moduleId);
 
         InventoryDAO inventoryDAO = new InventoryDAO(form.getUser(), billingId, moduleId);
-        form.getResponse().setData("typeList", inetDao.getServiceTypeList());
+        form.setResponseData("typeList", inetDao.getServiceTypeList());
 
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
-        form.getResponse().setData("objectList", contractObjectDAO.getContractObjects(contractId));
+        form.setResponseData("objectList", contractObjectDAO.getContractObjects(contractId));
 
         if (form.getId() > 0) {
             // использован тот же метод, что и в клиентском приложении, getService не
@@ -76,7 +76,7 @@ public class InetAction extends BaseAction {
                         .orElse(""));
             }
 
-            form.getResponse().setData("service", service);
+            form.setResponseData("service", service);
         }
 
         return html(conSet, form, PATH_JSP + "/service_editor.jsp");

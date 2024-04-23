@@ -39,10 +39,10 @@ public class RscmAction extends BaseAction {
         int moduleId = form.getParamInt("moduleId");
 
         if (form.getId() > 0) {
-            form.getResponse().setData("service",
+            form.setResponseData("service",
                     new RscmDAO(form.getUser(), billingId, moduleId).getService(contractId, form.getId()));
         }
-        form.getResponse().setData("serviceTypeList",
+        form.setResponseData("serviceTypeList",
                 new DirectoryDAO(form.getUser(), billingId).getServiceTypeList(moduleId));
 
         return html(conSet, form, PATH_JSP + "/service_editor.jsp");

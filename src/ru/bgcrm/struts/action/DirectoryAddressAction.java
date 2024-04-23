@@ -147,7 +147,7 @@ public class DirectoryAddressAction extends BaseAction {
                 //form.setParam( "addressItemTitle", addressHouse.getAddressStreet().getTitle() );
             }
 
-            form.getResponse().setData("house", addressHouse);
+            form.setResponseData("house", addressHouse);
 
             form.setParam("config", getConfigString(addressHouse.getConfig()));
 
@@ -179,7 +179,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.setParam("config", getConfigString(addressCity.getConfig()));
 
             // по факту пока не используется
-            form.getResponse().setData("city", addressCity);
+            form.setResponseData("city", addressCity);
         } else if (addressCountryId >= 0) {
             AddressCountry addressCountry = addressDAO.getAddressCountry(addressCountryId);
             if (addressCountry == null) {
@@ -190,7 +190,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.setParam("config", getConfigString(addressCountry.getConfig()));
 
             // по факту пока не используется
-            form.getResponse().setData("country", addressCountry);
+            form.setResponseData("country", addressCountry);
         }
 
         return html(con, form, PATH_JSP_ADDRESS);
@@ -225,7 +225,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.setParam("title", addressItem.getTitle());
             form.setParam("config", getConfigString(addressItem.getConfig()));
 
-            form.getResponse().setData(itemType.toLowerCase(), addressItem);
+            form.setResponseData(itemType.toLowerCase(), addressItem);
 
             return true;
         }

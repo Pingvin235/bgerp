@@ -76,7 +76,7 @@ public class FileAction extends BaseAction {
 
             files.fileTitleMap.put(fileId, file.getFileName());
 
-            form.getResponse().setData("file", new IdTitle(fileId, file.getFileName()));
+            form.setResponseData("file", new IdTitle(fileId, file.getFileName()));
         } catch (IOException e) {
             throw new BGException(e);
         }

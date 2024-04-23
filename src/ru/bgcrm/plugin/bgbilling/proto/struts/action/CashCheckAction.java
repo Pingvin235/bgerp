@@ -15,7 +15,7 @@ public class CashCheckAction extends ContractAction {
         String billingId = form.getParam("billingId");
         CashCheckDAO cashCkeckDao = new CashCheckDAO(form.getUser(), billingId);
 
-        form.getResponse().setData("registratorList", cashCkeckDao.getRegistratorList());
+        form.setResponseData("registratorList", cashCkeckDao.getRegistratorList());
 
         return json(conSet, form);
     }
@@ -28,8 +28,8 @@ public class CashCheckAction extends ContractAction {
         Pair<String, String> result = cashCkeckDao.printCheck(form.getParamInt("selectedRegisterId"), paymentId,
                 form.getParam("clientCash"), form.getParam("selectedRegisterPswd"));
 
-        form.getResponse().setData("summa", result.getFirst());
-        form.getResponse().setData("submit", result.getSecond());
+        form.setResponseData("summa", result.getFirst());
+        form.setResponseData("submit", result.getSecond());
 
         return json(conSet, form);
     }

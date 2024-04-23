@@ -183,7 +183,7 @@ public class ProcessAction extends BaseAction {
                 groups.add(UserCache.getUserGroup(groupId));
             }
 
-            form.getResponse().setData("groups", groups);
+            form.setResponseData("groups", groups);
         }
 
         return html(con, form, PATH_JSP + "/tree/group_select.jsp");
@@ -248,7 +248,7 @@ public class ProcessAction extends BaseAction {
 
         EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATED), new SingleConnectionSet(con));
 
-        form.getResponse().setData("process", process);
+        form.setResponseData("process", process);
     }
 
     protected static void doCreateWizard(DynActionForm form, Connection con, Process process, ProcessType type) throws SQLException {

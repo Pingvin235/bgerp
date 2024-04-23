@@ -163,8 +163,8 @@ public class ContractAction extends BaseAction {
         Pair<ParamList, List<ContractParameter>> parameterListWithDir = paramDAO.getParameterListWithDir(contractId,
                 true, form.getParamBoolean("onlyFromGroup", false));
 
-        form.getResponse().setData("group", parameterListWithDir.getFirst());
-        form.getResponse().setData("contractParameterList",
+        form.setResponseData("group", parameterListWithDir.getFirst());
+        form.setResponseData("contractParameterList",
                 filterParameterList(parameterListWithDir.getSecond(), requiredParameterIds));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/parameter_list.jsp");
@@ -334,7 +334,7 @@ public class ContractAction extends BaseAction {
 
         /* Set<DeviceInfo.BaseLink> baseLinks = new DeviceInfo().getDeviceInfo(contractId, cityId);
 
-        form.getResponse().setData("links", baseLinks); */
+        form.setResponseData("links", baseLinks); */
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object_link_list.jsp");
     }
@@ -345,7 +345,7 @@ public class ContractAction extends BaseAction {
 
         ContractDAO crmDAO = ContractDAO.getInstance(form.getUser(), billingId);
 
-        form.getResponse().setData("additionalActionList", crmDAO.additionalActionList(contractId));
+        form.setResponseData("additionalActionList", crmDAO.additionalActionList(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/additional_action_list.jsp");
     }
@@ -357,8 +357,8 @@ public class ContractAction extends BaseAction {
 
         ContractDAO crmDAO = ContractDAO.getInstance(form.getUser(), billingId);
 
-        form.getResponse().setData("executeResult", crmDAO.executeAdditionalAction(contractId, actionId));
-        form.getResponse().setData("additionalActionList", crmDAO.additionalActionList(contractId));
+        form.setResponseData("executeResult", crmDAO.executeAdditionalAction(contractId, actionId));
+        form.setResponseData("additionalActionList", crmDAO.additionalActionList(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/additional_action_list.jsp");
     }
@@ -369,8 +369,8 @@ public class ContractAction extends BaseAction {
 
         Pair<List<IdTitle>, Set<Integer>> groupsGet = ContractDAO.getInstance(form.getUser(), billingId).groupsGet(contractId);
 
-        form.getResponse().setData("groupList", groupsGet.getFirst());
-        form.getResponse().setData("selectedGroupIds", groupsGet.getSecond());
+        form.setResponseData("groupList", groupsGet.getFirst());
+        form.setResponseData("selectedGroupIds", groupsGet.getSecond());
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/group_list.jsp");
     }
@@ -400,7 +400,7 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), billingId);
-        form.getResponse().setData("memoList", contractDAO.getMemoList(contractId));
+        form.setResponseData("memoList", contractDAO.getMemoList(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/memo/memo_list.jsp");
     }
@@ -410,7 +410,7 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         if (form.getId() > 0) {
-            form.getResponse().setData("memo",
+            form.setResponseData("memo",
                     ContractDAO.getInstance(form.getUser(), billingId).getMemo(contractId, form.getId()));
         }
 
@@ -450,7 +450,7 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
-        form.getResponse().setData("objectList", contractObjectDAO.getContractObjects(contractId));
+        form.setResponseData("objectList", contractObjectDAO.getContractObjects(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_list.jsp");
     }
@@ -460,7 +460,7 @@ public class ContractAction extends BaseAction {
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
-        form.getResponse().setData("object", contractObjectDAO.getContractObject(objectId));
+        form.setResponseData("object", contractObjectDAO.getContractObject(objectId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_editor.jsp");
     }
@@ -497,7 +497,7 @@ public class ContractAction extends BaseAction {
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
-        form.getResponse().setData("parameterList", paramDAO.getParameterList(objectId));
+        form.setResponseData("parameterList", paramDAO.getParameterList(objectId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_parameter_list.jsp");
     }
@@ -510,7 +510,7 @@ public class ContractAction extends BaseAction {
         ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
         ContractObjectParameter parameter = paramDAO.getParameter(objectId, paramId);
 
-        form.getResponse().setData("parameter", parameter);
+        form.setResponseData("parameter", parameter);
 
         int paramType = parameter.getTypeId();
         if (paramType <= 0) {
@@ -530,24 +530,24 @@ public class ContractAction extends BaseAction {
 
                     AddressHouse house = new AddressDAO(conSet.getConnection()).getAddressHouse(houseId, true, true, true);
                     if (house != null) {
-                        form.getResponse().setData("house", house);
+                        form.setResponseData("house", house);
                     }
                 }
 
-                form.getResponse().setData("address", addressValue);
+                form.setResponseData("address", addressValue);
                 break;
             }
 
             case ParameterType.ContractObjectType.TYPE_DATE: {
                 if (Utils.notBlankString(parameter.getValue())) {
-                    form.getResponse().setData("dateValue", new SimpleDateFormat("yyyy-MM-dd")
+                    form.setResponseData("dateValue", new SimpleDateFormat("yyyy-MM-dd")
                             .format(TimeUtils.parse(parameter.getValue(), TimeUtils.PATTERN_DDMMYYYY)));
                 }
                 break;
             }
 
             case ParameterType.ContractObjectType.TYPE_LIST: {
-                form.getResponse().setData("valueList", paramDAO.getListParam(objectId, paramId));
+                form.setResponseData("valueList", paramDAO.getListParam(objectId, paramId));
                 break;
             }
         }
@@ -605,7 +605,7 @@ public class ContractAction extends BaseAction {
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectDAO dao = new ContractObjectDAO(form.getUser(), billingId);
-        form.getResponse().setData("moduleInfo", dao.contractObjectModuleList(objectId));
+        form.setResponseData("moduleInfo", dao.contractObjectModuleList(objectId));
 
         return json(conSet, form);
     }
@@ -615,7 +615,7 @@ public class ContractAction extends BaseAction {
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectDAO dao = new ContractObjectDAO(form.getUser(), billingId);
-        form.getResponse().setData("moduleInfo", dao.contractObjectModuleList(objectId));
+        form.setResponseData("moduleInfo", dao.contractObjectModuleList(objectId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_module_summary_table.jsp");
     }
@@ -625,8 +625,8 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractHierarchyDAO crmDAO = new ContractHierarchyDAO(form.getUser(), billingId);
-        form.getResponse().setData("subContractList", crmDAO.contractSubcontractList(contractId));
-        form.getResponse().setData("superContract", crmDAO.contractSupercontract(contractId));
+        form.setResponseData("subContractList", crmDAO.contractSubcontractList(contractId));
+        form.setResponseData("superContract", crmDAO.contractSupercontract(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/subcontract_list.jsp");
     }
@@ -635,7 +635,7 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
-        form.getResponse().setData("scriptList",
+        form.setResponseData("scriptList",
                 new ContractScriptDAO(form.getUser(), billingId).contractScriptList(contractId));
 
         form.getHttpRequest().setAttribute("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
@@ -648,8 +648,8 @@ public class ContractAction extends BaseAction {
         Integer scriptId = form.getParamInt("scriptId");
 
         ContractScriptDAO crmDAO = new ContractScriptDAO(form.getUser(), billingId);
-        form.getResponse().setData("script", crmDAO.contractScriptGet(scriptId));
-        form.getResponse().setData("scriptTypeList", new DirectoryDAO(form.getUser(), billingId).scriptTypeList());
+        form.setResponseData("script", crmDAO.contractScriptGet(scriptId));
+        form.setResponseData("scriptTypeList", new DirectoryDAO(form.getUser(), billingId).scriptTypeList());
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/script/script_editor.jsp");
     }
@@ -701,7 +701,7 @@ public class ContractAction extends BaseAction {
         ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
         contractDao.faceLog(new Pageable<>(form), contractId);
 
-        form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.setResponseData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/face_log.jsp");
     }
@@ -722,7 +722,7 @@ public class ContractAction extends BaseAction {
         ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
         contractDao.modeLog(new Pageable<>(form), contractId);
 
-        form.getResponse().setData("contractInfo", contractDao.getContractInfo(contractId));
+        form.setResponseData("contractInfo", contractDao.getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/mode_log.jsp");
     }
@@ -741,8 +741,8 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         Pair<List<IdTitle>, List<IdTitle>> pair = ContractDAO.getInstance(form.getUser(), billingId).moduleList(contractId);
-        form.getResponse().setData("selectedList", pair.getFirst());
-        form.getResponse().setData("availableList", pair.getSecond());
+        form.setResponseData("selectedList", pair.getFirst());
+        form.setResponseData("availableList", pair.getSecond());
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/module_list.jsp");
     }
@@ -772,9 +772,9 @@ public class ContractAction extends BaseAction {
                 .collect(Collectors.toMap(IdTitle::getId, IdTitle::getTitle));
 
         ContractStatusDAO statusDao = new ContractStatusDAO(form.getUser(), billingId);
-        form.getResponse().setData("statusList", statusDao.statusList(contractId, statusTitleMap));
-        form.getResponse().setData("statusLog", statusDao.statusLog(contractId, statusTitleMap));
-        form.getResponse().setData("availableStatusList", directoryDAO.getContractStatusList(true));
+        form.setResponseData("statusList", statusDao.statusList(contractId, statusTitleMap));
+        form.setResponseData("statusLog", statusDao.statusLog(contractId, statusTitleMap));
+        form.setResponseData("availableStatusList", directoryDAO.getContractStatusList(true));
 
         form.getHttpRequest().setAttribute("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
@@ -800,8 +800,8 @@ public class ContractAction extends BaseAction {
 
         BigDecimal limit = ContractDAO.getInstance(form.getUser(), billingId).limit(contractId, limitList, taskList);
 
-        form.getResponse().setData("limit", limit);
-        form.getResponse().setData("taskList", taskList);
+        form.setResponseData("limit", limit);
+        form.setResponseData("taskList", taskList);
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/limit.jsp");
     }
@@ -831,8 +831,8 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
-        form.getResponse().setData("cardTypeList", contractDao.getContractCardTypes(contractId));
-        form.getResponse().setData("fullCard", contractDao.getContractFullCard(contractId));
+        form.setResponseData("cardTypeList", contractDao.getContractCardTypes(contractId));
+        form.setResponseData("fullCard", contractDao.getContractFullCard(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/cards.jsp");
     }
@@ -858,7 +858,7 @@ public class ContractAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
 
-        form.getResponse().setData("list",
+        form.setResponseData("list",
                 new ContractServiceDAO(form.getUser(), billingId).getContractServiceList(contractId, moduleId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/service/list.jsp");
@@ -869,7 +869,7 @@ public class ContractAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
 
-        form.getResponse().setData("pair",
+        form.setResponseData("pair",
                 new ContractServiceDAO(form.getUser(), billingId).getContractService(contractId, moduleId, form.getId(),
                         form.getId() > 0 ? false : form.getParamBoolean("onlyUsing", true)));
 
@@ -914,7 +914,7 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
 
         ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), billingId);
-        form.getResponse().setData("password", contractDAO.getContractStatisticPassword(contractId));
+        form.setResponseData("password", contractDAO.getContractStatisticPassword(contractId));
 
         return json(conSet, form);
     }
@@ -925,7 +925,7 @@ public class ContractAction extends BaseAction {
 
         ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), billingId);
 
-        form.getResponse().setData("contractAddressList", contractDAO.getContractAddress(contractId));
+        form.setResponseData("contractAddressList", contractDAO.getContractAddress(contractId));
 
         return html(conSet, form, PATH_JSP + "/crm/contract_address_list.jsp");
     }
@@ -955,7 +955,7 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
 
         ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), billingId);
-        form.getResponse().setData("patterns", contractDAO.bgbillingGetContractPatternList());
+        form.setResponseData("patterns", contractDAO.bgbillingGetContractPatternList());
 
         return json(conSet, form);
     }
@@ -965,7 +965,7 @@ public class ContractAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
 
         ContractHierarchyDAO contractDAO = new ContractHierarchyDAO(form.getUser(), billingId);
-        form.getResponse().setData("subContractList", contractDAO.getSubContracts(contractId));
+        form.setResponseData("subContractList", contractDAO.getSubContracts(contractId));
 
         return json(conSet, form);
     }
@@ -981,7 +981,7 @@ public class ContractAction extends BaseAction {
             throw new BGMessageExceptionTransparent("Не указано значение параметра запроса billingId");
         }
 
-        form.getResponse().setData("openContract", ContractDAO.getInstance(form.getUser(), billingId).openContract());
+        form.setResponseData("openContract", ContractDAO.getInstance(form.getUser(), billingId).openContract());
 
         return json(conSet, form);
     }
@@ -1003,15 +1003,15 @@ public class ContractAction extends BaseAction {
             throw new BGMessageExceptionTransparent("Не указано значение параметра запроса cityId");
         }
 
-        form.getResponse().setData("streets", ContractDAO.getInstance(form.getUser(), billingId).getStreetsByCity(cityId));
+        form.setResponseData("streets", ContractDAO.getInstance(form.getUser(), billingId).getStreetsByCity(cityId));
 
         return json(conSet, form);
     }
 
     public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
-        form.getResponse().setData("paramType", form.getParamInt("paramType"));
+        form.setResponseData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);
-        form.getResponse().setData("paramList", list);
+        form.setResponseData("paramList", list);
         return html(conSet, form, PATH_JSP + "/search_param_list.jsp");
     }
 

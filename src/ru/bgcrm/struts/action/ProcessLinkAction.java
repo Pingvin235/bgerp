@@ -94,7 +94,7 @@ public class ProcessLinkAction extends ProcessAction {
         }
 
         // filter type list
-        form.getResponse().setData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
+        form.setResponseData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
 
         // type tree for creation
         var typeList = ProcessTypeCache.getTypeList(objectType);
@@ -129,7 +129,7 @@ public class ProcessLinkAction extends ProcessAction {
         final String key = "create.in." + objectType + ".openCreated";
         if ("wizard".equals(configMap.get(key)) ||
             configMap.getBoolean("create.in." + objectType + ".wizardCreated", false)) {
-            form.getResponse().setData("wizard", 1);
+            form.setResponseData("wizard", 1);
             form.getResponse().getEventList().clear();
         } else if (configMap.getBoolean(key, true)) {
             form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));

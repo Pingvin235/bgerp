@@ -69,7 +69,7 @@ public class ConfigAction extends BaseAction {
 
         Config config = new ConfigDAO(conSet.getConnection()).getGlobalConfig(form.getId());
         if (config != null)
-            form.getResponse().setData("config", config);
+            form.setResponseData("config", config);
 
         return html(conSet, form, PATH_JSP + "/update.jsp");
     }

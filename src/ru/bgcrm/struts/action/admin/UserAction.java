@@ -49,8 +49,8 @@ public class UserAction extends org.bgerp.action.BaseAction {
         Permset permset = new UserPermsetDAO(con).getPermsetById(form.getId());
         if (permset != null) {
             UserPermsetDAO permsetDao = new UserPermsetDAO(con);
-            form.getResponse().setData("permset", permset);
-            form.getResponse().setData("grantedPermission",
+            form.setResponseData("permset", permset);
+            form.setResponseData("grantedPermission",
                     PermissionNode.primaryActions(permsetDao.getPermissions(permset.getId())));
         }
 
@@ -133,7 +133,7 @@ public class UserAction extends org.bgerp.action.BaseAction {
             group.setQueueIds(groupDAO.getGroupQueueIds(form.getId()));
             group.setPermsetIds(groupDAO.getGroupPermsetIds(form.getId()));
 
-            form.getResponse().setData("group", group);
+            form.setResponseData("group", group);
         }
 
         return html(con, form, PATH_JSP + "/group/update.jsp");

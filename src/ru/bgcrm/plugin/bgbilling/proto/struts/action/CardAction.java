@@ -37,8 +37,8 @@ public class CardAction extends BaseAction {
         }
 
         cardList = new ArrayList<>();
-        form.getResponse().setData("serviceList", new CardDAO(form.getUser(), billingId, moduleId).CardContractInfo(contractId, serviceId, cardList));
-        form.getResponse().setData("cardList", cardList);
+        form.setResponseData("serviceList", new CardDAO(form.getUser(), billingId, moduleId).CardContractInfo(contractId, serviceId, cardList));
+        form.setResponseData("cardList", cardList);
 
         return html(conSet, form, PATH_JSP + "/contract.jsp");
     }

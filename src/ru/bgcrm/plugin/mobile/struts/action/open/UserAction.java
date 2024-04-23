@@ -39,11 +39,11 @@ public class UserAction extends BaseAction {
 
         // непрочитанные новости и сообщения
         NewsInfoEvent event = UserNewsCache.getUserEvent(conSet.getConnection(), account.getObjectId());
-        form.getResponse().setData("news", event);
+        form.setResponseData("news", event);
 
         // счётчики
         List<Counter> counters = new ArrayList<>();
-        form.getResponse().setData("counters", counters);
+        form.setResponseData("counters", counters);
 
         FilterEntryCounter counter = FilterEntryCounter.getInstance();
         SavedFiltersConfig config = UserCache.getUser(account.getObjectId()).getPersonalizationMap()

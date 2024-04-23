@@ -86,7 +86,7 @@ public class NewsAction extends BaseAction {
     public ActionForward newsEdit(DynActionForm form, Connection con) throws Exception {
         News news = new NewsDAO(con).getNews(form.getId());
         if (news != null) {
-            form.getResponse().setData("news", news);
+            form.setResponseData("news", news);
         }
 
         return html(con, form, PATH_JSP + "/update.jsp");
@@ -110,7 +110,7 @@ public class NewsAction extends BaseAction {
         newsDAO.setNewsRead(form.getParamInt("newsId", -1), form.getUserId(), true);
         News news = newsDAO.getNews(form.getParamInt("newsId", -1));
 
-        form.getResponse().setData("item", news);
+        form.setResponseData("item", news);
 
         UserNewsCache.flushCache(con, Collections.singleton(form.getUserId()));
 
