@@ -43,6 +43,8 @@ messageType.<id>.class=<messageTypeClassName>
 ----
 # не информировать о необработанных сообщениях данного типа
 messageType.<id>.unprocessedMessageNotify=0
+# do not check empty subject on saving
+messageType.<id>.check.empty.subject=0
 ----
 
 Остальные параметры различаются для разных видов сообщений.
@@ -199,7 +201,7 @@ include::../../plugin/bgbilling/message_save_modes.adocf[]
 
 Used for appending process notes.
 
-image::_res/i0102.png[]
+image::_res/message_notes.png[width="800"]
 
 Addidtional optional settings:
 [source]

@@ -206,7 +206,7 @@
 								${l.l('Вкл./выкл. разрывы строк')}
 							</a></li>
 							<ui:when type="user">
-								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Теги')}</a></li>
+								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Tags')}</a></li>
 								<c:if test="${messageType.readable and message.read and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
 									<li><a href="#" onclick="
 										$$.ajax.post('${readUrl}&value=0').done(() => {

@@ -3,7 +3,7 @@
 
 <div class="mt1 mb1">
 	<ui:button type="ok" onclick="
-		if (!$$.message.checkSubject(this.form, '${l.l('Save with the empty subject?')}'))
+		if (this.form.checkEmptySubject && !$$.message.checkSubject(this.form, '${l.l('Save with the empty subject?')}'))
 			return;
 		if (!$$.message.checkAttach(this.form, '${l.l('Save without attachment?')}'))
 			return;

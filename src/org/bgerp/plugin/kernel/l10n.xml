@@ -208,7 +208,7 @@
 	<p><ru>Обработано</ru><en>Processed</en></p>
 	<p><ru>Вкл./выкл. разрывы строк</ru><en>Toggle line breaks</en></p>
 	<p><ru>Удалить сообщение?</ru><en>Delete the message?</en></p>
-	<p><ru>Теги</ru><en>Tags</en></p>
+	<p><en>Tags</en><ru>Теги</ru></p>
 	<p><ru>Ответить</ru><en>Replay</en></p>
 	<p><ru>Редактировать</ru><en>Edit</en></p>
 	<p><ru>Другой существующий</ru><en>Another existing</en></p>

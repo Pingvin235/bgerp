@@ -38,59 +38,6 @@ public class MessageTypeNote extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
-        message.setSystemId("");
-        message.setFrom("");
-        if (!createUnread)
-            message.setToTime(new Date());
-        message.setDirection(Message.DIRECTION_INCOMING);
-
-        Map<Integer, FileInfo> tmpFiles = processMessageAttaches(con, form, message);
-
-        new MessageDAO(con).updateMessage(message);
-
-        SessionTemporaryFiles.deleteFiles(form, tmpFiles.keySet());
-
-        // генерация события
-
-        int processId = message.getProcessId();
-
-        // определение кода процесса
-        if (processId > 0) {
-            Process process = new ProcessDAO(con).getProcess(processId);
-
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            if (type == null) {
-                log.error("Not found process type with id:" + process.getTypeId());
-            } else {
-                EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process), new SingleConnectionSet(con));
-            }
-        }
-    }
-
-    @Override
-    public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
-        for (String messageId : messageIds)
-            new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageId));
-    }
-
-    @Override
-    public String getMessageDescription(String lang, Message message) {
-        var l = Localization.getLocalizer(lang, Plugin.ID);
-
-        var result = new StringBuilder(200);
-        result
-            .append(getTitle())
-            .append(": \"")
-            .append(message.getSubject())
-            .append("\"; ")
-            .append(l.l("создано: "))
-            .append(TimeUtils.format(message.getFromTime(), TimeUtils.FORMAT_TYPE_YMDHM));
-
-        return result.toString();
-    }
-
-    @Override
     public boolean isAnswerSupport() {
         return true;
     }
@@ -134,4 +81,63 @@ public class MessageTypeNote extends MessageType {
     public String getProcessMessageHeaderColor(Message message) {
         return "#e6fb9d";
     }
+
+    @Override
+    public String getEditorJsp() {
+        return Plugin.ENDPOINT_MESSAGE_EDITOR;
+    }
+
+    @Override
+    public String getMessageDescription(String lang, Message message) {
+        var l = Localization.getLocalizer(lang, Plugin.ID);
+
+        var result = new StringBuilder(200);
+        result
+            .append(getTitle())
+            .append(": \"")
+            .append(message.getSubject())
+            .append("\"; ")
+            .append(l.l("создано: "))
+            .append(TimeUtils.format(message.getFromTime(), TimeUtils.FORMAT_TYPE_YMDHM));
+
+        return result.toString();
+    }
+
+    @Override
+    public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
+        for (String messageId : messageIds)
+            new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageId));
+    }
+
+    @Override
+    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
+        message.setSystemId("");
+        message.setFrom("");
+        if (!createUnread)
+            message.setToTime(new Date());
+        message.setDirection(Message.DIRECTION_INCOMING);
+
+        Map<Integer, FileInfo> tmpFiles = processMessageAttaches(con, form, message);
+
+        new MessageDAO(con).updateMessage(message);
+
+        SessionTemporaryFiles.deleteFiles(form, tmpFiles.keySet());
+
+        // генерация события
+
+        int processId = message.getProcessId();
+
+        // определение кода процесса
+        if (processId > 0) {
+            Process process = new ProcessDAO(con).getProcess(processId);
+
+            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
+            if (type == null) {
+                log.error("Not found process type with id:" + process.getTypeId());
+            } else {
+                EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process), new SingleConnectionSet(con));
+            }
+        }
+    }
+
 }

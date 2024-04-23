@@ -26,7 +26,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class MessageTypeConfig extends Config {
     private static final Log log = Log.getLog();
 
-    private SortedMap<Integer, MessageType> typeMap = new TreeMap<Integer, MessageType>() {
+    private SortedMap<Integer, MessageType> typeMap = new TreeMap<>() {
         @Override
         public MessageType get(Object key) {
             MessageType result = super.get(key);
@@ -34,7 +34,7 @@ public class MessageTypeConfig extends Config {
                 try {
                     result = new MessageTypeUnknown((Integer) key);
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
             return result;

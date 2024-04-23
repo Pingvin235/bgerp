@@ -43,6 +43,8 @@ messageType.100.title=Note
 messageType.100.class=MessageTypeNote
 # create messages as unread
 #messageType.100.create.unread=1
+# do not check empty subjects
+#messageType.100.check.empty.subject=0
 
 # scheduler task
 scheduler.task.messages.class=MessageExchange

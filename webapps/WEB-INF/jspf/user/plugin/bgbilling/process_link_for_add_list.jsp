@@ -36,7 +36,7 @@
 		CommonObjectLink customerLink = Utils.getFirst( processLinkDao.getObjectLinksWithType( form.getId(), Customer.OBJECT_TYPE + "%" ) );
 		if( customerLink != null )
 		{
-			for( CommonObjectLink link : customerLinkDao.getObjectLinksWithType( customerLink.getLinkedObjectId(), Contract.OBJECT_TYPE + "%" ) )
+			for( CommonObjectLink link : customerLinkDao.getObjectLinksWithType( customerLink.getLinkObjectId(), Contract.OBJECT_TYPE + "%" ) )
 			{
 				// привязанный договор
 				linksForAdd.add( link );

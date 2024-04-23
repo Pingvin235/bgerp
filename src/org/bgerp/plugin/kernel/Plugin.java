@@ -1,8 +1,11 @@
 package org.bgerp.plugin.kernel;
 
 import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.dao.IfaceStateDAO;
@@ -30,6 +33,8 @@ import ru.bgcrm.plugin.Table.Type;
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "kernel";
     public static final Plugin INSTANCE = new Plugin();
+
+    public static final String ENDPOINT_MESSAGE_EDITOR = BaseAction.PATH_JSP_USER + "/message/note/process_message_editor.jsp";
 
     private Plugin() {
         super(ID);
@@ -80,6 +85,13 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     public org.bgerp.dao.Cleaner getCleaner() {
         return Cleaner.INSTANCE;
+    }
+
+    @Override
+    protected Map<String, List<String>> loadEndpoints() {
+        return Map.of(
+            ENDPOINT_MESSAGE_EDITOR, List.of(ENDPOINT_MESSAGE_EDITOR)
+        );
     }
 
     @Override

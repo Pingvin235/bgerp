@@ -68,14 +68,7 @@
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
-			<c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
-			<c:if test="${not empty tagConfig and not empty tagConfig.tagList}">
-				<div class="pl1 w100p">
-					<h2>${l.l('Теги')}</h2>
-					<input type="hidden" name="updateTags" value="1"/>
-					<ui:select-mult list="${tagConfig.tagList}" values="${frd.messageTagIds}" hiddenName="tagId"/>
-				</div>
-			</c:if>
+			<%@ include file="process_message_edit_tags.jsp"%>
 		</div>
 		<%@ include file="process_message_edit_text.jsp"%>
 		<div>
@@ -94,7 +87,10 @@
 			<input type="hidden" name="action" value="messageUpdate"/>
 			<html:hidden property="processId"/>
 			<html:hidden property="id"/>
-
+			<c:if test="${messageType.checkEmptySubject}">
+				<input type="hidden" name="checkEmptySubject" value="1"/>
+			</c:if>
+			<%-- the complicated inclusion method is required for l10n --%>
 			<plugin:include endpoint="${editorJsp}"/>
 		</html:form>
 	</c:if>

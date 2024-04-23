@@ -18,6 +18,7 @@ import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.file.FileInfo;
 import org.bgerp.model.file.SessionTemporaryFiles;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
@@ -38,8 +39,9 @@ public abstract class MessageType extends IdTitle {
 
     protected final Setup setup;
     protected final ConfigMap configMap;
+    private final boolean checkEmptySubject;
 
-    protected volatile boolean reading;
+    private volatile boolean reading;
     protected volatile Integer unprocessedMessagesCount;
 
     protected MessageType(Setup setup, int id, String title, ConfigMap config) {
@@ -51,6 +53,7 @@ public abstract class MessageType extends IdTitle {
         if (Utils.isBlankString(title)) {
             throw new BGException("Title of message type is empty.");
         }
+        this.checkEmptySubject = configMap.getBoolean("check.empty.subject", true);
 
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("search.").entrySet()) {
             int searchId = me.getKey();
@@ -102,6 +105,11 @@ public abstract class MessageType extends IdTitle {
         return contactSaver;
     }
 
+    @Dynamic
+    public boolean isCheckEmptySubject() {
+        return checkEmptySubject;
+    }
+
     /**
      * Message type is currently running {@link #newMessageList(ConnectionSet)}.
      * @return
@@ -120,12 +128,6 @@ public abstract class MessageType extends IdTitle {
                     null;
     }
 
-    /**
-     * Sends and reads message list.
-     */
-    public void process() {}
-
-    // TODO: Rename to isAnswerSupported
     public boolean isAnswerSupport() {
         return false;
     }
@@ -141,6 +143,10 @@ public abstract class MessageType extends IdTitle {
         return text;
     }
 
+    public boolean isAttachmentSupport() {
+        return true;
+    }
+
     public boolean isEditable(Message message) {
         return false;
     }
@@ -149,7 +155,6 @@ public abstract class MessageType extends IdTitle {
         return false;
     }
 
-    // TODO: Rename to ísProcessChangeSupported
     public boolean isProcessChangeSupport() {
         return false;
     }
@@ -161,11 +166,25 @@ public abstract class MessageType extends IdTitle {
         return null;
     }
 
+    public String getProcessMessageHeaderColor(Message message) {
+        return message.isIncoming() ? "#c3f6b6" : "#aceae7";
+    }
+
     /**
      * @return Plugin's endpoint for process message header.
      */
     public String getHeaderJsp() {
         return null;
+    }
+
+    /**
+     * Generates short message description.
+     * @param lang language.
+     * @param message message with the type.
+     * @return
+     */
+    public String getMessageDescription(String lang, Message message) {
+        return "";
     }
 
     /**
@@ -183,13 +202,10 @@ public abstract class MessageType extends IdTitle {
         return null;
     }
 
-    public boolean isAttachmentSupport() {
-        return true;
-    }
-
-    public String getProcessMessageHeaderColor(Message message) {
-        return message.isIncoming() ? "#c3f6b6" : "#aceae7";
-    }
+    /**
+     * Sends and reads message list.
+     */
+    public void process() {}
 
     /**
      * List of unprocessed messages from storage, for example - E-Mails from IMAP folder.
@@ -234,16 +250,6 @@ public abstract class MessageType extends IdTitle {
     }
 
     public abstract void updateMessage(Connection con, DynActionForm form, Message message) throws Exception;
-
-    /**
-     * Generates short message description.
-     * @param lang language.
-     * @param message message with the type.
-     * @return
-     */
-    public String getMessageDescription(String lang, Message message) {
-        return "";
-    }
 
     public List<CommonObjectLink> searchObjectsForLink(Message message) {
         return Collections.emptyList();

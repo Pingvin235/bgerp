@@ -59,7 +59,7 @@
 			</ui:combo-single>
 		</div>
 		<div class="pl1" style="width: 100%;">
-			<h2>${l.l('Теги')}</h2>
+			<h2>${l.l('Tags')}</h2>
 			<ui:select-mult list="${tagConfig.tagList}" values="${messageTagIds}" hiddenName="tagId" style="width: 100%;"/>
 		</div>
 	</div>

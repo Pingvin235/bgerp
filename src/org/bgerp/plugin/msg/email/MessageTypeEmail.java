@@ -130,14 +130,6 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
-    public void process() {
-        log.info("Starting EMail daemon, box: {}", mailConfig.getEmail());
-
-        readBox();
-        sendMessages();
-    }
-
-    @Override
     public boolean isAnswerSupport() {
         return true;
     }
@@ -200,8 +192,43 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
+    public String getMessageDescription(String lang, Message message) {
+        var l = Localization.getLocalizer(lang, Plugin.ID);
+
+        var result = new StringBuilder(200);
+
+        result
+            .append("EMail: \"")
+            .append(message.getSubject())
+            .append("\"; ")
+            .append(message.getFrom())
+            .append(" => ")
+            .append(message.getTo())
+            .append("; ");
+        if (message.getDirection() == Message.DIRECTION_INCOMING) {
+            result
+                .append(l.l("получено: "))
+                .append(TimeUtils.format(message.getFromTime(), TimeUtils.FORMAT_TYPE_YMDHM));
+        } else {
+            result
+                .append(l.l("отправлено: "))
+                .append(TimeUtils.format(message.getToTime(), TimeUtils.FORMAT_TYPE_YMDHM));
+        }
+
+        return result.toString();
+    }
+
+    @Override
     public String getEditorJsp() {
         return Plugin.ENDPOINT_MESSAGE_EDITOR;
+    }
+
+    @Override
+    public void process() {
+        log.info("Starting EMail daemon, box: {}", mailConfig.getEmail());
+
+        readBox();
+        sendMessages();
     }
 
     @Override
@@ -325,33 +352,6 @@ public class MessageTypeEmail extends MessageType {
 
             return processMessage(con, incomingFolder, processedFolder, skippedFolder, message);
         }
-    }
-
-    @Override
-    public String getMessageDescription(String lang, Message message) {
-        var l = Localization.getLocalizer(lang, Plugin.ID);
-
-        var result = new StringBuilder(200);
-
-        result
-            .append("EMail: \"")
-            .append(message.getSubject())
-            .append("\"; ")
-            .append(message.getFrom())
-            .append(" => ")
-            .append(message.getTo())
-            .append("; ");
-        if (message.getDirection() == Message.DIRECTION_INCOMING) {
-            result
-                .append(l.l("получено: "))
-                .append(TimeUtils.format(message.getFromTime(), TimeUtils.FORMAT_TYPE_YMDHM));
-        } else {
-            result
-                .append(l.l("отправлено: "))
-                .append(TimeUtils.format(message.getToTime(), TimeUtils.FORMAT_TYPE_YMDHM));
-        }
-
-        return result.toString();
     }
 
     private void sendMessages() {
