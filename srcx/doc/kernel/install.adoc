@@ -162,11 +162,11 @@ You will also need a root access to the MySQL Server at the time of installation
 *OpenJDK 21* version is required - is can be installed differently for distributions, as in the example below:
 [square, sh]
 ----
-sudo yum update
-sudo yum install -y java-21-openjdk-devel
+sudo dnf update
+sudo dnf install -y java-21-openjdk-devel
 ----
 
-IMPORTANT: Confirm that both *java* and *javac* commands are available after installation.
+IMPORTANT: Confirm that *java*, *javac* and *jstack* commands are available after installation.
 
 [[method-linux-app]]
 ==== Application
@@ -175,9 +175,9 @@ All the operations require a *root* user.
 Step 1. Check and install script dependencies:
 [source, sh]
 ----
-sudo yum update
-sudo yum install -y epel-release
-sudo yum install -y zip pwgen wget mysql-community-client unzip
+sudo dnf update
+sudo dnf install -y epel-release
+sudo dnf install -y zip pwgen wget mysql-community-client unzip
 ----
 
 Step 2. Download archive and unpack it:

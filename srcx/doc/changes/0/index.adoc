@@ -9,7 +9,7 @@ image::_res/14992_maintenance.png[width="800"]
 
 === Logging of <<../../plugin/bil/invoice/index.adoc#, Invoice>> changes
 
-image::_res/15029_invoice_logging.png[width="800"]
+image::_res/15029_invoice_logging.png[]
 
 
 ////

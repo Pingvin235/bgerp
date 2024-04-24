@@ -786,10 +786,6 @@ Parameter type *listcount* values.
 |count
 |DECIMAL
 |amount
-
-|comment
-|VARCHAR
-|comment
 |===
 
 === param_listcount_value
