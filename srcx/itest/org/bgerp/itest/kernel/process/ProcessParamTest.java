@@ -15,6 +15,7 @@ import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamLogDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -40,7 +41,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
-@Test(groups = "processParam", dependsOnGroups = { "process", "param", "address" })
+@Test(groups = "processParam", dependsOnGroups = { "process", "param", "address", "message" })
 public class ProcessParamTest {
     private static final String TITLE = "Kernel Process Param";
 
@@ -147,6 +148,7 @@ public class ProcessParamTest {
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
         processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        MessageHelper.addHowToTestNoteMessage(processId, this);
     }
 
     @Test(dependsOnMethods = "processType")

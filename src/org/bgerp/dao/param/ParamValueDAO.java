@@ -154,8 +154,8 @@ public class ParamValueDAO extends CommonDAO {
                 psList.add(con.prepareStatement(query));
             }
             case LISTCOUNT -> {
-                query = SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment)"
-                        + SQL_SELECT + "?, ?, value, count, comment"
+                query = SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count)"
+                        + SQL_SELECT + "?, ?, value, count"
                         + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }

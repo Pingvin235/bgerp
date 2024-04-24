@@ -1,0 +1,10 @@
+# In 'Kernel Process Param' queue.
+- All the parameters are correctly shown in columns.
+- Configured filters by parameters work.
+
+# In 'Parameters' table.
+- Editing and removal each of parameters.
+
+# In left top process card popup menu.
+- 'Clone process'
+- 'Delete process'

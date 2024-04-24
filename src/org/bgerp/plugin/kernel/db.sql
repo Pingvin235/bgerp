@@ -436,16 +436,14 @@ CREATE TABLE IF NOT EXISTS param_list (
 	id INT NOT NULL,
 	param_id INT NOT NULL,
 	`value` INT NOT NULL,
-	comment VARCHAR(50) NOT NULL,
+	comment VARCHAR(150) NOT NULL,
 	KEY `value` (`value`),
 	KEY id_param (id,param_id)
 );
 CALL drop_key_if_exists('param_list', 'PRIMARY');
 CALL add_key_if_not_exists('param_list', 'id_param', '(id, param_id)');
 ALTER TABLE param_list CHANGE value value INT NOT NULL;
-CALL alter_table_if_not_column_exists('param_list', 'comment', 'CHANGE custom comment VARCHAR(150) NOT NULL');
 CALL add_column_if_not_exists('param_list', 'comment', 'VARCHAR(150) NOT NULL');
-CALL drop_column_if_exists('param_list', '_comment');
 CALL add_unique_key_if_not_exists('param_list', 'id_param_value', '(id, param_id, value)');
 CALL drop_key_if_exists('param_list', 'id_param');
 
