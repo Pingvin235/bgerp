@@ -377,7 +377,7 @@ public class MessageTypeHelpDesk extends MessageType {
                     .filter(pg -> pg.getGroupId() == 0)
                     .findFirst().orElse(null);
                 if (group == null) {
-                    log.warn("Not found process group with role=0 for process: ", process.getId());
+                    log.warn("Not found process group with role=0 for process: {}", process.getId());
                 }
                 else {
                     Set<ProcessExecutor> executors = process.getExecutors();
