@@ -22,7 +22,7 @@ import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
 
 /**
- * Scheduler task configuration.
+ * Scheduled task configuration.
  *
  * @author Shamil Vakhitov
  */

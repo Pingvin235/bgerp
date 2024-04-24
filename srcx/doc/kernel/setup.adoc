@@ -114,8 +114,8 @@ event.process.timeout=5000
 # перечень через запятую динамических или обычных классов, объекты которых создаются при старте сервера, при перекомпиляции динамических классов создание объектов производится повторно
 #createOnStart=
 
-# <<#scheduler, планировщик>>, запуск - 1 [[config-scheduler]]
-scheduler.start=1
+# disable <<#scheduler, scheduler>> run [[config-scheduler]]
+#scheduler.start=0
 
 # maximal size of uploaded file in MB, default is 3
 #file.upload.max.size.mb=3
@@ -803,7 +803,7 @@ When *Wait of execution is done* is selected to Yes, execution logs can be obtai
 include::../skip_at_first.adocf[]
 
 Scheduler allows periodically run Java classes, which extend javadoc:org.bgerp.app.exec.scheduler.Task[].
-To configure scheduler tasks add the following blocks to server configuration:
+To configure scheduled tasks add the following blocks to server configuration:
 ----
 scheduler.task.<id>.class=<name>
 

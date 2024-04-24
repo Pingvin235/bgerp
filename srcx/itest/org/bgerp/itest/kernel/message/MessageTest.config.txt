@@ -46,6 +46,6 @@ messageType.100.class=MessageTypeNote
 # do not check empty subjects
 #messageType.100.check.empty.subject=0
 
-# scheduler task
+# scheduled task
 scheduler.task.messages.class=MessageExchange
 scheduler.task.messages.minutes=*/4

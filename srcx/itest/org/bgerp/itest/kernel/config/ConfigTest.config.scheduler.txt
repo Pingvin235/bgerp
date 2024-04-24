@@ -1,0 +1,8 @@
+
+# disable scheduler run
+#scheduler.start=0
+
+# scheduled task
+scheduler.task.news.class=News
+scheduler.task.news.hours=3
+scheduler.task.news.minutes=4

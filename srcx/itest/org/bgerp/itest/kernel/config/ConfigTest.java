@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.util.TimeUtils;
 
+@Test(groups = "config", dependsOnGroups = "dbInit")
 public class ConfigTest {
     // defined in configuration
     public static final int ROLE_EXECUTION_ID = 0;
@@ -18,7 +19,7 @@ public class ConfigTest {
 
     public static volatile int configMainId;
 
-    @Test(groups = "config", dependsOnGroups = "dbInit")
+    @Test
     public void initMainConfig() throws Exception {
         var con = DbTest.conRoot;
         var dao = new ConfigDAO(con);
@@ -34,5 +35,11 @@ public class ConfigTest {
         Assert.assertTrue(configMainId > 0);
 
         dao.setActiveGlobalConfig(configMainId);
+    }
+
+    @Test(dependsOnMethods = "initMainConfig")
+    public void initProcessNotificationConfig() throws Exception {
+        // two white spaces in the title for placing directly after Main
+        ConfigHelper.addIncludedConfig("Kernel  Scheduler", ResourceHelper.getResource(this, "config.scheduler.txt"));
     }
 }

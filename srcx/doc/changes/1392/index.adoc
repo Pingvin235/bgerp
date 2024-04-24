@@ -62,7 +62,7 @@ image::_res/8517_message_attachments.png[width="800"]
 <<../../kernel/setup.adoc#config, Limited>> size of uploaded files.
 
 === Scheduler Config
-Separated tool with configured Scheduler tasks, with possibility to run them.
+Separated tool with configured scheduled tasks, with possibility to run them.
 
 image::_res/14986_scheduler.png[width="800"]
 
