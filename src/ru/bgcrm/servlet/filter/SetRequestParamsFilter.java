@@ -31,7 +31,6 @@ import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
-import ru.bgcrm.util.sql.ConnectionSet;
 
 public class SetRequestParamsFilter implements Filter {
     public static final String REQUEST_KEY_LOCALIZER = "l";
@@ -45,10 +44,6 @@ public class SetRequestParamsFilter implements Filter {
         for (Map.Entry<String, Object> me : variables.entrySet())
             request.setAttribute(me.getKey(), me.getValue());
 
-        //TODO: Документировать и переместить в общую функцию
-        ConnectionSet conSet = new ConnectionSet(Setup.getSetup().getConnectionPool(), true);
-        request.setAttribute("ctxConSet", conSet);
-
         // 'l' object is set only for action calls and open URLs like /process/nnn, but not to JSP after them
         if (!ServletUtils.getRequestURI((HttpServletRequest) request).endsWith(".jsp") ||
                 // exception is the 'usermob' interface, where JSP templates might be called directly
@@ -58,8 +53,6 @@ public class SetRequestParamsFilter implements Filter {
         request.setAttribute("ui", UiFunction.INSTANCE);
 
         chain.doFilter(request, response);
-
-        conSet.recycle();
     }
 
     private Localizer getLocalizer(ServletRequest request) {
