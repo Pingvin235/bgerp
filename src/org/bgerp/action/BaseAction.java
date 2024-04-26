@@ -198,7 +198,7 @@ public class BaseAction extends DispatchAction {
 
             return sendError(form, sw.toString());
         } finally {
-            conSet.recycle();
+            conSet.close();
 
             if (Utils.notBlankString(action)) {
                 EventProcessor.processEvent(new ActionRequestEvent(request, action, permissionNode,

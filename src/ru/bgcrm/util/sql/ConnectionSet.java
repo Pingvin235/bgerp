@@ -12,7 +12,7 @@ import org.bgerp.app.db.sql.pool.fakesql.FakeConnection;
 import org.bgerp.util.Log;
 
 /**
- * Set with DB connections, taken from pools on demand.
+ * Set with DB connections, taken from a pool on demand.
  *
  * @author Amir Absalilov
  * @author Shamil Vakhitov
@@ -27,45 +27,32 @@ public class ConnectionSet {
     public final static int TYPE_TRASH = 3;
     public final static int TYPE_FAKE = 4;
 
-    protected boolean autoCommit;
-
-    /** Master connection is opened in the ConnectionSet and may be closed by it. */
+    /** Pool for getting new connections */
+    private final ConnectionPool pool;
+    /** Master connection is opened in the ConnectionSet and may be closed by it */
     private final boolean internalMaster;
-
-    private Connection masterConnection;
-    private Connection slaveConnection;
-
-    private Map<String, Connection[]> trashConnections;
-
-    private ConnectionPool setup;
-
-    protected ConnectionSet(Connection master) {
-        this.masterConnection = master;
-        this.internalMaster = false;
-    }
-
-    protected ConnectionSet(Connection master, final boolean autoCommit) {
-        this.masterConnection = master;
-        this.internalMaster = false;
-        this.autoCommit = autoCommit;
-
-        assert check(master, autoCommit);
-    }
+    /** Auto commit option for all the connections in the set */
+    private final boolean autoCommit;
+    /*
+        Master, slave and trash connection references below must be volatile.
+        As connection sets can be given to a separated thread, e.g. in EventProcessor,
+        links to initialized there connections should not be cached.
+    */
+    private volatile Connection masterConnection;
+    private volatile Connection slaveConnection;
+    private volatile Map<String, Connection[]> trashConnections;
 
     public ConnectionSet(ConnectionPool setup, boolean autoCommit) {
-        this.setup = setup;
+        this.pool = setup;
         this.internalMaster = true;
         this.autoCommit = autoCommit;
     }
 
-    private static boolean check(final Connection master, final boolean autoCommit) {
-        try {
-            return master == null || master.getAutoCommit() == autoCommit;
-        } catch (SQLException e) {
-            log.error(e);
-        }
-
-        return false;
+    protected ConnectionSet(Connection master) {
+        this.pool = null;
+        this.internalMaster = false;
+        this.autoCommit = false;
+        this.masterConnection = master;
     }
 
     /**
@@ -79,31 +66,14 @@ public class ConnectionSet {
         return masterConnection;
     }
 
-    protected Connection newMasterConnection() {
-        Connection result = setup.getDBConnectionFromPool();
+    private Connection newMasterConnection() {
+        Connection result = pool.getDBConnectionFromPool();
         try {
             if (result != null && result.getAutoCommit() != autoCommit) {
                 result.setAutoCommit(autoCommit);
             }
         } catch (SQLException ex) {
-            log.error(ex.getMessage(), ex);
-        }
-
-        return result;
-    }
-
-    protected Connection newSlaveConnection() {
-        return setup.getDBSlaveConnectionFromPool(getConnection());
-    }
-
-    protected Connection newTrashConnection(String tableName) {
-        Connection result = setup.getDBTrashConnectionFromPool(tableName, ConnectionPool.RETURN_NULL);
-        try {
-            if (result != null && result.getAutoCommit() != autoCommit) {
-                result.setAutoCommit(autoCommit);
-            }
-        } catch (SQLException ex) {
-            log.error(ex.getMessage(), ex);
+            log.error(ex);
         }
 
         return result;
@@ -123,6 +93,10 @@ public class ConnectionSet {
         }
 
         return slaveConnection;
+    }
+
+    private Connection newSlaveConnection() {
+        return pool.getDBSlaveConnectionFromPool(getConnection());
     }
 
     /**
@@ -174,7 +148,24 @@ public class ConnectionSet {
         return connection;
     }
 
-    public void commit() throws Exception {
+    private Connection newTrashConnection(String tableName) {
+        Connection result = pool.getDBTrashConnectionFromPool(tableName, ConnectionPool.RETURN_NULL);
+        try {
+            if (result != null && result.getAutoCommit() != autoCommit) {
+                result.setAutoCommit(autoCommit);
+            }
+        } catch (SQLException ex) {
+            log.error(ex);
+        }
+
+        return result;
+    }
+
+    /**
+     * Commits all the connections
+     * @throws SQLException
+     */
+    public void commit() throws SQLException {
         if (masterConnection != null) {
             if (!masterConnection.getAutoCommit()) {
                 masterConnection.commit();
@@ -196,8 +187,40 @@ public class ConnectionSet {
         }
     }
 
-    public void recycle() {
-        // закрываем трэш коннекшны, если они есть
+    /**
+     * Rolls back all the connections
+     */
+    public void rollback() {
+        if (trashConnections != null) {
+            for (Connection[] connections : trashConnections.values()) {
+                for (int i = 0, size = connections.length; i < size; i++) {
+                    Connection connection = connections[i];
+                    if (connection != null && connection != slaveConnection && connection != masterConnection) {
+                        try {
+                            connection.rollback();
+                        } catch (Exception e) {
+                            log.error(e);
+                        }
+                    }
+                }
+            }
+        }
+
+        // slaveConnection is always autoCommit = true
+
+        if (masterConnection != null) {
+            try {
+                masterConnection.rollback();
+            } catch (Exception e) {
+                log.error(e);
+            }
+        }
+    }
+
+    /**
+     * Closes all the connections
+     */
+    public void close() {
         if (trashConnections != null) {
             for (Connection[] connections : trashConnections.values()) {
                 for (int i = 0, size = connections.length; i < size; i++) {
@@ -219,9 +242,8 @@ public class ConnectionSet {
             trashConnections.clear();
         }
 
-        // закрываем слейв коннекшн, если он есть
         if (slaveConnection != null) {
-            // если slaveConnection и masterConnection - одно и тоже - закроем ниже только masterConnection
+            // if slaveConnection == masterConnection, only masterConnection will be closed later
             if (slaveConnection != masterConnection) {
                 try {
                     if (!slaveConnection.isClosed()) {
@@ -235,8 +257,8 @@ public class ConnectionSet {
             slaveConnection = null;
         }
 
-        // закрываем мастер коннекшн, если он есть и если он был открыт внутри этого ConnectionSet
         if (masterConnection != null) {
+            // closing masterConnection only if it was obtained internally in the ConnectionSet
             if (internalMaster) {
                 try {
                     if (!masterConnection.isClosed()) {
@@ -248,74 +270,6 @@ public class ConnectionSet {
             }
 
             masterConnection = null;
-        }
-    }
-
-    public boolean getAutoCommit() {
-        return this.autoCommit;
-    }
-
-    /**
-     * Sets autocommit property to all connections.
-     * @param autoCommit wanted value.
-     */
-    public void setAutoCommit(final boolean autoCommit) {
-        // трэш коннекшны, если они есть
-        if (trashConnections != null) {
-            for (Connection[] connections : trashConnections.values()) {
-                for (int i = 0, size = connections.length; i < size; i++) {
-                    Connection connection = connections[i];
-                    if (connection != null && connection != slaveConnection && connection != masterConnection) {
-                        try {
-                            connection.setAutoCommit(autoCommit);
-                        } catch (Exception e) {
-                            log.error(e);
-                        }
-                    }
-                }
-            }
-        }
-
-        // слейв коннекшн всегда autoCommit = true
-
-        // мастер коннекшн, если он есть
-        if (masterConnection != null) {
-            try {
-                masterConnection.setAutoCommit(autoCommit);
-            } catch (Exception e) {
-                log.error(e);
-            }
-        }
-
-        this.autoCommit = autoCommit;
-    }
-
-    public void rollback() {
-        // трэш коннекшны, если они есть
-        if (trashConnections != null) {
-            for (Connection[] connections : trashConnections.values()) {
-                for (int i = 0, size = connections.length; i < size; i++) {
-                    Connection connection = connections[i];
-                    if (connection != null && connection != slaveConnection && connection != masterConnection) {
-                        try {
-                            connection.rollback();
-                        } catch (Exception e) {
-                            log.error(e);
-                        }
-                    }
-                }
-            }
-        }
-
-        // слейв коннекшн всегда autoCommit = true
-
-        // мастер коннекшн, если он есть
-        if (masterConnection != null) {
-            try {
-                masterConnection.rollback();
-            } catch (Exception e) {
-                log.error(e);
-            }
         }
     }
 }
