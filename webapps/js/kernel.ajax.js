@@ -92,20 +92,20 @@ $$.ajax = new function () {
 	/**
 	 * Sends HTTP request and set result HTML on element.
 	 * @param {*} input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element.
-	 * @param {jQuery|String} $selector - selector, target area.
+	 * @param {HTMLElement|String|jQuery} target - target area element or selector of it.
 	 * @param {Deferred} options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
 	 * @param {Boolean} options.append  - append HTML into the element, deprecated.
 	 * @param {HtmlElement} options.control - will be passed to 'post' function.
 	 * @returns deferred element of the loading process.
 	 */
-	const load = (input, $selector, options) => {
-		debug("load", trim100(input), $selector);
+	const load = (input, target, options) => {
+		debug("load", trim100(input), target);
 
 		options = options || {};
 		options.html = true;
 
-		if (typeof $selector === 'string')
-			$selector = $($selector);
+		// wrapping around for case of String or HTML element
+		target = $(target);
 
 		// erasing of existing value, speeds up load process significantly in some cases
 		// the reason is not clear, was found in callboard, probably because of removing of onLoad listeners
@@ -157,24 +157,24 @@ $$.ajax = new function () {
 		}
 
 		if (!loadDfd) {
-			$selector.toggleClass("ajax-loading");
+			target.toggleClass("ajax-loading");
 			return post(input, options).done((result) => {
 				if (options.replace) {
-					$selector.replaceWith(result);
+					target.replaceWith(result);
 				} else if (options.append) {
-					$selector.append(result);
+					target.append(result);
 				} else {
-					$selector.html(result);
+					target.html(result);
 				}
 			}).always(() => {
-				$selector.toggleClass("ajax-loading");
+				target.toggleClass("ajax-loading");
 			});
 		} else {
-			const existingDfd = $selector.data(loadDfd.key);
+			const existingDfd = target.data(loadDfd.key);
 			if (existingDfd) {
 				if (existingDfd.state() === 'resolved') {
 					debug("Existing resolved dfd", existingDfd, input);
-					$selector.removeData(loadDfd.key);
+					target.removeData(loadDfd.key);
 				} else {
 					console.error("Existing not resolved dfd", existingDfd, input);
 					return existingDfd;
@@ -184,7 +184,7 @@ $$.ajax = new function () {
 			if (!dfd)
 				dfd = $.Deferred();
 
-			$selector
+			target
 				.addClass("loader")
 				.toggleClass("ajax-loading")
 				.data(loadDfd.key, loadDfd.create(dfd, input));
@@ -202,12 +202,12 @@ $$.ajax = new function () {
 					} </script>`;
 
 				if (options.append) {
-					$selector.append(result + afterLoadScript);
+					target.append(result + afterLoadScript);
 				} else {
-					$selector.html(result + afterLoadScript);
+					target.html(result + afterLoadScript);
 				}
 			}).always(() => {
-				$selector.toggleClass("ajax-loading");
+				target.toggleClass("ajax-loading");
 			});
 
 			return dfd;
