@@ -121,7 +121,7 @@ public class SetRequestParamsFilter implements Filter {
 
         result.put("ctxPluginManager", PluginManager.getInstance());
 
-        result.put("ctxUserCache", UserCache.INSTANCE);
+        result.put("ctxUserCache", UserCache.HOLDER.getInstance());
 
         result.put("ctxUserList", UserCache.getUserList());
         result.put("ctxUserMap", UserCache.getUserMap());

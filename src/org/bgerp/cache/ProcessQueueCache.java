@@ -14,12 +14,12 @@ import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
 
 public class ProcessQueueCache extends Cache<ProcessQueueCache> {
-    private static Log log = Log.getLog();
+    private static final Log log = Log.getLog();
 
-    private static CacheHolder<ProcessQueueCache> holder = new CacheHolder<>(new ProcessQueueCache());
+    private static final CacheHolder<ProcessQueueCache> HOLDER = new CacheHolder<>(new ProcessQueueCache());
 
     public static Queue getQueue(int id, User user) {
-        Queue result = holder.getInstance().queueMap.get(id);
+        Queue result = HOLDER.getInstance().queueMap.get(id);
         // фильтр по разрешённым очередям процессов
         if (result != null && user != null && !user.getQueueIds().contains(result.getId())) {
             result = null;
@@ -28,21 +28,21 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
     }
 
     public static Queue getQueue(int id) {
-        return holder.getInstance().queueMap.get(id);
+        return HOLDER.getInstance().queueMap.get(id);
     }
 
     public static Map<Integer, Queue> getQueueMap() {
-        return holder.getInstance().queueMap;
+        return HOLDER.getInstance().queueMap;
     }
 
     public static List<Queue> getQueueList() {
-        return holder.getInstance().queueList;
+        return HOLDER.getInstance().queueList;
     }
 
     public static List<Queue> getUserQueueList(User user) {
         List<Queue> result = new ArrayList<>();
 
-        for (Queue queue : holder.getInstance().queueList) {
+        for (Queue queue : HOLDER.getInstance().queueList) {
             if (user.getQueueIds().contains(queue.getId())) {
                 result.add(queue);
             }
@@ -52,10 +52,10 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
     }
 
     public static void flush(Connection con) {
-        holder.flush(con);
+        HOLDER.flush(con);
     }
 
-    // конец статической части
+    // end of static part
 
     private Map<Integer, Queue> queueMap;
     private List<Queue> queueList;

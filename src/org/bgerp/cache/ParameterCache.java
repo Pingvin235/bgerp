@@ -28,10 +28,10 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class ParameterCache extends Cache<ParameterCache> {
     private static final Log log = Log.getLog();
 
-    private static CacheHolder<ParameterCache> holder = new CacheHolder<>(new ParameterCache());
+    private static final CacheHolder<ParameterCache> HOLDER = new CacheHolder<>(new ParameterCache());
 
     public static Parameter getParameter(int id) {
-        return holder.getInstance().parameterMap.get(id);
+        return HOLDER.getInstance().parameterMap.get(id);
     }
 
     /**
@@ -40,7 +40,7 @@ public class ParameterCache extends Cache<ParameterCache> {
      * @return
      */
     public static List<Parameter> getObjectTypeParameterList(String objectType) {
-        return holder.getInstance().objectTypeParameters.getOrDefault(objectType, List.of());
+        return HOLDER.getInstance().objectTypeParameters.getOrDefault(objectType, List.of());
     }
 
 
@@ -52,9 +52,9 @@ public class ParameterCache extends Cache<ParameterCache> {
     public static List<Parameter> getObjectTypeParameterList(String objectType, int parameterGroupId) {
         List<Parameter> result = new ArrayList<>();
 
-        List<Parameter> paramList = holder.getInstance().objectTypeParameters.get(objectType);
+        List<Parameter> paramList = HOLDER.getInstance().objectTypeParameters.get(objectType);
         if (paramList != null) {
-            Set<Integer> paramIds = holder.getInstance().paramGroupParams.get(parameterGroupId);
+            Set<Integer> paramIds = HOLDER.getInstance().paramGroupParams.get(parameterGroupId);
             if (paramIds != null) {
                 for (Parameter p : paramList) {
                     if (paramIds.contains(p.getId())) {
@@ -77,7 +77,7 @@ public class ParameterCache extends Cache<ParameterCache> {
     public static List<Integer> getObjectTypeParameterIds(String objectType) {
         List<Integer> result = Collections.emptyList();
 
-        List<Parameter> paramList = holder.getInstance().objectTypeParameters.get(objectType);
+        List<Parameter> paramList = HOLDER.getInstance().objectTypeParameters.get(objectType);
         if (paramList != null)
             result = paramList.stream().map(Parameter::getId).collect(Collectors.toList());
 
@@ -93,7 +93,7 @@ public class ParameterCache extends Cache<ParameterCache> {
         List<Parameter> result = new ArrayList<>();
 
         for (Integer paramId : pids) {
-            result.add(holder.getInstance().parameterMap.get(paramId));
+            result.add(HOLDER.getInstance().parameterMap.get(paramId));
         }
 
         return result;
@@ -126,7 +126,7 @@ public class ParameterCache extends Cache<ParameterCache> {
      * @return
      */
     public static List<IdTitle> getListParamValues(final Parameter param) {
-        final ParameterCache instance = holder.getInstance();
+        final ParameterCache instance = HOLDER.getInstance();
 
         List<IdTitle> listValues = null;
 
@@ -210,7 +210,7 @@ public class ParameterCache extends Cache<ParameterCache> {
     }
 
     public static IdStringTitleTreeItem getTreeParamRootNode(Parameter param) {
-        return holder.getInstance().treeParamRootNodes.get(param.getId());
+        return HOLDER.getInstance().treeParamRootNodes.get(param.getId());
     }
 
     /**
@@ -247,11 +247,11 @@ public class ParameterCache extends Cache<ParameterCache> {
     }
 
     public static Map<Integer, Parameter> getParameterMap() {
-        return holder.getInstance().parameterMap;
+        return HOLDER.getInstance().parameterMap;
     }
 
     public static void flush(Connection con) {
-        holder.flush(con);
+        HOLDER.flush(con);
     }
 
     // конец статической части

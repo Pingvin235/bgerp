@@ -21,6 +21,7 @@ import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.task.Plugin;
 import ru.bgcrm.util.MailMsg;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
  * Sends to users info about their current states: unread messages, unprocessed news.
@@ -63,7 +64,7 @@ public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
             return;
         }
 
-        try (var con = Setup.getSetup().getConnectionPool().getDBSlaveConnectionFromPool()) {
+        try (var con = Setup.getSetup().getConnectionPool().getDBConnectionFromPool()) {
             ParamValueDAO paramDao = new ParamValueDAO(con);
 
             MailMsg msg = new MailMsg(Setup.getSetup());
@@ -77,7 +78,7 @@ public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
                     continue;
                 }
 
-                NewsInfoEvent event = UserNewsCache.getUserEvent(con, user.getId());
+                NewsInfoEvent event = UserNewsCache.getUserEvent(new SingleConnectionSet(con), user.getId());
                 log.info("Sending email to: {}", user.getLogin());
 
                 Map<String, Object> context = new HashMap<>(10);

@@ -15,7 +15,7 @@ public class NewsEventListener {
     }
 
     private void processEvent(ConnectionSet conSet, GetPoolTasksEvent e) throws Exception {
-        NewsInfoEvent event = UserNewsCache.getUserEvent(conSet.getConnection(), e.getUser().getId());
+        NewsInfoEvent event = UserNewsCache.getUserEvent(conSet, e.getUser().getId());
 
         if (VersionCheck.INSTANCE.isUpdateNeeded()) {
             event.version(e.getUser().checkPerm(AppAction.class.getName() + ":status"));

@@ -168,6 +168,24 @@
 	</item>
 
 	<item title="User">
+		<item title="Search">
+			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Search">
+				<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
+				<b>defaultForm</b> - default search form
+			</item>
+			<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Customer"/>
+			<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
+		</item>
+		<item title="News">
+			<item action="org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList" title="View" />
+			<item action="org.bgerp.action.NewsAction:newsSetRead, ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Mark as read" />
+			<item action="org.bgerp.action.NewsAction:newsSetAllRead, ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Mark all as read" />
+			<item action="org.bgerp.action.NewsAction:newsEdit, org.bgerp.action.NewsAction:newsUpdate, ru.bgcrm.struts.action.NewsAction:newsEdit, ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Edit">
+				<b>allowedGroupIds</b> - comma separated IDs of allowed user groups
+			</item>
+			<item action="org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete" title="Delete"/>
+			<item action="org.bgerp.action.NewsAction:newsGet" title="View a news" allowAll="1"/>
+		</item>
 		<item title="Customer">
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerGet" title="Открытие контрагента для изменения"/>
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerCreate" title="Создание контрагента"/>
@@ -310,14 +328,6 @@
 			</item>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
 		</item>
-		<item title="Search">
-			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Search">
-				<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
-				<b>defaultForm</b> - default search form
-			</item>
-			<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Customer"/>
-			<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
-		</item>
 		<item title="Справочник пользователей">
 			<item action="ru.bgcrm.struts.action.UserAction:userList" title="Получение списка пользователей"/>
 		</item>
@@ -337,18 +347,6 @@
 		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Pooling" allowAll="1" notLogging="1"/>
 		<item action="ru.bgcrm.struts.action.LockAction:add" title="Lock add" allowAll="1" notLogging="1"/>
 		<item action="ru.bgcrm.struts.action.LockAction:free" title="Lock free" allowAll="1" notLogging="1"/>
-
-		<item title="Новости">
-			<item action="ru.bgcrm.struts.action.NewsAction:newsList" title="Просмотр списка новостей" />
-			<item action="ru.bgcrm.struts.action.NewsAction:newsGet" title="Просмотр тела новости" allowAll="1"/>
-			<item action="ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Пометка новости прочитанной" />
-			<item action="ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Пометка всех новостей прочитанными" />
-			<item action="ru.bgcrm.struts.action.NewsAction:newsEdit" title="Открытие новости на правку"/>
-			<item action="ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Изменение новости">
-				<b>allowedGroupIds</b> - id групп через запятую, для которых разрешено добавление новостей<br/>
-			</item>
-			<item action="ru.bgcrm.struts.action.NewsAction:newsDelete" title="Удаление новости"/>
-		</item>
 
 		<item title="Профиль пользователя">
 			<item action="ru.bgcrm.struts.action.ProfileAction:getUserProfile" title="Просмотр профиля" allowAll="1"/>

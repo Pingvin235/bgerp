@@ -28,12 +28,12 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class ProcessTypeCache extends Cache<ProcessTypeCache> {
-    private static Log log = Log.getLog();
+    private static final Log log = Log.getLog();
 
-    private static CacheHolder<ProcessTypeCache> holder = new CacheHolder<>(new ProcessTypeCache());
+    private static final CacheHolder<ProcessTypeCache> HOLDER = new CacheHolder<>(new ProcessTypeCache());
 
     public static Map<Integer, ProcessType> getProcessTypeMap() {
-        return holder.getInstance().typeMap;
+        return HOLDER.getInstance().typeMap;
     }
 
     /**
@@ -42,7 +42,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
      * @return type instance or {@code null}.
      */
     public static ProcessType getProcessType(int id) {
-        return holder.getInstance().typeMap.get(id);
+        return HOLDER.getInstance().typeMap.get(id);
     }
 
     /**
@@ -70,7 +70,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     public static List<ProcessType> getTypeList(Set<Integer> ids) {
         List<ProcessType> result = new ArrayList<>();
 
-        for (ProcessType type : holder.getInstance().typeList) {
+        for (ProcessType type : HOLDER.getInstance().typeList) {
             if (ids.contains(type.getId())) {
                 result.add(type);
             }
@@ -83,7 +83,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         List<ProcessType> result = new ArrayList<>();
 
         var filter = new TypeFilter(objectType);
-        for (ProcessType type : holder.getInstance().typeList) {
+        for (ProcessType type : HOLDER.getInstance().typeList) {
             if (filter.check(type))
                 result.add(type);
         }
@@ -125,7 +125,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static ProcessType getTypeTreeRoot() {
-        return holder.getInstance().tree;
+        return HOLDER.getInstance().tree;
     }
 
     public static List<Status> getTypeStatusList(ProcessType type, int currentStatusId) {
@@ -145,11 +145,11 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static List<Status> getStatusList() {
-        return holder.getInstance().statusList;
+        return HOLDER.getInstance().statusList;
     }
 
     public static Map<Integer, Status> getStatusMap() {
-        return holder.getInstance().statusMap;
+        return HOLDER.getInstance().statusMap;
     }
 
     public static Status getStatusSafe(int statusId) {
@@ -165,7 +165,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         while (type.getParentId() != 0) {
             final int parentId = type.getParentId();
 
-            type = holder.getInstance().typeMap.get(parentId);
+            type = HOLDER.getInstance().typeMap.get(parentId);
             if (type == null) {
                 type = new ProcessType();
                 type.setTitle("??? [" + parentId + "]");
@@ -177,7 +177,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static void flush(Connection con) {
-        holder.flush(con);
+        HOLDER.flush(con);
     }
 
     // end of static

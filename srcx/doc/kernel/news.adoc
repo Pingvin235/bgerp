@@ -1,15 +1,31 @@
-= Новости
+= News
 :toc:
 
-== Новости
-Новости позволяют размещать информацию о значимых событиях для всех пользователей системы, либо только для некоторых групп.
-Количество непрочитанных новостей фигурирует в числе, отображающемся рядом с именем пользователя.
-При изменении количества непрочитанных новостей число начинает мигать.
+[[about]]
+== About
+The News provide built-in notification system, allowing to send messages over application's users.
 
-image::_res/i0117.png[]
+[[setup]]
+== Setup
+To mark news read by timeout or delete them, for <<setup.adoc#scheduler, scheduler>> have to be configured running class *News* once a day.
 
-Новость может быть помечена всплывающей, тогда она будет отображена в виде всплывающего окна. В тексте новости допустима HTML разметка.
+[[usage]]
+== Usage
+News may be listed and added via a separated tool. Every news can be read once by every recipient, by default only unread news are shown.
 
-== Настройки
-Для пометки новостей прочитанными по таймауту, либо их удаления в <<setup.adoc#scheduler, планировщике>> должен быть
-настроен запуск класса *News* раз в сутки.
+image::_res/news/news.png[width="800"]
+
+When adding a news, you have to define a title and text, which can contain HTML markup.
+News recipients can be restricted from all active users to only members of groups, selected in the right area.
+
+image::_res/news/news_create.png[width="800"]
+
+A news can be defined as *Popup* or *Regular*. The first type is shown for all targeted recipients in popping up windows, after that is treated as read.
+
+image::_res/news/news_popup.png[]
+
+Regular news do not bother users else as with blinking counter of unread messages in the top right corner.
+
+image::_res/news/news_counter.png[]
+
+Clicking on that brings the user to the list of unread news.

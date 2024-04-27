@@ -38,7 +38,7 @@ public class UserAction extends BaseAction {
             throw new BGMessageException("Account isn't registered");
 
         // непрочитанные новости и сообщения
-        NewsInfoEvent event = UserNewsCache.getUserEvent(conSet.getConnection(), account.getObjectId());
+        NewsInfoEvent event = UserNewsCache.getUserEvent(conSet, account.getObjectId());
         form.setResponseData("news", event);
 
         // счётчики

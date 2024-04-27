@@ -13,23 +13,24 @@ import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class CustomerGroupCache extends Cache<CustomerGroupCache> {
-    private static Log log = Log.getLog();
+    private static final Log log = Log.getLog();
 
-    private static CacheHolder<CustomerGroupCache> holder = new CacheHolder<>(new CustomerGroupCache());
+    private static final CacheHolder<CustomerGroupCache> HOLDER = new CacheHolder<>(new CustomerGroupCache());
 
     public static List<CustomerGroup> getGroupList() {
-        return holder.getInstance().groupList;
+        return HOLDER.getInstance().groupList;
     }
 
     public static Map<Integer, CustomerGroup> getGroupMap() {
-        return holder.getInstance().groupMapById;
+        return HOLDER.getInstance().groupMapById;
     }
 
     public static void flush(Connection con) {
-        holder.flush(con);
+        HOLDER.flush(con);
     }
 
-    // конец статической части
+    // end of static part
+
     private List<CustomerGroup> groupList;
     private Map<Integer, CustomerGroup> groupMapById;
 

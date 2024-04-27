@@ -33,9 +33,7 @@ import ru.bgcrm.util.TimeUtils;
 public class UserCache extends Cache<UserCache> {
     private static final Log log = Log.getLog();
 
-    public static final UserCache INSTANCE = new UserCache();
-
-    private static final CacheHolder<UserCache> HOLDER = new CacheHolder<>(INSTANCE);
+    public static final CacheHolder<UserCache> HOLDER = new CacheHolder<>(new UserCache());
     public static final ConfigMap EMPTY_PERMISSION = new Preferences();
 
     public static User getUser(final int id) {
@@ -301,14 +299,11 @@ public class UserCache extends Cache<UserCache> {
 
     private Map<Integer, Map<String, ConfigMap>> userPermMap;
 
-    private UserCache result;
-
     private Map<Integer, List<UserGroup>> userGroupListsMap;
 
-    @SuppressWarnings("serial")
     @Override
     protected UserCache newInstance() {
-        result = new UserCache();
+        UserCache result = new UserCache();
 
         final Setup setup = Setup.getSetup();
 
@@ -445,7 +440,7 @@ public class UserCache extends Cache<UserCache> {
                 final StringBuilder groupConfig = new StringBuilder(500);
 
                 for (final Group group : userGroupList) {
-                    addGroupConfig(group.getId(), groupConfig);
+                    addGroupConfig(result.userGroupMap, group.getId(), groupConfig);
                 }
 
                 user.setConfig(permsetConfig.toString() + groupConfig.toString() + user.getConfig());
@@ -509,18 +504,17 @@ public class UserCache extends Cache<UserCache> {
         return activeGroupSet;
     }
 
-    private void addGroupConfig(final Integer groupId, final StringBuilder config) {
-        final Group group = result.userGroupMap.get(groupId);
+    private void addGroupConfig(Map<Integer, Group> userGroupMap, Integer groupId, StringBuilder config) {
+        final Group group = userGroupMap.get(groupId);
 
         if (group != null) {
             final Integer parentId = group.getParentId();
             if (parentId > 0) {
-                addGroupConfig(parentId, config);
+                addGroupConfig(userGroupMap, parentId, config);
             }
 
             config.append(group.getConfig());
             config.append("\n");
         }
     }
-
 }

@@ -123,9 +123,6 @@ event.process.timeout=5000
 # remove log/access logs older than days, default is 60
 #log.access.max.days=60
 
-# сброс кэша новостей каждые указанное количество секунд, может быть необходимо лишь при импорте новостей извне в БД
-#flush.news.everySeconds=
-
 # 1 - база доступна только на чтение, отключение записи логов и сохранения параметров интерфейса
 #db.readonly=1
 ====

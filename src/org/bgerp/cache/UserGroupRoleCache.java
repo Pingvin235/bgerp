@@ -14,26 +14,26 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class UserGroupRoleCache extends Cache<UserGroupRoleCache> {
-    private static CacheHolder<UserGroupRoleCache> holder = new CacheHolder<>(new UserGroupRoleCache());
+    private static final CacheHolder<UserGroupRoleCache> HOLDER = new CacheHolder<>(new UserGroupRoleCache());
 
     static {
         EventProcessor.subscribe(new EventListener<>() {
             @Override
             public void notify(SetupChangedEvent e, ConnectionSet connectionSet) {
-                holder.flush(connectionSet.getConnection());
+                HOLDER.flush(connectionSet.getConnection());
             }
         }, SetupChangedEvent.class);
     }
 
     public static List<IdTitle> getUserGroupRoleList() {
-        return holder.getInstance().userGroupRoleList;
+        return HOLDER.getInstance().userGroupRoleList;
     }
 
     public static Map<Integer, IdTitle> getUserGroupRoleMap() {
-        return holder.getInstance().userGroupRoleMap;
+        return HOLDER.getInstance().userGroupRoleMap;
     }
 
-    // конец статической части
+    // end of static part
 
     private Map<Integer, IdTitle> userGroupRoleMap;
     private List<IdTitle> userGroupRoleList;

@@ -1,0 +1,2 @@
+B: Deleted support of 'flush.news.everySeconds' configuration key.
+B: Refactoring of caches, no flush for UserNewsCache. https://bgerp.org/version/3.0/doc/kernel/news.html

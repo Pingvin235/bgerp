@@ -16,13 +16,13 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/user/pool")
 public class PoolAction extends BaseAction {
     @Override
-    public ActionForward unspecified(DynActionForm form, ConnectionSet con) throws Exception {
-        EventProcessor.processEvent(new GetPoolTasksEvent(form), con);
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        EventProcessor.processEvent(new GetPoolTasksEvent(form), conSet);
 
         HttpSession session = form.getHttpRequest().getSession(false);
         if (session != null && !LoginStat.instance().isSessionValid(session))
             session.invalidate();
 
-        return json(con, form);
+        return json(conSet, form);
     }
 }

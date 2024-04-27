@@ -1,19 +1,21 @@
 package org.bgerp.cache;
 
 import java.sql.Connection;
-import java.util.Date;
 
-import org.apache.commons.lang3.time.DateUtils;
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.util.sql.SQLUtils;
 
+/**
+ * Cache holder
+ * @param <C> the class of held cache
+ * @author Amir Absalilov
+ */
 public class CacheHolder<C extends Cache<C>> {
+    private Log log = Log.getLog(this.getClass());
+
     private C factory;
     private volatile C cache;
-    private volatile Date lastAccess;
-
-    private Logger log = Logger.getLogger(this.getClass());
 
     public CacheHolder(C factory) {
         this.factory = factory;
@@ -21,10 +23,9 @@ public class CacheHolder<C extends Cache<C>> {
 
     public C getInstance() {
         synchronized (factory) {
-            if (cache == null || !DateUtils.isSameDay(lastAccess, new Date())) {
-                log.debug("cache newInstance");
+            if (cache == null || !cache.isValid()) {
+                log.info("Creating new cache instance");
                 cache = factory.newInstance();
-                lastAccess = new Date();
             }
         }
         return cache;
@@ -33,6 +34,5 @@ public class CacheHolder<C extends Cache<C>> {
     public void flush(Connection con) {
         SQLUtils.commitConnection(con);
         cache = null;
-        lastAccess = null;
     }
 }
