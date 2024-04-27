@@ -1,6 +1,5 @@
 package org.bgerp.util.sql;
 
-import java.io.Closeable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +23,7 @@ import ru.bgcrm.util.sql.SQLUtils;
  *
  * @author Shamil Vakhitov
  */
-public class PreparedQuery implements Closeable {
+public class PreparedQuery implements AutoCloseable {
     private static final Log log = Log.getLog();
 
     private Connection con;

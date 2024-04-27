@@ -45,7 +45,7 @@
 	}
 	finally
 	{
-		conSet.recycle();
+		conSet.close();
 	}
 %>
 

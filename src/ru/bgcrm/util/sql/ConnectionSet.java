@@ -17,7 +17,7 @@ import org.bgerp.util.Log;
  * @author Amir Absalilov
  * @author Shamil Vakhitov
  */
-public class ConnectionSet {
+public class ConnectionSet implements AutoCloseable {
     private static final Log log = Log.getLog();
 
     public static final String KEY = "conSet";
@@ -220,6 +220,7 @@ public class ConnectionSet {
     /**
      * Closes all the connections
      */
+    @Override
     public void close() {
         if (trashConnections != null) {
             for (Connection[] connections : trashConnections.values()) {
@@ -271,5 +272,13 @@ public class ConnectionSet {
 
             masterConnection = null;
         }
+    }
+
+    /**
+     * Use {@link #close()}
+     */
+    @Deprecated
+    public void recycle() {
+        log.warndMethod("recycle", "close");
     }
 }
