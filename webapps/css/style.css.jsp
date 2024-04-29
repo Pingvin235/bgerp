@@ -27,6 +27,8 @@ time, mark, audio, video {
 	vertical-align: middle;
 }
 
+<%@ include file="style.color.css.jsp"%>
+
 ol, ul {
 	list-style: none;
 }
@@ -41,7 +43,7 @@ body * {
 }
 
 a {
-	color: #005589;
+	color: var(--link-color);
 }
 
 @media all
@@ -73,7 +75,7 @@ body > #content {
 }
 
 body > #content h1 {
-	color: #005589;
+	color: var(--link-color);
 	font-weight: bold;
 	margin: 1em 0 0.5em 0;
 	font-size: 1.1em;
@@ -110,18 +112,16 @@ body > #content p {
 	font-size: 1.1em;
 }
 
-/*.red {
-	font-size: 1.3em;
-	color: #ff0000;
-	margin: 0 0.3em;
-}*/
-
 .bold {
 	font-weight: bold;
 }
 
 .normal {
 	font-weight: normal;
+}
+
+.normal a {
+	color: var(--link-color);
 }
 
 .center1020 {

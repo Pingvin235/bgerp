@@ -69,7 +69,7 @@
 	text-decoration: none !important;
 	border-bottom: 1px dashed;
 	font-weight: bold;
-	color: #005589;
+	color: var(--link-color);
 }
 
 #head >	* {

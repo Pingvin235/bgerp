@@ -4,7 +4,7 @@
 <h1>Headers and Text</h1>
 
 <div>
-	<h1>Header Level 1</h1>
+	<h1>Header Level 1 <span class="normal">[<a href="#">action</a>]</span></h1>
 
 	<h2>Header Level 2 <span class="normal">[<a href="#">action</a>]</span></h2>
 

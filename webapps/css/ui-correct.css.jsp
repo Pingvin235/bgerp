@@ -66,7 +66,7 @@
 .ui-datepicker-calendar .ui-state-default,
 .ui-datepicker-calendar .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
 	background: none;
-	background-color: ${UI_TABLE_HEAD_BACKGROUND_COLOR};
+	background-color: var(--table-head-bg-color);
 	color: #448DAE;
 }
 

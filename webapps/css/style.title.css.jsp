@@ -12,7 +12,7 @@
 }
 
 #title h1 {
-	color: #005589;
+	color: var(--link-color);
 	font-size: 2em;
 }
 
@@ -80,7 +80,7 @@
 }
 
 #title #objectBuffer div.text-pref, #title #objectBuffer div.text-pref span, #title #objectBuffer li span.title {
-	color: #005589;
+	color: var(--link-color);
 	font-size: 1.1em;
 	font-weight: bold;
 	white-space: nowrap;

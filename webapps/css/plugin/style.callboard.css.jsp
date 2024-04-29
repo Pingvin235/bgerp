@@ -128,7 +128,7 @@
 }
 
 #callboard-workplan .plan table.workTypeTime > tbody > tr > td:not(:last-child) {
-	border-right: 1px solid ${UI_TABLE_BORDER_COLOR};
+	border-right: 1px solid var(--table-border-color);
 }
 
 #callboard-workplan .plan table.workTypeTime > tbody > tr > td {

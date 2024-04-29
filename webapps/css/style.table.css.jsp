@@ -1,8 +1,5 @@
 <%@ page contentType="text/css; charset=UTF-8"%>
 
-<c:set var="UI_TABLE_BORDER_COLOR" value="#cadee9"/>
-<c:set var="UI_TABLE_HEAD_BACKGROUND_COLOR" value="#eaf3f9"/>
-
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -30,7 +27,7 @@ table.hdata > thead > tr > td,
 table.hdata > tbody > tr > td,
 table.data > tbody > tr > td {
 	color: #505050;
-	border: 1px solid ${UI_TABLE_BORDER_COLOR};
+	border: 1px solid var(--table-border-color);
 }
 
 table.hdata > thead > tr > td,
@@ -39,7 +36,7 @@ table.hdata > tbody > tr > td.header,
 table.hdata > tbody > tr.header > td,
 table.data > tbody > tr:nth-child(1) > td {
 	color: #346484;
-	border: 1px solid ${UI_TABLE_BORDER_COLOR};
+	border: 1px solid var(--table-border-color);
 	background-color: #eaf3f9;
 }
 
@@ -55,7 +52,7 @@ table.fixed-header tr:nth-child(1) td {
 }
 
 .border-table {
-	border: 1px solid ${UI_TABLE_BORDER_COLOR};
+	border: 1px solid var(--table-border-color);
 }
 
 td.min {
