@@ -28,35 +28,59 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
-public class ContractObjectDAO
-    extends BillingDAO {
-    private static final String CONTRACT_OBJECT_MODULE_ID = "contract.object";
-
-    public ContractObjectDAO(User user, String billingId)
-            {
+public class ContractObjectDAO extends BillingDAO {
+    public ContractObjectDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    public ContractObjectDAO(User user, DBInfo dbInfo)
-            {
+    public ContractObjectDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
-    public ContractObject getContractObject(int objectId)
-            {
+    public List<ContractObject> getContractObjects(int contractId) {
+        List<ContractObject> objects = new ArrayList<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
-                    "ContractObjectService",
-                    "contractObjectGetById");
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService", "contractObjectList");
+            req.setParam("contractId", contractId);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            objects = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractObject.class));
+            Map<Integer, String> types = getContractObjectsTypes();
+            objects.forEach(o -> o.setType(types.get(o.getTypeId())));
+        } else {
+            Request request = new Request();
+            request.setModule("contract.object");
+            request.setAction("ObjectTable");
+            request.setContractId(contractId);
+
+            Document doc = transferData.postData(request, user);
+
+            for (Element e : XMLUtils.selectElements(doc, "/data/table/data/row")) {
+                ContractObject object = new ContractObject();
+                object.setId(Utils.parseInt(e.getAttribute("id")));
+                object.setTitle(Utils.maskNull(e.getAttribute("title")));
+                object.setTypeId(Utils.parseInt(e.getAttribute("type_id")));
+                object.setType(Utils.maskNull(e.getAttribute("type")));
+                object.setPeriod(Utils.maskNull(e.getAttribute("period")));
+                objects.add(object);
+            }
+        }
+
+        return objects;
+    }
+
+    public ContractObject getContractObject(int contractId, int objectId) {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService", "contractObjectGetById");
+            req.setParam("contractId", contractId);
             req.setParam("objectId", objectId);
             JsonNode ret = transferData.postDataReturn(req, user);
             ContractObject contractObject = jsonMapper.convertValue(ret, ContractObject.class);
-            Map<Integer, String> contractObjectsType = getContractObjectsType();
-            contractObject.setType(contractObjectsType.get(contractObject.getTypeId()));
+            Map<Integer, String> types = getContractObjectsTypes();
+            contractObject.setType(types.get(contractObject.getTypeId()));
             return contractObject;
         } else {
             Request request = new Request();
-            request.setModule(CONTRACT_OBJECT_MODULE_ID);
+            request.setModule("contract.object");
             request.setAction("ObjectGet");
             request.setAttribute("id", objectId);
 
@@ -78,10 +102,12 @@ public class ContractObjectDAO
                     SimpleDateFormat dateFormatter = new SimpleDateFormat(TimeUtils.PATTERN_DDMMYYYY);
 
                     String dateFrom = rowElement.getAttribute("date1");
-                    if (Utils.notBlankString(dateFrom)) object.setDateFrom(dateFormatter.parse(dateFrom));
+                    if (Utils.notBlankString(dateFrom))
+                        object.setDateFrom(dateFormatter.parse(dateFrom));
 
                     String dateTo = rowElement.getAttribute("date2");
-                    if (Utils.notBlankString(dateTo)) object.setDateTo(dateFormatter.parse(dateTo));
+                    if (Utils.notBlankString(dateTo))
+                        object.setDateTo(dateFormatter.parse(dateTo));
                 } catch (ParseException e) {
                     throw new BGException(e);
                 }
@@ -91,10 +117,9 @@ public class ContractObjectDAO
         }
     }
 
-    public ContractObjectModuleInfo contractObjectModuleList(int objectId)
-            {
+    public ContractObjectModuleInfo contractObjectModuleList(int objectId) {
         Request request = new Request();
-        request.setModule(CONTRACT_OBJECT_MODULE_ID);
+        request.setModule("contract.object");
         request.setAction("ObjectModuleTable");
         request.setAttribute("object_id", objectId);
 
@@ -134,16 +159,14 @@ public class ContractObjectDAO
         return moduleInfo;
     }
 
-    public void deleteContractObject(int contractId, int objectId)
-            {
+    public void deleteContractObject(int contractId, int objectId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
-                    "ContractObjectService", "contractObjectDelete");
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService", "contractObjectDelete");
             req.setParam("objectId", objectId);
             transferData.postDataReturn(req, user);
         } else {
             Request request = new Request();
-            request.setModule(CONTRACT_OBJECT_MODULE_ID);
+            request.setModule("contract.object");
             request.setAction("ObjectDelete");
             request.setAttribute("id", objectId);
             request.setContractId(contractId);
@@ -152,51 +175,28 @@ public class ContractObjectDAO
         }
     }
 
-    public void updateContractObject(ContractObject object)
-            {
-        updateContractObject(object.getId(),
-                object.getTitle(),
-                object.getDateFrom(),
-                object.getDateTo(),
-                object.getTypeId(),
-                0);
-    }
-
-    public void createContractObject(ContractObject object, int contractId)
-            {
-        object.setId(updateContractObject(object.getId(),
-                object.getTitle(),
-                object.getDateFrom(),
-                object.getDateTo(),
-                object.getTypeId(),
-                contractId));
-    }
-
-    public int updateContractObject(int objectId, String title, Date dateFrom, Date dateTo, int typeId, int contractId)
-            {
+    public int updateContractObject(int contractId, int objectId, int typeId, String title, Date dateFrom, Date dateTo) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             ContractObject contractObject = new ContractObject();
             contractObject.setContractId(contractId);
             contractObject.setId(objectId);
+            contractObject.setTypeId(typeId);
             contractObject.setTitle(title);
             contractObject.setDateFrom(dateFrom);
             contractObject.setDateTo(dateTo);
-            contractObject.setTypeId(typeId);
 
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
-                    "ContractObjectService",
-                    "contractObjectUpdate");
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService", "contractObjectUpdate");
+            req.setParamContractId(contractId);
             req.setParam("contractObject", contractObject);
-            JsonNode ret = transferData.postDataReturn(req, user);
-            return ret.asInt();
+
+            return transferData.postDataReturn(req, user).asInt();
         } else {
             SimpleDateFormat dateFormatter = new SimpleDateFormat(TimeUtils.PATTERN_DDMMYYYY);
             Request request = new Request();
-            request.setModule(CONTRACT_OBJECT_MODULE_ID);
+            request.setModule("contract.object");
             request.setAction("ObjectUpdate");
             request.setAttribute("id", objectId);
             request.setAttribute("title", Utils.maskNull(title));
-            request.setAttribute("type", typeId);
 
             if (dateFrom != null) {
                 request.setAttribute("date1", dateFormatter.format(dateFrom));
@@ -214,47 +214,11 @@ public class ContractObjectDAO
         }
     }
 
-    public List<ContractObject> getContractObjects(int contractId)
-            {
-        List<ContractObject> objects = new ArrayList<>();
-        if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService",
-                    "contractObjectList");
-            req.setParam("contractId", contractId);
-            JsonNode ret = transferData.postDataReturn(req, user);
-            objects = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractObject.class));
-            Map<Integer, String> contractObjectsType = getContractObjectsType();
-            objects.forEach(o->o.setType(contractObjectsType.get(o.getTypeId())));
-
-        } else {
-
-            Request request = new Request();
-            request.setModule(CONTRACT_OBJECT_MODULE_ID);
-            request.setAction("ObjectTable");
-            request.setContractId(contractId);
-
-            Document doc = transferData.postData(request, user);
-
-            for (Element e : XMLUtils.selectElements(doc, "/data/table/data/row")) {
-                ContractObject object = new ContractObject();
-                object.setId(Utils.parseInt(e.getAttribute("id")));
-                object.setTitle(Utils.maskNull(e.getAttribute("title")));
-                object.setTypeId(Utils.parseInt(e.getAttribute("type_id")));
-                object.setType(Utils.maskNull(e.getAttribute("type")));
-                object.setPeriod(Utils.maskNull(e.getAttribute("period")));
-                objects.add(object);
-            }
-        }
-
-        return objects;
-    }
-
-    public Map<Integer, String> getContractObjectsType()
-            {
-        List<ContractObject> objects = new ArrayList<>();
-        if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ObjectTypeService",
-                    "objectTypeList");
+    public Map<Integer, String> getContractObjectsTypes() {
+        if (dbInfo.versionCompare("8.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
+                dbInfo.versionCompare("9.2") >= 0 ? "ContractObjectService" : "ObjectTypeService",
+                "objectTypeList");
             req.setParam("onlyVisible", false);
             JsonNode ret = transferData.postDataReturn(req, user);
             List<IdTitle> list = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));

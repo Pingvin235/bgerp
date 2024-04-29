@@ -1,53 +1,52 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="objectInfo" value="${form.param.billingId}-${form.param.contractId}-objectInfo"/>
+<c:set var="uiid" value="${u:uiid()}"/>
+<c:set var="currentElement" value="document.getElementById('${uiid}').parentElement"/>
 
-<div id="${objectInfo}">
-	<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-		<c:param name="action" value="addContractObject"/>
-		<c:param name="billingId" value="${form.param.billingId }" />
-		<c:param name="contractId" value="${form.param.contractId}" />
-		<c:param name="returnUrl" value="${form.requestUrl}" />
-	</c:url>
-	<button type="button" class="btn-green" value="Добавить объект" onclick="alert('Функционал скоро будет')">+</button>
+<c:url var="editUrl" value="${form.httpRequestURI}">
+	<c:param name="action" value="getContractObject"/>
+	<c:param name="billingId" value="${form.param.billingId }" />
+	<c:param name="contractId" value="${form.param.contractId}" />
+	<c:param name="returnUrl" value="${form.requestUrl}" />
+</c:url>
+<%--
+contract objects are seem to be no longer supported, thus no adding functionality implemented
+<ui:button type="add" styleClass="mb05" onclick="$$.ajax.load('${editUrl}', ${currentElement})"/>
+--%>
 
-	<table class="data mt1" width="100%">
-		<tr class="header">
-			<td></td>
-			<td>ID</td>
-			<td>Период</td>
-			<td>Название</td>
-			<td>Тип</td>
+<c:url var="deleteUrl" value="${form.httpRequestURI}">
+	<c:param name="action" value="deleteContractObject"/>
+	<c:param name="billingId" value="${form.param.billingId }" />
+	<c:param name="contractId" value="${form.param.contractId}" />
+</c:url>
+
+<table id="${uiid}" class="data hl">
+	<tr>
+		<td></td>
+		<td>ID</td>
+		<td>Период</td>
+		<td>Название</td>
+		<td>Тип</td>
+	</tr>
+	<c:forEach var="object" items="${frd.objectList}">
+		<tr>
+			<td nowrap="nowrap">
+				<c:url var="url" value="${editUrl}">
+					<c:param name="objectId" value="${object.getId()}"/>
+					<c:param name="objectType" value="${object.getType()}"/>
+				</c:url>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${url}', ${currentElement})"/>
+
+				<c:url var="url" value="${deleteUrl}">
+					<c:param name="objectId" value="${object.getId()}"/>
+				</c:url>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${form.requestUrl}', ${currentElement}))"/>
+			</td>
+			<td>${object.getId()}</td>
+			<td nowrap="nowrap">${object.getPeriod()}</td>
+			<td width="100%">${object.getTitle()}</td>
+			<td nowrap="nowrap">${object.getType()}</td>
 		</tr>
-
-		<c:forEach var="object" items="${frd.objectList}">
-				<tr>
-					<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-						<c:param name="action" value="getContractObject"/>
-						<c:param name="billingId" value="${form.param.billingId }" />
-						<c:param name="contractId" value="${form.param.contractId}" />
-						<c:param name="objectId" value="${object.getId()}"/>
-						<c:param name="objectType" value="${object.getType()}"/>
-						<c:param name="returnUrl" value="${form.requestUrl}" />
-					</c:url>
-					<c:set var="editCommand" value="$$.ajax.load('${url}', $('#${objectInfo}') )"/>
-
-					<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contract.do">
-						<c:param name="action" value="deleteContractObject"/>
-						<c:param name="billingId" value="${form.param.billingId }" />
-						<c:param name="contractId" value="${form.param.contractId}" />
-						<c:param name="objectId" value="${object.getId()}"/>
-					</c:url>
-					<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}',$('#${objectInfo}'))"/>
-					<td nowrap="nowrap">
-						<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
-					</td>
-					<td>${object.getId()}</td>
-					<td nowrap="nowrap">${object.getPeriod()}</td>
-					<td width="100%">${object.getTitle()}</td>
-					<td nowrap="nowrap">${object.getType()}</td>
-				</tr>
-		</c:forEach>
-	</table>
-</div>
+	</c:forEach>
+</table>

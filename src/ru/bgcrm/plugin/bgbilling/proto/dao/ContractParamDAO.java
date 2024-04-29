@@ -282,7 +282,6 @@ public class ContractParamDAO extends BillingDAO {
         return treeValues;
     }
 
-
     public ParamEmailValue getEmailParam(int contractId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
 

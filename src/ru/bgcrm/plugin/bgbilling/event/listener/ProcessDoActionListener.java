@@ -15,7 +15,6 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
@@ -62,7 +61,7 @@ public class ProcessDoActionListener {
                 return;
             }
 
-            ParameterAddressValue address = ContractObjectParamDAO.toCrmObject(billingAddress, conSet.getConnection());
+            ParameterAddressValue address = billingAddress.toParameterAddressValue(conSet.getConnection());
 
             if (address.getHouseId() != 0 || Utils.notBlankString(address.getValue())) {
                 new ParamValueDAO(conSet.getConnection()).updateParamAddress(process.getId(), crmParamId, 0, address);

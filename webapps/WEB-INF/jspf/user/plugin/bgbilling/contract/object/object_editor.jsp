@@ -2,73 +2,56 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
-<h2>Редактор</h2>
 
-<input type="button" value="Назад к списку объектов" onclick="$$.ajax.load( '${form.param.returnUrl}',  $('#${form.param.billingId }-${form.param.contractId }-objectInfo'))"/>
-</br>
+<h1>
+	Редактор <span class="normal">[<a href="#" onclick="$$.ajax.load('${form.returnUrl}', document.getElementById('${uiid}').parentElement); return false;">закрыть</a>]</span>
+</h1>
 
-<form action="/user/plugin/bgbilling/proto/contract.do">
+<form id="${uiid}" action="${form.httpRequestURI}" class="mb1">
 	<c:set var="object" value="${frd.object}"/>
 
 	<input type="hidden" name="action" value="updateContractObject"/>
-	<input type="hidden" name="objectId" value="${object.id }"/>
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 	<input type="hidden" name="contractId" value="${form.param.contractId}"/>
-
+	<input type="hidden" name="objectId" value="${object.id}"/>
 	<input type="hidden" name="typeId" value="${object.typeId}"/>
 
-	<div style="display:table;width:100%;white-space:nowrap">
-		<div style="display:table-cell;" nowrap="nowrap">
+	<div style="display: flex;">
+		<div class="nowrap">
 			Период c
 			<ui:date-time paramName="dateFrom" value="${tu.format(object.dateFrom, 'ymd')}"/>
 			по
 			<ui:date-time paramName="dateTo" value="${tu.format(object.dateTo, 'ymd')}"/>
-
-			Название:
+			Название&nbsp;
 		</div>
-
-		<div style="display:table-cell;width:100%">
-			<input type="text" style="width:100%" name="title" value="${object.title}"/>
-		</div>
-
-		<div style="display:table-cell">
-			Тип:
-		</div>
-
-		<div style="display:table-cell">
-			<input type="text" style="width:100%" value="${object.type}" readOnly/>
-		</div>
-
-		<div style="display:table-cell">
-			<input type="button" value="Применить" onclick="$$.ajax.post(this.form).done(() => alert('Изменения произведены успешно!'))"/>
-		</div>
+		<input type="text" style="width: 100%;" name="title" value="${object.title}"/>
+		<button class="btn-grey ml1" onclick="$$.ajax.post(this).done(() => alert('Изменения произведены успешно!'))">Применить</button>
 	</div>
 </form>
 
-<script>
-     $(function() {
-         var $objectEditorTabs = $( "#objectEditorTabs-${form.param.billingId}-${form.param.contractId}-Tabs" ).tabs( {spinner: '', refreshButton:true} );
-
-         <c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-		  	<c:param name="action" value="contractObjectParameterList"/>
-		  	<c:param name="billingId" value="${form.param.billingId}"/>
-		  	<c:param name="contractId" value="${form.param.contractId}"/>
-		  	<c:param name="objectId" value="${form.param.objectId}"/>
-		  	<c:param name="returnUrl" value="${form.param.returnUrl}"/>
-		  </c:url>
-	      $objectEditorTabs.tabs( "add", "${url}", "Параметры объекта" );
-
-	      <c:url var="url" value="/user/empty.do">
-		  	<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/contract/object/object_module_list.jsp"/>
-		  	<c:param name="billingId" value="${form.param.billingId}"/>
-		  	<c:param name="contractId" value="${form.param.contractId}"/>
-		  	<c:param name="objectId" value="${form.param.objectId}"/>
-		  	<c:param name="returnUrl" value="${form.param.returnUrl}"/>
-		  </c:url>
-		  $objectEditorTabs.tabs( "add", "${url}", "Модули объекты" );
-     });
-</script>
-
-<div id="objectEditorTabs-${form.param.billingId}-${form.param.contractId}-Tabs">
+<c:set var="tabsUiid" value="${u:uiid()}"/>
+<div id="${tabsUiid}">
 	<ul></ul>
 </div>
+
+<script>
+	$(function() {
+		const $objectEditorTabs = $("#${tabsUiid}").tabs({refreshButton: true});
+
+		<c:url var="url" value="${form.httpRequestURI}">
+			<c:param name="action" value="contractObjectParameterList"/>
+			<c:param name="billingId" value="${form.param.billingId}"/>
+			<c:param name="contractId" value="${form.param.contractId}"/>
+			<c:param name="objectId" value="${form.param.objectId}"/>
+		</c:url>
+		$objectEditorTabs.tabs("add", "${url}", "Параметры объекта");
+
+		<c:url var="url" value="${form.httpRequestURI}">
+			<c:param name="action" value="contractObjectModuleSummaryTable"/>
+			<c:param name="billingId" value="${form.param.billingId}"/>
+			<c:param name="contractId" value="${form.param.contractId}"/>
+			<c:param name="objectId" value="${form.param.objectId}"/>
+		</c:url>
+		$objectEditorTabs.tabs("add", "${url}", "Модули объекта");
+	});
+</script>

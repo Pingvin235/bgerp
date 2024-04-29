@@ -1,10 +1,10 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.*;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
@@ -13,7 +13,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import ru.bgcrm.model.param.ParameterAddressValue;
+import com.fasterxml.jackson.databind.JsonNode;
+
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
@@ -39,26 +40,25 @@ public class ContractObjectParamDAO extends BillingDAO {
         contractParameters = new HashMap<>();
     }
 
-    public List<ContractObjectParameter> getParameterList(int objectId) {
+    public List<ContractObjectParameter> getParameterList(int contractId, int objectId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object",
-                    "ContractObjectService",
-                    "contractObjectParameters");
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.object", "ContractObjectService", "contractObjectParameters");
+            req.setParam("contractId", contractId);
             req.setParam("objectId", objectId);
             JsonNode ret = transferData.postDataReturn(req, user);
             return readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractObjectParameter.class));
         } else {
-            List<ContractObjectParameter> parameterList = new ArrayList<>();
+            List<ContractObjectParameter> result = new ArrayList<>();
 
             for (int paramId : getContractParamIds(objectId)) {
                 int paramType = getParamType(objectId, paramId);
                 String paramTitle = getParamTitle(objectId, paramId);
                 String paramValue = getTextParam(objectId, paramId);
 
-                parameterList.add(new ContractObjectParameter(paramId, paramType, paramTitle, paramValue, null));
+                result.add(new ContractObjectParameter(paramId, paramType, paramTitle, paramValue, null));
             }
 
-            return parameterList;
+            return result;
         }
     }
 
@@ -88,9 +88,9 @@ public class ContractObjectParamDAO extends BillingDAO {
         return XMLUtils.selectText(getContractParams(objectId), "/data/table/row[@param_id=" + paramId + "]/@value");
     }
 
-    public ContractObjectParameter getParameter(int objectId, int paramId) {
+    public ContractObjectParameter getParameter(int contractId, int objectId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            ContractObjectParameter parameter = getParameterList(objectId).stream()
+            ContractObjectParameter parameter = getParameterList(contractId, objectId).stream()
                     .filter(op -> op.getParameterId() == paramId)
                     .findFirst().orElse(null);
             return parameter;
@@ -123,58 +123,6 @@ public class ContractObjectParamDAO extends BillingDAO {
         }
         return paramList;
     }
-
-    /*public List<ParamPhoneValueItem> getPhoneParam( int contractId, int paramId )
-    	throws BGException
-    {
-    	List<ParamPhoneValueItem> result = new ArrayList<ParamPhoneValueItem>();
-
-    	Request billingRequest = new Request();
-    	billingRequest.setModule( CONTRACT_MODULE_ID );
-    	billingRequest.setAction( "PhoneInfo" );
-    	if( dbInfo.versionCompare( "5.2" ) >= 0 )
-    	{
-    		billingRequest.setAction( "GetPhoneInfo" );
-    	}
-
-    	billingRequest.setContractId( contractId );
-    	billingRequest.setAttribute( "pid", paramId );
-
-    	Document doc = transferData.postData( billingRequest, user );
-
-    	Element phone = XMLUtils.selectElement( doc, "/data/phone" );
-    	if( phone != null )
-    	{
-    		int itemCount = Utils.parseInt( phone.getAttribute( "count" ) );
-
-    		// до 5.1 было просто зашито 5 телефонов
-    		if( dbInfo.versionCompare( "5.1" ) <= 0 )
-    		{
-    			itemCount = 5;
-    		}
-
-    		for( int i = 1; i <= itemCount; i++ )
-    		{
-    			String number = phone.getAttribute( "phone" + i );
-    			String comment = phone.getAttribute( "comment" + i );
-    			String format = phone.getAttribute( "format" + i );
-
-    			if( Utils.isBlankString( number ) )
-    			{
-    				continue;
-    			}
-
-    			ParamPhoneValueItem item = new ParamPhoneValueItem();
-    			item.setPhone( number );
-    			item.setComment( comment );
-    			item.setFormat( format );
-
-    			result.add( item );
-    		}
-    	}
-
-    	return result;
-    }*/
 
     public ParamAddressValue getAddressParam(int objectId, int paramId) {
         ParamAddressValue result = new ParamAddressValue();
@@ -246,14 +194,6 @@ public class ContractObjectParamDAO extends BillingDAO {
 
             return result;
         }
-    }
-
-    /**
-     * Use {@link ParamAddressValue#toParameterAddressValue(ParamAddressValue, Connection)}
-     */
-    @Deprecated
-    public static ParameterAddressValue toCrmObject(ParamAddressValue item, Connection con) throws SQLException {
-        return item.toParameterAddressValue(con);
     }
 
     public void updateTextParameter(int  contractId, int objectId, int paramId, String value) {

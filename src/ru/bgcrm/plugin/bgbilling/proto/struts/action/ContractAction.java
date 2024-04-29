@@ -326,17 +326,6 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward objectLinkList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Integer contractId = form.getParamInt("contractId");
-        Integer cityId = form.getParamInt("cityId");
-
-        /* Set<DeviceInfo.BaseLink> baseLinks = new DeviceInfo().getDeviceInfo(contractId, cityId);
-
-        form.setResponseData("links", baseLinks); */
-
-        return html(conSet, form, PATH_JSP_CONTRACT + "/object_link_list.jsp");
-    }
-
     public ActionForward additionalActionList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
@@ -455,10 +444,11 @@ public class ContractAction extends BaseAction {
 
     public ActionForward getContractObject(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
+        Integer contractId = form.getParamInt("contractId");
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
-        form.setResponseData("object", contractObjectDAO.getContractObject(objectId));
+        form.setResponseData("object", contractObjectDAO.getContractObject(contractId, objectId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_editor.jsp");
     }
@@ -477,36 +467,37 @@ public class ContractAction extends BaseAction {
     public ActionForward updateContractObject(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
-        String title = form.getParam("title");
         int objectId = form.getParamInt("objectId");
         int typeId = form.getParamInt("typeId");
+        String title = form.getParam("title");
         Date dateFrom = form.getParamDate("dateFrom");
         Date dateTo = form.getParamDate("dateTo");
 
-
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
-        contractObjectDAO.updateContractObject(objectId, title, dateFrom, dateTo, typeId, contractId);
+        contractObjectDAO.updateContractObject(contractId, objectId, typeId, title, dateFrom, dateTo);
 
         return json(conSet, form);
     }
 
     public ActionForward contractObjectParameterList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
-        form.setResponseData("parameterList", paramDAO.getParameterList(objectId));
+        form.setResponseData("parameterList", paramDAO.getParameterList(contractId, objectId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_parameter_list.jsp");
     }
 
     public ActionForward getObjectParameter(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
         Integer objectId = form.getParamInt("objectId");
         Integer paramId = form.getParamInt("paramId");
 
         ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
-        ContractObjectParameter parameter = paramDAO.getParameter(objectId, paramId);
+        ContractObjectParameter parameter = paramDAO.getParameter(contractId, objectId, paramId);
 
         form.setResponseData("parameter", parameter);
 
@@ -521,8 +512,7 @@ public class ContractAction extends BaseAction {
             }
 
             case ParameterType.ContractObjectType.TYPE_ADDRESS: {
-                ParameterAddressValue addressValue = ContractObjectParamDAO
-                        .toCrmObject(paramDAO.getAddressParam(objectId, paramId), conSet.getConnection());
+                ParameterAddressValue addressValue = paramDAO.getAddressParam(objectId, paramId).toParameterAddressValue(conSet.getConnection());
                 if (addressValue != null) {
                     int houseId = addressValue.getHouseId();
 
