@@ -73,9 +73,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final String PARAM_RESPONSE = "response";
     private static final String PARAM_FILE = "file";
     private static final String PARAM_PAGE = "page";
-    private static final String PARAM_RETURN_URL = "returnUrl";
     private static final String PARAM_REQUEST_URL = "requestUrl";
     private static final String PARAM_RESPONSE_TYPE = "responseType";
+    private static final String PARAM_RETURN_URL = "returnUrl";
     private static final String PARAM_RETURN_CHILD_UIID = "returnChildUiid";
     private static final String PARAM_FORWARD = "forward";
     private static final String PARAM_FORWARD_FILE = "forwardFile";
@@ -429,7 +429,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает URL, который нужно загрузить для возвращения из редактора.
+     * URL for returning back from an editor
      * @return
      */
     public String getReturnUrl() {
@@ -441,15 +441,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает id HTML элемента на который нужно загрузить returnUrl для возвращения из редактора.
-     * @return
-     */
-    public String getReturnUiid() {
-        return getParam("returnUiid");
-    }
-
-    /**
-     * Возвращает id HTML элемента на предка которого нужно загрузить returnUrl для возвращения из редактора.
+     * HTML element ID, for the parent of that has to be placed result of loading {@link #getReturnUrl()}
      * @return
      */
     public String getReturnChildUiid() {
