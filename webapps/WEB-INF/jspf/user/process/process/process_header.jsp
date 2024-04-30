@@ -15,54 +15,51 @@
 
 				<c:if test="${cloneAllowed || mergeAllowed || deleteAllowed}">
 					<c:set var="uiidMenu" value="${u:uiid()}"/>
+					<ui:popup-menu id="${uiidMenu}">
+						<c:if test="${cloneAllowed}">
+							<c:url var="url" value="${form.httpRequestURI}">
+								<c:param name="action" value="processClone"/>
+								<c:param name="id" value="${process.id}"/>
+							</c:url>
+							<li>
+								<a href="#" onclick="if (confirm('${l.l('Clone process')}?'))
+									$$.ajax.post('${url}').done((response) => {
+										$$.process.open(response.data.process.id);
+									}); return false;">
+									<i class="ti-layers"></i>
+									${l.l('Clone process')}
+								</a>
+							</li>
+						</c:if>
 
-					<div style="max-height: 0px;">
-						<ul id="${uiidMenu}" style="display: none;">
-							<c:if test="${cloneAllowed}">
-								<c:url var="url" value="${form.httpRequestURI}">
-									<c:param name="action" value="processClone"/>
-									<c:param name="id" value="${process.id}"/>
-								</c:url>
-								<li>
-									<a href="#" onclick="if (confirm('${l.l('Clone process')}?'))
-										$$.ajax.post('${url}').done((response) => {
-											$$.process.open(response.data.process.id);
-										}); return false;">
-										<i class="ti-layers"></i>
-										${l.l('Clone process')}
-									</a>
-								</li>
-							</c:if>
+						<c:if test="${mergeAllowed}">
+							<c:url var="url" value="/user/empty.do">
+								<c:param name="returnUrl" value="${requestUrl}"/>
+								<c:param name="returnChildUiid" value="${tableId}"/>
+								<c:param name="id" value="${process.id}"/>
+								<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_merge.jsp"/>
+							</c:url>
+							<li>
+								<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">
+									<i class="ti-shift-right"></i>
+									${l.l('Слить в существующий')}
+								</a>
+							</li>
+						</c:if>
 
-							<c:if test="${mergeAllowed}">
-								<c:url var="url" value="/user/empty.do">
-									<c:param name="returnUrl" value="${requestUrl}"/>
-									<c:param name="returnChildUiid" value="${tableId}"/>
-									<c:param name="id" value="${process.id}"/>
-									<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_merge.jsp"/>
-								</c:url>
-								<li>
-									<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">
-										<i class="ti-shift-right"></i>
-										${l.l('Слить в существующий')}
-									</a>
-								</li>
-							</c:if>
-
-							<c:if test="${deleteAllowed}">
-								<c:url var="url" value="${form.httpRequestURI}">
-									<c:param name="action" value="processDelete"/>
-									<c:param name="id" value="${process.id}"/>
-								</c:url>
-								<li>
-									<a href="#" onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">
-										<i class="ti-trash"></i>
-										${l.l('Удалить процесс')}
-									</a>
-								</li>
-							</c:if>
-						</ul>
-					</div>
+						<c:if test="${deleteAllowed}">
+							<c:url var="url" value="${form.httpRequestURI}">
+								<c:param name="action" value="processDelete"/>
+								<c:param name="id" value="${process.id}"/>
+							</c:url>
+							<li>
+								<a href="#" onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">
+									<i class="ti-trash"></i>
+									${l.l('Удалить процесс')}
+								</a>
+							</li>
+						</c:if>
+					</ui:popup-menu>
 
 					<c:set var="uiidMenuLink" value="${u:uiid()}"/>
 					[<a href="#" id="${uiidMenuLink}">...</a>]

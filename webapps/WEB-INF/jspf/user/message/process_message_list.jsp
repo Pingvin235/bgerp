@@ -199,109 +199,107 @@
 					</c:url>
 
 					<c:set var="menuUiid" value="${u:uiid()}"/>
-					<div style="height: 0px; max-height: 0px; width: 0px; max-width: 0px; display: inline-block;">
-						<ul id="${menuUiid}" style="display: none;" class="menu">
-							<li><a href="#" onclick="$$.message.lineBreak(this, '${messageTextUiid}'); return false;">
-								<i class="ti-check" style="display: none;"></i>
-								${l.l('Вкл./выкл. разрывы строк')}
-							</a></li>
-							<ui:when type="user">
-								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Tags')}</a></li>
-								<c:if test="${messageType.readable and message.read and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
-									<li><a href="#" onclick="
-										$$.ajax.post('${readUrl}&value=0').done(() => {
-											$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
-										});
-										">${l.l('Mark as unread')}</a></li>
-								</c:if>
-								<li>
-									<a href="#">${l.l('Изменить процесс на')}</a>
-									<ul>
-										<li><a href="#" onclick="${actionButtonStartEditMerge} $('#${linkFormUiid}')${actionButtonStartEdit}">${l.l('Другой существующий')}</a></li>
+					<ui:popup-menu id="${menuUiid}" style="display: inline-block;">
+						<li><a href="#" onclick="$$.message.lineBreak(this, '${messageTextUiid}'); return false;">
+							<i class="ti-check" style="display: none;"></i>
+							${l.l('Вкл./выкл. разрывы строк')}
+						</a></li>
+						<ui:when type="user">
+							<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Tags')}</a></li>
+							<c:if test="${messageType.readable and message.read and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
+								<li><a href="#" onclick="
+									$$.ajax.post('${readUrl}&value=0').done(() => {
+										$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
+									});
+									">${l.l('Mark as unread')}</a></li>
+							</c:if>
+							<li>
+								<a href="#">${l.l('Изменить процесс на')}</a>
+								<ul>
+									<li><a href="#" onclick="${actionButtonStartEditMerge} $('#${linkFormUiid}')${actionButtonStartEdit}">${l.l('Другой существующий')}</a></li>
 
-										<c:if test="${messageType.processChangeSupport}">
-											<c:forTokens items = " ,processDepend,processMade,processLink" delims = "," var = "linkType">
-												<c:set var="linkTypeTitle">
-													<c:choose>
-														<c:when test="${linkType eq 'processDepend'}">${l.l('Зависящую')}</c:when>
-														<c:when test="${linkType eq 'processMade'}">${l.l('Порождённую')}</c:when>
-														<c:when test="${linkType eq 'processLink'}">${l.l('Ссылаемую')}</c:when>
-														<c:otherwise>${l.l('Независимую')}</c:otherwise>
-													</c:choose>
-												</c:set>
-												<c:set var="command">
-													if (confirm('${l.l('Изменить процесс сообщения на {} копию текущего процесса?', linkTypeTitle)}')) {
-														<c:url var="url" value="/user/message.do">
-															<c:param name="action" value="messageUpdateProcessToCopy"/>
-															<c:param name="id" value="${message.id}"/>
-															<c:param name="linkType" value="${linkType}"/>
-														</c:url>
-														$$.ajax.post('${url}').done((result) => {
-															const processId = result.data.process.id;
-															$$.process.open(processId);
-															// $('div#process-' + processId + ' #processTabsDiv').tabs('showTab', 'process-messages');
-														});
-													}
-													return false;
-												</c:set>
-												<li><a href="#" onclick="${command}">${l.l('{} копию текущего', linkTypeTitle)}</a></li>
-											</c:forTokens>
-										</c:if>
-									</ul>
-								</li>
+									<c:if test="${messageType.processChangeSupport}">
+										<c:forTokens items = " ,processDepend,processMade,processLink" delims = "," var = "linkType">
+											<c:set var="linkTypeTitle">
+												<c:choose>
+													<c:when test="${linkType eq 'processDepend'}">${l.l('Зависящую')}</c:when>
+													<c:when test="${linkType eq 'processMade'}">${l.l('Порождённую')}</c:when>
+													<c:when test="${linkType eq 'processLink'}">${l.l('Ссылаемую')}</c:when>
+													<c:otherwise>${l.l('Независимую')}</c:otherwise>
+												</c:choose>
+											</c:set>
+											<c:set var="command">
+												if (confirm('${l.l('Изменить процесс сообщения на {} копию текущего процесса?', linkTypeTitle)}')) {
+													<c:url var="url" value="/user/message.do">
+														<c:param name="action" value="messageUpdateProcessToCopy"/>
+														<c:param name="id" value="${message.id}"/>
+														<c:param name="linkType" value="${linkType}"/>
+													</c:url>
+													$$.ajax.post('${url}').done((result) => {
+														const processId = result.data.process.id;
+														$$.process.open(processId);
+														// $('div#process-' + processId + ' #processTabsDiv').tabs('showTab', 'process-messages');
+													});
+												}
+												return false;
+											</c:set>
+											<li><a href="#" onclick="${command}">${l.l('{} копию текущего', linkTypeTitle)}</a></li>
+										</c:forTokens>
+									</c:if>
+								</ul>
+							</li>
 
-								<c:remove var="answerCommand"/>
-								<c:if test="${message.direction eq 1 and messageType.answerSupport}">
-									<c:url var="answerUrl" value="/user/message.do">
+							<c:remove var="answerCommand"/>
+							<c:if test="${message.direction eq 1 and messageType.answerSupport}">
+								<c:url var="answerUrl" value="/user/message.do">
+									<c:param name="action" value="processMessageEdit"/>
+									<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
+									<c:param name="returnUrl" value="${form.requestUrl}"/>
+									<c:param name="processId" value="${message.processId}"/>
+									<c:param name="replyToId" value="${message.id}"/>
+								</c:url>
+
+								<c:set var="answerCommand" value="$$.ajax
+										.load('${answerUrl}', $('#${editorContainerUiid}'))
+										.done(function () {$(window).scrollTop(150)});"/>
+
+								<li><a href="#" onclick="${answerCommand}return false;">${l.l('Ответить')}</a></li>
+							</c:if>
+
+							<c:if test="${form.user.id == message.userId or ctxUser.checkPerm(ACTION_MODIFY_NOT_OWNED)}">
+								<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:processMessageEdit')}">
+									<c:url var="editUrl" value="/user/message.do">
 										<c:param name="action" value="processMessageEdit"/>
+										<c:param name="id" value="${message.id}"/>
+										<c:param name="processId" value="${message.processId}"/>
 										<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 										<c:param name="returnUrl" value="${form.requestUrl}"/>
-										<c:param name="processId" value="${message.processId}"/>
-										<c:param name="replyToId" value="${message.id}"/>
 									</c:url>
 
-									<c:set var="answerCommand" value="$$.ajax
-											.load('${answerUrl}', $('#${editorContainerUiid}'))
-											.done(function () {$(window).scrollTop(150)});"/>
-
-									<li><a href="#" onclick="${answerCommand}return false;">${l.l('Ответить')}</a></li>
+									<li><a href="#" onclick="$$.lock.add('${message.lockEdit}').done(() => {
+											$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(() => $(window).scrollTop(150));
+										});
+										return false;">${l.l('Редактировать')}</a></li>
 								</c:if>
 
-								<c:if test="${form.user.id == message.userId or ctxUser.checkPerm(ACTION_MODIFY_NOT_OWNED)}">
-									<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:processMessageEdit')}">
-										<c:url var="editUrl" value="/user/message.do">
-											<c:param name="action" value="processMessageEdit"/>
-											<c:param name="id" value="${message.id}"/>
-											<c:param name="processId" value="${message.processId}"/>
-											<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
-											<c:param name="returnUrl" value="${form.requestUrl}"/>
-										</c:url>
+								<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageDelete')}">
+									<c:url var="deleteUrl" value="/user/message.do">
+										<c:param name="action" value="messageDelete"/>
+										<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
+									</c:url>
 
-										<li><a href="#" onclick="$$.lock.add('${message.lockEdit}').done(() => {
-												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(() => $(window).scrollTop(150));
+									<li><a href="#" onclick="
+										if (confirm('${l.l('Удалить сообщение?')}'))
+											$$.ajax.post('${deleteUrl}').done(() => {
+												$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
 											});
-											return false;">${l.l('Редактировать')}</a></li>
-									</c:if>
-
-									<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageDelete')}">
-										<c:url var="deleteUrl" value="/user/message.do">
-											<c:param name="action" value="messageDelete"/>
-											<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
-										</c:url>
-
-										<li><a href="#" onclick="
-											if (confirm('${l.l('Удалить сообщение?')}'))
-												$$.ajax.post('${deleteUrl}').done(() => {
-													$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
-												});
-											return false;
-											">${l.l('Удалить')}</a></li>
-									</c:if>
+										return false;
+										">${l.l('Удалить')}</a></li>
 								</c:if>
+							</c:if>
 
-							</ui:when>
-						</ul>
-					</div>
+						</ui:when>
+					</ui:popup-menu>
 
 					<c:if test="${messageType.readable and message.unread and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
 						<button class="btn-white icon mr05" title="${l.l('Mark as read')}" onclick="

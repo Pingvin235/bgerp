@@ -43,13 +43,28 @@
 		</script>
 	</button>
 
-	<div style="height: 0px; max-height: 0px; width: 0px; max-width: 0px;">
-		<ul style="display: none; z-index: 2000;" id="${uiidMoreMenu}">
-			<c:if test="${queue.configMap['allowCreateProcess'] ne 0}">
-				<li draggable="true"><a onclick="$('#processQueueShow').hide(); $('#processQueueCreateProcess').show();">${l.l('Создать процесс')}</a></li>
-			</c:if>
+	<ui:popup-menu id="${uiidMoreMenu}">
+		<c:if test="${queue.configMap['allowCreateProcess'] ne 0}">
+			<li draggable="true"><a onclick="$('#processQueueShow').hide(); $('#processQueueCreateProcess').show();">${l.l('Создать процесс')}</a></li>
+		</c:if>
 
-			<c:if test="${not empty queue.getMediaColumnList('print') or not empty queue.configMap['allowPrint']}">
+		<c:if test="${not empty queue.getMediaColumnList('print') or not empty queue.configMap['allowPrint']}">
+			<c:set var="script">
+				var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
+				if( !savedSetId )
+				{
+					savedSetId = 0;
+				}
+
+				window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&processIds=' + getCheckedProcessIds();
+			</c:set>
+			<li><a onclick="${script}">Печать</a></li>
+		</c:if>
+
+		<%-- обращение к плагину, не совсем корректно, в перспективе лучше сделать точку расширения --%>
+		<c:set var="printConfig" value="${queue.configMap.getConfig('ru.bgcrm.model.process.queue.config.PrintQueueConfig')}"/>
+		<c:if test="${not empty printConfig and not empty printConfig.printTypes}">
+			<c:forEach var="item" items="${printConfig.printTypes}">
 				<c:set var="script">
 					var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
 					if( !savedSetId )
@@ -57,93 +72,76 @@
 						savedSetId = 0;
 					}
 
-					window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&processIds=' + getCheckedProcessIds();
+					window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&printTypeId=${item.id}&processIds=' + getCheckedProcessIds();
 				</c:set>
-				<li><a onclick="${script}">Печать</a></li>
-			</c:if>
-
-			<%-- обращение к плагину, не совсем корректно, в перспективе лучше сделать точку расширения --%>
-			<c:set var="printConfig" value="${queue.configMap.getConfig('ru.bgcrm.model.process.queue.config.PrintQueueConfig')}"/>
-			<c:if test="${not empty printConfig and not empty printConfig.printTypes}">
-				<c:forEach var="item" items="${printConfig.printTypes}">
-					<c:set var="script">
-						var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
-						if( !savedSetId )
-						{
-							savedSetId = 0;
-						}
-
-						window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&printTypeId=${item.id}&processIds=' + getCheckedProcessIds();
-					</c:set>
-					<li><a onclick="${script}">${item.title}</a></li>
-				</c:forEach>
-			</c:if>
-
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="$$.process.queue.changed(0);">${l.l('Фильтр - вернуться в полный')}</a></li>
-			<c:set var="getSavedSetId">
-				var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters div.btn-blue' ).attr( 'id' ) ;
-				if( !savedSetId )
-				{
-					alert( '${l.l('Фильтр не выбран')}!' );return;
-				}
-			</c:set>
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
-				<a onclick="if( !confirm( '${l.l('Удалить сохранённый фильтр')}?' ) ){ return; }
-					${getSavedSetId}
-					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
-						processQueueFilterSetSelect(${queue.id})
-					})">${l.l('Фильтр - удалить')}</a>
-			</li>
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
-				<a onclick="
-					${getSavedSetId}
-					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=toFullFilter').done(() => {
-						$('#processQueueFilter > div#${queue.id}').remove();
-						$$.process.queue.changed(0);
-					})">${l.l('Фильтр - извлечь в полный')}</a>
-			</li>
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="addCounterToPanel();">${l.l('Фильтр - счетчик на панель')}</a></li>
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="delCounterFromPanel();">${l.l('Фильтр - счетчик убрать с панели')}</a></li>
-
-			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$$.process.queue.changed(1);">${l.l('Фильтр - сохранённые')}</a></li>
-			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$('#${saveFilterFormUiid}').css('display','');">${l.l('Фильтр - сохранить')}</a></li>
-			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}>
-				<a onclick="if( !confirm( 'Сбросить полный фильтр?' ) ){ return; }
-					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
-						$('#processQueueFilter > div#${queue.id}').remove();
-						$$.process.queue.changed(0);
-					})">${l.l('Фильтр - сброс')}</a>
-			</li>
-
-			<c:forEach var="processor" items="${queue.getProcessors('user')}">
-				<li>
-					<c:set var="script">
-						<c:choose>
-							<c:when test="${not empty processor.jsp}">
-								$('div[id*=${addActionFormUiid}]').hide();
-								$('#${addActionFormUiid}-${processor.id}').show().trigger('show');
-							</c:when>
-							<c:otherwise>
-								$('#${addActionFormUiid}-${processor.id} #okButton').click();
-							</c:otherwise>
-						</c:choose>
-					</c:set>
-					<a onClick="${script}; return false;">${processor.title}</a>
-				</li>
+				<li><a onclick="${script}">${item.title}</a></li>
 			</c:forEach>
-			<c:if test="${not empty queue.getMediaColumnList('xls')}">
-				<c:set var="xls">
-						var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
-						if( !savedSetId )
-						{
-							savedSetId = 0;
-						}
-						window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&xls=1';
+		</c:if>
+
+		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="$$.process.queue.changed(0);">${l.l('Фильтр - вернуться в полный')}</a></li>
+		<c:set var="getSavedSetId">
+			var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters div.btn-blue' ).attr( 'id' ) ;
+			if( !savedSetId )
+			{
+				alert( '${l.l('Фильтр не выбран')}!' );return;
+			}
+		</c:set>
+		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
+			<a onclick="if( !confirm( '${l.l('Удалить сохранённый фильтр')}?' ) ){ return; }
+				${getSavedSetId}
+				$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
+					processQueueFilterSetSelect(${queue.id})
+				})">${l.l('Фильтр - удалить')}</a>
+		</li>
+		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
+			<a onclick="
+				${getSavedSetId}
+				$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=toFullFilter').done(() => {
+					$('#processQueueFilter > div#${queue.id}').remove();
+					$$.process.queue.changed(0);
+				})">${l.l('Фильтр - извлечь в полный')}</a>
+		</li>
+		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="addCounterToPanel();">${l.l('Фильтр - счетчик на панель')}</a></li>
+		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="delCounterFromPanel();">${l.l('Фильтр - счетчик убрать с панели')}</a></li>
+
+		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$$.process.queue.changed(1);">${l.l('Фильтр - сохранённые')}</a></li>
+		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$('#${saveFilterFormUiid}').css('display','');">${l.l('Фильтр - сохранить')}</a></li>
+		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}>
+			<a onclick="if( !confirm( 'Сбросить полный фильтр?' ) ){ return; }
+				$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
+					$('#processQueueFilter > div#${queue.id}').remove();
+					$$.process.queue.changed(0);
+				})">${l.l('Фильтр - сброс')}</a>
+		</li>
+
+		<c:forEach var="processor" items="${queue.getProcessors('user')}">
+			<li>
+				<c:set var="script">
+					<c:choose>
+						<c:when test="${not empty processor.jsp}">
+							$('div[id*=${addActionFormUiid}]').hide();
+							$('#${addActionFormUiid}-${processor.id}').show().trigger('show');
+						</c:when>
+						<c:otherwise>
+							$('#${addActionFormUiid}-${processor.id} #okButton').click();
+						</c:otherwise>
+					</c:choose>
 				</c:set>
-				<li><a onclick="${xls}">${l.l('Выгрузка в Excel')}</a></li>
-			</c:if>
-		</ul>
-	</div>
+				<a onClick="${script}; return false;">${processor.title}</a>
+			</li>
+		</c:forEach>
+		<c:if test="${not empty queue.getMediaColumnList('xls')}">
+			<c:set var="xls">
+					var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
+					if( !savedSetId )
+					{
+						savedSetId = 0;
+					}
+					window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&xls=1';
+			</c:set>
+			<li><a onclick="${xls}">${l.l('Выгрузка в Excel')}</a></li>
+		</c:if>
+	</ui:popup-menu>
 
 	<%-- панель для кнопок из Ещё --%>
 	<div id="dropMoreArea" style="display: inline-block;">
