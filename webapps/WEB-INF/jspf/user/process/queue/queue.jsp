@@ -23,7 +23,7 @@
 					<c:set var="id" value="processQueueSelect"/>
 
 					<ui:combo-single id="${id}"
-						value="${ctxUser.personalizationMap['queueLastSelected']}"
+						value="${ctxUser.personalizationMap.queueLastSelected}"
 						onSelect="$$.process.queue.updateSelected(this.value); $$.process.queue.showSelected(this.value);"
 						widthTextValue="18em"
 						prefixText="${l.l('Очередь')}:"
@@ -31,7 +31,7 @@
 
 					<c:set var="queueId" value="${form.id}"/>
 					<c:if test="${not (queueId gt 0)}">
-						<c:set var="queueId" value="${ctxUser.personalizationMap['queueLastSelected']}"/>
+						<c:set var="queueId" value="${ctxUser.personalizationMap.queueLastSelected}"/>
 					</c:if>
 
 					<script>

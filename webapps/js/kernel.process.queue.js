@@ -59,7 +59,7 @@ $$.process.queue = new function () {
 		});
 	}
 
-	const showSelected = (id, li) => {
+	const showSelected = (id) => {
 		// clear add icon from the current value in combo-single
 		$('#processQueueSelect').find('.text-value div.icon-add').remove();
 
@@ -84,7 +84,6 @@ $$.process.queue = new function () {
 					if ($(this).val() == id) {
 						$("#processQueueSelect > .text-value").html($(this).html());
 						$('#processQueueSelect').find('.text-value div.icon-add').remove();
-						return;
 					}
 				});
 			}

@@ -80,8 +80,12 @@ $$.ajax = new function () {
 		return def.promise();
 	}
 
-	let loadCnt = 0;
+	/** data key for storing loading deferred */
+	const LOAD_DFD_KEY = 'dfd';
+	/** externally passed deferred, which is resolved when all sub-loads are done */
 	let loadDfd;
+	/** counter for generation of unique HTML element IDs */
+	let loadCnt = 0;
 
 	const getLoadDfd = () => {
 		return loadDfd ? loadDfd : {
@@ -105,18 +109,16 @@ $$.ajax = new function () {
 		options.html = true;
 
 		// wrapping around for case of String or HTML element
-		target = $(target);
+		const $target = $(target);
 
 		// erasing of existing value, speeds up load process significantly in some cases
 		// the reason is not clear, was found in callboard, probably because of removing of onLoad listeners
 		// !!! the erasing was disabled because of problems with generation URL from form elements, which already were gone
 
-		// parameter runs cascaded load
+		// externally passed deferred, which is resolved when all sub-loads are done
 		let dfd = options.dfd;
 		if (dfd) {
 			loadDfd = {
-				key: "dfd",
-
 				/** Wrapping object, contains Deferred + URL for debug. */
 				create: function (dfd, url) {
 					const result = {
@@ -128,11 +130,11 @@ $$.ajax = new function () {
 				},
 
 				resolve: function ($selector) {
-					const dfd = $selector.data(loadDfd.key);
+					const dfd = $selector.data(LOAD_DFD_KEY);
 
 					const wait = [];
 					$selector.find(".loader").each(function () {
-						const subDfd = $(this).data(loadDfd.key);
+						const subDfd = $(this).data(LOAD_DFD_KEY);
 						if (subDfd)
 							wait.push(subDfd);
 					})
@@ -157,37 +159,39 @@ $$.ajax = new function () {
 		}
 
 		if (!loadDfd) {
-			target.toggleClass("ajax-loading");
+			$target.toggleClass("ajax-loading");
 			return post(input, options).done((result) => {
 				if (options.replace) {
-					target.replaceWith(result);
+					$target.replaceWith(result);
 				} else if (options.append) {
-					target.append(result);
+					$target.append(result);
 				} else {
-					target.html(result);
+					$target.html(result);
 				}
 			}).always(() => {
-				target.toggleClass("ajax-loading");
+				$target.toggleClass("ajax-loading");
 			});
 		} else {
-			const existingDfd = target.data(loadDfd.key);
+			const existingDfd = $target.data(LOAD_DFD_KEY);
 			if (existingDfd) {
 				if (existingDfd.state() === 'resolved') {
 					debug("Existing resolved dfd", existingDfd, input);
-					target.removeData(loadDfd.key);
+					$target.removeData(LOAD_DFD_KEY);
 				} else {
 					console.error("Existing not resolved dfd", existingDfd, input);
 					return existingDfd;
 				}
 			}
 
-			if (!dfd)
+			if (!dfd) {
 				dfd = $.Deferred();
+				debug("Create a new deferred", trim100(input));
+			}
 
-			target
+			$target
 				.addClass("loader")
 				.toggleClass("ajax-loading")
-				.data(loadDfd.key, loadDfd.create(dfd, input));
+				.data(LOAD_DFD_KEY, loadDfd.create(dfd, input));
 
 			post(input, options).done((result) => {
 				debug("Done", trim100(input));
@@ -202,12 +206,14 @@ $$.ajax = new function () {
 					} </script>`;
 
 				if (options.append) {
-					target.append(result + afterLoadScript);
+					$target.append(result + afterLoadScript);
 				} else {
-					target.html(result + afterLoadScript);
+					$target.html(result + afterLoadScript);
 				}
+
+				dfd.resolve();
 			}).always(() => {
-				target.toggleClass("ajax-loading");
+				$target.toggleClass("ajax-loading");
 			});
 
 			return dfd;
