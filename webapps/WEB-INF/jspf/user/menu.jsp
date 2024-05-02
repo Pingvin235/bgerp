@@ -5,7 +5,7 @@
 	action="ru.bgcrm.struts.action.SearchAction:null" command="/user/search.do" />
 
 <ui:menu-item title="${l.l('News')}" href="news" icon="ti-bell"
-	action="ru.bgcrm.struts.action.NewsAction:newsList"
+	action="org.bgerp.action.NewsAction:newsList"
 	command="/user/news.do?action=newsList&read=0" />
 
 <ui:menu-item title="${l.l('Адреса')}" href="directory/address" icon="ti-book"
