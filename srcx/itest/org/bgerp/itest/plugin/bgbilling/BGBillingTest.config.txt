@@ -11,8 +11,13 @@ bgbilling:server.{@cnt}.customerIdParam=8
 #bgbilling:server.{@cnt}.customerIdParam=63
 
 # общий логин с паролем по-умолчанию для обращения к биллингу
-#bgbilling:login.{@BILLING_ID}=admin
-#bgbilling:password.{@BILLING_ID}=admin
+# поместить в конфигурацию пользователя
+# - для каждого биллинга с id == billingId
+#bgbilling:login.<billingId>=admin
+#bgbilling:password.<billingId>=admin
+# - для всех настроенных в плагине серверов биллинга
+#bgbilling:login=admin
+#bgbilling:password=admin
 
 bgbilling:contractType.1.title=Contract Pattern ID 17
 bgbilling:contractType.1.billing={@BILLING_ID}

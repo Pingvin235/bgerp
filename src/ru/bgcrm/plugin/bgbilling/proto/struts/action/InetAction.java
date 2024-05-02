@@ -32,25 +32,19 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/user/plugin/bgbilling/proto/inet")
 public class InetAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/inet";
-    public static final String BILLING_ID = "billingId";
-    public static final String MODULE_ID = "moduleId";
-    public static final String CONTRACT_ID = "contractId";
-    public static final String DATE_FROM = "dateFrom";
-    public static final String DATE_TO = "dateTo";
-    public static final String DEVICE_ID = "deviceId";
 
     public ActionForward serviceTree(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-        form.setResponseData("list", inetDao.getServiceList(form.getParamInt(CONTRACT_ID)));
+        form.setResponseData("list", inetDao.getServiceList(form.getParamInt("contractId")));
 
         return html(conSet, form, PATH_JSP + "/service_tree.jsp");
     }
 
     public ActionForward serviceGet(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam(BILLING_ID);
-        int moduleId = form.getParamInt(MODULE_ID);
-        int contractId = form.getParamInt(CONTRACT_ID);
+        String billingId = form.getParam("billingId");
+        int moduleId = form.getParamInt("moduleId");
+        int contractId = form.getParamInt("contractId");
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), billingId, moduleId);
 
         InventoryDAO inventoryDAO = new InventoryDAO(form.getUser(), billingId, moduleId);
@@ -83,7 +77,7 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward serviceUpdate(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
         InetService service = form.getId() > 0 ? inetDao.getService(form.getId()) : new InetService();
 
@@ -93,14 +87,14 @@ public class InetAction extends BaseAction {
                 .filter(t -> t.getId() == typeId)
                 .findFirst().get();
 
-        service.setContractId(form.getParamInt(CONTRACT_ID));
+        service.setContractId(form.getParamInt("contractId"));
         service.setId(form.getId());
-        service.setDateFrom(form.getParamDate(DATE_FROM));
-        service.setDateTo(form.getParamDate(DATE_TO));
+        service.setDateFrom(form.getParamDate("dateFrom"));
+        service.setDateTo(form.getParamDate("dateTo"));
         service.setStatus(form.getParamInt("status"));
         service.setSessionCountLimit(form.getParamInt("sessions"));
         service.setLogin(form.getParam("login"));
-        service.setDeviceId(form.getParamInt(DEVICE_ID));
+        service.setDeviceId(form.getParamInt("deviceId"));
         service.setIfaceId(form.getParamInt("ifaceId"));
         service.setVlan(form.getParamInt("vlan", -1));
         service.setMacAddressStr(form.getParam("macAddress"));
@@ -146,7 +140,7 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward serviceDelete(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
         inetDao.deleteService(form.getId());
 
@@ -154,20 +148,20 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward sessionAliveContractList(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
         Pageable<InetSessionLog> result = new Pageable<>(form);
-        inetDao.getSessionAliveContractList(result, form.getParamInt(CONTRACT_ID));
+        inetDao.getSessionAliveContractList(result, form.getParamInt("contractId"));
         setDeviceTitles(inetDao, result);
 
         return html(conSet, form, PATH_JSP + "/contract_report.jsp");
     }
 
     public ActionForward sessionLogContractList(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
         Pageable<InetSessionLog> result = new Pageable<>(form);
-        inetDao.getSessionLogContractList(result, form.getParamInt(CONTRACT_ID), form.getParamDate(DATE_FROM), form.getParamDate(DATE_TO));
+        inetDao.getSessionLogContractList(result, form.getParamInt("contractId"), form.getParamDate("dateFrom"), form.getParamDate("dateTo"));
         setDeviceTitles(inetDao, result);
 
         return html(conSet, form, PATH_JSP + "/contract_report.jsp");
@@ -189,23 +183,23 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward connectionClose(DynActionForm form, ConnectionSet conSet) throws Exception {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
         inetDao.connectionClose(form.getParamInt("contractId", Utils::isPositive), form.getParamLong("connectionId"));
 
         return json(conSet, form);
     }
 
     public ActionForward connectionFinish(DynActionForm form, ConnectionSet conSet) throws Exception {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
         inetDao.connectionFinish(form.getParamInt("contractId", Utils::isPositive), form.getParamLong("connectionId"));
 
         return json(conSet, form);
     }
 
     public ActionForward serviceMenu(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-        int deviceId = form.getParamInt(DEVICE_ID);
+        int deviceId = form.getParamInt("deviceId");
 
         InetDevice device = inetDao.getDevice(deviceId);
         form.setResponseData("deviceMethods", inetDao.getDeviceManagerMethodList(device.getDeviceTypeId()));
@@ -214,20 +208,20 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward serviceDeviceManage(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-        int deviceId = form.getParamInt(DEVICE_ID);
+        int deviceId = form.getParamInt("deviceId");
         String operation = form.getParam("operation");
 
         InetDevice device = inetDao.getDevice(deviceId);
 
-        form.setResponseData("response", inetDao.deviceManage(device.getInvDeviceId(), form.getId(), 0, operation));
+        form.setResponseData("response", inetDao.deviceManage(form.getParamInt("contractId"), device.getInvDeviceId(), form.getId(), 0, operation));
 
         return json(conSet, form);
     }
 
     public ActionForward serviceStateModify(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
         int state = form.getParamInt("state");
         inetDao.updateServiceState(form.getId(), state);
@@ -236,9 +230,9 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward interfaceListGet(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
-        InventoryDAO inventoryDAO = new InventoryDAO(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
-        int deviceId = form.getParamInt(DEVICE_ID);
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
+        InventoryDAO inventoryDAO = new InventoryDAO(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
+        int deviceId = form.getParamInt("deviceId");
         InetDevice device = inetDao.getDevice(deviceId);
         List<InetDeviceInterface> inetDeviceInterfaces;
         if (device != null) {
@@ -251,15 +245,15 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward getFreeVlan(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
-        ResourceDAO resourceDAO = new ResourceDAO(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
+        ResourceDAO resourceDAO = new ResourceDAO(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-        int deviceId = form.getParamInt(DEVICE_ID);
+        int deviceId = form.getParamInt("deviceId");
         InetDevice device = inetDao.getDevice(deviceId);
         Integer result = -1;
         if (device != null) {
             Set<Integer> vlanResourceCategoryIds = inetDao.vlanResourceCategoryIds(device.getId());
-            result = resourceDAO.getFreeVlan(vlanResourceCategoryIds, form.getParamDate(DATE_FROM), form.getParamDate(DATE_TO));
+            result = resourceDAO.getFreeVlan(vlanResourceCategoryIds, form.getParamDate("dateFrom"), form.getParamDate("dateTo"));
         }
 
         form.setResponseData("vlan", result);
@@ -268,7 +262,7 @@ public class InetAction extends BaseAction {
     }
 
     public ActionForward devicesGet(DynActionForm form, ConnectionSet conSet) {
-        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
         form.setResponseData("rootDevice", inetDao.getRootDevice(Utils.toIntegerSet(form.getParam("deviceTypeIds")), Utils.toIntegerSet(form.getParam("deviceGroupIds"))));
         return html(conSet, form, PATH_JSP + "/service/device_tree.jsp");
     }

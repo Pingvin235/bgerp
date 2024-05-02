@@ -65,6 +65,70 @@ $$.bgbilling.inet = new function () {
 		$(form).find(".deviceEdit").text('');
 	}
 
+	/**
+	 * Shows device manage command execution result on a dialog
+	 * @param {String} dialogId dialog div element ID
+	 * @param {String} title command title
+	 * @param {String} response command execution result
+	 */
+	const deviceManageResponse = (dialogId, title, response) => {
+		/* from ToolDialog.java in BGBilling
+			if ( result.startsWith( "browse:" ) )
+			{
+				String result2 = result.substring( 7 );
+				browse( result2 );
+				this.dispose();
+			}
+			else if ( result.startsWith( "telnet:" ) )
+			{
+				String result2 = result.substring( 7 );
+				telnet( result2 );
+				this.dispose();
+			}
+			else if ( result.startsWith( "ping:" ) )
+			{
+				String result2 = result.substring( 5 );
+				ping( result2 );
+				this.dispose();
+			}
+			else if( result.startsWith( COMMAND_EXEC ) )
+			{
+				String command = result.substring( COMMAND_EXEC.length() );
+				exec( command );
+				this.dispose();
+			}
+			else
+			{
+				if ( result.startsWith( "<html>" ) )
+				{
+					textArea.setContentType( "text/html" );
+				}
+				textArea.setText( result );
+				if ( !this.isShowing() )
+				{
+					this.showDialog();
+				}
+			}
+		*/
+		if (response.indexOf('telnet:') >= 0) {
+			response = response.replace(':', ':///').replace(' ', ':');
+			window.open(response);
+		} else {
+			// no html markup
+			if (response.indexOf('<') < 0)
+				response = "<pre style='white-space: break-spaces; font-family: monospace;'>" + response.replaceAll('\t', '    ') + "</pre>";
+
+			$(document.getElementById(dialogId)).html(response).dialog({
+				modal: true,
+				width: 600,
+				height: 400,
+				draggable: true,
+				title: "Результат '" + title + "'",
+				position: { my: "center top", at: "center top+100px", of: window }
+			});
+		}
+	}
+
 	// public functions
 	this.serviceTypeChanged = serviceTypeChanged;
 	this.vlans = vlans;
@@ -72,4 +136,5 @@ $$.bgbilling.inet = new function () {
 	this.setIface = setIface;
 	this.devices = devices;
 	this.setDevice = setDevice;
+	this.deviceManageResponse = deviceManageResponse;
 }

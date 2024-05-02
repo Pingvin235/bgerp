@@ -190,8 +190,7 @@ public class TransferData {
         ConfigMap configMap = user.getConfigMap();
         return new UserAccount.Default(
                 configMap.get("bgbilling:login." + billingId, configMap.get("bgbilling:login", user.getLogin())),
-                configMap.get("bgbilling:password." + billingId,
-                        configMap.get("bgbilling:password", user.getPassword())));
+                configMap.get("bgbilling:password." + billingId, configMap.get("bgbilling:password", user.getPassword())));
     }
 
     private class RequestTaskJsonRpc implements Callable<JsonNode> {

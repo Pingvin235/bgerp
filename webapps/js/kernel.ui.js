@@ -138,22 +138,21 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * Init popup menu.
-	 * @param {*} $launcher jQuery selector of start button.
-	 * @param {*} $menu jQuery selector to <ul> of menu.
-	 * @param {*} align 'left' or 'right'.
-	 * @param {*} show when true - show menu immediately, otherwise
-	 * will add click event
+	 * Inits popup menu
+	 * @param {jQuery} $launcher selector of start button
+	 * @param {jQuery} $ul selector to <ul> of menu
+	 * @param {*} align 'left' or 'right'
+	 * @param {*} show when true - show menu immediately, otherwise adds a click listener
 	 */
-	const menuInit = ($launcher, $menu, align, show) => {
-		$menu.menu({
+	const menuInit = ($launcher, $ul, align, show) => {
+		$ul.menu({
 			icons: {
 				submenu: "ti-angle-right"
 			}
-		}).hide();
+		}).menu("refresh").hide();
 
 		// empty menu items
-		$menu.find("a:not([onclick])").click(function (event) {
+		$ul.find("a:not([onclick])").click(function (event) {
 			return false;
 		});
 
@@ -168,7 +167,7 @@ $$.ui = new function () {
 
 			$$.ui.dropsHide();
 
-			$menu.show().position({
+			$ul.show().position({
 				my: align + " top",
 				at: align + " bottom",
 				of: $launcher
@@ -177,7 +176,7 @@ $$.ui = new function () {
 			// to do not process the first click, called the menu
 			setTimeout(function () {
 				$(document).one("click", function () {
-					$menu.hide();
+					$ul.hide();
 				});
 			}, 0);
 
