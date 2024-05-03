@@ -23,7 +23,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.util.Utils;
 
 /**
- * Functions called from util.tld JSP library.
+ * Functions defined in util.tld JSP library.
  *
  * @author Shamil Vakhitov
  */
@@ -31,6 +31,7 @@ public class UtilFunction {
     private static final Log log = Log.getLog();
 
     private static final AtomicLong UIID = new AtomicLong(System.currentTimeMillis());
+    private static final Pattern LINKS = Pattern.compile("\\(?\\bhttps?://[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]");
 
     /**
      * Creates a new instance of a Java class. Generic method with varargs argument, can't be called from JSP.
@@ -213,8 +214,6 @@ public class UtilFunction {
         return result;
     }
 
-    private static final Pattern pattern = Pattern.compile("\\(?\\bhttps?://[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]");
-
     /**
      * Recognizes and replaces HTTP links to HTML code.
      * http://blog.codinghorror.com/the-problem-with-urls/
@@ -227,7 +226,7 @@ public class UtilFunction {
 
         boolean foundInAttr = false;
 
-        while ((m = pattern.matcher(value)).find(pos)) {
+        while ((m = LINKS.matcher(value)).find(pos)) {
             // URLs in attributes
             if (m.end() < value.length()) {
                 var nextChar = value.charAt(m.end());
@@ -267,10 +266,10 @@ public class UtilFunction {
     }
 
     /**
-     * Обрезает строку с HTML разметкой до максимальной длины, не разрывая теги.
-     * Находится первая подходящая позиция после указанной длины.
-     * @param s исходня строка.
-     * @param limit максимальная длина.
+     * Truncates a string with HTML markup to a maximal length without breaking tags.
+     * Finds a first position after all tags were closed, so the resulting length may be more than max.
+     * @param s the initial string
+     * @param limit maximal length
      * @return
      */
     public static String truncateHtml(String s, Integer limit) {
@@ -315,6 +314,11 @@ public class UtilFunction {
         return path + "?version=" + (file.lastModified() / 1000);
     }
 
+    /**
+     * Documentation URL for the currently running app version
+     * @param url the path from documentation's root, or absolute url starting from {@code http} (this case it wouldn't be changed)
+     * @return the absolute documentation URL
+     */
     public static String docUrl(String url) {
         if (url.startsWith("http"))
             return url;
@@ -325,7 +329,7 @@ public class UtilFunction {
         if (Utils.notBlankString(changeId))
             return InstallerChanges.UPDATE_TO_CHANGE_URL + "/" + changeId + "/doc/" + url;
 
-        return App.URL + "/doc/" + m.getVersion() + "/manual/" + url;
+        return App.URL + "/version/" + m.getVersion() + "/doc/" + url;
     }
 
     @Deprecated
