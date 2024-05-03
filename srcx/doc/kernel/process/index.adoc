@@ -335,7 +335,7 @@ Where:
 * *<relationType>* - process relation type: *processLink* (default), *processMade*, *processDepend*;
 * *<processTypes>* - comma separted process type IDs of linked processes;
 * *<add>* - *1* for ability to add linked processes in the category;
-* *<addProcessStatuses>* - comma separated process statuses for filtering available for adding.
+* *<addProcessStatuses>* - comma separated process statuses for filtering available for adding; the order of statuses is used for sorting them.
 
 [[setup-type-related-process-create-and-link]]
 ===== Create and Link

@@ -1,5 +1,7 @@
 package org.bgerp.dao.process;
 
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Set;
@@ -14,9 +16,6 @@ import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
-
-import static ru.bgcrm.dao.process.Tables.*;
-import static ru.bgcrm.dao.Tables.*;
 
 /**
  * Fluent DAO for selection processes by parameter values.

@@ -212,7 +212,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             .withStatus(category.getAddProcessStatusIds())
             .withExcludeIds(excludeIds)
             .withIdOrDescriptionLike(LikePattern.SUB.get(form.getParam("filter")))
-            .order(Order.DESCRIPTION)
+            .order(category.getAddProcessStatusIds().isEmpty() ? Order.DESCRIPTION : new Order.StatusesDescription(category.getAddProcessStatusIds()))
             .search(processes);
 
         var listBuffer = new ArrayList<>(bufferProcessIds.size());

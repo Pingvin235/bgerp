@@ -1,6 +1,7 @@
 package org.bgerp.dao.process;
 
 import java.sql.Connection;
+import java.util.Collection;
 import java.util.Set;
 
 import org.bgerp.util.sql.PreparedQuery;
@@ -21,7 +22,7 @@ abstract class SearchDAO extends CommonDAO {
 
     private Boolean open;
     private Set<Integer> typeIds;
-    private Set<Integer> statusIds;
+    private Collection<Integer> statusIds;
     private Order order;
 
      /**
@@ -68,7 +69,7 @@ abstract class SearchDAO extends CommonDAO {
      * @param value {@code null} or empty - no filter, or set with status IDs.
      * @return
      */
-    public SearchDAO withStatus(Set<Integer> value) {
+    public SearchDAO withStatus(Collection<Integer> value) {
         this.statusIds = value;
         return this;
     }

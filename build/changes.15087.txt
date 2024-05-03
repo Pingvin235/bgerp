@@ -1,0 +1,1 @@
+A: Sorting added Related Processes by 'process.statuses' value. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-related-process-category

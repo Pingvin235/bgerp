@@ -4,6 +4,7 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -58,7 +59,7 @@ public class ProcessSearchDAO extends SearchDAO {
      * {@inheritDoc}
      */
     @Override
-    public ProcessSearchDAO withStatus(Set<Integer> value) {
+    public ProcessSearchDAO withStatus(Collection<Integer> value) {
         return (ProcessSearchDAO) super.withStatus(value);
     }
 

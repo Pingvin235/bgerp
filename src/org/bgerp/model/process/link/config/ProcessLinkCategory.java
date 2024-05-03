@@ -1,6 +1,7 @@
 package org.bgerp.model.process.link.config;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Config;
@@ -16,7 +17,7 @@ public class ProcessLinkCategory extends Config{
     private final String linkType;
     private final Set<Integer> processTypeIds;
     private final boolean add;
-    private final Set<Integer> addProcessStatusIds;
+    private final List<Integer> addProcessStatusIds;
 
     ProcessLinkCategory(int id, ConfigMap config) throws InitStopException {
         super(null);
@@ -27,7 +28,7 @@ public class ProcessLinkCategory extends Config{
         initWhen(linkType.equals(Process.LINK_TYPE_DEPEND) || linkType.equals(Process.LINK_TYPE_LINK) || linkType.equals(Process.LINK_TYPE_MADE));
         this.processTypeIds = Collections.unmodifiableSet(Utils.toIntegerSet(config.get("process.types")));
         this.add = config.getBoolean("add", true);
-        this.addProcessStatusIds = !add ? null : Collections.unmodifiableSet(Utils.toIntegerSet(config.get(("add.process.statuses"))));
+        this.addProcessStatusIds = !add ? null : Collections.unmodifiableList(Utils.toIntegerList(config.get(("add.process.statuses"))));
     }
 
     public int getId() {
@@ -54,7 +55,7 @@ public class ProcessLinkCategory extends Config{
         return add;
     }
 
-    public Set<Integer> getAddProcessStatusIds() {
+    public List<Integer> getAddProcessStatusIds() {
         return addProcessStatusIds;
     }
 }
