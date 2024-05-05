@@ -1,12 +1,12 @@
 [Unit]
-Description=BGERP Enterprise Process Management System
-After=network.target
- 
+Description=BGERP
+After=network.target mysql.service
+
 [Service]
 Type=forking
 ExecStart=/opt/bgerp/erp.sh start
 ExecStop=/opt/bgerp/erp.sh stop
 PIDFile=/opt/bgerp/.run/bgerp.pid
- 
+
 [Install]
 WantedBy=multi-user.target
