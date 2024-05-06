@@ -12,8 +12,8 @@
 			<input type="hidden" name="action" value="formSend"/>
 			<input name="title" type="text" size="50" placeholder="Title"/>
 			<button type="button" class="btn-grey ml1" onclick="
-				$$.ajax.post(this.form).done((response) =>
-					$$.shell.message.show(response.data.messageTitle, response.data.messageText)
+				$$.ajax.post(this.form).done((result) =>
+					$$.shell.message.show(result.data.messageTitle, result.data.messageText)
 				)
 			">Send</button>
 		</form>

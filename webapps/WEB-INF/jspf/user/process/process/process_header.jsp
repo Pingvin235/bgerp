@@ -23,8 +23,8 @@
 							</c:url>
 							<li>
 								<a href="#" onclick="if (confirm('${l.l('Clone process')}?'))
-									$$.ajax.post('${url}').done((response) => {
-										$$.process.open(response.data.process.id);
+									$$.ajax.post('${url}').done((result) => {
+										$$.process.open(result.data.process.id);
 									}); return false;">
 									<i class="ti-layers"></i>
 									${l.l('Clone process')}

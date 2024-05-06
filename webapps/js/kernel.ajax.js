@@ -66,15 +66,15 @@ $$.ajax = new function () {
 			if (options.failAlert !== false)
 				error(separated.url, jqXHR, textStatus, errorThrown);
 			def.reject();
-		}).done((data) => {
+		}).done((result) => {
 			requestDone();
 			if (!options.html) {
-				if (checkResponse(data, form))
-					def.resolve(data);
+				if (checkResponse(result, form))
+					def.resolve(result);
 				else
 					def.reject();
 			} else
-				def.resolve(data);
+				def.resolve(result);
 		});
 
 		return def.promise();
@@ -361,24 +361,24 @@ $$.ajax = new function () {
 
 	/**
 	 * Checks AJAX response.
-	 * @param {*} data param and values
+	 * @param {*} result the response result object
 	 * @param {*} form optional form object, to mark incorrect fields there
 	 */
-	const checkResponse = (data, form) => {
+	const checkResponse = (result, form) => {
 		let result = false;
 
-		if (data.status == 'ok') {
-			result = data;
+		if (result.status == 'ok') {
+			result = result;
 
-			processClientEvents(data);
+			processClientEvents(result);
 
-			if (data.message)
-				$$.shell.message.show("Message", data.message);
+			if (result.message)
+				$$.shell.message.show("Message", result.message);
 		} else {
-			const message = data.message;
+			const message = result.message;
 
 			if (form) {
-				const paramName = data.data && data.data.paramName;
+				const paramName = result.data && result.data.paramName;
 				if (paramName) {
 					const $input = $(form).find("input[name='" + paramName + "']");
 					$input.addClass("error");
@@ -388,7 +388,7 @@ $$.ajax = new function () {
 
 			$$.shell.message.show("ERROR", message);
 
-			processClientEvents(data);
+			processClientEvents(result);
 		}
 
 		return result;
