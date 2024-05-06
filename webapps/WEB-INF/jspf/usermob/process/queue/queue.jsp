@@ -36,7 +36,7 @@
 
 					<c:set var="showEditor">$('#processQueueShow').hide(); $('#processQueueEditProcess').show();</c:set>
 					<c:set var="createCommand">
-						$$.ajax.post('${createUrl}').done(() => { $$.ajax.load('process.do?wizard=1&id=' + result.data.process.id, $('#processQueueEditProcess')); ${showEditor} });
+						$$.ajax.post('${createUrl}').done((result) => { $$.ajax.load('process.do?wizard=1&id=' + result.data.process.id, $('#processQueueEditProcess')); ${showEditor} });
 					</c:set>
 
 					<button type="button" class="btn-green ml1" onclick="${createCommand}">${type.title}</button>
