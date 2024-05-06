@@ -1,9 +1,11 @@
 package ru.bgcrm.model.process.wizard;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.dao.expression.Expression;
 
+@Bean
 public class JexlStep extends Step {
     private final String doExpression;
 

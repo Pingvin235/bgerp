@@ -1,7 +1,9 @@
 package ru.bgcrm.model.process.wizard;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 
+@Bean
 public class AddressInfoStep extends Step {
     private final int addressParamId;
 

@@ -1,10 +1,12 @@
 package ru.bgcrm.model.process.wizard;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
+@Bean
 public class ContinueStep extends Step {
     private static final Log log = Log.getLog();
 

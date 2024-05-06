@@ -30,14 +30,14 @@ createWizard.createStep.<id>.class=<class>
 |Описание и параметры
 
 |
-ru.bgcrm.model.process.wizard.AddressInfoStep
+AddressInfoStep
 |
 Отображение информации по указанному в процессе адресу (комментарий дома).
 [square]
 * *addressParamId* - код параметра.
 
 |
-ru.bgcrm.model.process.wizard.ContinueStep
+ContinueStep
 |
 Продолжение работы мастера либо остановка.
 [square]
@@ -46,7 +46,7 @@ ru.bgcrm.model.process.wizard.ContinueStep
 * *continueText* - текст подтверждения прохождения шага.
 
 |
-ru.bgcrm.model.process.wizard.FillParamsStep
+FillParamsStep
 
 image::_res/proc_wiz_fp.png[]
 |
@@ -56,19 +56,7 @@ image::_res/proc_wiz_fp.png[]
 * *checkParamIds* - через запятую коды параметров обязательные для заполнения, если не указано - должен быть заполнен хотя бы один.
 
 |
-ru.bgcrm.model.process.wizard.JexlStep
-|
-Выполнение произвольного <<../extension.adoc#jexl, JEXL>> скрипта.
-[square]
-* *doExpression* - сам скрипт, передаётся <<../extension.adoc#jexl-process-context, типовой контекст для обработки процесса>>.
-
-После выполнения скрипт возвращает Map с установленными полями:
-[square]
-* *filled* - java.lang.Boolean, шаг заполнен;
-* *message* - java.lang.String, сообщение для вывода в интерфейс.
-
-|
-ru.bgcrm.model.process.wizard.LinkCustomerStep
+LinkCustomerStep
 
 image::_res/proc_wiz_clink.png[]
 |
@@ -78,26 +66,39 @@ image::_res/proc_wiz_clink.png[]
 * *paramGroupId* - группа параметров создаваемого контрагента.
 
 |
-ru.bgcrm.model.process.wizard.SetDescriptionStep
+SetDescriptionStep
 
 image::_res/proc_wiz_descr.png[]
 |
 Установка описания в создаваемый процесс.
 
 |
-ru.bgcrm.model.process.wizard.SetExecutorsStep
+SetExecutorsStep
 
 image::_res/proc_wiz_se.png[]
 |
 Установка исполнителей процесса.
 
 |
-ru.bgcrm.model.process.wizard.SetStatusStep
+SetStatusStep
 
 image::_res/proc_wiz_st.png[]
 |
 Изменение статуса процесса.
 
+|
+JexlStep
+|
+CAUTION: The step is not recommended to use, as JEXL scripts are very difficult for support.
+
+Выполнение произвольного <<../extension.adoc#jexl, JEXL>> скрипта.
+[square]
+* *doExpression* - сам скрипт, передаётся <<../extension.adoc#jexl-process-context, типовой контекст для обработки процесса>>.
+
+После выполнения скрипт возвращает Map с установленными полями:
+[square]
+* *filled* - java.lang.Boolean, шаг заполнен;
+* *message* - java.lang.String, сообщение для вывода в интерфейс.
 |===
 
 == Шаги мастера плагина BGBilling
