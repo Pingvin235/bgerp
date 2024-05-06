@@ -668,6 +668,9 @@ if position isn't re-defined in process type or parameter group.</en>
 		<ru>Обслуживание, начатое в {}, было отменено. Работа в системе может быть продолжена.</ru>
 	</p>
 	<p><en>Forbidden to add group {} with role {}</en><ru>Запрещено добавлять группу {} с ролью {}</ru></p>
+	<p><en>Parameter with ID {} is disallowed to edit</en><ru>Параметр с кодом {} запрещен для изменения</ru></p>
+	<p><en>Parameter not found</en><ru>Параметр не найден</ru></p>
+	<p><en>The tagged parameter is disallowed to edit</en><ru>Данный тегированный параметр запрещён для правки</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

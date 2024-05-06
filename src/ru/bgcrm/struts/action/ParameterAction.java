@@ -326,24 +326,23 @@ public class ParameterAction extends BaseAction {
         Set<Integer> allowedParamIds = Utils.toIntegerSet(form.getPermission().get("parameterIds"));
 
         if (!restrictedParamIds.isEmpty() && restrictedParamIds.contains(paramId)) {
-            throw new BGMessageException("Параметр с кодом " + paramId + " запрещен для изменения.");
+            throw new BGMessageException("Parameter with ID {} is disallowed to edit", paramId);
         } else if (!allowedParamIds.isEmpty() && !allowedParamIds.contains(paramId)) {
-            throw new BGMessageException("Параметр с кодом " + paramId + " запрещен для изменения.");
+            throw new BGMessageException("Parameter with ID {} is disallowed to edit", paramId);
         }
 
         ParamValueDAO paramValueDAO = new ParamValueDAO(con, true, userId);
 
         Parameter parameter = ParameterCache.getParameter(paramId);
-        if (parameter == null) {
-            throw new BGMessageException("Параметр не найден.");
-        }
+        if (parameter == null)
+            throw new BGMessageException("Parameter not found");
 
         // проверка тегов
         Set<String> tags = Utils.toSet(parameter.getConfigMap().get("tags"));
         if (tags.size() > 0) {
             Set<String> allowedTags = Utils.toSet(form.getPermission().get("tags"));
             if (CollectionUtils.intersection(tags, allowedTags).size() == 0) {
-                throw new BGMessageException("Данный тегированный параметр запрещён для правки.");
+                throw new BGMessageException("The tagged parameter is disallowed to edit");
             }
         }
 
