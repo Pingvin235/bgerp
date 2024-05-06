@@ -342,30 +342,26 @@ public class Queue extends IdTitle {
 
         sortSet.setComboCount(config.getInt("sort.combo.count", 0));
 
-        for (Map<String, String> sortComboValues : config.parseObjects("sort.combo.")) {
-            int id = Utils.parseInt(sortComboValues.get("id"));
-            if (id > 0) {
-                int defaultValue = Utils.parseInt(sortComboValues.get("default"));
-                if (defaultValue > 0) {
-                    sortSet.setDefaultSortValue(id, defaultValue);
-                }
-                int value = Utils.parseInt(sortComboValues.get("value"));
-                if (value > 0) {
-                    sortSet.setSortValue(id, value);
-                }
-            }
+        for (var me : config.subIndexed("sort.combo.").entrySet()) {
+            int id = me.getKey();
+            var sortComboValues = me.getValue();
+
+            int defaultValue = sortComboValues.getInt("default");
+            if (defaultValue > 0)
+                sortSet.setDefaultSortValue(id, defaultValue);
+
+            int value = sortComboValues.getInt("value");
+            if (value > 0)
+                sortSet.setSortValue(id, value);
         }
 
-        for (Map<String, String> modeParams : config.parseObjects("sort.mode.")) {
+        for (var modeParams : config.subIndexed("sort.mode.").values()) {
             SortMode mode = new SortMode();
-            mode.setDesc(Utils.parseBoolean(modeParams.get("desc")));
+            mode.setDesc(modeParams.getBoolean("desc"));
             mode.setTitle(modeParams.get("title"));
 
             String expression = modeParams.get("expr");
-            int columnId = Utils.parseInt(modeParams.get("columnId"));
-            if (columnId <= 0) {
-                columnId = Utils.parseInt(modeParams.get("column.id"));
-            }
+            int columnId = (int) modeParams.getSokLong(-1L, "columnId", "column.id");
 
             if (Utils.notBlankString(expression)) {
                 mode.setOrderExpression(expression);

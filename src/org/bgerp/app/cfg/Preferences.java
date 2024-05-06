@@ -262,19 +262,10 @@ public class Preferences extends ConfigMap {
     }
 
     /**
-     * Функция для разбора конфигураций вида:
-     *
-     * filetype.1.name=...
-     * filetype.1.value=...
-     * filetype.2.name=...
-     * filetype.2.value..
-     *
-     * разбирает в список Map с ключами name, value, код передается под ключем id.
-     *
-     * @param prefix
-     * @param setup
+     * Use {@link #subIndexed(String)}
      * @return
      */
+    @Deprecated
     public List<Map<String, String>> parseObjects(String prefix) {
         Map<String, Map<String, String>> tmpMap = new HashMap<>();
         Map<String, String> values = getHashValuesWithPrefix(prefix);
@@ -313,33 +304,5 @@ public class Preferences extends ConfigMap {
         });
 
         return res;
-    }
-
-    @Deprecated
-    public Map<String, Map<String, String>> parseObjectsNoOrder(String prefix) {
-        Map<String, Map<String, String>> result = new HashMap<>();
-        Map<String, String> values = getHashValuesWithPrefix(prefix);
-        for (Map.Entry<String, String> value : values.entrySet()) {
-            String id = null;
-            String key = null;
-
-            int pos = value.getKey().indexOf('.');
-            if (pos <= 0) {
-                continue;
-            }
-
-            id = value.getKey().substring(0, pos);
-            key = value.getKey().substring(pos + 1);
-
-            Map<String, String> data = result.get(id);
-            if (data == null) {
-                data = new HashMap<>();
-                data.put("id", String.valueOf(id));
-                result.put(id, data);
-            }
-
-            data.put(key, value.getValue());
-        }
-        return result;
     }
 }

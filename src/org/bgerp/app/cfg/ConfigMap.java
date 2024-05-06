@@ -43,6 +43,8 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
 
     public abstract String get(String key, String def);
 
+    public abstract Set<Map.Entry<String, String>> entrySet();
+
     @Override
     public String get(Object key) {
         return get((String) key, null);
@@ -207,13 +209,6 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
         }
     }
 
-    public abstract Set<Map.Entry<String, String>> entrySet();
-
-    @Deprecated
-    public String fingerprint() {
-        throw new UnsupportedOperationException();
-    }
-
     /**
      * Selects subset of parameters by key prefixes.
      * @param prefixes key prefixes.
@@ -236,42 +231,21 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Сериализация набора параметров в строку <prefix><ключ>=<значение> с переносами строк.
-     * @return
+     * Creates a new sorted sub-map with integer keys.
+     * <pre>
+     * prefix.1.12=2
+     * prefix.1.34=4
+     * prefix.2.56=2
+     * prefix.2.78=4
+     * ->
+     * sorted {@link Map}
+     * 1={12=2,34=4}
+     * 2={56=2,78=4}</pre>
+     * @param prefix the prefix for extraction.
+     * @return never {@code null}.
      */
-    public String getDataString() {
-        return getDataString("");
-    }
-
-    /**
-     * Сериализация набора параметров в строку <prefix><ключ>=<значение> с переносами строк.
-     * К каждой строке добавляется префикс.
-     * @param prefix
-     * @return
-     */
-    public String getDataString(String prefix) {
-        StringBuilder result = new StringBuilder();
-
-        for (Entry<String, String> e : entrySet()) {
-            result.append(prefix);
-            result.append(e.getKey());
-            result.append("=");
-            result.append(e.getValue());
-            result.append("\n");
-        }
-
-        return result.toString();
-    }
-
-    /**
-     * @Use {@link ConfigMap#getDataString()}.
-     */
-    @Deprecated
-    public static final String getDataString(ConfigMap config) {
-        if (config != null) {
-            return config.getDataString();
-        }
-        return "";
+    public SortedMap<Integer, ConfigMap> subIndexed(String prefix) {
+        return subSokIndexed(prefix);
     }
 
     /**
@@ -332,97 +306,45 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Creates a new sorted sub-map with integer keys.
-     * <pre>
-     * prefix.1.12=2
-     * prefix.1.34=4
-     * prefix.2.56=2
-     * prefix.2.78=4
-     * ->
-     * sorted {@link Map}
-     * 1={12=2,34=4}
-     * 2={56=2,78=4}</pre>
-     * @param prefix the prefix for extraction.
-     * @return never {@code null}.
-     */
-    public SortedMap<Integer, ConfigMap> subIndexed(String prefix) {
-        return subSokIndexed(prefix);
-    }
-
-    /**
-     * Creates a new unsorted sub-map with integer keys.
+     * Creates a new unsorted sub-map.
      * <pre>
      * prefix.a.12=2
      * prefix.a.34=4
-     * prefix.b.56=2
-     * prefix.b.78=4
+     * prefix.b.56=u
+     * prefix.b.kk=4
      * ->
      * unsorted map
      * a={12=2,34=4}
-     * b={56=2,78=4}</pre>
-     * @param prefixes prefixes for extraction.
-     * @return never {@code null}.
+     * b={56=u,kk=4}</pre>
+     * @param prefix prefix for extraction
+     * @return not {@code null} sub-map
      * @see #subIndexed(String)
      */
-    public Map<String, ConfigMap> subKeyed(final String... prefixes) {
+    public Map<String, ConfigMap> subKeyed(String prefix) {
         Map<String, ConfigMap> result = new HashMap<>();
         Map<String, Map<String, String>> resultMap = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
-            String paramKey = e.getKey();
-            for (String prefix : prefixes) {
-                if (paramKey.startsWith(prefix)) {
-                    String suffix = paramKey.substring(prefix.length(), paramKey.length());
+            String key = e.getKey();
+            if (key.startsWith(prefix)) {
+                String suffix = key.substring(prefix.length(), key.length());
 
-                    String[] pref = PATTERN_DOT.split(suffix, 2);
+                String[] pref = PATTERN_DOT.split(suffix, 2);
 
-                    Map<String, String> map = resultMap.get(pref[0]);
-                    if (map == null) {
-                        resultMap.put(pref[0], map = new HashMap<>());
-                        result.put(pref[0], new SimpleConfigMap(map));
-                    }
-
-                    if (pref.length == 2) {
-                        map.put(pref[1], e.getValue());
-                    } else {
-                        map.put("", e.getValue());
-                    }
+                Map<String, String> map = resultMap.get(pref[0]);
+                if (map == null) {
+                    resultMap.put(pref[0], map = new HashMap<>());
+                    result.put(pref[0], new SimpleConfigMap(map));
                 }
+
+                if (pref.length == 2)
+                    map.put(pref[1], e.getValue());
+                else
+                    // strange logic, seems not to be used anywhere
+                    map.put("", e.getValue());
             }
         }
 
-        return result;
-    }
-
-    /**
-     * Use {@link #subKeyed(String...)}
-     * @param prefix
-     * @return
-     */
-    @Deprecated
-    public Map<String, Map<String, String>> parseObjectsNoOrder(String prefix) {
-        Map<String, Map<String, String>> result = new HashMap<>();
-        for (Map.Entry<String, String> value : sub(prefix).entrySet()) {
-            String id = null;
-            String key = null;
-
-            int pos = value.getKey().indexOf('.');
-            if (pos <= 0) {
-                continue;
-            }
-
-            id = value.getKey().substring(0, pos);
-            key = value.getKey().substring(pos + 1);
-
-            Map<String, String> data = result.get(id);
-            if (data == null) {
-                data = new HashMap<>();
-                data.put("id", String.valueOf(id));
-                result.put(id, data);
-            }
-
-            data.put(key, value.getValue());
-        }
         return result;
     }
 
@@ -540,4 +462,25 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
         return null;
     }
 
+    /**
+     * Serializes the data to {@code key=value} string lines
+     * @return the string with pairs on lines
+     */
+    public String getDataString() {
+        return getDataString("");
+    }
+
+    private String getDataString(String prefix) {
+        StringBuilder result = new StringBuilder();
+
+        for (Entry<String, String> e : entrySet()) {
+            result.append(prefix);
+            result.append(e.getKey());
+            result.append("=");
+            result.append(e.getValue());
+            result.append("\n");
+        }
+
+        return result.toString();
+    }
 }

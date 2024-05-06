@@ -59,20 +59,19 @@ public class TypeProperties {
 
         this.lastModify = lastModify;
 
-        Preferences setup = new Preferences(data);
+        Preferences configMap = new Preferences(data);
 
-        for (Map<String, String> transParam : setup.parseObjects("transaction.")) {
-            var id = transParam.get("id");
-            var key = new TransactionKey(id);
-            var properties = new TransactionProperties(setup, "transaction." + id + ".");
-            transactionPropertiesMap.put(key, properties);
+        for (String key : configMap.subKeyed("transaction.").keySet()) {
+            var properties = new TransactionProperties(configMap, "transaction." + key + ".");
+            transactionPropertiesMap.put(new TransactionKey(key), properties);
         }
-        createStatusId = setup.getInt("create.status", 0);
-        closeStatusIds = Utils.toIntegerSet(setup.get("close.status", ""));
-        statusIds = Utils.toIntegerList(setup.get("status.ids", ""));
-        parameterIds = Utils.toIntegerList(setup.get("param.ids", ""));
-        allowedGroups = ProcessGroups.from(Utils.parseIdTitleList(setup.get("allowed.groups"), "0"));
-        groups = ProcessGroups.from(Utils.parseIdTitleList(setup.get("create.groups"), "0"));
+
+        createStatusId = configMap.getInt("create.status", 0);
+        closeStatusIds = Utils.toIntegerSet(configMap.get("close.status", ""));
+        statusIds = Utils.toIntegerList(configMap.get("status.ids", ""));
+        parameterIds = Utils.toIntegerList(configMap.get("param.ids", ""));
+        allowedGroups = ProcessGroups.from(Utils.parseIdTitleList(configMap.get("allowed.groups"), "0"));
+        groups = ProcessGroups.from(Utils.parseIdTitleList(configMap.get("create.groups"), "0"));
 
         this.config = config;
 

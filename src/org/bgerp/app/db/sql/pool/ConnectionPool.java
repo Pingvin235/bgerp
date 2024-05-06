@@ -95,13 +95,13 @@ public class ConnectionPool {
 
             connectionPool = initConnectionPool(map, "db.");
             for (String slaveId : map.subKeyed("db.slave.").keySet()) {
-                log.info(name + "Init slave pool " + slaveId);
+                log.info(name + "Init slave pool {}", slaveId);
                 slavePools.put(slaveId, initConnectionPool(map, "db.slave." + slaveId + "."));
             }
 
             log.info(name + "Init trash pools..");
             for (String trashId : map.subKeyed("db.trash.").keySet()) {
-                log.info(name + "Init trash pool " + trashId);
+                log.info(name + "Init trash pool {}", trashId);
                 trashPools.put(trashId, initConnectionPool(map, "db.trash." + trashId + "."));
             }
             trashSelector = new TrashDatabaseSelector(map);
