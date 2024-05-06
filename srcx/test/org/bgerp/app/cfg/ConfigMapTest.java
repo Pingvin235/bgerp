@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
@@ -253,56 +254,46 @@ public class ConfigMapTest {
     }
 
     @Test
-    public void testSubIndexed() {
-        ConfigMap configMap = SimpleConfigMap.of("1.key", "1", "1.key2", "2", "key3", "3");
-        var map = configMap.subIndexed("");
-
-        Assert.assertEquals(1, map.size());
-        ConfigMap subConfigMap = map.get(1);
-        Assert.assertNotNull(subConfigMap);
-        Assert.assertEquals("1", subConfigMap.get("key"));
-        Assert.assertEquals("2", subConfigMap.get("key2"));
-        Assert.assertNull(subConfigMap.get("key3"));
-
-        configMap = SimpleConfigMap.of("prefix.1.key1", "11", "prefix.2.key2", "22", "prefix.1.key2", "12", "prefix.new.2.key1", "21", "blabla", "value");
-        map = configMap.subSokIndexed("prefix.new.", "prefix.");
-
-        Assert.assertEquals(2, map.size());
-
-        subConfigMap = map.get(1);
-        Assert.assertNotNull(subConfigMap);
-        Assert.assertEquals("11", subConfigMap.get("key1"));
-        Assert.assertEquals("12", subConfigMap.get("key2"));
-        subConfigMap = map.get(2);
-        Assert.assertNotNull(subConfigMap);
-        Assert.assertEquals("22", subConfigMap.get("key2"));
-        Assert.assertEquals("21", subConfigMap.get("key1"));
-        subConfigMap = map.get(3);
-        Assert.assertNull(subConfigMap);
+    public void testSub() {
+        var map = SimpleConfigMap.of("preFixkey1", "value1", "preFixkey2", "value2");
+        Assert.assertEquals(Map.of("key1", "value1", "key2", "value2"), map.sub("preFix"));
     }
 
-    @SuppressWarnings("unlikely-arg-type")
+    @Test
+    public void testSubSok() {
+        var map = SimpleConfigMap.of("prefix.new.key2", "value2", "prefix.old.key1", "value1");
+        Assert.assertEquals(Map.of("key1", "value1", "key2", "value2"), map.subSok("prefix.new.", "prefix.old."));
+    }
+
+    @Test
+    public void testSubIndexed() {
+        var map = SimpleConfigMap.of("1.key", "1", "1.key2", "2", "key3", "3");
+        var subIndexed = map.subIndexed("");
+
+        Assert.assertEquals(1, subIndexed.size());
+        Assert.assertEquals(Map.of("key", "1", "key2", "2"), subIndexed.get(1));
+
+        map = SimpleConfigMap.of("prefix.1.key1", "11", "prefix.2.key2", "22", "prefix.1.key2", "12", "prefix.new.2.key1", "21", "blabla", "value");
+        subIndexed = map.subSokIndexed("prefix.new.", "prefix.");
+        var subIndexedIt = subIndexed.values().iterator();
+
+        Assert.assertEquals(2, subIndexed.size());
+
+        Assert.assertEquals(Map.of("key1", "11", "key2", "12"), subIndexedIt.next());
+        Assert.assertEquals(Map.of("key1", "21", "key2", "22"), subIndexedIt.next());
+        Assert.assertNull(subIndexed.get(3));
+    }
+
     @Test
     public void testSubKeyed() {
-        final String prefix = "prefix.";
-        ConfigMap configMap = SimpleConfigMap.of(prefix + "1.key", "aa", prefix + "3.key2", "bb", prefix + "key3.key4", "dd", prefix + "keyNoDot", "value");
-        var map = configMap.subKeyed(prefix);
+        var map = SimpleConfigMap.of("prefix.1.key", "aa", "prefix.3.key2", "bb", "prefix.key3.key4", "dd", "prefix.keyNoDot", "value");
+        var subKeyed = map.subKeyed("prefix.");
 
-        Assert.assertEquals(4, map.size());
+        Assert.assertEquals(4, subKeyed.size());
 
-        Assert.assertNull(map.get(1));
-        ConfigMap subConfigMap = map.get("1");
-        Assert.assertEquals(1, subConfigMap.size());
-        Assert.assertNotNull(subConfigMap);
-        Assert.assertEquals("aa", subConfigMap.get("key"));
-
-        subConfigMap = map.get("3");
-        Assert.assertNotNull(subConfigMap);
-        Assert.assertEquals(1, subConfigMap.size());
-        Assert.assertEquals("bb", subConfigMap.get("key2"));
-
-        subConfigMap = map.get("keyNoDot");
-        Assert.assertNotNull(subConfigMap);
-        Assert.assertEquals("value", subConfigMap.get(""));
+        Assert.assertEquals(Map.of("key", "aa"), subKeyed.get("1"));
+        Assert.assertEquals(Map.of("key2", "bb"), subKeyed.get("3"));
+        Assert.assertEquals(Map.of("key4", "dd"), subKeyed.get("key3"));
+        Assert.assertEquals(Map.of("", "value"), subKeyed.get("keyNoDot"));
     }
 }

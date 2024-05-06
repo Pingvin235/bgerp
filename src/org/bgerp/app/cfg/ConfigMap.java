@@ -210,58 +210,90 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Selects subset of parameters by key prefixes.
-     * @param prefixes key prefixes.
-     * @return
+     * Creates a sub map by a key prefix
+     * <pre>
+     * prefixkey1=value1
+     * prefixkey2=value2
+     * ->
+     * map
+     * key1=value1
+     * key2=value2</pre>
+     * @param prefix the key prefix for extraction
+     * @return not {@code null} config map
      */
-    public ConfigMap sub(String... prefixes) {
+    public ConfigMap sub(String prefix) {
+        return subSok(prefix);
+    }
+
+    /**
+     * Creates a sub map by key prefixes
+     * <pre>
+     * prefixkey1=value1
+     * prefixkey2=value2
+     * ->
+     * config map
+     * key1=value1
+     * key2=value2</pre>
+     * @param prefixes key prefixes for extraction, the first one is the actual, the rest are deprecated prefixes
+     * @return not {@code null} config map
+     */
+    public ConfigMap subSok(String... prefixes) {
         Map<String, String> result = new HashMap<>();
 
+        String deprecatedPrefix = null;
+
         for (Entry<String, String> e : entrySet()) {
-            String paramKey = e.getKey();
-            for (String prefix : prefixes) {
-                if (paramKey.startsWith(prefix)) {
-                    String suffix = paramKey.substring(prefix.length(), paramKey.length());
-                    result.put(suffix, e.getValue());
+            String key = e.getKey();
+            for (int i = 0; i < prefixes.length; i++) {
+                String prefix = prefixes[i];
+                if (key.startsWith(prefix)) {
+                    result.put(key.substring(prefix.length(), key.length()), e.getValue());
+
+                    if (i > 0)
+                        deprecatedPrefix = prefix;
+
+                    break;
                 }
             }
         }
+
+        if (deprecatedPrefix != null)
+            log.warnd("Used deprecated config prefix key '{}', the actual one is '{}'", deprecatedPrefix, prefixes[0]);
 
         return new SimpleConfigMap(result);
     }
 
     /**
-     * Creates a new sorted sub-map with integer keys.
+     * Creates a sorted map of maps by a key prefix
      * <pre>
-     * prefix.1.12=2
-     * prefix.1.34=4
-     * prefix.2.56=2
-     * prefix.2.78=4
+     * prefix1.12=2
+     * prefix1.34=4
+     * prefix2.56=2
+     * prefix2.78=4
      * ->
      * sorted {@link Map}
      * 1={12=2,34=4}
      * 2={56=2,78=4}</pre>
-     * @param prefix the prefix for extraction.
-     * @return never {@code null}.
+     * @param prefix the key prefix for extraction
+     * @return not {@code null} map
      */
     public SortedMap<Integer, ConfigMap> subIndexed(String prefix) {
         return subSokIndexed(prefix);
     }
 
     /**
-     * Creates a new sorted sub-map with integer keys.
-     * With support of old prefixes.
+     * Creates a sorted map of maps by key prefixes
      * <pre>
-     * prefix.1.12=2
-     * prefix.1.34=4
-     * prefix.2.56=2
-     * prefix.2.78=4
+     * prefix1.12=2
+     * prefix1.34=4
+     * prefix2.56=2
+     * prefix2.78=4
      * ->
      * sorted {@link Map}
      * 1={12=2,34=4}
      * 2={56=2,78=4}</pre>
-     * @param prefixes prefixes for extraction, the first one is the actual, the rest are deprecated prefixes.
-     * @return never {@code null}.
+     * @param prefixes key prefixes for extraction, the first one is the actual, the rest are deprecated prefixes
+     * @return not {@code null} map
      */
     public SortedMap<Integer, ConfigMap> subSokIndexed(String... prefixes) {
         SortedMap<Integer, ConfigMap> result = new TreeMap<>();
@@ -269,11 +301,11 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
         String deprecatedPrefix = null;
 
         for (Entry<String, String> e : entrySet()) {
-            String paramKey = e.getKey();
+            String key = e.getKey();
             for (int i = 0; i < prefixes.length; i++) {
                 String prefix = prefixes[i];
-                if (paramKey.startsWith(prefix)) {
-                    String suffix = paramKey.substring(prefix.length(), paramKey.length());
+                if (key.startsWith(prefix)) {
+                    String suffix = key.substring(prefix.length(), key.length());
 
                     String[] pref = PATTERN_DOT.split(suffix, 2);
 
@@ -306,18 +338,18 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Creates a new unsorted sub-map.
+     * Creates a map of maps by a key prefix
      * <pre>
-     * prefix.a.12=2
-     * prefix.a.34=4
-     * prefix.b.56=u
-     * prefix.b.kk=4
+     * prefixa.12=2
+     * prefixa.34=4
+     * prefixb.56=u
+     * prefixb.kk=4
      * ->
      * unsorted map
      * a={12=2,34=4}
      * b={56=u,kk=4}</pre>
-     * @param prefix prefix for extraction
-     * @return not {@code null} sub-map
+     * @param prefix the key prefix for extraction
+     * @return not {@code null} map
      * @see #subIndexed(String)
      */
     public Map<String, ConfigMap> subKeyed(String prefix) {

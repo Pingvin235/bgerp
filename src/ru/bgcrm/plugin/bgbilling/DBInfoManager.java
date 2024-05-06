@@ -21,20 +21,17 @@ public class DBInfoManager {
 
     private static final Set<String> SUPPORTED_VERSIONS = Set.of("5.1", "5.2", "6.0", "6.1", "6.2", "7.0", "7.1", "7.2", "8.0", "8.2", "9.2");
 
-    private DBInfoManager(Setup setupData) {
-        final String prefix = "bgbilling:server.";
-        final String prefixOld = "bgbilling.";
+    private DBInfoManager(Setup setup) {
+        final String prefix = "bgbilling:server.", prefixOld = "bgbilling.";
 
-        for (Map.Entry<Integer, ConfigMap> me : setupData.subSokIndexed(prefix, prefixOld).entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : setup.subSokIndexed(prefix, prefixOld).entrySet()) {
             ConfigMap params = me.getValue();
-
-            //TODO: Исторически сложилось, что биллинги обозначаются строками
             try {
                 DBInfo dbInfo = new DBInfo(params.get("id"));
                 dbInfo.setUrl(params.get("url"));
                 dbInfo.setTitle(params.get("title"));
                 dbInfo.setVersion(params.get("version", ""));
-                dbInfo.setSetup(setupData.sub(prefix + me.getKey() + ".", prefixOld + me.getKey() + "."));
+                dbInfo.setSetup(setup.subSok(prefix + me.getKey() + ".", prefixOld + me.getKey() + "."));
 
                 if (!SUPPORTED_VERSIONS.contains(dbInfo.getVersion())) {
                     throw new BGException("Unsupported billing version: " + dbInfo.getVersion());
@@ -42,7 +39,6 @@ public class DBInfoManager {
 
                 dbInfoMap.put(dbInfo.getId(), dbInfo);
                 dbInfoList.add(dbInfo);
-
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
