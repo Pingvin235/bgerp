@@ -360,25 +360,25 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Checks AJAX response.
-	 * @param {*} result the response result object
+	 * Checks AJAX response
+	 * @param {*} response the response result object
 	 * @param {*} form optional form object, to mark incorrect fields there
 	 */
-	const checkResponse = (result, form) => {
+	const checkResponse = (response, form) => {
 		let result = false;
 
-		if (result.status == 'ok') {
-			result = result;
+		if (response.status == 'ok') {
+			result = response;
 
-			processClientEvents(result);
+			processClientEvents(response);
 
-			if (result.message)
-				$$.shell.message.show("Message", result.message);
+			if (response.message)
+				$$.shell.message.show("Message", response.message);
 		} else {
-			const message = result.message;
+			const message = response.message;
 
 			if (form) {
-				const paramName = result.data && result.data.paramName;
+				const paramName = response.data && response.data.paramName;
 				if (paramName) {
 					const $input = $(form).find("input[name='" + paramName + "']");
 					$input.addClass("error");
@@ -388,7 +388,7 @@ $$.ajax = new function () {
 
 			$$.shell.message.show("ERROR", message);
 
-			processClientEvents(result);
+			processClientEvents(response);
 		}
 
 		return result;
