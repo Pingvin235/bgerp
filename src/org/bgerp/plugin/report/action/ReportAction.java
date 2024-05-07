@@ -35,8 +35,8 @@ public class ReportAction extends BaseAction {
             throw new BGException("Report not found");
 
         // deprecated, but already used in existing reports
-        form.setForwardFile(report.getJspFile());
+        form.setForwardFile(report.getJsp());
 
-        return html(conSet, form, report.getJspFile());
+        return html(conSet, form, report.getJsp());
     }
 }

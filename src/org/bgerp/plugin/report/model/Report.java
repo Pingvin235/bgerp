@@ -1,28 +1,19 @@
 package org.bgerp.plugin.report.model;
 
 import org.bgerp.app.cfg.ConfigMap;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.bgerp.app.servlet.jsp.GetJsp;
 
 /**
  * JSP report configuration.
  */
-public class Report {
+public class Report implements GetJsp {
     private final String id;
     private final String title;
-    private final String jspFile;
-
-    public Report(Document doc) {
-        Element docEl = doc.getDocumentElement();
-
-        id = docEl.getAttribute("id");
-        jspFile = docEl.getAttribute("jspFile");
-        title = docEl.getAttribute("title");
-    }
+    private final String jsp;
 
     public Report(String id, ConfigMap config) {
         this.id = id;
-        this.jspFile = config.get("jspFile");
+        this.jsp = config.get("jspFile");
         this.title = config.get("title");
     }
 
@@ -34,7 +25,8 @@ public class Report {
         return title;
     }
 
-    public String getJspFile() {
-        return jspFile;
+    @Override
+    public String getJsp() {
+        return jsp;
     }
 }
