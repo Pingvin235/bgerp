@@ -173,13 +173,13 @@ createAllowedProcessList=72:Подключение;74:Подключение1
 image::_res/iface_mob_create.png[]
 
 Открытие процесса происходит нажатием в любое место строки таблицы. При открытии процессе также вызывается мастер. Но не создания а редактирования.
-Пример открытого процесса со со следующей конфигурацией мастера:
+Пример открытого процесса со следующей конфигурацией мастера:
 ----
-createWizard.step.1.title=Статус
-createWizard.step.1.class=ru.bgcrm.model.process.wizard.SetStatusStep
-#
-createWizard.step.2.title=Описание
-createWizard.step.2.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
+wizard.step.1.title=Статус
+wizard.step.1.class=SetStatusStep
+
+wizard.step.2.title=Описание
+wizard.step.2.class=SetDescriptionStep
 ----
 
 image::_res/iface_mob_wizard.png[]

@@ -15,25 +15,23 @@ show.tab.messages=1
 show.tab.links=0
 show.tab.links.process=1
 show.tab.links.process.add.from.buffer=1
-#
+
 processReference.1.objectTypes=processCard
 processReference.1.stringExpression="#" + process.getId() + " " + u.escapeXml(process.getDescription())
-#
-#
+
 style.processCardLeftBlock=min-width: 500px;
 style.processCardRightBlock=width: 100%
-#
+
 # Creation Wizard
-#
-createWizard.createStep.1.title=JIRA Ticket
-createWizard.createStep.1.class=ru.bgcrm.model.process.wizard.FillParamsStep
-createWizard.createStep.1.parameterIds=1
-#
-#createWizard.createStep.2.title=Description
-createWizard.createStep.2.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
-#
-#createWizard.createStep.3.title=Executors
-#createWizard.createStep.3.class=ru.bgcrm.model.process.wizard.SetExecutorsStep
+wizard.createStep.1.title=JIRA Ticket
+wizard.createStep.1.class=FillParamsStep
+wizard.createStep.1.parameterIds=1
+
+#wizard.createStep.2.title=Description
+wizard.createStep.2.class=SetDescriptionStep
+
+#wizard.createStep.3.title=Executors
+#wizard.createStep.3.class=SetExecutorsStep
 ----
 
 === Настройка <<../kernel/process/queue.adoc#setup, очереди процессов>>

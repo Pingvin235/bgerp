@@ -11,9 +11,9 @@ cnt=1
 #
 BILLING_ID=BgbillingInet
 #
-createWizard.step.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.JexlStep
-createWizard.step.{@cnt}.title=Информация о процессе
-createWizard.step.{@cnt}.doExpression=<<END
+wizard.step.{@inc:cnt}.class=JexlStep
+wizard.step.{@cnt}.title=Информация о процессе
+wizard.step.{@cnt}.doExpression=<<END
      message = "";
 
      paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
@@ -73,14 +73,14 @@ createWizard.step.{@cnt}.doExpression=<<END
      return {"filled": true, "message": message};
 END
 #
-createWizard.step.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
-#createWizard.step.{@cnt}.title=Описание
+wizard.step.{@inc:cnt}.class=SetDescriptionStep
+#wizard.step.{@cnt}.title=Описание
 #
-createWizard.step.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.FillParamsStep
-createWizard.step.{@cnt}.title=Файлы
-createWizard.step.{@cnt}.parameterIds=14
+wizard.step.{@inc:cnt}.class=FillParamsStep
+wizard.step.{@cnt}.title=Файлы
+wizard.step.{@cnt}.parameterIds=14
 #
-createWizard.step.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.SetStatusStep
-createWizard.step.{@cnt}.title=Статус
+wizard.step.{@inc:cnt}.class=SetStatusStep
+wizard.step.{@cnt}.title=Статус
 #
 ----

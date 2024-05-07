@@ -49,7 +49,6 @@ import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
-import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
@@ -109,7 +108,7 @@ public class ProcessAction extends BaseAction {
 
             // wizard
             if (Utils.notBlankString(form.getParam("wizard")) || form.getId() < 0) {
-                Wizard wizard = type.getProperties().getCreateWizard();
+                Wizard wizard = type.getProperties().getWizard();
                 if (wizard != null) {
                     form.getHttpRequest().setAttribute("wizardData",
                             new WizardData(con, form, wizard, process, form.getId() < 0 ? wizard.getCreateStepList() : wizard.getStepList()));
@@ -253,7 +252,7 @@ public class ProcessAction extends BaseAction {
 
     protected static void doCreateWizard(DynActionForm form, Connection con, Process process, ProcessType type) throws SQLException {
         // временный процесс - с отрицательным кодом
-        Wizard wizard = type.getProperties().getCreateWizard();
+        Wizard wizard = type.getProperties().getWizard();
         if (wizard != null && !wizard.getCreateStepList().isEmpty()) {
             new ProcessDAO(con).processIdInvert(process);
 

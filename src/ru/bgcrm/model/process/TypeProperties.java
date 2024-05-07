@@ -49,7 +49,7 @@ public class TypeProperties {
     private Map<TransactionKey, TransactionProperties> transactionPropertiesMap = new HashMap<>();
 
     // мастер создания процесса через мобильный интерфейс
-    private Wizard createWizard;
+    private Wizard wizard;
 
     public TypeProperties() {
     }
@@ -78,7 +78,7 @@ public class TypeProperties {
         try {
             Wizard wizard = new Wizard(this);
             if (wizard.getCreateStepList().size() > 0 || wizard.getStepList().size() > 0) {
-                this.createWizard = wizard;
+                this.wizard = wizard;
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -258,7 +258,7 @@ public class TypeProperties {
         this.lastModify = lastModify;
     }
 
-    public Wizard getCreateWizard() {
-        return createWizard;
+    public Wizard getWizard() {
+        return wizard;
     }
 }

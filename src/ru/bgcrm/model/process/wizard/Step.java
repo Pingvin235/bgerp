@@ -45,7 +45,7 @@ public abstract class Step extends IdTitle {
 
             return (Step) clazz.getConstructor(ConfigMap.class).newInstance(config);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
 
         return null;

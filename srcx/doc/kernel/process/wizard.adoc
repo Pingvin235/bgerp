@@ -9,8 +9,8 @@
 Шаги мастера настраиваются в конфигурации типа процесса в виде одной или нескольких инструкций вида:
 [source]
 ----
-createWizard.createStep.<id>.title=<title>
-createWizard.createStep.<id>.class=<class>
+wizard.createStep.<id>.title=<title>
+wizard.createStep.<id>.class=<class>
 ----
 
 Где:
@@ -19,7 +19,7 @@ createWizard.createStep.<id>.class=<class>
 * *<title>* - наименование шага (необязательно);
 * *<class>* - Java класс с шагом.
 
-Класс шага определяет его логику. Для класса возможны дополнительные параметры, указываются в виде: *createWizard.createStep.<id>.<param>=<value>*.
+Класс шага определяет его логику. Для класса возможны дополнительные параметры, указываются в виде: *wizard.createStep.<id>.<param>=<value>*.
 Доступные в данный момент шаги описаны в таблице.
 
 == Шаги мастера ядра
@@ -108,17 +108,16 @@ include::../../plugin/bgbilling/wizard_steps.adocf[]
 Пример конфигурации мастера.
 [source]
 ----
-cnt=0
-createWizard.createStep.{@inc:cnt}.title=Контрагент
-createWizard.createStep.{@cnt}.class=ru.bgcrm.model.process.wizard.LinkCustomerStep
-#
-createWizard.createStep.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.FillParamsStep
-createWizard.createStep.{@cnt}.title=Адрес установки / конт. лицо
-createWizard.createStep.{@cnt}.parameterIds=16,49
-#
-createWizard.createStep.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
-#
-createWizard.createStep.{@inc:cnt}.class=ru.bgcrm.model.process.wizard.SetExecutorsStep
+wizard.createStep.{@inc:cnt}.title=Контрагент
+wizard.createStep.{@cnt}.class=LinkCustomerStep
+
+wizard.createStep.{@inc:cnt}.class=FillParamsStep
+wizard.createStep.{@cnt}.title=Адрес установки / конт. лицо
+wizard.createStep.{@cnt}.parameterIds=16,49
+
+wizard.createStep.{@inc:cnt}.class=SetDescriptionStep
+
+wizard.createStep.{@inc:cnt}.class=SetExecutorsStep
 ----
 
 И снимок экрана с заполненным мастером.
@@ -128,12 +127,12 @@ image::_res/proc_wiz_screen.png[]
 Если сессия пользователя была аварийно прервана до окончания заполнения мастера - при следующей авторизации карточка недосозданного процесса всплывёт в интерфейсе снова.
 
 Помимо функции создания мастер может предоставлять функции упрощённого редактирования для <<../interface.adoc#mobile, мобильного интерфейса>>.
-Мастер редактирования для типа процесса задаётся с помощью префикса конфигурации: *createWizard.step*
+Мастер редактирования для типа процесса задаётся с помощью префикса конфигурации: *wizard.step*
 
 CAUTION: Мастерa не работают при создании процессов в обработке <<../message/index.adoc#, сообщения>>.
 
-=== Ссылки на примеры
-[square]
-* <<wizard_sample_connect.adoc#, Простой мастер подключения>>
-* <<wizard_sample_connect_inet.adoc#, Мастер подключения с BGBilling Inet>>
+// === Ссылки на примеры
+// [square]
+// * <<wizard_sample_connect.adoc#, Простой мастер подключения>>
+// * <<wizard_sample_connect_inet.adoc#, Мастер подключения с BGBilling Inet>>
 

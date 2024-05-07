@@ -60,10 +60,10 @@ onProcessEvent.{@cnt}.commands=newsPopupNotifyExecutors:Изменился пр�
 # МАСТЕР ПОДКЛЮЧЕНИЯ
 cnt=0
 # проверки перед переходом в статус "Мастер"
-createWizard.step.{@inc:cnt}.title=Проверка процесса
-createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.JexlStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() != {@STATUS_WIZARD}
-createWizard.step.{@cnt}.doExpression=<<END
+wizard.step.{@inc:cnt}.title=Проверка процесса
+wizard.step.{@cnt}.class=JexlStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() != {@STATUS_WIZARD}
+wizard.step.{@cnt}.doExpression=<<END
    linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
    npayDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.NPayDAO", ctxUser, "{@BILLING_ID}", {@MODULE_NPAY});
    contractDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO", ctxUser, "{@BILLING_ID}");
@@ -93,21 +93,21 @@ createWizard.step.{@cnt}.doExpression=<<END
    return {"filled": true, "message": message};
 END
 #
-createWizard.step.{@inc:cnt}.title=Переключение статуса и запуск мастера
-createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetStatusStep
-createWizard.step.{@cnt}.checkExpression={@STATUS_IN_WORK} == process.getStatusId()
+wizard.step.{@inc:cnt}.title=Переключение статуса и запуск мастера
+wizard.step.{@cnt}.class=SetStatusStep
+wizard.step.{@cnt}.checkExpression={@STATUS_IN_WORK} == process.getStatusId()
 #
 # отработка мастера
-createWizard.step.{@inc:cnt}.title=СМС рассылки, MAC/ONU, Внешний адрес
-createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.FillParamsStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
-createWizard.step.{@cnt}.parameterIds={@PARAM_SMS},{@PARAM_MAC},{@PARAM_VN_ADDR}
-createWizard.step.{@cnt}.checkParamIds={@PARAM_VN_ADDR}
+wizard.step.{@inc:cnt}.title=СМС рассылки, MAC/ONU, Внешний адрес
+wizard.step.{@cnt}.class=FillParamsStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
+wizard.step.{@cnt}.parameterIds={@PARAM_SMS},{@PARAM_MAC},{@PARAM_VN_ADDR}
+wizard.step.{@cnt}.checkParamIds={@PARAM_VN_ADDR}
 #
-createWizard.step.{@inc:cnt}.title=СМС рассылки
-createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.JexlStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
-createWizard.step.{@cnt}.doExpression=<<END
+wizard.step.{@inc:cnt}.title=СМС рассылки
+wizard.step.{@cnt}.class=JexlStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
+wizard.step.{@cnt}.doExpression=<<END
    // TODO: Можно переместить в шаг создания сервиса и избежать дублирования кода.
    linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
    paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
@@ -133,10 +133,10 @@ createWizard.step.{@cnt}.doExpression=<<END
    return {"filled": true, "message": message};
 END
 #
-createWizard.step.{@inc:cnt}.title=Проверка и создание сервиса
-createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.JexlStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
-createWizard.step.{@cnt}.doExpression=<<END
+wizard.step.{@inc:cnt}.title=Проверка и создание сервиса
+wizard.step.{@cnt}.class=JexlStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
+wizard.step.{@cnt}.doExpression=<<END
    ip = "100.64.70.131"; // ip = form.getHttpRequestRemoteAddr();
    curdate = new("java.util.Date");
    searchResult = new("ru.bgcrm.model.SearchResult", 1) ;
@@ -218,25 +218,25 @@ createWizard.step.{@cnt}.doExpression=<<END
    return {"filled": true, "message": message};
 END
 #
-createWizard.step.{@inc:cnt}.title=Тарифный план
-createWizard.step.{@cnt}.class=ru.bgcrm.plugin.bgbilling.model.process.wizard.SetContractTariffStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
+wizard.step.{@inc:cnt}.title=Тарифный план
+wizard.step.{@cnt}.class=ru.bgcrm.plugin.bgbilling.model.process.wizard.SetContractTariffStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
 #
-createWizard.step.{@inc:cnt}.title=Параметры договора
-createWizard.step.{@cnt}.class=ru.bgcrm.plugin.bgbilling.model.process.wizard.FillParamsStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
-createWizard.step.{@cnt}.parameterIds={@CONTRACT_PARAMS}
-createWizard.step.{@cnt}.checkParamIds=
+wizard.step.{@inc:cnt}.title=Параметры договора
+wizard.step.{@cnt}.class=ru.bgcrm.plugin.bgbilling.model.process.wizard.FillParamsStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
+wizard.step.{@cnt}.parameterIds={@CONTRACT_PARAMS}
+wizard.step.{@cnt}.checkParamIds=
 #
-createWizard.step.{@inc:cnt}.title=Использованные материалы
-createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.FillParamsStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
-createWizard.step.{@cnt}.parameterIds={@PARAM_MAT}
-createWizard.step.{@cnt}.checkParamIds={@PARAM_MAT}
+wizard.step.{@inc:cnt}.title=Использованные материалы
+wizard.step.{@cnt}.class=FillParamsStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
+wizard.step.{@cnt}.parameterIds={@PARAM_MAT}
+wizard.step.{@cnt}.checkParamIds={@PARAM_MAT}
 #
-createWizard.step.{@inc:cnt}.title=Исполнитель
-createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetExecutorsStep
-createWizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
+wizard.step.{@inc:cnt}.title=Исполнитель
+wizard.step.{@cnt}.class=SetExecutorsStep
+wizard.step.{@cnt}.checkExpression=process.getStatusId() == {@STATUS_WIZARD}
 #
 #
 ##### скопировано из существующих типов #####
