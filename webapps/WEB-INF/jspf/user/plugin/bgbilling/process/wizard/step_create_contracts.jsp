@@ -32,9 +32,9 @@
 	</table>
 
 	<jsp:useBean id="now" class="java.util.Date" scope="page"/>
-	<c:set var="currentDate" value="${tu.format(now, 'dd.MM.yyyy'}"/>
+	<c:set var="currentDate" value="${tu.format(now, 'dd.MM.yyyy')}"/>
 
-	<html:form action="/user/plugin/bgbilling/contract" style="width: 100%;">
+	<html:form action="/user/plugin/bgbilling/contract">
 		<input type="hidden" name="action" value="contractCreate"/>
 		<input type="hidden" name="date" value="${currentDate}"/>
 		<input type="hidden" name="customerId" value="${stepData.customer.id}"/>
@@ -52,7 +52,7 @@
 
 		<table style="width: 100%;">
 			<tr>
-				<c:if test="${stepData.showContractTitle}">
+				<c:if test="${stepData.step.showContractTitle}">
 					<td>
 						<input type="text" name="title" style="width:100%"/>
 					</td>

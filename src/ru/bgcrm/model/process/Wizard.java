@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.bgerp.app.cfg.ConfigMap;
 
-import ru.bgcrm.model.process.wizard.Step;
+import ru.bgcrm.model.process.wizard.base.Step;
 
 public class Wizard {
     // шаги, которые необходимо заполнить при создании процесса

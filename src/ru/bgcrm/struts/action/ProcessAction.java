@@ -61,7 +61,7 @@ import ru.bgcrm.model.process.TransactionProperties;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.Wizard;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
-import ru.bgcrm.model.process.wizard.WizardData;
+import ru.bgcrm.model.process.wizard.base.WizardData;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -794,7 +794,7 @@ public class ProcessAction extends BaseAction {
                 getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
                 new Pageable<>(form));
 
-        return html(con, form, "/WEB-INF/jspf/union_log.jsp");
+        return html(con, form, BaseAction.PATH_JSP + "/union_log.jsp");
     }
 
     public ActionForward userProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {

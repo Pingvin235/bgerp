@@ -1,4 +1,4 @@
-package ru.bgcrm.model.process.wizard;
+package ru.bgcrm.model.process.wizard.base;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import org.bgerp.app.exception.BGException;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.Wizard;
+import ru.bgcrm.model.process.wizard.LinkCustomerStep;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 
@@ -28,7 +29,7 @@ public class WizardData {
         boolean allFilled = true;
 
         for (Step step : stepList) {
-            StepData<?> stepData = step.newStepData(this);
+            StepData<?> stepData = step.data(this);
 
             if (stepData == null) {
                 throw new BGException("Для шага " + step.getTitle() + " была возвращена нулевая StepData!");
@@ -72,8 +73,8 @@ public class WizardData {
         Customer result = null;
 
         for (StepData<?> stepData : stepDataList) {
-            if (stepData instanceof LinkCustomerStepData) {
-                result = ((LinkCustomerStepData) stepData).getCustomer();
+            if (stepData instanceof LinkCustomerStep.Data scStepData) {
+                result = scStepData.getCustomer();
             }
         }
 

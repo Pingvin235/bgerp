@@ -1,18 +1,22 @@
-package ru.bgcrm.model.process.wizard;
+package ru.bgcrm.model.process.wizard.base;
 
+import org.bgerp.action.BaseAction;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.app.servlet.jsp.GetJsp;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 
-public abstract class Step extends IdTitle {
+public abstract class Step extends IdTitle implements GetJsp {
     private static final Log log = Log.getLog();
 
-    protected ConfigMap config;
-    private String expression;
+    protected static final String PATH_JSP = BaseAction.PATH_JSP_USER + "/process/wizard";
+
+    protected final ConfigMap config;
+    private final String expression;
 
     public Step(ConfigMap config) {
         super(config.getInt("id", 0), config.get("title"));
@@ -28,13 +32,7 @@ public abstract class Step extends IdTitle {
         return expression;
     }
 
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public abstract String getJspFile();
-
-    public abstract StepData<?> newStepData(WizardData data);
+    public abstract StepData<?> data(WizardData data);
 
     public static final Step newInstance(String className, ConfigMap config) {
         try {

@@ -18,7 +18,7 @@
 			<c:if test="${not empty stepData.step.title}">
 				<h2>${stepData.step.title}</h2>
 			</c:if>
-			<c:import url="${stepData.step.jspFile}"/>
+			<c:import url="${stepData.step.jsp}"/>
 		</c:forEach>
 	</c:if>
 
@@ -26,10 +26,12 @@
 		<c:set var="closeScript">
 			$('#processQueueShow').show();
 			$('#processQueueEditProcess').hide();
-			$$.ajax.load(formUrl($('#processQueueShow > #processQueueFilter')[0]).replace('page.pageIndex=1', 'page.pageIndex=-1'), $('#processQueueData'));
+			const form = $('#processQueueShow > #processQueueFilter')[0];
+			form.elements['page.pageIndex'].value = -1;
+			$$.ajax.load(form, $('#processQueueData'));
 		</c:set>
 		<c:if test="${process.id gt 0}">
-			<button type="button" class="btn-white mr1" onclick="${closeScript}">Закрыть</button>
+			<button type="button" class="btn-white mr1" onclick="${closeScript}">${l.l('Close')}</button>
 		</c:if>
 
 		<c:set var="returnBreakCommand" value="${closeScript}"/>

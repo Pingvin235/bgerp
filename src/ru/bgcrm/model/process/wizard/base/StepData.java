@@ -1,4 +1,4 @@
-package ru.bgcrm.model.process.wizard;
+package ru.bgcrm.model.process.wizard.base;
 
 import java.sql.Connection;
 import java.util.HashMap;
@@ -13,10 +13,10 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 public abstract class StepData<T extends Step> {
-    protected T step;
-    protected WizardData data;
+    protected final T step;
+    protected final WizardData data;
 
-    public StepData(T step, WizardData data) {
+    protected StepData(T step, WizardData data) {
         this.step = step;
         this.data = data;
     }

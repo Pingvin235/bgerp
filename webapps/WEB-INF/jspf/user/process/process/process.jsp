@@ -48,7 +48,7 @@
 			</c:if>
 		</c:if>
 	</c:when>
-	<%-- мастер --%>
+	<%-- wizard --%>
 	<c:otherwise>
 		<%-- класс нужен, чтобы не перезагружался редактор при переходе на вкладку, id - чтобы процесс не открылся как потерянный --%>
 		<div class="editorStopReload" id="process-${process.id}"></div>
@@ -67,20 +67,18 @@
 		</c:if>
 
 		<div id="${uiid}" class="center1020">
-			<c:if test="${not empty wizardData}">
-				<c:forEach var="stepData" items="${wizardData.stepDataList}">
-					<c:set var="stepData" value="${stepData}" scope="request"/>
-					<c:if test="${not empty stepData.step.title}">
-						<h2>${stepData.step.title}</h2>
-					</c:if>
-					<c:import url="${stepData.step.jspFile}"/>
-				</c:forEach>
-			</c:if>
+			<c:forEach var="stepData" items="${wizardData.stepDataList}">
+				<c:set var="stepData" value="${stepData}" scope="request"/>
+				<c:if test="${not empty stepData.step.title}">
+					<h2>${stepData.step.title}</h2>
+				</c:if>
+				<c:import url="${stepData.step.jsp}"/>
+			</c:forEach>
 
 			<div class="mt1">
 				<%-- открытие где-то в списке процессов --%>
 				<c:if test="${not empty form.returnUrl and process.id gt 0}">
-					<button type="button" class="btn-grey mr1" onclick="${returnBreakCommand}">Закрыть</button>
+					<button type="button" class="btn-grey mr1" onclick="${returnBreakCommand}">${l.l('Close')}</button>
 				</c:if>
 
 				<%@ include file="/WEB-INF/jspf/process_wizard_actions.jsp"%>
