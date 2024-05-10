@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
@@ -62,7 +61,7 @@ public class SetContractTariffStep extends BaseStep {
             if (contractLink == null)
                 return false;
 
-            contract = new Contract(StringUtils.substringAfter(contractLink.getLinkObjectType(), ":"), contractLink.getLinkObjectId());
+            contract = new Contract(contractLink);
 
             ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), contract.getBillingId());
             contractTariff = Utils.getFirst(tariffDao.contractTariffList(contract.getId()));

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
@@ -33,17 +32,15 @@ public class BGBillingMessageTypeContactSaverPhone extends ru.bgcrm.dao.message.
     }
 
     @Override
-    public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode)
-            {
-        CommonObjectLink contractLink = Utils
-                .getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(process.getId(), Contract.OBJECT_TYPE + "%"));
+    public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode) {
+        CommonObjectLink contractLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(process.getId(), Contract.OBJECT_TYPE + "%"));
         if (contractLink == null) {
             return;
         }
 
         String phone = message.getFrom();
 
-        String billingId = StringUtils.substringAfterLast(contractLink.getLinkObjectType(), ":");
+        String billingId = new Contract(contractLink).getBillingId();
 
         ContractParamDAO paramDao = new ContractParamDAO(form.getUser(), billingId);
         List<ParameterPhoneValueItem> values = new ArrayList<>();

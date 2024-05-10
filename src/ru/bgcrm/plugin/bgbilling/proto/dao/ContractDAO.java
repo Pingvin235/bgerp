@@ -1768,9 +1768,8 @@ public class ContractDAO extends BillingDAO {
     public static void copyParametersToAllContracts(Connection con, User user, int customerId) throws Exception {
         CustomerLinkDAO linkDao = new CustomerLinkDAO(con);
         for (CommonObjectLink link : linkDao.getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%")) {
-            String billingId = StringUtils.substringAfter(link.getLinkObjectType(), ":");
-            ContractDAO.getInstance(user, billingId).copyParametersToBilling(con, customerId, link.getLinkObjectId(),
-                    link.getLinkObjectTitle());
+            Contract contract = new Contract(link);
+            ContractDAO.getInstance(user, contract.getBillingId()).copyParametersToBilling(con, customerId, contract.getId(), contract.getTitle());
         }
     }
 

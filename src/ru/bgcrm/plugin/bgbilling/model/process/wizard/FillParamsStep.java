@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 
@@ -57,13 +56,21 @@ public class FillParamsStep extends BaseStep {
             super(step, data);
         }
 
+        public Contract getContract() {
+            return contract;
+        }
+
+        public List<ContractParameter> getValues() {
+            return values;
+        }
+
         @Override
         public boolean isFilled(DynActionForm form, Connection con) {
             CommonObjectLink contractLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%"));
             if (contractLink == null)
                 return false;
 
-            contract = new Contract(StringUtils.substringAfter(contractLink.getLinkObjectType(), ":"), contractLink.getLinkObjectId());
+            contract = new Contract(contractLink);
 
             Set<Integer> checkParamIds = new HashSet<>(step.getCheckParamIds());
 
@@ -82,14 +89,6 @@ public class FillParamsStep extends BaseStep {
             }
 
             return checkParamIds.isEmpty();
-        }
-
-        public Contract getContract() {
-            return contract;
-        }
-
-        public List<ContractParameter> getValues() {
-            return values;
         }
     }
 }

@@ -1,6 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.event.listener;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
@@ -14,6 +13,7 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
+import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
@@ -43,7 +43,7 @@ public class LinkChangingListener {
             return;
         }
 
-        String billingId = StringUtils.substringAfter(link.getLinkObjectType(), ":");
+        String billingId = new Contract(link).getBillingId();
         DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
 
         if (dbInfo == null) {

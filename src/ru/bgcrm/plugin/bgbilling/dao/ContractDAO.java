@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Set;
 import java.util.SortedMap;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionTransparent;
@@ -223,9 +222,8 @@ public class ContractDAO extends BillingDAO {
     public static void copyParametersToAllContracts(Connection con, User user, int customerId) throws Exception {
         CustomerLinkDAO linkDao = new CustomerLinkDAO(con);
         for (CommonObjectLink link : linkDao.getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%")) {
-            String billingId = StringUtils.substringAfter(link.getLinkObjectType(), ":");
-            new ContractDAO(user, billingId).copyParametersToBilling(con, customerId, link.getLinkObjectId(),
-                    link.getLinkObjectTitle());
+            Contract contract = new Contract(link);
+            new ContractDAO(user, contract.getBillingId()).copyParametersToBilling(con, customerId, contract.getId(), link.getLinkObjectTitle());
         }
     }
 }

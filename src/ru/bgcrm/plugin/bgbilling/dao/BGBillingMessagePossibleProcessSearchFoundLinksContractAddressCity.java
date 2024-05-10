@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
@@ -67,7 +66,7 @@ public class BGBillingMessagePossibleProcessSearchFoundLinksContractAddressCity 
 
             log.debug("linkObjectType: {}, linkObjectId: {}", link.getLinkObjectType(), link.getLinkObjectId());
 
-            String billingId = StringUtils.substringAfter(link.getLinkObjectType(), ":");
+            String billingId = new Contract(link).getBillingId();
             Integer paramId = contractAddressParamIds.getOrDefault(billingId, contractAddressParamIds.get(""));
             if (paramId == null) {
                 log.error("Not found 'contractAddressParamId' for billing ID: {}", billingId);

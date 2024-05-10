@@ -94,7 +94,7 @@ public class LinkChangedListener {
         if (type.getProperties().getConfigMap().getBoolean("bgbilling:linkCustomerOnContractLink", true)) {
             Connection con = connectionSet.getConnection();
 
-            Customer customer = new ContractCustomerDAO(con).getContractCustomer(new Contract(billingId, link.getLinkObjectId()));
+            Customer customer = new ContractCustomerDAO(con).getContractCustomer(new Contract(link));
             if (customer != null) {
                 CommonObjectLink customerLink = new CommonObjectLink();
                 customerLink.setObjectId(link.getObjectId());
