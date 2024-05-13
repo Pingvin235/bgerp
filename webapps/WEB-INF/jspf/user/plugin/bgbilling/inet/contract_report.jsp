@@ -46,7 +46,6 @@
 			<td>Устройство</td>
 			<td>Идентификатор</td>
 			<td>Сервис</td>
-			<td>Реалм</td>
 			<td>С ном./на ном.</td>
 			<td>IP</td>
 			<td>Начало</td>
@@ -104,15 +103,14 @@
 				<td>${item.deviceTitle}</td>
 				<td>${item.acctSessId}</td>
 				<td>${item.serviceTitle}</td>
-				<td>${item.realm}</td>
 				<td>${item.fromNumberToNumberAsString}</td>
-				<td>${item.inetAddress}</td>
+				<td>${item.ip}</td>
 				<td>${item.sessionStartAsString}</td>
 				<td>${item.sessionStopAsString}</td>
 				<td>${item.sessionActivityAsString}</td>
-				<td>${item.sessionCost}</td>
+				<td>${item.cost}</td>
 				<td>${item.statusName}</td>
-				<td>${item.devState eq 1 ? 'подключено' : 'отключено'}</td>
+				<td>${item.devStateTitle}</td>
 			</tr>
 		</c:forEach>
 	</table>

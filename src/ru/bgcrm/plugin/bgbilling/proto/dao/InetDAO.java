@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -26,6 +30,8 @@ import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetServiceType;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetSessionLog;
 
 public class InetDAO extends BillingModuleDAO {
+    private static final Log log = Log.getLog();
+
     private static final String INET_MODULE = "ru.bitel.bgbilling.modules.inet.api";
     protected final String inetModule;
 
@@ -186,10 +192,10 @@ public class InetDAO extends BillingModuleDAO {
         req.setParam("servIds", Collections.emptyList());
 
         extractSessions(result, req);
+        setDeviceTitles(result);
     }
 
-    public void getSessionLogContractList(Pageable<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo)
-            {
+    public void getSessionLogContractList(Pageable<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, "InetSessionService", "inetSessionLogContractList");
         req.setParamContractId(contractId);
         req.setParam("dateFrom", dateFrom);
@@ -199,9 +205,10 @@ public class InetDAO extends BillingModuleDAO {
         req.setParam("page", result.getPage());
 
         extractSessions(result, req);
+        setDeviceTitles(result);
     }
 
-    public void getSessionAliveList(Pageable<InetSessionLog> result, Set<Integer> deviceIds, Set<Integer> contractIds, String contract, String login,
+    /* public void getSessionAliveList(Pageable<InetSessionLog> result, Set<Integer> deviceIds, Set<Integer> contractIds, String contract, String login,
             String ip, String callingStation, Date timeFrom, Date timeTo) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, "InetSessionService", "inetSessionAliveList");
         req.setParam("deviceIds", deviceIds);
@@ -215,7 +222,7 @@ public class InetDAO extends BillingModuleDAO {
         req.setParam("page", result.getPage());
 
         extractSessions(result, req);
-    }
+    } */
 
     private void extractSessions(Pageable<InetSessionLog> result, RequestJsonRpc req) {
         JsonNode ret = transferData.postDataReturn(req, user);
@@ -224,6 +231,22 @@ public class InetDAO extends BillingModuleDAO {
 
         result.getList().addAll(sessionList);
         result.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
+    }
+
+
+    private void setDeviceTitles(Pageable<InetSessionLog> pageable) {
+        Map<Integer, InetDevice> deviceMap = new TreeMap<>();
+        for (var item : pageable.getList()) {
+            var device = deviceMap.computeIfAbsent(item.getDeviceId(), id -> {
+                try {
+                    return getDevice(id);
+                } catch (BGException e) {
+                    log.error(e);
+                    return null;
+                }
+            });
+            item.setDeviceTitle(device.getTitle());
+        }
     }
 
     public Set<Integer> vlanResourceCategoryIds(int deviceId) {

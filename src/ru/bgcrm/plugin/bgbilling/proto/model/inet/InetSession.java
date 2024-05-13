@@ -3,30 +3,15 @@ package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 import java.math.BigDecimal;
 import java.util.Date;
 
+// TODO: Move all the class' content to InetSessionLog
 public class InetSession {
-    public static final short STATUS_ALIVE = InetConnection.STATUS_ALIVE;
-    public static final short STATUS_SUSPENDED = InetConnection.STATUS_SUSPENDED;
-    public static final short STATUS_CLOSED = InetConnection.STATUS_CLOSED;
-    public static final short STATUS_FINISHED = InetConnection.STATUS_FINISHED;
-
-    public static final int TYPE_NORMAL = 0;
-    public static final int TYPE_FAKE = 1;
-
     protected long id;
     protected long connectionId;
 
-    protected long parentId;
-    protected long splittedId;
-
     protected Date start;
     protected Date stop;
-
     protected Date last;
 
-    /**
-     * Состояние на устройстве для сессии (на момент начала сессии).<br/>
-     * Для CoA соединений, когда доступ отключается CoA - начинается новая session с deviceState={@link InetUtils#STATE_DISABLE}
-     */
     protected short deviceState;
 
     protected long time;
@@ -44,7 +29,7 @@ public class InetSession {
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public long getConId() {
         return connectionId;
     }
@@ -53,57 +38,15 @@ public class InetSession {
         this.connectionId = connectionId;
     }
 
-    @Deprecated
-    public long getConnectionId() {
-        return connectionId;
-    }
-
-    @Deprecated
-    public void setConnectionId(long connectionId) {
-        this.connectionId = connectionId;
-    }
-
-    public long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(long parentId) {
-        this.parentId = parentId;
-    }
-
-    public long getSplittedId() {
-        return splittedId;
-    }
-
-    public void setSplittedId(long splittedId) {
-        this.splittedId = splittedId;
-    }
-
-    /**
-     * Состояние на устройстве для сессии (на момент начала сессии).<br/>
-     * Для CoA соединений, когда доступ отключается CoA - начинается новая session с deviceState={@link InetUtils#STATE_DISABLE}
-     * @return
-     */
     public short getDevState() {
         return deviceState;
     }
 
-    /**
-     * Состояние на устройстве для сессии (на момент начала сессии).<br/>
-     * Для CoA соединений, когда доступ отключается CoA - начинается новая session с deviceState={@link InetUtils#STATE_DISABLE}
-     * @return
-     */
-    public void setDevState(short type) {
-        this.deviceState = type;
-    }
-    
-    @Deprecated
-    public short getDeviceState() {
-        return deviceState;
+    public String getDevStateTitle() {
+        return deviceState == 1 ? "подключено" : "отключено";
     }
 
-    @Deprecated
-    public void setDeviceState(short type) {
+    public void setDevState(short type) {
         this.deviceState = type;
     }
 
@@ -115,16 +58,6 @@ public class InetSession {
         this.start = start;
     }
 
-    @Deprecated
-    public Date getSessionStart() {
-        return start;
-    }
-
-    @Deprecated
-    public void setSessionStart(Date sessionStart) {
-        this.start = sessionStart;
-    }
-    
     public Date getStop() {
         return stop;
     }
@@ -133,16 +66,6 @@ public class InetSession {
         this.stop = sessionStop;
     }
 
-    @Deprecated
-    public Date getSessionStop() {
-        return stop;
-    }
-
-    @Deprecated
-    public void setSessionStop(Date sessionStop) {
-        this.stop = sessionStop;
-    }
-    
     public Date getLast() {
         return last;
     }
@@ -151,16 +74,6 @@ public class InetSession {
         this.last = lastActive;
     }
 
-    @Deprecated
-    public Date getLastActive() {
-        return last;
-    }
-
-    @Deprecated
-    public void setLastActive(Date lastActive) {
-        this.last = lastActive;
-    }
-    
     public long getTime() {
         return time;
     }
@@ -169,31 +82,11 @@ public class InetSession {
         this.time = sessionTime;
     }
 
-    @Deprecated
-    public long getSessionTime() {
-        return time;
-    }
-
-    @Deprecated
-    public void setSessionTime(long sessionTime) {
-        this.time = sessionTime;
-    }
-    
     public BigDecimal getCost() {
         return cost;
     }
 
     public void setCost(BigDecimal sessionCost) {
-        this.cost = sessionCost;
-    }
-
-    @Deprecated
-    public BigDecimal getSessionCost() {
-        return cost;
-    }
-
-    @Deprecated
-    public void setSessionCost(BigDecimal sessionCost) {
         this.cost = sessionCost;
     }
 

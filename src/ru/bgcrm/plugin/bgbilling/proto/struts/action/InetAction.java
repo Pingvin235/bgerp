@@ -4,12 +4,9 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
@@ -150,9 +147,7 @@ public class InetAction extends BaseAction {
     public ActionForward sessionAliveContractList(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-        Pageable<InetSessionLog> result = new Pageable<>(form);
-        inetDao.getSessionAliveContractList(result, form.getParamInt("contractId"));
-        setDeviceTitles(inetDao, result);
+        inetDao.getSessionAliveContractList(new Pageable<InetSessionLog>(form), form.getParamInt("contractId"));
 
         return html(conSet, form, PATH_JSP + "/contract_report.jsp");
     }
@@ -160,26 +155,9 @@ public class InetAction extends BaseAction {
     public ActionForward sessionLogContractList(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-        Pageable<InetSessionLog> result = new Pageable<>(form);
-        inetDao.getSessionLogContractList(result, form.getParamInt("contractId"), form.getParamDate("dateFrom"), form.getParamDate("dateTo"));
-        setDeviceTitles(inetDao, result);
+        inetDao.getSessionLogContractList(new Pageable<InetSessionLog>(form), form.getParamInt("contractId"), form.getParamDate("dateFrom"), form.getParamDate("dateTo"));
 
         return html(conSet, form, PATH_JSP + "/contract_report.jsp");
-    }
-
-    private void setDeviceTitles(InetDAO inetDao, Pageable<InetSessionLog> pageable) {
-        Map<Integer, InetDevice> deviceMap = new TreeMap<>();
-        for (var item : pageable.getList()) {
-            var device = deviceMap.computeIfAbsent(item.getDeviceId(), id -> {
-                try {
-                    return inetDao.getDevice(id);
-                } catch (BGException e) {
-                    log.error(e);
-                    return null;
-                }
-            });
-            item.setDeviceTitle(device.getTitle());
-        }
     }
 
     public ActionForward connectionClose(DynActionForm form, ConnectionSet conSet) throws Exception {
