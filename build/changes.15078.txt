@@ -1,0 +1,1 @@
+C: Simplified configuration of Process Wizard. https://bgerp.org/change/0/doc/kernel/process/wizard.html

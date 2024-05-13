@@ -66,31 +66,6 @@ public class CreateContractsStep extends BaseStep {
             return customer;
         }
 
-        @Override
-        public boolean isFilled(DynActionForm form, Connection con) {
-            List<StepData<?>> stepDataList = data.getStepDataList();
-
-            ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
-
-            contractLinkList = linkDao.getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%");
-
-            // находим первый предшествующий шаг заполнения параметра с адресом и выбором контрагента
-            // TODO: может в последствии сделать первый предшествующий с нужным параметром
-            for (int i = stepDataList.indexOf(this); i >= 0; i--) {
-                StepData<?> stepData = stepDataList.get(i);
-
-                if (customer == null && stepData instanceof LinkCustomerStep.Data scStepData) {
-                    customer = scStepData.getCustomer();
-                }
-
-                if (customer != null) {
-                    break;
-                }
-            }
-
-            return contractLinkList.size() > 0;
-        }
-
         public List<ContractType> getAllowedTypeList() {
             ArrayList<ContractType> result = new ArrayList<>();
 
@@ -106,6 +81,29 @@ public class CreateContractsStep extends BaseStep {
             }
 
             return result;
+        }
+
+        @Override
+        public boolean isFilled(DynActionForm form, Connection con) {
+            List<StepData<?>> stepDataList = data.getStepDataList();
+
+            // находим первый предшествующий шаг заполнения параметра с адресом и выбором контрагента
+            // TODO: может в последствии сделать первый предшествующий с нужным параметром
+            for (int i = stepDataList.indexOf(this); i >= 0; i--) {
+                StepData<?> stepData = stepDataList.get(i);
+
+                if (customer == null && stepData instanceof LinkCustomerStep.Data scStepData) {
+                    customer = scStepData.getCustomer();
+                }
+
+                if (customer != null) {
+                    break;
+                }
+            }
+
+            contractLinkList = new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%");
+
+            return contractLinkList.size() > 0;
         }
     }
 }

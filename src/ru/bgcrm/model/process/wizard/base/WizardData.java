@@ -20,8 +20,7 @@ public class WizardData {
     private final List<StepData<?>> stepDataList = new ArrayList<>();
     private final boolean allFilled;
 
-    public WizardData(Connection con, DynActionForm form, Wizard wizard, Process process, List<Step> stepList)
-            throws Exception {
+    public WizardData(Connection con, DynActionForm form, Wizard wizard, Process process, List<Step> stepList) throws Exception {
         this.process = process;
         this.form = form;
         this.user = form.getUser();
@@ -31,14 +30,13 @@ public class WizardData {
         for (Step step : stepList) {
             StepData<?> stepData = step.data(this);
 
-            if (stepData == null) {
-                throw new BGException("Для шага " + step.getTitle() + " была возвращена нулевая StepData!");
-            }
+            if (stepData == null)
+                throw new BGException("For the step " + step.getTitle() + " was returned null StepData!");
 
             if (stepData.check(con)) {
                 stepDataList.add(stepData);
 
-                // доходим до первого незаполненного параметра
+                // going until the first unfilled step
                 if (!stepData.isFilled(form, con)) {
                     allFilled = false;
                     break;
