@@ -22,7 +22,7 @@ public class Page {
 
     public static int PAGE_INDEX_NO_PAGING = -1;
 
-    private int pageSize = 0;
+    private int pageSize = DEFAULT_PAGE_SIZE;
     /**
      * Default is 1, to show a first page.
      * {@link #PAGE_INDEX_NO_PAGING} means that no pagination is needed.

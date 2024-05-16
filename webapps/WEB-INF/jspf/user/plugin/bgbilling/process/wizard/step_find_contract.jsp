@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="data" value="${data.stepData}"/>
 <c:set var="resultId" value="${u:uiid()}"/>
 
 <div>

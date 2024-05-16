@@ -139,8 +139,7 @@ publish-source:
         - git config --global user.email "bgerp@bgerp.org"
         - git config --global user.name "BGERP"
     script:
-        - REPO_FULL=`pwd`
-        - git clone --depth 1 "file://$REPO_FULL" $REPO_PUB
+        - export GIT_CLONE_PROTECTION_ACTIVE=false && REPO_FULL=`pwd` && git clone --depth 1 "file://$REPO_FULL" $REPO_PUB
         - COMMIT_COMMENT=`git show -s --format=%s`
         - echo "Set commit author" && chmod +x github-publish-author.sh && COMMIT_AUTHOR=`bash github-publish-author.sh`
         - cd $REPO_PUB && rm -r .git && rm github-* && rm -r src.bak

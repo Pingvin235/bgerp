@@ -22,8 +22,8 @@ wizard.createStep.<id>.class=<class>
 Класс шага определяет его логику. Для класса возможны дополнительные параметры, указываются в виде: *wizard.createStep.<id>.<param>=<value>*.
 Доступные в данный момент шаги описаны в таблице.
 
+[[step]]
 == Шаги мастера ядра
-
 [cols="a,a", options="header"]
 |===
 |<class> и внешний вид
@@ -41,7 +41,7 @@ ContinueStep
 |
 Продолжение работы мастера либо остановка.
 [square]
-* *parameterId* - код текстового параметра процесса, в который записывается 1 при прохождении шага;
+* *parameterId* - код текстового параметра процесса, в который записывается *1* при прохождении шага;
 * *continuedText* - текст, выводимый, когда шаг был пройден;
 * *continueText* - текст подтверждения прохождения шага.
 
@@ -101,6 +101,7 @@ CAUTION: The step is not recommended to use, as JEXL scripts are very difficult 
 * *message* - java.lang.String, сообщение для вывода в интерфейс.
 |===
 
+[[step-bgbilling]]
 == Шаги мастера плагина BGBilling
 include::../../plugin/bgbilling/wizard_steps.adocf[]
 
