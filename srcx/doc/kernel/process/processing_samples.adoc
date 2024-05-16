@@ -267,7 +267,7 @@ onProcessEvent.{@inc:cnt}.events=createFinished
 onProcessEvent.5.ifExpression=cu.intersection(processParam.listValueIds(26), {2,3,7}).size() > 0
 onProcessEvent.5.doExpression=<<END
     body=process.getTypeTitle();
-    text="№ " + process.getId().toString() + " Адрес: " + processParam.addressValues(1).toString() + " т. " + processParam.getValue(20) + " " + processParam.listValueTitles(26) + " Принята: " + process.getCreateTime() + " Комментарий: " + process.getDescription();
+    text="№ " + process.getId().toString() + " Адрес: " + processParam.getValue(1) + " т. " + processParam.getValue(20) + " " + processParam.getValue(26) + " Принята: " + process.getCreateTime() + " Комментарий: " + process.getDescription();
     mobile.sendMessageToUsers(body, text, {5});
 END
 ----

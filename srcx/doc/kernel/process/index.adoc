@@ -258,7 +258,7 @@ Some more examples with different retrieved data:
 [source]
 ----
 processReference.{@inc:cnt}.objectTypes=customer
-processReference.{@cnt}.stringExpression=u.toString(processParam.addressValues(90, 'fromStreet')) + " : " + u.toString(processParam.listValueTitles(238))
+processReference.{@cnt}.stringExpression=u.toString(processParam.addressValues(90, 'fromStreet')) + " : " + processParam.getValue(238)
 processReference.{@inc:cnt}.objectTypes=processCard
 processReference.{@cnt}.stringExpression="Request: " + u.escapeXml(u.toString(processLink.linkTitles("customer"))) + "<br/>" + u.escapeXml(u.toString(processParam.addressValues(90, 'fromStreet'))) + "&nbsp;"
 ----
