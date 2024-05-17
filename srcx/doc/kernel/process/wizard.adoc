@@ -46,7 +46,7 @@ ContinueStep
 * *continueText* - текст подтверждения прохождения шага.
 
 |
-FillParamsStep
+FillContractParamsStep
 
 image::_res/proc_wiz_fp.png[]
 |
@@ -112,7 +112,7 @@ include::../../plugin/bgbilling/wizard_steps.adocf[]
 wizard.createStep.{@inc:cnt}.title=Контрагент
 wizard.createStep.{@cnt}.class=LinkCustomerStep
 
-wizard.createStep.{@inc:cnt}.class=FillParamsStep
+wizard.createStep.{@inc:cnt}.class=FillContractParamsStep
 wizard.createStep.{@cnt}.title=Адрес установки / конт. лицо
 wizard.createStep.{@cnt}.parameterIds=16,49
 

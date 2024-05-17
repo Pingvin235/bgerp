@@ -19,12 +19,12 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Bean
-public class FillParamsStep extends BaseStep {
+@Bean(oldClasses = "ru.bgcrm.plugin.bgbilling.model.process.wizard.FillParamsStep")
+public class FillContractParamsStep extends BaseStep {
     private final List<Integer> parameterIds;
     private final List<Integer> checkParamIds;
 
-    public FillParamsStep(ConfigMap config) {
+    public FillContractParamsStep(ConfigMap config) {
         super(config);
         parameterIds = Utils.toIntegerList(config.get("parameterIds", ""));
         checkParamIds = Utils.toIntegerList(config.get("checkParamIds", ""));
@@ -48,11 +48,11 @@ public class FillParamsStep extends BaseStep {
         return new Data(this, data);
     }
 
-    public static class Data extends StepData<FillParamsStep> {
+    public static class Data extends StepData<FillContractParamsStep> {
         private Contract contract;
         private List<ContractParameter> values;
 
-        private Data(FillParamsStep step, WizardData data) {
+        private Data(FillContractParamsStep step, WizardData data) {
             super(step, data);
         }
 
