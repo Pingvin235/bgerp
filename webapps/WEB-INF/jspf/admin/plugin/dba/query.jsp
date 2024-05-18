@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<form action="/admin/plugin/dba/query.do">
+<form action="${form.httpRequestURI}">
 	<c:if test="${ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get') and not empty frd.storedQueries}">
 		<div class="mb1" style="white-space: nowrap;">
 			<button type="button" class="btn-grey icon mr1" title="${l.l('Load query')}" onclick="$$.dba.queryHistoryGet(this)"><i class="ti-import"></i></button><%--

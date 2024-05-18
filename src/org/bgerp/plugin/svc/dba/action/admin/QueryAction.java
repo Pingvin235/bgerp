@@ -1,11 +1,8 @@
 package org.bgerp.plugin.svc.dba.action.admin;
 
-import java.util.List;
-
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.exception.BGException;
-import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.svc.dba.Plugin;
 import org.bgerp.plugin.svc.dba.dao.QueryDAO;
 import org.bgerp.plugin.svc.dba.dao.QueryHistoryDAO;
@@ -43,8 +40,7 @@ public class QueryAction extends BaseAction {
             form.setResponseData("table", table);
         }
 
-        List<IdTitle> storedQueries = hDao.list(form.getUserId());
-        form.setResponseData("storedQueries", storedQueries);
+        form.setResponseData("storedQueries", hDao.list(form.getUserId()));
 
         return html(conSet, form, PATH_JSP + "/query.jsp");
     }
