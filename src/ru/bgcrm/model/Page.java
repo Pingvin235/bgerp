@@ -22,7 +22,7 @@ public class Page {
 
     public static int PAGE_INDEX_NO_PAGING = -1;
 
-    private int pageSize = DEFAULT_PAGE_SIZE;
+    private int pageSize = 0;
     /**
      * Default is 1, to show a first page.
      * {@link #PAGE_INDEX_NO_PAGING} means that no pagination is needed.
@@ -30,14 +30,6 @@ public class Page {
     private int pageIndex = 1;
     private int pageCount = 0;
     private int recordCount = 0;
-
-    public Page(int pageIndex, int pageSize) {
-        this.pageSize = pageSize;
-        this.pageIndex = pageIndex;
-    }
-
-    public Page() {
-    }
 
     public void setData(Page page) {
         this.pageSize = page.pageSize;
