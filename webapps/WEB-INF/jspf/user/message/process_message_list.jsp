@@ -342,8 +342,7 @@
 </div>
 
 <ui:when type="user">
-	<%-- параметр nextCommand здесь используется из предыдущего промотчика, перед списком сообщений --%>
-	<ui:page-control pageFormId="${formUiid}" nextCommand="${nextCommand}" />
+	<ui:page-control pageFormId="${formUiid}" nextCommand="; ${sendCommand}" />
 
 	<script>
 		$(function () {
