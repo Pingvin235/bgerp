@@ -643,15 +643,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return param.getArray(name);
     }
 
-    /**
-     * Устанавливает значения параметров HTTP запроса.
-     * @param name имя параметра.
-     * @param values значения.
-     */
-    public void setParamArray(String name, String[] values) {
-        param.put(name, values);
-    }
-
     public void setParamArray(String name, Collection<?> values) {
         List<String> result = new ArrayList<>(values.size());
         for (Object value : values) {
@@ -745,32 +736,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return result;
     }
 
-    // Deprecated param values getters, remove later. 17.11.2023
-
-    @Deprecated
-    public Set<Integer> getSelectedValues(String name) {
-        log.warndMethod("getSelectedValues", "getParamValues");
-        return getParamValues(name);
-    }
-
-    @Deprecated
-    public Set<String> getSelectedValuesStr(String name) {
-        log.warndMethod("getSelectedValuesStr", "getParamValuesStr");
-        return getParamValuesStr(name);
-    }
-
-    @Deprecated
-    public List<Integer> getSelectedValuesList(String name) {
-        log.warndMethod("getSelectedValuesList", "getParamValuesList");
-        return getParamValuesList(name);
-    }
-
-    @Deprecated
-    public List<String> getSelectedValuesListStr(String name) {
-        log.warndMethod("getSelectedValuesListStr", "getParamValuesListStr");
-        return getParamValuesListStr(name);
-    }
-
     // /////////////////////////////////////////////
     // DynBean
     // /////////////////////////////////////////////
@@ -837,7 +802,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public void set(String name, String key, Object value) {
         throw new UnsupportedOperationException();
     }
-
     ////////////////////////////////////////////////////
 
     // /////////////////////////////////////////////
