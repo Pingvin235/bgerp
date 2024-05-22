@@ -74,6 +74,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final String PARAM_FILE = "file";
 
     private static final String PARAM_ACTION_METHOD = "action";
+    private static final String PARAM_ID = "id";
     private static final String PARAM_REQUEST_URL = "requestUrl";
     private static final String PARAM_RESPONSE_TYPE = "responseType";
     private static final String PARAM_RETURN_URL = "returnUrl";
@@ -83,10 +84,12 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     private static final Map<String, DynaProperty> PROPERTIES = new HashMap<>();
     static {
-        for (String name : new String[] { PARAM_ACTION_METHOD, PARAM_REQUEST_URL, PARAM_RESPONSE_TYPE, PARAM_FORWARD, PARAM_FORWARD_FILE })
-            PROPERTIES.put(name, new DynaProperty(name, String.class));
         PROPERTIES.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
         PROPERTIES.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
+        // a tiny optimization, String class for often param names
+        for (String name : List.of(PARAM_ACTION_METHOD, PARAM_ID, PARAM_REQUEST_URL, PARAM_RESPONSE_TYPE, PARAM_RETURN_URL, PARAM_RETURN_CHILD_UIID,
+                PARAM_FORWARD, PARAM_FORWARD_FILE))
+            PROPERTIES.put(name, new DynaProperty(name, String.class));
     }
 
     private static final String PARAM_OVERWRITE_NAME_PREFIX = "!";
@@ -251,58 +254,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
                 new OutputStreamWriter(getHttpResponseOutputStream(), httpResponse.getCharacterEncoding()));
     }
 
-    public ConnectionSet getConnectionSet() {
-        return connectionSet;
-    }
-
-    public void setConnectionSet(ConnectionSet value) {
-        this.connectionSet = value;
-    }
-
-    public Response getResponse() {
-        return response;
-    }
-
-    /**
-     * Set response object data.
-     * @param key
-     * @param value
-     */
-    public void setResponseData(String key, Object value) {
-        response.setData(key, value);
-    }
-
-    /**
-     * Set HTTP request attribute. Unlike response data, not serialized to JSON.
-     * @param key
-     * @param value
-     */
-    public void setRequestAttribute(String key, Object value) {
-        httpRequest.setAttribute(key, value);
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-        if (user != null)
-            param.setLogTrackingId("UID: " + user.getId());
-    }
-
-    public int getUserId() {
-        return user != null ? user.getId() : -1;
-    }
-
-    public ConfigMap getPermission() {
-        return permission;
-    }
-
-    public void setPermission(ConfigMap permission) {
-        this.permission = permission;
-    }
-
     public Page getPage() {
         return page;
     }
@@ -312,15 +263,14 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает доступ к мапу параметров, для получения в JSP.
-     * @return
+     * @return request parameters
      */
     public ArrayHashMap getParam() {
         return param;
     }
 
     /**
-     * @return request parameter {@code action}, action class method name.
+     * @return request parameter {@code action}, action class method name
      */
     public String getAction() {
         return getParam(PARAM_ACTION_METHOD);
@@ -336,60 +286,14 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает параметр запроса id.
-     * @return
+     * @return request parameter {@code id}
      */
     public int getId() {
-        return Utils.parseInt(getParam("id"));
+        return getParamInt(PARAM_ID);
     }
 
     /**
-     * Возвращает параметр запроса responseType.
-     * @return
-     */
-    public String getResponseType() {
-        return getParam(PARAM_RESPONSE_TYPE);
-    }
-
-    /*
-     * Sets http request param {@code responseType}
-     * @param responseType
-     */
-    public void setResponseType(String responseType) {
-        setParam(PARAM_RESPONSE_TYPE, responseType);
-    }
-
-    /**
-     * Возвращает параметр запроса forward.
-     * @return
-     */
-    public String getForward() {
-        return getParam(PARAM_FORWARD);
-    }
-
-    /**
-     * Возвращает параметр запроса forwardFile.
-     * @return
-     */
-    public String getForwardFile() {
-        String result = getParam(PARAM_FORWARD_FILE);
-        if (Utils.notBlankString(result))
-            log.warn("Used request parameter forwardFile={}", result);
-        return result;
-    }
-
-    /**
-     * Return JSP template directly.
-     * @param value
-     */
-    @Deprecated
-    public void setForwardFile(String value) {
-        setParam(PARAM_FORWARD_FILE, value);
-    }
-
-    /**
-     * Возвращает параметр запроса requestUrl.
-     * @return
+     * @return request parameter {@code requestUrl}
      */
     public String getRequestUrl() {
         return getParam(PARAM_REQUEST_URL);
@@ -412,19 +316,59 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * URL for returning back from an editor
-     * @return
+     * @return request parameter {@code responseType}
+     */
+    public String getResponseType() {
+        return getParam(PARAM_RESPONSE_TYPE);
+    }
+
+    /**
+     * Sets request parameter {@code responseType}
+     * @param responseType the value
+     */
+    public void setResponseType(String responseType) {
+        setParam(PARAM_RESPONSE_TYPE, responseType);
+    }
+
+    /**
+     * @return request parameter {@code returnUrl}, URL for returning back from an editor
      */
     public String getReturnUrl() {
         return getParam(PARAM_RETURN_URL);
     }
 
     /**
-     * HTML element ID, for the parent of that has to be placed result of loading {@link #getReturnUrl()}
-     * @return
+     * @return request parameter {@code returnChildUiid}, HTML element ID, for the parent of that has to be placed result of loading {@link #getReturnUrl()}
      */
     public String getReturnChildUiid() {
         return getParam(PARAM_RETURN_CHILD_UIID);
+    }
+
+    /**
+     * @return request parameter {@code forward}
+     */
+    public String getForward() {
+        return getParam(PARAM_FORWARD);
+    }
+
+    /**
+     * @return request parameter {@code forwardFile}, JSP template path
+     */
+    @Deprecated
+    public String getForwardFile() {
+        String result = getParam(PARAM_FORWARD_FILE);
+        if (Utils.notBlankString(result))
+            log.warn("Used request parameter forwardFile={}", result);
+        return result;
+    }
+
+    /**
+     * Sets request parameter {@code forwardFile}, JSP template path
+     * @param value
+     */
+    @Deprecated
+    public void setForwardFile(String value) {
+        setParam(PARAM_FORWARD_FILE, value);
     }
 
     /**
@@ -711,9 +655,63 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return result;
     }
 
-    // /////////////////////////////////////////////
+    // processing context
+
+    public ConnectionSet getConnectionSet() {
+        return connectionSet;
+    }
+
+    public void setConnectionSet(ConnectionSet value) {
+        this.connectionSet = value;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        if (user != null)
+            param.setLogTrackingId("UID: " + user.getId());
+    }
+
+    public int getUserId() {
+        return user != null ? user.getId() : -1;
+    }
+
+    public ConfigMap getPermission() {
+        return permission;
+    }
+
+    public void setPermission(ConfigMap permission) {
+        this.permission = permission;
+    }
+
+    // response
+
+    public Response getResponse() {
+        return response;
+    }
+
+    /**
+     * Set response object data.
+     * @param key
+     * @param value
+     */
+    public void setResponseData(String key, Object value) {
+        response.setData(key, value);
+    }
+
+    /**
+     * Set HTTP request attribute. Unlike response data, not serialized to JSON.
+     * @param key
+     * @param value
+     */
+    public void setRequestAttribute(String key, Object value) {
+        httpRequest.setAttribute(key, value);
+    }
+
     // DynBean
-    // /////////////////////////////////////////////
     @Override
     public Object get(String name) {
         if (PARAM_PAGE.equals(name))
@@ -775,11 +773,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public void set(String name, String key, Object value) {
         throw new UnsupportedOperationException();
     }
-    ////////////////////////////////////////////////////
 
-    // /////////////////////////////////////////////
     // DynaClass
-    // /////////////////////////////////////////////
     @Override
     public String getName() {
         throw new UnsupportedOperationException();
@@ -803,5 +798,4 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public DynaBean newInstance() throws IllegalAccessException, InstantiationException {
         return new DynActionForm();
     }
-    ////////////////////////////////////////////////////
 }
