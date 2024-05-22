@@ -443,7 +443,7 @@ public class BaseAction extends DispatchAction {
                     List<String> values = Utils.toList(map.get(key));
                     if (!values.isEmpty()) {
                         if (values.size() > 1)
-                            form.getParam().setArray(param, values);
+                            form.getParam().putArray(param, values.toArray(new String[0]));
                         else if (values.size() == 1)
                             form.setParam(param, values.get(0));
 

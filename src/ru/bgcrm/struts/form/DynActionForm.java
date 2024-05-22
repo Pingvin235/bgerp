@@ -41,7 +41,6 @@ import org.bgerp.app.servlet.ServletUtils;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
@@ -164,7 +163,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
             }
         }
 
-        this.param.putAll(paramsForForm.entrySet().stream()
+        this.param.putArrays(paramsForForm.entrySet().stream()
             .collect(Collectors.toMap(me -> me.getKey(), me -> me.getValue().toArray(new String[0])))
         );
     }
@@ -718,7 +717,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
             if (name.startsWith(PARAM_OVERWRITE_NAME_PREFIX))
                 setParam(name.substring(1), values[values.length - 1]);
             else
-                param.put(name, values);
+                param.putArray(name, values);
         }
     }
 

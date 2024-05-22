@@ -21,7 +21,6 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.dao.user.UserGroupDAO;
 import ru.bgcrm.dao.user.UserPermsetDAO;
 import ru.bgcrm.event.user.UserChangedEvent;
-import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.Permset;
@@ -189,9 +188,8 @@ public class UserAction extends org.bgerp.action.BaseAction {
     }
 
     public ActionForward groupInsertMark(DynActionForm form, Connection con) throws Exception {
-        ArrayHashMap paramMap = form.getParam();
-        int parentId = Utils.parseInt(paramMap.get("parentGroupId"), 0);
-        int id = Utils.parseInt(paramMap.get("markGroup"), -1);
+        int parentId = form.getParamInt("parentGroupId", 0);
+        int id = form.getParamInt("markGroup", -1);
 
         if (id != -1) {
             UserGroupDAO groupDAO = new UserGroupDAO(con);
@@ -208,7 +206,7 @@ public class UserAction extends org.bgerp.action.BaseAction {
             group.setParentId(parentId);
             groupDAO.updateGroup(group);
             UserCache.flush(con);
-            paramMap.put("markGroup", "0");
+            form.setParam("markGroup", "0");
         }
 
         return json(con, form);

@@ -505,7 +505,7 @@ IMPORTANT: Use caches as much as possible for getting reference values and avoid
 
 Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
-link:../../../src/ru/bgcrm/struts/action/admin/UserAction.java#L89-L95[ru.bgcrm.struts.action.admin.UserAction]
+link:../../../src/ru/bgcrm/struts/action/admin/UserAction.java#L88-L94[ru.bgcrm.struts.action.admin.UserAction]
 
 [[plugin-endpoint]]
 ==== Endpoints

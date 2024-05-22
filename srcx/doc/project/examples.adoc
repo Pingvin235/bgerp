@@ -107,7 +107,7 @@ link:../../../webapps/WEB-INF/jspf/admin/process/status/list.jsp#L4-L18[webapps/
 
 Java action:
 [snippet, from="public Ac", to="}"]
-link:../../../src/ru/bgcrm/struts/action/admin/ProcessAction.java#L53-L57[ru.bgcrm.struts.action.admin.ProcessAction]
+link:../../../src/ru/bgcrm/struts/action/admin/ProcessAction.java#L52-L56[ru.bgcrm.struts.action.admin.ProcessAction]
 
 [[code-upload-file]]
 === File upload

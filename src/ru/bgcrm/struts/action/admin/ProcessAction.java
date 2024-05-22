@@ -31,7 +31,6 @@ import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.QueueDAO;
 import ru.bgcrm.dao.process.StatusDAO;
 import ru.bgcrm.dao.user.UserPermsetDAO;
-import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
@@ -111,11 +110,10 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    // типы
     public ActionForward typeList(DynActionForm form, Connection con) throws Exception {
         HttpServletRequest request = form.getHttpRequest();
-        ArrayHashMap paramMap = form.getParam();
-        int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
+
+        int parentId = form.getParamInt("parentTypeId");
 
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
         processTypeDAO.searchProcessType(new Pageable<>(form), parentId, LikePattern.SUB.get(form.getParam("filter", "")));
@@ -124,8 +122,7 @@ public class ProcessAction extends BaseAction {
             request.setAttribute("typePath", ProcessTypeCache.getTypePath(parentId));
         }
 
-        // смотрим что помечено
-        int id = Utils.parseInt(paramMap.get("markType"), -1);
+        int id = form.getParamInt("markType", -1);
         if (id != -1) {
             ProcessType type = processTypeDAO.getProcessType(id);
             if (type != null) {
@@ -170,8 +167,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward typeDelete(DynActionForm form, Connection con) throws Exception {
-        ArrayHashMap paramMap = form.getParam();
-        int id = Utils.parseInt(paramMap.get("id"), -1);
+        int id = form.getId();
         ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
 
         if (!typeDAO.checkProcessTypeForDelete(id)) {
@@ -185,9 +181,8 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward typeInsertMark(DynActionForm form, Connection con) throws Exception {
-        ArrayHashMap paramMap = form.getParam();
-        int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
-        int id = Utils.parseInt(paramMap.get("markType"), -1);
+        int parentId = form.getParamInt("parentTypeId", 0);
+        int id = form.getParamInt("markType", -1);
 
         if (id != -1) {
             ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
@@ -204,7 +199,7 @@ public class ProcessAction extends BaseAction {
             type.setParentId(parentId);
             typeDAO.updateProcessType(type, form.getUserId());
             ProcessTypeCache.flush(con);
-            paramMap.put("markType", "0");
+            form.setParam("markType", "0");
         }
 
         return json(con, form);
