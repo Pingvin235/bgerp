@@ -170,7 +170,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
         //правила
         List<WorkTypeTime> ruleList = new ArrayList<>();
         try {
-            for (String item : form.getParamArray("rule")) {
+            for (String item : form.getParam().getArray("rule")) {
                 WorkTypeTime workTypeTime = new WorkTypeTime();
 
                 String[] tokens = item.split(":");

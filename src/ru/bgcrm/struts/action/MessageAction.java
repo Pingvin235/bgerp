@@ -247,7 +247,7 @@ public class MessageAction extends BaseAction {
         int cnt = 0;
 
         Map<MessageType, List<String>> typeSystemIds = new HashMap<>(10);
-        for (String pair : form.getParamArray("typeId-systemId")) {
+        for (String pair : form.getParamValuesListStr("typeId-systemId")) {
             // to avoid too long processing
             if (++cnt > MAX_MESSAGE_DELETE_QNT)
                 break;

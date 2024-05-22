@@ -362,8 +362,8 @@ public class ProcessAction extends BaseAction {
         if (type != null) {
             TypeProperties properties = type.getProperties();
 
-            String[] beginGroupArr = form.getParamArray("beginGroupRole");
-            String[] allowedGroupArr = form.getParamArray("allowedGroupRole");
+            String[] beginGroupArr = form.getParam().getArray("beginGroupRole");
+            String[] allowedGroupArr = form.getParam().getArray("allowedGroupRole");
 
             properties.setCreateStatusId(form.getParamInt("createStatusId"));
             properties.setCloseStatusIds(form.getParamValues("closeStatusId"));
@@ -394,7 +394,7 @@ public class ProcessAction extends BaseAction {
     }
 
     private void updateTransactions(DynActionForm form, ProcessType type) throws Exception {
-        String[] matrixParamArray = form.getParamArray("matrix");
+        String[] matrixParamArray = form.getParam().getArray("matrix");
         if (matrixParamArray != null) {
             var properties = type.getProperties();
             var anyEnabled = false;

@@ -1,6 +1,9 @@
 package ru.bgcrm.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bgerp.util.Log;
@@ -73,6 +76,14 @@ public class ArrayHashMap extends HashMap<String, Object> {
 
     public String[] getArray(String key) {
         return (String[]) super.get(key);
+    }
+
+    public void setArray(String name, Collection<?> values) {
+        List<String> result = new ArrayList<>(values.size());
+        for (Object value : values) {
+            result.add(String.valueOf(value));
+        }
+        putArray(name, result.toArray(new String[0]));
     }
 
     public String[] putArray(String key, String[] value) {

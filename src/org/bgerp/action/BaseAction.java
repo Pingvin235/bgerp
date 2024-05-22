@@ -437,13 +437,13 @@ public class BaseAction extends DispatchAction {
         for (String param : params) {
             final String key = "param." + form.getAreaId() + "." + param;
             // param doesn't present in the request - restoring
-            if (form.getParamArray(param) == null) {
+            if (form.getParam().getArray(param) == null) {
                 // storing values comma-separated
                 if (get && map.containsKey(key)) {
                     List<String> values = Utils.toList(map.get(key));
                     if (!values.isEmpty()) {
                         if (values.size() > 1)
-                            form.setParamArray(param, values);
+                            form.getParam().setArray(param, values);
                         else if (values.size() == 1)
                             form.setParam(param, values.get(0));
 

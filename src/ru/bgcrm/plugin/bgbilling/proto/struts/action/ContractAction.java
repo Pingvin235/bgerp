@@ -125,7 +125,7 @@ public class ContractAction extends BaseAction {
     }
 
     private Set<Integer> getParasmIdsSet(DynActionForm form) throws BGMessageException {
-        String[] vals = form.getParamArray("paramIds");
+        String[] vals = form.getParam().getArray("paramIds");
         if (vals == null) {
             return getParamListImpl(form).stream()
                     .map(i -> i.getId())

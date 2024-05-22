@@ -10,7 +10,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -553,22 +552,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParamBoolean(name, false);
     }
 
-    /**
-     * Возвращает значения параметров HTTP запроса.
-     * @param name имя параметра.
-     * @return null, если параметр не установлен.
-     */
-    public String[] getParamArray(String name) {
-        return param.getArray(name);
-    }
-
-    public void setParamArray(String name, Collection<?> values) {
-        List<String> result = new ArrayList<>(values.size());
-        for (Object value : values) {
-            result.add(String.valueOf(value));
-        }
-        param.putArray(name, result.toArray(new String[0]));
-    }
 
     /**
      * Gets HTTP request parameter values as type int.

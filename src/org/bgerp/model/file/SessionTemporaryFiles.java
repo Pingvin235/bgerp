@@ -33,25 +33,22 @@ public class SessionTemporaryFiles {
             HttpSession session = form.getHttpRequest().getSession(true);
             SessionTemporaryFiles files = (SessionTemporaryFiles) session.getAttribute(STORE_KEY);
 
-            String[] tmpFileIds = form.getParamArray("tmpFileId");
-            if (tmpFileIds != null) {
-                for (String tmpFileId : tmpFileIds) {
-                    int tmpFileIdInt = Utils.parseInt(tmpFileId);
-                    if (tmpFileIdInt <= 0) {
-                        throw new BGException("Incorrect ID of tmp file: " + tmpFileId);
-                    }
+            for (String tmpFileId : form.getParamValuesListStr("tmpFileId")) {
+                int tmpFileIdInt = Utils.parseInt(tmpFileId);
+                if (tmpFileIdInt <= 0) {
+                    throw new BGException("Incorrect ID of tmp file: " + tmpFileId);
+                }
 
-                    String path = SessionTemporaryFiles.getStoreFilePath(session, tmpFileIdInt);
-                    String fileTitle = files.fileTitleMap.get(tmpFileIdInt);
-                    if (Utils.isBlankString(fileTitle)) {
-                        throw new BGException("Undefined title for file with ID: " + tmpFileIdInt);
-                    }
+                String path = SessionTemporaryFiles.getStoreFilePath(session, tmpFileIdInt);
+                String fileTitle = files.fileTitleMap.get(tmpFileIdInt);
+                if (Utils.isBlankString(fileTitle)) {
+                    throw new BGException("Undefined title for file with ID: " + tmpFileIdInt);
+                }
 
-                    try {
-                        result.put(tmpFileIdInt, new FileInfo(fileTitle, new FileInputStream(path)));
-                    } catch (FileNotFoundException e) {
-                        throw new BGException(e);
-                    }
+                try {
+                    result.put(tmpFileIdInt, new FileInfo(fileTitle, new FileInputStream(path)));
+                } catch (FileNotFoundException e) {
+                    throw new BGException(e);
                 }
             }
         }
