@@ -333,13 +333,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * @return current value of {@link #actionIdentifier}.
-     */
-    public String getActionIdentifier() {
-        return actionIdentifier;
-    }
-
-    /**
      * Builds {@link #actionIdentifier} as semicolon separated action class and method name from {@link #getAction()}.
      * @param clazz action class.
      * @return the generated value.
