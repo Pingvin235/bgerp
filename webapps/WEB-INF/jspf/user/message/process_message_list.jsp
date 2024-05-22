@@ -128,7 +128,7 @@
 						<c:when test="${typeNote}">
 							<div style="width: 100%;">
 								<div>
-									#${message.id}&nbsp;${messageType.title} | ${message.subject}
+									#${message.id}&nbsp;${messageType.title}<c:if test="${not empty message.subject}"> | ${message.subject}</c:if>
 									<c:if test="${message.processId ne form.param.processId}">
 										&#32;${l.l('из')}&#32;<ui:process-link id="${message.processId}"/>
 									</c:if>
