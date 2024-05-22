@@ -3,12 +3,12 @@ package org.bgerp.plugin.svc.log.model;
 import java.util.Date;
 import java.util.Map;
 
+import org.bgerp.app.servlet.ServletUtils;
 import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.model.base.Id;
 
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -48,7 +48,7 @@ public class ActionLogEntry extends Id {
             this.userId = user.getId();
 
         this.action = e.getAction();
-        this.ipAddress = DynActionForm.getHttpRequestRemoteAddr(request);
+        this.ipAddress = ServletUtils.getHttpRequestRemoteAddr(request);
         this.duration = e.getDuration();
         this.error = Utils.maskNull(e.getError());
     }

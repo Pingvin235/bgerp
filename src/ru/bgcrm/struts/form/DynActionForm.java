@@ -22,7 +22,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,7 +32,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.action.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
@@ -44,7 +42,6 @@ import org.bgerp.util.TimeConvert;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
-import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -80,6 +77,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final String PARAM_FORWARD = "forward";
     private static final String PARAM_FORWARD_FILE = "forwardFile";
 
+    /** The properties are needed for allowing Struts HTML tags retrieving current request param values */
     private static final Map<String, DynaProperty> PROPERTIES = new HashMap<>();
     static {
         PROPERTIES.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
@@ -198,37 +196,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return httpRequest;
     }
 
+    public void setHttpRequest(HttpServletRequest httpRequest) {
+        this.httpRequest = httpRequest;
+    }
+
     /**
      * @return request URI using method {@link ServletUtils#getRequestURI(HttpServletRequest)} with parameter {@link #httpRequest}.
      */
     public String getHttpRequestURI() {
         return ServletUtils.getRequestURI(httpRequest);
-    }
-
-    /**
-     * Calls {@link #getHttpRequestRemoteAddr(HttpServletRequest)} for {@link #httpRequest}.
-     * @return
-     */
-    public String getHttpRequestRemoteAddr() {
-        return getHttpRequestRemoteAddr(httpRequest);
-    }
-
-    /**
-     * Gets IP address of request from
-     * HTTP header 'X-Real-IP' or another defined in configuration param {@link AccessLogValve#PARAM_HEADER_NAME_REMOTE_ADDR}
-     * or {@link ServletRequest#getRemoteAddr()}
-     * @return
-     */
-    public static String getHttpRequestRemoteAddr(HttpServletRequest httpRequest) {
-        String headerNameRemoteAddress = Setup.getSetup().get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR, "X-Real-IP");
-        String result = httpRequest.getHeader(headerNameRemoteAddress);
-        if (result == null)
-            result = httpRequest.getRemoteAddr();
-        return result;
-    }
-
-    public void setHttpRequest(HttpServletRequest httpRequest) {
-        this.httpRequest = httpRequest;
     }
 
     public HttpServletResponse getHttpResponse() {
@@ -247,9 +223,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     public PrintWriter getHttpResponseWriter() throws IOException {
-        // TODO: Подумать, нужно ли кэширование.
-        return new PrintWriter(
-                new OutputStreamWriter(getHttpResponseOutputStream(), httpResponse.getCharacterEncoding()));
+        return new PrintWriter(new OutputStreamWriter(getHttpResponseOutputStream(), httpResponse.getCharacterEncoding()));
     }
 
     public Page getPage() {

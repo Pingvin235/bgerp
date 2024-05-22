@@ -18,15 +18,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.authenticator.Constants;
-import org.bgerp.event.AuthEvent;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.Maintenance;
 import org.bgerp.app.dist.lic.AppLicense;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
+import org.bgerp.app.servlet.ServletUtils;
 import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.cache.UserCache;
+import org.bgerp.event.AuthEvent;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;
@@ -172,7 +173,7 @@ public class AuthFilter implements Filter {
                 HttpSession session = request.getSession();
                 session.setAttribute(REQUEST_ATTRIBUTE_USER_ID_NAME, user.getId());
 
-                LoginStat.instance().userLoggedIn(session, user, DynActionForm.getHttpRequestRemoteAddr(request));
+                LoginStat.instance().userLoggedIn(session, user, ServletUtils.getHttpRequestRemoteAddr(request));
             }
         } else {
             HttpSession session = request.getSession(false);
