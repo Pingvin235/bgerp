@@ -70,9 +70,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     @Deprecated
     public static DynActionForm SERVER_FORM = SYSTEM_FORM;
 
-    private static final String PARAM_RESPONSE = "response";
-    private static final String PARAM_FILE = "file";
     private static final String PARAM_PAGE = "page";
+    private static final String PARAM_FILE = "file";
+
+    private static final String PARAM_ACTION_METHOD = "action";
     private static final String PARAM_REQUEST_URL = "requestUrl";
     private static final String PARAM_RESPONSE_TYPE = "responseType";
     private static final String PARAM_RETURN_URL = "returnUrl";
@@ -82,10 +83,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     private static final Map<String, DynaProperty> PROPERTIES = new HashMap<>();
     static {
-        for (String name : new String[] { "action", PARAM_REQUEST_URL, PARAM_FORWARD, PARAM_FORWARD_FILE, PARAM_RESPONSE_TYPE })
+        for (String name : new String[] { PARAM_ACTION_METHOD, PARAM_REQUEST_URL, PARAM_RESPONSE_TYPE, PARAM_FORWARD, PARAM_FORWARD_FILE })
             PROPERTIES.put(name, new DynaProperty(name, String.class));
         PROPERTIES.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
-        PROPERTIES.put(PARAM_RESPONSE, new DynaProperty(PARAM_RESPONSE, Page.class));
         PROPERTIES.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
     }
 
@@ -95,26 +95,36 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private HttpServletResponse httpResponse;
     private OutputStream httpResponseOutputStream;
 
+    /** Special HTTP request params */
+    private Page page = new Page();
+    private FormFile file;
+
+    /** Parsed HTTP request params */
+    private ArrayHashMap param = new ArrayHashMap();
+
     /** DB connections. */
     private ConnectionSet connectionSet;
+
+    private User user;
+    /** Action identifier, semicolon separated class and method names */
+    private String actionIdentifier = "???";
+    private ConfigMap permission;
+
+    public Localizer l;
 
     /** Response data, may be serialized to JSON. */
     private Response response = new Response();
 
-    private User user;
-    /** Action identifier, semicolon separated class and method names. */
-    private String actionIdentifier = "???";
-    private ConfigMap permission;
-    private Page page = new Page();
-    private FormFile file;
-
-    /** Parsed HTTP request params. */
-    private ArrayHashMap param = new ArrayHashMap();
-
-    public Localizer l;
-
     /** Empty constructor for Struts. */
     public DynActionForm() {}
+
+    public DynActionForm(User user) {
+        setUser(user);
+        this.permission = ConfigMap.EMPTY;
+        // for tests
+        if (PluginManager.getInstance() != null)
+            this.l = Localization.getLocalizer();
+    }
 
     /**
      * Constructor from string URL or only query string.
@@ -155,14 +165,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         this.param.putAll(paramsForForm.entrySet().stream()
             .collect(Collectors.toMap(me -> me.getKey(), me -> me.getValue().toArray(new String[0])))
         );
-    }
-
-    public DynActionForm(User user) {
-        setUser(user);
-        this.permission = ConfigMap.EMPTY;
-        // for tests
-        if (PluginManager.getInstance() != null)
-            this.l = Localization.getLocalizer();
     }
 
     /**
@@ -309,10 +311,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return file;
     }
 
-    public void setFile(FormFile file) {
-        this.file = file;
-    }
-
     /**
      * Возвращает доступ к мапу параметров, для получения в JSP.
      * @return
@@ -321,15 +319,11 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return param;
     }
 
-    public void setParam(ArrayHashMap param) {
-        this.param = param;
-    }
-
     /**
      * @return request parameter {@code action}, action class method name.
      */
     public String getAction() {
-        return getParam("action");
+        return getParam(PARAM_ACTION_METHOD);
     }
 
     /**
@@ -357,8 +351,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParam(PARAM_RESPONSE_TYPE);
     }
 
-    /**
-     * Устанавливает параметр запроса responseType.
+    /*
+     * Sets http request param {@code responseType}
      * @param responseType
      */
     public void setResponseType(String responseType) {
@@ -371,10 +365,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      */
     public String getForward() {
         return getParam(PARAM_FORWARD);
-    }
-
-    public void setForward(String value) {
-        setParam(PARAM_FORWARD, value);
     }
 
     /**
@@ -429,20 +419,12 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParam(PARAM_RETURN_URL);
     }
 
-    public void setReturnUrl(String returnUrl) {
-        setParam(PARAM_RETURN_URL, returnUrl);
-    }
-
     /**
      * HTML element ID, for the parent of that has to be placed result of loading {@link #getReturnUrl()}
      * @return
      */
     public String getReturnChildUiid() {
         return getParam(PARAM_RETURN_CHILD_UIID);
-    }
-
-    public void setReturnChildUiid(String value) {
-        setParam(PARAM_RETURN_CHILD_UIID, value);
     }
 
     /**
@@ -734,15 +716,13 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     // /////////////////////////////////////////////
     @Override
     public Object get(String name) {
-        if (PARAM_PAGE.equals(name)) {
+        if (PARAM_PAGE.equals(name))
             return page;
-        } else if (PARAM_FILE.equals(name)) {
+        if (PARAM_FILE.equals(name))
             return file;
-        } else if (PARAM_RESPONSE.equals(name)) {
+        if ("response".equals(name))
             return response;
-        } else {
-            return getParam(name);
-        }
+        return getParam(name);
     }
 
     @Override
