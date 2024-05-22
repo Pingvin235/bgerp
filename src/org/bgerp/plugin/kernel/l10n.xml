@@ -671,6 +671,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Parameter with ID {} is disallowed to edit</en><ru>Параметр с кодом {} запрещен для изменения</ru></p>
 	<p><en>Parameter not found</en><ru>Параметр не найден</ru></p>
 	<p><en>The tagged parameter is disallowed to edit</en><ru>Данный тегированный параметр запрещён для правки</ru></p>
+	<p><en>Pin</en><ru>Закрепить</ru></p>
+	<p><en>Unpin</en><ru>Открепить</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

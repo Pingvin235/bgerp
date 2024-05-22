@@ -9,7 +9,7 @@
 
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="/css/style.css.jsp"/>
+		<link rel="stylesheet" type="text/css" href="/css/css.jsp"/>
 		<style>
 			@page {
 			    size: auto;   /* auto is the initial value */

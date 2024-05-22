@@ -113,10 +113,10 @@ public class MessageTest {
         var dao = new MessageDAO(DbTest.conRoot);
 
         var m = MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "One Tag", "The message must contain a single tag.");
-        dao.updateMessageTags(m.getId(), Set.of(MessageTest.tagAccess.getId()));
+        dao.updateMessageTags(m.getId(), Set.of(MessageTest.tagAccess.getId()), false);
 
-        m = MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Two Tags", "The message must contain two tags.");
-        dao.updateMessageTags(m.getId(), Set.of(MessageTest.tagSpecification.getId(), MessageTest.tagTodo.getId()));
+        m = MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Two Tags", "The message must be pinned on the first place and contain two tags.");
+        dao.updateMessageTags(m.getId(), Set.of(TagConfig.Tag.TAG_PIN_ID, MessageTest.tagSpecification.getId(), MessageTest.tagTodo.getId()), false);
 
         m = MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Attachment", "The message must contain an attachment with preview.");
         m.addAttach(FileHelper.addFile(new File("srcx/doc/_res/image.png")));

@@ -60,7 +60,7 @@ public class OpenIfaceTest {
     @Test(dependsOnMethods = "process")
     public void message() throws Exception {
         int messageId = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ZERO, TITLE, "The message should be visible in open interface").getId();
-        new MessageDAO(DbTest.conRoot).updateMessageTags(messageId, Set.of(MessageTest.tagOpen.getId()));
+        new MessageDAO(DbTest.conRoot).updateMessageTags(messageId, Set.of(MessageTest.tagOpen.getId()), true);
     }
 
     @Test(dependsOnMethods = { "user", "process" })

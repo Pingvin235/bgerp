@@ -6,8 +6,10 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -18,6 +20,7 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Period;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -27,6 +30,13 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class MessageSearchDAO extends MessageDAO {
+    public static enum Order {
+        FROM_TIME,
+        FROM_TIME_DESC,
+        PINNED_FIRST
+    }
+
+
     private Set<Integer> tagIds;
     private Set<Integer> processIds;
     private Set<Integer> typeIds;
@@ -36,7 +46,7 @@ public class MessageSearchDAO extends MessageDAO {
     private Boolean attach;
     private Period dateFrom;
     private String from;
-    private boolean fromTimeReverseOrder;
+    private List<Order> orders = new ArrayList<>();
 
     public MessageSearchDAO(Connection con) {
        super(con);
@@ -156,12 +166,12 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Sorting order reversed {@link Message#getFromTime()}.
+     * Adds selection order.
      * @param value
      * @return
      */
-    public MessageSearchDAO orderFromTimeReverse(boolean value) {
-        this.fromTimeReverseOrder = true;
+    public MessageSearchDAO order(Order value) {
+        orders.add(value);
         return this;
     }
 
@@ -173,12 +183,18 @@ public class MessageSearchDAO extends MessageDAO {
     public void search(Pageable<Message> result) throws SQLException {
         var page = result.getPage();
 
+        final boolean pinnedFirst = orders.contains(Order.PINNED_FIRST);
+
         PreparedQuery pq = new PreparedQuery(con);
-        pq.addQuery(SQL_SELECT_COUNT_ROWS + " m.*, p.* FROM " + TABLE_MESSAGE + " AS m "
-                + "LEFT JOIN " + TABLE_PROCESS + " AS p ON m.process_id=p.id ");
+        pq.addQuery(SQL_SELECT_COUNT_ROWS + "m.*, p.*" + (pinnedFirst ? ", pin_tag.tag_id" : "") + SQL_FROM + TABLE_MESSAGE + "AS m"
+                + SQL_LEFT_JOIN + TABLE_PROCESS + "AS p ON m.process_id=p.id");
+        if (pinnedFirst) {
+            pq.addQuery(SQL_LEFT_JOIN + TABLE_MESSAGE_TAG + "AS pin_tag ON m.id=pin_tag.message_id AND pin_tag.tag_id=?");
+            pq.addInt(TagConfig.Tag.TAG_PIN_ID);
+        }
         if (CollectionUtils.isNotEmpty(tagIds))
             pq.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id AND mt.tag_id IN (" + Utils.toString(tagIds) + ")");
-        pq.addQuery("WHERE 1>0 ");
+        pq.addQuery(SQL_WHERE + "1>0 ");
         if (processIds != null) {
             pq.addQuery(" AND m.process_id IN (");
             pq.addQuery(Utils.toString(processIds));
@@ -226,9 +242,23 @@ public class MessageSearchDAO extends MessageDAO {
             pq.addString(from);
         }
 
-        pq.addQuery(" ORDER BY m.from_dt ");
-        if (fromTimeReverseOrder) {
-            pq.addQuery(" DESC");
+        pq.addQuery(SQL_ORDER_BY);
+        if (orders.isEmpty()) {
+            pq.addQuery("m.from_dt");
+        } else {
+            boolean first = true;
+            for (var order : orders) {
+                if (!first)
+                    pq.addQuery(", ");
+
+                pq.addQuery(switch (order) {
+                    case FROM_TIME -> "m.from_dt";
+                    case FROM_TIME_DESC -> "m.from_dt DESC";
+                    case PINNED_FIRST -> "pin_tag.tag_id DESC";
+                });
+
+                first = false;
+            }
         }
 
         pq.addQuery(getPageLimit(page));

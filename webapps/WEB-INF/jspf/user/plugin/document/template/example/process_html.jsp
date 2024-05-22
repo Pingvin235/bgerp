@@ -30,7 +30,7 @@ document:processCreateDocumentsAllowedTemplates+=,101
 
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="/css/style.css.jsp"/>
+		<link rel="stylesheet" type="text/css" href="/css/css.jsp"/>
 		<meta content="text/html; charset=UTF-8" http-equiv="content-type">
 	</head>
 	<body>

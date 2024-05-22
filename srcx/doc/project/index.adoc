@@ -835,7 +835,7 @@ link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webap
 
 For combining permission check with other checks use function <<jsp-request-params, ctxUser.checkPerm>>, pointing to javadoc:ru.bgcrm.model.user.User[].
 [snippet, from="<c:if", to=">", remove-leading="								"]
-link:../../../webapps/WEB-INF/jspf/user/message/process_message_list.jsp#L209-L209[webapps/WEB-INF/jspf/user/message/process_message_list.jsp]
+link:../../../webapps/WEB-INF/jspf/user/message/process_message_list.jsp#L250-L250[webapps/WEB-INF/jspf/user/message/process_message_list.jsp]
 
 [[jsp-tags-top-line]]
 ====== shell:title and shell:state
@@ -936,7 +936,7 @@ By doing <<action>> in object *l* the localization context is passed, containing
 Localized key string may contain placeholders for some values, marked as *{}*.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L235-L235[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L242-L242[ru.bgcrm.struts.action.MessageAction]
 
 <<exception, BGMessageException>> can contain localized message, translated when shown to a user.
 In the following snippet might be seen, how it can be thrown in a plugin's logic.

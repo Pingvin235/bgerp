@@ -185,26 +185,55 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Updates message tags.
-     * @param messageId
-     * @param tagIds
+     * Updates message tags
+     * @param messageId the message ID
+     * @param tagIds the tag IDs
+     * @param positiveOnly only positive tags will be deleted before insertion
      * @throws SQLException
      */
-    public void updateMessageTags(int messageId, Set<Integer> tagIds) throws SQLException {
+    public void updateMessageTags(int messageId, Set<Integer> tagIds, boolean positiveOnly) throws SQLException {
         String query = SQL_DELETE_FROM + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, messageId);
-        ps.executeUpdate();
-        ps.close();
-
-        query = SQL_INSERT_INTO + TABLE_MESSAGE_TAG + "(message_id, tag_id) VALUES (?,?)";
-        ps = con.prepareStatement(query);
-        ps.setInt(1, messageId);
-        for (int tagId : tagIds) {
-            ps.setInt(2, tagId);
+        if (positiveOnly)
+            query += SQL_AND + "tag_id>0";
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, messageId);
             ps.executeUpdate();
         }
-        ps.close();
+
+        query = SQL_INSERT_INTO + TABLE_MESSAGE_TAG + "(message_id, tag_id) VALUES (?,?)";
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, messageId);
+            for (int tagId : tagIds) {
+                ps.setInt(2, tagId);
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    /**
+     * Adds or removes message tags
+     * @param messageId the message ID
+     * @param tagIds the tag IDs
+     * @param add add or delete
+     * @throws SQLException
+     */
+    public void toggleMessageTags(int messageId, Set<Integer> tagIds, boolean add) throws SQLException {
+        if (add) {
+            String query = SQL_INSERT_INTO + TABLE_MESSAGE_TAG + "(message_id, tag_id)" + SQL_VALUES + "(?,?)";
+            try (var ps = con.prepareStatement(query)) {
+                ps.setInt(1, messageId);
+                for (int tagId : tagIds) {
+                    ps.setInt(2, tagId);
+                    ps.executeUpdate();
+                }
+            }
+        } else if (!tagIds.isEmpty()) {
+            String query = SQL_DELETE_FROM + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?" + SQL_AND + "tag_id IN (" + Utils.toString(tagIds) + ")";
+            try (var ps = con.prepareStatement(query)) {
+                ps.setInt(1, messageId);
+                ps.executeUpdate();
+            }
+        }
     }
 
     /**
@@ -481,30 +510,30 @@ public class MessageDAO extends CommonDAO {
         return list;
     }
 
-    public Map<Integer, Set<Integer>> getProcessMessageTagMap(int processId) throws Exception {
+    public Map<Integer, Set<Integer>> getProcessMessageTagMap(int processId) throws SQLException {
         return getProcessMessageTagMap(Collections.singleton(processId));
     }
 
-    public Map<Integer, Set<Integer>> getProcessMessageTagMap(Collection<Integer> processIds) throws Exception {
+    public Map<Integer, Set<Integer>> getProcessMessageTagMap(Collection<Integer> processIds) throws SQLException {
         Map<Integer, Set<Integer>> result = new HashMap<>();
 
-        String query = "SELECT m.id, m.attach_data, mt.tag_id FROM " + TABLE_MESSAGE + " AS m "
+        String query = SQL_SELECT + "m.id, m.attach_data, mt.tag_id" + SQL_FROM + TABLE_MESSAGE + "AS m"
                 + SQL_LEFT_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id "
                 + SQL_WHERE + "m.process_id IN (" + Utils.toString(processIds) + ")";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Set<Integer> messageTags = null;
+
                 if (!Utils.isBlankString(rs.getString(2))) {
                     messageTags = result.computeIfAbsent(rs.getInt(1), id -> new HashSet<>());
                     messageTags.add(TagConfig.Tag.TAG_ATTACH_ID);
                 }
+
                 int tagId = rs.getInt(3);
-                if (tagId > 0) {
-                    if (messageTags == null)
-                        messageTags = result.computeIfAbsent(rs.getInt(1), id -> new HashSet<>());
-                    messageTags.add(tagId);
-                }
+                if (messageTags == null)
+                    messageTags = result.computeIfAbsent(rs.getInt(1), id -> new HashSet<>());
+                messageTags.add(tagId);
             }
         }
 

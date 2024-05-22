@@ -1,6 +1,7 @@
 package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -167,7 +168,13 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward messageUpdateTags(DynActionForm form, Connection con) throws Exception {
-        new MessageDAO(con).updateMessageTags(form.getId(), form.getParamValues("tagId"));
+        new MessageDAO(con).updateMessageTags(form.getId(), form.getParamValues("tagId"), true);
+
+        return json(con, form);
+    }
+
+    public ActionForward messageToggleTags(DynActionForm form, Connection con) throws SQLException {
+        new MessageDAO(con).toggleMessageTags(form.getId(), form.getParamValues("tagId"), form.getParamBoolean("add"));
 
         return json(con, form);
     }
@@ -307,7 +314,7 @@ public class MessageAction extends BaseAction {
                 .withAttach(form.getParamBoolean("attach", null))
                 .withDateFrom(form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null))
                 .withFrom(LikePattern.SUB.get(form.getParam("from")))
-                .orderFromTimeReverse(reverseOrder)
+                .order(reverseOrder ? MessageSearchDAO.Order.FROM_TIME_DESC : MessageSearchDAO.Order.FROM_TIME)
                 .search(new Pageable<>(form));
         } else {
             // when external system isn't available, an empty table of messages should be however shown
@@ -358,8 +365,7 @@ public class MessageAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/list.jsp");
     }
 
-    public ActionForward newMessageLoad(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward newMessageLoad(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
         int typeId = form.getParamInt("typeId");
@@ -480,7 +486,8 @@ public class MessageAction extends BaseAction {
             .withTypeIds(allowedTypeIds)
             .withAttach(tagId == TagConfig.Tag.TAG_ATTACH_ID ? true : null)
             .withDateFrom(form.getParamDate("dateFrom"), form.getParamDate("dateTo"))
-            .orderFromTimeReverse(true)
+            .order(MessageSearchDAO.Order.PINNED_FIRST)
+            .order(MessageSearchDAO.Order.FROM_TIME_DESC)
             .withTagId(tagId)
             .search(new Pageable<>(form));
 
@@ -563,14 +570,11 @@ public class MessageAction extends BaseAction {
 
         type.updateMessage(con, form, message);
 
-        if (form.getParamBoolean("updateTags")) {
-            form.setParam("id", String.valueOf(message.getId()));
-            messageUpdateTags(form, con);
-        }
+        if (form.getParamBoolean("updateTags"))
+            new MessageDAO(con).updateMessageTags(message.getId(), form.getParamValues("tagId"), false);
 
         form.setResponseData("message", message);
 
         return json(con, form);
     }
-
 }

@@ -19,7 +19,7 @@
 		<tr>
 			<td>${message.id}</td>
 			<td>
-				<%@ include file="/WEB-INF/jspf/user/message/message_direction.jsp"%>&nbsp;
+				<%-- <%@ include file="/WEB-INF/jspf/user/message/message_direction.jsp"%>&nbsp; --%>
 				${messageType.title}
 			</td>
 			<td nowrap="nowrap">${tu.format(message.fromTime, 'ymdhm')}</td>

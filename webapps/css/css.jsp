@@ -6,7 +6,7 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
  */
-html, body, div, убрал, <%-- т.к. span съезжал помещённый в строку span, --%> applet, object, iframe,
+html, body, div, <%-- убран, т.к. span съезжал помещённый в строку span, --%> applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -184,7 +184,7 @@ body > #content p {
 <%@ include file="style.toggle.css.jsp"%>
 <%@ include file="style.tree.css.jsp"%>
 
-<%-- patch JQueryUI styles to BGERP --%>
+<%-- patch JQueryUI styles --%>
 <%@ include file="ui-correct.css.jsp"%>
 
 div, span {
@@ -244,5 +244,7 @@ div, span {
 .page select {
 	vertical-align: middle;
 }
+
+<%@ include file="kernel/style.process.css.jsp"%>
 
 <plugin:include endpoint="css.jsp"/>

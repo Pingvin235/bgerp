@@ -51,15 +51,21 @@ public class TagConfig extends Config {
     public static final class Tag extends IdTitle {
         private final String color;
 
-        /** Pseudo tag for filtering messages. */
+        // Positive IDs are used for user defined tags
+
+        /** Filtering messages by attachment. Fake tag, not persisted in DB. */
         @Dynamic
         public static final int TAG_ATTACH_ID = -1;
-        /** Tag for attaching History.txt with messages from address. */
+
+        /** Attaching History.txt with messages from address */
         @Dynamic
         public static final int TAG_HISTORY_WITH_ADDRESS_ID = -2;
-        /** Tag for attaching History.txt with all messages. */
+        /** Attaching History.txt with all messages */
         @Dynamic
         public static final int TAG_HISTORY_ALL_ID = -3;
+        /** Pinned message */
+        @Dynamic
+        public static final int TAG_PIN_ID = -4;
 
         private Tag(int id, String title, String color) {
             super(id, title);

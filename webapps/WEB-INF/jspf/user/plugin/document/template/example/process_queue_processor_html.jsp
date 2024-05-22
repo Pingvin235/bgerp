@@ -29,7 +29,7 @@ processor.5.responseType=file
 
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="/css/style.css.jsp"/>
+		<link rel="stylesheet" type="text/css" href="/css/css.jsp"/>
 	</head>
 	<body>
 		<div style="text-align: center; font-weight: bold;" class="mb1">

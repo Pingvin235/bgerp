@@ -150,7 +150,7 @@ public class ProcessNotificationListener {
         new MessageSearchDAO(conSet.getSlaveConnection())
             .withProcessIds(Set.of(process.getId()))
             .withDirection(Message.DIRECTION_INCOMING)
-            .orderFromTimeReverse(true)
+            .order(MessageSearchDAO.Order.FROM_TIME_DESC)
             .search(messages);
 
         int messageId = -1;

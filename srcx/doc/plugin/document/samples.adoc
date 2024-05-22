@@ -77,7 +77,7 @@ processor.6.responseType=file
 
 <html>
         <head>
-                <link rel="stylesheet" type="text/css" href="/css/style.css.jsp"/>
+                <link rel="stylesheet" type="text/css" href="/css/css.jsp"/>
                 <meta content="text/html; charset=UTF-8" http-equiv="content-type">
         </head>
         <body>

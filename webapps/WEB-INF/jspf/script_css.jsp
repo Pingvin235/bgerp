@@ -96,7 +96,7 @@
 <script src="/lib/codemirror-5.65.10/addon/selection/active-line.js"></script>
 <script src="/lib/codemirror-5.65.10/addon/edit/matchbrackets.js"></script>
 
-<link type="text/css" href="${u:fileNameWithLastModTime('/css/style.css.jsp')}" rel="stylesheet"/>
+<link type="text/css" href="${u:fileNameWithLastModTime('/css/css.jsp')}" rel="stylesheet"/>
 
 <c:forEach items="${ctxPluginManager.pluginList}" var="plugin">
 	<c:forEach items="${plugin.getEndpoints('js')}" var="js">

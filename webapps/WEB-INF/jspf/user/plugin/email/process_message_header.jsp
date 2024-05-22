@@ -3,7 +3,8 @@
 
 <div style="width: 100%;">
 	<div>
-		#${message.id} EMail [${messageType.email}]: ${message.subject}
+		<%@ include file="/WEB-INF/jspf/user/message/message_direction.jsp"%>
+		#${message.id}&nbsp;${messageType.title} | ${message.subject}
 	</div>
 	<div class="mt05">
 		<c:choose>

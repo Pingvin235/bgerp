@@ -317,7 +317,7 @@
 				<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="List">
 					<b>allowedTypeIds</b> - comma separated type ID list<br/>
 				</item>
-				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags" title="Update tags"/>
+				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageToggleTags" title="Pin and Tag"/>
 				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Update read state"/>
 				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
 				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>

@@ -47,7 +47,7 @@
 				<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm['allowedTypeIds'])}"/>
 
 				<ui:combo-single
-					id="${typeComboUiid}" hiddenName="typeId" widthTextValue="120px"
+					id="${typeComboUiid}" hiddenName="typeId" widthTextValue="10em"
 					value="${value}" disable="${disable}" onSelect="${typeChangedScript}">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${config.typeMap}">
@@ -58,7 +58,8 @@
 									<c:when test="${not empty messageType.editorJsp}">
 										<li value="${item.key}" editor="${messageType.id}">${item.value.title}</li>
 									</c:when>
-									<%-- or default one for notes --%>
+									<%--  or default ones
+										TODO: figure out, for what message type is it needed --%>
 									<c:otherwise>
 										<li value="${item.key}">${item.value.title}</li>
 									</c:otherwise>

@@ -50,7 +50,7 @@
 
 		<div style="width: 30px; vertical-align: top;">
 			<h2>${l.l('Вложить историю')}</h2>
-			<ui:combo-single hiddenName="tagId" value="${tagConfig.getSelectedHistoryTag(messageTagIds)}" widthTextValue="120px">
+			<ui:combo-single hiddenName="tagId" value="${tagConfig.getSelectedHistoryTag(messageTagIds)}" widthTextValue="10em">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">-- ${l.l('нет')} --</li>
 					<li value="<%=ru.bgcrm.model.message.TagConfig.Tag.TAG_HISTORY_WITH_ADDRESS_ID%>">${l.l('Переписка с данным адресом')}</li>
