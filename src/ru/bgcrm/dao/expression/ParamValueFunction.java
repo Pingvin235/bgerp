@@ -209,7 +209,7 @@ public class ParamValueFunction {
      */
     @Deprecated
     public List<String> addressValues(int paramId) {
-        log.warndMethod("addressValues", "ParamValueDAO.getParamAddress");
+        log.warndMethod("addressValues", "getValue");
 
         return addressValues(paramId, null);
     }
