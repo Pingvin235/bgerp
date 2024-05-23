@@ -271,8 +271,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParam(PARAM_REQUEST_URL);
     }
 
-    public void setRequestUrl(String requestUrl) {
-        setParam(PARAM_REQUEST_URL, requestUrl);
+    public void setRequestUrl(String value) {
+        setParam(PARAM_REQUEST_URL, value);
     }
 
     /**
@@ -296,10 +296,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     /**
      * Sets request parameter {@code responseType}
-     * @param responseType the value
+     * @param value the value
      */
-    public void setResponseType(String responseType) {
-        setParam(PARAM_RESPONSE_TYPE, responseType);
+    public void setResponseType(String value) {
+        setParam(PARAM_RESPONSE_TYPE, value);
     }
 
     /**
@@ -310,10 +310,26 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
+     * Used in mobile interface <pre>&lt;c:set target="${form}" property="returnUrl" value="${reopenProcessUrl}"/&gt;</pre>
+     */
+    @Deprecated
+    public void setReturnUrl(String value) {
+        setParam(PARAM_RETURN_URL, value);
+    }
+
+    /**
      * @return request parameter {@code returnChildUiid}, HTML element ID, for the parent of that has to be placed result of loading {@link #getReturnUrl()}
      */
     public String getReturnChildUiid() {
         return getParam(PARAM_RETURN_CHILD_UIID);
+    }
+
+    /**
+     * Used in mobile interface <pre>&lt;c:set target="${form}" property="returnChildUiid" value="${uiid}"/&gt;</pre>
+     */
+    @Deprecated
+    public void setReturnChildUiid(String value) {
+        setParam(PARAM_RETURN_CHILD_UIID, value);
     }
 
     /**
