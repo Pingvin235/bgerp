@@ -385,23 +385,19 @@ public class ParameterAction extends BaseAction {
                 ParameterAddressValue addressValue = null;
                 int houseId = form.getParamInt("houseId", -1);
 
-                // сначала пытаемся найти hid по улице и строке house (не по houseId)
                 int streetId = form.getParamInt("streetId", -1);
                 String house = form.getParam("house");
-
                 int position = Utils.parseInt(form.getParam("position"));
 
-                if (houseId <= 0 && (streetId != -1 && house != null)) {
+                // search house by number and streetId
+                if (houseId <= 0 && house != null) {
                     AddressDAO addressDAO = new AddressDAO(con);
                     List<Integer> houses = addressDAO.getHouseIdsByStreetAndHouse(streetId, house, null);
 
-                    if (houses.size() == 1) {
-                        if (houses.get(0) != houseId) {
-                            houseId = houses.get(0);
-                        }
-                    } else
-                        throw new BGMessageException(
-                                "Не удалось найти дом с таким номером, либо таких домов несколько. Выберите дом из всплывающей подсказки!");
+                    if (houses.size() == 1)
+                        houseId = houses.get(0);
+                    else
+                        throw new BGMessageException("house.not.found");
                 }
 
                 if (houseId > 0) {
@@ -420,7 +416,6 @@ public class ParameterAction extends BaseAction {
                     addressValue.setValue(AddressUtils.buildAddressValue(addressValue, con));
                 }
 
-                //TODO: Возможно, позицию адреса нужно вставить в ParameterAddressValue
                 paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
 
                 paramValueDAO.updateParamAddress(id, paramId, position, addressValue);

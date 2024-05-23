@@ -429,8 +429,10 @@
 	<p><ru>Редактор улицы</ru><en>Street editor</en></p>
 	<p><ru>Редактор квартала</ru><en>Quarter editor</en></p>
 	<p><ru>Редактор района</ru><en>Area editor</en></p>
-	<p><ru>Не удалось найти дом с таким номером, либо таких домов несколько. Выберите дом из всплывающей подсказки!</ru>
-		<en>House with a given number wasn't found or there are many of them. Choose house in drop down list!</en>
+	<p>
+		<sys>house.not.found</sys>
+		<en>House with a given number wasn't found or there are many of them. Choose a house in the drop-down list!</en>
+		<ru>Не удалось найти дом с таким номером, либо таких домов несколько. Выберите дом из всплывающей подсказки!</ru>
 	</p>
 	<p><ru>дом</ru><en>house</en></p>
 	<p><ru>Добавить дом</ru><en>Add house</en></p>
