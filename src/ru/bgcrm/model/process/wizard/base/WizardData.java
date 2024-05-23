@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
@@ -14,13 +15,15 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class WizardData {
+    private static final Log log = Log.getLog();
+
     private final Process process;
     private final DynActionForm form;
     private final User user;
     private final List<StepData<?>> stepDataList = new ArrayList<>();
     private final boolean allFilled;
 
-    public WizardData(Connection con, DynActionForm form, Wizard wizard, Process process, List<Step> stepList) throws Exception {
+    public WizardData(Connection con, DynActionForm form, Wizard wizard, Process process, List<Step> stepList) {
         this.process = process;
         this.form = form;
         this.user = form.getUser();
@@ -30,17 +33,23 @@ public class WizardData {
         for (Step step : stepList) {
             StepData<?> stepData = step.data(this);
 
-            if (stepData == null)
-                throw new BGException("For the step " + step.getTitle() + " was returned null StepData!");
+            try {
+                if (stepData == null)
+                    throw new BGException("For the step " + step.getTitle() + " was returned null StepData!");
 
-            if (stepData.check(con)) {
-                stepDataList.add(stepData);
+                if (stepData.check(con)) {
+                    stepDataList.add(stepData);
 
-                // going until the first unfilled step
-                if (!stepData.isFilled(form, con)) {
-                    allFilled = false;
-                    break;
+                    // going until the first unfilled step
+                    if (!stepData.isFilled(form, con)) {
+                        allFilled = false;
+                        break;
+                    }
                 }
+            } catch (Exception e) {
+                log.error(e);
+                allFilled = false;
+                break;
             }
         }
 
