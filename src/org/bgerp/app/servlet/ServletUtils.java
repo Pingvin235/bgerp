@@ -5,8 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.bgerp.app.cfg.Setup;
-
-import ru.bgcrm.servlet.AccessLogValve;
+import org.bgerp.app.servlet.util.AccessLogValve;
 
 public class ServletUtils {
     /**

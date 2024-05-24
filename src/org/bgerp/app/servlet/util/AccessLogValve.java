@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet;
+package org.bgerp.app.servlet.util;
 
 import java.io.CharArrayWriter;
 import java.io.File;

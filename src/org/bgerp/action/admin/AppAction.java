@@ -20,12 +20,12 @@ import org.bgerp.app.servlet.file.Files;
 import org.bgerp.app.servlet.file.Options;
 import org.bgerp.app.servlet.file.Order;
 import org.bgerp.app.servlet.user.LoginStat;
+import org.bgerp.app.servlet.util.AccessLogValve;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AdminPortListener;
