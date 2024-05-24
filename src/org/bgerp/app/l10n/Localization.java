@@ -15,8 +15,8 @@ import com.google.common.annotations.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.servlet.ServletUtils;
 import org.bgerp.app.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.util.ServletUtils;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;

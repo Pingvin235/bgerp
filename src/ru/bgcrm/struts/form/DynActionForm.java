@@ -35,7 +35,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
-import org.bgerp.app.servlet.ServletUtils;
+import org.bgerp.app.servlet.util.ServletUtils;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 

@@ -3,6 +3,7 @@ package org.bgerp.app.servlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.mock.MockHttpServletRequest;
+import org.bgerp.app.servlet.util.ServletUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
