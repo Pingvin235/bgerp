@@ -20,6 +20,7 @@ import org.apache.log4j.lf5.util.StreamUtils;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.app.servlet.util.ServletResponseInterceptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -32,7 +33,6 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.plugin.document.dao.DocumentDAO;
 import ru.bgcrm.plugin.document.event.DocumentGenerateEvent;
 import ru.bgcrm.plugin.document.model.Pattern;
-import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.RegexpStringUtils;
 import ru.bgcrm.util.Utils;
@@ -206,7 +206,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
                 }
             } else if (type == Pattern.TYPE_JSP_HTML) {
                 // шаблон сам должен разобраться с objectIds
-                CustomHttpServletResponse resp = new CustomHttpServletResponse(event.getForm().getHttpResponse(), result);
+                ServletResponseInterceptor resp = new ServletResponseInterceptor(event.getForm().getHttpResponse(), result);
 
                 HttpServletRequest req = event.getForm().getHttpRequest();
 
@@ -247,7 +247,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream(200);
 
-            CustomHttpServletResponse resp = new CustomHttpServletResponse(event.getForm().getHttpResponse(), bos);
+            ServletResponseInterceptor resp = new ServletResponseInterceptor(event.getForm().getHttpResponse(), bos);
 
             HttpServletRequest req = event.getForm().getHttpRequest();
 

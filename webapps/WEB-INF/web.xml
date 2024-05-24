@@ -98,10 +98,9 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
-	<!-- TODO: Move into BGBilling pluging using enpoint for declaring own servlets. Think about moving the servlet to open interface or make auth. -->
 	<servlet>
 		<servlet-name>GetUpdatedAddressObjects</servlet-name>
-		<servlet-class>ru.bgcrm.servlet.GetUpdatedAddressObjects</servlet-class>
+		<servlet-class>org.bgerp.app.servlet.GetUpdatedAddressObjects</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetUpdatedAddressObjects</servlet-name>

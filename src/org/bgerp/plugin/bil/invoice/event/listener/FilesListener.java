@@ -1,6 +1,7 @@
 package org.bgerp.plugin.bil.invoice.event.listener;
 
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.app.servlet.util.ServletResponseInterceptor;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
@@ -10,7 +11,6 @@ import org.bgerp.plugin.bil.invoice.action.InvoiceAction;
 import org.bgerp.plugin.bil.invoice.dao.InvoiceSearchDAO;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 
-import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -47,7 +47,7 @@ public class FilesListener {
             var type = InvoiceAction.doc(conSet, form, id);
             Invoice invoice = (Invoice) form.getResponse().getData().get("invoice");
 
-            byte[] data = CustomHttpServletResponse.jsp(form, type.getJsp(), 50000);
+            byte[] data = ServletResponseInterceptor.jsp(form, type.getJsp(), 50000);
 
             e.setFile(invoice.getNumber() + ".html", data);
         }, ProcessFileGetEvent.class);

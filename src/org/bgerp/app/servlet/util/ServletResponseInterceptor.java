@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet;
+package org.bgerp.app.servlet.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,11 +19,11 @@ import ru.bgcrm.struts.form.DynActionForm;
  * Implementation of {@link javax.servlet.ServletResponse} allowing
  * to intercept JSP template output.
  */
-public class CustomHttpServletResponse extends HttpServletResponseWrapper {
+public class ServletResponseInterceptor extends HttpServletResponseWrapper {
     private CustomServletOutPutStream outputStream;
     private PrintWriter printWriter;
 
-    public CustomHttpServletResponse(HttpServletResponse response, OutputStream result) throws UnsupportedEncodingException {
+    public ServletResponseInterceptor(HttpServletResponse response, OutputStream result) throws UnsupportedEncodingException {
         super(response);
 
         this.outputStream = new CustomServletOutPutStream(result);
@@ -54,7 +54,7 @@ public class CustomHttpServletResponse extends HttpServletResponseWrapper {
      */
     public static byte[] jsp(DynActionForm form, String jsp, int approxSize) throws Exception {
         var bos = new ByteArrayOutputStream(approxSize);
-        var resp = new CustomHttpServletResponse(form.getHttpResponse(), bos);
+        var resp = new ServletResponseInterceptor(form.getHttpResponse(), bos);
         var req = form.getHttpRequest();
 
         req.getRequestDispatcher(jsp).include(req, resp);
