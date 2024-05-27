@@ -1,0 +1,1 @@
+C: Renamed HTTP request parameter 'action' to 'method'. https://bgerp.org/version/3.0/doc/project/index.html#action

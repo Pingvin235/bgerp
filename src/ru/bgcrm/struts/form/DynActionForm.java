@@ -68,7 +68,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final String PARAM_PAGE = "page";
     private static final String PARAM_FILE = "file";
 
-    private static final String PARAM_ACTION_METHOD = "action";
+    public static final String PARAM_ACTION_METHOD = "method";
+    public static final String PARAM_ACTION_METHOD_OLD = "action";
     private static final String PARAM_ID = "id";
     private static final String PARAM_REQUEST_URL = "requestUrl";
     private static final String PARAM_RESPONSE_TYPE = "responseType";
@@ -83,8 +84,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         PROPERTIES.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
         PROPERTIES.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
         // a tiny optimization, String class for often param names
-        for (String name : List.of(PARAM_ACTION_METHOD, PARAM_ID, PARAM_REQUEST_URL, PARAM_RESPONSE_TYPE, PARAM_RETURN_URL, PARAM_RETURN_CHILD_UIID,
-                PARAM_FORWARD, PARAM_FORWARD_FILE))
+        for (String name : List.of(PARAM_ACTION_METHOD, PARAM_ACTION_METHOD_OLD, PARAM_ID, PARAM_REQUEST_URL, PARAM_RESPONSE_TYPE, PARAM_RETURN_URL,
+                PARAM_RETURN_CHILD_UIID, PARAM_FORWARD, PARAM_FORWARD_FILE))
             PROPERTIES.put(name, new DynaProperty(name, String.class));
     }
 
@@ -242,19 +243,30 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * @return request parameter {@code action}, action class method name
+     * @return request parameter {@code method}, action class method name
      */
-    public String getAction() {
+    public String getMethod() {
         return getParam(PARAM_ACTION_METHOD);
     }
 
     /**
-     * Builds {@link #actionIdentifier} as semicolon separated action class and method name from {@link #getAction()}.
-     * @param clazz action class.
-     * @return the generated value.
+     * Use {@link #getMethod()}
+     * @return request parameter {@code action}, action class method name
+     */
+    @Deprecated
+    public String getAction() {
+        String value = getMethod();
+        log.warnd("Deprecated method 'getAction' was called. Use 'getMethod' instead. Value: {}", value);
+        return value;
+    }
+
+    /**
+     * Builds {@link #actionIdentifier} as semicolon separated action class name and method name from {@link #getMethod()}
+     * @param clazz the action class
+     * @return the generated value
      */
     public String actionIdentifier(Class<? extends BaseAction> clazz) {
-        return actionIdentifier = clazz.getName() + ":" + Utils.maskEmpty(getAction(), "null");
+        return actionIdentifier = clazz.getName() + ":" + Utils.maskEmpty(getMethod(), "null");
     }
 
     /**
@@ -422,7 +434,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * @return parameter value or null if missing or empty.
      */
     public String getParam(String name) {
-        return param.get(name);
+        String value = param.get(name);
+        if (PARAM_ACTION_METHOD_OLD.equals(name))
+            log.warnd("Deprecated request parameter '{}' was gotten. Use '{}' instead. Value: {}", PARAM_ACTION_METHOD_OLD, PARAM_ACTION_METHOD, value);
+        return value;
     }
 
     /**
@@ -431,6 +446,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * @param value the value.
      */
     public void setParam(String name, String value) {
+        if (PARAM_ACTION_METHOD_OLD.equals(name)) {
+            param.put(PARAM_ACTION_METHOD, value);
+            log.warnd("Deprecated request parameter '{}' was set. Use '{}' instead. Value: {}", PARAM_ACTION_METHOD_OLD, PARAM_ACTION_METHOD, value);
+        }
         param.put(name, value);
     }
 

@@ -115,8 +115,21 @@ public class BaseAction extends DispatchAction {
     }
 
     @Override
-    protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
-            HttpServletResponse response, String name) throws Exception {
+    protected String getParameter(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (request.getParameter(DynActionForm.PARAM_ACTION_METHOD) != null)
+            return DynActionForm.PARAM_ACTION_METHOD;
+
+        String value;
+        if ((value = request.getParameter(DynActionForm.PARAM_ACTION_METHOD_OLD)) != null)
+            log.warnd("Deprecated action method parameter '{}' was used. Use '{}' instead. Value: {}", DynActionForm.PARAM_ACTION_METHOD_OLD,
+                    DynActionForm.PARAM_ACTION_METHOD, value);
+
+        return DynActionForm.PARAM_ACTION_METHOD_OLD;
+    }
+
+    @Override
+    protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request, HttpServletResponse response,
+            String name) throws Exception {
         DynActionForm form = (DynActionForm) actionForm;
 
         form.setHttpRequest(request);

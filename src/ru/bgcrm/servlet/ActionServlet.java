@@ -60,7 +60,6 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
 
                 var action = new ActionMapping();
                 action.setPath(a.path());
-                action.setParameter("action");
                 action.setType(ac.getCanonicalName());
                 action.setName("form");
                 action.setScope("request");
