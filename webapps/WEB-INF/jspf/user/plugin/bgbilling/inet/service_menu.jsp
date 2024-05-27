@@ -32,7 +32,7 @@
 ">Отключить (отладка)</a></li>
 
 <%--
-<li confirm="Вы уверены, что хотите синхронизировать сервис на устройстве?" command="action=serviceStateModify&state=1"><a href="#" onclick="return false;">Синхронизировать (отладка)</a></li>
+<li confirm="Вы уверены, что хотите синхронизировать сервис на устройстве?" command="method=serviceStateModify&state=1"><a href="#" onclick="return false;">Синхронизировать (отладка)</a></li>
 --%>
 
 <c:set var="uiidDialog" value="${u:uiid()}"/>

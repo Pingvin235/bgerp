@@ -17,7 +17,7 @@
 		$(function ()  {
 			var $tabs = $("#content").tabs( { cache : true } );
 
-			<c:url var="url" value="process.do?action=queue"/>
+			<c:url var="url" value="process.do?method=queue"/>
 			$tabs.tabs( "add", "${url}", "${l.l('Процессы')}" );
 
 			<c:url var="url" value="exit.jsp"/>

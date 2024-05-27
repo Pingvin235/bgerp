@@ -14,10 +14,10 @@
 	<c:choose>
 		<c:when test="${empty requestUserId || requestUserId == form.userId}">
 			<h2>${l.l('Properties')}</h2>
-			<c:import url="/user/profile.do?action=settings"/>
+			<c:import url="/user/profile.do?method=settings"/>
 
 			<h2>${l.l('Параметры (сохраняются сразу)')}</h2>
-			<c:import url="/user/profile.do?action=settings&subAction=parameters&requestUserId=${requestUserId}"/>
+			<c:import url="/user/profile.do?method=settings&subAction=parameters&requestUserId=${requestUserId}"/>
 
 			<%-- значение по-умолчанию должно быть таким же как и при обращении к данной опции на чтение!!! --%>
 			<h2>${l.l('Опции интерфейса')}</h2>

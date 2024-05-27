@@ -89,14 +89,14 @@
 		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
 			<a onclick="if( !confirm( '${l.l('Удалить сохранённый фильтр')}?' ) ){ return; }
 				${getSavedSetId}
-				$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
+				$$.ajax.post('/user/process/queue.do?method=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
 					processQueueFilterSetSelect(${queue.id})
 				})">${l.l('Фильтр - удалить')}</a>
 		</li>
 		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
 			<a onclick="
 				${getSavedSetId}
-				$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=toFullFilter').done(() => {
+				$$.ajax.post('/user/process/queue.do?method=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=toFullFilter').done(() => {
 					$('#processQueueFilter > div#${queue.id}').remove();
 					$$.process.queue.changed(0);
 				})">${l.l('Фильтр - извлечь в полный')}</a>
@@ -108,7 +108,7 @@
 		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$('#${saveFilterFormUiid}').css('display','');">${l.l('Фильтр - сохранить')}</a></li>
 		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}>
 			<a onclick="if( !confirm( 'Сбросить полный фильтр?' ) ){ return; }
-				$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
+				$$.ajax.post('/user/process/queue.do?method=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
 					$('#processQueueFilter > div#${queue.id}').remove();
 					$$.process.queue.changed(0);
 				})">${l.l('Фильтр - сброс')}</a>

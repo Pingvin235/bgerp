@@ -3,5 +3,5 @@
 
 <c:if test="${uri.startsWith('/open/profile')}">
 	<c:set var="userId" value="${su.substringBefore(su.substringAfterLast(uri, '/'), '#')}"/>
-	<c:import url="/open/profile.do?action=show&id=${userId}"/>
+	<c:import url="/open/profile.do?method=show&id=${userId}"/>
 </c:if>

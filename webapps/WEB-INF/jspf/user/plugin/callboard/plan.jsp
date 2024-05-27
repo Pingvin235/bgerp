@@ -109,7 +109,7 @@
 					{
 						if( !$(this).hasClass( "lock" ) )
 						{
-							$$.ajax.post("/user/plugin/callboard/work.do?action=processTimeLock" + urlEnd).done((result) => {
+							$$.ajax.post("/user/plugin/callboard/work.do?method=processTimeLock" + urlEnd).done((result) => {
 								$(this).toggleClass( "lock" );
 								$(this).html( "Б" );
 							})
@@ -119,7 +119,7 @@
 					{
 						if( $(this).hasClass( "lock" ) )
 						{
-							$$.ajax.post("/user/plugin/callboard/work.do?action=processTimeUnlock" + urlEnd).done((result) => {
+							$$.ajax.post("/user/plugin/callboard/work.do?method=processTimeUnlock" + urlEnd).done((result) => {
 								$(this).toggleClass( "lock" );
 								$(this).html( "" );
 							})

@@ -6,7 +6,7 @@
 
 <ui:menu-item title="${l.l('News')}" href="news" icon="ti-bell"
 	action="org.bgerp.action.NewsAction:newsList"
-	command="/user/news.do?action=newsList&read=0" />
+	command="/user/news.do?method=newsList&read=0" />
 
 <ui:menu-item title="${l.l('Адреса')}" href="directory/address" icon="ti-book"
 	action="ru.bgcrm.struts.action.DirectoryAddressAction:null"
@@ -14,16 +14,16 @@
 
 <ui:menu-item title="${l.l('Сообщения')}" href="message/queue" icon="ti-email"
 	action="ru.bgcrm.struts.action.MessageAction:messageList"
-	command="/user/message.do?action=messageList" />
+	command="/user/message.do?method=messageList" />
 
 <ui:menu-group title="${l.l('Процессы')}" icon="ti-control-shuffle">
 	<ui:menu-item title="${l.l('Очереди процессов')}" href="process/queue"
 		action="ru.bgcrm.struts.action.ProcessQueueAction:queue"
-		command="/user/process/queue.do?action=queue" />
+		command="/user/process/queue.do?method=queue" />
 
 	<ui:menu-item title="${l.l('My Processes')}" href="process/my"
 		action="ru.bgcrm.struts.action.ProcessAction:userProcessList"
-		command="/user/process.do?action=userProcessList"/>
+		command="/user/process.do?method=userProcessList"/>
 
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_PROCESS_MENU_ITEMS%>"/>
 </ui:menu-group>
@@ -43,11 +43,11 @@
 	<ui:menu-group title="${l.l('Приложение')}" icon="ti-package">
 		<ui:menu-item title="${l.l('Status')}" href="admin/app/status"
 			action="org.bgerp.action.admin.AppAction:status"
-			command="/admin/app.do?action=status"/>
+			command="/admin/app.do?method=status"/>
 
 		<ui:menu-item title="${l.l('Maintenance')}" href="admin/app/maintenance"
 			action="org.bgerp.action.admin.AppAction:maintenance"
-			command="/admin/app.do?action=maintenance"/>
+			command="/admin/app.do?method=maintenance"/>
 	</ui:menu-group>
 
 	<ui:menu-item title="${l.l('License')}" href="admin/license" icon="ti-money"
@@ -56,7 +56,7 @@
 
 	<ui:menu-item title="${l.l('Configuration')}" href="admin/config" icon="ti-panel"
 		action="ru.bgcrm.struts.action.admin.ConfigAction:list"
-		command="/admin/config.do?action=list" />
+		command="/admin/config.do?method=list" />
 
 	<ui:menu-item title="${l.l('Parameters')}" href="admin/param" icon="ti-palette"
 		action="ru.bgcrm.struts.action.admin.DirectoryAction:null"
@@ -65,29 +65,29 @@
 	<ui:menu-group title="${l.l('Пользователи')}" icon="ti-user">
 		<ui:menu-item title="${l.l('Наборы прав')}" href="admin/user/permset"
 			action="ru.bgcrm.struts.action.admin.UserAction:permsetList"
-			command="/admin/user.do?action=permsetList" />
+			command="/admin/user.do?method=permsetList" />
 
 		<ui:menu-item title="${l.l('Groups')}" href="admin/user/group"
 			action="ru.bgcrm.struts.action.admin.UserAction:groupList"
-			command="/admin/user.do?action=groupList" />
+			command="/admin/user.do?method=groupList" />
 
 		<ui:menu-item title="${l.l('Пользователи')}" href="admin/user"
 			action="ru.bgcrm.struts.action.admin.UserAction:userList"
-			command="/admin/user.do?action=userList" />
+			command="/admin/user.do?method=userList" />
 	</ui:menu-group>
 
 	<ui:menu-group title="${l.l('Процессы')}" icon="ti-control-shuffle">
 		<ui:menu-item title="${l.l('Статусы процессов')}" href="admin/process/status"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:statusList"
-			command="/admin/process.do?action=statusList" />
+			command="/admin/process.do?method=statusList" />
 
 		<ui:menu-item title="${l.l('Типы процессов')}" href="admin/process/type"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:typeList"
-			command="/admin/process.do?action=typeList" />
+			command="/admin/process.do?method=typeList" />
 
 		<ui:menu-item title="${l.l('Очереди процессов')}" href="admin/process/queue"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:queueList"
-			command="/admin/process.do?action=queueList" />
+			command="/admin/process.do?method=queueList" />
 	</ui:menu-group>
 
 
@@ -102,7 +102,7 @@
 
 		<ui:menu-item title="${l.l('Scheduler')}" href="admin/scheduler" icon="ti-alarm-clock"
 			action="org.bgerp.action.admin.RunAction:scheduler"
-			command="/admin/run.do?action=scheduler"/>
+			command="/admin/run.do?method=scheduler"/>
 	</ui:menu-group>
 
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_ADMIN_MENU_ITEMS%>"/>

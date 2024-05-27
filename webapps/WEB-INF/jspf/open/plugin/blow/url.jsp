@@ -7,7 +7,7 @@
 
 	<c:forEach var="board" items="${config.openBoards}">
 		<c:if test="${boardName eq board.openUrl}">
-			<c:import url="/open/plugin/blow/board.do?action=show&id=${board.id}"/>
+			<c:import url="/open/plugin/blow/board.do?method=show&id=${board.id}"/>
 		</c:if>
 	</c:forEach>
 </c:if>

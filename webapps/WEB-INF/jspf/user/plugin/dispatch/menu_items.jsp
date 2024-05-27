@@ -4,9 +4,9 @@
 <ui:menu-group title="${l.l('Рассылки')}">
 	<ui:menu-item title="${l.l('Рассылки')}" href="dispatch"
 		action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchList"
-		command="/user/plugin/dispatch/dispatch.do?action=dispatchList" />
+		command="/user/plugin/dispatch/dispatch.do?method=dispatchList" />
 
 	<ui:menu-item title="${l.l('Сообщения рассылок')}" href="dispatch/message"
 		action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageList"
-		command="/user/plugin/dispatch/dispatch.do?action=messageList" />
+		command="/user/plugin/dispatch/dispatch.do?method=messageList" />
 </ui:menu-group>

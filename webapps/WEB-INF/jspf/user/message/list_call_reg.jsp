@@ -11,13 +11,13 @@
 				<c:choose>
 					<c:when test="${not empty reg}">
 						<span class="tt">${type.title} номер <b>${reg.number}</b></span>
-						<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&action=numberFree"/>
+						<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&method=numberFree"/>
 						<button
 							type="button" class="btn-grey ml1"
 							onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) })" >${l.l('Освободить')}</button>
 
 						<p:check action="ru.bgcrm.struts.action.MessageCallAction:testCall">
-							<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&action=testCall"/>
+							<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&method=testCall"/>
 
 							<c:set var="testCallFromUiid" value="${u:uiid()}"/>
 							<input type="text" id="${testCallFromUiid}" placeholder="${l.l('С номера')}" size="10"/>

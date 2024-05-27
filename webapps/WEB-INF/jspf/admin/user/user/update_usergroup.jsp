@@ -61,7 +61,7 @@
 						<td nowrap="nowrap">
 							<ui:button type="del" styleClass="btn-small"
 								onclick="$$.ajax
-									.post('/admin/user.do?action=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${tu.format(value.dateFrom, 'ymd')}&dateTo=${tu.format(value.dateTo, 'ymd')}')
+									.post('/admin/user.do?method=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${tu.format(value.dateFrom, 'ymd')}&dateTo=${tu.format(value.dateTo, 'ymd')}')
 									.done(() => { $(this).parents('tr').first().remove(); })
 								"/>
 							<button type="button" class="btn-white btn-small icon" title="${l.l('Закрыть период')}"

@@ -46,7 +46,7 @@
 			$$.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
 
 			$('#content > #blow-board').data('onShow', function () {
-				$$.ajax.loadContent('${form.httpRequestURI}?action=show&id=${form.id}', $('#${uiid}'));
+				$$.ajax.loadContent('${form.httpRequestURI}?method=show&id=${form.id}', $('#${uiid}'));
 			});
 
 			$$.shell.stateFragment(${form.id});

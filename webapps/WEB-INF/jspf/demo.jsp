@@ -243,7 +243,7 @@ cmd do && cmd undo
 
 		<ui:when type="user">
 			<br/>Lazy loading from AJAX request<br>
-			<ui:tag-box showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="/user/demo.do?action=enumValues" style="width: 30em;"/>
+			<ui:tag-box showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="/user/demo.do?method=enumValues" style="width: 30em;"/>
 		</ui:when>
 	</div>
 
@@ -323,10 +323,10 @@ cmd do && cmd undo
 			$(function () {
 				const $tabs = $("#${uiid}").tabs({ refreshButton: true });
 				<p:check action="${form.httpRequestURI}:tabContentFirst">
-					$tabs.tabs("add", "${form.httpRequestURI}?action=tabContentFirst", "First tab");
+					$tabs.tabs("add", "${form.httpRequestURI}?method=tabContentFirst", "First tab");
 				</p:check>
 				<p:check action="${form.httpRequestURI}:tabContentSecond">
-					$tabs.tabs("add", "${form.httpRequestURI}?action=tabContentSecond", "Second tab");
+					$tabs.tabs("add", "${form.httpRequestURI}?method=tabContentSecond", "Second tab");
 				</p:check>
 			})
 		</script>

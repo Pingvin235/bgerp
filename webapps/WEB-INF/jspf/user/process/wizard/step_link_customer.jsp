@@ -53,11 +53,11 @@
 	</div>
 
 	<c:set var="createAndLinkCode">
-		$$.ajax.post('/user/customer.do?action=customerCreate').done((result) => {
+		$$.ajax.post('/user/customer.do?method=customerCreate').done((result) => {
 			const customerId = result.data.customer.id;
 			const customerTitle = $('#${uiid} input#customerTitle')[0].value;
 
-			const url = '/user/customer.do?action=customerUpdate&' + $$.ajax.requestParamsToUrl({ 'id': customerId, 'title': customerTitle, parameterGroupId: ${stepData.paramGroupId} });
+			const url = '/user/customer.do?method=customerUpdate&' + $$.ajax.requestParamsToUrl({ 'id': customerId, 'title': customerTitle, parameterGroupId: ${stepData.paramGroupId} });
 			$$.ajax.post(url).done(() =>
 				deleteLinksWithType('process', ${process.id}, 'customer').done(() =>
 					addLink('process', ${process.id}, 'customer', customerId, customerTitle).done(() => {

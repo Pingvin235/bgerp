@@ -116,7 +116,7 @@
 				.post($('#${formUiid}'))
 				.done((result) => {
 					$$.ajax.loadContent(
-						'/admin/user.do?action=userGet&id=' + result.data.newUserId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}'),
+						'/admin/user.do?method=userGet&id=' + result.data.newUserId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}'),
 						this
 					)
 				})

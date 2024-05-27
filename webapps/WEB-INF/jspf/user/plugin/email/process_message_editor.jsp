@@ -19,7 +19,7 @@
 					<ui:tag-box inputName="to" style="width: 100%;"
 						showOptions="1"
 						value="${addresses.serializeTo()}"
-						url="/user/plugin/email/email.do?action=recipients&processId=${form.param.processId}"
+						url="/user/plugin/email/email.do?method=recipients&processId=${form.param.processId}"
 						preload="true"
 						title="${l.l('email.recipients.input.hint')}"
 					/>
@@ -28,7 +28,7 @@
 					<ui:tag-box inputName="toCc" style="width: 100%;"
 						showOptions="1"
 						value="${addresses.serializeCc()}"
-						url="/user/plugin/email/email.do?action=recipients&processId=${form.param.processId}"
+						url="/user/plugin/email/email.do?method=recipients&processId=${form.param.processId}"
 						preload="true"
 						title="${l.l('email.recipients.input.hint')}"
 					/>

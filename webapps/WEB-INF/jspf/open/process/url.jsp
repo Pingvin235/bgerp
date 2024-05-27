@@ -8,10 +8,10 @@
 
 		<c:set var="queueId" value="${config.getOpenQueueId(name)}"/>
 		<c:if test="${not empty queueId}">
-			<c:import url="/open/process/queue.do?action=show&id=${queueId}"/>
+			<c:import url="/open/process/queue.do?method=show&id=${queueId}"/>
 		</c:if>
 	</c:when>
 	<c:when test="${uri.startsWith('/open/process')}">
-		<c:import url="/open/process.do?action=show&id=${u.getOpenId(uri)}&secret=${secret}"/>
+		<c:import url="/open/process.do?method=show&id=${u.getOpenId(uri)}&secret=${secret}"/>
 	</c:when>
 </c:choose>

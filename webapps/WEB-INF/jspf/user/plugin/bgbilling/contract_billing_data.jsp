@@ -10,13 +10,13 @@
 				<u:sc>
 					<c:set var="title" value="Параметры договора"/>
 					<c:set var="value" value=""/>
-					<c:set var="url" value="contract.do?action=parameterList"/>
+					<c:set var="url" value="contract.do?method=parameterList"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 				<u:sc>
 					<c:set var="title" value="Объекты договора"/>
 					<c:set var="value">${contract.objects.first} / ${contract.objects.second}</c:set>
-					<c:set var="url" value="contract.do?action=contractObjectList"/>
+					<c:set var="url" value="contract.do?method=contractObjectList"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
@@ -35,7 +35,7 @@
 							</c:when>
 						</c:choose>
 					</c:set>
-					<c:set var="url" value="contract.do?action=contractSubcontractList"/>
+					<c:set var="url" value="contract.do?method=contractSubcontractList"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
@@ -43,7 +43,7 @@
 					<c:set var="title" value="Статус"/>
 					<c:set var="value" value="${contract.status}"/>
 					<c:set var="valueId" value="status"/>
-					<c:set var="url" value="contract.do?action=status"/>
+					<c:set var="url" value="contract.do?method=status"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
@@ -51,7 +51,7 @@
 					<c:set var="title" value="Лимит"/>
 					<c:set var="value" value="${contract.balanceLimit}"/>
 					<c:set var="valueId" value="limit"/>
-					<c:set var="url" value="contract.do?action=limit"/>
+					<c:set var="url" value="contract.do?method=limit"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
@@ -64,7 +64,7 @@
 						</c:choose>
 					</c:set>
 					<c:set var="valueId" value="mode"/>
-					<c:set var="url" value="contract.do?action=modeLog"/>
+					<c:set var="url" value="contract.do?method=modeLog"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
@@ -77,11 +77,11 @@
 						</c:choose>
 					</c:set>
 					<c:set var="valueId" value="face"/>
-					<c:set var="url" value="contract.do?action=faceLog"/>
+					<c:set var="url" value="contract.do?method=faceLog"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
-				<c:url var="urlBalancePeriod" value="balance.do?action=balance">
+				<c:url var="urlBalancePeriod" value="balance.do?method=balance">
 					<c:param name="dateFrom" value="${tu.format(contract.balanceDate, 'dd.MM.yyyy')}"/>
 					<c:param name="dateTo" value="${tu.format(tu.getEndMonth(contract.balanceDate), 'dd.MM.yyyy')}"/>
 				</c:url>
@@ -163,7 +163,7 @@
 				 <u:sc>
 					<c:set var="title" value="Тарифные планы"/>
 					<c:set var="value" value=""/>
-					<c:set var="url" value="contractTariff.do?action=tariff"/>
+					<c:set var="url" value="contractTariff.do?method=tariff"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
@@ -180,7 +180,7 @@
 				<u:sc>
 					<c:set var="title" value="Модули"/>
 					<c:set var="value" value=""/>
-					<c:set var="url" value="contract.do?action=moduleList"/>
+					<c:set var="url" value="contract.do?method=moduleList"/>
 					<c:set var="rowId" value="modules"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
@@ -191,10 +191,10 @@
 						<c:set var="value" value="${item.status}"/>
 						<c:set var="url">
 							<c:choose>
-								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.npay' or item.clientPackage eq 'ru.bitel.bgbilling.modules.npay.client'}">npay.do?action=serviceList&moduleId=${item.moduleId}</c:when>
-								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.rscm.client'}">rscm.do?action=serviceList&moduleId=${item.moduleId}</c:when>
-								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client' or item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.client'}">inet.do?action=serviceTree&moduleId=${item.moduleId}</c:when>
-								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.card' or item.clientPackage eq 'ru.bitel.bgbilling.modules.card.client'}">card.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
+								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.npay' or item.clientPackage eq 'ru.bitel.bgbilling.modules.npay.client'}">npay.do?method=serviceList&moduleId=${item.moduleId}</c:when>
+								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.rscm.client'}">rscm.do?method=serviceList&moduleId=${item.moduleId}</c:when>
+								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client' or item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.client'}">inet.do?method=serviceTree&moduleId=${item.moduleId}</c:when>
+								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.card' or item.clientPackage eq 'ru.bitel.bgbilling.modules.card.client'}">card.do?method=contractInfo&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.bill' or item.clientPackage eq 'ru.bitel.bgbilling.modules.bill.client'}">/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/bill/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.cerbercrypt.client'}">/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/cerbercrypt/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 								<c:otherwise>dev</c:otherwise>
@@ -216,7 +216,7 @@
 				<u:sc>
 					<c:set var="title" value="Группы"/>
 					<c:set var="value" value=""/>
-					<c:set var="url" value="contract.do?action=groupList"/>
+					<c:set var="url" value="contract.do?method=groupList"/>
 					<c:set var="level" value=""/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
@@ -234,7 +234,7 @@
 				 <u:sc>
 					<c:set var="title" value="Скрипт поведения"/>
 					<c:set var="value" value=""/>
-					<c:set var="url" value="contract.do?action=scriptList"/>
+					<c:set var="url" value="contract.do?method=scriptList"/>
 					<c:set var="level" value=""/>
 					<%@ include file="contract/tree_item.jsp"%>
 				 </u:sc>
@@ -263,14 +263,14 @@
 				 <u:sc>
 					<c:set var="title" value="Доп. действия"/>
 					<c:set var="value" value=""/>
-					<c:set var="url" value="contract.do?action=additionalActionList"/>
+					<c:set var="url" value="contract.do?method=additionalActionList"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
 				<u:sc>
 					<c:set var="title" value="Примечания"/>
 					<c:set var="value" value="${contract.comments}"/>
-					<c:set var="url" value="contract.do?action=memoList"/>
+					<c:set var="url" value="contract.do?method=memoList"/>
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 

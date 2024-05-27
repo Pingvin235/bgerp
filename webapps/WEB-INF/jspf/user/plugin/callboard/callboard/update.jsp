@@ -231,7 +231,7 @@
 					}
 
 					var url =
-						"/user/plugin/callboard/work.do?action=callboardUpdateShift&graphId=${form.param.graphId}" +
+						"/user/plugin/callboard/work.do?method=callboardUpdateShift&graphId=${form.param.graphId}" +
 						"&groupId=" + groupId +
 						"&userId=" + userId +
 						"&date=" + date +
@@ -412,7 +412,7 @@
 				}
 			});
 
-			const url = "/user/plugin/callboard/work.do?action=callboardUpdateFilters&" + $$.ajax.requestParamsToUrl({ "hideEmptyShifts": hideEmptyShifts, "hideEmptyGroups": hideEmptyGroups, "graphId": graphId });
+			const url = "/user/plugin/callboard/work.do?method=callboardUpdateFilters&" + $$.ajax.requestParamsToUrl({ "hideEmptyShifts": hideEmptyShifts, "hideEmptyGroups": hideEmptyGroups, "graphId": graphId });
 			$$.ajax.post(url);
 		}
 
@@ -462,7 +462,7 @@
 				</div>
 				<div id="categories">
 					<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId"
-						onSelect="var url = '/user/plugin/callboard/work.do?action=callboardAvailableShift&categoryId=' + $hidden.val();
+						onSelect="var url = '/user/plugin/callboard/work.do?method=callboardAvailableShift&categoryId=' + $hidden.val();
 								$$.ajax.load( url, $('#${uiid} #shiftArea') );"
 						style="width: 100%;" placeholder="Категория смен"/>
 				</div>
@@ -499,7 +499,7 @@
 					<td class="shiftUser">
 						<p:check action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGetTabel">
 							<c:if test="${not empty callboard.tabelConfig}">
-								<a href="/user/plugin/callboard/work.do?action=callboardGetTabel&graphId=${form.param.graphId}&fromDate=${form.param.fromDate}&toDate=${form.param.toDate}">Табель</a>
+								<a href="/user/plugin/callboard/work.do?method=callboardGetTabel&graphId=${form.param.graphId}&fromDate=${form.param.fromDate}&toDate=${form.param.toDate}">Табель</a>
 							</c:if>
 						</p:check>
 					</td>

@@ -4,7 +4,7 @@
 <c:if test="${process.id le 0}">
 	<c:set var="command">
 		if (confirm('${l.l('Прервать создание процесса?')}')) {
-			const command = 'process.do?action=processDeleteTmp&id=${process.id}';
+			const command = 'process.do?method=processDeleteTmp&id=${process.id}';
 			$$.ajax.post(command).done(() => {
 				${returnBreakCommand}
 			})
@@ -14,7 +14,7 @@
 
 	<c:if test="${wizardData.allFilled}">
 		<c:set var="command">
-			const command = 'process.do?action=processFinishCreateTmp&id=${process.id}';
+			const command = 'process.do?method=processFinishCreateTmp&id=${process.id}';
 			$$.ajax.post(command).done((result) => {
 				${returnOkCommand}
 			})

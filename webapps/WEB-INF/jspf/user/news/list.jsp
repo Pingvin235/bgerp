@@ -78,10 +78,10 @@
 				<td style="text-align: right;">
 					<c:choose>
 						<c:when test="${item.read}">
-							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?action=newsSetRead&newsId=${item.id}&value=0').done(() => { ${showCode} })">${l.l('Не прочитано')}</button>
+							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?method=newsSetRead&newsId=${item.id}&value=0').done(() => { ${showCode} })">${l.l('Не прочитано')}</button>
 						</c:when>
 						<c:otherwise>
-							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?action=newsSetRead&newsId=${item.id}&value=1').done(() => { ${showCode} })">${l.l('Прочитано')}</button>
+							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?method=newsSetRead&newsId=${item.id}&value=1').done(() => { ${showCode} })">${l.l('Прочитано')}</button>
 						</c:otherwise>
 					</c:choose>
 				</td>
@@ -91,7 +91,7 @@
 
 	<c:if test="${not empty frd.list and form.param.read ne 1}">
 		<div style="text-align: right;">
-			<button class="btn-grey mt1" onclick="$$.ajax.post('/user/news.do?action=newsSetAllRead').done(() => { ${showCode} })" title="${l.l('Пометить все новости прочитанными')}">${l.l('Все прочитаны')}</button>
+			<button class="btn-grey mt1" onclick="$$.ajax.post('/user/news.do?method=newsSetAllRead').done(() => { ${showCode} })" title="${l.l('Пометить все новости прочитанными')}">${l.l('Все прочитаны')}</button>
 		</div>
 	</c:if>
 </div>
