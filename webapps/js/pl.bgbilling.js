@@ -61,7 +61,7 @@ $$.bgbilling = new function () {
 		 */
 		const createTariff = (formId) => {
 			const form = document.getElementById(formId);
-			const url = form.getAttribute("action") + "?action=contractCreateTariff&typeId=" + form.typeId.value;
+			const url = form.getAttribute("action") + "?method=contractCreateTariff&typeId=" + form.typeId.value;
 			$$.ajax.load(url, $(form.querySelector("#selectTariff")));
 		}
 

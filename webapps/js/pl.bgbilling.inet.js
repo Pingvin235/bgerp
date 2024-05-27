@@ -19,7 +19,7 @@ $$.bgbilling.inet = new function () {
 	}
 
 	const ifaces = (form) => {
-		const request = "/user/plugin/bgbilling/proto/inet.do?action=interfaceListGet" +
+		const request = "/user/plugin/bgbilling/proto/inet.do?method=interfaceListGet" +
 			"&billingId=" + form.billingId.value +
 			"&moduleId=" + form.moduleId.value +
 			"&deviceId=" + form.deviceId.value;
@@ -34,7 +34,7 @@ $$.bgbilling.inet = new function () {
 	}
 
 	const vlans = (form) => {
-		const request = "/user/plugin/bgbilling/proto/inet.do?action=getFreeVlan" +
+		const request = "/user/plugin/bgbilling/proto/inet.do?method=getFreeVlan" +
 			"&billingId=" + form.billingId.value +
 			"&moduleId=" + form.moduleId.value +
 			"&dateFrom=" + form.dateFrom.value +
@@ -48,7 +48,7 @@ $$.bgbilling.inet = new function () {
 	}
 
 	const devices = (form) => {
-		const request = "/user/plugin/bgbilling/proto/inet.do?action=devicesGet" +
+		const request = "/user/plugin/bgbilling/proto/inet.do?method=devicesGet" +
 			"&billingId=" + form.billingId.value +
 			"&moduleId=" + form.moduleId.value +
 			"&deviceId=" + form.deviceId.value +

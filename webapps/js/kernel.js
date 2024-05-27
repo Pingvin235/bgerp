@@ -200,7 +200,7 @@ function getCheckedValues( $selector, inputName )
 // the functions deleteLinksWithType is always used together with addLink
 function deleteLinksWithType( objectType, objectId, linkedObjectType )
 {
-	const url = "/user/link.do?action=deleteLinksWithType&id=" + objectId + "&" + $$.ajax.requestParamsToUrl({ "objectType": objectType, "linkedObjectType": linkedObjectType });
+	const url = "/user/link.do?method=deleteLinksWithType&id=" + objectId + "&" + $$.ajax.requestParamsToUrl({ "objectType": objectType, "linkedObjectType": linkedObjectType });
 	return $$.ajax.post(url);
 }
 
@@ -215,7 +215,7 @@ function addLink( objectType, objectId, linkedObjectType, linkedObjectId, linked
 		}
 	}
 
-	const url = "/user/link.do?action=addLink&id=" + objectId + "&" + $$.ajax.requestParamsToUrl(requestParams);
+	const url = "/user/link.do?method=addLink&id=" + objectId + "&" + $$.ajax.requestParamsToUrl(requestParams);
 	return $$.ajax.post(url);
 }
 
@@ -430,7 +430,7 @@ addEventProcessor('ru.bgcrm.event.client.UrlOpenEvent', processClientEvents);
 function processClientEvents(event) {
 	if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
 		$$.shell.contentLoad("/user/message/queue").done(() => {
-			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'));
+			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?method=messageList'));
 		});
 	}
 	else if (event.className == 'ru.bgcrm.event.client.UrlOpenEvent') {

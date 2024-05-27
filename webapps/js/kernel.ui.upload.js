@@ -102,7 +102,7 @@ $$.ui.upload = new function () {
 	const uploadListAdd = (form, fileIdTitleList) => {
 		const uploadList = uploadListSelect(form);
 		fileIdTitleList.forEach((file) => {
-			const deleteCode = "$$.ajax.post('/user/file.do?action=temporaryDelete&id=" + file.id + "').done(() => {$(this.parentNode).remove()})";
+			const deleteCode = "$$.ajax.post('/user/file.do?method=temporaryDelete&id=" + file.id + "').done(() => {$(this.parentNode).remove()})";
 			$(uploadList).append(
 				"<div>" +
 					"<input type=\"hidden\" name=\"tmpFileId\" value=\"" + file.id + "\"/>" +

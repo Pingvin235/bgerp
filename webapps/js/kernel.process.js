@@ -82,7 +82,7 @@ function updateExecutors($groups, $executors, paramNameGroup, paramNameExecutor,
 		groupValues = groupValues.replace(new RegExp(
 			"&" + paramNameGroup + "=", 'g'), "&group=");
 
-		var url = "/user/directory/user.do?action=userList&page.pageIndex=-1"
+		var url = "/user/directory/user.do?method=userList&page.pageIndex=-1"
 			+ groupValues + executorValues;
 
 		if (paramNameExecutor) {
@@ -130,7 +130,7 @@ function processTypeTreeNodeSelected(el, nodeId) {
 	$(parent).find("span").css("font-weight", "").css("color", "");
 	$(el).css("font-weight", "bold").css("color", "blue");
 
-	$$.ajax.load("/user/process.do?action=processCreateGroups&typeId=" + nodeId,
+	$$.ajax.load("/user/process.do?method=processCreateGroups&typeId=" + nodeId,
 			$(el).closest("#typeTree").parent().find("#groupSelect"));
 }
 
@@ -168,7 +168,7 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 
 		html += '<tr>\
 				<td>\
-					<form action="/user/link.do">\
+					<form method="/user/link.do">\
 						<input type="hidden" name="action" value="addLink"/>\
 						<input type="hidden" name="objectType" value="process"/>\
 						<input type="hidden" name="id" value="' + processId + '"/>\

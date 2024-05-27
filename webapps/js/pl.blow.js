@@ -67,9 +67,9 @@ $$.blow = new function() {
 			let url = null;
 
 			if ($td.attr(ATTR_BG_PARENT_ID) > 0)
-				url = "/user/process/link/process.do?action=linkProcessCreate&objectType=processMade&typeId=" + $td.attr(ATTR_BG_TYPE_ID) + "&id=" + $td.attr(ATTR_BG_PARENT_ID);
+				url = "/user/process/link/process.do?method=linkProcessCreate&objectType=processMade&typeId=" + $td.attr(ATTR_BG_TYPE_ID) + "&id=" + $td.attr(ATTR_BG_PARENT_ID);
 			else
-				url = "/user/process.do?action=processCreate&typeId=" + $td.attr(ATTR_BG_TYPE_ID);
+				url = "/user/process.do?method=processCreate&typeId=" + $td.attr(ATTR_BG_TYPE_ID);
 
 			$$.ajax
 				.post(url)
@@ -212,7 +212,7 @@ $$.blow = new function() {
 		const targetParentProcessId = $tdTo.attr(ATTR_BG_PARENT_ID);
 
 		$$.ajax
-			.post("/user/plugin/blow/board.do?action=move&processId=" + $td.attr(ATTR_BG_ID) + "&fromParentProcessId=" + $td.attr(ATTR_BG_PARENT_ID) +
+			.post("/user/plugin/blow/board.do?method=move&processId=" + $td.attr(ATTR_BG_ID) + "&fromParentProcessId=" + $td.attr(ATTR_BG_PARENT_ID) +
 					"&parentProcessId=" + (targetParentProcessId > 0 ? targetParentProcessId : targetProcessId))
 			.done(() => $$.shell.contentLoad("/user/blow/board"));
 	}
@@ -220,7 +220,7 @@ $$.blow = new function() {
 	const merge = ($td, $tdTo) => {
 		const targetProcessId = $tdTo.attr(ATTR_BG_ID);
 		$$.ajax
-			.post("/user/process.do?action=processMerge&id=" + $td.attr(ATTR_BG_ID) + "&processId=" + targetProcessId)
+			.post("/user/process.do?method=processMerge&id=" + $td.attr(ATTR_BG_ID) + "&processId=" + targetProcessId)
 			.done(() => $$.shell.contentLoad("/user/blow/board"));
 	}
 

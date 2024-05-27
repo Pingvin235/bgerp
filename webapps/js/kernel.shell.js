@@ -182,7 +182,7 @@ $$.shell = new function () {
 			}
 			// open user profile
 			else if ((m = href.match(/.*profile#(\d+)/)) != null) {
-				url = "/user/profile.do?action=getUserProfile&userId=" + m[1];
+				url = "/user/profile.do?method=getUserProfile&userId=" + m[1];
 				bgcolor = "#C3A8D5";
 			}
 			// plugin defined mappings

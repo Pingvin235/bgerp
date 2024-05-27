@@ -4,11 +4,11 @@ $$.lock = new function () {
 	const debug = $$.debug("lock");
 
 	this.add = (name) => {
-		return $$.ajax.post('/user/lock.do?action=add&lockId=' + name);
+		return $$.ajax.post('/user/lock.do?method=add&lockId=' + name);
 	}
 
 	this.free = (name) => {
-		return $$.ajax.post('/user/lock.do?action=free&lockId=' + name);
+		return $$.ajax.post('/user/lock.do?method=free&lockId=' + name);
 	}
 
 	const processEvent = (event) => {

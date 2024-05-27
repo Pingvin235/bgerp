@@ -19,12 +19,12 @@ $$.customer = new function() {
 		if (options.disabled)
 			options.disabled.disabled = true;
 
-		let url = "/user/customer.do?action=customerCreate";
+		let url = "/user/customer.do?method=customerCreate";
 		$$.ajax
 			.post(url).done((result) => {
 				const customerId = result.data.customer.id;
 				open(customerId).done(() => {
-					url = "/user/customer.do?action=customerGet&id=" + customerId + "&returnUrl=" + encodeURIComponent("customer.do?id=" + customerId);
+					url = "/user/customer.do?method=customerGet&id=" + customerId + "&returnUrl=" + encodeURIComponent("customer.do?id=" + customerId);
 					$$.ajax.loadContent(url);
 				})
 			})
@@ -108,12 +108,12 @@ function customerChangeTitle( customerId, customerTitle ) {
 // запросы на сервер
 function addCustomerLink( customerId, linkedObjectType, linkedObjectId, linkedObjectTitle )
 {
-	const url = "/user/link.do?action=addLink&id=" + customerId + '&' + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId, "linkedObjectTitle": linkedObjectTitle });
+	const url = "/user/link.do?method=addLink&id=" + customerId + '&' + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId, "linkedObjectTitle": linkedObjectTitle });
 	return $$.ajax.post(url);
 }
 
 function deleteCustomerLinkTo( linkedObjectType, linkedObjectId )
 {
-	const url = "/user/link.do?action=deleteLinksTo&" + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId });
+	const url = "/user/link.do?method=deleteLinksTo&" + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId });
 	return $$.ajax.post(url);
 }

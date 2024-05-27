@@ -51,7 +51,7 @@ function addGroupToUser(userTitle, userId)
 		buttons: {
 			"Ok": function()
 			{
-				const url = "/admin/plugin/callboard/work.do?action=userChangeGroup&" + $$.ajax.requestParamsToUrl({
+				const url = "/admin/plugin/callboard/work.do?method=userChangeGroup&" + $$.ajax.requestParamsToUrl({
 					"graphId":$("#current-graphId").text(),
 					"fromDate":$("#fromDate").val(),
 					"toDate":$("#toDate").val(),

@@ -32,7 +32,7 @@ $$.news = new function () {
 		if (event.popupNews) {
 			event.popupNews.forEach(function (id) {
 				$$.ajax
-					.post('/user/news.do?action=newsGet&newsId=' + id, {html: true})
+					.post('/user/news.do?method=newsGet&newsId=' + id, {html: true})
 					.done(result => {
 						showPopupMessage(message['News'], result);
 					});

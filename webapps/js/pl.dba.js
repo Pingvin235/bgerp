@@ -11,7 +11,7 @@ $$.dba = new function() {
 	 * @param {*} button
 	 */
 	const queryHistoryGet = (button) => {
-		const url = "/admin/plugin/dba/query/history.do?action=get&id=" + button.form.queryHistoryId.value;
+		const url = "/admin/plugin/dba/query/history.do?method=get&id=" + button.form.queryHistoryId.value;
 		$$.ajax
 			.post(url)
 			.done(result => {
@@ -26,7 +26,7 @@ $$.dba = new function() {
 	 * @param {*} button
 	 */
 	const queryHistoryDel = (button) => {
-		const url = "/admin/plugin/dba/query/history.do?action=del&id=" + button.form.queryHistoryId.value;
+		const url = "/admin/plugin/dba/query/history.do?method=del&id=" + button.form.queryHistoryId.value;
 		$$.ajax
 			.post(url)
 			.done(() => $$.ajax.loadContent(button) );

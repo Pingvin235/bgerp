@@ -63,7 +63,7 @@ $$.param = new function () {
 
 		return $$.ajax
 			.post(
-				"/user/parameter.do?action=" + action + "&multiple=" + multiple + "&itemId=" + itemId +
+				"/user/parameter.do?method=" + action + "&multiple=" + multiple + "&itemId=" + itemId +
 				"&itemTitle=" + encodeURIComponent(itemTitle) + "&itemCount=" + encodeURIComponent(itemCount),
 				{ html: true }
 			).done(result => {

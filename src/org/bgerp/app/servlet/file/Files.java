@@ -70,14 +70,14 @@ public class Files {
     }
 
     /**
-     * File download URL, e.g.: '/admin/app.do?action=downloadLogUpdate'.
+     * File download URL, e.g.: '/admin/app.do?method=downloadLogUpdate'.
      * A {@code name} param has to be added at the end.
      * @return
      */
     public String getDownloadURL() {
         return
             ActionServlet.getActionPath(actionClass) + ".do?" +
-            "action=" + getActionMethod("download");
+            DynActionForm.PARAM_ACTION_METHOD + "=" + getActionMethod("download");
     }
 
     /**
@@ -89,14 +89,14 @@ public class Files {
     }
 
     /**
-     * File deletion URL, e.g.: '/admin/app.do?action=deleteLogUpdate'.
+     * File deletion URL, e.g.: '/admin/app.do?method=deleteLogUpdate'.
      * A {@code name} param has to be added at the end.
      * @return
      */
     public String getDeleteURL() {
         return
             ActionServlet.getActionPath(actionClass) + ".do?" +
-            "action=" + getActionMethod("delete");
+            DynActionForm.PARAM_ACTION_METHOD + "=" + getActionMethod("delete");
     }
 
     /**

@@ -11,8 +11,7 @@ public class FilesTest {
     @Test
     public void test() {
         var files = new Files(BackupAction.class, "fileBackup", "", new Options().withDownloadEnabled().withOrder(Order.LAST_MODIFIED_DESC), "");
-        Assert.assertEquals("org.bgerp.plugin.svc.backup.action.admin.BackupAction:downloadFileBackup",
-                files.getDownloadPermissionAction());
-        Assert.assertEquals("/admin/plugin/backup/backup.do?action=downloadFileBackup", files.getDownloadURL());
+        Assert.assertEquals("org.bgerp.plugin.svc.backup.action.admin.BackupAction:downloadFileBackup", files.getDownloadPermissionAction());
+        Assert.assertEquals("/admin/plugin/backup/backup.do?method=downloadFileBackup", files.getDownloadURL());
     }
 }
