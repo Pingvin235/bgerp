@@ -214,7 +214,7 @@ public class BaseAction extends DispatchAction {
 
         Invoker result = invokerMap.get(method);
         if (result == null) {
-            result = Invoker.find(clazz, method, true);
+            result = Invoker.find(clazz, method);
             invokerMap.putIfAbsent(method, result);
         } else {
             log.trace("Cache hit");

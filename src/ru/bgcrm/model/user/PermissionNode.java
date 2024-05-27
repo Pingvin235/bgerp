@@ -163,9 +163,9 @@ public class PermissionNode {
             return;
 
         try {
-            Invoker.find(actionClass, actionMethod, false);
+            Invoker.find(actionClass, actionMethod);
         } catch (NoSuchMethodException e) {
-            log.warnd("Deprecated signature or missing action method '{}' in class '{}'", actionMethod, actionClass.getName());
+            log.warnd("Missing action method '{}' in class '{}'", actionMethod, actionClass.getName());
         }
     }
 
