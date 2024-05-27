@@ -37,7 +37,7 @@
 
 			<td nowrap="nowrap">
 				<c:url var="serviceMenuUrl" value="${url}">
-					<c:param name="action" value="serviceMenu"/>
+					<c:param name="method" value="serviceMenu"/>
 					<c:param name="id" value="${item.id}"/>
 					<c:param name="deviceId" value="${item.deviceId}"/>
 				</c:url>
@@ -48,13 +48,13 @@
 				"><i class="ti-more"></i></button>
 
 				<c:url var="editUrl" value="${url}">
-					<c:param name="action" value="serviceGet"/>
+					<c:param name="method" value="serviceGet"/>
 					<c:param name="id" value="${item.id}"/>
 				</c:url>
 				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $('#${uiid}').parent())"/>
 
 				<c:url var="deleteUrl" value="${form.httpRequestURI}">
-					<c:param name="action" value="serviceDelete"/>
+					<c:param name="method" value="serviceDelete"/>
 					<c:param name="contractId" value="${form.param.contractId}"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="moduleId" value="${form.param.moduleId}"/>

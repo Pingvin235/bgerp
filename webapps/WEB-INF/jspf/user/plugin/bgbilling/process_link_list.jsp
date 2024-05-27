@@ -26,7 +26,7 @@
 				 $(function () {
 					var $tabs = $("#content > #process-${process.id} #processTabsDiv");
 					<c:url var="url" value="/user/process/link.do">
-						<c:param name="action" value="linkedProcessList"/>
+						<c:param name="method" value="linkedProcessList"/>
 						<c:param name="objectType" value="${item.linkObjectType}"/>
 						<c:param name="objectTitle" value="${item.linkObjectTitle}"/>
 						<c:param name="id" value="${item.linkObjectId}"/>

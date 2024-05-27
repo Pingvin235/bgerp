@@ -35,7 +35,7 @@
 	<c:set var="currentDate" value="${tu.format(now, 'dd.MM.yyyy')}"/>
 
 	<html:form action="/user/plugin/bgbilling/contract">
-		<input type="hidden" name="action" value="contractCreate"/>
+		<input type="hidden" name="method" value="contractCreate"/>
 		<input type="hidden" name="date" value="${currentDate}"/>
 		<input type="hidden" name="customerId" value="${stepData.customer.id}"/>
 		<input type="hidden" name="billingId"/>

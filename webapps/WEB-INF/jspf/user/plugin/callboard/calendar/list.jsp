@@ -2,13 +2,13 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/admin/user">
-	<input type="hidden" name="action" value="groupList"/>
+	<input type="hidden" name="method" value="groupList"/>
 
 	<table>
 		<tr>
 			<td width="100%">
 				<c:url var="url" value="/user/plugin/callboard/work.do">
-					<c:param name="action" value="shiftGet"/>
+					<c:param name="method" value="shiftGet"/>
 					<c:param name="id" value="-1"/>
 					<c:param name="returnUrl" value="${form.requestUrl}"/>
 				</c:url>
@@ -31,7 +31,7 @@
 	<c:forEach var="item" items="${frd.workDaysCalendarList}">
 		<tr>
 			<c:url var="editUrl" value="/user/plugin/callboard/work.do">
-				<c:param name="action" value="workDaysCalendarGet"/>
+				<c:param name="method" value="workDaysCalendarGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>

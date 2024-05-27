@@ -4,7 +4,7 @@
 <c:set var="balanceForm" value="${u:uiid()}"/>
 
 <form action="/user/plugin/bgbilling/proto/balance.do" id="${balanceForm}" class="in-mb1-all in-inline-block">
-	<input type="hidden" name="action" value="${form.param.action}" />
+	<input type="hidden" name="method" value="${form.param.action}" />
 	<input type="hidden" name="billingId" value="${form.param.billingId}" />
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 
@@ -26,23 +26,23 @@
 	</div>
 
 	<div class="in-mr1">
-		<c:set var="action" value="paymentList"/>
+		<c:set var="method" value="paymentList"/>
 		<c:set var="title" value="Приход"/>
 		<%@ include file="balance_form_button.jsp"%>
 
-		<c:set var="action" value="accountList"/>
+		<c:set var="method" value="accountList"/>
 		<c:set var="title" value="Наработка"/>
 		<%@ include file="balance_form_button.jsp"%>
 
-		<c:set var="action" value="chargeList"/>
+		<c:set var="method" value="chargeList"/>
 		<c:set var="title" value="Расход"/>
 		<%@ include file="balance_form_button.jsp"%>
 
-		<c:set var="action" value="balance"/>
+		<c:set var="method" value="balance"/>
 		<c:set var="title" value="Баланс"/>
 		<%@ include file="balance_form_button.jsp"%>
 
-		<c:set var="action" value="balanceDetail"/>
+		<c:set var="method" value="balanceDetail"/>
 		<c:set var="title" value="Баланс дет."/>
 		<%@ include file="balance_form_button.jsp"%>
 	</div>

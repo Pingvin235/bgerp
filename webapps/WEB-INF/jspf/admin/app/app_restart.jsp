@@ -3,7 +3,7 @@
 
 <p:check action="org.bgerp.action.admin.AppAction:restart">
 	<html:form action="/admin/app">
-		<input type="hidden" name="action" value="restart"/>
+		<input type="hidden" name="method" value="restart"/>
 		<%@ include file="run_restart_button.jsp"%>
 	</html:form>
 </p:check>

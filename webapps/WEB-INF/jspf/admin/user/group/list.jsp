@@ -4,17 +4,17 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="urlList" value="/admin/user.do">
-	<c:param name="action" value="groupList"/>
+	<c:param name="method" value="groupList"/>
 	<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
 </c:url>
 
 <html:form action="/admin/user" styleId="${uiid}" styleClass="in-mr1">
-	<input type="hidden" name="action" value="groupList"/>
+	<input type="hidden" name="method" value="groupList"/>
 	<input type="hidden" name="parentGroupId" value="${form.param.parentGroupId}"/>
 	<input type="hidden" name="markGroup" value="${form.param.markGroup}"/>
 
 	<c:url var="url" value="/admin/user.do">
-		<c:param name="action" value="groupGet"/>
+		<c:param name="method" value="groupGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 		<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
@@ -22,7 +22,7 @@
 	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<c:url value="/admin/user.do" var="url">
-		<c:param name="action" value="groupInsertMark"/>
+		<c:param name="method" value="groupInsertMark"/>
 		<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
 		<c:param name="markGroup" value="${form.param.markGroup}"/>
 	</c:url>
@@ -36,7 +36,7 @@
 
 <div class="mt1">
 	<c:url var="url" value="/admin/user.do">
-		<c:param name="action" value="groupList"/>
+		<c:param name="method" value="groupList"/>
 		<c:param name="parentGroupId" value="0"/>
 		<c:param name="markGroup" value="${form.param.markGroup}"/>
 	</c:url>
@@ -46,7 +46,7 @@
 
 	<c:forEach var="item" items="${groupPath}" varStatus="status">
 		<c:url var="url" value="/admin/user.do">
-			<c:param name="action" value="groupList"/>
+			<c:param name="method" value="groupList"/>
 			<c:param name="parentGroupId" value="${item.id}"/>
 			<c:param name="markGroup" value="${form.param.markGroup}"/>
 		</c:url>
@@ -67,13 +67,13 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="/admin/user.do">
-				<c:param name="action" value="groupGet"/>
+				<c:param name="method" value="groupGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="parentGroupId" value="${item.parentId}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
 			<c:url var="deleteUrl" value="/admin/user.do">
-				<c:param name="action" value="groupDelete"/>
+				<c:param name="method" value="groupDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<td nowrap="nowrap">
@@ -94,7 +94,7 @@
 			<td>
 				<c:forEach var="items" items="${item.path}" varStatus="status">
 					<c:url var="url" value="/admin/user.do">
-						<c:param name="action" value="groupList"/>
+						<c:param name="method" value="groupList"/>
 						<c:param name="parentGroupId" value="${item.id}"/>
 						<c:param name="markGroup" value="${form.param.markGroup}"/>
 					</c:url>

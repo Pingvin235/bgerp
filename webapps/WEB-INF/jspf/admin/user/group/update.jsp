@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/admin/user" styleClass="center1020">
-	<input type="hidden" name="action" value="groupUpdate" />
+	<input type="hidden" name="method" value="groupUpdate" />
 	<html:hidden property="parentGroupId"/>
 
 	<c:set var="group" value="${frd.group}" scope="page"/>

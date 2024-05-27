@@ -25,7 +25,7 @@
 
 <html:form action="/user/process" styleId="${mainUiid}">
 	<html:hidden property="id"/>
-	<input type="hidden" name="action" value="processExecutorsUpdate"/>
+	<input type="hidden" name="method" value="processExecutorsUpdate"/>
 
 	<c:set var="uiid" value="${u:uiid()}"/>
 	<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate')}"/>

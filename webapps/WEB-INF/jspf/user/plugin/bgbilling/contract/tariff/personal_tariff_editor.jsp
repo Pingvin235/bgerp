@@ -7,7 +7,7 @@
 <h1>Редактор</h1>
 
 <html:form action="/user/plugin/bgbilling/proto/contractTariff" styleId="${uiid}">
-	<input type="hidden" name="action" value="updatePersonalTariff"/>
+	<input type="hidden" name="method" value="updatePersonalTariff"/>
 	<html:hidden property="billingId"/>
 	<html:hidden property="contractId"/>
 	<html:hidden property="id"/>

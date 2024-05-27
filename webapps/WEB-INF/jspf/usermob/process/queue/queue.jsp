@@ -3,7 +3,7 @@
 
 <div id="processQueueShow">
 	 <html:form action="/usermob/process" styleId="processQueueSelect" styleClass="mb05" style="display: flex;">
-		<input type="hidden" name="action" value="queue"/>
+		<input type="hidden" name="method" value="queue"/>
 		<c:set var="currentQueueId" value="${form.param.id}"/>
 
 		<c:set var="valuesHtml">
@@ -30,7 +30,7 @@
 			<div style="white-space: nowrap;">
 				<c:forEach var="type" items="${createAllowedProcessList}">
 					<c:url var="createUrl" value="process.do">
-						<c:param name="action" value="processCreate"/>
+						<c:param name="method" value="processCreate"/>
 						<c:param name="typeId" value="${type.id}"/>
 					</c:url>
 
@@ -47,7 +47,7 @@
 
 	<%-- processQueueFilter, невидиый фильтр - он же форма для вывода очереди --%>
 	<html:form action="/usermob/process" styleId="processQueueFilter" style="display: none;">
-		<input type="hidden" name="action" value="queueShow"/>
+		<input type="hidden" name="method" value="queueShow"/>
 		<input type="hidden" name="id" value="${queue.id}"/>
 		<input type="hidden" name="page.pageIndex" value="-1"/>
 		<input type="hidden" name="media" value="print"/>

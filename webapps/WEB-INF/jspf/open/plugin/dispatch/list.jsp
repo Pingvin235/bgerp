@@ -20,7 +20,7 @@
 		</table>
 
 		<html:form action="/open/plugin/dispatch/dispatch" styleClass="mt1 in-mr1">
-			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="method" value="subscribe"/>
 			<input type="text" name="email" placeholder="E-Mail" size="30"/>
 			<button class="btn-grey" type="button" onclick="
 				$$.ajax

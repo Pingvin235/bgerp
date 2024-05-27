@@ -7,7 +7,7 @@
 <c:set var="currentDate" value="${tu.format(now, 'dd.MM.yyyy'}"/>
 
 <html:form styleId="${uiid}" action="/user/plugin/bgbilling/proto/contractTariff" style="width: 100%;">
-	<input type="hidden" name="action" value="updateContractTariff"/>
+	<input type="hidden" name="method" value="updateContractTariff"/>
 	<c:if test="${not empty stepData.contractTariff}">
 		<input type="hidden" name="id" value="${stepData.contractTariff.id}"/>
 	</c:if>

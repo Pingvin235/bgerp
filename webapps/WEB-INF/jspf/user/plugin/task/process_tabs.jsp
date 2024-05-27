@@ -5,9 +5,9 @@
 	<c:set var="plugin" value="${ctxPluginManager.pluginMap['task']}" />
 	<c:if test="${not empty plugin}">
 		<c:url var="url" value="plugin/task/task.do">
-			<c:param name="action" value="list" />
+			<c:param name="method" value="list" />
 			<c:param name="processId" value="${process.id}" />
-		</c:url>	
+		</c:url>
 		$tabs.tabs('add', "${url}", "Задачи");
 	</c:if>
 </c:if>

@@ -107,7 +107,7 @@
 			<tr>
 				<td colspan="5">
 					<c:url var="url" value="/user/link.do" >
-						<c:param name="action" value="linkList"/>
+						<c:param name="method" value="linkList"/>
 						<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/crm/billing_problems.jsp"/>
 						<c:param name="objectType" value="process"/>
 						<c:param name="id" value="${processId}"/>

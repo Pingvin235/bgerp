@@ -11,7 +11,7 @@
 </div>
 
 <html:form action="${form.httpRequestURI}" style="display: none;" styleClass="in-table-cell nowrap in-pr05" styleId="${createContractUiid}">
-	<input type="hidden" name="action" value="contractCreate"/>
+	<input type="hidden" name="method" value="contractCreate"/>
 	<input type="hidden" name="date" value="${currentDate}"/>
 	<html:hidden property="customerId"/>
 	<input type="hidden" name="comment" value="${u.escapeXml(customer.title)}"/>

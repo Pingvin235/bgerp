@@ -37,14 +37,14 @@
 							<c:choose>
 								<c:when test="${empty date}">
 									<c:url var="url" value="/user/plugin/invoice/invoice.do">
-										<c:param name="action" value="paid"/>
+										<c:param name="method" value="paid"/>
 										<c:param name="id" value="${invoiceId}"/>
 									</c:url>
 									<a href="#" title="${l.l('Paid')}" onclick="$$.invoice.paid('${hiddenUiid}', '${url}').done(() => $('#${outId}').click()); return false;">${l.l('paid')}</a>
 								</c:when>
 								<c:otherwise>
 									<c:url var="url" value="/user/plugin/invoice/invoice.do">
-										<c:param name="action" value="unpaid"/>
+										<c:param name="method" value="unpaid"/>
 										<c:param name="id" value="${invoiceId}"/>
 									</c:url>
 									<a href="#" title="${l.l('Unpaid')}" onclick="$$.ajax.post('${url}').done(() => $('#${outId}').click()); return false;">${date}</a>

@@ -4,7 +4,7 @@
 <c:set var="timeSetConfig" value="${processType.properties.configMap.getConfig('org.bgerp.plugin.pln.callboard.model.config.ProcessTimeSetConfig')}"/>
 <c:if test="${not empty timeSetConfig.callboard}">
 	<c:url var="url" value="/user/plugin/callboard/work.do">
-		<c:param name="action" value="processTime"/>
+		<c:param name="method" value="processTime"/>
 		<c:param name="processId" value="${process.id}"/>
 	</c:url>
 

@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 <html:form styleId="${uiid}" action="/open/plugin/feedback/message" style="width: 50%;">
-	<html:hidden property="action" value="add"/>
+	<html:hidden property="method" value="add"/>
 	<html:hidden property="processId"/>
 
 	<h1>${l.l('Написать сообщение')}</h1>

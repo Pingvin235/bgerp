@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/user/plugin/dispatch/dispatch" styleClass="center500">
-	<input type="hidden" name="action" value="messageUpdate" />
+	<input type="hidden" name="method" value="messageUpdate" />
 
 	<c:set var="message" value="${frd.message}" scope="page"/>
 

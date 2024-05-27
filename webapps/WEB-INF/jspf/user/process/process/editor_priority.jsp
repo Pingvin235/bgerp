@@ -4,7 +4,7 @@
 <h1>${l.l('Выберите приоритет')}</h1>
 <html:form action="/user/process">
 	<html:hidden property="id"/>
-	<input type="hidden" name="action" value="processPriorityUpdate"/>
+	<input type="hidden" name="method" value="processPriorityUpdate"/>
 
 	<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.process.config.ProcessPriorityConfig')}"/>
 

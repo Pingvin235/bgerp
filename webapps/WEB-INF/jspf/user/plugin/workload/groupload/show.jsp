@@ -7,7 +7,7 @@
 <c:set var="uiid" value="${u:uiid()}" />
 
 <html:form action="/user/plugin/workload/groupload">
-	<input type="hidden" name="action" value="show" />
+	<input type="hidden" name="method" value="show" />
 
 	<%-- текущий процесс --%>
 	<html:hidden property="processId"/>

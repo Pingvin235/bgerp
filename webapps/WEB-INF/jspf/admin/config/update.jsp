@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:url var="editUrl" value="/admin/config.do">
-	<c:param name="action" value="get"/>
+	<c:param name="method" value="get"/>
 	<c:param name="id" value="${form.id}"/>
 	<c:param name="returnUrl" value="${form.returnUrl}"/>
 </c:url>
@@ -10,7 +10,7 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 
 <html:form action="/admin/config" styleId="${formUiid}">
-	<html:hidden property="action" value="update"/>
+	<html:hidden property="method" value="update"/>
 
 	<c:set var="config" value="${frd.config}"/>
 	<c:set var="lastModifyUiid" value="${u:uiid()}"/>

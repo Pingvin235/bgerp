@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="url" value="/user/plugin/bgbilling/proto/npay.do">
-	<c:param name="action" value="serviceGet"/>
+	<c:param name="method" value="serviceGet"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
@@ -30,7 +30,7 @@
 				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $('#${uiid}').parent(), {control: this})"/>
 
 				<c:url var="deleteUrl" value="/user/plugin/bgbilling/proto/npay.do">
-					<c:param name="action" value="serviceDelete"/>
+					<c:param name="method" value="serviceDelete"/>
 					<c:param name="contractId" value="${form.param.conractId}"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="moduleId" value="${form.param.moduleId}"/>

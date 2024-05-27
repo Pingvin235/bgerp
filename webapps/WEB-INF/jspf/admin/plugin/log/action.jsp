@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <form action="${form.httpRequestURI}" id="${uiid}" class="in-mr05 in-mb05-all">
-	<input type="hidden" name="action" value="search"/>
+	<input type="hidden" name="method" value="search"/>
 
 	<ui:date-time type="ymdhms" paramName="timeFrom" value="${empty form.param.timeFrom ? 'first' : form.param.timeFrom}" placeholder="From time"/>
 	<ui:date-time type="ymdhms" paramName="timeTo" value="${form.param.timeTo}" placeholder="To time"/>

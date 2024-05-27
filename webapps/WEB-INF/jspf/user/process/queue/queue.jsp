@@ -66,7 +66,7 @@
 
 
 <html:form action="/user/process" styleId="processQueueCreateProcess" style="display: none; width: 50%;" styleClass="center1020">
-	<input type="hidden" name="action" value="processCreate"/>
+	<input type="hidden" name="method" value="processCreate"/>
 
 	<div id="typeTree">
 		<%-- сюда динамически грузится дерево типов для очереди --%>

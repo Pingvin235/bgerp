@@ -2,10 +2,10 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="${form.httpRequestURI}" styleClass="in-mr1" style="display: inline-block;">
-	<input type="hidden" name="action" value="list"/>
+	<input type="hidden" name="method" value="list"/>
 
 	<c:url var="url" value="${form.httpRequestURI}">
-		<c:param name="action" value="get"/>
+		<c:param name="method" value="get"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>

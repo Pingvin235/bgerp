@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:url var="createUrl" value="news.do">
-	<c:param name="action" value="newsEdit"></c:param>
+	<c:param name="method" value="newsEdit"></c:param>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
 
@@ -12,7 +12,7 @@
 
 <div class="center1020">
 	<html:form action="/user/news" onsubmit="return false;" styleClass="mb1 in-mr1" styleId="${uiid}">
-		<input type="hidden" name="action" value="newsList"/>
+		<input type="hidden" name="method" value="newsList"/>
 		<ui:button type="add" onclick="$$.ajax.loadContent('${createUrl}', this);"/>
 
 		<input type="text" size="30" onkeypress="if (enterPressed(event)) { ${showCode} }" placeholder="${l.l('Фильтр по тексту')}" name="text" value="${form.param['text']}" class="ml1"/>
@@ -56,7 +56,7 @@
 						[ ${item.id} ]
 
 						<c:url var="deleteUrl" value="news.do">
-							<c:param name="action" value="newsDelete"></c:param>
+							<c:param name="method" value="newsDelete"></c:param>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
 						[ <a title="${l.l('Удалить')}" href="#" onclick="if (confirm('Удалить новость?')) $$.ajax.post('${deleteUrl}').done(() => { ${showCode} }); return false;">X</a> ]

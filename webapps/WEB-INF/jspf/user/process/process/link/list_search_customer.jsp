@@ -16,7 +16,7 @@
 		<tr>
 			<td>
 				<html:form action="/user/link">
-					<input type="hidden" name="action" value="addLink"/>
+					<input type="hidden" name="method" value="addLink"/>
 					<input type="hidden" name="objectType" value="process"/>
 					<input type="hidden" name="id" value="${form.param.processId}"/>
 					<input type="hidden" name="linkedObjectId" value="${item.id}"/>

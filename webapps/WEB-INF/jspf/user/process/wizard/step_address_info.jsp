@@ -7,7 +7,7 @@
 	<c:choose>
 		<c:when test="${stepData.houseId gt 0}">
 			<c:url var="url" value="/user/directory/address.do">
-				<c:param name="action" value="addressGet"/>
+				<c:param name="method" value="addressGet"/>
 				<c:param name="addressHouseId" value="${stepData.houseId}"/>
 				<c:param name="forwardFile" value="/WEB-INF/jspf/usermob/process/process/wizard/step_address_info_house_ref.jsp"/>
 			</c:url>
@@ -16,7 +16,7 @@
 		<c:otherwise>
 			<div class="odd">
 				<div class="tableIndent">Дом не выбран.</div>
-			</div>		
+			</div>
 		</c:otherwise>
 	</c:choose>
 </div>

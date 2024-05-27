@@ -11,7 +11,7 @@
 	<h1>${link.linkObjectTitle} [ ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title} ]</h1>
 
 	<c:url var="url" value="/user/plugin/bgbilling/contract.do">
-		<c:param name="action" value="contractInfo"/>
+		<c:param name="method" value="contractInfo"/>
 		<c:param name="billingId" value="${billingId}"/>
 		<c:param name="contractId" value="${link.linkObjectId}"/>
 		<c:param name="whatShow" value="${whatShow}"/>

@@ -6,7 +6,7 @@
 
 <html:form action="/user/plugin/bgbilling/proto/card.do"
 	styleId="${uiid}">
-	<input type="hidden" name="action" value="activateCard" />
+	<input type="hidden" name="method" value="activateCard" />
 	<html:hidden property="contractId" value="${form.param.contractId}" />
 	<html:hidden property="billingId" />
 	<html:hidden property="moduleId" />
@@ -16,7 +16,7 @@
 
 
 	<c:url var="url" value="/user/plugin/bgbilling/proto/card.do">
-		<c:param name="action" value="contractInfo" />
+		<c:param name="method" value="contractInfo" />
 		<c:param name="billingId" value="${form.param.billingId}" />
 		<c:param name="moduleId" value="${form.param.moduleId}" />
 		<c:param name="contractId" value="${form.param.contractId}" />

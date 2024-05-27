@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
-	<c:param name="action" value="getPersonalTariff"/>
+	<c:param name="method" value="getPersonalTariff"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -27,7 +27,7 @@
 			<c:set var="editCommand" value="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
 
 			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
-				<c:param name="action" value="deletePersonalTariff"/>
+				<c:param name="method" value="deletePersonalTariff"/>
 				<c:param name="billingId" value="${form.param.billingId}"/>
 				<c:param name="id" value="${personalTariff.id}"/>
 			</c:url>

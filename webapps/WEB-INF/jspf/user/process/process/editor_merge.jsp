@@ -4,7 +4,7 @@
 <h1>${l.l('Choose a process for merging the current to')}</h1>
 <html:form action="/user/process">
 	<html:hidden property="id"/>
-	<input type="hidden" name="action" value="processMerge"/>
+	<input type="hidden" name="method" value="processMerge"/>
 
 	<c:set var="mergeProcessUiid" value="${u:uiid()}"/>
 	<ui:combo-single hiddenName="processId" id="${mergeProcessUiid}" style="width: 100%;"/>

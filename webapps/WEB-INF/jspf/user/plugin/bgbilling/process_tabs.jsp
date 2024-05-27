@@ -5,7 +5,7 @@
 
 <c:if test="${not empty showInfo}">
 	<c:url var="url" value="link.do" >
-		<c:param name="action" value="linkList"/>
+		<c:param name="method" value="linkList"/>
 		<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/process_contracts_info.jsp"/>
 		<c:param name="objectType" value="process"/>
 		<c:param name="id" value="${form.id}"/>

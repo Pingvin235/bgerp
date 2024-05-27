@@ -34,7 +34,7 @@
 					<c:if test="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap') and process.getGroups().size() eq 2}">
 						<c:url var="url" value="/user/process.do">
 							<c:param name="id" value="${process.id}"/>
-							<c:param name="action" value="processExecutorsSwap"/>
+							<c:param name="method" value="processExecutorsSwap"/>
 						</c:url>
 						[<a href="#" onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${requestUrl}', $('#${tableId}').parent()) }); return false;">eswap</a>]
 					</c:if>
@@ -85,7 +85,7 @@
 									<%-- полный список исполнителей без текущего в данной группе и роли --%>
 									<c:url var="url" value="/user/process.do">
 										<c:param name="id" value="${process.id}"/>
-										<c:param name="action" value="processExecutorsUpdate"/>
+										<c:param name="method" value="processExecutorsUpdate"/>
 										<c:param name="group">${group.id}:${role.id}</c:param>
 										<c:forEach var="executor" items="${process.executors}">
 											<c:if test="${group.id eq executor.groupId and role.id eq executor.roleId and executor.userId ne ctxUser.id}">
@@ -103,7 +103,7 @@
 										<%-- полный список исполнителей в данной группе и роли --%>
 										<c:url var="url" value="/user/process.do">
 											<c:param name="id" value="${process.id}"/>
-											<c:param name="action" value="processExecutorsUpdate"/>
+											<c:param name="method" value="processExecutorsUpdate"/>
 											<c:param name="group">${group.id}:${role.id}</c:param>
 											<c:forEach var="executor" items="${process.executors}">
 												<c:if test="${group.id eq executor.groupId and role.id eq executor.roleId}">

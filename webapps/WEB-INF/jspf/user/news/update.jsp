@@ -4,7 +4,7 @@
 <c:set var="news" value="${frd.news}"/>
 
 <form id="newsCreateForm" class="center1020" action="/user/news.do" method="post" name="dynForm" onsubmit="return false;">
-	<input type="hidden" name="action" value="newsUpdate" />
+	<input type="hidden" name="method" value="newsUpdate" />
 	<input type="hidden" name="id" value="${news.id}" />
 
 	<c:if test="${form.param.requestUserId > 0}">

@@ -13,17 +13,17 @@
 </c:if>
 
 <c:url var="url" value="/user/plugin/callboard/work.do">
-	<c:param name="action" value="workDaysCalendarUpdate" />
+	<c:param name="method" value="workDaysCalendarUpdate" />
 	<c:param name="calendarId" value="${calendar.id}" />
 </c:url>
 
 <c:url var="getUrl" value="/user/plugin/callboard/work.do">
-	<c:param name="action" value="workDaysCalendarGet"/>
+	<c:param name="method" value="workDaysCalendarGet"/>
 	<c:param name="id" value="${calendar.id}"/>
 </c:url>
 
 <c:url var="paramCopyUrl" value="/user/plugin/callboard/work.do">
-	<c:param name="action" value="workDaysCalendarCopy"/>
+	<c:param name="method" value="workDaysCalendarCopy"/>
 	<c:param name="calendarId" value="${calendar.id}"/>
 </c:url>
 

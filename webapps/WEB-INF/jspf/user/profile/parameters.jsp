@@ -17,7 +17,7 @@
 <c:if test="${form.userId != '-1' }">
 		<div id="userParameters">
 			<c:url var="url" value="/user/parameter.do">
-				<c:param name="action" value="parameterList" />
+				<c:param name="method" value="parameterList" />
 
 				<c:if test="${not empty requestUserId && requestUserId != form.userId}">
 					<c:param name="readOnly" value="1"/>

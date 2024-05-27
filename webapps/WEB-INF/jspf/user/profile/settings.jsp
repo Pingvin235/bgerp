@@ -2,12 +2,12 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="${form.httpRequestURI}">
-	<input type="hidden" name="action" value="updateSettings"/>
+	<input type="hidden" name="method" value="updateSettings"/>
 
 	<c:set var="user" value="${frd.user}" />
 
 	<c:url var="url" value="${form.httpRequestURI}">
-		<c:param name="action" value="getUserProfile"/>
+		<c:param name="method" value="getUserProfile"/>
 		<c:param name="userId" value="${user.id}"/>
 	</c:url>
 

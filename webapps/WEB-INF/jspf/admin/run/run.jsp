@@ -4,7 +4,7 @@
 <p:check action="org.bgerp.action.admin.RunAction:runClass">
 	<c:set var="runFormUiid" value="${u:uiid()}"/>
 	<html:form action="/admin/run" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">
-		<input type="hidden" name="action" value="runClass"/>
+		<input type="hidden" name="method" value="runClass"/>
 		<input type="hidden" name="iface" value="runnable"/>
 
 		<ui:select-single hiddenName="class" list="${runnableClasses}" style="width: 30em;" placeholder="${l.l('Имя класса, реализующего java.lang.Runnable')}"/>

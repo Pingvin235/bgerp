@@ -8,7 +8,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <html:form action="/user/plugin/invoice/invoice" styleId="${uiid}">
-	<input type="hidden" name="action" value="update"/>
+	<input type="hidden" name="method" value="update"/>
 	<input type="hidden" name="id" value="${invoice.id}"/>
 	<input type="hidden" name="processId" value="${invoice.processId}"/>
 	<input type="hidden" name="typeId" value="${invoice.typeId}"/>

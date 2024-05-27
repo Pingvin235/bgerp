@@ -9,7 +9,7 @@
 				<c:set var="formUiid" value="${u:uiid()}"/>
 
 				<html:form action="/user/directory/address" disabled="${disabled}" styleId="${formUiid}">
-					<html:hidden property="action" value="address"/>
+					<html:hidden property="method" value="address"/>
 
 					<html:hidden property="selectTab" styleId="selectTab"/>
 					<html:hidden property="searchMode"/>
@@ -20,7 +20,7 @@
 
 					<table style="width: 100%;">
 						<c:url var="url" value="/user/directory/address.do">
-							<c:param name="action" value="addressGet"/>
+							<c:param name="method" value="addressGet"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
 							<c:param name="selectTab" value="${form.param.selectTab}"/>
 							<c:param name="addressCountryId" value="0"/>
@@ -35,7 +35,7 @@
 						</td></tr>
 
 						<c:url var="url" value="/user/directory/address.do">
-							<c:param name="action" value="addressGet"/>
+							<c:param name="method" value="addressGet"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
 							<c:param name="selectTab" value="${form.param.selectTab}"/>
 							<c:param name="addressCountryTitle" value="${form.param.addressCountryTitle}"/>
@@ -70,7 +70,7 @@
 						</td></tr>
 
 						<c:url var="url" value="/user/directory/address.do">
-							<c:param name="action" value="addressGet"/>
+							<c:param name="method" value="addressGet"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
 							<c:param name="selectTab" value="${form.param.selectTab}"/>
 							<c:param name="addressCityId" value="${form.param.addressCityId}"/>
@@ -88,7 +88,7 @@
 
 						<c:if test="${selectTab eq 'street'}">
 							<c:url var="url" value="/user/directory/address.do">
-								<c:param name="action" value="addressGet"/>
+								<c:param name="method" value="addressGet"/>
 								<c:param name="returnUrl" value="${form.requestUrl}"/>
 								<c:param name="selectTab" value="${form.param.selectTab}"/>
 								<c:param name="addressCountryTitle" value="${form.param.addressCountryTitle}"/>

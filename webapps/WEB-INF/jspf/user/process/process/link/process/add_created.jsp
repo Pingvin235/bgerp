@@ -3,7 +3,7 @@
 
 <c:if test="${not empty createTypeList}">
 	<html:form action="${form.httpRequestURI}">
-		<input type="hidden" name="action" value="linkProcessCreate"/>
+		<input type="hidden" name="method" value="linkProcessCreate"/>
 		<input type="hidden" name="id" value="${form.id}"/>
 
 		<div class="in-table-cell pt05">

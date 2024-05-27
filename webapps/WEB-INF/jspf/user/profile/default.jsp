@@ -5,7 +5,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="createUrl" value="news.do">
-	<c:param name="action" value="newsEdit"></c:param>
+	<c:param name="method" value="newsEdit"></c:param>
 	<c:param name="requestUserId" value="${requestUserId}"></c:param>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
@@ -23,7 +23,7 @@
 			<h2>${l.l('Опции интерфейса')}</h2>
 
 			<html:form action="/user/profile">
-				<input type="hidden" name="action" value="updatePersonalization"/>
+				<input type="hidden" name="method" value="updatePersonalization"/>
 
 				<table class="data">
 					<tr>
@@ -100,7 +100,7 @@
 		<c:otherwise>
 			<div>
 				<c:url var="url" value="/user/profile.do">
-					<c:param name="action" value="settings"/>
+					<c:param name="method" value="settings"/>
 					<c:param name="subAction" value="parameters"/>
 					<c:param name="requestUserId" value="${requestUserId}"/>
 				</c:url>

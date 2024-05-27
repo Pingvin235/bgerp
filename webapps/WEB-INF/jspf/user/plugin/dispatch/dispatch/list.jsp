@@ -6,12 +6,12 @@
 <c:set var="showCode" value="$$.ajax.load($('#${uiid}'), $('#${uiid}').parent());"/>
 
 <c:url var="getUrl" value="/user/plugin/dispatch/dispatch.do">
-	<c:param name="action" value="dispatchGet"/>
+	<c:param name="method" value="dispatchGet"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
 
 <html:form action="/user/plugin/dispatch/dispatch" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
-	<input type="hidden" name="action" value="dispatchList"/>
+	<input type="hidden" name="method" value="dispatchList"/>
 
 	<ui:button type="add" onclick="$$.ajax.load('${getUrl}', $('#${uiid}').parent())"/>
 
@@ -32,7 +32,7 @@
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteUrl" value="/user/plugin/dispatch/dispatch.do">
-				<c:param name="action" value="dispatchDelete"/>
+				<c:param name="method" value="dispatchDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 

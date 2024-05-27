@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="showUrl" value="/user/plugin/blow/board.do">
-	<c:param name="action" value="show"/>
+	<c:param name="method" value="show"/>
 </c:url>
 
 <c:set var="boards" value="${frd.boards}"/>

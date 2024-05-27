@@ -6,7 +6,7 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 <html:form action="/user/customer" onsubmit="return false;" styleClass="center500 in-w100p" styleId="${formUiid}">
 	<html:hidden property="id"/>
-	<input type="hidden" name="action" value="customerUpdate"/>
+	<input type="hidden" name="method" value="customerUpdate"/>
 
 	<h2>ID</h2>
 	<input type="text" readonly="readonly" value="${customer.id}"/>

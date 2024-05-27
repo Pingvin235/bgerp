@@ -35,7 +35,7 @@
 		</c:when>
 		<c:otherwise>
 			<form action="/user/message.do">
-				<input type="hidden" name="action" value="messageDelete"/>
+				<input type="hidden" name="method" value="messageDelete"/>
 
 				<c:set var="menuUiid" value="${u:uiid()}"/>
 				<c:set var="selectedUiid" value="${u:uiid()}"/>

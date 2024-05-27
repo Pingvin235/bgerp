@@ -4,12 +4,12 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <html:form action="${form.httpRequestURI}">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<html:hidden property="processId"/>
 
 	<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:create">
 		<c:url var="url" value="${form.httpRequestURI}">
-			<c:param name="action" value="create"/>
+			<c:param name="method" value="create"/>
 			<c:param name="processId" value="${form.param.processId}"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
@@ -42,7 +42,7 @@
 				<ui:popup-menu id="${menuUiid}">
 					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:get">
 						<c:url var="url" value="${form.httpRequestURI}">
-							<c:param name="action" value="get"/>
+							<c:param name="method" value="get"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
@@ -57,7 +57,7 @@
 						<c:when test="${not empty item.paymentDate}">
 							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:unpaid">
 								<c:url var="url" value="${form.httpRequestURI}">
-									<c:param name="action" value="unpaid"/>
+									<c:param name="method" value="unpaid"/>
 									<c:param name="id" value="${item.id}"/>
 								</c:url>
 								<li><a href="#"
@@ -70,7 +70,7 @@
 						<c:otherwise>
 							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:paid">
 								<c:url var="url" value="${form.httpRequestURI}">
-									<c:param name="action" value="paid"/>
+									<c:param name="method" value="paid"/>
 									<c:param name="id" value="${item.id}"/>
 								</c:url>
 								<li><a href="#"
@@ -84,7 +84,7 @@
 
 					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:delete">
 						<c:url var="url" value="${form.httpRequestURI}">
-							<c:param name="action" value="delete"/>
+							<c:param name="method" value="delete"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
 						<li><a href="#"
@@ -102,7 +102,7 @@
 				<c:choose>
 					<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc')}">
 						<c:url var="url" value="${form.httpRequestURI}">
-							<c:param name="action" value="doc"/>
+							<c:param name="method" value="doc"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
 						<a target="_blank" href="${url}">${item.number}</a>

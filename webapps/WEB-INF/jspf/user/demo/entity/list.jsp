@@ -6,10 +6,10 @@
 <c:set var="changeAllowed" value="${editAllowed or deleteAllowed}"/>
 
 <html:form action="${form.httpRequestURI}">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<c:if test="${editAllowed}">
 		<c:url var="url" value="${form.httpRequestURI}">
-			<c:param name="action" value="entityGet"/>
+			<c:param name="method" value="entityGet"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
 		<ui:button type="add" styleClass="mr1" onclick="$$.ajax.load('${url}', $(this.form).parent(), {control: this})"/>
@@ -32,7 +32,7 @@
 				<td class="nowrap">
 					<c:if test="${editAllowed}">
 						<c:url var="url" value="${form.httpRequestURI}">
-							<c:param name="action" value="entityGet"/>
+							<c:param name="method" value="entityGet"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
@@ -40,7 +40,7 @@
 					</c:if>
 					<c:if test="${deleteAllowed}">
 						<c:url var="url" value="${form.httpRequestURI}">
-							<c:param name="action" value="entityDelete"/>
+							<c:param name="method" value="entityDelete"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
 						<ui:button type="del" styleClass="btn-small ml05" onclick="$$.ajax.post('${url}', {control: this}).done(() => $$.ajax.load('${form.requestUrl}', $(this).closest('table').parent()))"/>

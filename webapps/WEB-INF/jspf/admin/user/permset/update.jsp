@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/admin/user" styleClass="center1020">
-	<input type="hidden" name="action" value="permsetUpdate" />
+	<input type="hidden" name="method" value="permsetUpdate" />
 
 	<c:set var="permset" value="${frd.permset}" scope="page" />
 	<c:set var="grantedPermission" value="${frd.grantedPermission}" scope="request" />

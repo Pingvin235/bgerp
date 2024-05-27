@@ -11,7 +11,7 @@
 	<c:otherwise>
 		<html:form action="/user/plugin/fulltext/search.do" method="GET"
 			styleId="searchForm-fulltext" styleClass="searchForm in-mb1 mt1 in-w100p">
-			<html:hidden property="action" value="search"/>
+			<html:hidden property="method" value="search"/>
 
 			<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.fulltext.model.Config')}"/>
 			<ui:combo-single hiddenName="objectType" prefixText="${l.l('Искать')}:" list="${config.objectTypeList}"/>

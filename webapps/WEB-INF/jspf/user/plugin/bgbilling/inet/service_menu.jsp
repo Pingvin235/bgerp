@@ -12,7 +12,7 @@
 <c:set var="reload" value="$$.ajax.load('${form.returnUrl}', document.getElementById('${form.returnChildUiid}').parentElement)"/>
 
 <c:url var="url" value="${baseUrl}">
-	<c:param name="action" value="serviceStateModify"/>
+	<c:param name="method" value="serviceStateModify"/>
 	<c:param name="state" value="1"/>
 </c:url>
 <li><a href="#" onclick="
@@ -22,7 +22,7 @@
 ">Включить (отладка)</a></li>
 
 <c:url var="url" value="${baseUrl}">
-	<c:param name="action" value="serviceStateModify"/>
+	<c:param name="method" value="serviceStateModify"/>
 	<c:param name="state" value="0"/>
 </c:url>
 <li><a href="#" onclick="
@@ -40,7 +40,7 @@
 
 <c:forEach var="item" items="${frd.deviceMethods}">
 	<c:url var="url" value="${baseUrl}">
-		<c:param name="action" value="serviceDeviceManage"/>
+		<c:param name="method" value="serviceDeviceManage"/>
 		<c:param name="operation" value="${item.method}"/>
 	</c:url>
 	<li><a onclick="

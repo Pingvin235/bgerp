@@ -9,7 +9,7 @@
 <h1>${l.l('Change status')}</h1>
 <html:form action="/user/process">
 	<input type="hidden" name="id" value="${process.id}"/>
-	<input type="hidden" name="action" value="processStatusUpdate"/>
+	<input type="hidden" name="method" value="processStatusUpdate"/>
 
 	<ui:combo-single
 		prefixText="<b>${ctxProcessStatusMap[process.statusId].title}</b> ${l.l('status.to')}"

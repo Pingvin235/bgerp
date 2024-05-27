@@ -10,7 +10,7 @@
 
 		<p:check action="org.bgerp.plugin.pln.blow.action.BoardAction:search">
 			<form action="${form.httpRequestURI}">
-				<input type="hidden" name="action" value="search"/>
+				<input type="hidden" name="method" value="search"/>
 				<c:forEach var="id" items="${frd.processIds}">
 					<input type="hidden" name="processId" value="${id}"/>
 				</c:forEach>

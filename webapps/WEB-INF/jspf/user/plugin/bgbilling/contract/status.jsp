@@ -6,7 +6,7 @@
 <html:form action="/user/plugin/bgbilling/proto/contract" styleId="${uiid}">
 	<html:hidden property="billingId"/>
 	<html:hidden property="contractId"/>
-	<input type="hidden" name="action" value="updateStatus"/>
+	<input type="hidden" name="method" value="updateStatus"/>
 
 	<table style="width: 100%;">
 		<tr class="in-pr05">

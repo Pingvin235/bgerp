@@ -8,7 +8,7 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 
 <html:form action="/admin/user" styleId="${formUiid}">
-	<input type="hidden" name="action" value="userUpdate" />
+	<input type="hidden" name="method" value="userUpdate" />
 	<html:hidden property="id" />
 
 	<h1>Основные свойства (сохранение/отмена по OK/Отмена)</h1>
@@ -149,7 +149,7 @@
 			<%-- extra wrapper to do not rewrite the label before on reload --%>
 			<div>
 				<c:url var="url" value="/admin/user.do">
-					<c:param name="action" value="userGroupList" />
+					<c:param name="method" value="userGroupList" />
 					<c:param name="id" value="${form.id}" />
 					<c:param name="objectType" value="user" />
 				</c:url>
@@ -159,7 +159,7 @@
 		<div style="width: 50%;">
 			<div>
 				<c:url var="url" value="/user/parameter.do">
-					<c:param name="action" value="parameterList" />
+					<c:param name="method" value="parameterList" />
 					<c:param name="id" value="${form.id}" />
 					<c:param name="objectType" value="user" />
 					<c:param name="header" value="Доп. параметры"/>

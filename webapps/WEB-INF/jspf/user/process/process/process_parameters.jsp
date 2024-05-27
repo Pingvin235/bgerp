@@ -4,7 +4,7 @@
 <%-- id="forParamsReload" --%>
 <div>
 	<c:url var="url" value="/user/parameter.do">
-		<c:param name="action" value="parameterList"/>
+		<c:param name="method" value="parameterList"/>
 		<c:param name="id" value="${process.id}"/>
 		<c:param name="objectType" value="process"/>
 		<c:param name="header" value="${l.l('Parameters')}"/>

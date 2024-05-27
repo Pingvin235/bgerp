@@ -14,12 +14,12 @@
 
 <ui:when type="user">
 	<html:form action="${form.httpRequestURI}" styleId="${formUiid}">
-		<html:hidden property="action"/>
+		<html:hidden property="method"/>
 		<html:hidden property="processId"/>
 		<html:hidden property="linkProcess"/>
 
 		<c:url var="url" value="${form.httpRequestURI}">
-			<c:param name="action" value="processMessageEdit"/>
+			<c:param name="method" value="processMessageEdit"/>
 			<c:param name="areaId" value="process-message-add"/>
 			<c:param name="processId" value="${form.param.processId}"/>
 			<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
@@ -95,7 +95,7 @@
 							<c:set var="spanAttrs">
 								<c:if test="${allowedTags}">
 									<c:url var="url" value="${form.httpRequestURI}">
-										<c:param name="action" value="messageToggleTags"/>
+										<c:param name="method" value="messageToggleTags"/>
 										<c:param name="id" value="${message.id}"/>
 										<c:param name="tagId" value="${TAG_PIN_ID}"/>
 									</c:url>
@@ -177,7 +177,7 @@
 
 					<c:set var="linkFormUiid" value="${u:uiid()}"/>
 					<html:form action="${form.httpRequestURI}" styleId="${linkFormUiid}" style="display: none;" onsubmit="return false;">
-						<input type="hidden" name="action" value="messageUpdateProcess"/>
+						<input type="hidden" name="method" value="messageUpdateProcess"/>
 						<input type="hidden" name="id" value="${message.id}"/>
 
 						<c:set var="command">
@@ -206,7 +206,7 @@
 
 					<c:set var="tagFormUiid" value="${u:uiid()}"/>
 					<html:form action="${form.httpRequestURI}" styleId="${tagFormUiid}" style="display: none;" onsubmit="return false;">
-						<input type="hidden" name="action" value="messageUpdateTags"/>
+						<input type="hidden" name="method" value="messageUpdateTags"/>
 						<input type="hidden" name="id" value="${message.id}"/>
 
 						<ui:select-mult list="${tagConfig.tagList}" values="${messageTagIds}" hiddenName="tagId"/>
@@ -217,7 +217,7 @@
 					</html:form>
 
 					<c:url var="readUrl" value="${form.httpRequestURI}">
-						<c:param name="action" value="messageUpdateRead"/>
+						<c:param name="method" value="messageUpdateRead"/>
 						<c:param name="id" value="${message.id}"/>
 					</c:url>
 
@@ -231,7 +231,7 @@
 							<c:if test="${allowedTags}">
 								<c:if test="${not pinned}">
 									<c:url var="url" value="${form.httpRequestURI}">
-										<c:param name="action" value="messageToggleTags"/>
+										<c:param name="method" value="messageToggleTags"/>
 										<c:param name="id" value="${message.id}"/>
 										<c:param name="tagId" value="${TAG_PIN_ID}"/>
 										<c:param name="add" value="1"/>
@@ -272,7 +272,7 @@
 											<c:set var="command">
 												if (confirm('${l.l('Изменить процесс сообщения на {} копию текущего процесса?', linkTypeTitle)}')) {
 													<c:url var="url" value="${form.httpRequestURI}">
-														<c:param name="action" value="messageUpdateProcessToCopy"/>
+														<c:param name="method" value="messageUpdateProcessToCopy"/>
 														<c:param name="id" value="${message.id}"/>
 														<c:param name="linkType" value="${linkType}"/>
 													</c:url>
@@ -293,7 +293,7 @@
 							<c:remove var="answerCommand"/>
 							<c:if test="${message.direction eq 1 and messageType.answerSupport}">
 								<c:url var="answerUrl" value="${form.httpRequestURI}">
-									<c:param name="action" value="processMessageEdit"/>
+									<c:param name="method" value="processMessageEdit"/>
 									<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 									<c:param name="processId" value="${message.processId}"/>
@@ -310,7 +310,7 @@
 							<c:if test="${form.user.id == message.userId or ctxUser.checkPerm(ACTION_MODIFY_NOT_OWNED)}">
 								<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:processMessageEdit')}">
 									<c:url var="editUrl" value="${form.httpRequestURI}">
-										<c:param name="action" value="processMessageEdit"/>
+										<c:param name="method" value="processMessageEdit"/>
 										<c:param name="id" value="${message.id}"/>
 										<c:param name="processId" value="${message.processId}"/>
 										<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
@@ -325,7 +325,7 @@
 
 								<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageDelete')}">
 									<c:url var="deleteUrl" value="${form.httpRequestURI}">
-										<c:param name="action" value="messageDelete"/>
+										<c:param name="method" value="messageDelete"/>
 										<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
 									</c:url>
 

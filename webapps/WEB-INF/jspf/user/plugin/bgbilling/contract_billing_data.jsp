@@ -94,7 +94,7 @@
 					</c:set>
 					<c:set var="value" value=""/>
 					<c:url var="url" value="${urlBalancePeriod}">
-						<c:param name="action" value="balance"/>
+						<c:param name="method" value="balance"/>
 					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<%@ include file="contract/tree_item.jsp"%>
@@ -105,7 +105,7 @@
 					<c:set var="value" value="${contract.balanceIn}"/>
 					<c:set var="valueId" value="balanceIn"/>
 					<c:url var="url" value="${urlBalancePeriod}">
-						<c:param name="action" value="balance"/>
+						<c:param name="method" value="balance"/>
 					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
@@ -117,7 +117,7 @@
 					<c:set var="value" value="${contract.balancePayment}"/>
 					<c:set var="valueId" value="balancePayment"/>
 					<c:url var="url" value="${urlBalancePeriod}">
-						<c:param name="action" value="paymentList"/>
+						<c:param name="method" value="paymentList"/>
 					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
@@ -129,7 +129,7 @@
 					<c:set var="value" value="${contract.balanceAccount}"/>
 					<c:set var="valueId" value="balanceAccount"/>
 					<c:url var="url" value="${urlBalancePeriod}">
-						<c:param name="action" value="accountList"/>
+						<c:param name="method" value="accountList"/>
 					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
@@ -141,7 +141,7 @@
 					<c:set var="value" value="${contract.balanceCharge}"/>
 					<c:set var="valueId" value="balanceCharge"/>
 					<c:url var="url" value="${urlBalancePeriod}">
-						<c:param name="action" value="chargeList"/>
+						<c:param name="method" value="chargeList"/>
 					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>
@@ -153,7 +153,7 @@
 					<c:set var="value" value="${contract.balanceOut}"/>
 					<c:set var="valueId" value="balanceOut"/>
 					<c:url var="url" value="${urlBalancePeriod}">
-						<c:param name="action" value="balance"/>
+						<c:param name="method" value="balance"/>
 					</c:url>
 					<c:set var="rowClass" value="balance"/>
 					<c:set var="level" value="2"/>

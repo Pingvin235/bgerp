@@ -6,7 +6,7 @@
 <c:set var="paramLinkId" value="${u:uiid()}"></c:set>
 
 <html:form action="/user/process.do"  styleClass="center1020" styleId="${paramLinkId}">
-	<input type="hidden" name="action" value="unionLog"/>
+	<input type="hidden" name="method" value="unionLog"/>
 	<input type="hidden" name="id" value="${form.id}"/>
 	<html:hidden property="returnUrl"/>
 

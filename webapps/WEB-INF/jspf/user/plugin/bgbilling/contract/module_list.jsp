@@ -5,7 +5,7 @@
 
 <div class="in-table-cell" id="${uiid}">
 	<form style="width: 300; vertical-align: top;" action="/user/plugin/bgbilling/proto/contract.do" id="selected">
-		<input type="hidden" name="action" value="updateModules"/>
+		<input type="hidden" name="method" value="updateModules"/>
 		<input type="hidden" name="command" value="del"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
@@ -21,7 +21,7 @@
 		</button>
 	</form>
 	<form style="width: 300; vertical-align: top;" action="/user/plugin/bgbilling/proto/contract.do" id="available">
-		<input type="hidden" name="action" value="updateModules"/>
+		<input type="hidden" name="method" value="updateModules"/>
 		<input type="hidden" name="command" value="add"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>

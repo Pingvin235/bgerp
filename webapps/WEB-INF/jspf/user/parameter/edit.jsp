@@ -23,7 +23,7 @@
 
 <html:form method="GET" action="/user/parameter" styleId="${editFormId}" style="width: 100%;" onsubmit="return false;">
 	<html:hidden property="id" />
-	<input type="hidden" name="action" value="parameterUpdate" />
+	<input type="hidden" name="method" value="parameterUpdate" />
 	<input type="hidden" name="paramId" value="${parameter.id}" />
 
 	<c:set var="multiple" value="${parameter.configMap.getBoolean('multiple')}" />
@@ -91,7 +91,7 @@
 							</div>
 							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
 								<c:url var="addUrl" value="/user/directory/address.do">
-									<c:param name="action" value="addressUpdate" />
+									<c:param name="method" value="addressUpdate" />
 									<c:param name="addressHouseId" value="0" />
 								</c:url>
 
@@ -158,7 +158,7 @@
 
 				<c:if test="${parameter.configMap.sendColorMapRequest eq 1}">
 					<c:url var="getDateUrl" value="parameter.do">
-						<c:param name="action" value="parameterGet"/>
+						<c:param name="method" value="parameterGet"/>
 						<c:param name="id" value="${form.id}"/>
 						<c:param name="paramId" value="${parameter.id}"/>
 					</c:url>
@@ -174,7 +174,7 @@
 				<c:set var="parameter" value="${frd.parameter }" />
 				<c:set var="email" value="${frd.email}" />
 
-				<input type="hidden" name="action" value="parameterUpdate" />
+				<input type="hidden" name="method" value="parameterUpdate" />
 				<html:hidden property="position" />
 
 				<div class="in-table-cell in-pl05">

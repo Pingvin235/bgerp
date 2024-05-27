@@ -4,7 +4,7 @@
 <c:set var="resultUiid" value="${u:uiid()}"/>
 
 <form action="${form.httpRequestURI}">
-	<input type="hidden" name="action" value="calc"/>
+	<input type="hidden" name="method" value="calc"/>
 
 	<c:choose>
 		<c:when test="${subscriptionId gt 0}">

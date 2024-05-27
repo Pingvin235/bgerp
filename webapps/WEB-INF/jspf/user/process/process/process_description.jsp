@@ -46,7 +46,7 @@
 
 		<html:form action="/user/process" styleId="editorChange" style="display: none;" styleClass="editorStopReload">
 			<input type="hidden" name="id" value="${process.id}"/>
-			<input type="hidden" name="action" value="processDescriptionUpdate"/>
+			<input type="hidden" name="method" value="processDescriptionUpdate"/>
 
 			<textarea name="description" class="mb1" rows="15" style="width: 100%; resize: vertical;">${process.description}</textarea>
 
@@ -56,7 +56,7 @@
 
 		<html:form action="/user/process" styleId="editorAdd" style="display: none;" styleClass="editorStopReload">
 			<input type="hidden" name="id" value="${process.id}"/>
-			<input type="hidden" name="action" value="processDescriptionAdd"/>
+			<input type="hidden" name="method" value="processDescriptionAdd"/>
 
 			<input type="text" name="description" class="mb1 mt1" style="width: 100%;" onkeypress="if( enterPressed( event )){ ${command} }"/>
 

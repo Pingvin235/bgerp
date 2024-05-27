@@ -15,7 +15,7 @@
 <h1>Редактор сервиса:  ${service.title}</h1>
 
 <html:form action="/user/plugin/bgbilling/proto/inet.do" styleId="${uiid}">
-	<input type="hidden" name="action" value="serviceUpdate" />
+	<input type="hidden" name="method" value="serviceUpdate" />
 	<html:hidden property="contractId"/>
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>

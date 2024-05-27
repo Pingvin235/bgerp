@@ -9,7 +9,7 @@
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
 <c:url var="addUrl" value="${url}">
-	<c:param name="action" value="getScript"/>
+	<c:param name="method" value="getScript"/>
 	<c:param name="scriptId" value="-1"/>
 </c:url>
 <ui:button type="add" styleClass="btn-green mb1" onclick="$$.ajax.load('${addUrl}', $('#${uiid}').parent())"/>
@@ -27,13 +27,13 @@
 			<tr>
 				<td class="nowrap">
 					<c:url var="editUrl" value="${url}">
-						<c:param name="action" value="getScript"/>
+						<c:param name="method" value="getScript"/>
 						<c:param name="scriptId" value="${script.id}"/>
 					</c:url>
 					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $('#${uiid}').parent())"/>
 
 					<c:url var="delUrl" value="${url}">
-						<c:param name="action" value="deleteScript"/>
+						<c:param name="method" value="deleteScript"/>
 						<c:param name="scriptId" value="${script.id}"/>
 					</c:url>
 					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${delUrl}').done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))"/>

@@ -2,12 +2,12 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="${form.httpRequestURI}" styleClass="in-mr1">
-	<input type="hidden" name="action" value="statusList"/>
+	<input type="hidden" name="method" value="statusList"/>
 	<input type="hidden" name="id" value="-1"/>
 	<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 
 	<c:url var="url" value="${form.httpRequestURI}">
-		<c:param name="action" value="statusGet"/>
+		<c:param name="method" value="statusGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
@@ -28,12 +28,12 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="${form.httpRequestURI}">
-				<c:param name="action" value="statusGet"/>
+				<c:param name="method" value="statusGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
 			<c:url var="deleteUrl" value="${form.httpRequestURI}">
-				<c:param name="action" value="statusDelete"/>
+				<c:param name="method" value="statusDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 
@@ -51,7 +51,7 @@
 
 			<td align="center">
 				<c:url var="showUrl" value="${form.httpRequestURI}">
-					<c:param name="action" value="statusUseProcess" />
+					<c:param name="method" value="statusUseProcess" />
 					<c:param name="statusId" value="${statusId}" />
 				</c:url>
 

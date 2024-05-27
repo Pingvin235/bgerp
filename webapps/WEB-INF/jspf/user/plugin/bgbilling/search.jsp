@@ -16,7 +16,7 @@
 
 		<html:form action="/user/plugin/bgbilling/proto/contract.do"
 			styleId="searchForm-bgbilling-searchContract" styleClass="searchForm in-mb1 mt1 in-w100p">
-			<html:hidden property="action" value="searchContract"/>
+			<html:hidden property="method" value="searchContract"/>
 			<html:hidden property="searchBy"/>
 
 			<ui:combo-single hiddenName="billingId" prefixText="Биллинг:" onSelect="$('#paramIdsDiv').html('')">
@@ -50,7 +50,7 @@
 							onSelect="this.form.elements['searchBy'].value='id'; ${loadSearchResult}"/>
 
 			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-				<c:param name="action" value="getParamList" />
+				<c:param name="method" value="getParamList" />
 			</c:url>
 			<ui:combo-single  >
 				<jsp:attribute name="id">paramTypeCombo</jsp:attribute>

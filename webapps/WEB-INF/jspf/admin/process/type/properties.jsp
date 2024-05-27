@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:url var="editUrl" value="/admin/process.do">
-	<c:param name="action" value="properties"/>
+	<c:param name="method" value="properties"/>
 	<c:param name="id" value="${processType.id}"/>
 	<c:param name="returnUrl" value="${form.returnUrl}"/>
 </c:url>
@@ -14,7 +14,7 @@
 <c:set var="saveCommand" value="$$.ajax.post($('#${formUiid}'), {control: this}).done(() => $$.ajax.load('${form.requestUrl}', $('#${formUiid}').parent()));"/>
 
 <html:form action="/admin/process" styleId="${formUiid}">
-	<input type="hidden" name="action" value="propertiesUpdate"/>
+	<input type="hidden" name="method" value="propertiesUpdate"/>
 	<input type="hidden" name="returnUrl" value="${form.returnUrl}"/>
 	<html:hidden property="id"/>
 
@@ -95,7 +95,7 @@
 							<c:set var="urlConfig" value=""/>
 
 							<c:url var="url" value="/admin/process.do">
-								<c:param name="action" value="transactionCheck"/>
+								<c:param name="method" value="transactionCheck"/>
 								<c:param name="id" value="${processType.id}"/>
 								<c:param name="fromStatus" value="${itemFrom.id}"/>
 								<c:param name="toStatus" value="${itemTo.id}"/>

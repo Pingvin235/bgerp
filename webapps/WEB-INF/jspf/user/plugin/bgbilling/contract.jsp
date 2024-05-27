@@ -25,14 +25,14 @@
 			<%-- параметры и отчёты - ниже в DIV ке --%>
 
 			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-				<c:param name="action" value="contractCards"/>
+				<c:param name="method" value="contractCards"/>
 				<c:param name="billingId" value="${billingId}"/>
 				<c:param name="contractId" value="${contractId}"/>
 			</c:url>
 			$tabs.tabs( "add", "${url}", "Карточки" );
 
 			<c:url var="url" value="/user/process/link.do">
-				<c:param name="action" value="linkedProcessList"/>
+				<c:param name="method" value="linkedProcessList"/>
 				<c:param name="objectType" value="contract:${billingId}"/>
 				<c:param name="objectTitle" value="${contractTitle}"/>
 				<c:param name="id" value="${contractId}"/>
@@ -97,7 +97,7 @@
 					<c:set var="contractTabId" value="bgbilling-contractTabs-${billingId}-${contractId}"/>
 
 					<c:url var="url" value="${form.httpRequestURI}">
-						<c:param name="action" value="copyCustomerParamToContract"/>
+						<c:param name="method" value="copyCustomerParamToContract"/>
 						<c:param name="contractId" value="${contractId}"/>
 						<c:param name="contractTitle" value="${contract.title}"/>
 						<c:param name="billingId" value="${billingId}"/>
@@ -110,7 +110,7 @@
 					</button>
 
 					<c:url var="url" value="${form.httpRequestURI}">
-						<c:param name="action" value="createCustomerFromContract"/>
+						<c:param name="method" value="createCustomerFromContract"/>
 						<c:param name="customerId" value="${customer.id}"/>
 						<c:param name="contractId" value="${contractId}"/>
 						<c:param name="billingId" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].id}"/>
@@ -177,7 +177,7 @@
 			</div>
 			<div>
 				<c:url var="openUrl" value="/user/plugin/bgbilling/proto/contract.do">
-					<c:param name="action" value="bgbillingOpenContract" />
+					<c:param name="method" value="bgbillingOpenContract" />
 					<c:param name="billingId" value="${billingId }" />
 					<c:param name="contractId" value="${contractId }" />
 				</c:url>

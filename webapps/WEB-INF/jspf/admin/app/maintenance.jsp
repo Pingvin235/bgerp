@@ -10,7 +10,7 @@
 			<c:set var="command">$$.ajax.post(this).done(() => $$.ajax.load('${form.requestUrl}', $(document.getElementById('${uiid}').parentElement)))</c:set>
 			<c:choose>
 				<c:when test="${empty maintenance}">
-					<input type="hidden" name="action" value="maintenanceStart"/>
+					<input type="hidden" name="method" value="maintenanceStart"/>
 					<textarea name="message" class="w100p" rows="4" style="resize: none;">${l.l('maintenance.message.default')}</textarea>
 					<div class="mt1">
 						<ui:combo-single hiddenName="delayMinutes" prefixText="${l.l('Delay in minutes before user\\\'s logoff')}:" value="2">
@@ -30,7 +30,7 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-					<input type="hidden" name="action" value="maintenanceCancel"/>
+					<input type="hidden" name="method" value="maintenanceCancel"/>
 					<div>${frd.maintenanceState}</div>
 					<div class="mt1">
 						<button type="button" class="btn-grey" onclick="

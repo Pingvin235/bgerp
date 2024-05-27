@@ -11,7 +11,7 @@
 		<c:otherwise>
 			<html:form action="/user/parameter">
 				<input type="hidden" name="id" value="${stepData.processId}"/>
-				<input type="hidden" name="action" value="parameterUpdate"/>
+				<input type="hidden" name="method" value="parameterUpdate"/>
 				<input type="hidden" name="paramId" value="${stepData.step.param.id}"/>
 				<input type="hidden" name="value" value="1"/>
 

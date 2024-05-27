@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 <div id="${uiid}">
 	<c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
-		<c:param name="action" value="tariffOptionEditor"/>
+		<c:param name="method" value="tariffOptionEditor"/>
 		<c:param name="contractId" value="${form.param.contractId}"/>
 		<c:param name="billingId" value="${form.param.billingId}"/>
 		<c:param name="returnUrl" value="${form.param.requestUrl}"/>
@@ -24,7 +24,7 @@
 		<c:forEach var="tariffOption" items="${frd.list}">
 			<tr>
 				<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
-					<c:param name="action" value="deleteTariffOption"/>
+					<c:param name="method" value="deleteTariffOption"/>
 					<c:param name="contractId" value="${form.param.contractId}"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="optionId" value="${tariffOption.getId()}"/>

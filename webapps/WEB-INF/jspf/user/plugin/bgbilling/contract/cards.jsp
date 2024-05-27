@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <html:form action="/user/plugin/bgbilling/proto/contract" onsubmit="return false;"  styleId="${uiid}">
-	<input type="hidden" name="action" value="getContractCard"/>
+	<input type="hidden" name="method" value="getContractCard"/>
 	<html:hidden property="contractId"/>
 	<html:hidden property="billingId"/>
 

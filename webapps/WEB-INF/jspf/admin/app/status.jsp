@@ -18,7 +18,7 @@
 	<p:check action="org.bgerp.action.admin.AppAction:restart">
 		<h2>${l.l('Перезапуск')}</h2>
 		<html:form action="/admin/app">
-			<input type="hidden" name="action" value="restart"/>
+			<input type="hidden" name="method" value="restart"/>
 			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
@@ -32,7 +32,7 @@
 	<p:check action="org.bgerp.action.admin.AppAction:update">
 		<h2>${l.l('Обновление')}</h2>
 		<html:form action="/admin/app">
-			<input type="hidden" name="action" value="update"/>
+			<input type="hidden" name="method" value="update"/>
 			<ui:combo-single hiddenName="force" widthTextValue="3em" prefixText="${l.l('Принудительно')}:" styleClass="mr05">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">${l.l('No')}</li>
@@ -48,7 +48,7 @@
 	<p:check action="org.bgerp.action.admin.AppAction:updateToChange">
 		<h2>${l.l('Обновление на изменение')}</h2>
 		<html:form action="/admin/app">
-			<input type="hidden" name="action" value="updateToChange"/>
+			<input type="hidden" name="method" value="updateToChange"/>
 			<ui:combo-single hiddenName="changeId" widthTextValue="12em" prefixText="ID:" styleClass="mr05">
 				<jsp:attribute name="valuesHtml">
 					<c:forEach var="item" items="${frd.changes}">

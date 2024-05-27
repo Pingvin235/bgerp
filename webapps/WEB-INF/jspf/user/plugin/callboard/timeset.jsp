@@ -9,7 +9,7 @@
 <div class="tt">Текущее время: <b>${tu.format(task.time, 'ymdhm')}</b></div>
 
 <html:form action="${form.httpRequestURI}" styleId="${uiid}" styleClass="mt1">
-	<input type="hidden" name="action" value="processTime"/>
+	<input type="hidden" name="method" value="processTime"/>
 	<input type="hidden" name="processId" value="${form.param.processId}"/>
 
 	${l.l('Вывести на дату')}:
@@ -18,7 +18,7 @@
 	<button type="button" class="btn-grey ml05" onclick="$$.ajax.load(this, $(this.form).parent())">${l.l('Вывести')}</button>
 
 	<c:url var="url" value="${form.httpRequestURI}">
-		<c:param name="action" value="processTimeSet"/>
+		<c:param name="method" value="processTimeSet"/>
 		<c:param name="processId" value="${form.param.processId}"/>
 	</c:url>
 	<button class="btn-grey ml2" type="button" title="Очистить занятое время" onclick="
@@ -41,7 +41,7 @@
 			<tr>
 				<td nowrap="nowrap">${tu.format(slot.time, 'ymdhm')}</td>
 				<c:url var="url" value="${form.httpRequestURI}">
-					<c:param name="action" value="processTimeSet"/>
+					<c:param name="method" value="processTimeSet"/>
 					<c:param name="processId" value="${form.param.processId}"/>
 					<c:param name="time" value="${tu.format(slot.time, 'ymdhm')}"/>
 					<c:param name="userIds" value="${u.toString(slot.shiftData.userIds)}"/>

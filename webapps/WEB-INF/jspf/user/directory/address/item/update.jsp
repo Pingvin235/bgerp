@@ -5,7 +5,7 @@
 <c:set var="item" value="${frd[itemType]}"/>
 
 <html:form action="/user/directory/address" onsubmit="return false;" >
-	<input type="hidden" name="action" value="addressUpdate"/>
+	<input type="hidden" name="method" value="addressUpdate"/>
 	<html:hidden property="selectTab"/>
 	<html:hidden property="addressItemId"/>
 	<html:hidden property="addressCityId" value="${item.addressCity.id}"/>

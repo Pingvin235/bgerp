@@ -34,7 +34,7 @@
 			<c:url var="url" value="/user/process.do">
 				<c:param name="id" value="${process.id}"/>
 				<c:param name="returnUrl" value="${requestUrl}"/>
-				<c:param name="action" value="processStatusHistory"/>
+				<c:param name="method" value="processStatusHistory"/>
 			</c:url>
 			[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('log')}</a>]
 		</p:check>

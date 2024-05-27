@@ -13,7 +13,7 @@
 
 		${linkObjectForms}
 		<form action="/user/search.do" id="${id}" style="display: none;" onsubmit="$$.ajax.load(this, $('#${resultUiid}')); return false;">
-			<input type="hidden" name="action" value="customerSearch"/>
+			<input type="hidden" name="method" value="customerSearch"/>
 			<input type="hidden" name="searchBy" value="title"/>
 			<input type="hidden" name="forwardFile" value="/WEB-INF/jspf/user/process/process/link/list_search_customer.jsp"/>
 			<input type="hidden" name="processId" value="${form.id}"/>

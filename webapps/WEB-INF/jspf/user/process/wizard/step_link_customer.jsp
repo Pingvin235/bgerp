@@ -28,7 +28,7 @@
 
 	<div id="select" class="tableIndent" ${displaySelect}>
 		<html:form action="/user/search" onsubmit="return false;">
-			<input type="hidden" name="action" value="customerSearch"/>
+			<input type="hidden" name="method" value="customerSearch"/>
 			<input type="hidden" name="searchBy" value="title"/>
 			<input type="hidden" name="processId" value="${process.id}"/>
 			<input type="hidden" name="forwardFile" value="/WEB-INF/jspf/usermob/process/process/wizard/step_link_customer_search_result.jsp"/>

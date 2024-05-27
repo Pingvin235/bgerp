@@ -4,7 +4,7 @@
 <h1>Редактор</h1>
 
 <form action="/user/plugin/bgbilling/proto/contract.do">
-	<input type="hidden" name="action" value="updateMemo" />
+	<input type="hidden" name="method" value="updateMemo" />
 	<input type="hidden" name="billingId" value="${form.param.billingId}" />
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 	<input type="hidden" name="id" value="${form.param.id}" />

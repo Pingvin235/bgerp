@@ -10,7 +10,7 @@
 
 <html:form action="/user/process" styleId="${uiid}">
 	<html:hidden property="id" />
-	<input type="hidden" name="action" value="processGroupsUpdate" />
+	<input type="hidden" name="method" value="processGroupsUpdate" />
 
 	<c:forEach var="role" items="${ctxUserGroupRoleList}">
 		<c:if test="${process.roleSet.contains(role.id)

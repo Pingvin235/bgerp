@@ -16,7 +16,7 @@
 			<input type="checkbox" name="check" style="display: none;" checked="true"/>
 			<input type="hidden" name="processId" value="${form.id}"/>
 			<input type="hidden" name="billingId" value="${billing.id}"/>
-			<input type="hidden" name="action" value="addProcessContractLink"/>
+			<input type="hidden" name="method" value="addProcessContractLink"/>
 			<input style="width: 100%;" name="contractTitle" placeholder="Номер договора"/>
 		</form>
 	</c:set>

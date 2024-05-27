@@ -23,7 +23,7 @@
 			const $tabs = $selector.tabs({refreshButton: true});
 
 			<c:url var="url" value="/user/parameter.do">
-				<c:param name="action" value="parameterList"/>
+				<c:param name="method" value="parameterList"/>
 				<c:param name="id" value="${customer.id}"/>
 				<c:param name="objectType" value="customer"/>
 				<c:param name="parameterGroup" value="${customer.paramGroupId}"/>
@@ -32,7 +32,7 @@
 			$tabs.tabs("add", "${url}", "${l.l('Parameters')}");
 
 			<c:url var="url" value="/user/process/link.do">
-				<c:param name="action" value="linkedProcessList"/>
+				<c:param name="method" value="linkedProcessList"/>
 				<c:param name="objectType" value="customer"/>
 				<c:param name="objectTitle" value="${customer.title}"/>
 				<c:param name="id" value="${customer.id}"/>
@@ -68,7 +68,7 @@
 
 		<div class="in-inline-block">
 			<c:url var="entityLogCommand" value="/user/parameter.do">
-				<c:param name="action" value="entityLog"></c:param>
+				<c:param name="method" value="entityLog"></c:param>
 				<c:param name="id" value="${form.id}"></c:param>
 				<c:param name="type" value="customer"></c:param>
 				<c:param name="returnUrl" value="${form.requestUrl}"></c:param>
@@ -102,7 +102,7 @@
 
 						<div style="display:none" id="${mergeFormUiid}">
 							<form action="customer.do">
-								<input type="hidden" name="action" value="customerMerge"/>
+								<input type="hidden" name="method" value="customerMerge"/>
 								<input type="hidden" name="customerId" value="${customer.id}"/>
 
 								${l.l('Слить с')}:
@@ -131,12 +131,12 @@
 
 			<c:url var="url" value="/user/customer.do">
 				<c:param name="id" value="${customer.id}"/>
-				<c:param name="action" value="customerGet"/>
+				<c:param name="method" value="customerGet"/>
 			</c:url>
 			<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
 
 			<c:url var="deleteUrl" value="/user/customer.do">
-				<c:param name="action" value="customerDelete"/>
+				<c:param name="method" value="customerDelete"/>
 				<c:param name="id" value="${customer.id}"/>
 			</c:url>
 

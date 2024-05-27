@@ -15,7 +15,7 @@
 	</c:when>
 	<c:otherwise>
 		<html:form action="${form.httpRequestURI}" styleClass="mb05">
-			<html:hidden property="action"/>
+			<html:hidden property="method"/>
 			<html:hidden property="id"/>
 			<html:hidden property="ifaceId"/>
 			<html:hidden property="ifaceState"/>
@@ -31,7 +31,7 @@
 
 			<c:if test="${not empty createTypeList and ctxUser.checkPerm('org.bgerp.action.ProcessLinkProcessAction:addCreated')}">
 				<c:url var="url" value="${form.httpRequestURI}">
-					<c:param name="action" value="addCreated"/>
+					<c:param name="method" value="addCreated"/>
 					<c:param name="id" value="${form.id}"/>
 					<c:param name="returnUrl" value="${form.requestUrl}"/>
 				</c:url>
@@ -45,7 +45,7 @@
 				const $tabs = $('#${uiid}').tabs({refreshButton: true});
 				<c:forEach var="item" items="${config.categories.values()}">
 					<c:url var="url" value="${form.httpRequestURI}">
-						<c:param name="action" value="showCategory"/>
+						<c:param name="method" value="showCategory"/>
 						<c:param name="id" value="${form.id}"/>
 						<c:param name="open" value="${form.param.open}"/>
 						<c:param name="categoryId" value="${item.id}"/>

@@ -7,7 +7,7 @@
 
 	<c:if test="${config.enabled}">
 		<c:url var="url" value="plugin/workload/groupload.do">
-			<c:param name="action" value="show" />
+			<c:param name="method" value="show" />
 			<c:param name="processId" value="${process.id}" />
 			<c:param name="processTypeId" value="${process.typeId}" />
 		</c:url>

@@ -4,7 +4,7 @@
 <h2>${l.l('Parameters')}</h2>
 
 <c:url var="url" value="/open/parameter.do">
-	<c:param name="action" value="parameterList" />
+	<c:param name="method" value="parameterList" />
 	<c:param name="objectType" value="${objectType}"/>
 	<c:param name="id" value="${form.id}"/>
 	<c:forEach var="pid" items="${paramIds}">

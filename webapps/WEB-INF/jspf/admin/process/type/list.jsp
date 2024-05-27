@@ -4,18 +4,18 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="urlList" value="/admin/process.do">
-	<c:param name="action" value="typeList"/>
+	<c:param name="method" value="typeList"/>
 	<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	<c:param name="filter" value="${form.param.filter}"/>
 </c:url>
 
 <html:form  action="admin/process" styleClass="in-mr1" styleId="${uiid}">
-	<input type="hidden" name="action" value="typeList"/>
+	<input type="hidden" name="method" value="typeList"/>
 	<html:hidden property="parentTypeId"/>
 	<html:hidden property="markType"/>
 
 	<c:url var="url" value="/admin/process.do">
-		<c:param name="action" value="typeGet"/>
+		<c:param name="method" value="typeGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
@@ -23,7 +23,7 @@
 	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<c:url var="url" value="/admin/process.do">
-		<c:param name="action" value="typeInsertMark"/>
+		<c:param name="method" value="typeInsertMark"/>
 		<c:param name="markType" value="${form.param.markType}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
@@ -39,7 +39,7 @@
 
 <div class="mt1">
 	<c:url var="url" value="/admin/process.do">
-		<c:param name="action" value="typeList"/>
+		<c:param name="method" value="typeList"/>
 		<c:param name="parentTypeId" value="0"/>
 		<c:param name="markType" value="${form.param.markType}"/>
 	</c:url>
@@ -49,7 +49,7 @@
 
 	<c:forEach var="item" items="${typePath}" varStatus="status">
 		<c:url var="url" value="/admin/process.do">
-			<c:param name="action" value="typeList"/>
+			<c:param name="method" value="typeList"/>
 			<c:param name="parentTypeId" value="${item.id}"/>
 			<c:param name="markType" value="${form.param.markType}"/>
 		</c:url>
@@ -72,13 +72,13 @@
 			<c:set var="item" value="${ctxProcessTypeMap[item.id]}"/>
 
 			<c:url var="editUrl" value="/admin/process.do">
-				<c:param name="action" value="typeGet"/>
+				<c:param name="method" value="typeGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 			</c:url>
 			<c:url var="deleteUrl" value="/admin/process.do">
-				<c:param name="action" value="typeDelete"/>
+				<c:param name="method" value="typeDelete"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 			</c:url>
@@ -101,7 +101,7 @@
 			<td>
 				<c:forEach var="itemPath" items="${item.path}" varStatus="status">
 					<c:url var="url" value="/admin/process.do">
-						<c:param name="action" value="typeList"/>
+						<c:param name="method" value="typeList"/>
 						<c:param name="markType" value="${form.param.markType}"/>
 						<c:param name="parentTypeId" value="${item.id}"/>
 					</c:url>
@@ -119,7 +119,7 @@
 			<td>${item.childCount}</td>
 
 			<c:url var="url" value="/admin/process.do">
-				<c:param name="action" value="properties"/>
+				<c:param name="method" value="properties"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
@@ -138,7 +138,7 @@
 					<c:set var="hideButtonsScript">$(this).closest('.buttons').hide();</c:set>
 					<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:typeUsed">
 						<c:url var="showUrl" value="/admin/process.do">
-							<c:param name="action" value="typeUsed" />
+							<c:param name="method" value="typeUsed" />
 							<c:param name="typeId" value="${item.id}" />
 						</c:url>
 
@@ -147,7 +147,7 @@
 					</p:check>
 					<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy">
 						<c:url var="showUrl" value="/admin/process.do">
-							<c:param name="action" value="typeCopy" />
+							<c:param name="method" value="typeCopy" />
 							<c:param name="id" value="${item.id}"/>
 							<c:param name="parentId" value="${form.param.parentTypeId}"/>
 						</c:url>

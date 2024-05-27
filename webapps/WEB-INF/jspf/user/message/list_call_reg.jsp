@@ -27,7 +27,7 @@
 					</c:when>
 					<c:otherwise>
 						<form action="/user/messageCall.do" style="display: inline-block;">
-							<input type="hidden" name="action" value="numberRegister"/>
+							<input type="hidden" name="method" value="numberRegister"/>
 							<input type="hidden" name="typeId" value="${type.id}"/>
 
 							<input type="text" name="number" placeholder="${type.title}, номер" class="" value="${type.getUserOfferedNumber(ctxUser.id)}"/>

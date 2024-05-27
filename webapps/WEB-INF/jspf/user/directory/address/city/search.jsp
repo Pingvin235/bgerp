@@ -13,14 +13,14 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="${doUrl}">
-				<c:param name="action" value="addressGet"/>
+				<c:param name="method" value="addressGet"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="selectTab" value="${form.param.selectTab}"/>
 				<c:param name="addressCountryTitle" value="${form.param.addressCountryTitle}"/>
 				<c:param name="addressCityId" value="${item.id}"/>
 			</c:url>
 			<c:url var="delUrl" value="${doUrl}">
-				<c:param name="action" value="addressDelete"/>
+				<c:param name="method" value="addressDelete"/>
 				<c:param name="addressCityId" value="${item.id}"/>
 			</c:url>
 

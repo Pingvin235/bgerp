@@ -6,14 +6,14 @@
 <c:set var="showCode" value="$$.ajax.loadContent($('#${uiid}'));"/>
 
 <c:url var="getUrl" value="/user/plugin/dispatch/dispatch.do">
-	<c:param name="action" value="messageGet"/>
+	<c:param name="method" value="messageGet"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
 
 <html:form action="/user/plugin/dispatch/dispatch" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<button type="button" class="btn-green" onclick="$$.ajax.loadContent('${getUrl}');">+</button>
 
-	<input type="hidden" name="action" value="messageList"/>
+	<input type="hidden" name="method" value="messageList"/>
 
 	<button class="btn-grey" type="button" onclick="${showCode}">${l.l('Вывести')}</button>
 
@@ -36,7 +36,7 @@
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxUrl" value="/user/plugin/dispatch/dispatch.do">
-				<c:param name="action" value="messageDelete"/>
+				<c:param name="method" value="messageDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="${showCode}"/>

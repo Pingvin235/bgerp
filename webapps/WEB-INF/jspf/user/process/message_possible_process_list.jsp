@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="${form.httpRequestURI}">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<html:hidden property="from"/>
 	<html:hidden property="open"/>
 
@@ -20,7 +20,7 @@
 </html:form>
 
 <c:url var="updateProcessUrl" value="/user/message.do">
-	<c:param name="action" value="messageUpdateProcess"/>
+	<c:param name="method" value="messageUpdateProcess"/>
 	<c:param name="messageTypeId" value="${form.param.messageTypeId}"/>
 	<c:param name="messageId" value="${form.param.messageId}"/>
 </c:url>

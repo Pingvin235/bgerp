@@ -2,10 +2,10 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="${form.httpRequestURI}" styleClass="in-mr1">
-	<input type="hidden" name="action" value="queueList"/>
+	<input type="hidden" name="method" value="queueList"/>
 
 	<c:url var="url" value="${form.httpRequestURI}">
-		<c:param name="action" value="queueGet"/>
+		<c:param name="method" value="queueGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
@@ -29,16 +29,16 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="${form.httpRequestURI}">
-				<c:param name="action" value="queueGet"/>
+				<c:param name="method" value="queueGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
 			<c:url var="deleteUrl" value="${form.httpRequestURI}">
-				<c:param name="action" value="queueDelete"/>
+				<c:param name="method" value="queueDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="duplicateUrl" value="${form.httpRequestURI}">
-				<c:param name="action" value="queueDuplicate"/>
+				<c:param name="method" value="queueDuplicate"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 

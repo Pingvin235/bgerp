@@ -11,7 +11,7 @@
 		<c:when test="${empty party}">
 			<h1>Create a Party</h1>
 			<form action="${urlParty}">
-				<input type="hidden" name="action" value="update"/>
+				<input type="hidden" name="method" value="update"/>
 				<input type="text" name="title" size="20" placeholder="Party title"/>
 				<ui:button type="add" styleClass="ml1" onclick="
 					$$.ajax.post(this).done((result) => {
@@ -31,7 +31,7 @@
 			<h1>${party.title}</h1>
 
 			<form action="${urlParty}">
-				<input type="hidden" name="action" value="paymentUpdate"/>
+				<input type="hidden" name="method" value="paymentUpdate"/>
 				<table class="data">
 					<tr>
 						<td width="50%">Who</td>
@@ -47,7 +47,7 @@
 								<td>${payment.amount}</td>
 								<td>
 									<c:url var="url" value="${urlParty}">
-										<c:param name="action" value="paymentDelete"/>
+										<c:param name="method" value="paymentDelete"/>
 										<c:param name="id" value="${payment.id}"/>
 									</c:url>
 									<ui:button type="del" styleClass="btn-small" onclick="

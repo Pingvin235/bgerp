@@ -11,7 +11,7 @@
 </c:url>
 
 <c:url var="url" value="${baseUrl}">
-	<c:param name="action" value="serviceEdit"/>
+	<c:param name="method" value="serviceEdit"/>
 </c:url>
 
 <button class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
@@ -28,13 +28,13 @@
 			<td nowrap="nowrap">
 				<u:sc>
 					<c:url var="url" value="${baseUrl}">
-						<c:param name="action" value="serviceEdit"/>
+						<c:param name="method" value="serviceEdit"/>
 						<c:param name="id" value="${item.id}"/>
 					</c:url>
 					<c:set var="editCommand" value="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
 
 					<c:url var="deleteAjaxUrl" value="${baseUrl}">
-						<c:param name="action" value="serviceDelete"/>
+						<c:param name="method" value="serviceDelete"/>
 						<c:param name="id" value="${item.id}"/>
 					</c:url>
 					<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>

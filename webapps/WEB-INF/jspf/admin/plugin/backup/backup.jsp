@@ -3,7 +3,7 @@
 
 <h2>${l.l('Создать Backup')}</h2>
 <form action="/admin/plugin/backup/backup.do">
-	<input type="hidden" name="action" value="backup"/>
+	<input type="hidden" name="method" value="backup"/>
 	<ui:combo-single hiddenName="db" widthTextValue="2em" prefixText="${l.l('Включить БД')}:">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('No')}</li>
@@ -68,7 +68,7 @@
 					<td nowrap>
 						<c:if test="${restoreAllowed}">
 							<c:url var="url" value="/admin/plugin/backup/backup.do">
-								<c:param name="action" value="restore"/>
+								<c:param name="method" value="restore"/>
 								<c:param name="name">${file.name}</c:param>
 							</c:url>
 							<button type="button" class="btn-white btn-small icon" onclick="

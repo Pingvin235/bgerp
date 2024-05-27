@@ -7,7 +7,7 @@
 <c:set var="list" value="${frd.list}"/>
 
 <html:form action="${form.httpRequestURI}" styleClass="mb1">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<html:hidden property="id"/>
 	<html:hidden property="categoryId"/>
 	<html:hidden property="returnUrl"/>
@@ -17,7 +17,7 @@
 </html:form>
 
 <html:form action="${form.httpRequestURI}">
-	<input type="hidden" name="action" value="linkProcessExisting"/>
+	<input type="hidden" name="method" value="linkProcessExisting"/>
 	<html:hidden property="id"/>
 	<html:hidden property="categoryId"/>
 

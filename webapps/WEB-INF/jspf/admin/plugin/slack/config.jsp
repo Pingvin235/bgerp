@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/admin/plugin/slack/config" styleClass="center1020">
-	<input type="hidden" name="action" value="token"/>
+	<input type="hidden" name="method" value="token"/>
 
 	<h2>Client ID</h2>
 	<div>

@@ -5,10 +5,10 @@
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
-	<input type="hidden" name="action" value="serviceList"/>
+	<input type="hidden" name="method" value="serviceList"/>
 
 	<c:url var="url" value="${form.httpRequestURI}">
-		<c:param name="action" value="serviceGet"/>
+		<c:param name="method" value="serviceGet"/>
 		<c:param name="contractId" value="${form.param.contractId}"/>
 		<c:param name="billingId" value="${form.param.billingId}"/>
 		<c:param name="moduleId" value="${form.param.moduleId}"/>

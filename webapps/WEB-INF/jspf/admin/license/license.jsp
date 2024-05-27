@@ -7,7 +7,7 @@
 
 <p:check action="org.bgerp.action.admin.LicenseAction:upload">
 	<form action="${form.httpRequestURI}" method="POST" enctype="multipart/form-data">
-		<input type="hidden" name="action" value="upload"/>
+		<input type="hidden" name="method" value="upload"/>
 		<input type="hidden" name="responseType" value="json"/>
 		<input type="file" name="file" style="visibility: hidden; display: none;"/>
 		<button type="button" class="btn-grey w100p mt1" onclick="$$.ajax.fileUpload(this.form).done(() => {

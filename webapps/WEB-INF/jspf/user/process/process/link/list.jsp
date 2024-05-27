@@ -53,7 +53,7 @@
 		<c:set var="item" value="${item}" scope="request"/>
 
 		<c:url var="deleteAjaxUrl" value="/user/link.do">
-			<c:param name="action" value="deleteLink"/>
+			<c:param name="method" value="deleteLink"/>
 			<c:param name="objectType" value="process"/>
 			<c:param name="id" value="${form.id}"/>
 			<c:param name="linkedObjectType" value="${item.linkObjectType}"/>
@@ -130,7 +130,7 @@
 
 		<div id="linkEditor" class="in-mt05-all">
 			<form action="link.do" class="in-table-cell" id="custom" style="display: none;">
-				<input type="hidden" name="action" value="addLink"/>
+				<input type="hidden" name="method" value="addLink"/>
 				<input type="hidden" name="objectType" value="process"/>
 				<input type="hidden" name="id" value="${form.id}"/>
 

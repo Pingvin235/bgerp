@@ -5,7 +5,7 @@
 <c:set var="currentElement" value="document.getElementById('${uiid}').parentElement"/>
 
 <c:url var="editUrl" value="${form.httpRequestURI}">
-	<c:param name="action" value="getContractObject"/>
+	<c:param name="method" value="getContractObject"/>
 	<c:param name="billingId" value="${form.param.billingId }" />
 	<c:param name="contractId" value="${form.param.contractId}" />
 	<c:param name="returnUrl" value="${form.requestUrl}" />
@@ -16,7 +16,7 @@ contract objects are seem to be no longer supported, thus no adding functionalit
 --%>
 
 <c:url var="deleteUrl" value="${form.httpRequestURI}">
-	<c:param name="action" value="deleteContractObject"/>
+	<c:param name="method" value="deleteContractObject"/>
 	<c:param name="billingId" value="${form.param.billingId }" />
 	<c:param name="contractId" value="${form.param.contractId}" />
 </c:url>

@@ -11,7 +11,7 @@
 			<td>
 				<u:sc>
 					<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/bill.do">
-						<c:param name="action" value="docTypeDelete"/>
+						<c:param name="method" value="docTypeDelete"/>
 						<c:param name="typeIds" value="${item.id}"/>
 						<c:param name="moduleId" value="${form.param.moduleId}"/>
 						<c:param name="contractId" value="${form.param.contractId}"/>
@@ -27,7 +27,7 @@
 </table>
 
 <form class="in-table-cell mt1" action="/user/plugin/bgbilling/proto/bill.do">
-	<input type="hidden" name="action" value="docTypeAdd"/>
+	<input type="hidden" name="method" value="docTypeAdd"/>
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 	<input type="hidden" name="moduleId" value="${form.param.moduleId}"/>
 	<input type="hidden" name="contractId" value="${form.param.contractId}"/>

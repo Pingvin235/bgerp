@@ -4,7 +4,7 @@
 <html:form action="/user/process">
 	<html:hidden property="typeId"/>
 	<html:hidden property="id"/>
-	<input type="hidden" name="action" value="processTypeUpdate"/>
+	<input type="hidden" name="method" value="processTypeUpdate"/>
 
 	<h1>${l.l('Выберите тип')}</h1>
 	<c:set var="uiid" value="${u:uiid()}"/>

@@ -19,7 +19,7 @@
 <c:set var="groupSelectUiid" value="${u:uiid()}"/>
 
 <c:url var="changeOrderUrl" value="/user/plugin/callboard/work.do">
-	<c:param name="action" value="callboardChangeOrder" />
+	<c:param name="method" value="callboardChangeOrder" />
 	<c:param name="graphId" value="${form.param.graphId}" />
 </c:url>
 
@@ -39,7 +39,7 @@
 	</div>
 
 	<form id="${groupSelectUiid}" action="/user/plugin/callboard/work.do"  class="in-table-cell in-pr05" style="display: inline-block;">
-		<input type="hidden" name="action" value="callboardGet"/>
+		<input type="hidden" name="method" value="callboardGet"/>
 
 		<c:set var="onSelectGroupScript">
 			var selectedCallboard = $('#${groupSelectUiid} #callboardSelect-${uiid} li[selected]').attr('value');

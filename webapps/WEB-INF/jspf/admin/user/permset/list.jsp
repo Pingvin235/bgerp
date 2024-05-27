@@ -2,11 +2,11 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/admin/user">
-	<input type="hidden" name="action" value="permsetList"/>
+	<input type="hidden" name="method" value="permsetList"/>
 	<input type="hidden" name="pageableId" value="permsetList"/>
 
 	<c:url var="url" value="/admin/user.do">
-		<c:param name="action" value="permsetGet"/>
+		<c:param name="method" value="permsetGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
@@ -29,12 +29,12 @@
 	<c:forEach var="permset" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="/admin/user.do">
-				<c:param name="action" value="permsetGet"/>
+				<c:param name="method" value="permsetGet"/>
 				<c:param name="id" value="${permset.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
 			<c:url var="deleteUrl" value="/admin/user.do">
-				<c:param name="action" value="permsetDelete"/>
+				<c:param name="method" value="permsetDelete"/>
 				<c:param name="id" value="${permset.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="$$.ajax.loadContent('${form.requestUrl}')"/>
@@ -53,7 +53,7 @@
 					onclick="$('#${uiid} > input').hide(); $('#${uiid} > form').css('display', 'inline');"><i class="ti-import"></i></button>
 
 				<html:form style="display: none;" action="/admin/user" onsubmit="return false;" styleClass="ml1">
-					<input type="hidden" name="action" value="permsetReplacePermissions"/>
+					<input type="hidden" name="method" value="permsetReplacePermissions"/>
 					<input type="hidden" name="id" value="${permset.id}"/>
 
 					<ui:select-single list="${ctxUserPermsetList}" hiddenName="fromId" style="width: 200px;" placeholder="Выберите набор"/>

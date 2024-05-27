@@ -4,7 +4,7 @@
 <c:set var="closeScript">$(this).closest('td').find('.buttons').show(); $(this).closest('.editor').empty();</c:set>
 
 <form action="/admin/process.do">
-	<input type="hidden" name="action" value="typeCopy"/>
+	<input type="hidden" name="method" value="typeCopy"/>
 	<input type="hidden" name="id" value="${form.param.id}"/>
 	<div class="mb1">
 		<b>${l.l('Копировать свойства из')}:</b>

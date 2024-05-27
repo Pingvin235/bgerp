@@ -31,7 +31,7 @@
 	<c:if test="${message.unread}">
 		<div>
 			<c:url var="url" value="/user/plugin/bgbilling/proto/helpdesk.do">
-				<c:param name="action" value="markMessageRead"/>
+				<c:param name="method" value="markMessageRead"/>
 				<c:param name="messageId" value="${message.id}"/>
 			</c:url>
 

@@ -8,7 +8,7 @@
 	<c:set var="data" value="${frd}"/>
 	<c:set var="parameter" value="${data.parameter}"/>
 
-	<input type="hidden" name="action" value="parameterUpdate"/>
+	<input type="hidden" name="method" value="parameterUpdate"/>
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 	<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 	<input type="hidden" name="paramId" value="${form.param.paramId}"/>

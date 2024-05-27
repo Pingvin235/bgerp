@@ -6,7 +6,7 @@
 <div id="${listUiid}">
 	<c:if test="${empty onlyData}">
 		<form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
-			<input type="hidden" name="action" value="parameterList"/>
+			<input type="hidden" name="method" value="parameterList"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
@@ -27,7 +27,7 @@
 			</ui:combo-single>
 		</form><%--
 	--%><form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 ml1" style="display: inline-block;">
-			<input type="hidden" name="action" value="parameterGroupUpdate"/>
+			<input type="hidden" name="method" value="parameterGroupUpdate"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
@@ -59,7 +59,7 @@
 								<c:set var="viewEditDivId" value="${u:uiid()}"/>
 									<div id="${viewEditDivId}">
 										<form action="/user/plugin/bgbilling/proto/contract.do">
-											<input type="hidden" name="action" value="parameterGet" />
+											<input type="hidden" name="method" value="parameterGet" />
 											<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 											<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 											<input type="hidden" name="paramId" value="${contractParameter.paramId}"/>

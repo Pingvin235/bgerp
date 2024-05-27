@@ -26,7 +26,7 @@
 	</div>
 
 	<form id="${groupSelectUiid}" action="/user/plugin/callboard/work.do"  class="in-table-cell in-pr05" style="display: inline-block;">
-		<input type="hidden" name="action" value="planGet" />
+		<input type="hidden" name="method" value="planGet" />
 
 		<c:set var="onSelectGroupScript">
 			var selectedCallboard = $('#${groupSelectUiid} #callboardSelect-${uiid} li[selected]').attr('value');

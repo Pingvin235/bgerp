@@ -5,7 +5,7 @@
 
 <div class="in-table-cell">
 	<form action="/user/plugin/bgbilling/proto/contract.do">
-		<input type="hidden" name="action" value="updateMode"/>
+		<input type="hidden" name="method" value="updateMode"/>
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 
@@ -19,7 +19,7 @@
 	</form>
 
 	<html:form action="/user/plugin/bgbilling/proto/contract" style="width: 100%;">
-		<input type="hidden" name="action" value="modeLog"/>
+		<input type="hidden" name="method" value="modeLog"/>
 		<html:hidden property="contractId"/>
 		<html:hidden property="billingId"/>
 

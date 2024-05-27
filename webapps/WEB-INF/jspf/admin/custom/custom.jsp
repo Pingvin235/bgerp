@@ -5,7 +5,7 @@
 <ui:files files="<%=org.bgerp.action.admin.CustomAction.CUSTOM_SRC%>" maxCount="20"/>
 
 <html:form action="/admin/custom" onsubmit="return false;" style="display: inline-block;" styleClass="mt1">
-	<input type="hidden" name="action" value="compile"/>
+	<input type="hidden" name="method" value="compile"/>
 	<button class="btn-grey" type="button" onclick="$$.ajax.loadContent(this);">${l.l('Скомпилировать Java код')}</button>
 </html:form>
 

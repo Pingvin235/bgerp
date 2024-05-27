@@ -43,7 +43,7 @@
 					var selectedRegisterPswd = $('#'+form+' input[name=selectedRegisterPswd]').val();
 					var clientCash = $('#'+form+' input[name=clientCash]').val();
 
-					const url = "/user/plugin/bgbilling/proto/cashcheck.do?" + $$.ajax.requestParamsToUrl({"action" : "printCheck", "billingId": "${form.param.billingId}", "paymentId":paymentId, "clientCash":clientCash, "selectedRegisterId": selectedRegisterId, "selectedRegisterPswd": selectedRegisterPswd});
+					const url = "/user/plugin/bgbilling/proto/cashcheck.do?" + $$.ajax.requestParamsToUrl({"method" : "printCheck", "billingId": "${form.param.billingId}", "paymentId":paymentId, "clientCash":clientCash, "selectedRegisterId": selectedRegisterId, "selectedRegisterPswd": selectedRegisterPswd});
 					$$.ajax
 						.post(url)
 						.done((result) => alert("Напечатан чек на сумму "+ result.data.summa + "\n" + "сдача "+ result.data.submit))

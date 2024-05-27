@@ -5,7 +5,7 @@
 
 <div id="${uiid}">
 	<html:form action="/user/plugin/bgbilling/proto/contract" onsubmit="return false;" style="white-space: nowrap; display: inline-block;">
-		<input type="hidden" name="action" value="updateLimit"/>
+		<input type="hidden" name="method" value="updateLimit"/>
 		<html:hidden property="contractId"/>
 		<html:hidden property="billingId"/>
 
@@ -20,7 +20,7 @@
 	</html:form>
 
 	<html:form action="/user/plugin/bgbilling/proto/contract" style="width: 100%;">
-		<input type="hidden" name="action" value="limit"/>
+		<input type="hidden" name="method" value="limit"/>
 		<html:hidden property="contractId"/>
 		<html:hidden property="billingId"/>
 
@@ -63,7 +63,7 @@
 		<tr>
 			<td>
 				<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
-					<c:param name="action" value="deleteLimitTask"/>
+					<c:param name="method" value="deleteLimitTask"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="contractId" value="${form.param.contractId}"/>
 					<c:param name="id" value="${item.id}"/>

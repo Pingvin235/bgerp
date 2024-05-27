@@ -3,12 +3,12 @@
 
 <tr>
 	<c:url var="editUrl" value="/admin/config.do">
-		<c:param name="action" value="get"/>
+		<c:param name="method" value="get"/>
 		<c:param name="id" value="${item.id}"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
 	<c:url var="deleteUrl" value="/admin/config.do">
-		<c:param name="action" value="delete"/>
+		<c:param name="method" value="delete"/>
 		<c:param name="id" value="${item.id}"/>
 	</c:url>
 
@@ -24,7 +24,7 @@
 	<td nowrap="true">
 		<c:if test="${item.parentId ge 0 and item.active and ctxUser.checkPerm('ru.bgcrm.struts.action.admin.ConfigAction:addIncluded')}">
 			<html:form action="/admin/config" style="display: none;">
-				<input type="hidden" name="action" value="addIncluded"/>
+				<input type="hidden" name="method" value="addIncluded"/>
 				<input type="hidden" name="id" value="${item.id}"/>
 				<ui:combo-single hiddenName="pluginId" prefixText="${l.l('Включённая конфигурация')}:">
 					<jsp:attribute name="valuesHtml">

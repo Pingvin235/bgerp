@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <html:form action="/admin/plugin/callboard/work" styleClass="center1020">
-	<input type="hidden" name="action" value="shiftUpdate" />
+	<input type="hidden" name="method" value="shiftUpdate" />
 
 	<c:set var="shift" value="${frd.shift}"/>
 	<c:set var="workTypeList" value="${frd.workTypeList}"/>

@@ -165,7 +165,7 @@
 	<div style="display: inline-block;">
 		<c:forEach var="processor" items="${queue.getProcessors('user')}">
 			<form action="/user/process/queue.do" id="${addActionFormUiid}-${processor.id}" style="display: none;" class="in-mb1-all">
-				<input type="hidden" name="action" value="processor"/>
+				<input type="hidden" name="method" value="processor"/>
 				<input type="hidden" name="queueId" value="${queue.id}"/>
 				<input type="hidden" name="processorId" value="${processor.id}"/>
 				<input type="hidden" name="processIds"/>
@@ -209,7 +209,7 @@
 	<%-- saving filter --%>
 	<form action="/user/process/queue.do" style="display: none;" id="${saveFilterFormUiid}" class="mb1 mr1">
 		${l.l('Название фильтра')}:
-		<input type="hidden" name="action" value="queueSavedFilterSet"/>
+		<input type="hidden" name="method" value="queueSavedFilterSet"/>
 		<input type="hidden" name="queueId" value="${queue.id}"/>
 		<input type="hidden" name="command" value="add"/>
 		<input type="hidden" name="url"/>
@@ -273,7 +273,7 @@
 	<form action="/user/process/queue.do" id="${queue.id}-0" ${currentSavedFilterSetId le 0 ? "active='1'" : "style='display: none;'"} class="in-inline-block in-mr05 in-mb1-all">
 		<input type="hidden" name="savedFilterSetId" value="0"/>
 		<input type="hidden" name="selectedFilters" value="${selectedFiltersStr}"/>
-		<input type="hidden" name="action" value="queueShow"/>
+		<input type="hidden" name="method" value="queueShow"/>
 		<input type="hidden" name="pageableId" value="queue"/>
 
 		<input type="hidden" name="id" value="${queue.id}"/>

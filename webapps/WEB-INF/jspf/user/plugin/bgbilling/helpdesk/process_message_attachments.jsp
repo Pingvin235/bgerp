@@ -6,7 +6,7 @@
 
 	<c:forEach var="item" items="${message.attachList}" varStatus="status">
 		<c:url var="url" value="/user/plugin/bgbilling/proto/helpdesk.do">
-			<c:param name="action" value="getAttach"/>
+			<c:param name="method" value="getAttach"/>
 			<c:param name="processId" value="${message.processId}"/>
 			<c:param name="billingId" value="${billingId}"/>
 			<c:param name="id" value="${item.id}"/>

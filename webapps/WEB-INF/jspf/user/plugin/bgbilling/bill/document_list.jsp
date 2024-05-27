@@ -6,7 +6,7 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 
 <html:form action="/user/plugin/bgbilling/proto/bill" styleId="${formUiid}">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
@@ -32,14 +32,14 @@
 </html:form>
 
 <c:url var="baseUrl" value="/user/plugin/bgbilling/proto/bill.do">
-	<c:param name="action" value="getDocument"/>
+	<c:param name="method" value="getDocument"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
 	<c:param name="type" value="${form.param.mode}"/>
 </c:url>
 
 <c:url var="setPayedUrl" value="/user/plugin/bgbilling/proto/bill.do">
-	<c:param name="action" value="setPayed"/>
+	<c:param name="method" value="setPayed"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
 </c:url>

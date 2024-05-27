@@ -47,7 +47,7 @@
 						<c:otherwise>
 							<p:check action="org.bgerp.action.admin.RunAction:schedulerRun">
 								<form action="/admin/run.do">
-									<input type="hidden" name="action" value="schedulerRun"/>
+									<input type="hidden" name="method" value="schedulerRun"/>
 									<input type="hidden" name="id" value="${item.id}"/>
 									<ui:toggle styleClass="btn-toggle-small" inputName="wait" title="${l.l('Wait of execution is done')}"/>
 									<button type="button" class="btn-white btn-small icon ml05" onclick="

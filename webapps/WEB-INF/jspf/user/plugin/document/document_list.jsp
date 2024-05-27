@@ -7,7 +7,7 @@
 	<html:form action="${form.httpRequestURI}" styleClass="in-table-cell">
 		<html:hidden property="id"/>
 		<html:hidden property="scope"/>
-		<html:hidden property="action" value="generateDocument"/>
+		<html:hidden property="method" value="generateDocument"/>
 		<html:hidden property="objectType"/>
 		<html:hidden property="objectId"/>
 
@@ -70,7 +70,7 @@
 
 	<p:check action="ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument">
 		<form action="${form.httpRequestURI}" method="POST" enctype="multipart/form-data">
-			<input type="hidden" name="action" value="uploadDocument"/>
+			<input type="hidden" name="method" value="uploadDocument"/>
 			<input type="hidden" name="responseType" value="json"/>
 			<input type="hidden" name="id" value="${id}"/>
 			<input type="hidden" name="objectType" value="${form.param.objectType}"/>
@@ -101,7 +101,7 @@
 			<c:param name="secret" value="${item.fileData.secret}"/>
 		</c:url>
 		<c:url var="deleteUrl" value="${form.httpRequestURI}">
-			<c:param name="action" value="deleteDocument"/>
+			<c:param name="method" value="deleteDocument"/>
 			<c:param name="id" value="${item.id}"/>
 			<c:param name="fileId" value="${item.fileData.id}"/>
 			<c:param name="fileSecret" value="${item.fileData.secret}"/>

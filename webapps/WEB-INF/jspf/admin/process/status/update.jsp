@@ -4,7 +4,7 @@
 <c:set var="status" value="${frd.status}"/>
 
 <html:form action="/admin/process" styleClass="center500">
-	<input type="hidden" name="action" value="statusUpdate"/>
+	<input type="hidden" name="method" value="statusUpdate"/>
 
 	<h2>ID</h2>
 	<input type="text" name="id" value="${form.param['id']}" disabled="disabled" style="width: 100%;"/>

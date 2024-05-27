@@ -6,7 +6,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <html:form action="/user/plugin/invoice/invoice" styleId="${uiid}">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<html:hidden property="processId"/>
 	<html:hidden property="returnUrl"/>
 

@@ -7,7 +7,7 @@
 
 <html:form action="/user/plugin/bgbilling/proto/contractTariff" styleId="${uiid}" styleClass="in-table-cell">
 	<html:hidden property="id"/>
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<html:hidden property="returnUrl"/>
 	<html:hidden property="billingId"/>
 	<html:hidden property="contractId"/>
@@ -36,7 +36,7 @@
 <c:set var="contractTariff" value="${frd.contractTariff}"/>
 
 <html:form action="/user/plugin/bgbilling/proto/contractTariff" styleClass="mt1">
-	<input type="hidden" name="action" value="updateContractTariff" />
+	<input type="hidden" name="method" value="updateContractTariff" />
 	<html:hidden property="billingId"/>
 	<html:hidden property="contractId"/>
 	<html:hidden property="id"/>

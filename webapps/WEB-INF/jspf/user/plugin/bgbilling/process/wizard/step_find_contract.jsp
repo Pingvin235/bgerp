@@ -12,7 +12,7 @@
 			</td>
 			<td>
 				<form action="/user/plugin/bgbilling/search.do" >
-					<input type="hidden" name="action" value="contractSearch" />
+					<input type="hidden" name="method" value="contractSearch" />
 					<input type="hidden" name="searchBy" value="title" />
 					<input type="hidden" name="forwardFile"	value="/WEB-INF/jspf/usermob/plugin/bgbilling/step_find_contract_search_result.jsp" />
 					<input type="hidden" name="billing" value="${stepData.step.billingId}" />
@@ -28,7 +28,7 @@
 		</td>
 		<td>
 			<form action="/user/link.do" >
-					<input type="hidden" name="action" value="addLink"/>
+					<input type="hidden" name="method" value="addLink"/>
 					<input type="hidden" name="objectType" value="process"/>
 					<input type="hidden" name="id" value="${process.id}"/>
 					<input type="hidden" name="linkedObjectType" value="contract:${stepData.step.billingId}"/>

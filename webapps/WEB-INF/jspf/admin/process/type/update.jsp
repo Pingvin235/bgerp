@@ -4,7 +4,7 @@
 <c:set var="type" value="${frd.type}"/>
 
 <html:form action="/admin/process" styleClass="center500">
-	<input type="hidden" name="action" value="typeUpdate"/>
+	<input type="hidden" name="method" value="typeUpdate"/>
 	<input type="hidden" name="update" value="true"/>
 	<c:choose>
 		<c:when test="${not empty type}">

@@ -5,7 +5,7 @@
 
 <html:form action="/user/process" styleId="${uiid}" styleClass="center1020">
 	<html:hidden property="id" />
-	<input type="hidden" name="action" value="processStatusHistory" />
+	<input type="hidden" name="method" value="processStatusHistory" />
 
 	<ui:button type="close" styleClass="mb1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());"/>
 

@@ -16,7 +16,7 @@
 		</td></tr>
 	</table>
 
-	<input type="hidden" name="action" value="parameterLog"/>
+	<input type="hidden" name="method" value="parameterLog"/>
 	<input type="hidden" name="id" value="${form.id}"/>
 	<html:hidden property="objectType"/>
 	<html:hidden property="returnUrl"/>

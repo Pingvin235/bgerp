@@ -5,7 +5,7 @@
 	<h2>Inconsistencies Cleanup Queries</h2>
 
 	<form action="/admin/plugin/dba/cleanup.do">
-		<input type="hidden" name="action" value="queryRun"/>
+		<input type="hidden" name="method" value="queryRun"/>
 
 		<table class="data hl mb1">
 			<tr>
@@ -21,7 +21,7 @@
 					<td id="${uiid}"><%-- content loaded dynamically here --%></td>
 				</tr>
 				<c:url var="dryRunUrl" value="/admin/plugin/dba/cleanup.do">
-					<c:param name="action" value="queryDryRun"/>
+					<c:param name="method" value="queryDryRun"/>
 					<c:param name="query" value="${item}"/>
 				</c:url>
 				<script>

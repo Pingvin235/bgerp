@@ -28,7 +28,7 @@
 				<h2>${l.l('Set a new process')}</h2>
 
 				<form action="/user/message.do" onsubmit="return false;">
-					<input type="hidden" name="action" value="processCreate"/>
+					<input type="hidden" name="method" value="processCreate"/>
 					<input type="hidden" name="wizard" value="0"/>
 					<input type="hidden" name="messageTypeId" value="${form.param.typeId}"/>
 					<input type="hidden" name="messageId" value="${form.param.messageId}"/>
@@ -97,7 +97,7 @@
 
 				<div>
 					<c:url var="url" value="/user/process.do">
-						<c:param name="action" value="messagePossibleProcessList"/>
+						<c:param name="method" value="messagePossibleProcessList"/>
 						<c:param name="from" value="${message.from}"/>
 						<c:forEach var="item" items="${frd.searchedList}">
 							<c:param name="linkObjectType" value="${item.linkObjectType}"/>
@@ -138,7 +138,7 @@
 
 					<div>
 						<c:url var="url" value="/user/link.do">
-							<c:param name="action" value="linkList"/>
+							<c:param name="method" value="linkList"/>
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="objectType" value="process"/>
 							<c:param name="processTypeId" value="${process.typeId}"/>
@@ -157,7 +157,7 @@
 		<h2>${l.l('Set the process by ID')}</h2>
 
 		<html:form action="/user/message" styleClass="mt1 in-table-cell" onsubmit="return false;">
-			<input type="hidden" name="action" value="messageUpdateProcess"/>
+			<input type="hidden" name="method" value="messageUpdateProcess"/>
 			<c:choose>
 				<c:when test="${message.id gt 0}">
 					<input type="hidden" name="id" value="${message.id}"/>

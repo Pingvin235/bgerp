@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/user/directory/address">
-	<input type="hidden" name="action" value="addressUpdate"/>
+	<input type="hidden" name="method" value="addressUpdate"/>
 	<html:hidden property="addressCityId"/>
 	<html:hidden property="addressCountryId"/>
 	<table class="data">

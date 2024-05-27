@@ -8,7 +8,7 @@
 <h1>Редактор</h1>
 
 <html:form action="/user/plugin/bgbilling/proto/npay" styleId="${uiid}">
-	<input type="hidden" name="action" value="serviceUpdate" />
+	<input type="hidden" name="method" value="serviceUpdate" />
 	<html:hidden property="contractId" value="${form.param.contractId}" />
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>

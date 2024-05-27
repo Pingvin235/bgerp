@@ -2,10 +2,10 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="/admin/plugin/callboard/work">
-	<input type="hidden" name="action" value="shiftList"/>
+	<input type="hidden" name="method" value="shiftList"/>
 
 	 <c:url var="url" value="/admin/plugin/callboard/work.do">
-		<c:param name="action" value="shiftGet"/>
+		<c:param name="method" value="shiftGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
@@ -29,12 +29,12 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="/admin/plugin/callboard/work.do">
-				<c:param name="action" value="shiftGet"/>
+				<c:param name="method" value="shiftGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
 			<c:url var="deleteAjaxUrl" value="/admin/plugin/callboard/work.do">
-				<c:param name="action" value="shiftDelete"/>
+				<c:param name="method" value="shiftDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="$$.ajax.loadContent('${form.requestUrl}')"/>

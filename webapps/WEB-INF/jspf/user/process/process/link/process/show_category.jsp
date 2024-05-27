@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html:form action="${form.httpRequestURI}">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 	<html:hidden property="id"/>
 	<html:hidden property="open"/>
@@ -33,7 +33,7 @@
 		<c:set var="process" value="${item.second}"/>
 
 		<c:url var="url" value="/user/process.do">
-			<c:param name="action" value="process"/>
+			<c:param name="method" value="process"/>
 			<c:param name="id" value="${item.second.id}"/>
 			<c:param name="mode" value="linked"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -43,7 +43,7 @@
 			<c:if test="${allowLinkDelete}">
 				<td class="min">
 					<c:url var="deleteUrl" value="${form.httpRequestURI}">
-						<c:param name="action" value="linkProcessDelete"/>
+						<c:param name="method" value="linkProcessDelete"/>
 						<c:param name="linkedObjectType" value="${item.first}"/>
 
 						<c:choose>

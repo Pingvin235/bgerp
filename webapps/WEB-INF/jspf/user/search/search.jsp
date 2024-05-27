@@ -33,7 +33,7 @@
 		<div id="searchForms">
 			<html:form action="${form.httpRequestURI}"
 				styleId="searchForm-customer" styleClass="searchForm in-mb1 mt1 in-w100p">
-				<html:hidden property="action" value="customerSearch" />
+				<html:hidden property="method" value="customerSearch" />
 				<html:hidden property="searchBy" />
 
 				<ui:input-text
@@ -54,7 +54,7 @@
 
 			<html:form action="${form.httpRequestURI}"
 				styleId="searchForm-process" styleClass="searchForm in-mb1 mt1 in-w100p">
-				<html:hidden property="action" value="processSearch" />
+				<html:hidden property="method" value="processSearch" />
 				<html:hidden property="searchBy" />
 
 				<ui:input-text name="id" placeholder="${l.l('Поиск процесса по ID')}"

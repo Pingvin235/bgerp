@@ -18,7 +18,7 @@
 	</div>
 
 	<form action="/admin/plugin/dba/db.do">
-		<input type="hidden" name="action" value="tableDrop"/>
+		<input type="hidden" name="method" value="tableDrop"/>
 		<c:set var="dropEnabled" value="${frd.dropCandidateCnt gt 0 and ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:tableDrop')}"/>
 
 		<table class="data hl mt1">

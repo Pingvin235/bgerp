@@ -5,7 +5,7 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 
 <html:form action="/admin/process" styleId="${formUiid}" styleClass="center1020">
-	<input type="hidden" name="action" value="queueUpdate"/>
+	<input type="hidden" name="method" value="queueUpdate"/>
 
 	<c:set var="lastModifyUiid" value="${u:uiid()}"/>
 	<div id="${lastModifyUiid}">
@@ -54,7 +54,7 @@
 		<button type="button" class="btn-white" onclick="${returnCommand}">${l.l('Cancel')}</button>
 
 		<c:url var="editUrl" value="/admin/process.do">
-			<c:param name="action" value="queueGet"/>
+			<c:param name="method" value="queueGet"/>
 			<c:param name="id" value="${form.id}"/>
 			<c:param name="returnUrl" value="${form.returnUrl}"/>
 		</c:url>

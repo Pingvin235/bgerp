@@ -7,13 +7,13 @@
 
 <html:form action="/admin/user" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<c:url var="url" value="/admin/user.do">
-		<c:param name="action" value="userGet"/>
+		<c:param name="method" value="userGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
 	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
-	<input type="hidden" name="action" value="userList"/>
+	<input type="hidden" name="method" value="userList"/>
 	<input type="hidden" name="pageableId" value="userList"/>
 
 	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Filter')}" title="${l.l('Фильтр по наименованию')}"
@@ -64,12 +64,12 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<c:url var="editUrl" value="/admin/user.do">
-				<c:param name="action" value="userGet"/>
+				<c:param name="method" value="userGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
 			<c:url var="deleteUrl" value="/admin/user.do">
-				<c:param name="action" value="userDelete"/>
+				<c:param name="method" value="userDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 

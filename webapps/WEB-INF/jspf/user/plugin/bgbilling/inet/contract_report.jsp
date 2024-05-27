@@ -10,7 +10,7 @@
 
 	<c:set var="onSelect">$('#${uiid} #dateFilter').toggle( $('#${uiid}')[0].action.value == 'sessionLogContractList' )</c:set>
 
-	<ui:combo-single hiddenName="action" value="${form.param.action}" prefixText="Тип:" onSelect="${onSelect}">
+	<ui:combo-single hiddenName="method" value="${form.param.action}" prefixText="Тип:" onSelect="${onSelect}">
 		<jsp:attribute name="valuesHtml">
 			<li value="sessionAliveContractList">Активные</li>
 			<li value="sessionLogContractList">История</li>
@@ -64,7 +64,7 @@
 							<ui:popup-menu id="${menuUiid}">
 								<c:if test="${closeAllowed}">
 									<c:url var="url" value="/user/plugin/bgbilling/proto/inet.do">
-										<c:param name="action" value="connectionClose"/>
+										<c:param name="method" value="connectionClose"/>
 										<c:param name="billingId" value="${form.param.billingId}"/>
 										<c:param name="moduleId" value="${form.param.moduleId}"/>
 										<c:param name="contractId" value="${form.param.contractId}"/>
@@ -79,7 +79,7 @@
 								</c:if>
 								<c:if test="${finishAllowed}">
 									<c:url var="url" value="/user/plugin/bgbilling/proto/inet.do">
-										<c:param name="action" value="connectionFinish"/>
+										<c:param name="method" value="connectionFinish"/>
 										<c:param name="billingId" value="${form.param.billingId}"/>
 										<c:param name="moduleId" value="${form.param.moduleId}"/>
 										<c:param name="contractId" value="${form.param.contractId}"/>

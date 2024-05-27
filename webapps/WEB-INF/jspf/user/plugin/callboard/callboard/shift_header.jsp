@@ -11,7 +11,7 @@
 		<span>Категория</span>
 
 		<c:url var="url" value="/user/plugin/callboard/work.do">
-			<c:param name="action" value="callboardAvailableShift"/>
+			<c:param name="method" value="callboardAvailableShift"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
 

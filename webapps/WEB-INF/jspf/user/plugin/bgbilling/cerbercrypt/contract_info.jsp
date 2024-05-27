@@ -8,7 +8,7 @@
 		var $tabs = $("#${uiid}").tabs();
 
 		<c:url var="url" value="/user/plugin/bgbilling/proto/cerbercrypt.do">
-			<c:param name="action" value="contractCards"/>
+			<c:param name="method" value="contractCards"/>
 			<c:param name="billingId" value="${form.param.billingId}"/>
 			<c:param name="contractId" value="${form.param.contractId}"/>
 			<c:param name="moduleId" value="${form.param.moduleId}"/>
@@ -16,7 +16,7 @@
 		$tabs.tabs( "add", "${url}", "Карточки" );
 
 		<c:url var="url" value="/user/plugin/bgbilling/proto/cerbercrypt.do">
-			<c:param name="action" value="cardPacketList"/>
+			<c:param name="method" value="cardPacketList"/>
 			<c:param name="billingId" value="${form.param.billingId}"/>
 			<c:param name="contractId" value="${form.param.contractId}"/>
 			<c:param name="moduleId" value="${form.param.moduleId}"/>

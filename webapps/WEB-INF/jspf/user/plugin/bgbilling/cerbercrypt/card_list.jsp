@@ -5,7 +5,7 @@
 
 <%--
 <c:url var="url" value="plugin/bgbilling/proto/npay.do">
-	<c:param name="action" value="serviceGet"/>
+	<c:param name="method" value="serviceGet"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
@@ -30,7 +30,7 @@
 			<c:set var="editCommand" value="$$.ajax.load('${editUr}', $('#${uiid}').parent())"/>
 
 			<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/npay.do">
-				<c:param name="action" value="serviceDelete"/>
+				<c:param name="method" value="serviceDelete"/>
 				<c:param name="contractId" value="${form.param.conractId}"/>
 				<c:param name="billingId" value="${form.param.billingId}"/>
 				<c:param name="moduleId" value="${form.param.moduleId}"/>

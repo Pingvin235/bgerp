@@ -9,7 +9,7 @@
 <c:set var="showId" value="${form.param.showId ne '0'}"/>
 
 <c:url var="paramLogUrl" value="/user/parameter.do">
-	<c:param name="action" value="parameterLog"></c:param>
+	<c:param name="method" value="parameterLog"></c:param>
 	<c:param name="id" value="${id}"></c:param>
 	<c:param name="objectType" value="${form.param.objectType}"></c:param>
 	<c:param name="returnUrl" value="${form.requestUrl}"></c:param>
@@ -91,7 +91,7 @@
 							<c:choose>
 								<c:when test="${not readonly}">
 									<html:form action="/user/parameter" style="display: inline;">
-										<input type="hidden" name="action" value="parameterUpdate"/>
+										<input type="hidden" name="method" value="parameterUpdate"/>
 										<html:hidden property="objectType"/>
 										<input type="hidden" name="id" value="${id}"/>
 										<input type="hidden" name="paramId" value="${parameter.id}"/>
@@ -106,7 +106,7 @@
 
 									<c:set var="editFormId" value="${u:uiid()}"/>
 									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
-										<input type="hidden" name="action" value="parameterGet"/>
+										<input type="hidden" name="method" value="parameterGet"/>
 										<html:hidden property="objectType"/>
 										<input type="hidden" name="id" value="${id}"/>
 										<input type="hidden" name="paramId" value="${parameter.id}"/>
@@ -124,7 +124,7 @@
 
 							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet">
 								<c:url var="url" value="/user/directory/address.do">
-									<c:param name="action" value="addressGet"/>
+									<c:param name="method" value="addressGet"/>
 									<c:param name="addressHouseId" value="${value.houseId}"/>
 									<c:param name="hideLeftPanel" value="1"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -138,7 +138,7 @@
 							<c:set var="editFormId" value="${u:uiid()}"/>
 
 							<html:form action="/user/parameter" styleId="${editFormId}">
-								<input type="hidden" name="action" value="parameterGet"/>
+								<input type="hidden" name="method" value="parameterGet"/>
 								<html:hidden property="objectType"/>
 								<input type="hidden" name="id" value="${id}"/>
 								<input type="hidden" name="position" value="0"/>
@@ -157,7 +157,7 @@
 
 					<c:when test="${'email' eq parameter.type}">
 						<c:url var="getUrl" value="/user/parameter.do">
-							<c:param name="action" value="parameterGet"/>
+							<c:param name="method" value="parameterGet"/>
 							<c:param name="id" value="${id}"/>
 							<c:param name="paramId" value="${parameter.id}"/>
 						</c:url>
@@ -169,7 +169,7 @@
 							<c:choose>
 								<c:when test="${not readonly}">
 									<html:form action="/user/parameter" style="display:inline;">
-										<input type="hidden" name="action" value="parameterUpdate"/>
+										<input type="hidden" name="method" value="parameterUpdate"/>
 										<html:hidden property="objectType"/>
 										<input type="hidden" name="id" value="${id}"/>
 										<input type="hidden" name="paramId" value="${parameter.id}"/>
@@ -181,7 +181,7 @@
 
 									<c:set var="editFormId" value="${u:uiid()}"/>
 									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
-										<input type="hidden" name="action" value="parameterGet"/>
+										<input type="hidden" name="method" value="parameterGet"/>
 										<html:hidden property="objectType"/>
 										<input type="hidden" name="id" value="${id}"/>
 										<input type="hidden" name="paramId" value="${parameter.id}"/>
@@ -202,7 +202,7 @@
 						<%-- adding --%>
 						<c:if test="${(multiple or empty item.value) and not readonly}">
 							<html:form action="/user/parameter" style="display: inline;">
-								<input type="hidden" name="action" value="parameterGet"/>
+								<input type="hidden" name="method" value="parameterGet"/>
 								<html:hidden property="objectType"/>
 								<input type="hidden" name="id" value="${id}"/>
 								<input type="hidden" name="position" value="-1"/>
@@ -223,7 +223,7 @@
 							<div>
 								<c:if test="${not readonly}">
 									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
-										<input type="hidden" name="action" value="parameterUpdate" />
+										<input type="hidden" name="method" value="parameterUpdate" />
 										<html:hidden property="objectType" />
 										<input type="hidden" name="id" value="${id}" />
 										<input type="hidden" name="paramId" value="${parameter.id}" />
@@ -253,14 +253,14 @@
 						<%-- adding --%>
 						<c:if test="${(multiple or empty item.value) and not readonly}">
 							<c:url var="uploadUrl" value="/user/parameter.do">
-								<c:param name="action" value="parameterUpdate" />
+								<c:param name="method" value="parameterUpdate" />
 								<c:param name="id" value="${id}" />
 								<c:param name="paramId" value="${parameter.id}" />
 							</c:url>
 
 							<div style="white-space: nowrap;">
 								<form action="/user/parameter.do" method="POST" enctype="multipart/form-data">
-									<input type="hidden" name="action" value="parameterUpdate" />
+									<input type="hidden" name="method" value="parameterUpdate" />
 									<input type="hidden" name="responseType" value="json" />
 									<input type="hidden" name="id" value="${id}" />
 									<input type="hidden" name="paramId" value="${parameter.id}" />
@@ -301,7 +301,7 @@
 								<html:form action="/user/parameter" styleId="${editFormId}">
 									<html:hidden property="objectType"/>
 									<input type="hidden" name="id" value="${id}"/>
-									<input type="hidden" name="action" value="parameterGet"/>
+									<input type="hidden" name="method" value="parameterGet"/>
 									<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 									<input type="hidden" name="tableId" value="${tableId}"/>
 									<input type="hidden" name="paramId" value="${parameter.id}"/>
@@ -358,7 +358,7 @@
 
 						<html:form action="/user/parameter" styleId="${editFormId}" style="width: 100%; text-align: left;" onsubmit="return false;">
 							<input type="hidden" name="id" value="${id}"/>
-							<html:hidden property="action" value="parameterUpdate"/>
+							<html:hidden property="method" value="parameterUpdate"/>
 							<html:hidden property="paramId" value="${parameter.id}"/>
 
 							<%-- для параметров date, datetime --%>
