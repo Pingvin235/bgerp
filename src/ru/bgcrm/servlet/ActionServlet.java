@@ -13,36 +13,15 @@ import org.apache.struts.config.ModuleConfig;
 import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
-import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 
 /**
- * Overwritten ActionServlet, loads struts-config.xml also for enabled plugins.
+ * Overwritten ActionServlet, loads actions for enabled plugins.
  *
  * @author Shamil Vakhitov
  */
 public class ActionServlet extends org.apache.struts.action.ActionServlet {
     private static final Log log = Log.getLog();
-
-    private static final String FILE_NAME = "struts-config.xml";
-
-    @Override
-    public void init() throws ServletException {
-        StringBuilder paths = new StringBuilder("/WEB-INF/" + FILE_NAME);
-
-        for (Plugin p : PluginManager.getInstance().getPluginList()) {
-            String path = p.getResourcePath(FILE_NAME);
-            if (path == null)
-                continue;
-            paths.append(",").append(path);
-        }
-
-        this.config = paths.toString();
-
-        log.info("Action config paths: {}", this.config);
-
-        super.init();
-    }
 
     /**
      * Annotation for marking action classes.
@@ -51,6 +30,19 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface Action {
         String path();
+    }
+
+    /**
+     * Selects an action's path, declared in annotation {@link Action}.
+     * @param clazz the action class.
+     * @return string from the class annotation.
+     * @throws IllegalArgumentException if no annotation defined.
+     */
+    public static String getActionPath(Class<? extends BaseAction> clazz) {
+        var a = clazz.getDeclaredAnnotation(Action.class);
+        if (a == null)
+            throw new IllegalArgumentException();
+        return a.path();
     }
 
     /**
@@ -80,18 +72,5 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
         }
 
         return result;
-    }
-
-    /**
-     * Selects an action's path, declared in annotation {@link Action}.
-     * @param clazz the action class.
-     * @return string from the class annotation.
-     * @throws IllegalArgumentException if no annotation defined.
-     */
-    public static String getActionPath(Class<? extends BaseAction> clazz) {
-        var a = clazz.getDeclaredAnnotation(Action.class);
-        if (a == null)
-            throw new IllegalArgumentException();
-        return a.path();
     }
 }
