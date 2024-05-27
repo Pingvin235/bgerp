@@ -204,7 +204,7 @@ function exportFilterToCommons()
 	}
 
 	$$.ajax
-		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"action":"queueSavedFilterSet","command":"addCommon","url":url,"queueId":queueId,"title":title}))
+		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet","command":"addCommon","url":url,"queueId":queueId,"title":title}))
 		.done(() => {
 			location.reload();
 		})
@@ -222,7 +222,7 @@ function importFilterFromCommons()
 	}
 
 	$$.ajax
-		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"action":"queueSavedFilterSet","command":"importCommon","id":id,"queueId":queueId,"title":title}))
+		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet","command":"importCommon","id":id,"queueId":queueId,"title":title}))
 		.done(() => {
 			location.reload();
 		});
@@ -237,7 +237,7 @@ function deleteFilterFromCommons()
 		var title = $("#commonFiltersPanel .text-value").html();
 
 		$$.ajax
-			.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"action":"queueSavedFilterSet", "command":"deleteCommon", "id":id, "queueId":queueId, "title":title}))
+			.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet", "command":"deleteCommon", "id":id, "queueId":queueId, "title":title}))
 			.done(() => {
 				location.reload();
 			});
@@ -434,7 +434,7 @@ function updateSavedFiltersOrder(container) {
 function setFilterStatusRare( filterId, value )
 {
 	var queueId = $("#processQueueSelect > input[type=hidden]").val();
-	$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"action":"queueSavedFilterSet","command":"setRareStatus","filterId":filterId, "rare":value, "queueId":queueId}));
+	$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet","command":"setRareStatus","filterId":filterId, "rare":value, "queueId":queueId}));
 }
 
 //Drag&Drop filters --- end ----

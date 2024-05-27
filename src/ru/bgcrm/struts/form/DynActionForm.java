@@ -256,9 +256,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     @Deprecated
     public String getAction() {
         String value = getMethod();
-        log.warnd("Deprecated method 'getAction' was called. Use 'getMethod' instead. Value: {}", value);
+        log.warnd("Deprecated method 'getAction' was called. Use 'getMethod' instead. Value: {}, URI: {}", value, getHttpRequestURI());
         return value;
     }
+
 
     /**
      * Builds {@link #actionIdentifier} as semicolon separated action class name and method name from {@link #getMethod()}

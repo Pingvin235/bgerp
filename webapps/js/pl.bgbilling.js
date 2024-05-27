@@ -170,7 +170,7 @@ function bgbilling_updateRegisterList( billingId )
 {
 	var select = $('select[name=selectedRegisterId]:visible');
 
-	const url = "/user/plugin/bgbilling/proto/cashcheck.do?" + $$.ajax.requestParamsToUrl({"action": "registratorList", "billingId": billingId});
+	const url = "/user/plugin/bgbilling/proto/cashcheck.do?" + $$.ajax.requestParamsToUrl({"method": "registratorList", "billingId": billingId});
 
 	$$.ajax.post(url).done((ajaxResponse) => {
 		select.children().remove();
@@ -182,10 +182,3 @@ function bgbilling_updateRegisterList( billingId )
 		bgbilling_selectedRegisterIdChanged();
 	});
 }
-
-/* Remove later.
-function bgbilling_openContract( billingId, contractId ) {
-	console.warn($$.deprecated);
-	$$.bgbilling.contract.open(billingId, contractId);
-}
-*/

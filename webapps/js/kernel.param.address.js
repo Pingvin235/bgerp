@@ -60,7 +60,7 @@ function addStreetSearch(selector) {
 	$(selector + " input[name='street']").autocomplete({
 		minLength: 3,
 		source: function (request, response) {
-			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "streetSearch", "title": request.term, "page.pageIndex": "0" });
+			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "streetSearch", "title": request.term, "page.pageIndex": "0" });
 			$$.ajax.post(url).done((ajaxResponse) => {
 				response($.map(ajaxResponse.data.list, function (item) {
 					return { label: item.addressCity.title + " - " + item.title, value: item.addressCity.title + " - " + item.title, id: item.id };
@@ -79,7 +79,7 @@ function addCustomStreetSearch(selector, streetIdSelector) {
 	$(selector).autocomplete({
 		minLength: 3,
 		source: function (request, response) {
-			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "streetSearch", "title": request.term });
+			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "streetSearch", "title": request.term });
 			$$.ajax.post(url).done((ajaxResponse) => {
 				response($.map(ajaxResponse.data.list, function (item) {
 					return { label: item.addressCity.title + " - " + item.title, value: item.addressCity.title + " - " + item.title, id: item.id };
@@ -103,7 +103,7 @@ function addHouseSearch(formSelector) {
 		source: function (request, response) {
 			const streetId = form.streetId.value;
 			if (streetId > 0) {
-				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "houseSearch", "streetId": streetId, "house": request.term });
+				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "houseSearch", "streetId": streetId, "house": request.term });
 				$$.ajax.post(url).done((ajaxResponse) => {
 					response($.map(ajaxResponse.data.list, function (item) {
 						return { label: item.houseAndFrac, value: item.houseAndFrac, id: item.id };
@@ -124,7 +124,7 @@ function addCustomHouseSearch(selector, streetIdSelector, houseIdSelector) {
 		source: function (request, response) {
 			var streetId = $(streetIdSelector).val();
 			if (streetId > 0) {
-				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "houseSearch", "streetId": streetId, "house": request.term });
+				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "houseSearch", "streetId": streetId, "house": request.term });
 				$$.ajax.post(url).done((ajaxResponse) => {
 					response($.map(ajaxResponse.data.list, function (item) {
 						return { label: item.houseAndFrac, value: item.houseAndFrac, id: item.id };
