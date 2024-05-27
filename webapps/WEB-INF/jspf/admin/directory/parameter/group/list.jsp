@@ -14,14 +14,14 @@
 	<c:forEach var="item" items="${parameterList}">
 		<tr>
 			<c:url var="editUrl" value="/admin/directory.do">
-				<c:param name="action" value="parameterGroupGet"/>
+				<c:param name="method" value="parameterGroupGet"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="directoryId" value="${form.param.directoryId}"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 
 			<c:url var="deleteUrl" value="/admin/directory.do">
-				<c:param name="action" value="parameterGroupDelete"/>
+				<c:param name="method" value="parameterGroupDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 

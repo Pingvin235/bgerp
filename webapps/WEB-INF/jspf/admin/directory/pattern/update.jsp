@@ -6,7 +6,7 @@
 <c:set var="pattern" value="${frd.pattern}"/>
 
 <html:form action="/admin/directory" styleClass="center500">
-	<input type="hidden" name="action" value="patternTitleUpdate"/>
+	<input type="hidden" name="method" value="patternTitleUpdate"/>
 	<html:hidden property="directoryId"/>
 
 	<h2>ID</h2>

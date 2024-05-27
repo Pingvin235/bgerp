@@ -68,7 +68,7 @@ public class DirectoryAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
         form.setParam("directoryId", "processParameter");
-        form.setParam("action", "parameterList");
+        form.setParam(DynActionForm.PARAM_ACTION_METHOD, "parameterList");
         return parameterList(form, con);
     }
 

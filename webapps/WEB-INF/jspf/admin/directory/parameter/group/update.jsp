@@ -6,7 +6,7 @@
 <c:set var="group" value="${frd.group}"/>
 
 <html:form action="/admin/directory" styleClass="center500">
-	<input type="hidden" name="action" value="parameterGroupUpdate"/>
+	<input type="hidden" name="method" value="parameterGroupUpdate"/>
 	<html:hidden property="directoryId"/>
 
 	<h2>ID</h2>

@@ -127,7 +127,7 @@
 
 			<c:set var="doUrl" value="/user/directory/address.do" scope="request"/>
 			<c:choose>
-				<c:when test="${form.action eq 'addressGet'}">
+				<c:when test="${form.method eq 'addressGet'}">
 					<c:choose>
 						<c:when test="${not empty data.country}"><%@ include file="/WEB-INF/jspf/user/directory/address/country/update.jsp" %></c:when>
 						<c:when test="${not empty data.city}"><%@ include file="/WEB-INF/jspf/user/directory/address/city/update.jsp" %></c:when>

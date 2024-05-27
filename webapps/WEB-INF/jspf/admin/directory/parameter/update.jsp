@@ -15,7 +15,7 @@
 <c:set var="parameter" value="${frd.parameter}"/>
 
 <html:form action="/admin/directory" styleClass="center1020" styleId="${formUiid}">
-	<input type="hidden" name="action" value="parameterUpdate"/>
+	<input type="hidden" name="method" value="parameterUpdate"/>
 	<html:hidden property="directoryId"/>
 
 	<div class="in-inline-block in-pr1 in-va-top">

@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
 
 <html:form action="/admin/directory">
-	<html:hidden property="action"/>
+	<html:hidden property="method"/>
 	<html:hidden property="directoryId"/>
 
 	<%@ include file="../create_button.jsp"%>
@@ -34,14 +34,14 @@
 		<c:forEach var="item" items="${frd.list}">
 			<tr>
 				<c:url var="editUrl" value="/admin/directory.do">
-					<c:param name="action" value="parameterGet" />
+					<c:param name="method" value="parameterGet" />
 					<c:param name="id" value="${item.id}" />
 					<c:param name="returnUrl" value="${form.requestUrl}" />
 					<c:param name="directoryId" value="${form.param.directoryId}" />
 				</c:url>
 
 				<c:url var="deleteUrl" value="/admin/directory.do">
-					<c:param name="action" value="parameterDelete" />
+					<c:param name="method" value="parameterDelete" />
 					<c:param name="id" value="${item.id}" />
 				</c:url>
 
@@ -65,7 +65,7 @@
 
 						<td align="center">
 							<c:url var="showUrl" value="/admin/directory.do">
-								<c:param name="action" value="parameterUseProcess" />
+								<c:param name="method" value="parameterUseProcess" />
 								<c:param name="parameterId" value="${parameterId}" />
 							</c:url>
 

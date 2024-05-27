@@ -7,5 +7,5 @@
 		<c:param name="directoryId" value="${form.param.directoryId}"/>
 		<c:param name="id" value="-1"/>
 	</c:url>
-	<ui:button type="add" onclick="$$.ajax.loadContent('${url}&action=${form.action.replace('List', 'Get')}', this)"/>
+	<ui:button type="add" onclick="$$.ajax.loadContent('${url}&method=${form.method.replace('List', 'Get')}', this)"/>
 </u:sc>

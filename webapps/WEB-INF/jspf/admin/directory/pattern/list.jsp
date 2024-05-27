@@ -15,14 +15,14 @@
 	<c:forEach var="item" items="${patternList}">
 		<tr>
 			<c:url var="editUrl" value="/admin/directory.do">
-				<c:param name="action" value="patternTitleGet"/>
+				<c:param name="method" value="patternTitleGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="directoryId" value="${form.param.directoryId}"/>
 			</c:url>
 
 			<c:url var="deleteUrl" value="/admin/directory.do">
-				<c:param name="action" value="patternTitleDelete"/>
+				<c:param name="method" value="patternTitleDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 

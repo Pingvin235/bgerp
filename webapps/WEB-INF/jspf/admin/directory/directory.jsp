@@ -4,11 +4,11 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <form action="/admin/directory.do" id="${uiid}">
-	<input type="hidden" name="action"/>
+	<input type="hidden" name="method"/>
 
 	<ui:combo-single hiddenName="directoryId" value="${form.param.directoryId}"
 		prefixText="${l.l('Справочник')}:" widthTextValue="20em"
-		onSelect="$$.param.dirChanged($('#${uiid}')[0], item, $hidden)">
+		onSelect="$$.param.dirChanged($('#${uiid}')[0], item, this)">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${directoryList}">
 				<li value="${item.id}" action="${item.action}">${l.l(item.title)}</li>

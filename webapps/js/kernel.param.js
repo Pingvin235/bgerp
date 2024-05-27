@@ -3,9 +3,9 @@
 $$.param = new function () {
 	const debug = $$.debug("param");
 
-	const dirChanged = (form, item, $hidden) => {
-		form.action.value = $(item).attr("action");
-		form.directoryId.value = $hidden.val();
+	const dirChanged = (form, item, hidden) => {
+		form.method.value = $(item).attr("action");
+		form.directoryId.value = hidden.value;
 		$$.ajax.loadContent(form);
 	}
 
