@@ -7,7 +7,7 @@
 ** <<kernel/interface.adoc#, Interface>>
 ** <<kernel/setup.adoc#, Setup>>
 ** <<kernel/search.adoc#, Search>>
-** <<kernel/news.adoc#, Новости>>
+** <<kernel/news.adoc#, News>>
 ** <<kernel/customer.adoc#, Контрагент>>
 ** <<kernel/process/index.adoc#, Process>>
 *** <<kernel/process/queue.adoc#, Очередь>>

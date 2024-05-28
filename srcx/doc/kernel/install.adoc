@@ -420,6 +420,13 @@ This allows to prevent their re-execution. If you need to clear the history, use
 ./installer.sh killhash
 ----
 
+[[update-file-replace]]
+=== Files' Replacement
+To preserve a changed configuration file like `log4j.properties` of being rewritten during updates,
+create in the same directory *before* a modification a copy of the original ones with *.orig* name's ending, e.g. `log4j.properties.orig`.
+When such an original copy exist, the file will be replaced only if a new version of it differs from the original copy.
+The replaced file instead of real overwriting just renamed with *.bak.<TimeInSeconds>* suffix.
+
 [[maintenance]]
 == Maintenance
 The tool *Admin / Application / Maintainence* allows to prevent data loss of working users during application restarts,

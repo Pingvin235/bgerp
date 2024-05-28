@@ -485,25 +485,23 @@ filter.<id>.<paramX>=<valueX>
 Пример. Фильтр по статусу с выбранным по-умолчанию значением и ограничениям на значения, фильтр по дате создания, по группам решения, исполнителям, коду и дате закрытия.
 [source]
 ----
-filter.1.type=status
-filter.1.show=1
-filter.1.availableValues=9,10,12
-filter.1.defaultValues=10
-#
-filter.2.type=create_date
-#
-filter.3.type=groups
-filter.3.defaultValues=17
-#
-filter.4.type=executors
-#
-filter.5.type=code
-filter.6.type=close_date
+filter.{@inc:cnt}.type=status
+filter.{@cnt}.availableValues=9,10,12
+filter.{@cnt}.defaultValues=10
+
+filter.{@inc:cnt}.type=create_date
+
+filter.{@inc:cnt}.type=groups
+filter.{@cnt}.defaultValues=17
+
+filter.{@inc:cnt}.type=executors
+filter.{@inc:cnt}.type=code
+filter.{@inc:cnt}.type=close_date
 ----
 
 Далее описываются фильтры по их типу (параметр *<type>*), обязательные и необязательные параметры. В таблице перечислены типы фильтров и их параметры.
 
-[cols="a,a,50%a", options="header"]
+[cols="15%a,25%a,60%a", options="header"]
 |===
 |Значение *<type>*
 |Фильтр
@@ -602,19 +600,19 @@ param:<paramId>
 Пример фильтра по коду темы HelpDesk:
 [source]
 ----
-filter.35.type=linkObject
-filter.35.objectType=bgbilling-helpdesk:bitel
-filter.35.whatFilter=id
-filter.35.title=Тема HelpDesk
+filter.{@inc:cnt}.type=linkObject
+filter.{@cnt}.objectType=bgbilling-helpdesk:bitel
+filter.{@cnt}.whatFilter=id
+filter.{@cnt}.title=Тема HelpDesk
 ----
 
 Пример фильтра по наименованию устройства.
 [source]
 ----
-filter.36.type=linkObject
-filter.36.objectType=bgbilling-device:bitel
-filter.36.whatFilter=title
-filter.36.title=Устройство
+filter.{@inc:cnt}.type=linkObject
+filter.{@cnt}.objectType=bgbilling-device:bitel
+filter.{@cnt}.whatFilter=title
+filter.{@cnt}.title=Устройство
 ----
 
 |groups

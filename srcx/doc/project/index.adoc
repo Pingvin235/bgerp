@@ -633,8 +633,6 @@ image::_res/demo_zone.png[width=800]
 
 [[action]]
 ==== Java Action
-NOTE: Action definition in `struts-confing.xml` files is deprecated.
-
 Action classes have to extend javadoc:org.bgerp.action.base.BaseAction[] class marked by *Action* annotation.
 [snippet, from="@", to=";", remove-leading=""]
 link:../../../src/org/bgerp/action/admin/RunAction.java#L25-L27[org.bgerp.action.admin.RunAction]
