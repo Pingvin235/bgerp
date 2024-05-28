@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.action.TitledAction;
-import org.bgerp.action.TitledActionFactory;
 import org.bgerp.action.base.BaseAction;
+import org.bgerp.action.base.TitledAction;
+import org.bgerp.action.base.TitledActionFactory;
 import org.bgerp.action.util.Invoker;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.l10n.Localization;

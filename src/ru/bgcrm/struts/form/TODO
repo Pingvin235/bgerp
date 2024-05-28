@@ -1,0 +1,2 @@
+All the classes have to be moved to org.bgerp.action.base.form package.
+The movement of DynActionForm causes massive changes in classes and breaks Custom samples with itest.

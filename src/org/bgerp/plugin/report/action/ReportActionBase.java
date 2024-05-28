@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.TitledAction;
-import org.bgerp.action.TitledActionFactory;
 import org.bgerp.action.base.BaseAction;
+import org.bgerp.action.base.TitledAction;
+import org.bgerp.action.base.TitledActionFactory;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.model.base.iface.Title;
 import org.bgerp.plugin.report.Plugin;
