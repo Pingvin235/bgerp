@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;

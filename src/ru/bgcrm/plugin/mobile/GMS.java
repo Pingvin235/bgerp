@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 

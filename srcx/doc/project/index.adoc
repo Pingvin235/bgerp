@@ -635,7 +635,7 @@ image::_res/demo_zone.png[width=800]
 ==== Java Action
 NOTE: Action definition in `struts-confing.xml` files is deprecated.
 
-Action classes have to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class marked by *Action* annotation.
+Action classes have to extend javadoc:org.bgerp.action.base.BaseAction[] class marked by *Action* annotation.
 [snippet, from="@", to=";", remove-leading=""]
 link:../../../src/org/bgerp/action/admin/RunAction.java#L25-L27[org.bgerp.action.admin.RunAction]
 
@@ -741,7 +741,7 @@ Auxillary actions, which have to be permanently allowed, have to be marked with 
 [[exception]]
 ===== Exception handling
 Exception interrupts actions execution, also rolls back <<plugin-db, DB>> transaction - response will be always sent back as JSON.
-All Exception handling is defined centrally in javadoc:ru.bgcrm.struts.action.BaseAction[], DAO methods or script handlers just need to raise a given exception.
+All Exception handling is defined centrally in javadoc:org.bgerp.action.base.BaseAction[], DAO methods or script handlers just need to raise a given exception.
 Said that, action methods declarations and DAO just need to use *throws java.lang.Exception*.
 
 javadoc:ru.bgcrm.model.BGException[] class is typically used for system-generated exceptions and is rarely used elsewhere.

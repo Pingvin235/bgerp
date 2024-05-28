@@ -1,7 +1,7 @@
 package org.bgerp.plugin.report.action;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.report.Config;
 import org.bgerp.plugin.report.Plugin;

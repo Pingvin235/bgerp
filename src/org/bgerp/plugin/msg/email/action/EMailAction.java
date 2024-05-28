@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.plugin.msg.email.config.RecipientsConfig;
 import org.bgerp.plugin.msg.email.dao.EMailDAO;
 

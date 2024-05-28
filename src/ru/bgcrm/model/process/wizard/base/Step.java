@@ -1,6 +1,6 @@
 package ru.bgcrm.model.process.wizard.base;
 
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;

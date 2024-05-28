@@ -1,7 +1,7 @@
 package ru.bgcrm.struts.action.admin;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.cache.CustomerGroupCache;
 import org.bgerp.model.Pageable;
 

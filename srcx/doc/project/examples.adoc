@@ -27,7 +27,7 @@ Other samples:
 == Code
 [[code-save-req-params]]
 === Saving latest/last user request parameters
-Let's take interface filters, as example - use *restoreRequestParams* method in javadoc:ru.bgcrm.struts.action.BaseAction[]
+Let's take interface filters, as example - use *restoreRequestParams* method in javadoc:org.bgerp.action.base.BaseAction[]
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]

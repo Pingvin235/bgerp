@@ -21,7 +21,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.plugin.pln.blow.Plugin;
 import org.bgerp.plugin.pln.blow.dao.BoardDAO;

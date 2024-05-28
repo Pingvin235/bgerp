@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.dao.param.ParamValueDAO;

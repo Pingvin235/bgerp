@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.dist.lic.AppLicense;
 import org.bgerp.app.dist.lic.License;
 import org.bgerp.app.exception.BGMessageException;

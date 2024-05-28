@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.svc.dba.dao.QueryHistoryDAO;
 

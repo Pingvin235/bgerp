@@ -16,7 +16,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.plugin.pln.blow.Plugin;
 import org.bgerp.plugin.pln.blow.dao.BoardDAO;
 import org.bgerp.plugin.pln.blow.model.Board;

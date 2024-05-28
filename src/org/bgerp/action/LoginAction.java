@@ -1,6 +1,7 @@
 package org.bgerp.action;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 
 import ru.bgcrm.event.client.UrlOpenEvent;
 import ru.bgcrm.event.listener.LoginEventListener;

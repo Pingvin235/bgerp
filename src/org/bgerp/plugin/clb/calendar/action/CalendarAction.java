@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.plugin.clb.calendar.Config;
 import org.bgerp.plugin.clb.calendar.Plugin;
 import org.bgerp.util.TimeConvert;

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;

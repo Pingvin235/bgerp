@@ -1,7 +1,7 @@
 package org.bgerp.plugin.svc.dba.action.admin;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.svc.dba.Plugin;
 import org.bgerp.plugin.svc.dba.dao.QueryDAO;

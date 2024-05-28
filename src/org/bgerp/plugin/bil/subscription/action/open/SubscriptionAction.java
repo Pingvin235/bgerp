@@ -3,7 +3,7 @@ package org.bgerp.plugin.bil.subscription.action.open;
 import java.math.BigDecimal;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.Plugin;

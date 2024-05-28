@@ -15,7 +15,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/plugin/access/credential")
-public class CredentialAction extends org.bgerp.action.BaseAction {
+public class CredentialAction extends org.bgerp.action.base.BaseAction {
     public ActionForward get(DynActionForm form, ConnectionSet conSet) throws Exception {
         var user = UserCache.getUser(form.getId());
         if (user == null) {

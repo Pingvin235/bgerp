@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.event.client.NewsInfoEvent;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.cache.UserCache;

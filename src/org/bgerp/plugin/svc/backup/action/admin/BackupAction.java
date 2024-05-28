@@ -1,7 +1,7 @@
 package org.bgerp.plugin.svc.backup.action.admin;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.plugin.svc.backup.Config;
 import org.bgerp.plugin.svc.backup.Plugin;

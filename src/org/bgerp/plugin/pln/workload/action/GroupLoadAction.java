@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.plugin.pln.workload.Plugin;

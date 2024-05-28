@@ -3,7 +3,7 @@ package ru.bgcrm.struts.action;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.BaseAction;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.servlet.user.LoginStat;
 
