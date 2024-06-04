@@ -22,7 +22,6 @@ import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import ru.bgcrm.plugin.Lang;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Utils;

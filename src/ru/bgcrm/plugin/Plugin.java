@@ -202,15 +202,6 @@ public abstract class Plugin {
     }
 
     /**
-     * List of supported by plugin languages, main is the first.
-     * For any of supported languages must be presented translated documentation and localized UI.
-     * @return default return single list of {@link Lang#RU}.
-     */
-    public List<Lang> getLanguages() {
-        return List.of(Lang.RU);
-    }
-
-    /**
      * @return the plugin's localization from l10n.xml if exists, or {@code null}
      */
     public Localization getLocalization() {
