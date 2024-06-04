@@ -1,7 +1,6 @@
 package ru.bgcrm.model.user;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -41,220 +40,12 @@ import ru.bgcrm.util.XMLUtils;
 public class PermissionNode {
     private static final Log log = Log.getLog();
 
-    /** Root tree nodes. */
-    private static volatile List<PermissionNode> permissionTrees;
-
     @VisibleForTesting
-    static String FILE_NAME = "action.xml";
+    static final String FILE_NAME = "action.xml";
     private static final String DELIMITER = " / ";
 
-    private static final boolean VALIDATE_ACTION_METHOD = true;
-    /* Can be enabled later for statically checking everything on start. */
-    private static final boolean VALIDATE_ACTION_METHOD_SIGNATURE = true;
-
-    private String title;
-    private String titlePath;
-    private String action;
-    private List<String> actions = new ArrayList<>();
-
-    private String description = "";
-    private boolean allowAll;
-    private boolean notLogging;
-
-    private PermissionNode parent;
-    private List<PermissionNode> children = new ArrayList<>();
-
-    /**
-     * Simplified constructor, no children supported.
-     * @param action
-     * @param title
-     */
-    private PermissionNode(String action, String title) {
-        setAction(action);
-        this.title = title;
-    }
-
-    PermissionNode(PermissionNode parent, Localizer l, Element node) {
-        this(node.getAttribute("action"), node.getAttribute("title"));
-        this.parent = parent;
-
-        var ltitle = node.getAttribute("ltitle");
-        if (Utils.notBlankString(ltitle)) {
-            title = l.l(ltitle);
-            log.warn("Using ltitle attributes in permission nodes is not recommended");
-        }
-
-        allowAll = Utils.parseBoolean(node.getAttribute("allowAll"));
-        notLogging = Utils.parseBoolean(node.getAttribute("notLogging"));
-
-        if (parent != null && Utils.notBlankString(parent.getTitle())) {
-            titlePath = parent.getTitlePath() + DELIMITER + title;
-        } else {
-            titlePath = title;
-        }
-
-        loadChildren(l, node);
-
-        if (Utils.notEmptyString(action) && children.isEmpty()) {
-            description = XMLUtils.getElementText(node);
-        }
-
-        validateAction();
-    }
-
-    /**
-     * Validates existence of primary action class and method in {@link #action}.
-     */
-    private void validateAction() {
-        if (Utils.isBlankString(action))
-            return;
-
-        Class<?> actionClass = null;
-        try {
-            actionClass = Class.forName(StringUtils.substringBefore(action, ":"));
-            if (!BaseAction.class.isAssignableFrom(actionClass)) {
-                log.warn("Action class '{}' doesn't extend BaseAction", actionClass.getName());
-                return;
-            }
-        } catch (ClassNotFoundException e) {
-            log.warn("Action class not found for action '{}'", action);
-            return;
-        }
-
-        validateActionMethod(actionClass);
-    }
-
-    /**
-     * Validates existence of action method in {@link #action}.
-     * The finings are logged with WARN level.
-     * @param actionClass action class.
-     */
-    private void validateActionMethod(Class<?> actionClass) {
-        if (!VALIDATE_ACTION_METHOD)
-            return;
-
-        String name = actionMethodName();
-
-        boolean exists = false;
-        try {
-            exists = Arrays
-                .stream(actionClass.getMethods())
-                .filter(m -> name.equals(m.getName()))
-                .findAny()
-                .isPresent();
-        } catch (SecurityException e) {
-            log.error(e);
-        }
-
-        if (!exists)
-            log.warn("Action method not found for action '{}'", action);
-        else
-            validateActionMethodSignature(actionClass, name);
-    }
-
-    /**
-     * Validates action method signature.
-     * The finings are logged with WARN level.
-     * @param actionClass action class.
-     * @param actionMethod method name.
-     */
-    private void validateActionMethodSignature(Class<?> actionClass, String actionMethod) {
-        if (!VALIDATE_ACTION_METHOD_SIGNATURE)
-            return;
-
-        try {
-            Invoker.find(actionClass, actionMethod);
-        } catch (NoSuchMethodException e) {
-            log.warnd("Missing action method '{}' in class '{}'", actionMethod, actionClass.getName());
-        }
-    }
-
-    private String actionMethodName() {
-        String result = StringUtils.substringAfter(action, ":");
-        if ("null".equals(result))
-            result = "unspecified";
-        return result;
-    }
-
-    private void loadChildren(Localizer l, Element node) {
-        var actionFactory = node.getAttribute("actionFactory");
-        if (Utils.notBlankString(actionFactory)) {
-            for (TitledAction action : TitledActionFactory.create(actionFactory))
-                children.add(new PermissionNode(action.getAction(), action.getTitle()));
-        } else {
-            for (Element child : XMLUtils.selectElements(node, "item")) {
-                children.add(new PermissionNode(this, l, child));
-            }
-        }
-    }
-
-    /**
-     * @return parent node;
-     */
-    public PermissionNode getParent() {
-        return parent;
-    }
-
-    /**
-     * @return children nodes.
-     */
-    public List<PermissionNode> getChildren() {
-        return children;
-    }
-
-    /**
-     * @return node title.
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @return slash separated titles path to the node.
-     */
-    public String getTitlePath() {
-        return titlePath;
-    }
-
-    /**
-     * @return the primary node action, semicolon separated action class and method names.
-     */
-    public String getAction() {
-        return action;
-    }
-
-    /**
-     * @return list of primary and synonym actions (semicolon separated action class and method names).
-     */
-    public List<String> getActions() {
-        return actions;
-    }
-
-    private void setAction(String action) {
-        List<String> actionList = Utils.toList(action, ";,");
-        if (actionList.size() > 1) {
-            this.action = actionList.get(0);
-            this.actions = actionList;
-        } else {
-            this.action = action;
-        }
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isAllowAll() {
-        return allowAll;
-    }
-
-    public boolean isNotLogging() {
-        return notLogging;
-    }
+    /** Root tree nodes. */
+    private static volatile List<PermissionNode> permissionTrees;
 
     /**
      * List with root permission nodes for kernel and other enabled plugins.
@@ -336,6 +127,179 @@ public class PermissionNode {
         return result;
     }
 
+    // end of static part
+
+    private String action;
+    private List<String> actions = new ArrayList<>();
+
+    private String title;
+    private String titlePath;
+
+    private String description = "";
+    private boolean allowAll;
+    private boolean notLogging;
+
+    private PermissionNode parent;
+    private List<PermissionNode> children = new ArrayList<>();
+
+    /**
+     * Simplified constructor, no children supported.
+     * @param action
+     * @param title
+     */
+    private PermissionNode(String action, String title) {
+        setAction(action);
+        this.title = title;
+    }
+
+    PermissionNode(PermissionNode parent, Localizer l, Element node) {
+        this(node.getAttribute("action"), node.getAttribute("title"));
+        this.parent = parent;
+
+        var ltitle = node.getAttribute("ltitle");
+        if (Utils.notBlankString(ltitle)) {
+            title = l.l(ltitle);
+            log.warn("Using ltitle attributes in permission nodes is not recommended");
+        }
+
+        allowAll = Utils.parseBoolean(node.getAttribute("allowAll"));
+        notLogging = Utils.parseBoolean(node.getAttribute("notLogging"));
+
+        if (parent != null && Utils.notBlankString(parent.getTitle())) {
+            titlePath = parent.getTitlePath() + DELIMITER + title;
+        } else {
+            titlePath = title;
+        }
+
+        loadChildren(l, node);
+
+        if (Utils.notEmptyString(action) && children.isEmpty()) {
+            description = XMLUtils.getElementText(node);
+        }
+
+        validateAction();
+    }
+
+    /**
+     * Validates existence of primary action class and method in {@link #action}.
+     */
+    private void validateAction() {
+        if (Utils.isBlankString(action))
+            return;
+
+        Class<?> actionClass = null;
+        try {
+            actionClass = Class.forName(StringUtils.substringBefore(action, ":"));
+            if (!BaseAction.class.isAssignableFrom(actionClass)) {
+                log.warn("Action class '{}' doesn't extend BaseAction", actionClass.getName());
+                return;
+            }
+        } catch (ClassNotFoundException e) {
+            log.warn("Action class not found for action '{}'", action);
+            return;
+        }
+
+        validateActionMethod(actionClass);
+    }
+
+    /**
+     * Validates existence of action method in {@link #action}.
+     * The finings are logged with WARN level.
+     * @param actionClass action class.
+     */
+    private void validateActionMethod(Class<?> actionClass) {
+        String actionMethod = actionMethodName();
+        try {
+            Invoker.find(actionClass, actionMethod);
+        } catch (NoSuchMethodException e) {
+            log.warnd("Missing correct action method '{}' in class '{}'", actionMethod, actionClass.getName());
+        }
+    }
+
+    private String actionMethodName() {
+        String result = StringUtils.substringAfter(action, ":");
+        if ("null".equals(result))
+            result = "unspecified";
+        return result;
+    }
+
+    private void loadChildren(Localizer l, Element node) {
+        var actionFactory = node.getAttribute("actionFactory");
+        if (Utils.notBlankString(actionFactory)) {
+            for (TitledAction action : TitledActionFactory.create(actionFactory))
+                children.add(new PermissionNode(action.getAction(), action.getTitle()));
+        } else {
+            for (Element child : XMLUtils.selectElements(node, "item")) {
+                children.add(new PermissionNode(this, l, child));
+            }
+        }
+    }
+
+    /**
+     * @return the primary node action, semicolon separated action class and method names.
+     */
+    public String getAction() {
+        return action;
+    }
+
+    /**
+     * @return list of primary and synonym actions (semicolon separated action class and method names).
+     */
+    public List<String> getActions() {
+        return actions;
+    }
+
+    private void setAction(String action) {
+        List<String> actionList = Utils.toList(action, ";,");
+        if (actionList.size() > 1) {
+            this.action = actionList.get(0);
+            this.actions = actionList;
+        } else {
+            this.action = action;
+        }
+    }
+
+    /**
+     * @return node title.
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @return slash separated titles path to the node.
+     */
+    public String getTitlePath() {
+        return titlePath;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isAllowAll() {
+        return allowAll;
+    }
+
+    public boolean isNotLogging() {
+        return notLogging;
+    }
+
+    /**
+     * @return parent node;
+     */
+    public PermissionNode getParent() {
+        return parent;
+    }
+
+    /**
+     * @return children nodes.
+     */
+    public List<PermissionNode> getChildren() {
+        return children;
+    }
+
+    @VisibleForTesting
     PermissionNode findPermissionNode(String action) {
         PermissionNode node = this;
         if (action.equals(node.getAction()) || node.getActions().contains(action)) {
