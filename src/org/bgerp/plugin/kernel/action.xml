@@ -203,7 +203,6 @@
 			</item>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate" title="Изменение записи справочника">
 				<b>cityIds</b> - годы городов через запятую, разрешенных для редактирования
-				<b>restrictUpdateMainParameters</b> - запрет изменения параметров (Улица,Район,Квартал,Номер дома [с дробью])
 			</item>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete" title="Удаление записи справочника">
 				<b>cityIds</b> - годы городов через запятую, разрешенных для просмотра

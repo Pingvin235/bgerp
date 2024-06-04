@@ -242,7 +242,6 @@ public class DirectoryAddressAction extends BaseAction {
 
         ConfigMap permission = form.getPermission();
         Set<Integer> allowedCityIds = Utils.toIntegerSet(permission.get("cityIds"));
-        boolean restrictUpdateMainParameters = Utils.parseBoolean(permission.get("restrictUpdateMainParameters"));
 
         if (addressHouseId >= 0) {
             AddressHouse addressHouse = new AddressHouse();
@@ -256,11 +255,6 @@ public class DirectoryAddressAction extends BaseAction {
             addressHouse.setQuarterId(Utils.parseInt(form.getParam("addressQuarterId")));
             addressHouse.setStreetId(addressStreetId);
             addressHouse.setHouseAndFrac(form.getParam("house"));
-
-            if (!checkUpdatePermissions(restrictUpdateMainParameters, addressHouse, addressDAO.getAddressHouse(addressHouseId, true, true, true))) {
-                throw new BGMessageException("Редактирование основных параметров запрещено!");
-            }
-
             addressHouse.setComment(form.getParam("comment", ""));
             addressHouse.setConfig(form.getParam("config", ""));
 
@@ -293,20 +287,6 @@ public class DirectoryAddressAction extends BaseAction {
         }
 
         return json(con, form);
-    }
-
-    private boolean checkUpdatePermissions(boolean restrictUpdateMainParameters, AddressHouse newAddressHouse, AddressHouse oldAddressHouse) {
-        if (!restrictUpdateMainParameters || oldAddressHouse == null) {
-            return true;
-        }
-
-        if (newAddressHouse.getStreetId() != oldAddressHouse.getStreetId() || newAddressHouse.getAreaId() != oldAddressHouse.getAreaId()
-                || newAddressHouse.getQuarterId() != oldAddressHouse.getQuarterId()
-                || !newAddressHouse.getHouseAndFrac().equals(oldAddressHouse.getHouseAndFrac())) {
-            return false;
-        }
-
-        return true;
     }
 
     private boolean updateAddressItem(DynActionForm form, Connection con) throws Exception {
