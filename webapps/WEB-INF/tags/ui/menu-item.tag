@@ -1,18 +1,11 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Пункт меню"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="href" description="URL"%>
-<%@ attribute name="action" description="Action identifier"%>
-<%@ attribute name="command" description="Command"%>
+<%@ attribute name="action" description="Action identifier" required="true"%>
+<%@ attribute name="href" description="Tool's URL to be opened in UI"%>
+<%@ attribute name="command" description="JS command or action call URL"%>
 <%@ attribute name="title" description="Title"%>
-<%@ attribute name="ltitle" description="Title to be localized (Deprecated)"%>
-<%@ attribute name="hidden" description="Hidden menu item"%>
 <%@ attribute name="icon" description="Font icon"%>
-
-<c:if test="${not empty ltitle}">
-	<c:set var="title" value="${l.l(ltitle)}"/>
-</c:if>
-
 <%-- if href presents - then command contains action's URL, else - JS code --%>
 
 <c:if test="${not empty href and not href.startsWith('/user')}">

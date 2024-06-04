@@ -2,14 +2,8 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="title" description="Title"%>
-<%@ attribute name="ltitle" description="Title to be localized"%>
-<%@ attribute name="hidden" description="Hidden menu item"%>
 <%@ attribute name="actionFactory" description="Actions generator"%>
 <%@ attribute name="icon" description="Inherited font icon"%>
-
-<c:if test="${not empty ltitle}">
-	<c:set var="title" value="${l.l(ltitle)}"/>
-</c:if>
 
 <li>
 	<a href="#">
