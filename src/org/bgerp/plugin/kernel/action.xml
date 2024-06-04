@@ -1,4 +1,179 @@
 <item title="Kernel">
+	<item title="Search">
+		<item action="ru.bgcrm.struts.action.SearchAction:null" title="Search">
+			<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
+			<b>defaultForm</b> - default search form
+		</item>
+		<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Customer"/>
+		<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
+	</item>
+	<item title="News">
+		<item action="org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList" title="View" />
+		<item action="org.bgerp.action.NewsAction:newsSetRead, ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Mark as read" />
+		<item action="org.bgerp.action.NewsAction:newsSetAllRead, ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Mark all as read" />
+		<item action="org.bgerp.action.NewsAction:newsEdit, org.bgerp.action.NewsAction:newsUpdate, ru.bgcrm.struts.action.NewsAction:newsEdit, ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Edit">
+			<b>allowedGroupIds</b> - comma separated IDs of allowed user groups
+		</item>
+		<item action="org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete" title="Delete"/>
+		<item action="org.bgerp.action.NewsAction:newsGet" title="View a news" allowAll="1"/>
+	</item>
+	<item title="Address">
+		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address" title="View"/>
+		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet" title="Просмотр дома"/>
+		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch" title="Поиск по улицам">
+			<b>cityIds</b> - годы городов через запятую, в которых разрешён поиск улиц
+		</item>
+		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate" title="Изменение записи справочника">
+			<b>cityIds</b> - годы городов через запятую, разрешенных для редактирования
+		</item>
+		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete" title="Удаление записи справочника">
+			<b>cityIds</b> - годы городов через запятую, разрешенных для просмотра
+		</item>
+		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch" title="Поиск домов в улице"/>
+	</item>
+	<item title="Customer">
+		<item action="ru.bgcrm.struts.action.CustomerAction:customerGet" title="Открытие контрагента для изменения"/>
+		<item action="ru.bgcrm.struts.action.CustomerAction:customerCreate" title="Создание контрагента"/>
+		<item action="ru.bgcrm.struts.action.CustomerAction:customerUpdate" title="Изменение контрагента"/>
+		<item action="ru.bgcrm.struts.action.CustomerAction:customerDelete" title="Удаление контрагента"/>
+		<item action="ru.bgcrm.struts.action.CustomerAction:null, ru.bgcrm.struts.action.CustomerAction:customer" title="Просмотр карточки контрагента"/>
+		<item action="ru.bgcrm.struts.action.CustomerAction:customerTitleList" title="Контекстный поиск контрагентов"/>
+		<item action="ru.bgcrm.struts.action.CustomerAction:customerMerge" title="Слияние контрагентов"/>
+	</item>
+
+	<item action="ru.bgcrm.struts.action.LogAction:null, ru.bgcrm.struts.action.LogAction:log, ru.bgcrm.struts.action.LogAction:download" title="Log"/>
+
+	<item title="Message">
+		<item title="Queue">
+			<item action="ru.bgcrm.struts.action.MessageAction:messageList" title="List">
+				<b>allowedTypeIds</b> - comma separated type ID list<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.MessageAction:null, ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="View"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Possible processes list"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:processCreate" title="Create process for message"/>
+			<item title="Call">
+				<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Occupy number"/>
+				<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Release number"/>
+				<item action="ru.bgcrm.struts.action.MessageCallAction:testCall" title="Test call"/>
+			</item>
+		</item>
+		<item title="In process">
+			<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="List">
+				<b>allowedTypeIds</b> - comma separated type ID list<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageToggleTags" title="Pin and Tag"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Update read state"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Edit">
+				<b>allowedTypeIds</b> - comma separated type ID list for created messages<br/>
+			</item>
+			<item action="org.bgerp.action.MessageAction:modifyNotOwned" title="Update and Delete not owned"/>
+		</item>
+		<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
+	</item>
+
+	<item title="Process">
+		<item title="Queue">
+			<item action="ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue, ru.bgcrm.struts.action.ProcessAction:queue" title="Queues"/>
+			<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet" title="Получение свойств очереди процессов"/>
+			<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow" title="Просмотр очереди процессов"/>
+			<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree" title="Process creation editor">
+				<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
+			</item>
+			<item action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Run processor"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDoCommands" title="Run macros"/>
+		</item>
+		<item action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate" title="Create process"/>
+		<item title="Card">
+			<item action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process" title="View process card"/>
+
+			<item action="ru.bgcrm.struts.action.ProcessAction:processClone" title="Clone"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
+
+			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Edit status"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="View status history"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate" title="Edit priority"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate" title="Edit description"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd" title="Add to description"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate" title="Edit groups"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate" title="Edit executors">
+				<b>allowOnlyGroups</b> - id групп через запятую, в которых возможно изменение исполнителей<br/>
+				<b>allowOnlyUsers</b> - id исполнителей через запятую, которых можно удалять/добавлять<br/>
+				<b>allowOnlyProcessTypeIds</b> - id типов процессов через запятую, в которых разрешено изменение исполнителей<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap" title="Swap executors"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Edit type"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:unionLog" title="View change log"/>
+
+			<item title="Related Processes">
+				<item action="org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:showCategory, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
+					title="View"/>
+				<item title="Add">
+					<item action="org.bgerp.action.ProcessLinkProcessAction:addCreated, org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
+						title="Create a process and link it"/>
+					<item action="org.bgerp.action.ProcessLinkProcessAction:addExisting, org.bgerp.action.ProcessLinkProcessAction:linkProcessExisting" title="Link existing process to a Link Category"/>
+				</item>
+				<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete process link"/>
+			</item>
+		</item>
+
+		<item title="Object linked processes">
+			<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList" title="View linked processes">
+				<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
+			</item>
+			<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate" title="Create linked process"/>
+		</item>
+
+		<item action="ru.bgcrm.struts.action.ProcessAction:userProcessList" title="My processes"/>
+		<!-- used by wizard, clarify and cleanup -->
+		<item action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp" title="Удаление временного процесса" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.ProcessAction:processFinishCreateTmp" title="Завершение создания процесса" allowAll="1"/>
+	</item>
+
+	<item title="Parameters">
+		<item action="ru.bgcrm.struts.action.ParameterAction:parameterList" title="List">
+			<b>parameterIds</b> - id параметров через запятую разрешенных для просмотра<br/>
+			<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для просмотра<br/>
+			<b>tags</b> - теги через запятую тегированных параметров, которые разрешено отображать<br/>
+			<b>offEncrypt</b> - 1, если разрешено просматривать зашифрованные значения<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.ParameterAction:parameterUpdate, ru.bgcrm.struts.action.ParameterAction:parameterGet,
+			ru.bgcrm.struts.action.ParameterAction:parameterListCountAddValue, ru.bgcrm.struts.action.ParameterAction:parameterTreeCountAddValue"
+			title="Edit">
+			<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
+			<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для изменения<br/>
+			<b>tags</b> - теги через запятую тегированных параметров, которые разрешено править<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.ParameterAction:parameterLog" title="Change Log"/>
+		<item action="ru.bgcrm.struts.action.ParameterAction:entityLog" title="Object Properties Change Log"/>
+	</item>
+
+	<item title="File">
+		<item action="org.bgerp.action.FileAction:null, ru.bgcrm.struts.action.FileAction:null" title="Download"/>
+		<item action="org.bgerp.action.FileAction:temporaryUpload" allowAll="1"/>
+		<item action="org.bgerp.action.FileAction:temporaryDelete" allowAll="1"/>
+	</item>
+
+	<item title="Привязки">
+		<item action="ru.bgcrm.struts.action.LinkAction:linkList" title="Просмотр привязок"/>
+		<item action="ru.bgcrm.struts.action.LinkAction:addLink" title="Добавление привязки"/>
+		<item action="ru.bgcrm.struts.action.LinkAction:deleteLink" title="Удаление привязки"/>
+		<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo" title="Удаление привязок объекта"/>
+		<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType" title="Удаление привязок определённого типа"/>
+	</item>
+
+	<item title="User">
+		<item action="ru.bgcrm.struts.action.UserAction:userList" title="List of users"/>
+		<item action="ru.bgcrm.struts.action.ProfileAction:updateSettings" title="Update profile"/>
+		<item action="ru.bgcrm.struts.action.ProfileAction:getUserProfile" title="Просмотр профиля" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.ProfileAction:settings" title="Просмотр параметров профиля" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization" title="Изменение параметров интерфейс" allowAll="1"/>
+	</item>
+
 	<item title="Administration">
 		<item title="Users and Groups">
 			<item title="Users">
@@ -167,196 +342,23 @@
 		</item>
 	</item>
 
-	<item title="User">
-		<item title="Search">
-			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Search">
-				<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
-				<b>defaultForm</b> - default search form
-			</item>
-			<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Customer"/>
-			<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
+	<item action="org.bgerp.action.DemoAction:null" title="Demo">
+		<item action="org.bgerp.action.DemoAction:enumValues" title="enumValues"/>
+		<item action="org.bgerp.action.DemoAction:tabContentFirst" title="tabContentFirst"/>
+		<item action="org.bgerp.action.DemoAction:tabContentSecond" title="tabContentSecond"/>
+		<item action="org.bgerp.action.DemoAction:formSend" title="formSend"/>
+		<item title="Entity">
+			<item action="org.bgerp.action.DemoAction:entityList" title="List"/>
+			<item action="org.bgerp.action.DemoAction:entityGet, org.bgerp.action.DemoAction:entityUpdate" title="Edit"/>
+			<item action="org.bgerp.action.DemoAction:entityDelete" title="Delete"/>
 		</item>
-		<item title="News">
-			<item action="org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList" title="View" />
-			<item action="org.bgerp.action.NewsAction:newsSetRead, ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Mark as read" />
-			<item action="org.bgerp.action.NewsAction:newsSetAllRead, ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Mark all as read" />
-			<item action="org.bgerp.action.NewsAction:newsEdit, org.bgerp.action.NewsAction:newsUpdate, ru.bgcrm.struts.action.NewsAction:newsEdit, ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Edit">
-				<b>allowedGroupIds</b> - comma separated IDs of allowed user groups
-			</item>
-			<item action="org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete" title="Delete"/>
-			<item action="org.bgerp.action.NewsAction:newsGet" title="View a news" allowAll="1"/>
-		</item>
-		<item title="Customer">
-			<item action="ru.bgcrm.struts.action.CustomerAction:customerGet" title="Открытие контрагента для изменения"/>
-			<item action="ru.bgcrm.struts.action.CustomerAction:customerCreate" title="Создание контрагента"/>
-			<item action="ru.bgcrm.struts.action.CustomerAction:customerUpdate" title="Изменение контрагента"/>
-			<item action="ru.bgcrm.struts.action.CustomerAction:customerDelete" title="Удаление контрагента"/>
-			<item action="ru.bgcrm.struts.action.CustomerAction:null, ru.bgcrm.struts.action.CustomerAction:customer" title="Просмотр карточки контрагента"/>
-			<item action="ru.bgcrm.struts.action.CustomerAction:customerTitleList" title="Контекстный поиск контрагентов"/>
-			<item action="ru.bgcrm.struts.action.CustomerAction:customerMerge" title="Слияние контрагентов"/>
-		</item>
-		<item title="Address">
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address" title="View"/>
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet" title="Просмотр дома"/>
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch" title="Поиск по улицам">
-				<b>cityIds</b> - годы городов через запятую, в которых разрешён поиск улиц
-			</item>
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate" title="Изменение записи справочника">
-				<b>cityIds</b> - годы городов через запятую, разрешенных для редактирования
-			</item>
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete" title="Удаление записи справочника">
-				<b>cityIds</b> - годы городов через запятую, разрешенных для просмотра
-			</item>
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch" title="Поиск домов в улице"/>
-		</item>
-		<item title="File">
-			<item action="org.bgerp.action.FileAction:null, ru.bgcrm.struts.action.FileAction:null" title="Download"/>
-			<item action="org.bgerp.action.FileAction:temporaryUpload" allowAll="1"/>
-			<item action="org.bgerp.action.FileAction:temporaryDelete" allowAll="1"/>
-		</item>
-		<item title="Привязки">
-			<item action="ru.bgcrm.struts.action.LinkAction:linkList" title="Просмотр привязок"/>
-			<item action="ru.bgcrm.struts.action.LinkAction:addLink" title="Добавление привязки"/>
-			<item action="ru.bgcrm.struts.action.LinkAction:deleteLink" title="Удаление привязки"/>
-			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo" title="Удаление привязок объекта"/>
-			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType" title="Удаление привязок определённого типа"/>
-		</item>
-		<item title="Parameters">
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterList" title="List">
-				<b>parameterIds</b> - id параметров через запятую разрешенных для просмотра<br/>
-				<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для просмотра<br/>
-				<b>tags</b> - теги через запятую тегированных параметров, которые разрешено отображать<br/>
-				<b>offEncrypt</b> - 1, если разрешено просматривать зашифрованные значения<br/>
-			</item>
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterUpdate, ru.bgcrm.struts.action.ParameterAction:parameterGet,
-				ru.bgcrm.struts.action.ParameterAction:parameterListCountAddValue, ru.bgcrm.struts.action.ParameterAction:parameterTreeCountAddValue"
-				title="Edit">
-				<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
-				<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для изменения<br/>
-				<b>tags</b> - теги через запятую тегированных параметров, которые разрешено править<br/>
-			</item>
-			<item action="ru.bgcrm.struts.action.ParameterAction:parameterLog" title="Change Log"/>
-			<item action="ru.bgcrm.struts.action.ParameterAction:entityLog" title="Object Properties Change Log"/>
-		</item>
-		<item title="Process">
-			<item title="Queue">
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue, ru.bgcrm.struts.action.ProcessAction:queue" title="Queues"/>
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet" title="Получение свойств очереди процессов"/>
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow" title="Просмотр очереди процессов"/>
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree" title="Process creation editor">
-					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
-				</item>
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Run processor"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processDoCommands" title="Run macros"/>
-			</item>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate" title="Create process"/>
-			<item title="Card">
-				<item action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process" title="View process card"/>
-
-				<item action="ru.bgcrm.struts.action.ProcessAction:processClone" title="Clone"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
-
-				<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Edit status"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="View status history"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate" title="Edit priority"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate" title="Edit description"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd" title="Add to description"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate" title="Edit groups"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate" title="Edit executors">
-					<b>allowOnlyGroups</b> - id групп через запятую, в которых возможно изменение исполнителей<br/>
-					<b>allowOnlyUsers</b> - id исполнителей через запятую, которых можно удалять/добавлять<br/>
-					<b>allowOnlyProcessTypeIds</b> - id типов процессов через запятую, в которых разрешено изменение исполнителей<br/>
-				</item>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap" title="Swap executors"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Edit type"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:unionLog" title="View change log"/>
-
-				<item title="Related Processes">
-					<item action="org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:showCategory, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
-						title="View"/>
-					<item title="Add">
-						<item action="org.bgerp.action.ProcessLinkProcessAction:addCreated, org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
-							title="Create a process and link it"/>
-						<item action="org.bgerp.action.ProcessLinkProcessAction:addExisting, org.bgerp.action.ProcessLinkProcessAction:linkProcessExisting" title="Link existing process to a Link Category"/>
-					</item>
-					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete process link"/>
-				</item>
-			</item>
-
-			<item title="Object linked processes">
-				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList" title="View linked processes">
-					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
-				</item>
-				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate" title="Create linked process"/>
-			</item>
-
-			<item action="ru.bgcrm.struts.action.ProcessAction:userProcessList" title="My processes"/>
-			<!-- used by wizard, clarify and cleanup -->
-			<item action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp" title="Удаление временного процесса" allowAll="1"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processFinishCreateTmp" title="Завершение создания процесса" allowAll="1"/>
-		</item>
-		<item title="Message">
-			<item title="Queue">
-				<item action="ru.bgcrm.struts.action.MessageAction:messageList" title="List">
-					<b>allowedTypeIds</b> - comma separated type ID list<br/>
-				</item>
-				<item action="ru.bgcrm.struts.action.MessageAction:null, ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="View"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Possible processes list"/>
-				<item action="ru.bgcrm.struts.action.MessageAction:processCreate" title="Create process for message"/>
-				<item title="Call">
-					<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Occupy number"/>
-					<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Release number"/>
-					<item action="ru.bgcrm.struts.action.MessageCallAction:testCall" title="Test call"/>
-				</item>
-			</item>
-			<item title="In process">
-				<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="List">
-					<b>allowedTypeIds</b> - comma separated type ID list<br/>
-				</item>
-				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageToggleTags" title="Pin and Tag"/>
-				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Update read state"/>
-				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
-				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
-				<item action="ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Edit">
-					<b>allowedTypeIds</b> - comma separated type ID list for created messages<br/>
-				</item>
-				<item action="org.bgerp.action.MessageAction:modifyNotOwned" title="Update and Delete not owned"/>
-			</item>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
-		</item>
-		<item title="Справочник пользователей">
-			<item action="ru.bgcrm.struts.action.UserAction:userList" title="Получение списка пользователей"/>
-		</item>
-		<item action="org.bgerp.action.DemoAction:null" title="Demo">
-			<item action="org.bgerp.action.DemoAction:enumValues" title="enumValues"/>
-			<item action="org.bgerp.action.DemoAction:tabContentFirst" title="tabContentFirst"/>
-			<item action="org.bgerp.action.DemoAction:tabContentSecond" title="tabContentSecond"/>
-			<item action="org.bgerp.action.DemoAction:formSend" title="formSend"/>
-			<item title="Entity">
-				<item action="org.bgerp.action.DemoAction:entityList" title="List"/>
-				<item action="org.bgerp.action.DemoAction:entityGet, org.bgerp.action.DemoAction:entityUpdate" title="Edit"/>
-				<item action="org.bgerp.action.DemoAction:entityDelete" title="Delete"/>
-			</item>
-		</item>
-
-		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Unified action call with JSP result only" allowAll="1" notLogging="1"/>
-		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Pooling" allowAll="1" notLogging="1"/>
-		<item action="ru.bgcrm.struts.action.LockAction:add" title="Lock add" allowAll="1" notLogging="1"/>
-		<item action="ru.bgcrm.struts.action.LockAction:free" title="Lock free" allowAll="1" notLogging="1"/>
-
-		<item title="Профиль пользователя">
-			<item action="ru.bgcrm.struts.action.ProfileAction:getUserProfile" title="Просмотр профиля" allowAll="1"/>
-			<item action="ru.bgcrm.struts.action.ProfileAction:settings" title="Просмотр параметров профиля" allowAll="1"/>
-			<item action="ru.bgcrm.struts.action.ProfileAction:updateSettings" title="Изменение параметров профиля"/>
-			<item action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization" title="Изменение параметров интерфейс" allowAll="1"/>
-		</item>
-
-		<item action="ru.bgcrm.struts.action.LogAction:null, ru.bgcrm.struts.action.LogAction:log, ru.bgcrm.struts.action.LogAction:download" title="Logging"/>
-
-		<item action="org.bgerp.action.LoginAction:null" title="Auth" allowAll="1" notLogging="1"/>
-		<item action="org.bgerp.action.LoginAction:logout" title="Logout" allowAll="1" notLogging="1"/>
 	</item>
+
+	<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Unified action call with JSP result only" allowAll="1" notLogging="1"/>
+	<item action="ru.bgcrm.struts.action.PoolAction:null" title="Pooling" allowAll="1" notLogging="1"/>
+	<item action="ru.bgcrm.struts.action.LockAction:add" title="Lock add" allowAll="1" notLogging="1"/>
+	<item action="ru.bgcrm.struts.action.LockAction:free" title="Lock free" allowAll="1" notLogging="1"/>
+
+	<item action="org.bgerp.action.LoginAction:null" title="Auth" allowAll="1" notLogging="1"/>
+	<item action="org.bgerp.action.LoginAction:logout" title="Logout" allowAll="1" notLogging="1"/>
 </item>
