@@ -3,10 +3,8 @@
 
 <ui:menu-group title="${l.l('Организация работ')}" icon="ti-agenda">
 	<ui:menu-item title="${l.l('Типы работ')}" href="admin/callboard/work"
-		action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workTypeList"
-		command="/admin/plugin/callboard/work.do?method=workTypeList" />
+		action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workTypeList" />
 
 	<ui:menu-item title="${l.l('Шаблоны смен')}" href="admin/callboard/shift"
-		action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:shiftList"
-		command="/admin/plugin/callboard/work.do?method=shiftList" />
+		action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:shiftList" />
 </ui:menu-group>

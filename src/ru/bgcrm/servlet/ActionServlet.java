@@ -10,8 +10,8 @@ import javax.servlet.ServletException;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.BaseAction;
 import org.apache.struts.config.ModuleConfig;
+import org.bgerp.action.base.Actions;
 import org.bgerp.util.Log;
-import org.reflections.Reflections;
 
 import ru.bgcrm.plugin.PluginManager;
 
@@ -52,22 +52,21 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
     protected ModuleConfig initModuleConfig(String prefix, String paths) throws ServletException {
         var result = super.initModuleConfig(prefix, paths);
 
-        for (var p : PluginManager.getInstance().getPluginList()) {
-            var r = new Reflections(p.getActionPackages());
-            for (Class<? extends BaseAction> ac : r.getSubTypesOf(BaseAction.class)) {
-                var a = ac.getDeclaredAnnotation(Action.class);
-                if (a == null) continue;
+        Actions.init(PluginManager.getInstance().getPluginList());
 
-                var action = new ActionMapping();
-                action.setPath(a.path());
-                action.setType(ac.getCanonicalName());
-                action.setName("form");
-                action.setScope("request");
+        for (var ap : Actions.actionsByPath()) {
+            String path = ap.getKey();
+            String className = ap.getValue().getCanonicalName();
 
-                log.debug("Add action for plugin: {}, class: {}, path: {}", p.getId(), ac.getCanonicalName(), a.path());
+            var action = new ActionMapping();
+            action.setPath(path);
+            action.setType(className);
+            action.setName("form");
+            action.setScope("request");
 
-                result.addActionConfig(action);
-            }
+            log.debug("Adding action class: {}, path: {}", className, path);
+
+            result.addActionConfig(action);
         }
 
         return result;

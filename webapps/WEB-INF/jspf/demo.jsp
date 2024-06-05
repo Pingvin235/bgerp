@@ -243,7 +243,7 @@ cmd do && cmd undo
 
 		<ui:when type="user">
 			<br/>Lazy loading from AJAX request<br>
-			<ui:tag-box showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="/user/demo.do?method=enumValues" style="width: 30em;"/>
+			<ui:tag-box showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="${form.httpRequestURI}?method=enumValues" style="width: 30em;"/>
 		</ui:when>
 	</div>
 

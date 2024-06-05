@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.action.base.BaseAction;
+import org.bgerp.action.base.Actions;
 import org.bgerp.action.base.TitledAction;
 import org.bgerp.action.base.TitledActionFactory;
 import org.bgerp.action.util.Invoker;
@@ -43,6 +43,7 @@ public class PermissionNode {
     @VisibleForTesting
     static final String FILE_NAME = "action.xml";
     private static final String DELIMITER = " / ";
+    public static final String ACTION_METHOD_UNSPECIFIED = "unspecified";
 
     /** Root tree nodes. */
     private static volatile List<PermissionNode> permissionTrees;
@@ -156,12 +157,6 @@ public class PermissionNode {
         this(node.getAttribute("action"), node.getAttribute("title"));
         this.parent = parent;
 
-        var ltitle = node.getAttribute("ltitle");
-        if (Utils.notBlankString(ltitle)) {
-            title = l.l(ltitle);
-            log.warn("Using ltitle attributes in permission nodes is not recommended");
-        }
-
         allowAll = Utils.parseBoolean(node.getAttribute("allowAll"));
         notLogging = Utils.parseBoolean(node.getAttribute("notLogging"));
 
@@ -184,22 +179,27 @@ public class PermissionNode {
      * Validates existence of primary action class and method in {@link #action}.
      */
     private void validateAction() {
-        if (Utils.isBlankString(action))
-            return;
-
-        Class<?> actionClass = null;
-        try {
-            actionClass = Class.forName(StringUtils.substringBefore(action, ":"));
-            if (!BaseAction.class.isAssignableFrom(actionClass)) {
-                log.warn("Action class '{}' doesn't extend BaseAction", actionClass.getName());
-                return;
-            }
-        } catch (ClassNotFoundException e) {
-            log.warn("Action class not found for action '{}'", action);
+        if (Utils.isBlankString(action)) {
+            // no action is defined, directory item
             return;
         }
 
-        validateActionMethod(actionClass);
+        Class<?> actionClass = Actions.get(actionClass(action));
+        // there is org.bgerp.action.MessageAction class not annotated and used only for permission check
+        if (actionClass != null)
+            validateActionMethod(actionClass);
+    }
+
+    /**
+     * Selects an action's class name
+     * @param action primary action class and method
+     * @return the class name
+     */
+    public static String actionClass(String action) {
+        int pos = action.indexOf(':');
+        if (pos > 0)
+            return action.substring(0, pos);
+        return action;
     }
 
     /**
@@ -208,7 +208,7 @@ public class PermissionNode {
      * @param actionClass action class.
      */
     private void validateActionMethod(Class<?> actionClass) {
-        String actionMethod = actionMethodName();
+        String actionMethod = actionMethod(action);
         try {
             Invoker.find(actionClass, actionMethod);
         } catch (NoSuchMethodException e) {
@@ -216,10 +216,15 @@ public class PermissionNode {
         }
     }
 
-    private String actionMethodName() {
+    /**
+     * Selects action method name
+     * @param action primary action class and method
+     * @return the method name or {@link #ACTION_METHOD_UNSPECIFIED}
+     */
+    public static String actionMethod(String action) {
         String result = StringUtils.substringAfter(action, ":");
-        if ("null".equals(result))
-            result = "unspecified";
+        if ("null".equals(result) || Utils.isBlankString(result))
+            result = ACTION_METHOD_UNSPECIFIED;
         return result;
     }
 

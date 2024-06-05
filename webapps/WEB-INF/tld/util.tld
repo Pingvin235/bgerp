@@ -174,6 +174,12 @@
 		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
 		<function-signature>java.lang.String docUrl(java.lang.String)</function-signature>
 	</function>
+	<function>
+		<description>Action call URL for an action identifier.</description>
+		<name>actionUrl</name>
+		<function-class>org.bgerp.app.servlet.jsp.UtilFunction</function-class>
+		<function-signature>java.lang.String actionUrl(java.lang.String)</function-signature>
+	</function>
 
 	<!-- utils deprecated usages with warnings, call u. methods instead -->
 	<function>
