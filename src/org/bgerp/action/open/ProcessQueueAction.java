@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
@@ -60,7 +59,7 @@ public class ProcessQueueAction extends BaseAction {
         }
     }
 
-    public ActionForward show(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward show(DynActionForm form, ConnectionSet conSet) throws Exception {
         int queueId = form.getId();
 
         var config = setup.getConfig(Config.class);

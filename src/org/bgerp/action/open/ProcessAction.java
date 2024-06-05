@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.servlet.Interface;
@@ -114,7 +113,7 @@ public class ProcessAction extends BaseAction {
         }
     }
 
-    public ActionForward show(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward show(DynActionForm form, ConnectionSet conSet) throws Exception {
         var config = setup.getConfig(Config.class);
         if (config == null)
             return null;
@@ -135,7 +134,7 @@ public class ProcessAction extends BaseAction {
         return html(conSet, null, PATH_JSP + "/show.jsp");
     }
 
-    public ActionForward messages(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward messages(DynActionForm form, ConnectionSet conSet) throws Exception {
         var config = setup.getConfig(Config.class);
         var process = new ProcessDAO(conSet.getSlaveConnection()).getProcess(form.getId());
         if (config == null || !config.isOpen(process, form) || config.getShowMessagesTagIds() == null)

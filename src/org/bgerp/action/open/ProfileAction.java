@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
@@ -98,7 +97,7 @@ public class ProfileAction extends BaseAction {
         }
     }
 
-    public ActionForward show(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward show(DynActionForm form, ConnectionSet conSet) throws Exception {
         var config = setup.getConfig(Config.class);
         if (config != null && config.isOpen(form.getId())) {
             form.getHttpRequest().setAttribute("config", config);

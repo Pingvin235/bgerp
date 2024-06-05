@@ -3,7 +3,6 @@ package org.bgerp.plugin.msg.feedback.action.open;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.action.open.ProcessAction;
 import org.bgerp.app.cfg.ConfigMap;
@@ -65,11 +64,11 @@ public class MessageAction extends BaseAction {
         }
     }
 
-    public ActionForward edit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward edit(DynActionForm form, ConnectionSet conSet) throws Exception {
         return html(conSet, null, Plugin.PATH_JSP_OPEN + "/editor.jsp");
     }
 
-    public ActionForward add(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward add(DynActionForm form, ConnectionSet conSet) throws Exception {
         var configProcessOpen = setup.getConfig(ProcessAction.Config.class);
 
         int processId = form.getParamInt("processId");
