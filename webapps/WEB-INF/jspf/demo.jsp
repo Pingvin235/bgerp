@@ -322,10 +322,10 @@ cmd do && cmd undo
 		<script>
 			$(function () {
 				const $tabs = $("#${uiid}").tabs({ refreshButton: true });
-				<p:check action="${form.httpRequestURI}:tabContentFirst">
+				<p:check action="/user/demo:tabContentFirst">
 					$tabs.tabs("add", "${form.httpRequestURI}?method=tabContentFirst", "First tab");
 				</p:check>
-				<p:check action="${form.httpRequestURI}:tabContentSecond">
+				<p:check action="/user/demo:tabContentSecond">
 					$tabs.tabs("add", "${form.httpRequestURI}?method=tabContentSecond", "Second tab");
 				</p:check>
 			})

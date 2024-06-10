@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 import javax.servlet.ServletException;
 
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.actions.BaseAction;
 import org.apache.struts.config.ModuleConfig;
 import org.bgerp.action.base.Actions;
 import org.bgerp.util.Log;
@@ -30,19 +29,10 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface Action {
         String path();
-    }
-
-    /**
-     * Selects an action's path, declared in annotation {@link Action}.
-     * @param clazz the action class.
-     * @return string from the class annotation.
-     * @throws IllegalArgumentException if no annotation defined.
-     */
-    public static String getActionPath(Class<? extends BaseAction> clazz) {
-        var a = clazz.getDeclaredAnnotation(Action.class);
-        if (a == null)
-            throw new IllegalArgumentException();
-        return a.path();
+        /**
+         * @return the action ID is path, not class name
+         */
+        boolean pathId() default false;
     }
 
     /**
@@ -54,17 +44,14 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
 
         Actions.init(PluginManager.getInstance().getPluginList());
 
-        for (var ap : Actions.actionsByPath()) {
-            String path = ap.getKey();
-            String className = ap.getValue().getCanonicalName();
-
+        for (var a : Actions.actions()) {
             var action = new ActionMapping();
-            action.setPath(path);
-            action.setType(className);
+            action.setPath(a.getPath());
+            action.setType(a.getType());
             action.setName("form");
             action.setScope("request");
 
-            log.debug("Adding action class: {}, path: {}", className, path);
+            log.debug("Adding action class: {}, path: {}", a.getType(), a.getPath());
 
             result.addActionConfig(action);
         }

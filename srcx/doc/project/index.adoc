@@ -714,7 +714,7 @@ Examples:
 
 Definitions from those files are forming a tree which is used for <<../kernel/setup.adoc#user, access control>>.
 
-Each action is identified by a class AND method, separated by semicolon.
+Each action is identified by ID (path or class, depending on annotation) AND *method*, separated by semicolon.
 
 First primary action can be followed by additional ones, separated by a *comma* - for example, when renaming classes or methods. Enabling each action enables all the item.
 This allows to provide backwards compatibility with permissions already present in the DB.
@@ -724,6 +724,10 @@ In the following example an action class was renamed two times and action method
 
 [snippet, from="<item ti", to="s\"/>", remove-leading="		"]
 link:../../../src/org/bgerp/plugin/kernel/action.xml#L318-L319[org/bgerp/plugin/kernel/action.xml]
+
+And in this sample action ID was changed from *class* to *path*. Old IDs were preserved as well.
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L345-L355[org/bgerp/plugin/kernel/action.xml]
+
 
 The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
 

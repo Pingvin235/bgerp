@@ -18,7 +18,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/demo")
+@Action(path = "/user/demo", pathId = true)
 public class DemoAction extends org.bgerp.action.open.DemoAction {
     private static final Log log = Log.getLog();
 

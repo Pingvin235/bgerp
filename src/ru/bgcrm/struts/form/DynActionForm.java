@@ -30,6 +30,7 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.action.base.Actions;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGIllegalArgumentException;
@@ -107,7 +108,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     private User user;
     /** Action identifier, semicolon separated class and method names */
-    private String actionIdentifier = "???";
+    private String action = "???";
     private ConfigMap permission;
 
     public Localizer l;
@@ -262,12 +263,12 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
 
     /**
-     * Builds {@link #actionIdentifier} as semicolon separated action class name and method name from {@link #getMethod()}
+     * Builds {@link #action} as semicolon separated action ID and method name from {@link #getMethod()}
      * @param clazz the action class
      * @return the generated value
      */
-    public String actionIdentifier(Class<? extends BaseAction> clazz) {
-        return actionIdentifier = clazz.getName() + ":" + Utils.maskEmpty(getMethod(), "null");
+    public String action(Class<? extends BaseAction> clazz) {
+        return action = Actions.getByClass(clazz).getId() + ":" + Utils.maskEmpty(getMethod(), "null");
     }
 
     /**
@@ -373,18 +374,18 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * @return request parameter {@code pageableId} or {@link #actionIdentifier} if it was empty or missing.
+     * @return request parameter {@code pageableId} or {@link #action} if it was empty or missing.
      */
     public String getPageableId() {
-        return getParam(Page.PAGEABLE_ID, actionIdentifier);
+        return getParam(Page.PAGEABLE_ID, action);
     }
 
     /**
      * Area ID is used in {@link BaseAction#restoreRequestParams()} for preserving request parameters.
-     * @return request parameter {@code areaId} or {@link #actionIdentifier} if it was empty or missing.
+     * @return request parameter {@code areaId} or {@link #action} if it was empty or missing.
      */
     public String getAreaId() {
-        return getParam("areaId", actionIdentifier);
+        return getParam("areaId", action);
     }
 
     /**

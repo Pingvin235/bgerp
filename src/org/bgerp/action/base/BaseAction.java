@@ -164,7 +164,7 @@ public abstract class BaseAction extends DispatchAction {
             if (user == null) {
                 form.setPermission(ConfigMap.EMPTY);
             } else {
-                action = form.actionIdentifier(this.getClass());
+                action = form.action(this.getClass());
                 permissionNode = permissionCheck(form, action);
                 updateUserPageSettings(conSet, form);
             }

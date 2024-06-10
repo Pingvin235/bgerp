@@ -82,4 +82,4 @@
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_ADMIN_MENU_ITEMS%>"/>
 </ui:menu-group>
 
-<ui:menu-item title="Demo" href="demo" icon="ti-game" action="org.bgerp.action.DemoAction:null" />
+<ui:menu-item title="Demo" href="demo" icon="ti-game" action="/user/demo:null" />

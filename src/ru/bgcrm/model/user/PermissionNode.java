@@ -184,18 +184,18 @@ public class PermissionNode {
             return;
         }
 
-        Class<?> actionClass = Actions.get(actionClass(action));
+        var a = Actions.getById(actionId(action));
         // there is org.bgerp.action.MessageAction class not annotated and used only for permission check
-        if (actionClass != null)
-            validateActionMethod(actionClass);
+        if (a != null)
+            validateActionMethod(a.getTypeClass());
     }
 
     /**
-     * Selects an action's class name
+     * Selects an action's ID (class name or path)
      * @param action primary action class and method
      * @return the class name
      */
-    public static String actionClass(String action) {
+    public static String actionId(String action) {
         int pos = action.indexOf(':');
         if (pos > 0)
             return action.substring(0, pos);

@@ -13,7 +13,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bgerp.action.base.Actions;
-import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.dist.App;
 import org.bgerp.app.dist.inst.InstalledModule;
@@ -24,7 +23,6 @@ import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.model.user.PermissionNode;
-import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -345,13 +343,12 @@ public class UtilFunction {
      * @throws NotFoundException
      */
     public static String actionUrl(String action) throws NotFoundException {
-        String id = PermissionNode.actionClass(action);
-        Class<? extends BaseAction> clazz = Actions.get(id);
-        if (clazz == null)
+        var a = Actions.getById(PermissionNode.actionId(action));
+        if (a == null)
             throw new NotFoundException("Action class not found for action: " + action);
 
         var result =  new StringBuffer(100);
-        result.append(ActionServlet.getActionPath(clazz)).append(".do");
+        result.append(a.getPath()).append(".do");
 
         String method = PermissionNode.actionMethod(action);
         if (!PermissionNode.ACTION_METHOD_UNSPECIFIED.equals(method))

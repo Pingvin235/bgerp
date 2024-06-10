@@ -15,7 +15,7 @@
 			<b>allowedGroupIds</b> - comma separated IDs of allowed user groups
 		</item>
 		<item action="org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete" title="Delete"/>
-		<item action="org.bgerp.action.NewsAction:newsGet" title="View a news" allowAll="1"/>
+		<item action="org.bgerp.action.NewsAction:newsGet" allowAll="1"/>
 	</item>
 	<item title="Address">
 		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address" title="View"/>
@@ -169,9 +169,9 @@
 	<item title="User">
 		<item action="ru.bgcrm.struts.action.UserAction:userList" title="List of users"/>
 		<item action="ru.bgcrm.struts.action.ProfileAction:updateSettings" title="Update profile"/>
-		<item action="ru.bgcrm.struts.action.ProfileAction:getUserProfile" title="Просмотр профиля" allowAll="1"/>
-		<item action="ru.bgcrm.struts.action.ProfileAction:settings" title="Просмотр параметров профиля" allowAll="1"/>
-		<item action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization" title="Изменение параметров интерфейс" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.ProfileAction:getUserProfile" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.ProfileAction:settings" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization" allowAll="1"/>
 	</item>
 
 	<item title="Administration">
@@ -342,23 +342,23 @@
 		</item>
 	</item>
 
-	<item action="org.bgerp.action.DemoAction:null" title="Demo">
-		<item action="org.bgerp.action.DemoAction:enumValues" title="enumValues"/>
-		<item action="org.bgerp.action.DemoAction:tabContentFirst" title="tabContentFirst"/>
-		<item action="org.bgerp.action.DemoAction:tabContentSecond" title="tabContentSecond"/>
-		<item action="org.bgerp.action.DemoAction:formSend" title="formSend"/>
+	<item action="/user/demo:null, org.bgerp.action.DemoAction:null" title="Demo">
+		<item action="/user/demo:enumValues, org.bgerp.action.DemoAction:enumValues" title="enumValues"/>
+		<item action="/user/demo:tabContentFirst, org.bgerp.action.DemoAction:tabContentFirst" title="tabContentFirst"/>
+		<item action="/user/demo:tabContentSecond, org.bgerp.action.DemoAction:tabContentSecond" title="tabContentSecond"/>
+		<item action="/user/demo:formSend, org.bgerp.action.DemoAction:formSend" title="formSend"/>
 		<item title="Entity">
-			<item action="org.bgerp.action.DemoAction:entityList" title="List"/>
-			<item action="org.bgerp.action.DemoAction:entityGet, org.bgerp.action.DemoAction:entityUpdate" title="Edit"/>
-			<item action="org.bgerp.action.DemoAction:entityDelete" title="Delete"/>
+			<item action="/user/demo:entityList, org.bgerp.action.DemoAction:entityList" title="List"/>
+			<item action="/user/demo:entityGet, /user/demo:entityUpdate, org.bgerp.action.DemoAction:entityGet, org.bgerp.action.DemoAction:entityUpdate" title="Edit"/>
+			<item action="/user/demo:entityDelete, org.bgerp.action.DemoAction:entityDelete" title="Delete"/>
 		</item>
 	</item>
 
-	<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Unified action call with JSP result only" allowAll="1" notLogging="1"/>
-	<item action="ru.bgcrm.struts.action.PoolAction:null" title="Pooling" allowAll="1" notLogging="1"/>
-	<item action="ru.bgcrm.struts.action.LockAction:add" title="Lock add" allowAll="1" notLogging="1"/>
-	<item action="ru.bgcrm.struts.action.LockAction:free" title="Lock free" allowAll="1" notLogging="1"/>
+	<item action="ru.bgcrm.struts.action.EmptyAction:null" allowAll="1" notLogging="1"/>
+	<item action="ru.bgcrm.struts.action.PoolAction:null" allowAll="1" notLogging="1"/>
+	<item action="ru.bgcrm.struts.action.LockAction:add" allowAll="1" notLogging="1"/>
+	<item action="ru.bgcrm.struts.action.LockAction:free" allowAll="1" notLogging="1"/>
 
-	<item action="org.bgerp.action.LoginAction:null" title="Auth" allowAll="1" notLogging="1"/>
-	<item action="org.bgerp.action.LoginAction:logout" title="Logout" allowAll="1" notLogging="1"/>
+	<item action="org.bgerp.action.LoginAction:null" allowAll="1" notLogging="1"/>
+	<item action="org.bgerp.action.LoginAction:logout" allowAll="1" notLogging="1"/>
 </item>

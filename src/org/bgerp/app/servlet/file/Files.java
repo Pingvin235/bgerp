@@ -15,12 +15,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.Actions;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 
 import com.google.common.collect.Lists;
 
-import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -76,7 +76,7 @@ public class Files {
      */
     public String getDownloadURL() {
         return
-            ActionServlet.getActionPath(actionClass) + ".do?" +
+            Actions.getByClass(actionClass).getPath() + ".do?" +
             DynActionForm.PARAM_ACTION_METHOD + "=" + getActionMethod("download");
     }
 
@@ -85,7 +85,7 @@ public class Files {
      * @return
     */
     public String getDownloadPermissionAction() {
-        return actionClass.getName() + ":" + getActionMethod("download");
+        return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("download");
     }
 
     /**
@@ -95,7 +95,7 @@ public class Files {
      */
     public String getDeleteURL() {
         return
-            ActionServlet.getActionPath(actionClass) + ".do?" +
+            Actions.getByClass(actionClass).getPath() + ".do?" +
             DynActionForm.PARAM_ACTION_METHOD + "=" + getActionMethod("delete");
     }
 
@@ -104,7 +104,7 @@ public class Files {
      * @return
     */
     public String getDeletePermissionAction() {
-        return actionClass.getName() + ":" + getActionMethod("delete");
+        return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("delete");
     }
 
     private String getActionMethod(String prefix) {
