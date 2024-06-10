@@ -318,7 +318,7 @@
 	<p><ru>Принят</ru><en>Accepted</en></p>
 	<p><ru>Обновление</ru><en>Update</en></p>
 	<p><ru>Принудительно</ru><en>Force</en></p>
-	<p><ru>Обновление на изменение</ru><en>Update on change</en></p>
+	<p><en>Update on change</en><ru>Обновление на изменение</ru></p>
 	<p><ru>Логи обновлений</ru><en>Update logs</en></p>
 	<p><en>File</en><ru>Файл</ru></p>
 	<p><en>Size</en><ru>Размер</ru></p>
@@ -649,7 +649,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Allowed status transitions matrix</en><ru>Матрица разрешенных переходов статусов</ru></p>
 	<p><sys>statuses.initial</sys><en>Initial</en><ru>Начальные</ru></p>
 	<p><sys>statuses.allowed</sys><en>Allowed</en><ru>Разрешённые</ru></p>
-	<p><en>Pre-Stable</en><ru>Пред-стабильный</ru></p>
+	<p><en>Master Release</en><ru>Мастер релиз</ru></p>
 	<p><en>Author</en><ru>Автор</ru></p>
 	<p><en>Maintenance</en><ru>Обслуживание</ru></p>
 	<p><en>Delay in minutes before user's logoff</en><ru>Задержка в минутах до вывода пользователей</ru></p>

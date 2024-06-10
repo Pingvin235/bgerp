@@ -59,9 +59,9 @@ public class AppAction extends BaseAction {
         form.setResponseData("dbTrace", Setup.getSetup().getConnectionPool().getDbTrace());
 
         List<Change> changes = new InstallerChanges().getChanges();
-        var preStableRelease = changes.stream().filter(c -> InstallerChanges.PRE_RELEASE_CHANGE_ID.equals(c.getId())).findAny();
-        if (preStableRelease.isPresent())
-            preStableRelease.get().setTitle("0 (" + l.l("Pre-Stable") + ")");
+        var masterRelease = changes.stream().filter(c -> InstallerChanges.MASTER_RELEASE_CHANGE_ID.equals(c.getId())).findAny().orElse(null);
+        if (masterRelease != null)
+            masterRelease.setTitle(masterRelease.getTitle().replaceFirst("0", "0 (" + l.l("Master Release") + ")"));
 
         form.setResponseData("changes", changes);
 

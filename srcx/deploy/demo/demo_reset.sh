@@ -15,6 +15,6 @@ echo "Downloading demo license"
 
 wget https://bgerp.org/download/lic.data -O "$ERP_DIR/lic.data"
 
-echo "Installing Pre-Stable Release"
+echo "Installing Master Release"
 
 cd $ERP_DIR && ./installer.sh installc 0 && ./erp_restart.sh

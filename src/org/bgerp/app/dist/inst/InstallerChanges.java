@@ -34,7 +34,7 @@ public class InstallerChanges {
     private static final Log log = Log.getLog();
 
     public static final String UPDATE_TO_CHANGE_URL = App.URL + "/change";
-    public static final String PRE_RELEASE_CHANGE_ID = "0";
+    public static final String MASTER_RELEASE_CHANGE_ID = "0";
 
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
@@ -71,11 +71,11 @@ public class InstallerChanges {
             changes.add(new Change(id, StringUtils.substringBeforeLast(link.nextSibling().toString(), "-").trim()));
         }
 
-        // sorting, first 00000, after reverse sorted by modification time
+        // sorting, first master release, after reverse sorted by modification time
         Collections.sort(changes, (o1, o2) -> {
-            if (PRE_RELEASE_CHANGE_ID.equals(o1.getId()))
+            if (MASTER_RELEASE_CHANGE_ID.equals(o1.getId()))
                 return -1;
-            if (PRE_RELEASE_CHANGE_ID.equals(o2.getId()))
+            if (MASTER_RELEASE_CHANGE_ID.equals(o2.getId()))
                 return 1;
             return o2.time.compareTo(o1.time);
         });

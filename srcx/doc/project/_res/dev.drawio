@@ -159,7 +159,7 @@
         <mxCell id="NSyCP6Xlonel7Bvd3Vcg-1" value="Stable" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="245" y="190" width="90" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="NSyCP6Xlonel7Bvd3Vcg-2" value="Pre-Stable" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+        <mxCell id="NSyCP6Xlonel7Bvd3Vcg-2" value="Master" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="355" y="190" width="70" height="20" as="geometry" />
         </mxCell>
         <mxCell id="NSyCP6Xlonel7Bvd3Vcg-3" value="Changes" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">

@@ -46,10 +46,10 @@
 	<c:set var="error" value="${frd.error}"/>
 
 	<p:check action="org.bgerp.action.admin.AppAction:updateToChange">
-		<h2>${l.l('Обновление на изменение')}</h2>
+		<h2>${l.l('Update on change')}</h2>
 		<html:form action="/admin/app">
 			<input type="hidden" name="method" value="updateToChange"/>
-			<ui:combo-single hiddenName="changeId" widthTextValue="12em" prefixText="ID:" styleClass="mr05">
+			<ui:combo-single hiddenName="changeId" widthTextValue="18em" prefixText="ID:" styleClass="mr05">
 				<jsp:attribute name="valuesHtml">
 					<c:forEach var="item" items="${frd.changes}">
 						<li value="${item.id}">${item.title}</li>

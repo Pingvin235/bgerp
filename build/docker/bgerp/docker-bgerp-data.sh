@@ -21,7 +21,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     mysql --default-character-set=utf8 -uroot -p$MYSQL_ROOT_PASSWORD < /opt/bgerp/db_create.sql
     mysql --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < /opt/bgerp/db_init.sql
 
-    # install pre-stable release
+    # install master release
     /opt/bgerp/installer.sh installc 0
 
     TMP_DIR=/tmp/bgerp

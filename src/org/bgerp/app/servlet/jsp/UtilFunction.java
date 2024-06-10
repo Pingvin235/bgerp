@@ -328,7 +328,7 @@ public class UtilFunction {
             return url;
 
         final var m = InstalledModule.get(InstalledModule.MODULE_UPDATE);
-        final String changeId = m == null ? InstallerChanges.PRE_RELEASE_CHANGE_ID : m.getChangeId();
+        final String changeId = m == null ? InstallerChanges.MASTER_RELEASE_CHANGE_ID : m.getChangeId();
 
         if (Utils.notBlankString(changeId))
             return InstallerChanges.UPDATE_TO_CHANGE_URL + "/" + changeId + "/doc/" + url;

@@ -320,7 +320,7 @@ crontab -e
 Система версионирования продукта описана на нашем link:https://bgerp.org/product/#cd[веб-сайте].
 Следуя данному руководству, вы установите его актуальный *Stable Release*.
 При последующей эксплуатации рекомендуется обновляться только при выпуске очередного подобного релиза, о чём приложение информирует уведомлением в интерфейсе.
-Однако в момент первоначального запуска системы предпочтительно использовать *Pre-Stable Release* для получения наиболее свежей функциональности.
+Однако в момент первоначального запуска системы предпочтительно использовать *Master Release* для получения наиболее свежей функциональности.
 
 IMPORTANT: Prior to updating, make sure to examine link:https://bgerp.org/ru/#install[Release Notes], as these may contain important information or update instructions.
 
@@ -440,7 +440,7 @@ To inform about maintanence beginnging and cancelling popup <<news.adoc#, news>>
 
 [[demo]]
 == Demo System
-The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<update-version, Pre-Stable Release>>
+The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<update-version, Master Release>>
 of software and resets to initial state every 3rd hour.
 Поскольку в системе приведены примеры всего функционала продукта, она может использоваться для изучения программы с проверкой конфигураций.
 В случае длительных экспериментов для избежания потери сделанных изменений мы рекомендуем вам использовать <<method-docker, Docker Container>>.

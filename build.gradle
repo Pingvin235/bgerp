@@ -286,7 +286,7 @@ def getTitle() {
     def title = version + "." + getBuild()
     def changeId = getChangeId()
 
-    // pre-stable release
+    // master release
     if (changeId == '15055') {
         title += '.0'
     }
