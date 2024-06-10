@@ -211,6 +211,9 @@ sourceSets {
             srcDir 'buildSrc/src/main/java'
             srcDir 'srcx/tool'
         }
+        resources {
+            srcDir 'srcx/tool'
+        }
         compileClasspath = configurations.tool + sourceSets.main.output
         runtimeClasspath = compileClasspath + output
     }
