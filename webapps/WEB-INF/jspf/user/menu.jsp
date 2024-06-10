@@ -38,8 +38,7 @@
 			action="org.bgerp.action.admin.AppAction:maintenance" />
 	</ui:menu-group>
 
-	<ui:menu-item title="${l.l('License')}" href="admin/license" icon="ti-money"
-		action="org.bgerp.action.admin.LicenseAction:null" />
+	<ui:menu-item title="${l.l('License')}" href="admin/license" icon="ti-money" action="/admin/license:null" />
 
 	<ui:menu-item title="${l.l('Configuration')}" href="admin/config" icon="ti-panel"
 		action="ru.bgcrm.struts.action.admin.ConfigAction:list" />

@@ -15,7 +15,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/license")
+@Action(path = "/admin/license", pathId = true)
 public class LicenseAction extends BaseAction {
     public static final String PATH_JSP = PATH_JSP_ADMIN + "/license";
 

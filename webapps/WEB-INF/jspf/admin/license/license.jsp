@@ -5,7 +5,7 @@
 	${u:htmlEncode(license.data)}
 </div>
 
-<p:check action="org.bgerp.action.admin.LicenseAction:upload">
+<p:check action="/admin/license:upload">
 	<form action="${form.httpRequestURI}" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="method" value="upload"/>
 		<input type="hidden" name="responseType" value="json"/>

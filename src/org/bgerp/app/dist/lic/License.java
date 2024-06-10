@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.action.admin.LicenseAction;
+import org.bgerp.action.base.Actions;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
@@ -140,7 +141,7 @@ public class License {
         if (user == null)
             return;
 
-        final boolean actionAllowed = user.checkPerm(LicenseAction.class.getName() + ":null");
+        final boolean actionAllowed = user.checkPerm(Actions.getByClass(LicenseAction.class).getId() + ":null");
 
         // notification
         if (Utils.isBlankString(error)) {

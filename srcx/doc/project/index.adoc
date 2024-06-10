@@ -950,7 +950,7 @@ As there is no way to make localization on the Frontend, phrases may be sent the
 Here are two samples for such cases.
 
 [snippet, from="form.g", to="e));", remove-leading="                "]
-link:../../../src/org/bgerp/app/dist/lic/License.java#L153-L156[org.bgerp.app.dist.lic.License]
+link:../../../src/org/bgerp/app/dist/lic/License.java#L154-L157[org.bgerp.app.dist.lic.License]
 
 [snippet, from="final v", to="es\");", remove-leading="            "]
 link:../../../src/org/bgerp/cache/UserNewsCache.java#L81-L85[org.bgerp.cache.UserNewsCache]
