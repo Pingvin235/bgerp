@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
@@ -13,22 +12,22 @@ import ru.bgcrm.model.process.wizard.base.StepData;
 import ru.bgcrm.model.process.wizard.base.WizardData;
 import ru.bgcrm.plugin.bgbilling.proto.dao.InetDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetSessionLog;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 @Bean
-public class ShowInetSessionStep extends BaseStep {
+public class ShowInetServiceStep extends BaseStep {
     private final int inetModuleId;
 
-    public ShowInetSessionStep(ConfigMap config) {
+    public ShowInetServiceStep(ConfigMap config) {
         super(config);
         inetModuleId = config.getInt("inetModuleId");
     }
 
     @Override
     public String getJsp() {
-        return PATH_JSP + "/step_show_inet_session.jsp";
+        return PATH_JSP + "/step_show_inet_service.jsp";
     }
 
     @Override
@@ -36,15 +35,15 @@ public class ShowInetSessionStep extends BaseStep {
         return new Data(this, data);
     }
 
-    public static class Data extends StepData<ShowInetSessionStep> {
-        private List<InetSessionLog> sessions;
+    public static class Data extends StepData<ShowInetServiceStep> {
+        private List<InetService> services;
 
-        private Data(ShowInetSessionStep step, WizardData data) {
+        private Data(ShowInetServiceStep step, WizardData data) {
             super(step, data);
         }
 
-        public List<InetSessionLog> getSessions() {
-            return sessions;
+        public List<InetService> getServices() {
+            return services;
         }
 
         @Override
@@ -57,9 +56,7 @@ public class ShowInetSessionStep extends BaseStep {
 
             var dao = InetDAO.getInstance(form.getUser(), contract.getBillingId(), step.inetModuleId);
 
-            var result = new Pageable<InetSessionLog>(20);
-            dao.getSessionAliveContractList(result, contract.getId());
-            sessions = result.getList();
+            services = dao.getServiceList(contract.getId());
 
             return true;
         }

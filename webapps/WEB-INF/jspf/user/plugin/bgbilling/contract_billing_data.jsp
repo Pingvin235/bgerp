@@ -82,15 +82,17 @@
 				</u:sc>
 
 				<c:url var="urlBalancePeriod" value="balance.do?method=balance">
-					<c:param name="dateFrom" value="${tu.format(contract.balanceDate, 'dd.MM.yyyy')}"/>
-					<c:param name="dateTo" value="${tu.format(tu.getEndMonth(contract.balanceDate), 'dd.MM.yyyy')}"/>
+					<c:if test="${not empty contract.balanceDate}">
+						<c:param name="dateFrom" value="${tu.format(contract.balanceDate, 'dd.MM.yyyy')}"/>
+						<c:param name="dateTo" value="${tu.format(tu.getEndMonth(contract.balanceDate), 'dd.MM.yyyy')}"/>
+					</c:if>
 				</c:url>
 
 				<u:sc>
 					<c:set var="locale" value="${u:newInstance1('java.util.Locale', 'ru')}"/>
 					<c:set var="format" value="${u:newInstance2('java.text.SimpleDateFormat', 'LLLL Y', locale)}"/>
 					<c:set var="title">
-						Баланс (<span id="balanceMonth">${format.format(contract.balanceDate)}</span>)
+						Баланс (<span id="balanceMonth">${not empty contract.balanceDate ? format.format(contract.balanceDate) : ''}</span>)
 					</c:set>
 					<c:set var="value" value=""/>
 					<c:url var="url" value="${urlBalancePeriod}">

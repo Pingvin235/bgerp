@@ -3,6 +3,13 @@
 |<class> и внешний вид
 |Описание и параметры
 
+| ShowInetServicesStep
+
+image::../../plugin/bgbilling/_res/wizard/step_inet_services.png[]
+| Отображение Inet сервисов привязанного к процессу договора.
+[square]
+* *inetModuleId* - код модуля Inet.
+
 | ShowInetSessionStep
 
 image::../../plugin/bgbilling/_res/wizard/step_inet_sessions.png[]

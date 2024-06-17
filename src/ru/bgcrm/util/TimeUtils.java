@@ -739,11 +739,13 @@ public class TimeUtils {
     }
 
     /**
-     * Last day of a month.
-     * @param date any day of the month.
-     * @return
+     * Last day of a month
+     * @param date any day of the month
+     * @return {@code null} if {@param date} is null, else the last day of the month
      */
     public static final Date getEndMonth(Date date) {
+        if (date == null)
+            return null;
         return TimeConvert.toDate(TimeConvert.toYearMonth(date).atEndOfMonth());
     }
 

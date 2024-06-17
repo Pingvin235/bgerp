@@ -18,5 +18,6 @@ public class TimeUtilsTest {
     public void testGetEndMonth() {
         Assert.assertEquals(TimeUtils.parse("31.01.2023", TimeUtils.PATTERN_DDMMYYYY),
                 TimeUtils.getEndMonth(TimeConvert.toDate(LocalDate.of(2023, 1, 14))));
+        Assert.assertEquals(null, TimeUtils.getEndMonth(null));
     }
 }
