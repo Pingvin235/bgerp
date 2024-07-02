@@ -30,6 +30,7 @@ $$.debugAreas = {
 	uiMonthDaysSelect: 0,
 	uiMonthSelect: 0,
 	'ui.layout' : 0,
+	'ui.select': 0,
 	queueFilterDrag: 0,
 	blow: 0
 };

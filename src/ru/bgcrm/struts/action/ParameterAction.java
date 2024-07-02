@@ -516,19 +516,24 @@ public class ParameterAction extends BaseAction {
                 paramValueDAO.updateParamListWithComments(id, paramId, values);
             }
             case LISTCOUNT -> {
-                Map<Integer, BigDecimal> values = new TreeMap<>();
+                final List<String> emptyValues = List.of("");
 
                 List<String> itemIds = form.getParamValuesListStr("itemId");
                 List<String> itemCounts = form.getParamValuesListStr("itemCount");
 
-                for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
-                    Integer itemId = Utils.parseInt(itemIds.get(i));
-                    BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
+                Map<Integer, BigDecimal> values = new TreeMap<>();
 
-                    if (itemId <= 0 || BigDecimal.ZERO.equals(itemCount))
-                        throw new BGIllegalArgumentException("itemCount");
+                // two single empty sting lists mean deletion
+                if (!itemIds.equals(emptyValues) || !itemCounts.equals(emptyValues)) {
+                    for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
+                        Integer itemId = Utils.parseInt(itemIds.get(i));
+                        BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
 
-                    values.put(itemId, itemCount);
+                        if (itemId <= 0 || BigDecimal.ZERO.equals(itemCount))
+                            throw new BGIllegalArgumentException("itemCount");
+
+                        values.put(itemId, itemCount);
+                    }
                 }
 
                 paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));

@@ -15,7 +15,7 @@ Incoming variables:
 	</td>
 	<td>
 		<input type="text" name="itemCount" value="${not empty itemCount ? itemCount : form.param.itemCount}" size="4"
-			onkeydown="return isNumberKey(event)" title="${l.l('Вы можете использовать точку как указатель десятичной дроби.')}"/>
+			onkeydown="return isNumberKey(event)" title="${l.l('Use dot as a decimal separator')}"/>
 	</td>
 	<td>
 		<button class="btn-white icon" onclick="$(this).closest('tr').remove();"><i class='ti-trash'></i></button>

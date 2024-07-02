@@ -4,6 +4,8 @@
 "use strict";
 
 $$.ui.select = new function () {
+	const debug = $$.debug('ui.select');
+
 	// $$.ui.select.single
 	this.single = new function () {
 		/**
@@ -52,6 +54,8 @@ $$.ui.select = new function () {
 					inputHidden.value = ui.item.id;
 					inputText.value = ui.item.value;
 
+					debug('select', 'inputHidden', inputHidden);
+
 					if (onSelect) {
 						inputHidden.$$onSelect = onSelect;
 						// to make 'this' pointing to 'inputHidden'
@@ -69,10 +73,14 @@ $$.ui.select = new function () {
 			});
 
 			// cleanup hidden on input cleanup
-			inputText.addEventListener("keyup", (event) => {
-				if (!event.value)
+			inputText.addEventListener("keyup", event => {
+				if (!inputText.value)
 					inputHidden.value = "";
 			});
+
+			// FF doesn't handle the attribute properly after autocomplete
+			if (inputText.hasAttribute("autofocus"))
+				inputText.focus();
 
 			$(selectDiv).find("ul").removeClass("ui-autocomplete ui-front");
 		}

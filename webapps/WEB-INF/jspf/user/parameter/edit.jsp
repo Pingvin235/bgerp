@@ -203,7 +203,7 @@
 
 			<c:when test="${parameter.type eq 'money'}">
 				<input id="${focusFieldUiid}" type="text" name="value" value="${data.value}" size="10" onkeydown="if (enterPressed(event)){ ${saveCommand} }; return isNumberKey(event)" ${changeAttrs} ${onBlur}/>
-				<span class="hint">${l.l('Используйте точку как десятичный разделитель.')}</span>
+				<span class="hint">${l.l('Use dot as a decimal separator')}</span>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'phone'}">

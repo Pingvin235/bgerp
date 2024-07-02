@@ -453,12 +453,7 @@
 	<p><ru>** Не указан **</ru><en>** Not defined **</en></p>
 	<p><ru>Перезапустить</ru><en>Restart</en></p>
 	<p><ru>Промежуточное сохранение</ru><en>Intermediate save</en></p>
-	<p><ru>Вы можете использовать точку как указатель десятичной дроби.</ru>
-		<en>You can use dot as a decimal separator.</en>
-	</p>
-	<p><ru>Используйте точку как десятичный разделитель.</ru>
-		<en>Use dot as a decimal separator.</en>
-	</p>
+	<p><en>Use dot as a decimal separator</en><ru>Используйте точку как десятичный разделитель</ru></p>
 	<p><ru>Выбрать файл</ru><en>Select file</en></p>
 	<p><en>Month</en><ru>Месяц</ru></p>
 	<p><ru>Время входа</ru><en>Login time</en></p>
@@ -521,7 +516,7 @@
 	<p><en>Delete all the stored personalization options</en><ru>Удалить все сохранённые персональные опции</ru></p>
 	<p><en>Reset all the user personalizations?</en><ru>Сбросить все персональные опции?</ru></p>
 	<p><en>Reset</en><ru>Сбросить</ru></p>
-	<p><en>No value choosen</en><ru>Не выбрано значение</ru></p>
+	<p><en>No value chosen</en><ru>Не выбрано значение</ru></p>
 	<p><en>No quantity defined</en><ru>Не указано количество</ru></p>
 	<p>
 		<sys>hint.list.values</sys>
@@ -675,6 +670,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>The tagged parameter is disallowed to edit</en><ru>Данный тегированный параметр запрещён для правки</ru></p>
 	<p><en>Pin</en><ru>Закрепить</ru></p>
 	<p><en>Unpin</en><ru>Открепить</ru></p>
+	<p><en>Press Enter to add a value</en><ru>Нажмите Enter для добавления значения</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
