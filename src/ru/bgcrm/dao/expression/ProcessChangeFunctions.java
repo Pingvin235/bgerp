@@ -115,21 +115,29 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
     }
 
     /**
-     * Добавляет исполнителей в процесс в определённые группы и роли.
-     * Группы решения уже должны быть добавлены.
-     * @param groupIds
-     * @param userIds
-     * @param roleId
+     * Adds process executers with defined groups and roles.
+     * Execution groups have to be already added.
+     * @param groupIds the group IDs, or {@code null} for adding to all execution groups
+     * @param userIds the executor IDs to be added
+     * @param roleId the role &gt;= 0 or -1 for adding to execution groups with any role
      * @throws Exception
      */
     public void addExecutors(Set<Integer> groupIds, Set<Integer> userIds, int roleId) throws Exception {
-        ProcessGroup processGroup = ProcessCommandExecutor.getProcessGroup(process, groupIds, roleId);
+        Set<ProcessGroup> processGroups = process.getGroups().stream()
+                .filter(pg ->
+                    (roleId < 0 || pg.getRoleId() == roleId) &&
+                    (groupIds == null || groupIds.contains(pg.getGroupId()))
+                )
+                .collect(Collectors.toSet());
 
-        // добавление в текущих исполнителей группороли
-        Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
-        executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
+        if (processGroups.isEmpty())
+            throw new BGMessageException("No matching execution groups found; groupIds: {}, roleId: {}", groupIds, roleId);
 
-        ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
+        Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), processGroups);
+        for (var processGroup : processGroups)
+            executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
+
+        ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
     }
 
     /**

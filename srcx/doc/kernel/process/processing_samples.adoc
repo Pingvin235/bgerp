@@ -1,4 +1,4 @@
-= Примеры простой обработки событий
+= Examples of Default Process Change Listener
 :toc:
 
 == Kernel

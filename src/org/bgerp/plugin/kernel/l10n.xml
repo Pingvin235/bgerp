@@ -671,6 +671,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Pin</en><ru>Закрепить</ru></p>
 	<p><en>Unpin</en><ru>Открепить</ru></p>
 	<p><en>Press Enter to add a value</en><ru>Нажмите Enter для добавления значения</ru></p>
+	<p><en>No matching execution groups found; groupIds: {}, roleId: {}</en><ru>Не найдено подходящих групп решения; groupIds: {}, roleId: {}</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

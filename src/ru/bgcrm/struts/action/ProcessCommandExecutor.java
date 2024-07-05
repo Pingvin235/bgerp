@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.event.EventProcessor;
@@ -157,33 +156,5 @@ public class ProcessCommandExecutor {
                 EventProcessor.processEvent(new ProcessDoActionEvent(form, process, command), new SingleConnectionSet(con));
             }
         }
-    }
-
-    public static ProcessGroup getProcessGroup(Process process, Set<Integer> groupIds, int roleId) throws BGMessageException {
-        ProcessGroup processGroup = null;
-
-        Set<ProcessGroup> processGroupSet;
-        if (roleId > -1) {
-            processGroupSet = process.getGroups().stream()
-                .filter(g -> g.getRoleId() == roleId)
-                .collect(Collectors.toSet());
-        } else {
-            processGroupSet = process.getGroups();
-        }
-
-        for (ProcessGroup pg : processGroupSet) {
-            if (groupIds.contains(pg.getGroupId())) {
-                if (processGroup != null && processGroup.getGroupId() != pg.getGroupId()) {
-                    throw new BGMessageException("Среди групп процесса, в этой роли, несколько соответствуют предложенному набору.");
-                }
-                processGroup = pg;
-            }
-        }
-
-        if (processGroup == null) {
-            throw new BGMessageException("Среди групп процесса, в этой роли, нет предложенных.");
-        }
-
-        return processGroup;
     }
 }
