@@ -15,7 +15,7 @@ test-and-publish-change:
         - mkdir ~/.ssh && echo "$KEY_DOC" > ~/.ssh/id_rsa && chmod -R 600 ~/.ssh
         - sh gradlew publishChange
     rules:
-        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME =~ "/^p.+/" && $CI_COMMIT_REF_NAME != "p11862-documentation"  && $CI_COMMIT_REF_NAME != "p15055-documentation-master"
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME =~ "/^p.+/" && $CI_COMMIT_REF_NAME != "p11862-documentation"  && $CI_COMMIT_REF_NAME != "p15055-documentation-master" && $CI_COMMIT_MESSAGE !~ "/^MERGED/"
 
 test-and-publish-change-master:
     image: bgerp/base
@@ -59,7 +59,7 @@ test-integration:
     #     paths:
     #         - target/reports
     rules:
-        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME =~ "/^p.+/" && $CI_COMMIT_REF_NAME != "p11862-documentation" && $CI_COMMIT_REF_NAME != "p15055-documentation-master"
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME =~ "/^p.+/" && $CI_COMMIT_REF_NAME != "p11862-documentation" && $CI_COMMIT_REF_NAME != "p15055-documentation-master" && $CI_COMMIT_MESSAGE !~ "/^MERGED/"
 
 test-integration-master:
     image: bgerp/base
