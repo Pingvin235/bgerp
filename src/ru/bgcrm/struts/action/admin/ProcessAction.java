@@ -113,10 +113,14 @@ public class ProcessAction extends BaseAction {
     public ActionForward typeList(DynActionForm form, Connection con) throws Exception {
         HttpServletRequest request = form.getHttpRequest();
 
+        String filter = form.getParam("filter", "");
+        // filter erases current type context
+        if (Utils.notBlankString(filter))
+            form.setParam("parentTypeId", "-1");
         int parentId = form.getParamInt("parentTypeId");
 
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
-        processTypeDAO.searchProcessType(new Pageable<>(form), parentId, LikePattern.SUB.get(form.getParam("filter", "")));
+        processTypeDAO.searchProcessType(new Pageable<>(form), parentId, LikePattern.SUB.get(filter));
 
         if (parentId >= 0) {
             request.setAttribute("typePath", ProcessTypeCache.getTypePath(parentId));

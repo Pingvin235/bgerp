@@ -3,18 +3,18 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="urlList" value="/admin/process.do">
+<c:url var="urlList" value="${form.httpRequestURI}">
 	<c:param name="method" value="typeList"/>
 	<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	<c:param name="filter" value="${form.param.filter}"/>
 </c:url>
 
-<html:form  action="admin/process" styleClass="in-mr1" styleId="${uiid}">
+<html:form  action="${form.httpRequestURI}" styleClass="in-mr1" styleId="${uiid}">
 	<input type="hidden" name="method" value="typeList"/>
 	<html:hidden property="parentTypeId"/>
 	<html:hidden property="markType"/>
 
-	<c:url var="url" value="/admin/process.do">
+	<c:url var="url" value="${form.httpRequestURI}">
 		<c:param name="method" value="typeGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -22,7 +22,7 @@
 	</c:url>
 	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
-	<c:url var="url" value="/admin/process.do">
+	<c:url var="url" value="${form.httpRequestURI}">
 		<c:param name="method" value="typeInsertMark"/>
 		<c:param name="markType" value="${form.param.markType}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
@@ -38,7 +38,7 @@
 </html:form>
 
 <div class="mt1">
-	<c:url var="url" value="/admin/process.do">
+	<c:url var="url" value="${form.httpRequestURI}">
 		<c:param name="method" value="typeList"/>
 		<c:param name="parentTypeId" value="0"/>
 		<c:param name="markType" value="${form.param.markType}"/>
@@ -48,7 +48,7 @@
 	<a href="#" onClick="$$.ajax.loadContent('${url}', this); return false;">${l.l('Типы процессов')}</a>
 
 	<c:forEach var="item" items="${typePath}" varStatus="status">
-		<c:url var="url" value="/admin/process.do">
+		<c:url var="url" value="${form.httpRequestURI}">
 			<c:param name="method" value="typeList"/>
 			<c:param name="parentTypeId" value="${item.id}"/>
 			<c:param name="markType" value="${form.param.markType}"/>
@@ -71,13 +71,13 @@
 			<%-- подгрузка типа из кэша позволяет получить число подтипов --%>
 			<c:set var="item" value="${ctxProcessTypeMap[item.id]}"/>
 
-			<c:url var="editUrl" value="/admin/process.do">
+			<c:url var="editUrl" value="${form.httpRequestURI}">
 				<c:param name="method" value="typeGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 			</c:url>
-			<c:url var="deleteUrl" value="/admin/process.do">
+			<c:url var="deleteUrl" value="${form.httpRequestURI}">
 				<c:param name="method" value="typeDelete"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
@@ -100,10 +100,10 @@
 
 			<td>
 				<c:forEach var="itemPath" items="${item.path}" varStatus="status">
-					<c:url var="url" value="/admin/process.do">
+					<c:url var="url" value="${form.httpRequestURI}">
 						<c:param name="method" value="typeList"/>
 						<c:param name="markType" value="${form.param.markType}"/>
-						<c:param name="parentTypeId" value="${item.id}"/>
+						<c:param name="parentTypeId" value="${itemPath.id}"/>
 					</c:url>
 					<%-- the last path item is always shown --%>
 					<c:if test="${status.last}">
@@ -118,7 +118,7 @@
 
 			<td>${item.childCount}</td>
 
-			<c:url var="url" value="/admin/process.do">
+			<c:url var="url" value="${form.httpRequestURI}">
 				<c:param name="method" value="properties"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="id" value="${item.id}"/>
@@ -137,7 +137,7 @@
 				<div class="buttons">
 					<c:set var="hideButtonsScript">$(this).closest('.buttons').hide();</c:set>
 					<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:typeUsed">
-						<c:url var="showUrl" value="/admin/process.do">
+						<c:url var="showUrl" value="${form.httpRequestURI}">
 							<c:param name="method" value="typeUsed" />
 							<c:param name="typeId" value="${item.id}" />
 						</c:url>
@@ -146,7 +146,7 @@
 							onclick="${hideButtonsScript} $$.ajax.load('${showUrl}', $('#${showId}'));"><i class="ti-search"></i></button>
 					</p:check>
 					<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy">
-						<c:url var="showUrl" value="/admin/process.do">
+						<c:url var="showUrl" value="${form.httpRequestURI}">
 							<c:param name="method" value="typeCopy" />
 							<c:param name="id" value="${item.id}"/>
 							<c:param name="parentId" value="${form.param.parentTypeId}"/>

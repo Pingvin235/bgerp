@@ -46,7 +46,6 @@ public class ProcessTypeDAO extends CommonDAO {
             List<ProcessType> list = searchResult.getList();
 
             PreparedQuery ps = new PreparedQuery(con);
-            ;
 
             ps.addQuery(SQL_SELECT_COUNT_ROWS);
             ps.addQuery(SHORT_COLUMN_LIST);
