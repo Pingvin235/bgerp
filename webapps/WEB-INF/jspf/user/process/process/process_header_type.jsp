@@ -10,7 +10,6 @@
 			<c:param name="typeId" value="${process.typeId}" />
 			<c:param name="returnUrl" value="${requestUrl}"/>
 			<c:param name="returnChildUiid" value="${tableId}"/>
-			<c:param name="forward" value="processTypeChange"/>
 		</c:url>
 		[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;"><%--
 --%></c:if><%--

@@ -117,9 +117,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return html(conSet, form, getForwardJspPath(form, Map.of(
-            "processStatus", PATH_JSP + "/process/editor_status.jsp",
-            "", PATH_JSP + "/process/process.jsp")));
+        return html(conSet, form, PATH_JSP + "/process/process.jsp");
     }
 
     /**
@@ -329,6 +327,15 @@ public class ProcessAction extends BaseAction {
 
         return json(con, form);
     }
+
+    public ActionForward processStatusEdit(DynActionForm form, Connection con) throws Exception {
+        Process process = getProcess(new ProcessDAO(con), form.getId());
+
+        form.setResponseData("process", process);
+
+        return html(con, form, PATH_JSP + "/process/editor_status.jsp");
+    }
+
 
     public ActionForward processStatusUpdate(DynActionForm form, Connection con) throws Exception {
         Process process = getProcess(new ProcessDAO(con), form.getId());

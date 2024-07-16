@@ -18,11 +18,11 @@
 		${l.l('Status')}:
 		[<b><%--
 		--%><c:if test="${statusEdit}">
-				<c:url var="url" value="/user/process.do">
+				<c:url var="url" value="${form.httpRequestURI}">
+					<c:param name="method" value="processStatusEdit"/>
+					<c:param name="id" value="${process.id}"/>
 					<c:param name="returnUrl" value="${requestUrl}"/>
 					<c:param name="returnChildUiid" value="${tableId}"/>
-					<c:param name="id" value="${process.id}"/>
-					<c:param name="forward" value="processStatus"/>
 				</c:url>
 				<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;"><%--
 		--%></c:if>
@@ -31,10 +31,10 @@
 		</b>]
 		${statusEnd}
 		<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
-			<c:url var="url" value="/user/process.do">
+			<c:url var="url" value="${form.httpRequestURI}">
 				<c:param name="id" value="${process.id}"/>
-				<c:param name="returnUrl" value="${requestUrl}"/>
 				<c:param name="method" value="processStatusHistory"/>
+				<c:param name="returnUrl" value="${requestUrl}"/>
 			</c:url>
 			[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('log')}</a>]
 		</p:check>

@@ -76,7 +76,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final String PARAM_RESPONSE_TYPE = "responseType";
     private static final String PARAM_RETURN_URL = "returnUrl";
     private static final String PARAM_RETURN_CHILD_UIID = "returnChildUiid";
-    private static final String PARAM_FORWARD = "forward";
     private static final String PARAM_FORWARD_FILE = "forwardFile";
 
     /** The properties are needed for allowing Struts HTML tags retrieving current request param values */
@@ -86,7 +85,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         PROPERTIES.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
         // a tiny optimization, String class for often param names
         for (String name : List.of(PARAM_ACTION_METHOD, PARAM_ACTION_METHOD_OLD, PARAM_ID, PARAM_REQUEST_URL, PARAM_RESPONSE_TYPE, PARAM_RETURN_URL,
-                PARAM_RETURN_CHILD_UIID, PARAM_FORWARD, PARAM_FORWARD_FILE))
+                PARAM_RETURN_CHILD_UIID, PARAM_FORWARD_FILE))
             PROPERTIES.put(name, new DynaProperty(name, String.class));
     }
 
@@ -344,13 +343,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     @Deprecated
     public void setReturnChildUiid(String value) {
         setParam(PARAM_RETURN_CHILD_UIID, value);
-    }
-
-    /**
-     * @return request parameter {@code forward}
-     */
-    public String getForward() {
-        return getParam(PARAM_FORWARD);
     }
 
     /**

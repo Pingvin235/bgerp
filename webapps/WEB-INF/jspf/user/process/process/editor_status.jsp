@@ -2,12 +2,12 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="process" value="${frd.process}"/>
-<c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>
+<c:set var="processType" value="${process.type}"/>
 <c:set var="statusList" value="${u.getObjectList(ctxProcessStatusMap, processType.properties.statusIds)}"/>
 <c:set var="allowedStatusIds" value="${process.allowedToChangeStatusIds}"/>
 
 <h1>${l.l('Change status')}</h1>
-<html:form action="/user/process">
+<html:form action="${form.httpRequestURI}">
 	<input type="hidden" name="id" value="${process.id}"/>
 	<input type="hidden" name="method" value="processStatusUpdate"/>
 

@@ -337,30 +337,6 @@ public abstract class BaseAction extends DispatchAction {
     }
 
     /**
-     * JSP forward path.
-     * @param form    complete path may be defined in
-     *                {@link DynActionForm#getForwardFile()} or
-     *                {@link DynActionForm#getForward()} used as key to
-     *                mapping
-     * @param mapping mapping forward names from {@link DynActionForm#getForward()}
-     *                to JSP paths, default mapping key - empty string.
-     * @return JSP path.
-     * @throws IllegalArgumentException no JSP found in mapping.
-     */
-    @Deprecated
-    protected String getForwardJspPath(DynActionForm form, Map<String, String> mapping) throws IllegalArgumentException {
-        var forwardFile = form.getForwardFile();
-        if (Utils.notBlankString(forwardFile))
-            return forwardFile;
-
-        var forward = Utils.maskNull(form.getForward());
-        if (!mapping.containsKey(forward))
-            throw new IllegalArgumentException("Not found JSP for forward: " + forward);
-
-        return mapping.get(forward);
-    }
-
-    /**
      * Sends response result in JSON format.
      * @param con
      * @param form

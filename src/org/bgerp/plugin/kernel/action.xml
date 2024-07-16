@@ -94,7 +94,7 @@
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
 
-			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Edit status"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate, ru.bgcrm.struts.action.ProcessAction:processStatusEdit" title="Edit status"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="View status history"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate" title="Edit priority"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate" title="Edit description"/>
