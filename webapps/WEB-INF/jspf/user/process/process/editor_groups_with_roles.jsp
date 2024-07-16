@@ -4,11 +4,9 @@
 <h1>${l.l('Выберите группы решения')}</h1>
 
 <c:set var="process" value="${frd.process}" />
-<c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>
+<c:set var="processType" value="${process.type}"/>
 
-<c:set var="uiid" value="${u:uiid()}"/>
-
-<html:form action="/user/process" styleId="${uiid}">
+<html:form action="${form.httpRequestURI}">
 	<html:hidden property="id" />
 	<input type="hidden" name="method" value="processGroupsUpdate" />
 

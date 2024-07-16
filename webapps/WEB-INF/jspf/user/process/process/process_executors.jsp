@@ -9,10 +9,10 @@
 				<span class="normal">
 					<p:check action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate">
 						<c:url var="url" value="${form.httpRequestURI}">
+							<c:param name="method" value="processGroupsEdit"/>
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="returnUrl" value="${requestUrl}"/>
 							<c:param name="returnChildUiid" value="${tableId}"/>
-							<c:param name="forward" value="processGroupsWithRoles"/>
 						</c:url>
 						<c:if test="${not empty processType}">
 							[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('группы')}</a>]

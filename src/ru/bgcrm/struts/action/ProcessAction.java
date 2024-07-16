@@ -118,7 +118,6 @@ public class ProcessAction extends BaseAction {
         }
 
         return html(conSet, form, getForwardJspPath(form, Map.of(
-            "processGroupsWithRoles", PATH_JSP + "/process/editor_groups_with_roles.jsp",
             "processStatus", PATH_JSP + "/process/editor_status.jsp",
             "", PATH_JSP + "/process/process.jsp")));
     }
@@ -507,6 +506,12 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
+    public ActionForward processGroupsEdit(DynActionForm form, Connection con) throws Exception {
+        form.setResponseData("process", getProcess(new ProcessDAO(con), form.getId()));
+
+        return html(con, form, PATH_JSP + "/process/editor_groups_with_roles.jsp");
+    }
+
     public ActionForward processGroupsUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDao = new ProcessDAO(con, form);
 
@@ -581,7 +586,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processExecutorsEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
-        var process = new ProcessDAO(conSet.getConnection()).getProcessOrThrow(form.getId());
+        var process = getProcess(new ProcessDAO(conSet.getConnection()), form.getId());
 
         List<Pair<IdStringTitle, Object[]>> groupsWithRoles = new ArrayList<>();
 
