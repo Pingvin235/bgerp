@@ -8,7 +8,7 @@
 			<h2>${l.l('Группы / исполнители')}
 				<span class="normal">
 					<p:check action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate">
-						<c:url var="url" value="/user/process.do">
+						<c:url var="url" value="${form.httpRequestURI}">
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="returnUrl" value="${requestUrl}"/>
 							<c:param name="returnChildUiid" value="${tableId}"/>
@@ -20,11 +20,11 @@
 					</p:check>
 
 					<p:check action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate">
-						<c:url var="url" value="/user/process.do">
+						<c:url var="url" value="${form.httpRequestURI}">
+							<c:param name="method" value="processExecutorsEdit"/>
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="returnUrl" value="${requestUrl}"/>
 							<c:param name="returnChildUiid" value="${tableId}"/>
-							<c:param name="forward" value="processExecutors"/>
 						</c:url>
 						<c:if test="${not empty processType}">
 							[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('исполнители')}</a>]
@@ -32,7 +32,7 @@
 					</p:check>
 
 					<c:if test="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap') and process.getGroups().size() eq 2}">
-						<c:url var="url" value="/user/process.do">
+						<c:url var="url" value="${form.httpRequestURI}">
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="method" value="processExecutorsSwap"/>
 						</c:url>
@@ -83,7 +83,7 @@
 							<c:choose>
 								<c:when test="${currentPresented}">
 									<%-- полный список исполнителей без текущего в данной группе и роли --%>
-									<c:url var="url" value="/user/process.do">
+									<c:url var="url" value="${form.httpRequestURI}">
 										<c:param name="id" value="${process.id}"/>
 										<c:param name="method" value="processExecutorsUpdate"/>
 										<c:param name="group">${group.id}:${role.id}</c:param>
@@ -101,7 +101,7 @@
 									<%-- текущий пользователь есть в этой группе --%>
 									<c:if test="${ctxUser.groupIds.contains(group.id)}">
 										<%-- полный список исполнителей в данной группе и роли --%>
-										<c:url var="url" value="/user/process.do">
+										<c:url var="url" value="${form.httpRequestURI}">
 											<c:param name="id" value="${process.id}"/>
 											<c:param name="method" value="processExecutorsUpdate"/>
 											<c:param name="group">${group.id}:${role.id}</c:param>

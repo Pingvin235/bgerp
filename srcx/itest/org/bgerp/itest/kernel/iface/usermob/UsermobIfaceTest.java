@@ -24,7 +24,7 @@ import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "usermobIface", dependsOnGroups = { "user", "process", "address" })
 public class UsermobIfaceTest {
-    private static final String TITLE = "Kernel Usermob Interface";
+    private static final String TITLE = "Kernel Usermob Interface Process Wizard";
 
     private ProcessType processType;
 

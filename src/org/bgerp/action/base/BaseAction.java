@@ -347,6 +347,7 @@ public abstract class BaseAction extends DispatchAction {
      * @return JSP path.
      * @throws IllegalArgumentException no JSP found in mapping.
      */
+    @Deprecated
     protected String getForwardJspPath(DynActionForm form, Map<String, String> mapping) throws IllegalArgumentException {
         var forwardFile = form.getForwardFile();
         if (Utils.notBlankString(forwardFile))

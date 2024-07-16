@@ -2,20 +2,20 @@ onProcessEvent.{@inc:cnt}.events=created
 onProcessEvent.{@cnt}.ifExpression=process.getExecutors().isEmpty()
 onProcessEvent.{@cnt}.doExpression=addExecutors({user.getId()})
 
-# process status
+# status
 wizard.step.{@inc:cnt}.title=Status
 wizard.step.{@cnt}.class=SetStatusStep
 
-# process description
+# description
 wizard.step.{@inc:cnt}.title=Description
 wizard.step.{@cnt}.class=SetDescriptionStep
 
-# process parameters
+# parameters
 #wizard.step.{@inc:cnt}.title=Parameters
 #wizard.step.{@cnt}.class=FillParamsStep
 # optional comma-separated parameter IDs
-#wizard.createStep.{@cnt}.parameterIds=
+#wizard.step.{@cnt}.parameterIds=
 
-# process executors
-#wizard.step.{@inc:cnt}.title=Executors
-#wizard.step.{@cnt}.class=SetExecutorsStep
+# executors
+wizard.step.{@inc:cnt}.title=Executors
+wizard.step.{@cnt}.class=SetExecutorsStep

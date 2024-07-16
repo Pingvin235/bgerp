@@ -89,43 +89,11 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
         return UserCache.getUserGroupWithPath(UserCache.getUserGroupMap(), id, false);
     }
 
-    /** Посмотреть, где в JSP вызывается и удалить. **/
-    @Deprecated
-    public String getTitleWithPathId() {
-        return UserCache.getUserGroupWithPath(UserCache.getUserGroupMap(), id, true);
-    }
-
     public Set<Integer> getChildSet() {
         Set<Integer> resultSet = new HashSet<>();
 
         for (Group group : UserCache.getUserGroupChildSet(id)) {
             resultSet.add(group.getId());
-        }
-
-        return resultSet;
-    }
-
-    public Set<Group> getChildGroupSet() {
-        return UserCache.getUserGroupChildSet(id);
-    }
-
-    public boolean isAllowExecutorsSet() {
-        return configMap.getBoolean("allowExecutorsSet", true);
-    }
-
-    public boolean isChildOf(int groupId) {
-        Set<Group> resultSet = UserCache.getUserGroupChildFullSet(groupId);
-
-        return resultSet.contains(this);
-    }
-
-    public Set<Integer> getParentGroupTreeSet() {
-        int parent = parentId;
-        Set<Integer> resultSet = new HashSet<>();
-
-        while (parent > 0) {
-            resultSet.add(parent);
-            parent = UserCache.getUserGroup(parent).getParentId();
         }
 
         return resultSet;

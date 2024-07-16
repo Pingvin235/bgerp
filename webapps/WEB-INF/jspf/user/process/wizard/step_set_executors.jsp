@@ -4,9 +4,11 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <div id="${uiid}">
-	<c:set target="${form}" property="returnUrl" value="${reopenProcessUrl}"/>
-	<c:set target="${form}" property="returnChildUiid" value="${uiid}"/>
-	<c:set target="${frd}" property="process" value="${wizardData.process}"/>
-
-	<%@ include file="/WEB-INF/jspf/user/process/process/editor_executors.jsp"%>
+	<c:url var="url" value="/user/process.do">
+		<c:param name="method" value="processExecutorsEdit"/>
+		<c:param name="id" value="${wizardData.process.id}"/>
+		<c:param name="returnUrl" value="${reopenProcessUrl}"/>
+		<c:param name="returnChildUiid" value="${uiid}"/>
+	</c:url>
+	<c:import url="${url}"/>
 </div>

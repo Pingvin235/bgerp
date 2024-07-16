@@ -100,7 +100,7 @@
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate" title="Edit description"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd" title="Add to description"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate" title="Edit groups"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate" title="Edit executors">
+			<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate, ru.bgcrm.struts.action.ProcessAction:processExecutorsEdit" title="Edit executors">
 				<b>allowOnlyGroups</b> - id групп через запятую, в которых возможно изменение исполнителей<br/>
 				<b>allowOnlyUsers</b> - id исполнителей через запятую, которых можно удалять/добавлять<br/>
 				<b>allowOnlyProcessTypeIds</b> - id типов процессов через запятую, в которых разрешено изменение исполнителей<br/>

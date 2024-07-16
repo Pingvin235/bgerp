@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
+import org.bgerp.cache.UserGroupRoleCache;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessCloneDAO;
@@ -32,6 +34,7 @@ import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.dao.process.ProcessMessageDAO;
 import org.bgerp.event.base.UserEvent;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.param.Parameter;
@@ -85,9 +88,7 @@ public class ProcessAction extends BaseAction {
         var con = conSet.getConnection();
         var conSlave = conSet.getSlaveConnection();
 
-        ProcessDAO processDAO = new ProcessDAO(con, form);
-
-        var process = processDAO.getProcess(form.getId());
+        var process = new ProcessDAO(con, form).getProcess(form.getId());
         if (process == null) {
             process = new Process(form.getId());
             process.setReference(l.l("ПРОЦЕСС ДЛЯ ВАС НЕ СУЩЕСТВУЕТ"));
@@ -118,7 +119,6 @@ public class ProcessAction extends BaseAction {
 
         return html(conSet, form, getForwardJspPath(form, Map.of(
             "processGroupsWithRoles", PATH_JSP + "/process/editor_groups_with_roles.jsp",
-            "processExecutors", PATH_JSP + "/process/editor_executors.jsp",
             "processStatus", PATH_JSP + "/process/editor_status.jsp",
             "", PATH_JSP + "/process/process.jsp")));
     }
@@ -578,6 +578,57 @@ public class ProcessAction extends BaseAction {
             processDao.updateProcessExecutors(processExecutors, process.getId());
 
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_GROUPS_CHANGED), con);
+    }
+
+    public ActionForward processExecutorsEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var process = new ProcessDAO(conSet.getConnection()).getProcessOrThrow(form.getId());
+
+        List<Pair<IdStringTitle, Object[]>> groupsWithRoles = new ArrayList<>();
+
+        form.setResponseData("groupsWithRoles", groupsWithRoles);
+
+        Set<Integer> allowedGroups = Utils.toIntegerSet(form.getPermission().get("allowOnlyGroups"));
+
+        for (var role : UserGroupRoleCache.getUserGroupRoleList()) {
+            var groupIdsWithRole = process.getGroupIdsWithRole(role.getId());
+            if (groupIdsWithRole.isEmpty())
+                continue;
+
+            for (var group : UserCache.getUserGroupFullTitledList()) {
+                if (!groupIdsWithRole.contains(group.getId()) || (!allowedGroups.isEmpty() && !allowedGroups.contains(group.getId())))
+                    continue;
+
+                var listAndValues = new Object[2];
+
+                groupsWithRoles.add(new Pair<>(new IdStringTitle(group.getId() + ":" + role.getId(),
+                        group.getTitle() + (role.getId() != 0 ? " (" + role.getTitle() + ")" : "")), listAndValues));
+
+                List<IdStringTitle> list = new ArrayList<>();
+                listAndValues[0] = list;
+
+                IdStringTitle meItem = null;
+
+                for (var user : UserCache.getUserList()) {
+                    if (!user.getGroupIds().contains(group.getId()) || user.getStatus() != User.STATUS_ACTIVE)
+                        continue;
+
+                    String userGroupAndRole = user.getId() + ":" + group.getId() + ":" + role.getId();
+                    if (user.getId() == form.getUserId())
+                        meItem = new IdStringTitle(userGroupAndRole, user.getTitle() + " " + l.l("[you]"));
+                    else
+                        list.add(new IdStringTitle(userGroupAndRole, user.getTitle()));
+                }
+
+                if (meItem != null)
+                    list.add(0, meItem);
+
+                listAndValues[1] = process.getExecutors().stream()
+                    .map(pe -> pe.getUserId() + ":" + pe.getGroupId() + ":" + pe.getRoleId())
+                    .collect(Collectors.toSet());
+            }
+        }
+
+        return html(conSet, form, PATH_JSP + "/process/editor_executors.jsp");
     }
 
     public ActionForward processExecutorsUpdate(DynActionForm form, Connection con) throws Exception {
