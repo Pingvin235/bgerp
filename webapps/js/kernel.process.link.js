@@ -38,9 +38,9 @@ $$.process.link = new function () {
     // $$.process.link.process
     this.process = new function () {
         /**
-         * Creates a link process from pre-configured list.
-         * @param {*} button
-         * @param {*} returnUrl
+         * Creates a link process from pre-configured list
+         * @param {HTMLButtonElement} button the clicked button
+         * @param {String} returnUrl URL to return after opening the created process using Wizard
          */
         const createAndLink = (button, returnUrl) => {
             $$.ajax.post(button.form).done((result) => {
@@ -54,10 +54,14 @@ $$.process.link = new function () {
             });
         }
 
+        /**
+         * Loads a list of processes which can be linked
+         * @param {HTMLButtonElement} button the clicked button
+         */
         const addExisting = (button) => {
             const form = button.form;
 
-            form.action.value ='addExisting';
+            form.method.value ='addExisting';
 
             let url = $$.ajax.formUrl(form);
 
