@@ -9,5 +9,6 @@
 </ui:combo-single>
 
 <ui:button styleClass="ml1" type="run" onclick="
+	if (!confirm('${l.l('Update on the change?')}')) return;
 	$$.ajax.post(this, {failAlert: false})
 		.fail(() => {alert('${l.l('Выполнен перезапуск, обновите страницу браузера.')}')});"/>
