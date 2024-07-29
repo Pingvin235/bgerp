@@ -51,7 +51,6 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
         this.title = value;
     }
 
-    @JsonIgnore
     public List<C> getChildren() {
         return children;
     }

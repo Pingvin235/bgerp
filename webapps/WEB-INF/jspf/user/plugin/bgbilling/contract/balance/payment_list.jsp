@@ -5,7 +5,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="createUrl" value="/user/plugin/bgbilling/proto/balance.do">
+<c:url var="createUrl" value="${form.httpRequestURI}">
 	<c:param name="method" value="balanceEditor" />
 	<c:param name="billingId" value="${form.param.billingId}" />
 	<c:param name="contractId" value="${form.param.contractId}" />
@@ -13,10 +13,10 @@
 	<c:param name="returnUrl" value="${form.requestUrl}" />
 </c:url>
 
-<button type="button" class="btn-green" title="Добавить платёж" onclick="$$.ajax.load('${createUrl}', $('#${uiid}').parent())">+</button>
+<ui:button type="add" title="Добавить платёж" onclick="$$.ajax.load('${createUrl}', $('#${uiid}').parent())"/>
 <c:set var="cashcheck" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId].pluginSet.contains( 'ru.bitel.bgbilling.plugins.cashcheck' ) }"/>
 
-<table class="data mt1" width="100%" id="${uiid}">
+<table class="data hl mt1" id="${uiid}">
 	<tr>
 		<td></td>
 		<td>Дата</td>
@@ -31,26 +31,25 @@
 	</tr>
 	<c:forEach var="payment" items="${frd.list}" varStatus="varStatus">
 		<tr>
-			<c:url var="url" value="/user/plugin/bgbilling/proto/balance.do">
-				<c:param name="method" value="balanceEditor"/>
-				<c:param name="item" value="contractPayment" />
-				<c:param name="billingId" value="${form.param.billingId}" />
-				<c:param name="contractId" value="${form.param.contractId}" />
-				<c:param name="id" value="${payment.id}"/>
-				<c:param name="cashcheck" value="${cashcheck}"/>
-				<c:param name="returnUrl" value="${form.requestUrl}" />
-			</c:url>
-			<c:set var="editCommand" value="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
-
-			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/balance.do">
-				<c:param name="method" value="deletePayment"/>
-				<c:param name="billingId" value="${form.param.billingId}" />
-				<c:param name="contractId" value="${form.param.contractId}" />
-				<c:param name="paymentId" value="${payment.id}"/>
-			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}',$('#${uiid}').parent())"/>
 			<td nowrap="nowrap">
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+				<c:url var="url" value="${form.httpRequestURI}">
+					<c:param name="method" value="balanceEditor"/>
+					<c:param name="item" value="contractPayment" />
+					<c:param name="billingId" value="${form.param.billingId}" />
+					<c:param name="contractId" value="${form.param.contractId}" />
+					<c:param name="id" value="${payment.id}"/>
+					<c:param name="cashcheck" value="${cashcheck}"/>
+					<c:param name="returnUrl" value="${form.requestUrl}" />
+				</c:url>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
+
+				<c:url var="url" value="${form.httpRequestURI}">
+					<c:param name="method" value="deletePayment"/>
+					<c:param name="billingId" value="${form.param.billingId}" />
+					<c:param name="contractId" value="${form.param.contractId}" />
+					<c:param name="paymentId" value="${payment.id}"/>
+				</c:url>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 			</td>
 			<td>${tu.format( payment.date, 'ymd')}</td>
 			<td>${payment.sum}</td>

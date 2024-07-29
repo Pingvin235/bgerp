@@ -53,8 +53,7 @@ public class ContractBalanceAction extends BaseAction {
         } else if ("contractPayment".equals(item)) {
             DBInfo dbInfo = DBInfoManager.getDbInfo(billingId);
             if (dbInfo.getPluginSet().contains(CashCheckDAO.CASHCHECK_MODULE_ID)) {
-                form.setResponseData("currentPrinter",
-                        new CashCheckDAO(form.getUser(), billingId).getCurrentPrinter());
+                form.setResponseData("currentPrinter", new CashCheckDAO(form.getUser(), billingId).getCurrentPrinter());
             }
 
             Set<Integer> allowedTypeIds = getTypePermission(form, billingId, "paymentTypeIds");
