@@ -4,7 +4,7 @@
 <c:set var="balanceForm" value="${u:uiid()}"/>
 
 <form action="/user/plugin/bgbilling/proto/balance.do" id="${balanceForm}" class="in-mb1-all in-inline-block">
-	<input type="hidden" name="method" value="${form.param.action}" />
+	<input type="hidden" name="method" value="${form.param.method}" />
 	<input type="hidden" name="billingId" value="${form.param.billingId}" />
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 
