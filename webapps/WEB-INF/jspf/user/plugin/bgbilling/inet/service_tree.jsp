@@ -4,6 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:url var="url" value="${form.httpRequestURI}">
+	<c:param name="method" value="serviceGet"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
