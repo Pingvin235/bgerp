@@ -168,7 +168,7 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 
 		html += '<tr>\
 				<td>\
-					<form method="/user/link.do">\
+					<form action="/user/link.do">\
 						<input type="hidden" name="action" value="addLink"/>\
 						<input type="hidden" name="objectType" value="process"/>\
 						<input type="hidden" name="id" value="' + processId + '"/>\

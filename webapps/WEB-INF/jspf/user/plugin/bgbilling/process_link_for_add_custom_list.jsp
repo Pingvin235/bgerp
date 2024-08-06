@@ -17,7 +17,7 @@
 			<input type="hidden" name="processId" value="${form.id}"/>
 			<input type="hidden" name="billingId" value="${billing.id}"/>
 			<input type="hidden" name="method" value="addProcessContractLink"/>
-			<input style="width: 100%;" name="contractTitle" placeholder="Номер договора"/>
+			<input style="width: 100%;" name="contractTitle" onkeypress="if (enterPressed(event)) return false;" placeholder="Номер договора"/>
 		</form>
 	</c:set>
 </c:forEach>
