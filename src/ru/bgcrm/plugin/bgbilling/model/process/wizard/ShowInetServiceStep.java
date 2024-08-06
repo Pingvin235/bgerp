@@ -54,7 +54,7 @@ public class ShowInetServiceStep extends BaseStep {
 
             var contract = new Contract(contractLink);
 
-            var dao = InetDAO.getInstance(form.getUser(), contract.getBillingId(), step.inetModuleId);
+            var dao = new InetDAO(form.getUser(), contract.getBillingId(), step.inetModuleId);
 
             services = dao.getServiceList(contract.getId());
 

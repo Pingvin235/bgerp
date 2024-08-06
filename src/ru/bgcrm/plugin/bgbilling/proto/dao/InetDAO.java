@@ -18,10 +18,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
-import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.InetDAO8x;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDevice;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDeviceManagerMethod;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDeviceManagerMethod.DeviceManagerMethodType;
@@ -29,37 +26,20 @@ import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetServiceOption;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetServiceType;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetSessionLog;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.version.v8x.InetServiceType8x;
 
 public class InetDAO extends BillingModuleDAO {
     private static final Log log = Log.getLog();
 
-    private static final String INET_MODULE = "ru.bitel.bgbilling.modules.inet.api";
-    protected final String inetModule;
+    private final String inetModule;
 
-    protected InetDAO(User user, DBInfo dbInfo, String module, int moduleId) {
-        super(user, dbInfo, moduleId);
-        inetModule = module;
-    }
-
-    protected InetDAO(User user, String billingId, String module, int moduleId) {
+    public InetDAO(User user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
-        inetModule = module;
+        inetModule = inetModule();
     }
 
-    public static InetDAO getInstance(User user, DBInfo dbInfo, int moduleId) {
-        if (dbInfo.versionCompare("8.0") > 0) {
-            return new InetDAO8x(user, dbInfo, moduleId);
-        } else {
-            return new InetDAO(user, dbInfo, INET_MODULE, moduleId);
-        }
-    }
-
-    public static InetDAO getInstance(User user, String billingId, int moduleId) {
-        if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
-            return new InetDAO8x(user, billingId, moduleId);
-        } else {
-            return new InetDAO(user, billingId, INET_MODULE, moduleId);
-        }
+    private String inetModule() {
+        return dbInfo.versionCompare("8.0") > 0 ? "ru.bitel.bgbilling.modules.inet" : "ru.bitel.bgbilling.modules.inet.api";
     }
 
     /**
@@ -139,8 +119,8 @@ public class InetDAO extends BillingModuleDAO {
     public List<InetServiceType> getServiceTypeList() {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, "InetServService", "inetServTypeList");
 
-        return readJsonValue(transferData.postDataReturn(req, user).traverse(),
-                jsonTypeFactory.constructCollectionType(List.class, InetServiceType.class));
+        return readJsonValue(transferData.postDataReturn(req, user).traverse(), jsonTypeFactory.constructCollectionType(List.class,
+                dbInfo.versionCompare("8.0") > 0 ? InetServiceType8x.class : InetServiceType.class));
     }
 
     public InetDevice getDevice(int deviceId) {

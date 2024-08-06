@@ -55,7 +55,7 @@ public class ShowInetSessionStep extends BaseStep {
 
             var contract = new Contract(contractLink);
 
-            var dao = InetDAO.getInstance(form.getUser(), contract.getBillingId(), step.inetModuleId);
+            var dao = new InetDAO(form.getUser(), contract.getBillingId(), step.inetModuleId);
 
             var result = new Pageable<InetSessionLog>(20);
             dao.getSessionAliveContractList(result, contract.getId());
