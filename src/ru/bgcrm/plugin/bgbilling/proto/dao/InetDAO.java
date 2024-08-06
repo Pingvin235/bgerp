@@ -133,16 +133,21 @@ public class InetDAO extends BillingModuleDAO {
 
     public InetDevice getRootDevice(Set<Integer> deviceTypeIds, Set<Integer> deviceGroupIds) {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, "InetDeviceService", "inetDeviceRoot");
-        req.setParam("identifier", null);
-        req.setParam("host", null);
-        req.setParam("deviceTypeIds", deviceTypeIds);
-        req.setParam("deviceGroupIds", deviceGroupIds);
-        req.setParam("dateFrom", null);
-        req.setParam("dateTo", null);
-        req.setParam("intersectDateFrom", null);
-        req.setParam("intersectDateTo", null);
-        req.setParam("entityFilter", null);
-        req.setParam("loadDeviceGroupIds", false);
+
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            req.setParam("deviceTreeFilter", Map.of("host", "", "identifier", "", "loadDeviceGroupLink", "false"));
+        } else {
+            req.setParam("identifier", null);
+            req.setParam("host", null);
+            req.setParam("deviceTypeIds", deviceTypeIds);
+            req.setParam("deviceGroupIds", deviceGroupIds);
+            req.setParam("dateFrom", null);
+            req.setParam("dateTo", null);
+            req.setParam("intersectDateFrom", null);
+            req.setParam("intersectDateTo", null);
+            req.setParam("entityFilter", null);
+            req.setParam("loadDeviceGroupIds", false);
+        }
         req.setParam("loadAncestors", true);
 
         JsonNode fromValue = transferData.postDataReturn(req, user);
