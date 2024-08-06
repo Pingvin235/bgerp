@@ -65,8 +65,8 @@ public class NPayDAO extends BillingModuleDAO {
                     Element rowElement = (Element) nodeList.item(index);
 
                     service.setComment(rowElement.getAttribute("comment"));
-                    service.setDateFrom(TimeUtils.parse(rowElement.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
-                    service.setDateTo(TimeUtils.parse(rowElement.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
+                    service.setDateFrom(TimeUtils.parse(rowElement.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
+                    service.setDateTo(TimeUtils.parse(rowElement.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
                     service.setId(Utils.parseInt(rowElement.getAttribute("id")));
                     service.setObjectId(Utils.parseInt(rowElement.getAttribute("objectId")));
                     service.setObjectTitle(rowElement.getAttribute("object"));
@@ -109,8 +109,8 @@ public class NPayDAO extends BillingModuleDAO {
                 result.setServiceId(Utils.parseInt(serviceEl.getAttribute("sid")));
                 result.setObjectId(Utils.parseInt(serviceEl.getAttribute("oid")));
                 result.setCount(Utils.parseInt(serviceEl.getAttribute("col")));
-                result.setDateFrom(TimeUtils.parse(serviceEl.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
-                result.setDateTo(TimeUtils.parse(serviceEl.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
+                result.setDateFrom(TimeUtils.parse(serviceEl.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
+                result.setDateTo(TimeUtils.parse(serviceEl.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
                 result.setComment(linesToString(XMLUtils.selectElement(doc, "/data/comment/")));
             }
 
@@ -157,10 +157,10 @@ public class NPayDAO extends BillingModuleDAO {
         req.setAttribute("col", count);
         req.setAttribute("comment", comment);
         if (dateFrom != null) {
-            req.setAttribute(DATE_1, TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
+            req.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
         }
         if (dateTo != null) {
-            req.setAttribute(DATE_2, TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
+            req.setAttribute("date2", TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
         }
         transferData.postData(req, user);
     }

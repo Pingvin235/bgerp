@@ -131,7 +131,7 @@ public class ContractDAO extends BillingDAO {
             Document doc = transferData.postData(req, user);
 
             for (Element contract : XMLUtils.selectElements(doc, "/data/contracts/item")) {
-                String title = contract.getAttribute(TITLE);
+                String title = contract.getAttribute("title");
                 result = new Contract(dbInfo.getId(), contractId, StringUtils.substringBefore(title, "[").trim(),
                         StringUtils.substringBetween(title, "[", "]").trim());
             }
@@ -173,7 +173,7 @@ public class ContractDAO extends BillingDAO {
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Element rowElement = (Element) nodeList.item(index);
 
-                contractList.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute(TITLE)));
+                contractList.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
             }
 
             NodeList table = dataElement.getElementsByTagName("contracts");
@@ -191,7 +191,7 @@ public class ContractDAO extends BillingDAO {
         request.setModule("contract");
         request.setContractId(contractId);
         request.setAttribute("id", contractId);
-        request.setAttribute(VALUE, TimeUtils.format(date, TimeUtils.PATTERN_DDMMYYYY));
+        request.setAttribute("value", TimeUtils.format(date, TimeUtils.PATTERN_DDMMYYYY));
         transferData.postData(request, user);
     }
 
@@ -229,7 +229,7 @@ public class ContractDAO extends BillingDAO {
         req.setAttribute("room", room);
 
         if (paramIds != null && !paramIds.isEmpty()) {
-            req.setAttribute(PARAMETERS, Utils.toString(paramIds));
+            req.setAttribute("parameters", Utils.toString(paramIds));
         }
 
         setPage(req, page);
@@ -242,7 +242,7 @@ public class ContractDAO extends BillingDAO {
 
             List<ParameterSearchedObject<Contract>> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
-                final String fullTitle = item.getAttribute(TITLE);
+                final String fullTitle = item.getAttribute("title");
 
                 Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
                         StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
@@ -276,7 +276,7 @@ public class ContractDAO extends BillingDAO {
         req.setAttribute("flat", flat);
         req.setAttribute("room", room);
         if (paramIds != null && !paramIds.isEmpty()) {
-            req.setAttribute(PARAMETERS, Utils.toString(paramIds));
+            req.setAttribute("parameters", Utils.toString(paramIds));
         }
         setPage(req, page);
 
@@ -288,7 +288,7 @@ public class ContractDAO extends BillingDAO {
 
             List<ParameterSearchedObject<Contract>> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
-                final String fullTitle = item.getAttribute(TITLE);
+                final String fullTitle = item.getAttribute("title");
 
                 Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
                         StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
@@ -342,7 +342,7 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("type", "c1");
         else
             req.setAttribute("type", 1);
-        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
+        req.setAttribute("parameters", Utils.toString(paramIds));
         req.setAttribute("parameter", value);
 
         addSearchResult(result, page, req);
@@ -363,7 +363,7 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("type", "c9");
         else
             req.setAttribute("type", 9);
-        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
+        req.setAttribute("parameters", Utils.toString(paramIds));
         req.setAttribute("phone", phone);
 
         addSearchResult(result, page, req);
@@ -384,9 +384,9 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("type", "c6");
         else
             req.setAttribute("type", 6);
-        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
-        req.setAttribute(DATE_1, TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
-        req.setAttribute(DATE_2, TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
+        req.setAttribute("parameters", Utils.toString(paramIds));
+        req.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
+        req.setAttribute("date2", TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
 
         addSearchResult(result, page, req);
     }
@@ -431,7 +431,7 @@ public class ContractDAO extends BillingDAO {
 
         req.setAction("FindContract");
         req.setAttribute("type", 3);
-        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
+        req.setAttribute("parameters", Utils.toString(paramIds));
         req.setAttribute("mail", email);
 
         addSearchResult(result, page, req);
@@ -448,7 +448,7 @@ public class ContractDAO extends BillingDAO {
 
             List<Contract> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
-                final String fullTitle = item.getAttribute(TITLE);
+                final String fullTitle = item.getAttribute("title");
 
                 Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
                         StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
@@ -487,7 +487,7 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("custom_title", titlePattern);
         }
         if (Utils.notBlankString(title)) {
-            req.setAttribute(TITLE, title);
+            req.setAttribute("title", title);
         }
 
         if (superId > 0) {
@@ -576,7 +576,7 @@ public class ContractDAO extends BillingDAO {
         request.setAction("UpdateContractMemo");
         request.setContractId(contractId);
         request.setAttribute("subject", memoTitle);
-        request.setAttribute(COMMENT, memoText);
+        request.setAttribute("comment", memoText);
         request.setAttribute("visibled", visible);
         if (memoId == 0) {
             request.setAttribute("id", "new");
@@ -593,7 +593,7 @@ public class ContractDAO extends BillingDAO {
         request.setAction("UpdateContractMemo");
         request.setContractId(contractId);
         request.setAttribute("subject", memoTitle);
-        request.setAttribute(COMMENT, memoText);
+        request.setAttribute("comment", memoText);
         request.setAttribute("visibled", false);
         if (memoId == 0) {
             request.setAttribute("id", "new");
@@ -631,7 +631,7 @@ public class ContractDAO extends BillingDAO {
             ContractFace face = new ContractFace();
             face.setTime(TimeUtils.parse(el.getAttribute("date"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
             face.setUser(el.getAttribute("user"));
-            face.setFace(el.getAttribute(VALUE));
+            face.setFace(el.getAttribute("value"));
 
             list.add(face);
         }
@@ -644,7 +644,7 @@ public class ContractDAO extends BillingDAO {
         req.setModule("contract");
         req.setAction("SetFcContract");
         req.setContractId(contractId);
-        req.setAttribute(VALUE, face);
+        req.setAttribute("value", face);
 
         transferData.postData(req, user);
     }
@@ -666,7 +666,7 @@ public class ContractDAO extends BillingDAO {
             ContractMode face = new ContractMode();
             face.setTime(TimeUtils.parse(el.getAttribute("date"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
             face.setUser(el.getAttribute("user"));
-            face.setMode(el.getAttribute(VALUE));
+            face.setMode(el.getAttribute("value"));
 
             list.add(face);
         }
@@ -679,7 +679,7 @@ public class ContractDAO extends BillingDAO {
         req.setModule("contract");
         req.setAction("UpdateContractMode");
         req.setContractId(contractId);
-        req.setAttribute(VALUE, mode == ContractMode.MODE_CREDIT ? "credit" : "debet");
+        req.setAttribute("value", mode == ContractMode.MODE_CREDIT ? "credit" : "debet");
 
         transferData.postData(req, user);
     }
@@ -729,7 +729,7 @@ public class ContractDAO extends BillingDAO {
             for (Element rowElement : XMLUtils.selectElements(document, "/data/groups/group")) {
                 IdTitle group = new IdTitle();
                 group.setId(Utils.parseInt(rowElement.getAttribute("id")));
-                group.setTitle(rowElement.getAttribute(TITLE));
+                group.setTitle(rowElement.getAttribute("title"));
 
                 groupList.add(group);
 
@@ -747,7 +747,7 @@ public class ContractDAO extends BillingDAO {
             Request request = new Request();
             request.setModule("contract");
             request.setContractId(contractId);
-            request.setAttribute(VALUE, groupId);
+            request.setAttribute("value", groupId);
             request.setAttribute("id", contractId);
 
             if ("add".equals(command)) {
@@ -791,7 +791,7 @@ public class ContractDAO extends BillingDAO {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle additionalAction = new IdTitle();
             additionalAction.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            additionalAction.setTitle(rowElement.getAttribute(TITLE));
+            additionalAction.setTitle(rowElement.getAttribute("title"));
 
             additionalActionList.add(additionalAction);
         }
@@ -831,10 +831,10 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(request, user);
         for (Element item : XMLUtils.selectElements(document, "/data/list_select/item")) {
-            selectedList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
+            selectedList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
         }
         for (Element item : XMLUtils.selectElements(document, "/data/list_avaliable/item")) {
-            availableList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
+            availableList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
         }
 
         return new Pair<>(selectedList, availableList);
@@ -901,7 +901,7 @@ public class ContractDAO extends BillingDAO {
                     logItem.setTime(TimeUtils.parse(item.getAttribute("f0"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
                     logItem.setUser(item.getAttribute("f1"));
                     logItem.setLimit(Utils.parseBigDecimal(item.getAttribute("f2")));
-                    logItem.setComment(item.getAttribute(COMMENT));
+                    logItem.setComment(item.getAttribute("comment"));
                     logItem.setDays(item.getAttribute("days"));
 
                     log.getList().add(logItem);
@@ -946,13 +946,13 @@ public class ContractDAO extends BillingDAO {
                 req.setParamContractId(contractId);
                 req.setParam("limit", limit);
                 req.setParam("period", days);
-                req.setParam(COMMENT, comment);
+                req.setParam("comment", comment);
                 transferData.postData(req, user);
             } else {
                 Request request = new Request();
                 request.setModule("contract");
                 request.setContractId(contractId);
-                request.setAttribute(COMMENT, comment);
+                request.setAttribute("comment", comment);
                 request.setAction("UpdateContractLimitPeriod");
                 request.setAttribute("limit", Utils.format(limit));
                 request.setAttribute("period", days);
@@ -962,9 +962,9 @@ public class ContractDAO extends BillingDAO {
             Request request = new Request();
             request.setModule("contract");
             request.setContractId(contractId);
-            request.setAttribute(COMMENT, comment);
+            request.setAttribute("comment", comment);
             request.setAction("UpdateContractLimit");
-            request.setAttribute(VALUE, Utils.format(limit));
+            request.setAttribute("value", Utils.format(limit));
             transferData.postData(request, user);
         }
     }
@@ -1000,7 +1000,7 @@ public class ContractDAO extends BillingDAO {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle address = new IdTitle();
             address.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            address.setTitle(rowElement.getAttribute(TITLE));
+            address.setTitle(rowElement.getAttribute("title"));
 
             contractAddress.add(address);
         }
@@ -1013,7 +1013,7 @@ public class ContractDAO extends BillingDAO {
         request.setModule("contract");
         request.setAction("UpdateContractPassword");
         request.setContractId(contractId);
-        request.setAttribute(VALUE, Utils.maskNull(value));
+        request.setAttribute("value", Utils.maskNull(value));
 
         if (generate) {
             request.setAttribute("set_pswd", 1);
@@ -1055,7 +1055,7 @@ public class ContractDAO extends BillingDAO {
 
         Document doc = transferData.postData(req, user);
         for (Element el : XMLUtils.selectElements(doc, "/data/combo/el")) {
-            result.add(new String[] { el.getAttribute("id"), el.getAttribute(TITLE) });
+            result.add(new String[] { el.getAttribute("id"), el.getAttribute("title") });
         }
 
         return result;
@@ -1079,7 +1079,7 @@ public class ContractDAO extends BillingDAO {
         req.setModule("admin");
         req.setAction("Command");
         req.setAttribute("command", "put");
-        req.setAttribute(VALUE, "openContract:" + contractId);
+        req.setAttribute("value", "openContract:" + contractId);
 
         transferData.postData(req, user);
     }
@@ -1093,7 +1093,7 @@ public class ContractDAO extends BillingDAO {
         if (patid > 0) {
             req.setAttribute("patid", patid);
         }
-        req.setAttribute(COMMENT, comment);
+        req.setAttribute("comment", comment);
 
         transferData.postData(req, user);
     }
@@ -1127,7 +1127,7 @@ public class ContractDAO extends BillingDAO {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle pattern = new IdTitle();
             pattern.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            pattern.setTitle(rowElement.getAttribute(TITLE));
+            pattern.setTitle(rowElement.getAttribute("title"));
 
             contractPatterns.add(pattern);
         }
@@ -1168,7 +1168,7 @@ public class ContractDAO extends BillingDAO {
         List<IdTitle> streets = new LinkedList<>();
 
         for (Element item : XMLUtils.selectElements(document, "/data/streets/item")) {
-            streets.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
+            streets.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
         }
 
         return streets;
@@ -1215,7 +1215,7 @@ public class ContractDAO extends BillingDAO {
         billingRequest.setModule("contract");
         billingRequest.setAction("UpdateContractLimitManage");
         billingRequest.setContractId(contractId);
-        billingRequest.setAttribute(VALUE, mode);
+        billingRequest.setAttribute("value", mode);
 
         transferData.postData(billingRequest, user);
     }
@@ -1359,10 +1359,10 @@ public class ContractDAO extends BillingDAO {
         request.setAttribute("logType", type.toString());
 
         if (date1 != null) {
-            request.setAttribute(DATE_1, new SimpleDateFormat("dd.MM.yyyy").format(date1));
+            request.setAttribute("date1", new SimpleDateFormat("dd.MM.yyyy").format(date1));
         }
         if (date2 != null) {
-            request.setAttribute(DATE_2, new SimpleDateFormat("dd.MM.yyyy").format(date2));
+            request.setAttribute("date2", new SimpleDateFormat("dd.MM.yyyy").format(date2));
         }
 
         request.setAttribute("pageSize", searchResult.getPage().getPageSize());
@@ -1527,7 +1527,7 @@ public class ContractDAO extends BillingDAO {
             Document document = transferData.postData(req, user);
             paramList = new ArrayList<>();
             for (Element el : XMLUtils.selectElements(document, "/data/table/data/row")) {
-                paramList.add(new IdTitle(Utils.parseInt(el.getAttribute("id")), el.getAttribute(TITLE)));
+                paramList.add(new IdTitle(Utils.parseInt(el.getAttribute("id")), el.getAttribute("title")));
             }
         }
         return paramList;
@@ -1549,7 +1549,7 @@ public class ContractDAO extends BillingDAO {
 
             result.setBillingId(dbInfo.getId());
             result.setId(contractId);
-            result.setComment(contract.getAttribute(COMMENT));
+            result.setComment(contract.getAttribute("comment"));
             result.setObjects(Utils.parseInt(contract.getAttribute("objects").split("/")[0]),
                     Utils.parseInt(contract.getAttribute("objects").split("/")[1]));
             result.setHierarchy(contract.getAttribute("hierarchy"));
@@ -1557,12 +1557,12 @@ public class ContractDAO extends BillingDAO {
             result.setHierarchyIndep(Utils.parseInt(contract.getAttribute("hierarchyIndep")));
             result.setDeleted(Utils.parseBoolean(contract.getAttribute("del")));
             result.setFace(Utils.parseInt(contract.getAttribute("fc")));
-            result.setDateFrom(TimeUtils.parse(contract.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
-            result.setDateTo(TimeUtils.parse(contract.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
+            result.setDateFrom(TimeUtils.parse(contract.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
+            result.setDateTo(TimeUtils.parse(contract.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
             result.setMode(Utils.parseInt(contract.getAttribute("mode")));
             result.setBalanceLimit(Utils.parseBigDecimal(contract.getAttribute("limit"), BigDecimal.ZERO));
             result.setStatus(contract.getAttribute("status"));
-            result.setTitle(contract.getAttribute(TITLE));
+            result.setTitle(contract.getAttribute("title"));
             result.setComments(Utils.parseInt(contract.getAttribute("comments")));
 
             if ("super".equals(contract.getAttribute("hierarchy"))) {
@@ -1577,7 +1577,7 @@ public class ContractDAO extends BillingDAO {
             if (modules != null) {
                 List<ContractInfo.ModuleInfo> moduleList = new ArrayList<>();
                 for (Element item : XMLUtils.selectElements(modules, "item")) {
-                    moduleList.add(new ContractInfo.ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE), item.getAttribute("package"),
+                    moduleList.add(new ContractInfo.ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), item.getAttribute("package"),
                             item.getAttribute("status")));
                 }
                 result.setModuleList(moduleList);
@@ -1607,7 +1607,7 @@ public class ContractDAO extends BillingDAO {
         }
         for (int index = 0; index < nodeJson.length(); index++) {
             JSONObject itemJson = nodeJson.optJSONObject(index);
-            IdTitle item = new IdTitle(itemJson.optInt("id"), itemJson.optString(TITLE));
+            IdTitle item = new IdTitle(itemJson.optInt("id"), itemJson.optString("title"));
             result.add(item);
         }
         return result;
@@ -1619,7 +1619,7 @@ public class ContractDAO extends BillingDAO {
         if (node != null) {
             result = new ArrayList<>();
             for (Element item : XMLUtils.selectElements(node, "item")) {
-                result.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
+                result.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
             }
         }
 

@@ -22,17 +22,10 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
 public class BillingDAO {
-    protected static final String TITLE = "title";
-    protected static final String VALUE = "value";
-    protected static final String DATE_1 = "date1";
-    protected static final String DATE_2 = "date2";
-    protected static final String PARAMETERS = "parameters";
-
     // page
     private static final String RECORD_COUNT = "recordCount";
     private static final String PAGE_INDEX = "pageIndex";
     private static final String PAGE_SIZE = "pageSize";
-    public static final String COMMENT = "comment";
 
     protected User user;
     protected DBInfo dbInfo;
