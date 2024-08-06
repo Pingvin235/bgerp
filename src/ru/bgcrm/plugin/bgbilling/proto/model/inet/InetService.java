@@ -15,6 +15,8 @@ import ru.bgcrm.util.inet.IpNet;
 public class InetService extends TreeItem<Integer, InetService> {
     public static final int STATUS_ACTIVE = 0;
     public static final int STATUS_CLOSED = 1;
+    /** Отсутствует в bgbilling с 9.2404 */
+    @Deprecated
     public static final int STATUS_LOCKED = 2;
 
     /**

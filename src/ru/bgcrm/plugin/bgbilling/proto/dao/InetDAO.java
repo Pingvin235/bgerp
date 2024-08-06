@@ -14,6 +14,7 @@ import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
@@ -82,6 +83,7 @@ public class InetDAO extends BillingModuleDAO {
 
     private void loadChildren(JsonNode node, List<InetService> list) {
         for (JsonNode childNode : node.path("children")) {
+            correctStatus(childNode);;
             list.add(jsonMapper.convertValue(childNode, InetService.class));
             loadChildren(childNode, list);
         }
@@ -92,7 +94,15 @@ public class InetDAO extends BillingModuleDAO {
         req.setParam("inetServId", id);
 
         JsonNode response = transferData.postDataReturn(req, user);
+        correctStatus(response);
         return jsonMapper.convertValue(response, InetService.class);
+    }
+
+    private void correctStatus(JsonNode childNode) {
+        switch (childNode.get("status").asText()) {
+            case "STATUS_ON" -> ((ObjectNode) childNode).put("status", InetService.STATUS_ACTIVE);
+            case "STATUS_OFF" -> ((ObjectNode) childNode).put("status", InetService.STATUS_CLOSED);
+        }
     }
 
     public void updateService(InetService inetServ, List<InetServiceOption> optionList, boolean generateLogin,
