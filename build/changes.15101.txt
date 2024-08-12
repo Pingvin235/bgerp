@@ -1,0 +1,1 @@
+A: Script jcheck.sh for checking java version

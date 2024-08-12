@@ -4,6 +4,8 @@ cd ${0%${0##*/}}.
 
 . ./setenv.sh
 
+. ./jcheck.sh
+
 TEE=/usr/bin/tee
 DATE=/bin/date
 

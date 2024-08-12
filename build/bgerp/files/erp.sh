@@ -4,6 +4,8 @@ cd ${0%${0##*/}}.
 
 . ./setenv.sh
 
+. ./jcheck.sh
+
 DATE=/bin/date
 
 time=`${DATE} +%Y-%m-%d_%H:%M:%S`

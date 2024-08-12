@@ -221,11 +221,11 @@ Step 6. If required, adapt the following values in in *bgerp.properties*: DB ser
 Step 7. If required, adapt *JAVA_HOME* variable in a *setenv.sh* :
 [source, sh]
 ----
-JAVA_HOME=/usr
+JAVA_HOME=/opt/the_special_java
+
+# default value
 if [ -z "$JAVA_HOME" ]; then
-    echo "The JAVA_HOME environment variable is not defined"
-    echo "This environment variable is needed to run this program"
-    exit 1
+    JAVA_HOME=/usr
 fi
 ----
 *java* and *javac* will be expected in *$JAVA_HOME/bin/*

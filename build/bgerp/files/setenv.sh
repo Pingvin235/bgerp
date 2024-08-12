@@ -1,7 +1,6 @@
-#JAVA_HOME=
+#JAVA_HOME=/opt/the_special_java
 
+# default value
 if [ -z "$JAVA_HOME" ]; then
-    echo "The JAVA_HOME environment variable is not defined"
-    echo "This environment variable is needed to run this program"
-    exit 1
+    JAVA_HOME=/usr
 fi

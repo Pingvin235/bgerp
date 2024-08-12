@@ -4,6 +4,8 @@ cd ${0%${0##*/}}.
 
 . ./setenv.sh
 
+. ./jcheck.sh
+
 PID=`cat ./.run/bgerp.pid`
 
 if [ -z "$1" ]; then
