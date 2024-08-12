@@ -21,5 +21,5 @@ CONFIG_ROW=<<END
 END
 
 rowConfig.1.media=html
-rowConfig.1.stringExpressionHead={@CONFIG_HEAD}
-rowConfig.1.stringExpressionRow={@CONFIG_ROW}
+rowConfig.1.expressionHead={@CONFIG_HEAD}
+rowConfig.1.expressionRow={@CONFIG_ROW}

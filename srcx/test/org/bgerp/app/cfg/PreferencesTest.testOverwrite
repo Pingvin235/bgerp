@@ -85,19 +85,19 @@ configRow+=.concat( "<td>" ).concat( col24 ).concat( "</td></tr>" )
 
 #configRow=<<END
 #tr = "<tr processid='" + process.getId().toString() + "';
-#if (col24 == 1) 
+#if (col24 == 1)
 #tr += " bgcolor='red'";
 #tr += ">";
 #return tr;
 #END
 
 #configRow="<tr bgcolor='${color}' processid='".concat( process.getId().toString() ).concat("'")
-#if ( process.getId().toString() == 357 ) bgcolor='red'; 
+#if ( process.getId().toString() == 357 ) bgcolor='red';
 
 #var color;
-#if ( col24 == 1 ) {  color = 'red';  }  
-#else if ( col24 == 2 ) {  color = 'blue';  }  
-#else {  color = 'white';  } 
+#if ( col24 == 1 ) {  color = 'red';  }
+#else if ( col24 == 2 ) {  color = 'blue';  }
+#else {  color = 'white';  }
 
 #configRow+=.concat( ">" )
 #configRow+=.concat( "<td >" ).concat( col1 ).concat( "</td>" )
@@ -117,7 +117,7 @@ configRow+=.concat( "<td>" ).concat( col24 ).concat( "</td></tr>" )
 #....
 #tr += "</tr>";
 #return tr;
-#END 
+#END
 
 #if ((x * 2) == 5) {
 #                            y = 1;
@@ -135,7 +135,7 @@ configRow+=.concat( "<td>" ).concat( col24 ).concat( "</td></tr>" )
 #configRow+=.concat( "<td>" ).concat( col24 ).concat( "</td></tr>" )
 
 configRow=<<END
-   tr = "<tr processid='" + process.getId() + "' ";  
+   tr = "<tr processid='" + process.getId() + "' ";
    if (col24.contains("консультация"))
      tr += " bgcolor='green'";
    tr += ">";
@@ -151,5 +151,5 @@ configRow=<<END
 END
 
 rowConfig.1.media=html
-rowConfig.1.stringExpressionHead={@configHead}
-rowConfig.1.stringExpressionRow={@configRow}
+rowConfig.1.expressionHead={@configHead}
+rowConfig.1.expressionRow={@configRow}

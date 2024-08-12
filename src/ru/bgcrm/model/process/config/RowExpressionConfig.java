@@ -17,8 +17,8 @@ public class RowExpressionConfig extends Config {
 
         for (ConfigMap conf : config.subIndexed("rowConfig.").values()) {
             String media = conf.get("media");
-            Expressions expressions = new Expressions(conf.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Head"),
-                    conf.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Row"));
+            Expressions expressions = new Expressions(conf.getSok(Expression.EXPRESSION_CONFIG_KEY + "Head", "stringExpressionHead"),
+                    conf.getSok(Expression.EXPRESSION_CONFIG_KEY + "Row", "stringExpressionRow"));
 
             if (Utils.isBlankString(media) || Utils.isBlankString(expressions.headRowExpression) || Utils.isBlankString(expressions.rowExpression))
                 continue;
@@ -51,8 +51,8 @@ public class RowExpressionConfig extends Config {
         private String headRowExpression;
         private String rowExpression;
 
-        private Expressions(String headRowExprssion, String rowExpression) {
-            this.headRowExpression = headRowExprssion;
+        private Expressions(String headRowExpression, String rowExpression) {
+            this.headRowExpression = headRowExpression;
             this.rowExpression = rowExpression;
         }
     }

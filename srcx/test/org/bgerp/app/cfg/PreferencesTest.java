@@ -68,7 +68,7 @@ public class PreferencesTest {
         String data = IOUtils.toString(this.getClass().getResourceAsStream("PreferencesTest.testOverwrite"), StandardCharsets.UTF_8);
 
         Preferences prefs = new Preferences(data);
-        String value = prefs.get("rowConfig.1.stringExpressionRow");
+        String value = prefs.get("rowConfig.1.expressionRow");
         Assert.assertNotNull(value);
         Assert.assertTrue(value.trim().startsWith("tr = \"<tr"));
         Assert.assertTrue(value.trim().endsWith("return tr;"));
