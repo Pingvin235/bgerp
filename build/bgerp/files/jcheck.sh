@@ -1,5 +1,3 @@
-#!/bin/bash
-
 MINIMAL_MAJOR_VERSION="21"
 
 # search java executable in JAVA_HOME
