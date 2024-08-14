@@ -36,7 +36,7 @@ messageType.<id>.search.<searchModeId>.class=BGBillingMessageTypeSearchCall
 messageType.<id>.search.<searchModeId>.billingId=<billingId>
 messageType.<id>.search.<searchModeId>.commands=<commands>
 # необязательный параметр
-messageType.<id>.search.<searchModeId>.stringExpressionNumberPreprocess=<jexl>
+messageType.<id>.search.<searchModeId>.expressionNumberPreprocess=<jexl>
 ----
 Где:
 [square]
@@ -51,7 +51,7 @@ messageType.1.search.1.title=Договор по номеру
 messageType.1.search.1.class=BGBillingMessageTypeSearchCall
 messageType.1.search.1.billingId=bg
 messageType.1.search.1.commands=contractByPhoneParam:27
-messageType.1.search.1.stringExpressionNumberPreprocess=if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;
+messageType.1.search.1.expressionNumberPreprocess=if (numberFrom.length() == 11) { numberFrom = numberFrom.substring(1) }; return numberFrom;
 ----
 
 |:hardbreaks:

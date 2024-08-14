@@ -32,7 +32,7 @@ public class BGBillingMessageTypeSearchCall extends MessageTypeSearchBilling {
 
         // contractByTextParam:<paramId>;contractByComment
         this.commands = Utils.toList(config.get("commands"));
-        this.phonePreprocessJexl = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "NumberPreprocess");
+        this.phonePreprocessJexl = config.get(Expression.EXPRESSION_CONFIG_KEY + "NumberPreprocess", "stringExpressionNumberPreprocess");
     }
 
     @Override

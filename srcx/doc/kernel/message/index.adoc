@@ -123,7 +123,7 @@ messageType.<id>.search.<searchModeId>.title=<title>
 messageType.<id>.search.<searchModeId>.class=MessageTypeSearchCall
 messageType.<id>.search.<searchModeId>.commands=<commands>
 # необязательный параметр
-messageType.<id>.search.<searchModeId>.stringExpressionNumberPreprocess=<jexl>
+messageType.<id>.search.<searchModeId>.expressionNumberPreprocess=<jexl>
 ----
 Где:
 [square]
@@ -136,7 +136,7 @@ messageType.<id>.search.<searchModeId>.stringExpressionNumberPreprocess=<jexl>
 messageType.1.search.1.title=Customer by Phone
 messageType.1.search.1.class=MessageTypeSearchCall
 messageType.1.search.1.commands=customerByPhoneParam:10
-messageType.1.search.1.stringExpressionNumberPreprocess=if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;
+messageType.1.search.1.expressionNumberPreprocess=if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;
 ----
 
 // DO NOT TRANSLATE modes for BGBilling Plugin!!!
