@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.model.base.IdTitle;
 
@@ -28,10 +29,10 @@ public class BoardConfig extends IdTitle {
     private final Set<Integer> executorGroupIds;
     private final Set<Integer> executorRoleIds;
 
-    BoardConfig(int id, ConfigMap config) {
+    BoardConfig(int id, ConfigMap config) throws BGMessageException {
         super(id, config.get("title"));
         this.queueId = config.getInt("queueId");
-        this.cellExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Cell", "process.getDescription()");
+        this.cellExpression = config.getSok("process.getDescription()", false, Expression.EXPRESSION_CONFIG_KEY + "Cell", "stringExpressionCell");
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("filter.").entrySet())
             filters.add(new BoardFilter(me.getKey(), me.getValue()));
         this.openUrl = config.get("openUrl");
@@ -104,7 +105,7 @@ public class BoardConfig extends IdTitle {
 
         private BoardFilter(int id, ConfigMap config) {
             super(id, config.get("title", "NONAME"));
-            this.stringExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY);
+            this.stringExpression = config.getSok(Expression.EXPRESSION_CONFIG_KEY, "stringExpression");
             this.color = config.get("color");
         }
 

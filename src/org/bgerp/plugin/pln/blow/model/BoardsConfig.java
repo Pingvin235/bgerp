@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.plugin.pln.blow.Plugin;
 
@@ -19,7 +20,7 @@ import ru.bgcrm.model.user.User;
 public class BoardsConfig extends org.bgerp.app.cfg.Config {
     private SortedMap<Integer, BoardConfig> boardMap = new TreeMap<>();
 
-    protected BoardsConfig(ConfigMap config, boolean validate) {
+    protected BoardsConfig(ConfigMap config, boolean validate) throws BGMessageException {
         super(null, validate);
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed(Plugin.ID + ":board.").entrySet()) {
             BoardConfig b = new BoardConfig(me.getKey(), me.getValue());

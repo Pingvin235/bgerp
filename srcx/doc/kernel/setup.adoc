@@ -164,7 +164,7 @@ blow:enable=1
 
 blow:board.2.title=BGERP Projects
 blow:board.2.queueId=6
-blow:board.2.stringExpressionCell=<<END
+blow:board.2.expressionCell=<<END
      result = "";
      ........
      return result;

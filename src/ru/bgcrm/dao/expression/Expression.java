@@ -39,7 +39,7 @@ public class Expression {
     public static final String EXPRESSION_CONFIG_KEY = "expression";
     @Deprecated
     public static final String STRING_MAKE_EXPRESSION_CONFIG_KEY = "stringExpression";
-    // TODO: Change the keys to: "check.expression", "check.error.message", "do.expression"
+
     public static final String CHECK_EXPRESSION_CONFIG_KEY = "checkExpression";
     public static final String CHECK_ERROR_MESSAGE_CONFIG_KEY = "checkErrorMessage";
     public static final String DO_EXPRESSION_CONFIG_KEY = "doExpression";

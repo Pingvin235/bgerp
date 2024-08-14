@@ -33,7 +33,7 @@ blow:board.<id>.queueId=<queueId>
 # optional parameters
 blow:board.<id>.executor.groups=<groupIds>
 blow:board.<id>.executor.roles=<roleIds>
-blow:board.<id>.stringExpressionCell=<stringExpressionCell>
+blow:board.<id>.expressionCell=<expressionCell>
 blow:board.<id>.openUrl=<openUrl>
 ----
 
@@ -45,11 +45,11 @@ Where:
 * *<roleIds>* - comma separated process execution <<../../../kernel/process/index.adoc#usage-card-executor, roles>> IDs, by default only role *0* is taken;
 * *<openUrl>* - board name for publishing on <<../../../kernel/interface.adoc#open, open interface>> with URL  *../open/blow/<openUrl>*.
 
-*<stringExpression>* contains <<../../../kernel/extension.adoc#jexl, JEXL>> expression for evaluating of cell text.
+*<expressionCell>* contains <<../../../kernel/extension.adoc#jexl, JEXL>> expression for evaluating of cell text.
 In the expression context beside default variables and *process* are passed queue column values as variables *colX*, where *X* is a column ID.
 If not defined in the board cells are shown process descriptions. Here is an example of such configuration, taken from Demo:
 
-[snippet, from="blow:board.1.str", to="END"]
+[snippet, from="blow:board.1.expr", to="END"]
 link:../../../../itest/org/bgerp/itest/plugin/pln/blow/BlowTest.config.txt#L4-L27[Plugin Blow board config]
 
 A resulting cell looks like that for process with unread messages.
