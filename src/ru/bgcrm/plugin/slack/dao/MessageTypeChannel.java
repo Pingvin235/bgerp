@@ -66,10 +66,10 @@ public class MessageTypeChannel extends MessageType {
             log.info("authToken is not defined.");
             throw new InitStopException();
         }
-        this.purposeExpression = config.get("puproseExpression");
+        this.purposeExpression = config.get("purposeExpression");
         this.postExpression = config.get("postExpression");
         this.accountParam = ParameterCache.getParameter(config.getInt("accountParamId", 0));
-        this.stringExpressionMessageExtract = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "MessageExtract");
+        this.stringExpressionMessageExtract = config.get(Expression.EXPRESSION_CONFIG_KEY + "MessageExtract");
     }
 
     public String getToken() {

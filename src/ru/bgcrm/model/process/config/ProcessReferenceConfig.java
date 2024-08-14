@@ -55,7 +55,7 @@ public class ProcessReferenceConfig extends Config {
 
         public ProcessReferenceConfigItem(ConfigMap setup) {
             this.objectTypes = Utils.toSet(setup.get("objectTypes"));
-            this.macros = setup.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY);
+            this.macros = setup.get("stringExpression");
 
             if (Utils.isBlankString(macros)) {
                 throw new BGException("Incorrect config item, not macros.");

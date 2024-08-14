@@ -35,7 +35,7 @@ messageType.<id>.class=MessageTypeChannel
 messageType.<id>.authToken=<token>
 # необязательные параметры
 messageType.<id>.accountParamId=<slackLoginParamId>
-messageType.<id>.stringExpressionMessageExtract=<jexl>
+messageType.<id>.expressionMessageExtract=<jexl>
 ----
 
 Параметры, отличные от прочих типов сообщений:
@@ -52,7 +52,7 @@ messageType.5.title=Slack
 messageType.5.class=MessageTypeChannel
 messageType.5.authToken=xoxp-112244252083-112987389558-112322797394-6aa31425be1725ee6ee0265a2dff1236
 messageType.5.accountParamId=88
-messageType.5.stringExpressionMessageExtract=<<END
+messageType.5.expressionMessageExtract=<<END
    pos = message.toLowerCase().indexOf("bg");
    if (pos >= 0)
         return message.substring(0, pos) + message.substring(pos + 2);
@@ -75,7 +75,7 @@ image::_res/slack_1.png[]
 
 image::_res/slack_2.png[]
 
-Входящие сообщение импортируются из канала при наличии скрипта *stringExpressionMessageExtract* в типе сообщения.
+Входящие сообщение импортируются из канала при наличии скрипта *expressionMessageExtract* в типе сообщения.
 
 [[process-type]]
 == Настройка типа процесса
