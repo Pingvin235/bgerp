@@ -164,27 +164,6 @@
 |last modification time
 |===
 
-=== address_quarter_distribution
-Распределение групп пользователей по кварталам.
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|distr_id
-|INT
-|ID
-
-|group_id
-|INT
-|ID группы
-
-|quarter_id
-|INT
-|ID квартала
-|===
-
 === address_street
 Справочник улиц.
 [cols="a,a,50%a", options="header"]
