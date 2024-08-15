@@ -23,9 +23,3 @@ cd log && ls -1t . | grep -E "update.+log" | tail -n +11 | xargs rm -f && cd ..
 
 # add execution rights on new scripts
 chmod +x ./*.sh
-
-# delete log_update files, old storing place
-find . -type f -name 'log_update*' -exec rm {} \;
-
-# delete update modules, old storing place
-ls -1t . | grep -E "update.+zip" | xargs rm -f
