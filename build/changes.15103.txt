@@ -1,0 +1,1 @@
+A: New supported query types for DBA 'SQL Query' tool

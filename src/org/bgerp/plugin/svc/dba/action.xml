@@ -1,13 +1,14 @@
 <item title="Plugin DBA">
-	<item title="SQL Query">
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:null" title="Query"/>
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:querySelect" title="SELECT"/>
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryShow" title="SHOW"/>
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryInsert" title="INSERT"/>
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryCreate" title="CREATE"/>
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryUpdate" title="UPDATE"/>
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDelete" title="DELETE"/>
-		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDrop" title="DROP"/>
+	<item title="SQL Query" action="/admin/plugin/dba/query:null, org.bgerp.plugin.svc.dba.action.admin.QueryAction:null">
+		<item action="/admin/plugin/dba/query:querySelect, org.bgerp.plugin.svc.dba.action.admin.QueryAction:querySelect" title="SELECT"/>
+		<item action="/admin/plugin/dba/query:queryShow, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryShow" title="SHOW"/>
+		<item action="/admin/plugin/dba/query:queryInsert, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryInsert" title="INSERT"/>
+		<item action="/admin/plugin/dba/query:queryCreate, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryCreate" title="CREATE"/>
+		<item action="/admin/plugin/dba/query:queryUpdate, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryUpdate" title="UPDATE"/>
+		<item action="/admin/plugin/dba/query:queryDelete, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDelete" title="DELETE"/>
+		<item action="/admin/plugin/dba/query:queryAlter" title="ALTER"/>
+		<item action="/admin/plugin/dba/query:queryDrop, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDrop" title="DROP"/>
+		<item action="/admin/plugin/dba/query:queryCall" title="CALL"/>
 		<item title="History">
 			<item action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get" title="Load"/>
 			<item action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:del" title="Delete"/>

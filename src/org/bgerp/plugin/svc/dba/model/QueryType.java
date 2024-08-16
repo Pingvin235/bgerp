@@ -14,7 +14,9 @@ public enum QueryType {
     CREATE("CREATE"),
     UPDATE("UPDATE"),
     DELETE("DELETE"),
-    DROP("DROP");
+    ALTER("ALTER"),
+    DROP("DROP"),
+    CALL("CALL");
 
     /** Capital case SQL query beginning. */
     private final String prefix;

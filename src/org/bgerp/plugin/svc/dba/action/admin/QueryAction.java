@@ -1,6 +1,7 @@
 package org.bgerp.plugin.svc.dba.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.Actions;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.plugin.svc.dba.Plugin;
@@ -15,7 +16,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/plugin/dba/query")
+@Action(path = "/admin/plugin/dba/query", pathId = true)
 public class QueryAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
@@ -46,8 +47,8 @@ public class QueryAction extends BaseAction {
     }
 
     private void permissionCheck(DynActionForm form, QueryType type) throws Exception {
-        String className = this.getClass().getName();
-        permissionCheck(form, className + ":query" + type.prefix().substring(0, 1) + type.prefix().substring(1).toLowerCase());
+        String actionId = Actions.getByClass(this.getClass()).getId();
+        permissionCheck(form, actionId + ":query" + type.prefix().substring(0, 1) + type.prefix().substring(1).toLowerCase());
     }
 
     public ActionForward querySelect(DynActionForm form, ConnectionSet conSet) {
@@ -74,7 +75,15 @@ public class QueryAction extends BaseAction {
         throw new PermissionActionMethodException();
     }
 
+    public ActionForward queryAlter(DynActionForm form, ConnectionSet conSet) {
+        throw new PermissionActionMethodException();
+    }
+
     public ActionForward queryDrop(DynActionForm form, ConnectionSet conSet) {
+        throw new PermissionActionMethodException();
+    }
+
+    public ActionForward queryCall(DynActionForm form, ConnectionSet conSet) {
         throw new PermissionActionMethodException();
     }
 }
