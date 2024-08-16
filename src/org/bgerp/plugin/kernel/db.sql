@@ -282,7 +282,7 @@ CREATE TABLE IF NOT EXISTS message (
 	`direction` TINYINT NOT NULL,
 	user_id INT NOT NULL,
 	`from` VARCHAR(100) NOT NULL,
-	`to` VARCHAR(250) NOT NULL,
+	`to` VARCHAR(400) NOT NULL,
 	from_dt DATETIME NOT NULL,
 	to_dt DATETIME,
 	`subject` VARCHAR(250) NOT NULL,
@@ -298,7 +298,7 @@ CALL rename_table('n_message', 'message');
 CALL add_key_if_not_exists('message', 'from', '(`from`)');
 CALL add_column_if_not_exists('message', 'system_id', 'VARCHAR(100) NOT NULL AFTER id');
 CALL add_key_if_not_exists('message', 'system_id', '(system_id(5))');
-ALTER TABLE message MODIFY `to` VARCHAR(250) NOT NULL;
+ALTER TABLE message MODIFY `to` VARCHAR(400) NOT NULL;
 
 CREATE TABLE IF NOT EXISTS message_tag (
 	message_id INT NOT NULL,
