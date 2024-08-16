@@ -7,9 +7,8 @@ COPY files/bgerp.zip /tmp
 RUN unzip /tmp/bgerp.zip -d /opt \
 	&& rm /tmp/bgerp.zip \
 	&& chmod 744 /opt/bgerp/*.sh \
-	&& mkdir /opt/bgerp/conf
-
-RUN mkdir /opt/bgerp/backup
+	&& mkdir /opt/bgerp/conf \
+	&& mkdir /opt/bgerp/backup
 
 VOLUME /opt/bgerp/filestorage
 VOLUME /opt/bgerp/backup

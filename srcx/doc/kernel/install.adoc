@@ -18,8 +18,9 @@ Minimal system requirements for running a server with BGERP + MySQL are as follo
 Installation from a Docker image.
 
 The link:https://hub.docker.com/r/bgerp/bgerp[Docker image] uses approximately *1 GB* of disk space and contains
-the latest published build will all the required components: MySQL, Java.
-The actual <<demo, Demo>> state is also applied during first run.
+the latest published Stable Release will all the required components: MySQL, Java.
+
+NOTE: The actual <<demo, Demo>> state is applied during the first run if that is not explicitly <<#method-docker-run-arg, disabled>>.
 
 This variant perfectly fits the following purposes:
 [square]
@@ -68,6 +69,11 @@ CAUTION: Completely remove all the related data.
 ----
 rm -rf /srv/bgerp
 ----
+
+[[method-docker-run-arg]]
+==== Run Arguments
+By default a Docker container with BGERP has been updated to the latest <<#update-version, Master>> release and has <<#demo, Demo>> DB content applied.
+That might be avoided using arguments for *docker run* command *-e MASTER=no* and *-e DEMO=no* respectively.
 
 [[method-docker-deployment-script]]
 ==== Deployment Script
