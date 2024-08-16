@@ -1,9 +1,6 @@
 package org.bgerp.action.base;
 
-import org.apache.struts.actions.BaseAction;
 import org.bgerp.model.base.iface.Title;
-
-import ru.bgcrm.servlet.ActionServlet.Action;
 
 /**
  * Action with localized title.
@@ -11,7 +8,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
  * @author Shamil Vakhitov
  */
 public class TitledAction implements Title {
-    private final Class<?> actionClass;
+    private final Class<? extends BaseAction> actionClass;
     private final Title titled;
     private final String href;
 
@@ -21,29 +18,18 @@ public class TitledAction implements Title {
         this.href = href;
     }
 
+    @Override
+    public String getTitle() {
+        return titled.getTitle();
+    }
+
     /**
      * Action class and method, separated by semicolon.
      * 'null' - for unspecified method. The same format, as used in action.xml files.
      * @return
      */
     public String getAction() {
-        return actionClass.getName() + ":null";
-    }
-
-    /**
-     * Path, ending with .do.
-     * @return
-     */
-    public String getActionUrl() {
-        var a = actionClass.getDeclaredAnnotation(Action.class);
-        if (a == null)
-            return null;
-        return a.path() + ".do";
-    }
-
-    @Override
-    public String getTitle() {
-        return titled.getTitle();
+        return Actions.getByClass(actionClass).getId() + ":null";
     }
 
     /**
