@@ -55,8 +55,7 @@ public class BGBillingMessageTypeSearchCall extends MessageTypeSearchBilling {
                 String paramIds = StringUtils.substringAfter(command, ":");
 
                 Pageable<Contract> searchResult = new Pageable<>();
-                ContractDAO.getInstance(form.getUser(), billingId).searchContractByPhoneParam(searchResult, null,
-                        Utils.toIntegerSet(paramIds), numberFrom);
+                new ContractDAO(form.getUser(), billingId).searchContractByPhoneParam(searchResult, null, Utils.toIntegerSet(paramIds), numberFrom);
 
                 for (Contract contract : searchResult.getList()) {
                     result.add(new CommonObjectLink(0, Contract.OBJECT_TYPE + ":" + contract.getBillingId(),

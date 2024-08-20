@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.struts.action;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
@@ -28,6 +29,7 @@ import ru.bgcrm.plugin.bgbilling.dao.ContractCustomerDAO;
 import ru.bgcrm.plugin.bgbilling.model.ContractType;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ContractMemoDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
@@ -37,7 +39,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
-import java.util.Date;
 
 /**
  * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в
@@ -83,7 +84,7 @@ public class ContractAction extends BaseAction {
         int id = form.getId();
 
         if (Utils.notBlankString(billingId) && id > 0) {
-            ContractInfo info = ContractDAO.getInstance(form.getUser(), billingId)
+            ContractInfo info = new ContractDAO(form.getUser(), billingId)
                     .getContractInfo(id);
             form.setResponseData("contract", info);
 
@@ -131,7 +132,7 @@ public class ContractAction extends BaseAction {
         int contractId = form.getParamInt("contractId", -1);
         String contractTitle = form.getParam("contractTitle", "");
 
-        ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), form.getParam("billingId"));
+        ContractDAO contractDAO = new ContractDAO(form.getUser(), form.getParam("billingId"));
         contractDAO.copyParametersToBilling(con, customerId, contractId, contractTitle);
 
         return json(con, form);
@@ -142,7 +143,7 @@ public class ContractAction extends BaseAction {
         String title = form.getParam("title");
 
         Pageable<IdTitle> searchResult = new Pageable<>();
-        ContractDAO.getInstance(form.getUser(), billingId).searchContractByTitleComment(searchResult, title, null, null);
+        new ContractDAO(form.getUser(), billingId).searchContractByTitleComment(searchResult, title, null, null);
         form.setResponseData("contract", Utils.getFirst(searchResult.getList()));
 
         return json(con, form);
@@ -163,7 +164,7 @@ public class ContractAction extends BaseAction {
         if (type == null)
             throw new BGException("Не передан тип договора");
 
-        ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
+        ContractDAO contractDao = new ContractDAO(form.getUser(), billingId);
 
         Contract contract = contractDao.createContract(patternId, date, title, titlePattern, 0);
         if (customerId > 0) {
@@ -175,7 +176,7 @@ public class ContractAction extends BaseAction {
 
             new CustomerLinkDAO(con).addLink(link);
 
-            ContractDAO.getInstance(form.getUser(), billingId).copyParametersToBilling(con, customerId, contract.getId(),
+            new ContractDAO(form.getUser(), billingId).copyParametersToBilling(con, customerId, contract.getId(),
                     contract.getTitle());
         }
 
@@ -212,7 +213,7 @@ public class ContractAction extends BaseAction {
         final SearchOptions searchOptions = new SearchOptions(true, true, true);
 
         Pageable<IdTitle> searchResult = new Pageable<>();
-        ContractDAO.getInstance(form.getUser(), billingId)
+        new ContractDAO(form.getUser(), billingId)
                 .searchContractByTitleComment(searchResult, "^" + contractTitle + "$", null, searchOptions);
 
         IdTitle result = Utils.getFirst(searchResult.getList());
@@ -234,8 +235,7 @@ public class ContractAction extends BaseAction {
         List<String> whatShow = Utils.toList(form.getParam("whatShow"));
         for (String item : whatShow) {
             if ("memo".equals(item)) {
-                form.setResponseData("memoList", ContractDAO
-                        .getInstance(form.getUser(), billingId).getMemoList(contractId));
+                form.setResponseData("memoList", new ContractMemoDAO(form.getUser(), billingId).getMemoList(contractId));
             }
             // TODO: Выбор остальных вариантов.
         }

@@ -175,7 +175,7 @@ public class ServerCustomerCreator {
         try {
             init(con);
 
-            var contract = ContractDAO.getInstance(user, billingId).getContractById(contractId);
+            var contract = new ContractDAO(user, billingId).getContractById(contractId);
             if (contract != null)
                 createCustomer(contractId, contract.getTitle(), contract.getComment());
 

@@ -141,7 +141,7 @@ public class ShowContractsByAddrParamStep extends BaseStep {
 
                     int contractId = Utils.parseInt(itemElement.getAttribute("id"), -1);
 
-                    ContractDAO contractDAO = ContractDAO.getInstance(data.getUser(), conf.get("id"));
+                    ContractDAO contractDAO = new ContractDAO(data.getUser(), conf.get("id"));
 
                     if (checkAndAppendAttrs(contractDAO.getContractCardDoc(contractId), itemElement, conf)) {
                         contractsElement.removeChild(nodeList.item(i));

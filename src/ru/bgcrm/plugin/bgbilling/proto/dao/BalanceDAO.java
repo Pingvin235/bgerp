@@ -399,11 +399,6 @@ public class BalanceDAO extends BillingDAO {
     }
 
     @Deprecated
-    public BigDecimal getContractBalanceSum(int contractId, Date dateFrom, Date dateTo) {
-        return ContractDAO.getInstance(user, dbInfo).getContractInfo(contractId).getBalanceOut();
-    }
-
-    @Deprecated
     public BigDecimal getContractAccountSum(int contractId, Date dateFrom, Date dateTo) {
         return getContractAccountList(contractId, dateFrom, dateTo, null, null);
     }

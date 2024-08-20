@@ -21,6 +21,7 @@ import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
@@ -48,12 +49,10 @@ import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.ContractDAO8x;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractGroup;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractCreateData;
@@ -81,27 +80,11 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public static ContractDAO getInstance(User user, DBInfo dbInfo) {
-        if (dbInfo.versionCompare("8.0") > 0) {
-            return new ContractDAO8x(user, dbInfo);
-        } else {
-            return new ContractDAO(user, dbInfo);
-        }
-    }
-
-    public static ContractDAO getInstance(User user, String billingId) {
-        if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
-            return new ContractDAO8x(user, billingId);
-        } else {
-            return new ContractDAO(user, billingId);
-        }
-    }
-
-    protected ContractDAO(User user, String billingId) {
+    public ContractDAO(User user, String billingId) {
         super(user, billingId);
     }
 
-    protected ContractDAO(User user, DBInfo dbInfo) {
+    public ContractDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 
@@ -469,100 +452,6 @@ public class ContractDAO extends BillingDAO {
         }
 
         return contract;
-    }
-
-    public List<ContractMemo> getMemoList(int contractId) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("ContractMemo");
-        request.setContractId(contractId);
-
-        Document document = transferData.postData(request, user);
-
-        List<ContractMemo> contractMemos = new ArrayList<>();
-        Element dataElement = document.getDocumentElement();
-        NodeList nodeList = dataElement.getElementsByTagName("row");
-
-        for (int index = 0; index < nodeList.getLength(); index++) {
-            Element rowElement = (Element) nodeList.item(index);
-            ContractMemo memo = new ContractMemo();
-            memo.setId(Utils.parseInt(rowElement.getAttribute("f0")));
-            memo.setTitle(rowElement.getAttribute("f1"));
-            memo.setTime(TimeUtils.parse(rowElement.getAttribute("f3"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
-            memo.setUser(rowElement.getAttribute("f4"));
-            memo.setText(getMemo(contractId, memo.getId()).getText());
-
-            contractMemos.add(memo);
-        }
-
-        return contractMemos;
-    }
-
-    public ContractMemo getMemo(int contractId, int memoId) {
-        ContractMemo memo = null;
-
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("GetContractMemo");
-        request.setContractId(contractId);
-        request.setAttribute("id", memoId);
-
-        Document doc = transferData.postData(request, user);
-
-        Element commentEl = XMLUtils.selectElement(doc, "/data/comment");
-        if (commentEl != null) {
-            memo = new ContractMemo();
-
-            memo.setTitle(commentEl.getAttribute("subject"));
-            memo.setText(linesToString(commentEl));
-            memo.setVisibleForUser(Utils.parseBoolean(commentEl.getAttribute("visibled")));
-        }
-
-        return memo;
-    }
-
-    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText, boolean visible) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("UpdateContractMemo");
-        request.setContractId(contractId);
-        request.setAttribute("subject", memoTitle);
-        request.setAttribute("comment", memoText);
-        request.setAttribute("visibled", visible);
-        if (memoId == 0) {
-            request.setAttribute("id", "new");
-        } else {
-            request.setAttribute("id", memoId);
-        }
-
-        transferData.postData(request, user);
-    }
-
-    public void updateMemo(int contractId, int memoId, String memoTitle, String memoText) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("UpdateContractMemo");
-        request.setContractId(contractId);
-        request.setAttribute("subject", memoTitle);
-        request.setAttribute("comment", memoText);
-        request.setAttribute("visibled", false);
-        if (memoId == 0) {
-            request.setAttribute("id", "new");
-        } else {
-            request.setAttribute("id", memoId);
-        }
-
-        transferData.postData(request, user);
-    }
-
-    public void deleteMemo(int contractId, int memoId) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("DeleteContractMemo");
-        request.setContractId(contractId);
-        request.setAttribute("id", memoId);
-
-        transferData.postData(request, user);
     }
 
     public void faceLog(Pageable<ContractFace> result, int contractId) {
@@ -1003,17 +892,27 @@ public class ContractDAO extends BillingDAO {
     }
 
     public List<String[]> getContractCardTypes(int contractId) {
-        Request req = new Request();
+        List<String[]> result = new ArrayList<>();
 
-        req.setModule("contract");
-        req.setAction("ContractCard2ListTypes");
-        req.setContractId(contractId);
+        if (dbInfo.versionCompare("8.0") > 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractCardList");
+            req.setParamContractId(contractId);
 
-        List<String[]> result = new ArrayList<>(3);
+            List<IdStringTitle> list = readJsonValue(transferData.postDataReturn(req, user).traverse(),
+                    jsonTypeFactory.constructCollectionType(List.class, IdStringTitle.class));
+            for (var item : list)
+                result.add(new String[] { item.getId(), item.getTitle() });
+        } else {
+            Request req = new Request();
 
-        Document doc = transferData.postData(req, user);
-        for (Element el : XMLUtils.selectElements(doc, "/data/combo/el")) {
-            result.add(new String[] { el.getAttribute("id"), el.getAttribute("title") });
+            req.setModule("contract");
+            req.setAction("ContractCard2ListTypes");
+            req.setContractId(contractId);
+
+            Document doc = transferData.postData(req, user);
+            for (Element el : XMLUtils.selectElements(doc, "/data/combo/el")) {
+                result.add(new String[] { el.getAttribute("id"), el.getAttribute("title") });
+            }
         }
 
         return result;
@@ -1448,8 +1347,7 @@ public class ContractDAO extends BillingDAO {
         CustomerLinkDAO linkDao = new CustomerLinkDAO(con);
         for (CommonObjectLink link : linkDao.getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%")) {
             Contract contract = new Contract(link);
-            ContractDAO.getInstance(user, contract.getBillingId()).copyParametersToBilling(con, customerId, contract.getId(), contract.getTitle());
+            new ContractDAO(user, contract.getBillingId()).copyParametersToBilling(con, customerId, contract.getId(), contract.getTitle());
         }
     }
-
 }

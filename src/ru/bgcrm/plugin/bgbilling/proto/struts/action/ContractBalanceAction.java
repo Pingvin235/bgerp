@@ -98,8 +98,7 @@ public class ContractBalanceAction extends BaseAction {
         form.setResponseData("list", balanceList);
         form.setResponseData("summs",
                 balanceDAO.getContractBalanceList(contractId, period[0], period[1], balanceList));
-        form.setResponseData("contractInfo",
-                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.setResponseData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP + "/balance_list.jsp");
     }
@@ -116,8 +115,7 @@ public class ContractBalanceAction extends BaseAction {
         Date[] period = getPeriod(form);
         form.setResponseData("summa",
                 balanceDAO.getContractBalanceDetailList(contractId, period[0], period[1], balanceList));
-        form.setResponseData("contractInfo",
-                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.setResponseData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP + "/detail_balance_list.jsp");
     }
@@ -138,8 +136,7 @@ public class ContractBalanceAction extends BaseAction {
 
         form.setResponseData("summa",
                 balanceDAO.getContractPaymentList(contractId, period[0], period[1], paymentList, subPaymentList));
-        form.setResponseData("contractInfo",
-                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.setResponseData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP + "/payment_list.jsp");
     }
@@ -160,8 +157,7 @@ public class ContractBalanceAction extends BaseAction {
 
         form.setResponseData("summa",
                 balanceDAO.getContractChargeList(contractId, period[0], period[1], chargeList, subChargeList));
-        form.setResponseData("contractInfo",
-                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.setResponseData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP + "/charge_list.jsp");
     }
@@ -182,8 +178,7 @@ public class ContractBalanceAction extends BaseAction {
 
         form.setResponseData("summa",
                 balanceDAO.getContractAccountList(contractId, period[0], period[1], chargeList, subChargeList));
-        form.setResponseData("contractInfo",
-                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.setResponseData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP + "/account_list.jsp");
     }
