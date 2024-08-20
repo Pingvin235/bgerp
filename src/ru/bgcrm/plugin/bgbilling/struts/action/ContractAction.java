@@ -29,7 +29,7 @@ import ru.bgcrm.plugin.bgbilling.dao.ContractCustomerDAO;
 import ru.bgcrm.plugin.bgbilling.model.ContractType;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ContractMemoDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ContractNoteDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
@@ -235,7 +235,7 @@ public class ContractAction extends BaseAction {
         List<String> whatShow = Utils.toList(form.getParam("whatShow"));
         for (String item : whatShow) {
             if ("memo".equals(item)) {
-                form.setResponseData("memoList", new ContractMemoDAO(form.getUser(), billingId).getMemoList(contractId));
+                form.setResponseData("memoList", new ContractNoteDAO(form.getUser(), billingId).list(contractId));
             }
             // TODO: Выбор остальных вариантов.
         }

@@ -38,7 +38,7 @@ import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractHierarchyDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ContractMemoDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ContractNoteDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
@@ -382,26 +382,29 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
+    // TODO: Rename to 'noteList'
     public ActionForward memoList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
-        form.setResponseData("memoList", new ContractMemoDAO(form.getUser(), billingId).getMemoList(contractId));
+        form.setResponseData("list", new ContractNoteDAO(form.getUser(), billingId).list(contractId));
 
-        return html(conSet, form, PATH_JSP_CONTRACT + "/memo/memo_list.jsp");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/note/list.jsp");
     }
 
+    // TODO: Rename to 'noteGet'
     public ActionForward getMemo(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
         if (form.getId() > 0) {
-            form.setResponseData("memo", new ContractMemoDAO(form.getUser(), billingId).getMemo(contractId, form.getId()));
+            form.setResponseData("note", new ContractNoteDAO(form.getUser(), billingId).get(contractId, form.getId()));
         }
 
-        return html(conSet, form, PATH_JSP_CONTRACT + "/memo/memo_edit.jsp");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/note/edit.jsp");
     }
 
+    // TODO: Rename to 'noteUpdate'
     public ActionForward updateMemo(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
@@ -409,11 +412,12 @@ public class ContractAction extends BaseAction {
         String memoTitle = form.getParam("title");
         String memoText = form.getParam("text");
 
-        new ContractMemoDAO(form.getUser(), billingId).updateMemo(contractId, memoId, memoTitle, memoText);
+        new ContractNoteDAO(form.getUser(), billingId).update(contractId, memoId, memoTitle, memoText);
 
         return json(conSet, form);
     }
 
+    // TODO: Rename to 'noteDelete'
     public ActionForward deleteMemo(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
@@ -422,7 +426,7 @@ public class ContractAction extends BaseAction {
         if (memoId <= 0)
             throw new BGIllegalArgumentException();
 
-        new ContractMemoDAO(form.getUser(), billingId).deleteMemo(contractId, memoId);
+        new ContractNoteDAO(form.getUser(), billingId).delete(contractId, memoId);
 
         return json(conSet, form);
     }

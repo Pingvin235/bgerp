@@ -3,23 +3,23 @@
 
 <h1>Редактор</h1>
 
-<form action="/user/plugin/bgbilling/proto/contract.do">
+<form action="${form.httpRequestURI}">
 	<input type="hidden" name="method" value="updateMemo" />
 	<input type="hidden" name="billingId" value="${form.param.billingId}" />
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 	<input type="hidden" name="id" value="${form.param.id}" />
 
-	<c:set var="memo" value="${frd.memo}"/>
+	<c:set var="note" value="${frd.note}"/>
 
 	<h2>Тема</h2>
-	<input type="text" name="title" style="width:100%" value="${memo.title}"/>
+	<input type="text" name="title" style="width:100%" value="${note.title}"/>
 
 	<h2>Текст</h2>
-	<textarea name="text" rows="10" style="width:100%;">${memo.text}</textarea>
+	<textarea name="text" rows="10" style="width:100%;">${note.comment}</textarea>
 
-	<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}',$(this.form).parent());"/>
+	<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $(this.form).parent());"/>
 	<div class="mt1">
 		<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => { ${returnCommand} })">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="${returnCommand}">Отмена</button>
+		<button type="button" class="btn-white ml1" onclick="${returnCommand}">Отмена</button>
 	</div>
 </form>
