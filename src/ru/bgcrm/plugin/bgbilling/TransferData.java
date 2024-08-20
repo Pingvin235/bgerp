@@ -37,7 +37,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.base.BaseAction;
-import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
@@ -60,9 +59,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.model.user.UserAccount;
 import ru.bgcrm.plugin.bgbilling.proto.dao.PluginDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.BGServerFile;
+import ru.bgcrm.plugin.bgbilling.transfer.UserAccount;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -75,6 +74,9 @@ public class TransferData {
 
     private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool(new NamedThreadFactory());
     private static final Pattern PATTERN_CHARSET = Pattern.compile("charset=([\\w\\d\\-]+)[\\s;]*.*$");
+
+    private static final Pattern CHARACTER_ENTITY_INVALID_REGEXP = Pattern.compile(
+            "&#0;|&#1;|&#2;|&#3;|&#4;|&#5;|&#6;|&#7;|&#8;|&#11;|&#12;|&#14;|&#15;|&#16;|&#17;|&#18;|&#19;|&#20;|&#21;|&#22;|&#23;|&#24;|&#25;|&#26;|&#27;|&#28;|&#29;|&#30;|&#31;");
 
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -124,6 +126,29 @@ public class TransferData {
         }
     }
 
+    private static class JSONObjectDeserializer extends StdDeserializer<JSONObject> {
+
+        public JSONObjectDeserializer() {
+            this(JSONObject.class);
+        }
+
+        protected JSONObjectDeserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public JSONObject deserialize(JsonParser p, DeserializationContext ctxt)
+                throws IOException, JsonProcessingException {
+            JsonNode node = p.getCodec().readTree(p);
+            JSONObject jsonObject = new JSONObject(node.get("json").asText());
+            return jsonObject;
+        }
+
+        private static SimpleModule toModule() {
+            return new SimpleModule().addDeserializer(JSONObject.class, new JSONObjectDeserializer());
+        }
+    }
+
     private static class NamedThreadFactory implements ThreadFactory {
         private static ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
 
@@ -159,38 +184,6 @@ public class TransferData {
 
     public ObjectMapper getObjectMapper() {
         return jsonMapper;
-    }
-
-    /**
-     * Отправляет запрос в биллинг, возвращает результат в т.ч. с ошибкой в виде XML документа.
-     * Потенциально проблемная функция!!
-     * Замалчивает ошибки, когда-то использовалась для напрямую вызова из JSP функций биллинга, теперь
-     * так не делается.
-     *
-     * @param request
-     * @param user
-     * @return
-     */
-    @Deprecated
-    public Document postDataSafe(Request request, User user) {
-        Document result = null;
-        try {
-            result = postData(request, user);
-            checkDocumentStatus(result, user);
-        } catch (BGMessageException e) {
-            result = createDocWithError(e.getMessage());
-        } catch (Exception e) {
-            result = createDocWithError(e.getMessage());
-            log.error(e.getMessage(), e);
-        }
-        return result;
-    }
-
-    public static final UserAccount getUserAccount(String billingId, User user) {
-        ConfigMap configMap = user.getConfigMap();
-        return new UserAccount.Default(
-                configMap.get("bgbilling:login." + billingId, configMap.get("bgbilling:login", user.getLogin())),
-                configMap.get("bgbilling:password." + billingId, configMap.get("bgbilling:password", user.getPassword())));
     }
 
     private class RequestTaskJsonRpc implements Callable<JsonNode> {
@@ -325,26 +318,11 @@ public class TransferData {
                 buf = null;
             }
 
-            //request.clear();
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 responseEncoding = requestEncoding;
 
                 String key;
                 for (int n = 1; (key = con.getHeaderFieldKey(n)) != null; n++) {
-                    /* if (key.equalsIgnoreCase("Set-Cookie")) {
-                        int i;
-                        String cookie = con.getHeaderField(n);
-                        if (cookie != null && (i = cookie.indexOf(';')) > -1) {
-                            cookie = cookie.substring(0, i);
-                        }
-                        if (cookie != null && (i = cookie.indexOf('=')) > -1) {
-                            String name = cookie.substring(0, i);
-                            String value = cookie.substring(i + 1);
-                            //cookies.put( name, value );
-
-                            log.warn(this.hashCode() + " taked cookie: " + name + " => " + value);
-                        }
-                    } else  */
                     if (key.equalsIgnoreCase("Content-Type")) {
                         String contentType = con.getHeaderField(n);
                         Matcher m = PATTERN_CHARSET.matcher(contentType);
@@ -370,19 +348,9 @@ public class TransferData {
         }
 
         // костыль: защита от того, что приходят кривые символы, чтобы просто парсер тупо не валился (нулевой символ может прийти в странных ситуациях HD#5692)
-        str = replaceCharacterEntity(str);
+        str = CHARACTER_ENTITY_INVALID_REGEXP.matcher(str).replaceAll("?");
 
-        Document doc = XMLUtils.parseDocument(new InputSource(new StringReader(str.toString())));
-        /* if (doc != null) {
-            Element documentElement = doc.getDocumentElement();
-            status = documentElement.getAttribute("status");
-            if (status != null && status.equals("error")) {
-                //message = documentElement.getTextContent();
-                //throw new BGException( documentElement.getTextContent() );
-            }
-        } */
-
-        return doc;
+        return XMLUtils.parseDocument(new InputSource(new StringReader(str.toString())));
     }
 
     /**
@@ -450,8 +418,7 @@ public class TransferData {
      */
     public byte[] postDataGetBytes(Request request, User user) {
         try {
-            UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
-            return postDataAsync(request, userAccount.getLogin(), userAccount.getPassword());
+            return postDataAsync(request, user);
         } catch (Exception e) {
             throw new BGException(e);
         }
@@ -480,7 +447,7 @@ public class TransferData {
      * @throws URISyntaxException
      */
     public int uploadFile(String handler, BGServerFile bgServerFile, InputStream inputStream, User user) throws IOException, URISyntaxException {
-        UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
+        UserAccount userAccount = UserAccount.getUserAccount(dbInfo.getId(), user);
 
         String userAndPswd = userAccount.getLogin() + ":" + userAccount.getPassword();
         final HttpURLConnection con = (HttpURLConnection) (new URI(url.toString() + "/upload").toURL()).openConnection();
@@ -537,16 +504,11 @@ public class TransferData {
     }
 
     private byte[] postDataAsync(Request request, User user) throws BGMessageException, InterruptedException, ExecutionException {
-        UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
-        return postDataAsync(request, userAccount.getLogin(), userAccount.getPassword());
-    }
-
-    private byte[] postDataAsync(Request request, String userName, String userPswd)
-            throws InterruptedException, ExecutionException, BGMessageException {
+        UserAccount userAccount = UserAccount.getUserAccount(dbInfo.getId(), user);
         try {
             // "асинхронность" тут весьма условна, положительно то, что можно установить таймаут
             // + есть ограничение на количество параллельных запросов в биллинги
-            Future<byte[]> future = EXECUTOR.submit(new RequestTask(request, userName, userPswd));
+            Future<byte[]> future = EXECUTOR.submit(new RequestTask(request, userAccount.getLogin(), userAccount.getPassword()));
             return future.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
             throw new BGMessageExceptionTransparent("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
@@ -568,7 +530,7 @@ public class TransferData {
         try {
             // "асинхронность" тут весьма условна, положительно то, что можно установить таймаут
             // + есть ограничение на количество параллельных запросов в биллинги
-            Future<JsonNode> future = EXECUTOR.submit(new RequestTaskJsonRpc(request, getUserAccount(dbInfo.getId(), user)));
+            Future<JsonNode> future = EXECUTOR.submit(new RequestTaskJsonRpc(request, UserAccount.getUserAccount(dbInfo.getId(), user)));
             return future.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
             throw new BGMessageExceptionTransparent("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
@@ -630,44 +592,5 @@ public class TransferData {
                 throw new BGException(rootNode.path("message").textValue());
             }
         }
-    }
-
-    private final static Pattern CHARACTER_ENTITY_INVALID_REGEXP = Pattern.compile(
-            "&#0;|&#1;|&#2;|&#3;|&#4;|&#5;|&#6;|&#7;|&#8;|&#11;|&#12;|&#14;|&#15;|&#16;|&#17;|&#18;|&#19;|&#20;|&#21;|&#22;|&#23;|&#24;|&#25;|&#26;|&#27;|&#28;|&#29;|&#30;|&#31;");
-
-    /**
-    * Заменяет character entity вида &#XX; на вопросики, т.к. парсер не есть их. Хотя на сервере может такие символы сделать.
-    * Допустимые такие:
-    * Char       ::=      #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]  / any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. /
-    * Т.е. нельзя в десятичном: 0-8, 11, 12, 14-31
-    * Почему сервер генерит недопустимые - тут уже вопрос, пока костыль. TODO по-хорошему надо на сервере с этим как-то бороться, только пока недоразобрался в каком именно месте.
-    */
-    private static String replaceCharacterEntity(String xml) {
-        return CHARACTER_ENTITY_INVALID_REGEXP.matcher(xml).replaceAll("?");
-    }
-
-
-    private static class JSONObjectDeserializer extends StdDeserializer<JSONObject> {
-
-        public JSONObjectDeserializer() {
-            this(JSONObject.class);
-        }
-
-        protected JSONObjectDeserializer(Class<?> vc) {
-            super(vc);
-        }
-
-        @Override
-        public JSONObject deserialize(JsonParser p, DeserializationContext ctxt)
-                throws IOException, JsonProcessingException {
-            JsonNode node = p.getCodec().readTree(p);
-            JSONObject jsonObject = new JSONObject(node.get("json").asText());
-            return jsonObject;
-        }
-
-        private static SimpleModule toModule() {
-            return new SimpleModule().addDeserializer(JSONObject.class, new JSONObjectDeserializer());
-        }
-
     }
 }
