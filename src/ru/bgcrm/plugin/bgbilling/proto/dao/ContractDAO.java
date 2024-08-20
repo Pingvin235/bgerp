@@ -58,6 +58,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractCreateData;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
@@ -140,13 +141,7 @@ public class ContractDAO extends BillingDAO {
         return result;
     }
 
-    /*
-     * http://192.168.169.8:8080/bgbilling/executer? show_sub=0& show_closed=0&
-     * contractComment=%E2%EE%EB%EA%EE%E2+%FF%EA%EE%E2& del=0& type=-1&
-     * filter=0&
-     */
-    public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions)
-            {
+    public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions) {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<IdTitle> contractList = searchResult.getList();
@@ -297,38 +292,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    /*
-     * http://192.168.169.8:8080/bgbilling/executer?show_sub=0&module=contract&
-     * parameter
-     * =%40&pageSize=100&action=FindContract&del=0&parameters=23&type=1&
-     * BGBillingSecret=2CUk87dLwIEAaXIpxarVhEzU&pageIndex=1& [ length = 7713 ]
-     * xml = <?xml version="1.0" encoding="windows-1251"?> <data
-     * secret="E6195D46C93C248248921198BC88C46E" status="ok"><contracts
-     * allRecord="22337" pageCount="224" pageIndex="1" pageSize="100"
-     * recordCount="22337"><item id="686643" title=
-     * "273RK2801-14 [ ООО &quot;РУСИНВЕСТКРЕДИТ&quot; ]"/><item id="686658"
-     * title="273SA0122-14 [ ООО &quot;РУСИНВЕСТКРЕДИТ&quot; ]"/><item
-     * id="544063" title="7200173701 [ Сулимов Владислав Сагирович ]"/><item
-     * id="549533" title="7200761901 [ Баев Валерий Радикович ]"/><item
-     * id="553390" title="7201171603 [ Соломко Галина Николаевна ]"/><item
-     * id="554417" title="7201279001 [ Терехович Антон Викторович ]"/><item
-     * id="554524" title=
-     * "7201294301 [ Нугуманов Руслан Мухарамович | Нугуманов Руслан Мухарямович ]"
-     * /><item id="555339" title="7201377401 [ Кайбышева Лейла Азатовна ]"
-     * /><item id="559172" title="7201782101 [ Архипов Сергей Владимирович ]"
-     * /><item id="559380" title="7201802401 [ Глухова Ольга Владимировна ]"
-     * /><item id="561451" title="7202019901 [ Миннибаева Рита Кимовна ]"/><item
-     * id="567865" title="7202730301 [ Афанасьева Валентина Валентиновна ]"
-     * /><item id="569294" title="7202876001 [ Галин Даян Ирекович ]"/><item
-     * id="570613" title="7203018401 [ Аркадьева Юлия Сергеевна ]"/><item
-     * id="571187" title="7203081701 [ Зотов Максим Ильич ]"/><item id="604741"
-     * title="7206980903 [ Ахтямова Кира Николаевна ]"/><item id="654742" title=
-     * "7212654601 [ Жук Павел Иванович ]"/> <item id="660583" title=
-     * "7213313003 [ Котельников Дмитрий Леонидович ]"/><item id="674046"
-     * title="7214493603...
-     */
-    public void searchContractByTextParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String value)
-            {
+    public void searchContractByTextParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String value) {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -348,8 +312,7 @@ public class ContractDAO extends BillingDAO {
         addSearchResult(result, page, req);
     }
 
-    public void searchContractByPhoneParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String phone)
-            {
+    public void searchContractByPhoneParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String phone) {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -369,8 +332,7 @@ public class ContractDAO extends BillingDAO {
         addSearchResult(result, page, req);
     }
 
-    public void searchContractByDateParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, Date dateFrom, Date dateTo)
-            {
+    public void searchContractByDateParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, Date dateFrom, Date dateTo) {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -391,36 +353,7 @@ public class ContractDAO extends BillingDAO {
         addSearchResult(result, page, req);
     }
 
-    /*
-     * http://192.168.169.8:8080/bgbilling/executer?show_sub=0&mail=%40&module=
-     * contract &pageSize=100&action=FindContract&del=0&parameters=82&type=3&
-     * BGBillingSecret =IHxo1p6Yl7rcVZpdgJfJXiJ6&pageIndex=1& [ length = 7430 ]
-     * xml = <?xml version="1.0" encoding="windows-1251"?> <data
-     * secret="B19AA3C4B83A67C5FFD10928213C0010" status="ok"><contracts
-     * allRecord="19966" pageCount="200" pageIndex="1" pageSize="100"
-     * recordCount="19966"> <item id="686643" title=
-     * "273RK2801-14 [ ООО &quot;РУСИНВЕСТКРЕДИТ&quot; ]"/><item id="686658"
-     * title="273SA0122-14 [ ООО &quot;РУСИНВЕСТКРЕДИТ&quot; ]"/><item
-     * id="549533" title="7200761901 [ Баев Валерий Радикович ]"/><item
-     * id="553390" title="7201171603 [ Соломко Галина Николаевна ]"/><item
-     * id="554417" title="7201279001 [ Терехович Антон Викторович ]"/><item
-     * id="555339" title="7201377401 [ Кайбышева Лейла Азатовна ]"/><item
-     * id="561451" title="7202019901 [ Миннибаева Рита Кимовна ]"/><item
-     * id="567865" title="7202730301 [ Афанасьева Валентина Валентиновна ]"
-     * /><item id="569294" title="7202876001 [ Галин Даян Ирекович ]"/><item
-     * id="570613" title="7203018401 [ Аркадьева Юлия Сергеевна ]"/><item
-     * id="571187" title="7203081701 [ Зотов Максим Ильич ]"/><item id="585610"
-     * title="7204666703 [ Арсланбекова Алсу Маратовна ]"/><item id="677643"
-     * title="7215020101 [ Яковлев Виталий Викторович ]"/><item id="159" title=
-     * "A6152-01 [ Потнин Константин Петрович (kpotnin) ]"/><item id="26" title=
-     * "A6219-01 [ Нугуманов_Рауф_Самигуллович (raviln) ]"/><item id="464"
-     * title="A6272-02 [ Файзуллин Т.А. (fta) ]"/><item id="1029" title=
-     * "A6411-03 [ Байдин Олег  Анатольевич ]"/><item id="1176" title=
-     * "A6442-03 [ Семьян Александр Прокопьевич ]"/> <item id="5718" title=
-     * "AA0023-05 [ Сахибгареева Ирина Фанилевна ]"/><item...
-     */
-    public void searchContractByEmailParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String email)
-            {
+    public void searchContractByEmailParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String email) {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -441,7 +374,6 @@ public class ContractDAO extends BillingDAO {
         setPage(req, page);
 
         Document doc = transferData.postData(req, user);
-        //XMLUtils.serialize(doc, System.out, "utf-8");
         Element contracts = XMLUtils.selectElement(doc, "/data/contracts");
         if (contracts != null) {
             getPage(page, contracts);
@@ -469,56 +401,57 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public Contract createContract(int patternId, String date, String title, String titlePattern) throws BGMessageException {
-        return createContract(patternId, date, title, titlePattern, 0);
-    }
-
-    public Contract createContract(int patternId, String date, String title, String titlePattern, int superId) throws BGMessageException {
-        if (dbInfo.getCustomerIdParam() <= 0) {
+    public Contract createContract(int patternId, Date date, String title, String customTitle, int superId) throws BGMessageException {
+        if (dbInfo.getCustomerIdParam() <= 0)
             throw new BGMessageExceptionTransparent("Не указан параметр customerIdParam для сервера биллинга.");
+
+        Contract contract = null;
+
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            if (date == null)
+                date = new Date();
+
+            var builder = ContractCreateData.builder().setPatternId(patternId).setDateFrom(date);
+
+            if (Utils.notBlankString(customTitle))
+                builder.setCustomTitle(customTitle);
+
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractCreate");
+            req.setParam("contractCreateData", builder.build());
+
+            int contractId = Utils.parseInt(transferData.postDataReturn(req, user).asText());
+
+            return getContractById(contractId);
+        } else {
+            Request req = new Request();
+            req.setModule("contract");
+            req.setAction("NewContract");
+            req.setAttribute("pattern_id", patternId);
+            req.setAttribute("date", date);
+            if (Utils.notBlankString(customTitle)) {
+                req.setAttribute("custom_title", customTitle);
+            }
+            if (Utils.notBlankString(title)) {
+                req.setAttribute("title", title);
+            }
+
+            if (superId > 0) {
+                req.setAttribute("super_id", superId);
+            }
+
+            Document result = transferData.postData(req, user);
+
+            int contractId = Utils.parseInt(XMLUtils.selectText(result, "/data/contract/@id"));
+            String contractTitle = Utils.maskNull(XMLUtils.selectText(result, "/data/contract/@title"));
+
+            contract = new Contract();
+            contract.setId(contractId);
+            contract.setTitle(contractTitle);
+            contract.setBillingId(this.dbInfo.getId());
         }
-
-        Request req = new Request();
-        req.setModule("contract");
-        req.setAction("NewContract");
-        req.setAttribute("pattern_id", patternId);
-        req.setAttribute("date", date);
-        if (Utils.notBlankString(titlePattern)) {
-            req.setAttribute("custom_title", titlePattern);
-        }
-        if (Utils.notBlankString(title)) {
-            req.setAttribute("title", title);
-        }
-
-        if (superId > 0) {
-            req.setAttribute("super_id", superId);
-        }
-
-        Document result = transferData.postData(req, user);
-
-        int contractId = Utils.parseInt(XMLUtils.selectText(result, "/data/contract/@id"));
-        String contractTitle = Utils.maskNull(XMLUtils.selectText(result, "/data/contract/@title"));
-
-        Contract contract = new Contract();
-        contract.setId(contractId);
-        contract.setTitle(contractTitle);
-        contract.setBillingId(this.dbInfo.getId());
 
         return contract;
     }
-
-  /*  *//**
-     * Возвращает большиство актуальных данных о договоре.
-     * @param contractId
-     * @return
-     *
-     *//*
-    public ContractInfo getContractInfo(int contractId) {
-        return contractInfoDAO.getContractInfo(contractId);
-    }*/
-
-
-
 
     public List<ContractMemo> getMemoList(int contractId) {
         Request request = new Request();
@@ -1098,19 +1031,6 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    /*
-     * public List<IdTitle> getAdditionalActionList( int contractId ) throws
-     * BGException { Request req = new Request(); req.setModule(
-     * CONTRACT_MODULE_ID ); req.setAction( "AdditionalActionList" );
-     * req.setContractId( contractId );
-     *
-     * Document doc = transferData.postData( req, user );
-     *
-     * List<IdTitle> actions = new ArrayList<IdTitle>(); for( Element e :
-     * XMLUtils.selectElements( doc, "/data/list/item" ) ) { actions.add( new
-     * IdTitle( Utils.parseInt( e.getAttribute( "id" ) ), e.getAttribute(
-     * "title" ) ) ); } return actions; }
-     */
     public List<IdTitle> bgbillingGetContractPatternList() {
         Request req = new Request();
 
@@ -1133,27 +1053,6 @@ public class ContractDAO extends BillingDAO {
         }
 
         return contractPatterns;
-    }
-
-    /**
-     * Использовать {@link ContractHierarchyDAO#getSubContracts(int)}.
-     */
-    @Deprecated
-    public List<Integer> getSubContracts(int contractId) {
-        return new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId);
-    }
-
-    /**
-     * Использовать {@link ContractHierarchyDAO#addSubcontract(int, int)}.
-     */
-    @Deprecated
-    public void addSubcontract(int superContractId, int subContractId) {
-        new ContractHierarchyDAO(user, dbInfo).addSubcontract(superContractId, subContractId);
-    }
-
-    @Deprecated
-    public List<IdTitle> getAdditionalActionList(int contractId) {
-        return additionalActionList(contractId);
     }
 
     public List<IdTitle> getStreetsByCity(int cityId) {
@@ -1181,43 +1080,6 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(request, user);
         return new OpenContract(document);
-    }
-
-    /**
-     * Определение текущего режима управления лимитом по договору из страницы
-     * статистики
-     *
-     * @return 0 - управление разблокировано, 1 - управление заблокировано
-     *
-     */
-    public int getContractLimitManage(int contractId) {
-        Request billingRequest = new Request();
-        billingRequest.setModule("contract");
-        billingRequest.setAction("ContractLimitManage");
-        billingRequest.setContractId(contractId);
-
-        Document document = transferData.postData(billingRequest, user);
-        Element rowElement = (Element) document.getElementsByTagName("table").item(0);
-
-        return Utils.parseInt(rowElement.getAttribute("mode"));
-    }
-
-    /**
-     * Изменение текущего режима управления лимитом по договору из страницы
-     * статистики.
-     *
-     * @param mode
-     *            0 - управление разблокировано, 1 - управление заблокировано
-     *
-     */
-    public void updateContractLimitManage(int contractId, int mode) {
-        Request billingRequest = new Request();
-        billingRequest.setModule("contract");
-        billingRequest.setAction("UpdateContractLimitManage");
-        billingRequest.setContractId(contractId);
-        billingRequest.setAttribute("value", mode);
-
-        transferData.postData(billingRequest, user);
     }
 
     public enum WebContractLogonLogType {

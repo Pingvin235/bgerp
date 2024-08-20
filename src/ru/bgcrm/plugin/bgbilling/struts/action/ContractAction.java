@@ -37,6 +37,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
+import java.util.Date;
 
 /**
  * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в
@@ -141,8 +142,7 @@ public class ContractAction extends BaseAction {
         String title = form.getParam("title");
 
         Pageable<IdTitle> searchResult = new Pageable<>();
-        ContractDAO.getInstance(form.getUser(), billingId)
-                .searchContractByTitleComment(searchResult, title, null, null);
+        ContractDAO.getInstance(form.getUser(), billingId).searchContractByTitleComment(searchResult, title, null, null);
         form.setResponseData("contract", Utils.getFirst(searchResult.getList()));
 
         return json(con, form);
@@ -152,7 +152,7 @@ public class ContractAction extends BaseAction {
         int customerId = Utils.parseInt(form.getParam("customerId"));
         String billingId = form.getParam("billingId");
         int patternId = Utils.parseInt(form.getParam("patternId"));
-        String date = form.getParam("date");
+        Date date = form.getParamDate("date");
         String titlePattern = form.getParam("titlePattern");
         String title = form.getParam("title");
         String comment = form.getParam("comment", "");
@@ -165,7 +165,7 @@ public class ContractAction extends BaseAction {
 
         ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
 
-        Contract contract = contractDao.createContract(patternId, date, title, titlePattern);
+        Contract contract = contractDao.createContract(patternId, date, title, titlePattern, 0);
         if (customerId > 0) {
             CommonObjectLink link = new CommonObjectLink(Customer.OBJECT_TYPE, customerId, "contract:" + billingId,
                     contract.getId(), contract.getTitle());
@@ -199,25 +199,6 @@ public class ContractAction extends BaseAction {
 
         return json(con, form);
     }
-
-    /*public ActionForward getContractCreatePattern(DynActionForm form, Connection con) {
-        String billingId = form.getParam(BILLING_ID);
-        int patternId = Utils.parseInt(form.getParam("patternId"));
-
-        if (Utils.notBlankString(billingId)) {
-            DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
-            if (dbInfo == null) {
-                throw new BGMessageExceptionTransparent("Не найден биллинг.");
-            }
-
-            String titlePattern = dbInfo.getSetup().get("contract_pattern." + patternId + ".title_pattern");
-            if (Utils.notBlankString(titlePattern)) {
-                form.setResponseData("value", titlePattern);
-            }
-        }
-
-        return json(con, form);
-    }*/
 
     public ActionForward addProcessContractLink(DynActionForm form, Connection con) throws Exception {
         String billingId = form.getParam("billingId");
