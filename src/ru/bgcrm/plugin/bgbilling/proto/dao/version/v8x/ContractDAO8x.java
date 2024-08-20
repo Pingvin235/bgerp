@@ -33,8 +33,6 @@ import ru.bgcrm.util.Utils;
 
 
 public class ContractDAO8x extends ContractDAO {
-    public static final String CONTRACT_NOTE_SERVICE = "ContractNoteService";
-
     public ContractDAO8x(User user, String billingId) {
         super(user, billingId);
     }
@@ -140,7 +138,7 @@ public class ContractDAO8x extends ContractDAO {
 
     @Override
     public List<ContractMemo> getMemoList(int contractId) {
-        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractNoteService",
                 "contractNoteList");
         req.setParamContractId(contractId);
         req.setParam("customer", false);
@@ -172,7 +170,7 @@ public class ContractDAO8x extends ContractDAO {
     }
 
     private ContractMemo8x getContractMemo8x(int memoId) {
-        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractNoteService",
                 "getContractNote");
         req.setParam("contractNoteId", memoId);
         JsonNode res = transferData.postDataReturn(req, user);
@@ -186,7 +184,7 @@ public class ContractDAO8x extends ContractDAO {
 
     @Override
     public void updateMemo(int contractId, int memoId, String memoTitle, String memoText, boolean visible) {
-        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractNoteService",
                 "contractNoteUpdate");
         req.setParamContractId(contractId);
         ContractMemo8x contractMemo = new ContractMemo8x();
@@ -208,7 +206,7 @@ public class ContractDAO8x extends ContractDAO {
         //contractId почемуто потерялся!
         ContractMemo8x memo = getContractMemo8x(memoId);
         if (memo != null) {
-            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, CONTRACT_NOTE_SERVICE,
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractNoteService",
                     "contractNoteDelete");
             req.setParamContractId(memo.getContractId());
             req.setParam("id", memoId);
