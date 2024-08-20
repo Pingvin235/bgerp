@@ -141,38 +141,59 @@ public class ContractDAO extends BillingDAO {
 
     public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions) {
         if (searchResult != null) {
-            Page page = searchResult.getPage();
-            List<IdTitle> contractList = searchResult.getList();
+            if (dbInfo.versionCompare("8.0") > 0) {
+                RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractList");
+                req.setParam("title", title);
+                req.setParam("comment", comment);
+                req.setParam("fc", -1);
+                req.setParam("groupMask", 0);
+                req.setParam("entityFilter", null);
+                req.setParam("subContracts", searchOptions.showSub);
+                req.setParam("closed", !searchOptions.showClosed); //It is turn over in billing. I don't know why!!!
+                req.setParam("hidden", searchOptions.showHidden);
+                req.setParam("page", searchResult.getPage());
 
-            int pageIndex = page.getPageIndex();
-            int pageSize = page.getPageSize();
+                JsonNode ret = transferData.postData(req, user);
+                List<Contract> contractList = readJsonValue(ret.findValue("return").traverse(),
+                        jsonTypeFactory.constructCollectionType(List.class, Contract.class));
+                searchResult.getList().clear();
+                searchResult.getList().addAll(contractList.stream().map(c -> new IdTitle(c.getId(), c.getTitle() + " [ " + c.getComment() + " ] "))
+                        .collect(Collectors.toList()));
+                searchResult.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
+            } else {
+                Page page = searchResult.getPage();
+                List<IdTitle> contractList = searchResult.getList();
 
-            Request req = new Request();
-            req.setModule("contract");
-            req.setAction("FilterContract");
-            req.setAttribute("filter", 0);
-            applySearchOptions(searchOptions, req);
-            req.setAttribute("contractComment", comment);
-            req.setAttribute("type", -1);
-            req.setAttribute("contractMask", title);
-            req.setAttribute("pageSize", pageSize);
-            req.setAttribute("pageIndex", pageIndex);
+                int pageIndex = page.getPageIndex();
+                int pageSize = page.getPageSize();
 
-            Document document = transferData.postData(req, user);
+                Request req = new Request();
+                req.setModule("contract");
+                req.setAction("FilterContract");
+                req.setAttribute("filter", 0);
+                applySearchOptions(searchOptions, req);
+                req.setAttribute("contractComment", comment);
+                req.setAttribute("type", -1);
+                req.setAttribute("contractMask", title);
+                req.setAttribute("pageSize", pageSize);
+                req.setAttribute("pageIndex", pageIndex);
 
-            Element dataElement = document.getDocumentElement();
-            NodeList nodeList = dataElement.getElementsByTagName("item");
+                Document document = transferData.postData(req, user);
 
-            for (int index = 0; index < nodeList.getLength(); index++) {
-                Element rowElement = (Element) nodeList.item(index);
+                Element dataElement = document.getDocumentElement();
+                NodeList nodeList = dataElement.getElementsByTagName("item");
 
-                contractList.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
-            }
+                for (int index = 0; index < nodeList.getLength(); index++) {
+                    Element rowElement = (Element) nodeList.item(index);
 
-            NodeList table = dataElement.getElementsByTagName("contracts");
-            if (table.getLength() > 0) {
-                page.setRecordCount(Utils.parseInt(((Element) table.item(0)).getAttribute("recordCount")));
-                page.setPageCount(Utils.parseInt(((Element) table.item(0)).getAttribute("pageCount")));
+                    contractList.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
+                }
+
+                NodeList table = dataElement.getElementsByTagName("contracts");
+                if (table.getLength() > 0) {
+                    page.setRecordCount(Utils.parseInt(((Element) table.item(0)).getAttribute("recordCount")));
+                    page.setPageCount(Utils.parseInt(((Element) table.item(0)).getAttribute("pageCount")));
+                }
             }
         }
     }
@@ -900,13 +921,20 @@ public class ContractDAO extends BillingDAO {
     }
 
     public void deleteLimitTask(int contractId, int id) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("LimitChangeTaskDelete");
-        request.setContractId(contractId);
-        request.setAttribute("id", id);
+        if (dbInfo.versionCompare("8.0") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.limit", "ContractLimitService", "cancelLimitChangeTask");
+            req.setParamContractId(contractId);
+            req.setParam("taskIds", Collections.singletonList(id));
+            transferData.postDataReturn(req, user);
+        } else {
+            Request request = new Request();
+            request.setModule("contract");
+            request.setAction("LimitChangeTaskDelete");
+            request.setContractId(contractId);
+            request.setAttribute("id", id);
 
-        transferData.postData(request, user);
+            transferData.postData(request, user);
+        }
     }
 
     public String getContractStatisticPassword(int contractId) {
@@ -1015,17 +1043,25 @@ public class ContractDAO extends BillingDAO {
     }
 
     public void bgbillingUpdateContractTitleAndComment(int contractId, String comment, int patid) {
-        Request req = new Request();
+        if (dbInfo.versionCompare("8.0") > 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractTitleAndCommentUpdate");
+            req.setParamContractId(contractId);
+            req.setParam("title", null);
+            req.setParam("comment", comment);
+            req.setParam("patternId", patid);
+            transferData.postDataReturn(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule("contract");
+            req.setAction("UpdateContractTitleAndComment");
+            req.setContractId(contractId);
+            if (patid > 0) {
+                req.setAttribute("patid", patid);
+            }
+            req.setAttribute("comment", comment);
 
-        req.setModule("contract");
-        req.setAction("UpdateContractTitleAndComment");
-        req.setContractId(contractId);
-        if (patid > 0) {
-            req.setAttribute("patid", patid);
+            transferData.postData(req, user);
         }
-        req.setAttribute("comment", comment);
-
-        transferData.postData(req, user);
     }
 
     public List<IdTitle> bgbillingGetContractPatternList() {
@@ -1081,13 +1117,19 @@ public class ContractDAO extends BillingDAO {
 
     public List<IdTitle> getParameterList(int parameterTypeId) {
         List<IdTitle> paramList;
-        if (dbInfo.versionCompare("7.0") >= 0) {
+
+        if (dbInfo.versionCompare("8.0") > 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.param", "ContractParameterServiceOld",
+                    "getContractParameterPrefList");
+            req.setParam("paramType", parameterTypeId);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            paramList = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+        } else if (dbInfo.versionCompare("7.0") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.param", "ContractParameterService",
                     "getContractParameterPrefList");
             req.setParam("paramType", parameterTypeId);
             JsonNode ret = transferData.postDataReturn(req, user);
             paramList = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
-
         } else {
             Request req = new Request();
             req.setModule("admin");
@@ -1099,73 +1141,141 @@ public class ContractDAO extends BillingDAO {
                 paramList.add(new IdTitle(Utils.parseInt(el.getAttribute("id")), el.getAttribute("title")));
             }
         }
+
         return paramList;
     }
 
     public ContractInfo getContractInfo(int contractId) {
         ContractInfo result = null;
 
-        Request req = new Request();
-        req.setModule("contract");
-        req.setAction("ContractInfo");
-        req.setAttribute("cid", contractId);
+        if (dbInfo.versionCompare("8.0") > 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractInfoGet");
+            req.setParamContractId(contractId);
 
-        Document doc = transferData.postData(req, user);
+            JsonNode res = transferData.postDataReturn(req, user);
 
-        Element contract = XMLUtils.selectElement(doc, "/data/contract");
-        if (contract != null) {
-            result = new ContractInfo();
+            JSONObject contractInfo = jsonMapper.convertValue(res, JSONObject.class);
+            JSONObject contract = contractInfo.optJSONObject("contract");
+            if (contract != null) {
+                result = new ContractInfo();
 
-            result.setBillingId(dbInfo.getId());
-            result.setId(contractId);
-            result.setComment(contract.getAttribute("comment"));
-            result.setObjects(Utils.parseInt(contract.getAttribute("objects").split("/")[0]),
-                    Utils.parseInt(contract.getAttribute("objects").split("/")[1]));
-            result.setHierarchy(contract.getAttribute("hierarchy"));
-            result.setHierarchyDep(Utils.parseInt(contract.getAttribute("hierarchyDep")));
-            result.setHierarchyIndep(Utils.parseInt(contract.getAttribute("hierarchyIndep")));
-            result.setDeleted(Utils.parseBoolean(contract.getAttribute("del")));
-            result.setFace(Utils.parseInt(contract.getAttribute("fc")));
-            result.setDateFrom(TimeUtils.parse(contract.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
-            result.setDateTo(TimeUtils.parse(contract.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
-            result.setMode(Utils.parseInt(contract.getAttribute("mode")));
-            result.setBalanceLimit(Utils.parseBigDecimal(contract.getAttribute("limit"), BigDecimal.ZERO));
-            result.setStatus(contract.getAttribute("status"));
-            result.setTitle(contract.getAttribute("title"));
-            result.setComments(Utils.parseInt(contract.getAttribute("comments")));
+                result.setBillingId(dbInfo.getId());
+                result.setId(contractId);
+                result.setComment(contract.optString("comment"));
+                result.setObjects(Utils.parseInt(contract.optString("objects").split("/")[0]),
+                        Utils.parseInt(contract.optString("objects").split("/")[1]));
+                result.setHierarchy(contract.optString("hierarchy"));
+                result.setHierarchyDep(Utils.parseInt(contract.optString("hierarchyDep", null)));
+                result.setHierarchyIndep(Utils.parseInt(contract.optString("hierarchyIndep", null)));
+                result.setDeleted(Utils.parseBoolean(contract.optString("del")));
+                result.setFace(Utils.parseInt(contract.optString("fc")));
+                result.setDateFrom(TimeUtils.parse(contract.optString("date1"), TimeUtils.PATTERN_DDMMYYYY));
+                result.setDateTo(TimeUtils.parse(contract.optString("date2"), TimeUtils.PATTERN_DDMMYYYY));
+                result.setMode(Utils.parseInt(contract.optString("mode")));
+                result.setBalanceLimit(Utils.parseBigDecimal(contract.optString("limit"), BigDecimal.ZERO));
+                result.setStatus(contract.optString("status"));
+                result.setTitle(contract.optString("title"));
+                result.setComments(Utils.parseInt(contract.optString("comments")));
 
-            if ("super".equals(contract.getAttribute("hierarchy"))) {
-                result.setSubContractIds(new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId));
-            }
-
-            result.setGroupList(getList(XMLUtils.selectElement(doc, "/data/info/groups")));
-            result.setTariffList(getList(XMLUtils.selectElement(doc, "/data/info/tariff")));
-            result.setScriptList(getList(XMLUtils.selectElement(doc, "/data/info/script")));
-
-            Element modules = XMLUtils.selectElement(doc, "/data/info/modules");
-            if (modules != null) {
-                List<ContractInfo.ModuleInfo> moduleList = new ArrayList<>();
-                for (Element item : XMLUtils.selectElements(modules, "item")) {
-                    moduleList.add(new ContractInfo.ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), item.getAttribute("package"),
-                            item.getAttribute("status")));
+                if ("super".equals(contract.optString("hierarchy"))) {
+                    result.setSubContractIds(new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId));
                 }
-                result.setModuleList(moduleList);
-            }
 
-            Element balance = XMLUtils.selectElement(doc, "/data/info/balance");
-            if (balance != null) {
-                result.setBalanceDate(
-                        new GregorianCalendar(Utils.parseInt(balance.getAttribute("yy")), Utils.parseInt(balance.getAttribute("mm")) - 1, 1)
-                                .getTime());
-                result.setBalanceIn(Utils.parseBigDecimal(balance.getAttribute("summa1"), BigDecimal.ZERO));
-                result.setBalancePayment(Utils.parseBigDecimal(balance.getAttribute("summa2"), BigDecimal.ZERO));
-                result.setBalanceAccount(Utils.parseBigDecimal(balance.getAttribute("summa3"), BigDecimal.ZERO));
-                result.setBalanceCharge(Utils.parseBigDecimal(balance.getAttribute("summa4"), BigDecimal.ZERO));
-                result.setBalanceOut(Utils.parseBigDecimal(balance.getAttribute("summa5"), BigDecimal.ZERO));
+                JSONObject infoJson = contractInfo.optJSONObject("info");
+                result.setGroupList(getList(infoJson, "groups"));
+                result.setTariffList(getList(infoJson, "tariff"));
+                result.setScriptList(getList(infoJson, "script"));
+
+                JSONArray modulesJson = infoJson.optJSONArray("modules");
+                if (modulesJson != null && !modulesJson.isEmpty()) {
+                    List<ContractInfo.ModuleInfo> moduleList = new ArrayList<>();
+                    for (int i = 0; i < modulesJson.length(); i++) {
+                        JSONObject moduleJson = modulesJson.getJSONObject(i);
+                        int moduleId = moduleJson.optInt("id", -1);
+                        String moduleTitle = moduleJson.optString("title", "?");
+                        String status = moduleJson.optString("status", null);
+                        String modulePackage = moduleJson.optString("package");
+                        if (status == null) {
+                            status = "";
+                        }
+                        moduleList.add(new ContractInfo.ModuleInfo(moduleId, moduleTitle, modulePackage, status));
+                    }
+                    result.setModuleList(moduleList);
+                }
+
+                JSONObject balanceJson = infoJson.optJSONObject("balance");
+                if (balanceJson != null) {
+                    result.setBalanceDate(new GregorianCalendar(balanceJson.optInt("yy", -1), balanceJson.optInt("mm", -1) - 1, 1).getTime());
+                    result.setBalanceIn(Utils.parseBigDecimal(balanceJson.optString("summa1", "0"), BigDecimal.ZERO));
+                    result.setBalancePayment(Utils.parseBigDecimal(balanceJson.optString("summa2", "0"), BigDecimal.ZERO));
+                    result.setBalanceAccount(Utils.parseBigDecimal(balanceJson.optString("summa3", "0"), BigDecimal.ZERO));
+                    result.setBalanceCharge(Utils.parseBigDecimal(balanceJson.optString("summa4", "0"), BigDecimal.ZERO));
+                    result.setBalanceOut(Utils.parseBigDecimal(balanceJson.optString("summa5", "0"), BigDecimal.ZERO));
+                }
+            }
+        } else {
+            Request req = new Request();
+            req.setModule("contract");
+            req.setAction("ContractInfo");
+            req.setAttribute("cid", contractId);
+
+            Document doc = transferData.postData(req, user);
+
+            Element contract = XMLUtils.selectElement(doc, "/data/contract");
+            if (contract != null) {
+                result = new ContractInfo();
+
+                result.setBillingId(dbInfo.getId());
+                result.setId(contractId);
+                result.setComment(contract.getAttribute("comment"));
+                result.setObjects(Utils.parseInt(contract.getAttribute("objects").split("/")[0]),
+                        Utils.parseInt(contract.getAttribute("objects").split("/")[1]));
+                result.setHierarchy(contract.getAttribute("hierarchy"));
+                result.setHierarchyDep(Utils.parseInt(contract.getAttribute("hierarchyDep")));
+                result.setHierarchyIndep(Utils.parseInt(contract.getAttribute("hierarchyIndep")));
+                result.setDeleted(Utils.parseBoolean(contract.getAttribute("del")));
+                result.setFace(Utils.parseInt(contract.getAttribute("fc")));
+                result.setDateFrom(TimeUtils.parse(contract.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
+                result.setDateTo(TimeUtils.parse(contract.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
+                result.setMode(Utils.parseInt(contract.getAttribute("mode")));
+                result.setBalanceLimit(Utils.parseBigDecimal(contract.getAttribute("limit"), BigDecimal.ZERO));
+                result.setStatus(contract.getAttribute("status"));
+                result.setTitle(contract.getAttribute("title"));
+                result.setComments(Utils.parseInt(contract.getAttribute("comments")));
+
+                if ("super".equals(contract.getAttribute("hierarchy"))) {
+                    result.setSubContractIds(new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId));
+                }
+
+                result.setGroupList(getList(XMLUtils.selectElement(doc, "/data/info/groups")));
+                result.setTariffList(getList(XMLUtils.selectElement(doc, "/data/info/tariff")));
+                result.setScriptList(getList(XMLUtils.selectElement(doc, "/data/info/script")));
+
+                Element modules = XMLUtils.selectElement(doc, "/data/info/modules");
+                if (modules != null) {
+                    List<ContractInfo.ModuleInfo> moduleList = new ArrayList<>();
+                    for (Element item : XMLUtils.selectElements(modules, "item")) {
+                        moduleList.add(new ContractInfo.ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), item.getAttribute("package"),
+                                item.getAttribute("status")));
+                    }
+                    result.setModuleList(moduleList);
+                }
+
+                Element balance = XMLUtils.selectElement(doc, "/data/info/balance");
+                if (balance != null) {
+                    result.setBalanceDate(
+                            new GregorianCalendar(Utils.parseInt(balance.getAttribute("yy")), Utils.parseInt(balance.getAttribute("mm")) - 1, 1)
+                                    .getTime());
+                    result.setBalanceIn(Utils.parseBigDecimal(balance.getAttribute("summa1"), BigDecimal.ZERO));
+                    result.setBalancePayment(Utils.parseBigDecimal(balance.getAttribute("summa2"), BigDecimal.ZERO));
+                    result.setBalanceAccount(Utils.parseBigDecimal(balance.getAttribute("summa3"), BigDecimal.ZERO));
+                    result.setBalanceCharge(Utils.parseBigDecimal(balance.getAttribute("summa4"), BigDecimal.ZERO));
+                    result.setBalanceOut(Utils.parseBigDecimal(balance.getAttribute("summa5"), BigDecimal.ZERO));
+                }
             }
         }
-        return result;
 
+        return result;
     }
 
     protected List<IdTitle> getList(JSONObject infoJson, String nodeName) {
