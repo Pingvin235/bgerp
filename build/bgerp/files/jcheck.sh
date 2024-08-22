@@ -10,11 +10,11 @@ fi
 
 if [[ "$_java" ]]; then
     version=$("$_java" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+    echo "Using Java version '$version'"
+
     major_version="${version%%.*}"
-    if [[ "$major_version" -ge "$MINIMAL_MAJOR_VERSION" ]]; then
-        echo "Using java version '$version'"
-    else
-        echo "The major version of java v. '$version' must be at least '$MINIMAL_MAJOR_VERSION'"
+    if [[ "$major_version" -lt "$MINIMAL_MAJOR_VERSION" ]]; then
+        echo "This version of Java ($major_version) is below the minimum required version of $MINIMAL_MAJOR_VERSION"
         exit 1
     fi
 fi
