@@ -1,6 +1,11 @@
 = Release Notes
 :toc:
 
+== BREAKING
+
+The required <<../../kernel/install.adoc#java, Java version>> was increased to *21*.
+It must be updated before updating the product.
+
 == FEATURES
 
 === <<../../kernel/install.adoc#maintenance, Maintenance>> Tool

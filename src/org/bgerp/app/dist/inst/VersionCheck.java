@@ -62,9 +62,7 @@ public class VersionCheck {
         final int currentBuild = Utils.parseInt(currentVersion.getBuildNumber());
         final int remoteBuild = Utils.parseInt(remoteVersion.getBuildNumber());
 
-        final boolean result =
-            (Utils.notBlankString(currentVersion.getChangeId()) && currentBuild <= remoteBuild) ||
-            currentBuild < remoteBuild;
+        final boolean result = currentBuild < remoteBuild;
         log.debug("Update is needed: {}, currentBuild: {}, remoteBuild: {}", result, currentBuild, remoteBuild);
 
         return result;

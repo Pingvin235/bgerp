@@ -337,9 +337,16 @@ CAUTION: Be sure that <<test-integration, Integration tests>> are successfully d
 
 CAUTION: Stop all running IDEs with opened project directory.
 
+Reset the properties files:
+----
+./gradlew resetProperties
+----
+
+Set the new stable release version in *build.number* property of `build/update/update.properties` file.
+
 Perform the following:
 ----
-./gradlew clean resetProperties updateLibProperties buildUpdateLib updateProperties buildUpdate buildDist
+./gradlew clean updateLibProperties buildUpdateLib updateProperties buildUpdate buildDist
 ----
 
 NOTE: *buildUpdateLib* and *updateLibProperties* tasks check existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.

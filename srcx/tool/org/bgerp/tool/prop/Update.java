@@ -8,8 +8,6 @@ import java.util.Properties;
 
 import org.apache.tools.ant.util.LayoutPreservingProperties;
 
-import ru.bgcrm.util.Utils;
-
 /**
  * Updates module properties.
  *
@@ -31,7 +29,6 @@ public class Update extends Module {
         }
 
         prop.setProperty(KEY_BUILD_TIME, FORMAT.format(LocalDateTime.now()));
-        prop.setProperty(KEY_BUILD_NUMBER, String.valueOf(Utils.parseInt(prop.getProperty(KEY_BUILD_NUMBER)) + 1));
         prop.setProperty(KEY_NAME, moduleName);
         prop.setProperty(KEY_VERSION, version);
         if (!changeId.isBlank())

@@ -21,18 +21,23 @@ public class ChangesDoc {
     private ChangesDoc(String build, String path) throws Exception {
         log.info("Updating changes in doc for build: {}, path: {}", build, path);
 
-        Path rootDir = Path.of(path);
+        final Path rootDir = Path.of(path);
 
-        Path changesDir = rootDir.resolve("changes");
+        final Path changesDir = rootDir.resolve("changes");
 
-        File buildChangesDir = changesDir.resolve(build).toFile();
+        final File buildChangesDir = changesDir.resolve(build).toFile();
         if (buildChangesDir.exists())
             throw new Exception(Log.format("Directory or file '{}' already exists", buildChangesDir));
-        changesDir.resolve("0").toFile().renameTo(buildChangesDir);
 
-        FileUtils.copyDirectory(changesDir.resolve("0.template").toFile(), changesDir.resolve("0").toFile());
+        final Path masterChangesDir = changesDir.resolve("0");
+        if (!masterChangesDir.toFile().renameTo(buildChangesDir))
+            throw new Exception(Log.format(
+                    "Can't rename '{}' to '{}'. For Windows try to close File Explorer and other file opening applications for fixing the issue.",
+                    masterChangesDir, buildChangesDir));
 
-        Path index = rootDir.resolve("index.adoc");
+        FileUtils.copyDirectory(changesDir.resolve("0.template").toFile(), masterChangesDir.toFile());
+
+        final Path index = rootDir.resolve("index.adoc");
         String data = new String(Files.readAllBytes(index), StandardCharsets.UTF_8);
 
         final String marker = "// changesDoc";
