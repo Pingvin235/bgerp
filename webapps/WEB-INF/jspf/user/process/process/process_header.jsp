@@ -17,7 +17,7 @@
 					<c:set var="uiidMenu" value="${u:uiid()}"/>
 					<ui:popup-menu id="${uiidMenu}">
 						<c:if test="${cloneAllowed}">
-							<c:url var="url" value="${form.httpRequestURI}">
+							<c:url var="url" value="/user/process.do">
 								<c:param name="method" value="processClone"/>
 								<c:param name="id" value="${process.id}"/>
 							</c:url>
@@ -48,7 +48,7 @@
 						</c:if>
 
 						<c:if test="${deleteAllowed}">
-							<c:url var="url" value="${form.httpRequestURI}">
+							<c:url var="url" value="/user/process.do">
 								<c:param name="method" value="processDelete"/>
 								<c:param name="id" value="${process.id}"/>
 							</c:url>
@@ -90,7 +90,7 @@
 				</p:check>
 
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:unionLog">
-					<c:url var="logUrl" value="${form.httpRequestURI}">
+					<c:url var="logUrl" value="/user/process.do">
 						<c:param name="method" value="unionLog"></c:param>
 						<c:param name="id" value="${form.id}"></c:param>
 						<c:param name="type" value="process"></c:param>
