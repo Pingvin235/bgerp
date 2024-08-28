@@ -3,17 +3,18 @@ package org.bgerp.itest.kernel.process;
 import java.util.List;
 import java.util.Set;
 
-import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.process.ProcessGroups;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.model.process.TypeProperties;
 
-@Test(groups = "processReference", dependsOnGroups = { "process", "processParam" })
-public class ProcessReferenceTest {
-    private static final String TITLE = "Kernel Process Reference";
+@Test(groups = "processCard", dependsOnGroups = { "user", "process" })
+public class ProcessCardTest {
+    private static final String TITLE = "Kernel Process Card";
 
     private int processTypeId;
 
@@ -23,16 +24,15 @@ public class ProcessReferenceTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setParameterIds(List.of(ProcessParamTest.paramListId));
-        props.setConfig(ConfigHelper.generateConstants(
-            "PARAM_LIST_ID", ProcessParamTest.paramListId
-        ) + ResourceHelper.getResource(this, "process.type.config.txt"));
+        props.setGroups(new ProcessGroups(UserTest.groupAdminsId));
+        props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+        int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        MessageHelper.addHowToTestNoteMessage(processId, this);
     }
 }

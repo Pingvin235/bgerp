@@ -1,0 +1,6 @@
+https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-left
+
+To test process left card configuration:
+- Compare process card elements with configured in the process type configuration
+- Change the order, save the process type and check the process card
+- Comment the 'processCard' configuration key, the order of elements must be set to default one

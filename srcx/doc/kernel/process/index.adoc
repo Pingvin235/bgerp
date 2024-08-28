@@ -168,18 +168,15 @@ processCard.<id>.components=<components>
 * *<modes>* - список через запятую режимов отображения карточки процесса, допустимые значения:
    ** *card* - просмотр карточки с открытием в буфере,
    ** *linked* - просмотр карточки процесса, привязанного к другому процессу с открытием в правой области первого процесса;
-* *<components>* - через запятую компоненты левого блока, либо произвольные JSP файлы, позволяющие кастомизировать карту процесса; допустимые стандартные блоки: *header*, *status*, *description*, *executors*, *links*, *params*.
+* *<components>* - через запятую компоненты левого блока, допустимые стандартные блоки: *header*, *description*, *executors*, *links*, *params*; or custom JSP filed prefixied by *jsp:*.
 
-На снимке ниже подписаны соответствующие блоки левого блока карточки процесса.
+Example:
+[snippet, from="processCard", to="executors"]
+link:../../../itest/org/bgerp/itest/kernel/process/ProcessCardTest.process.type.config.txt#L1-L2[Kernel Process Card type configuration]
 
-image::_res/card_config.png[]
+How does the configured card look like.
 
-Пример:
-[source]
-----
-processCard.1.mode=card
-processCard.1.components=header;jsp:/WEB-INF/jspf/user/process/process/custom/process_stp/contract_process_count.jsp;status;description;executors;params
-----
+image::_res/card_config.png[width="800"]
 
 [[setup-type-create-process-with-link]]
 ==== Создание процесса с привязанными объектами

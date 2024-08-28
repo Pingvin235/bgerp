@@ -112,7 +112,7 @@
 						<c:when test="${c eq 'links'}">
 							<%-- don't show links if they are shown right --%>
 							<c:if test="${processType.properties.configMap.getSok('', false, 'show.tab.links', 'processShowLinks') ne '1'}">
-								<div>
+								<div class="mb1">
 									<c:url var="url" value="/user/link.do">
 										<c:param name="method" value="linkList"/>
 										<c:param name="id" value="${process.id}"/>
@@ -129,9 +129,8 @@
 						<c:when test="${c eq 'params' and not empty processType}">
 							<%@ include file="process_parameters.jsp"%>
 						</c:when>
-						<%-- TODO: doc --%>
 						<c:when test="${c.startsWith('jsp:')}">
-							<c:set var="jsp" value="${su.substringAfter( c, 'jsp:')}"/>
+							<c:set var="jsp" value="${su.substringAfter(c, 'jsp:')}"/>
 							<jsp:include page="${jsp}"/>
 						</c:when>
 					</c:choose>

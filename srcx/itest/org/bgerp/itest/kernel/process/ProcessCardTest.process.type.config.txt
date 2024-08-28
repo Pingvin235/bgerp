@@ -1,0 +1,2 @@
+processCard.{@inc:cnt}.mode=card
+processCard.{@cnt}.components=description,params,links,header,executors
