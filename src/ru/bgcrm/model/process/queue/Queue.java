@@ -45,8 +45,6 @@ public class Queue extends IdTitle {
     private static final Set<String> SUPPORTED_PARAM_TYPES = Set.of(Parameter.TYPE_ADDRESS, Parameter.TYPE_DATETIME, Parameter.TYPE_DATE,
             Parameter.TYPE_LIST, Parameter.TYPE_LISTCOUNT, Parameter.TYPE_MONEY, Parameter.TYPE_TEXT, Parameter.TYPE_BLOB);
 
-    private int id;
-    private String title;
     private String config;
     private Set<Integer> processTypeIds = new HashSet<>();
     private ConfigMap configMap;
@@ -256,7 +254,7 @@ public class Queue extends IdTitle {
     }
 
     public void extractFiltersAndSorts() throws Exception {
-        log.debug("Extract queue id: {}; title: {}", id, title);
+        log.debug("Extracting queue ID: {}, title: {}", id, title);
 
         var config = new Preferences(this.config);
 

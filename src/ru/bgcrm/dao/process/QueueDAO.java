@@ -70,15 +70,11 @@ public class QueueDAO extends CommonDAO {
     public List<Queue> getQueueList() throws SQLException {
         List<Queue> result = new ArrayList<>();
 
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-
-        ps = con.prepareStatement("SELECT * FROM queue ORDER BY title");
-        rs = ps.executeQuery();
-        while (rs.next()) {
-            result.add(getQueueFromRs(rs));
+        try (var ps = con.prepareStatement(SQL_SELECT_ALL_FROM + Tables.TABLE_QUEUE + SQL_ORDER_BY + "title")) {
+            var rs = ps.executeQuery();
+            while (rs.next())
+                result.add(getQueueFromRs(rs));
         }
-        ps.close();
 
         return result;
     }
