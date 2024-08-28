@@ -8,9 +8,9 @@
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
 
-	<c:set var="onSelect">$('#${uiid} #dateFilter').toggle( $('#${uiid}')[0].action.value == 'sessionLogContractList' )</c:set>
+	<c:set var="onSelect">$('#${uiid} #dateFilter').toggle( $('#${uiid}')[0].method.value == 'sessionLogContractList' )</c:set>
 
-	<ui:combo-single hiddenName="method" value="${form.param.action}" prefixText="Тип:" onSelect="${onSelect}">
+	<ui:combo-single hiddenName="method" value="${form.method}" prefixText="Тип:" onSelect="${onSelect}">
 		<jsp:attribute name="valuesHtml">
 			<li value="sessionAliveContractList">Активные</li>
 			<li value="sessionLogContractList">История</li>
