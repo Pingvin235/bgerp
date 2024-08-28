@@ -8,55 +8,6 @@
 </c:if>
 
 <c:if test="${not empty customer}">
-	<u:sc>
-		<c:set var="title">
-			<span class='title' id='customer_title_${customer.id}'></span>
-		</c:set>
-		<shell:title text="${title}"/>
-		<shell:state/>
-	</u:sc>
-
-	<script>
-		$(function () {
-			const $selector = $("div#customer-${customer.id} > #customerViewTabs");
-
-			const $tabs = $selector.tabs({refreshButton: true});
-
-			<c:url var="url" value="/user/parameter.do">
-				<c:param name="method" value="parameterList"/>
-				<c:param name="id" value="${customer.id}"/>
-				<c:param name="objectType" value="customer"/>
-				<c:param name="parameterGroup" value="${customer.paramGroupId}"/>
-			</c:url>
-
-			$tabs.tabs("add", "${url}", "${l.l('Parameters')}");
-
-			<c:url var="url" value="/user/process/link.do">
-				<c:param name="method" value="linkedProcessList"/>
-				<c:param name="objectType" value="customer"/>
-				<c:param name="objectTitle" value="${customer.title}"/>
-				<c:param name="id" value="${customer.id}"/>
-			</c:url>
-
-			$tabs.tabs("add", "${url}", "${l.l('Процессы')}");
-
-			<plugin:include endpoint="user.customer.tabs.jsp"/>
-
-			customerChangeTitle(${customer.id}, "${u:quotEscape(customer.title)}");
-
-			// обновление вкладки "Процессы", если она открыта
-			var $contentDiv = $('#content > #customer-${customer.id}');
-
-			$contentDiv.data('onShow', function() {
-				const processesTabPos = 1;
-				if ($tabs.tabs("option", "active" ) === processesTabPos) {
-					$selector.find("ul > li").eq(processesTabPos).data("loaded", false);
-					$tabs.tabs("load", processesTabPos);
-				}
-			});
-		})
-	</script>
-
 	<c:set var="uiid" value="${u:uiid()}"/>
 
 	<div id="${uiid}" class="in-table-cell in-nowrap">
@@ -153,4 +104,54 @@
 	<div id="customerViewTabs">
 		<ul></ul>
 	</div>
+
+	<script>
+		(function () {
+			const $selector = $("#customer-${customer.id} > #customerViewTabs");
+
+			const $tabs = $selector.tabs({ refreshButton: true });
+
+			<c:url var="url" value="/user/parameter.do">
+				<c:param name="method" value="parameterList"/>
+				<c:param name="id" value="${customer.id}"/>
+				<c:param name="objectType" value="customer"/>
+				<c:param name="parameterGroup" value="${customer.paramGroupId}"/>
+			</c:url>
+
+			$tabs.tabs("add", "${url}", "${l.l('Parameters')}");
+
+			<c:url var="url" value="/user/process/link.do">
+				<c:param name="method" value="linkedProcessList"/>
+				<c:param name="objectType" value="customer"/>
+				<c:param name="objectTitle" value="${customer.title}"/>
+				<c:param name="id" value="${customer.id}"/>
+			</c:url>
+
+			$tabs.tabs("add", "${url}", "${l.l('Процессы')}");
+
+			<plugin:include endpoint="user.customer.tabs.jsp"/>
+
+			// обновление вкладки "Процессы", если она открыта
+			const $contentDiv = $('#content > #customer-${customer.id}');
+
+			$contentDiv.data('onShow', function() {
+				const processesTabPos = 1;
+				if ($tabs.tabs("option", "active" ) === processesTabPos) {
+					$selector.find("ul > li").eq(processesTabPos).data("loaded", false);
+					$tabs.tabs("load", processesTabPos);
+				}
+			});
+		})();
+	</script>
+
+	<shell:title>
+		<jsp:attribute name="text"><span class='title' id='customer_title_${customer.id}'></span></jsp:attribute>
+	</shell:title>
+	<shell:state/>
+
+	<script>
+		$(function () {
+			customerChangeTitle(${customer.id}, "${u:quotEscape(customer.title)}");
+		})
+	</script>
 </c:if>

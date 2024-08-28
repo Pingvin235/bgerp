@@ -21,7 +21,7 @@ $$.bgbilling = new function () {
 						const customerId = result.data.customer.id;
 
 						$$.shell.contentLoad("customer#" + customerId).done(() => {
-							const $tabs = $("div#customer-" + customerId + " > #customerViewTabs");
+							const $tabs = $("#customer-" + customerId + " > #customerViewTabs");
 							$tabs.tabs("showTab", "bgbilling-contracts");
 
 							// TODO: Wait for contracts tab is loaded.
