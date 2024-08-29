@@ -60,9 +60,6 @@ public class DefaultMarkedProcessor extends Processor {
             for (String command : commands.split(";"))
                 commandList.add(new Command(command));
 
-            if (Utils.notBlankString(commands))
-                log.warn("Used process queue processor commands: {}, qty: {}", commands, commandList.size());
-
             doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
         }
 
