@@ -30,21 +30,19 @@ public class BGBillingMessageTypeSearchCall extends MessageTypeSearchBilling {
     public BGBillingMessageTypeSearchCall(ConfigMap config) {
         super(config);
 
-        // contractByTextParam:<paramId>;contractByComment
         this.commands = Utils.toList(config.get("commands"));
-        this.phonePreprocessJexl = config.get(Expression.EXPRESSION_CONFIG_KEY + "NumberPreprocess", "stringExpressionNumberPreprocess");
+        this.phonePreprocessJexl = config.getSok(Expression.EXPRESSION_CONFIG_KEY + "NumberPreprocess", "stringExpressionNumberPreprocess");
     }
 
     @Override
-    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
-            {
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) {
         String numberFrom = ru.bgcrm.dao.message.MessageTypeSearchCall.preprocessNumber(message, phonePreprocessJexl);
 
         log.debug("Search by numberFrom: {}", numberFrom);
 
         DBInfo dbInfo = DBInfoManager.getDbInfo(billingId);
         if (dbInfo == null) {
-            log.warn("Billing not found: " + billingId);
+            log.warn("Billing not found: {}", billingId);
             return;
         }
 

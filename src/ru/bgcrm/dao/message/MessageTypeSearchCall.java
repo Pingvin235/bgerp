@@ -30,7 +30,6 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
     public MessageTypeSearchCall(ConfigMap config) {
         super(config);
 
-        // может добавится customerByTextParam:<paramId>
         this.commands = Utils.toList(config.get("commands"));
         this.phonePreprocessJexl = config.getSok(Expression.EXPRESSION_CONFIG_KEY + "NumberPreprocess", "stringExpressionNumberPreprocess");
     }
