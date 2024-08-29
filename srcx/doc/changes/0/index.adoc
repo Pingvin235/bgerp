@@ -2,140 +2,88 @@
 :toc:
 
 == BREAKING
-
 The required <<../../kernel/install.adoc#java, Java version>> was increased to *21*.
-It must be updated before updating the product.
+It must be updated before updating the product. In the distribution added script `jcheck.sh` for checking of the available Java version.
+
+Deleted outdated *phpBB* plugin (integration with the forum).
+
+Deleted support of *flush.news.everySeconds* configuration key, was used for periodical flush of news cache.
 
 == FEATURES
-
 === <<../../kernel/install.adoc#maintenance, Maintenance>> Tool
 
 image::_res/14992_maintenance.png[width="800"]
 
-=== Logging of <<../../plugin/bil/invoice/index.adoc#, Invoice>> changes
+=== Pinned process messages
+Always stay on the top of message lists.
+
+image::_res/14818_pinned_process_messages.png[]
+
+=== Running Docker images without Demo content
+Command line <<../../kernel/install.adoc#method-docker-run-arg, arguments>>.
+
+=== AJAX error messages
+Shown in dialogs allowing to copy text from them unlike standard alerts before.
+
+image::_res/15061_ajax_error_message_instead_alert.png[]
+
+=== NEW! Plugin <<../../plugin/pln/agree/index.adoc#, Agree>>
+For reaching agreements regarding processes.
+
+=== Plugin <<../../plugin/bgbilling/index.adoc#, BGBilling>>
+Wizard <<../../kernel/process/wizard.adoc#step-bgbilling, step>> for showing Inet services and sessions.
+
+image::_res/15030_wizard_inet_services.png[]
+
+image::_res/15078_wizard_inet_sessions.png[]
+
+Many fixes to support the latest versions of the billing system.
+
+== Plugin <<../../plugin/svc/dba/index.adoc#, DBA>>
+New supported query types in *SQL Query* tool.
+
+== Plugin <<../../plugin/document/index.adoc#, Document>>
+Preview for images.
+
+image::_res/15074_preview_doc_plug.png[]
+
+== Plugin <<../../plugin/msg/email/index.adoc#, E-Mail>>
+Improvements in process change notifications.
+
+=== Plugin <<../../plugin/git/index.adoc#, GIT>>
+Configurable extra command after creation a branch.
+
+=== Plugin <<../../plugin/bil/invoice/index.adoc#, Invoice>>
+Logging of changes of invoices to process log.
 
 image::_res/15029_invoice_logging.png[]
 
+=== Plugin <<../../plugin/report/index.adoc#, Report>>
+New diagram *Quantities by Executors*.
 
-////
-// REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT
-== BREAKING
+image::_res/14854_processes_report_executors.png[]
 
-=== Strict Config Check of Process Queues
-Some of your queues can disappear with the following error in logs:
-[source]
-----
-Not found media queue column with ID:
-----
+image::_res/14854_processes_report_diagram.png[]
 
-This means that in *media.xxx* keys were used not existing column IDs.
-
-=== Categories of Related Processes
-There are old and new version of Related Processes representation.
-
-image::_res/15020_linked_processes_before.png[width="800"]
-
-image::_res/15020_linked_processes_new.png[]
-
-Each Category (*Linked (Parent) Made Processes* and *Link (Child) Depend Processes* on the previous screenshot) has to be
-<<../../kernel/process/index.adoc#setup-type-related-process, configured>> in each process type to be shown.
-
-Previously used configuration keys with prefixes *linked.available.* and *link.available.* can be moved to configurations' end with prepending comment and later removed.
-
-image::_res/15020_linked_processes_config_comment.png[]
-
-==== External HTTP <<../../kernel/extension.adoc#run-http, Requests>>
-Replace *dynamic.do?action=runDynamicClass* to *run.do?action=runClass* calls.
-
-=== API
-You need to adjust your custom Java code.
-
-Moved classes:
-[square]
-* ru.bgcrm.util.ParameterMap to org.bgerp.app.cfg.ConfigMap
-* ru.bgcrm.util.Setup to org.bgerp.app.cfg.Setup
-
-Scheduled tasks have to extend class javadoc:org.bgerp.app.exec.scheduler.Task[]
-
-=== Column values concatenation in Process Queues
-The functionality was removed.
-
-== FEATURES
-
-=== Search Processes by Parameters
-Filter by 'text' parameter in process search.
-
-image::_res/14747_search_process.png[width="800"]
-
-=== Short Class Names in Configurations
-In different configurations, like for Scheduler, or <<../../kernel//message/index.adoc#setup-type, Message Types>>,
-class names should be defined used only name without packages. Outdated configuration records are reported in *WARN* log.
-
-=== <<../../plugin/bgbilling/index.adoc#, Plugin BGBilling>>
-HelpDesk testing configuration key <<../../plugin/bgbilling/index.adoc#helpdesk, topicId>>.
-
-=== <<../../plugin/bil/invoice/index.adoc#, Plugin Invoice>>
-
-Time reversed order of invoice table.
-
-image::_res/15006_invoice_list.png[width="800"]
-
-=== <<../../plugin/bil/subscription/index.adoc#, Plugin Subscription>>
-
-Update and send by email license on paid invoice event.
-
-image::_res/15006_license_mail.png[]
-
-=== <<../../plugin/pln/sla/index.adoc#, Plugin SLA>>
-
-A *new plugin*, providing colored representation of SLA times.
-
-image::_res/14988_sla.png[width="800"]
-
-=== <<../../plugin/msg/sms/index.adoc#, Plugin SMS>>
-
-Additionally to default configuration can be <<../../plugin/msg/sms/index.adoc#setup-mult, defined>> multiple messaging providers.
+Custom <<../../plugin/report/index.adoc#jsp, JSP reports>>
 
 == MINOR
-Blocked change update when app state error.
-
-image::_res/14996_app_update.png[]
-
-Error message on tab load failure.
-
-image::_res/8517_tab_ajax_error.png[]
-
-Changed the global menu icon.
-
-image::_res/15022_menu_icon.png[]
-////
-
-////
-// REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT
-
-== Enabled <<../../kernel/setup.adoc#config-license, License Check>>
-
-IMPORTANT: Obtain the suitable license and put it in the application' directory.
-
-== Syntax Highlighting Config Editors
-Introduced for the rest of existing editors.
-
-image::_res/12345_permission_sets.png[width="800"]
-
-== <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
-
-image::../../kernel/_res/user/profile_own_personalization.png[width="800"]
-
-== Infrastructure
 [square]
-* Gradle-only build process, no more Ant is used.
-* Java 11 support in JSP pages.
+* optionally shown link:_res/15046_optional_create_and_link_button.png[Create and link] button in <<../../kernel/process/index.adoc#usage-related-process, Related Processes>>;
+* custom classes in <<../../kernel/process/processing.adoc#, Default Process Change Listener>>;
+* prevent resetting Demo license in Docker container on every start;
+* `mail.log` containing all emails, sent from the application;
+* simplified configuration of <<../../kernel/process/wizard.adoc#, Process Wizard>>, using short class names;
+* <<../../kernel/message/index.adoc#setup-type, check>> for empty message subjects can be disabled;
+* <<../../kernel/process/index.adoc#setup-type-related-process-category, sorting>> added Related Processes by *process.statuses* value;
+* validation parameter *address* on empty fields input;
+* deletion of single *listcount* parameter values, input *listcount* parameter values using keyboard only;
+* saving *money* parameter values on Enter pressed.
 
-== Plugin <<../../plugin/document/index.adoc#, Document>>
-Configuration for Demo DB.
-
-== Plugin <<../../plugin/pln/callboard/index.adoc#, Callboard>>
-Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
-
-image::../../plugin/pln/callboard/_res/process_set_time.png[width="800"]
-////
+== PROJECT
+[square]
+* HTTP request parameter *action* <<../../project/index.adoc#action, renamed>> to *method*;
+* <<../../project/index.adoc#action-permission, actions>> identified by path;
+* simplified menu items definitions, no attribute *command* is more needed;
+* unified date and time fields <<../../project/index.adoc#naming-datetime, naming>>;
+* lightweight <<../../project/index.adoc#run-data, bgerp/devd>> Docker image with only Demo DB inside.

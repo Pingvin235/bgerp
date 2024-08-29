@@ -1,1 +1,1 @@
-A: Preview file in document plugin
+A: Preview image files in Document plugin
