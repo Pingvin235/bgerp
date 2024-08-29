@@ -746,6 +746,8 @@ CREATE TABLE IF NOT EXISTS param_treecount_value (
 	KEY param_id(param_id)
 );
 
+UPDATE user SET personalization=REPLACE(personalization, "action=queueShow", "method=queueShow");
+
 -- TODO: The columns or tables are not already in use. For  activation of deletion, place uncommented line prior the comment.
 -- drop_column_if_exists('message', 'processed');
 
