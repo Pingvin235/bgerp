@@ -5,7 +5,8 @@ import ru.bgcrm.util.Utils;
 
 /**
  * Value of parameter with type address.
- * @author Shamil
+ *
+ * @author Shamil Vakhitov
  */
 public class ParameterAddressValue {
     private int houseId = -1;
@@ -113,10 +114,6 @@ public class ParameterAddressValue {
             return false;
         if (!Utils.maskNull(room).equals(Utils.maskNull(addressValue.room)))
             return false;
-        //if( pod != addressValue.pod ) return false;
-        //if( floor != addressValue.floor ) return false;
-        //if( !value.equals( addressValue.value ) ) return false;
-        //if( !comment.equals( addressValue.comment ) ) return false;
 
         return true;
     }

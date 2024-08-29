@@ -151,7 +151,7 @@ public class ParamValueFunction {
             switch (Parameter.Type.of(param.getType())) {
                 case ADDRESS -> {
                     return paramDao.getParamAddress(objectId, paramId).values().stream()
-                        .map(ParameterAddressValue::toString)
+                        .map(ParameterAddressValue::getValue)
                         .collect(Collectors.joining("; "));
                 }
                 case BLOB -> {
