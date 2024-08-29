@@ -673,6 +673,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Press Enter to add a value</en><ru>Нажмите Enter для добавления значения</ru></p>
 	<p><en>No matching execution groups found; groupIds: {}, roleId: {}</en><ru>Не найдено подходящих групп решения; groupIds: {}, roleId: {}</ru></p>
 	<p><en>Update on the change?</en><ru>Обновить на изменение?</ru></p>
+	<p><en>Perform restart?</en><ru>Выполнить перезапуск?</ru></p>
+	<p><en>Perform update?</en><ru>Выполнить обновление?</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

@@ -19,6 +19,7 @@
 		<h2>${l.l('Перезапуск')}</h2>
 		<html:form action="/admin/app">
 			<input type="hidden" name="method" value="restart"/>
+			<input type="hidden" name="confirmText" value="${l.l('Perform restart?')}"/>
 			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
@@ -39,6 +40,7 @@
 					<li value="1">${l.l('Yes')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
+			<input type="hidden" name="confirmText" value="${l.l('Perform update?')}"/>
 			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
@@ -58,6 +60,7 @@
 			</ui:combo-single>
 			<c:choose>
 				<c:when test="${empty error}">
+					<input type="hidden" name="confirmText" value="${l.l('Update on the change?')}"/>
 					<%@ include file="run_restart_button.jsp"%>
 				</c:when>
 				<c:otherwise>
