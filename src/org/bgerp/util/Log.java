@@ -13,6 +13,9 @@ import org.bouncycastle.util.Arrays;
  * @author Shamil Vakhitov
  */
 public class Log {
+    public static final String MSG_DEPRECATED_METHOD_WAS_CALLED = "Deprecated method '{}' was called.";
+    public static final String MSG_WS_CREATE_NEW_INSTANCE_INSTEAD = " Create a new instance using 'new' instead.";
+
     /**
      * Class connected logger.
      * @param clazz the class.
@@ -97,9 +100,9 @@ public class Log {
      */
     public void warndMethod(String deprecatedName, String actualName) {
         if (actualName == null)
-            warn("Deprecated method '{}' was called.", deprecatedName);
+            warn(MSG_DEPRECATED_METHOD_WAS_CALLED, deprecatedName);
         else
-            warn("Deprecated method '{}' was called. Use '{}' instead.", deprecatedName, actualName);
+            warn(MSG_DEPRECATED_METHOD_WAS_CALLED + " Use '{}' instead.", deprecatedName, actualName);
     }
 
     /**

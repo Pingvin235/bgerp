@@ -84,8 +84,14 @@ public class ContractDAO extends BillingDAO {
         super(user, billingId);
     }
 
-    public ContractDAO(User user, DBInfo dbInfo) {
+    private ContractDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
+    }
+
+    @Deprecated
+    public static ContractDAO getInstance(User user, String billingId) {
+        log.warnd(Log.MSG_DEPRECATED_METHOD_WAS_CALLED + Log.MSG_WS_CREATE_NEW_INSTANCE_INSTEAD, "getInstance");
+        return new ContractDAO(user, billingId);
     }
 
     public Contract getContractById(int contractId) {

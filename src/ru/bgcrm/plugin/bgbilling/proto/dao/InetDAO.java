@@ -38,6 +38,12 @@ public class InetDAO extends BillingModuleDAO {
         inetModule = inetModule();
     }
 
+    @Deprecated
+    public static InetDAO getInstance(User user, String billingId, int moduleId) {
+        log.warnd(Log.MSG_DEPRECATED_METHOD_WAS_CALLED + Log.MSG_WS_CREATE_NEW_INSTANCE_INSTEAD, "getInstance");
+        return new InetDAO(user, billingId, moduleId);
+    }
+
     private String inetModule() {
         return dbInfo.versionCompare("8.0") > 0 ? "ru.bitel.bgbilling.modules.inet" : "ru.bitel.bgbilling.modules.inet.api";
     }
