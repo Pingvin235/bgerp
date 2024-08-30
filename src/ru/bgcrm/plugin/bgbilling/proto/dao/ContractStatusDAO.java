@@ -80,6 +80,7 @@ public class ContractStatusDAO extends BillingDAO {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "contractStatusLogSearch");
             req.setParam("contractId", contractId);
+            req.setParam("objectId", 0);
             req.setParam("page", new Page());
             JsonNode ret = transferData.postDataReturn(req, user);
             List<ContractStatusLogItem> result = readJsonValue(ret.findValue("list").traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractStatusLogItem.class));
@@ -122,19 +123,14 @@ public class ContractStatusDAO extends BillingDAO {
     }
 
     public void updateStatus(int contractId, int statusId, Date dateFrom, Date dateTo, String comment) {
-        if (dbInfo.versionCompare("9.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractStatusService", "changeContractStatus");
-            req.setParam("contractId", Collections.singletonList(contractId));
-            req.setParam("statusId", statusId);
-            req.setParam("dateFrom", dateFrom);
-            req.setParam("dateTo", dateTo);
-            req.setParam("comment", comment);
-            req.setParam("confirmChecked", true);
-
-            transferData.postDataReturn(req, user);
-        } else if (dbInfo.versionCompare("6.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractStatusService", "changeContractStatus");
-            req.setParam("cid", Collections.singletonList(contractId));
+            if (dbInfo.versionCompare("9.2") >= 0) {
+                req.setParam("contractId", Collections.singletonList(contractId));
+                req.setParam("objectId", 0);
+            } else {
+                req.setParam("cid", Collections.singletonList(contractId));
+            }
             req.setParam("statusId", statusId);
             req.setParam("dateFrom", dateFrom);
             req.setParam("dateTo", dateTo);
