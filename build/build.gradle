@@ -111,10 +111,6 @@ task buildDist(type: Zip, dependsOn: ['buildAppJar', 'buildLibJar'], description
         def buildDir = new File(distBuildDir);
         new File(buildDir, 'filestorage').mkdirs();
         new File(buildDir, 'log').mkdirs();
-
-        def toConcatenate = files(new File(updateDir, 'db_init.sql'), new File(distDir, 'db_init.sql'));
-        def output = new File(buildDir, 'db_init.sql')
-        toConcatenate.each { f -> output << f.text }
     }
     into('bgerp') {
         from(distBuildDir)
@@ -127,6 +123,9 @@ task buildDist(type: Zip, dependsOn: ['buildAppJar', 'buildLibJar'], description
             // TODO: Check, which files are needed.
             include('docpattern/**')
             include('webapps/**')
+        }
+        from(updateDir) {
+            include('db_init.sql')
         }
     }
     into('bgerp/lib/app') {

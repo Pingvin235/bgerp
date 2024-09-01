@@ -1,3 +1,8 @@
+CREATE TABLE IF NOT EXISTS _check_db_access(a INT, `check_sql-mode` VARCHAR(10) NOT NULL);
+-- if sql-mode is set to empty string in my.cnf
+INSERT INTO _check_db_access(a) VALUES (42);
+DROP TABLE _check_db_access;
+
 -- #BLOCK#NO_HASH#;
 DROP PROCEDURE IF EXISTS drop_column_if_exists;
 delimiter $$

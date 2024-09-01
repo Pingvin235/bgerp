@@ -1,9 +1,3 @@
--- #BLOCK#;
-CREATE TABLE IF NOT EXISTS _check_db_access(a INT, `check_sql-mode` VARCHAR(10) NOT NULL);
-INSERT INTO _check_db_access(a) VALUES (42);
-DROP TABLE _check_db_access;
--- #ENDB#;
-
 -- the table is created in update/db_init.sql
 CALL drop_column_if_exists('config_global', 'dt');
 CALL drop_column_if_exists('config_global', 'user_id');
