@@ -34,86 +34,54 @@ $$.customer = new function() {
 			})
 	}
 
+	const changeTitle = (customerId, customerTitle) => {
+		$("#customer_title_" + customerId).text(customerTitle);
+	}
+
+	addEventProcessor('ru.bgcrm.event.client.CustomerTitleChangedEvent', (event) => changeTitle(event.id, event.title));
+	addEventProcessor('ru.bgcrm.event.client.CustomerOpenEvent', (event) => open(event.id));
+
 	// public functions
 	this.open = open;
 	this.createAndEdit = createAndEdit;
+	this.changeTitle = changeTitle;
 }
 
-function openCustomer(id) {
-	console.warn($$.deprecated);
-	$$.customer.open(id);
-}
+function buildOpenedCustomerList($selector, currentCustomer) {
+	var $ul = $selector.find('ul.drop');
 
-function createCustomerAndEdit(sender) {
-	console.warn($$.deprecated);
-	$$.customer.createAndEdit(sender);
-}
-
-function buildOpenedCustomerList( $selector, currentCustomer )
-{
-	var $ul = $selector.find( 'ul.drop' );
-
-	$ul.html( "" );
+	$ul.html("");
 
 	var options;
 
-	if( currentCustomer && currentCustomer.id > 0 )
-	{
+	if (currentCustomer && currentCustomer.id > 0) {
 		options = "<li value='-1'>----</li>";
-		/*options += "<li value='" + currentCustomer.id + "'>" + currentCustomer.title + "</li>";*/
 
-		$selector.find( 'input[type=hidden]' ).attr( "value", currentCustomer.id );
-		$selector.find( '.text-value' ).text( currentCustomer.title );
+		$selector.find('input[type=hidden]').attr("value", currentCustomer.id);
+		$selector.find('.text-value').text(currentCustomer.title);
 	}
-	else
-	{
+	else {
 		options = "";
-		$selector.find( 'input[type=hidden]' ).attr( "value", 0 );
-		/*options = "<li value='-1'>----</li>";*/
+		$selector.find('input[type=hidden]').attr("value", 0);
 	}
 
-	var openedCustomers = openedObjectList( { "typesInclude" : ["customer"] } );
-	for( var c in openedCustomers )
-	{
-		if( currentCustomer == undefined || openedCustomers[c].id != currentCustomer.id )
-		{
+	var openedCustomers = openedObjectList({ "typesInclude": ["customer"] });
+	for (var c in openedCustomers) {
+		if (currentCustomer == undefined || openedCustomers[c].id != currentCustomer.id) {
 			options += "<li value='" + openedCustomers[c].id + "'>" + openedCustomers[c].title + "</li>";
 		}
 	}
 
-	$ul.html( options );
-}
-
-// обработка клиентских событий
-addEventProcessor( 'ru.bgcrm.event.client.CustomerTitleChangedEvent', processCustomerClientEvents );
-addEventProcessor( 'ru.bgcrm.event.client.CustomerOpenEvent', processCustomerClientEvents );
-
-function processCustomerClientEvents( event )
-{
-	if( event.className == 'ru.bgcrm.event.client.CustomerTitleChangedEvent' )
-	{
-		customerChangeTitle( event.id, event.title );
-	}
-	else if( event.className == 'ru.bgcrm.event.client.CustomerOpenEvent' )
-	{
-		openCustomer( event.id );
-	}
-}
-
-// изменяет название контрагента на странице
-function customerChangeTitle( customerId, customerTitle ) {
-	$("#customer_title_" + customerId).text( customerTitle );
+	$ul.html(options);
 }
 
 // запросы на сервер
-function addCustomerLink( customerId, linkedObjectType, linkedObjectId, linkedObjectTitle )
-{
+function addCustomerLink(customerId, linkedObjectType, linkedObjectId, linkedObjectTitle) {
 	const url = "/user/link.do?method=addLink&id=" + customerId + '&' + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId, "linkedObjectTitle": linkedObjectTitle });
 	return $$.ajax.post(url);
 }
 
-function deleteCustomerLinkTo( linkedObjectType, linkedObjectId )
-{
+function deleteCustomerLinkTo(linkedObjectType, linkedObjectId) {
 	const url = "/user/link.do?method=deleteLinksTo&" + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId });
 	return $$.ajax.post(url);
 }

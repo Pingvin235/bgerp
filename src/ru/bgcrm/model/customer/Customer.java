@@ -11,6 +11,8 @@ import org.bgerp.cache.CustomerGroupCache;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.util.Log;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.SearchableIdTitle;
 import ru.bgcrm.model.param.ParameterGroup;
@@ -82,6 +84,7 @@ public class Customer extends SearchableIdTitle implements Comparable<Customer> 
     }
 
     @Deprecated
+    @JsonIgnore
     public Date getCreatedDate() {
         log.warndMethod("getCreatedDate", "getCreateDate");
         return getCreateTime();
@@ -102,6 +105,7 @@ public class Customer extends SearchableIdTitle implements Comparable<Customer> 
     }
 
     @Deprecated
+    @JsonIgnore
     public int getCreatedUserId() {
         log.warndMethod("getCreatedUserId", "getCreateUserId");
         return getCreateUserId();

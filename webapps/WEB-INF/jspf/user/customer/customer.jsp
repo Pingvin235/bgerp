@@ -151,7 +151,7 @@
 
 	<script>
 		$(function () {
-			customerChangeTitle(${customer.id}, "${u:quotEscape(customer.title)}");
+			$$.customer.changeTitle(${customer.id}, "${u:quotEscape(customer.title)}");
 		})
 	</script>
 </c:if>
