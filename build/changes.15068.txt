@@ -1,1 +1,0 @@
-A: Custom class in Default Process Change Listener. https://bgerp.org/version/3.0/doc/kernel/process/processing.html

@@ -1,1 +1,0 @@
-A: Optionally shown "Create and link" button in Related Processes. https://bgerp.org/version/3.0/doc/kernel/process/index.html#usage-related-process

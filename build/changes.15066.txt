@@ -1,1 +1,0 @@
-C: Do not update demo license in Docker container on every start.

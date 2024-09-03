@@ -1,3 +1,0 @@
-A: Plugin Agree. https://bgerp.org/version/3.0/doc/plugin/pln/agree
-A: Logging sent mails to mail.log
-C: Plugin Email. Improved process change notifications.

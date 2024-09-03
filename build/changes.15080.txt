@@ -1,2 +1,0 @@
-C: Change and Master release numbers without increment
-

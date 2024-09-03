@@ -1,1 +1,0 @@
-B: Deletion of phpBB plugin.

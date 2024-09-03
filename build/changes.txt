@@ -1,6 +1,46 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+03.09.2024 20:40:39 2409
+C: [14637] Renamed HTTP request parameter 'action' to 'method'. https://bgerp.org/version/3.0/doc/project/index.html#action
+C: [14637] Deleted excess 'command' attribute from menu-item tags.
+A: [14818] Pinned process messages, staying on the first places.
+A: [14854] Diagram 'Quantities by Executors' in Processes reports.
+A: [14943] GIT. Extra command after creation a branch. https://bgerp.org/version/3.0/doc/plugin/git/index.html#setup
+C: [14943] Unified date and time fields naming. https://bgerp.org/version/3.0/doc/project/index.html#naming-datetime
+A: [14992] Maintenance tool. https://bgerp.org/version/3.0/doc/kernel/install.html#maintenance
+A: [15029] Log invoice changes to process log.
+A: [15030] Wizard step for showing BGBilling Inet services. https://bgerp.org/version/3.0/doc/kernel/process/wizard.html#step-bgbilling
+A: [15055] PzdcDoc 2.7
+F: [15061] BGBilling process card for 9.2401 version.
+A: [15062] 'bgerp/devd' Docker image https://bgerp.org/version/3.0/doc/project/index.html#run-data
+A: [15064] Optionally shown "Create and link" button in Related Processes. https://bgerp.org/version/3.0/doc/kernel/process/index.html#usage-related-process
+C: [15066] Do not update demo license in Docker container on every start.
+A: [15068] Custom class in Default Process Change Listener. https://bgerp.org/version/3.0/doc/kernel/process/processing.html
+A: [15074] Preview image files in Document plugin
+A: [15075] Custom JSP Reports. https://bgerp.org/version/3.0/doc/plugin/report/index.html#jsp
+A: [15076] Plugin Agree. https://bgerp.org/version/3.0/doc/plugin/pln/agree
+A: [15076] Logging sent mails to mail.log
+C: [15076] Plugin Email. Improved process change notifications.
+C: [15078] Simplified configuration of Process Wizard. https://bgerp.org/version/3.0/doc/kernel/process/wizard.html
+A: [15078] Wizard step to show active BGBilling Inet sessions. https://bgerp.org/version/3.0/doc/kernel/process/wizard.html#step-bgbilling
+C: [15080] Change and Master release numbers without increment
+B: [15081] Deletion of phpBB plugin.
+A: [15083] Optional check of empty message subjects. https://bgerp.org/version/3.0/doc/kernel/message/index.html#setup-type
+B: [15086] Deleted support of 'flush.news.everySeconds' configuration key.
+B: [15086] Refactoring of caches, no flush for UserNewsCache. https://bgerp.org/version/3.0/doc/kernel/news.html
+A: [15087] Sorting added Related Processes by 'process.statuses' value. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-related-process-category
+F: [15089] Validate param 'address' on empty fields input.
+F: [15091] Corrected signature of open actions.
+A: [15092] Actions identified by path. https://bgerp.org/version/3.0/doc/project/index.html#action-permission
+F: [15096] Deletion of single 'listcount' parameter values.
+A: [15096] Input 'listcount' parameter values using keyboard only.
+C: [15096] Save 'money' parameter values on Enter pressed.
+A: [15101] Script jcheck.sh for checking java version
+A: [15102] Docker run keys preventing Demo content. https://bgerp.org/version/3.0/doc/kernel/install.html#method-docker-run-arg
+A: [15103] New supported query types for DBA 'SQL Query' tool
+C: [15106] OpenJDK 21.0.4+7 in Docker image.
+
 04.03.2024 11:33:16 1393
 C: [14741] Improved process statuses editor in type properties. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type
 A: [14797] Unified OK/Cancel/Save/Restore buttons for config editors.

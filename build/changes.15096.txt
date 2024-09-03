@@ -1,3 +1,0 @@
-F: Deletion of single 'listcount' parameter values.
-A: Input 'listcount' parameter values using keyboard only.
-C: Save 'money' parameter values on Enter pressed.

@@ -1,2 +1,0 @@
-C: Simplified configuration of Process Wizard. https://bgerp.org/version/3.0/doc/kernel/process/wizard.html
-A: Wizard step to show active BGBilling Inet sessions. https://bgerp.org/version/3.0/doc/kernel/process/wizard.html#step-bgbilling

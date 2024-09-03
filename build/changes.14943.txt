@@ -1,2 +1,0 @@
-A: GIT. Extra command after creation a branch. https://bgerp.org/version/3.0/doc/plugin/git/index.html#setup
-C: Unified date and time fields naming. https://bgerp.org/version/3.0/doc/project/index.html#naming-datetime

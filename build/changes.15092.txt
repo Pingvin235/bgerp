@@ -1,1 +1,0 @@
-A: Actions identified by path. https://bgerp.org/version/3.0/doc/project/index.html#action-permission
