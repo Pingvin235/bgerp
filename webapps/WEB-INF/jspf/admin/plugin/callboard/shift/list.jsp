@@ -9,10 +9,10 @@
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<button type="button" class="btn-green mr1" onclick="$$.ajax.loadContent('${url}')">+</button>
+	<ui:button type="add" styleClass="mr1" onclick="$$.ajax.loadContent('${url}')"/>
 
-	<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId" value=${form.param.categoryId}" onSelect="$$.ajax.loadContent($hidden[0].form)"
-		style="width: 200px;" placeholder="Выберите категорию"/>
+	<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${form.param.categoryId}"
+		onSelect="$$.ajax.loadContent($hidden[0].form)" style="width: 15em;" placeholder="${l.l('Choose category')}" />
 
 	<ui:page-control/>
 </html:form>
