@@ -18,7 +18,7 @@
 		${l.l('Status')}:
 		[<b><%--
 		--%><c:if test="${statusEdit}">
-				<c:url var="url" value="${form.httpRequestURI}">
+				<c:url var="url" value="/user/process.do">
 					<c:param name="method" value="processStatusEdit"/>
 					<c:param name="id" value="${process.id}"/>
 					<c:param name="returnUrl" value="${requestUrl}"/>
@@ -31,7 +31,7 @@
 		</b>]
 		${statusEnd}
 		<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
-			<c:url var="url" value="${form.httpRequestURI}">
+			<c:url var="url" value="/user/process.do">
 				<c:param name="id" value="${process.id}"/>
 				<c:param name="method" value="processStatusHistory"/>
 				<c:param name="returnUrl" value="${requestUrl}"/>
