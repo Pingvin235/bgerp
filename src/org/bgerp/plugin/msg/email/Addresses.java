@@ -184,7 +184,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
 
         for (RecipientType type : RECIPIENT_TYPES) {
             List<InternetAddress> addressList = get(type);
-            if (addressList == null)
+            if (addressList == null || addressList.isEmpty())
                 continue;
 
             StringBuilder part = new StringBuilder();

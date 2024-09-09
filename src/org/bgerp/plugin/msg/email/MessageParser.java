@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Session;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MailDateFormat;
 import javax.mail.internet.MimeMessage;
@@ -100,32 +101,34 @@ public class MessageParser {
     }
 
     public String getTo() throws Exception {
-        // адреса пришлось выбирать из заголовков, т.к. getReciepients выдавал
-        // только по одному адресу каждого типа
-        StringBuilder to = new StringBuilder(10);
+        // адреса пришлось выбирать из заголовков, т.к. getReciepients выдавал только по одному адресу каждого типа
+        StringBuilder to = new StringBuilder(100);
 
-        final String[] headersTo = message.getHeader("To");
-        if (headersTo != null) {
-            for (String header : headersTo) {
-                for (InternetAddress addr : InternetAddress.parse(header)) {
-                    Utils.addSeparated(to, ", ", addr.getAddress());
-                }
-            }
+        final String[] valuesTo = message.getHeader("To");
+        if (valuesTo != null) {
+            extractAddresses(valuesTo, to);
         }
 
-        String[] headersCc = message.getHeader("CC");
-        if (headersCc != null) {
-            StringBuilder ccAddresses = new StringBuilder(100);
-            for (String header : headersCc) {
-                for (InternetAddress addr : InternetAddress.parse(header)) {
-                    Utils.addSeparated(ccAddresses, ", ", addr.getAddress());
-                }
-            }
-
-            to.append("; CC: ");
-            to.append(ccAddresses);
+        String[] valuesCc = message.getHeader("CC");
+        if (valuesCc != null) {
+            StringBuilder cc = new StringBuilder(100);
+            extractAddresses(valuesCc, cc);
+            to.append("; CC: ").append(cc);
         }
+
         return to.toString();
+    }
+
+    private void extractAddresses(String[] values, StringBuilder result) {
+        for (String value : values) {
+            for (String token : Utils.toList(value)) {
+                try {
+                    Utils.addSeparated(result, ", ", InternetAddress.parse(token)[0].getAddress());
+                } catch (AddressException e) {
+                    log.error(e);
+                }
+            }
+        }
     }
 
     public String getMessageSubject() throws Exception {
