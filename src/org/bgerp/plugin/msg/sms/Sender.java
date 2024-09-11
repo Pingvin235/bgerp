@@ -1,8 +1,9 @@
 package org.bgerp.plugin.msg.sms;
 
+import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 
-public abstract class Sender extends org.bgerp.app.cfg.Config {
+public abstract class Sender extends Config {
     protected Sender(ConfigMap setup) {
         super(setup);
     }

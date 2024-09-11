@@ -17,7 +17,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class ProcessTypeConfig extends org.bgerp.app.cfg.Config {
+public class ProcessTypeConfig extends Config {
     private static final Log log = Log.getLog();
 
     private final Duration closeBefore;

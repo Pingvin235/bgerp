@@ -2,6 +2,7 @@ package org.bgerp.plugin.pln.agree;
 
 import java.util.Date;
 
+import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGMessageException;
@@ -18,7 +19,7 @@ import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class ProcessTypeConfig extends org.bgerp.app.cfg.Config {
+public class ProcessTypeConfig extends Config {
     private final int statusFromId;
     private final int statusToId;
     private final int groupId;

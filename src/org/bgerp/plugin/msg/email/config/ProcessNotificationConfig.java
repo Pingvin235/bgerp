@@ -1,5 +1,6 @@
 package org.bgerp.plugin.msg.email.config;
 
+import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.param.Parameter;
@@ -8,7 +9,7 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;
 
-public class ProcessNotificationConfig extends org.bgerp.app.cfg.Config {
+public class ProcessNotificationConfig extends Config {
     private static final Log log = Log.getLog();
 
     private final int userEmailParamId;

@@ -7,10 +7,11 @@ import java.util.Map;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 import org.bgerp.action.base.BaseAction;
+import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
-public class GMS extends org.bgerp.app.cfg.Config {
+public class GMS extends Config {
     private static final Log log = Log.getLog();
 
     private static final String SERVER_URL = "https://mob.bgerp.org/cgi/server.py";

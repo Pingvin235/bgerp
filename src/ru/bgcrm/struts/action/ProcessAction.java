@@ -126,16 +126,11 @@ public class ProcessAction extends BaseAction {
      * @param form current request info with user and permission.
      */
     public static void applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {
-        var isolation = form.getUser().getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
+        var user = form.getUser();
+        var isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
 
-        final boolean onlyPermittedTypes =
-            // when process isolation for the user is 'group'
-            isolation == IsolationProcess.GROUP ||
-            // or explicitly set by action
-            form.getPermission().getBoolean("onlyPermittedTypes", false);
-        if (onlyPermittedTypes) {
-            var user = form.getUser();
-
+        // when process isolation for the user is 'group' or explicitly set by action
+        if (isolation == IsolationProcess.GROUP || form.getPermission().getBoolean("onlyPermittedTypes")) {
             Iterator<ProcessType> iterator = typeList.iterator();
             while (iterator.hasNext()) {
                 var type = iterator.next();

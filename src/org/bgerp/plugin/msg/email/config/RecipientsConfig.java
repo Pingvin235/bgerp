@@ -3,11 +3,12 @@ package org.bgerp.plugin.msg.email.config;
 import java.util.Collections;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.util.Utils;
 
-public class RecipientsConfig extends org.bgerp.app.cfg.Config {
+public class RecipientsConfig extends Config {
     /** Process parameters. */
     public static final String AREA_PROCESS = "process";
     /** All not disabled users. */

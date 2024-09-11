@@ -16,8 +16,9 @@ import org.bgerp.plugin.pln.blow.Plugin;
 
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
+import org.bgerp.app.cfg.Config;
 
-public class BoardsConfig extends org.bgerp.app.cfg.Config {
+public class BoardsConfig extends Config {
     private SortedMap<Integer, BoardConfig> boardMap = new TreeMap<>();
 
     protected BoardsConfig(ConfigMap config, boolean validate) throws BGMessageException {

@@ -106,20 +106,6 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
                 return false;
             }
 
-            /* Undocumented, remove later 31.01.2022.
-            String paramFilter = configMap.get("create.in.filter");
-            if (Utils.notBlankString(paramFilter)) {
-                if (paramValueDao == null) {
-                    paramValueDao = new ParamValueDAO(con);
-                    paramValueCache = new HashMap<>();
-                }
-
-                if (!paramValueDao.paramValueFilter(paramFilter, objectId, paramValueCache)) {
-                    return false;
-                }
-            }
-            */
-
             return true;
         }
     }

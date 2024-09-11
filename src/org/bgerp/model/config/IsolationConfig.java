@@ -1,6 +1,7 @@
 package org.bgerp.model.config;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGMessageException;
 
@@ -11,7 +12,7 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class IsolationConfig extends org.bgerp.app.cfg.Config {
+public class IsolationConfig extends Config {
     private final IsolationProcess isolationProcess;
 
     protected IsolationConfig(ConfigMap config) throws BGMessageException {
