@@ -2,7 +2,7 @@
 bgbilling:server.{@inc:cnt}.id={@BILLING_ID}
 bgbilling:server.{@cnt}.title=BGBilling
 bgbilling:server.{@cnt}.requestTimeOut=20000
-bgbilling:server.{@cnt}.version=9.2
+bgbilling:server.{@cnt}.version=9.2407
 # demo.bgbilling.ru
 bgbilling:server.{@cnt}.url=https://demo.bgbilling.ru/executer
 bgbilling:server.{@cnt}.customerIdParam=8

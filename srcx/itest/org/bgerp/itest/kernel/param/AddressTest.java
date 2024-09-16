@@ -33,18 +33,17 @@ public class AddressTest {
     public void directory() throws Exception {
         var dao = new AddressDAO(DbTest.conRoot);
 
-        var country = dao.updateAddressCountry(new AddressCountry().withTitle("Bayern"));
-        var city = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("München"));
-        var area = dao.updateAddressArea(new AddressItem().withCityId(city.getId()).withTitle("Obermenzing"));
-        var street = dao.updateAddressStreet(new AddressItem().withCityId(city.getId()).withTitle("Karl-Marx-Ring"));
-        street = dao.updateAddressStreet(new AddressItem().withCityId(city.getId()).withTitle("Dorfstraße"));
-        houseMuenchen = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId()).withAreaId(area.getId())
-            .withPostIndex("81247").withHouseAndFrac("99a").withComment("Nette Leute"));
-        Assert.assertTrue(houseMuenchen.getId() > 0);
-
-        country = dao.updateAddressCountry(new AddressCountry().withTitle("Башкортостан"));
+        var country = dao.updateAddressCountry(new AddressCountry().withTitle("Башкортостан"));
+        // for BGBilling Demo: Уфа (1) Ленина (1) 14 (1)
         cityUfa = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("Уфа"));
-        area =  dao.updateAddressArea(new AddressItem().withCityId(cityUfa.getId()).withTitle("Кировский район"));
+        Assert.assertEquals(cityUfa.getId(), 1);
+        var street = dao.updateAddressStreet(new AddressItem().withCityId(cityUfa.getId()).withTitle("Ленина (BGBilling Demo)"));
+        Assert.assertEquals(street.getId(), 1);
+        var house = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId())
+            .withPostIndex("450103").withHouseAndFrac("14").withComment("BGBilling Demo"));
+        Assert.assertEquals(house.getId(), 1);
+
+        var area =  dao.updateAddressArea(new AddressItem().withCityId(cityUfa.getId()).withTitle("Кировский район"));
         var quarter = dao.updateAddressQuarter(new AddressItem().withCityId(cityUfa.getId()).withTitle("33"));
         street = dao.updateAddressStreet(new AddressItem().withCityId(cityUfa.getId()).withTitle("Карла Маркса"));
         street = dao.updateAddressStreet(new AddressItem().withCityId(cityUfa.getId()).withTitle("Габдуллы Амантая"));
@@ -55,6 +54,15 @@ public class AddressTest {
             .withAreaId(area.getId()).withQuarterId(quarter.getId())
             .withPostIndex("450103").withHouseAndFrac("6").withComment("Чокнутая консьержка"));
         Assert.assertTrue(houseUfa7f1.getId() > 0 );
+
+        country = dao.updateAddressCountry(new AddressCountry().withTitle("Bayern"));
+        var city = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("München"));
+        area = dao.updateAddressArea(new AddressItem().withCityId(city.getId()).withTitle("Obermenzing"));
+        street = dao.updateAddressStreet(new AddressItem().withCityId(city.getId()).withTitle("Karl-Marx-Ring"));
+        street = dao.updateAddressStreet(new AddressItem().withCityId(city.getId()).withTitle("Dorfstraße"));
+        houseMuenchen = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId()).withAreaId(area.getId())
+            .withPostIndex("81247").withHouseAndFrac("99a").withComment("Nette Leute"));
+        Assert.assertTrue(houseMuenchen.getId() > 0);
     }
 
     @Test(dependsOnMethods = "directory")

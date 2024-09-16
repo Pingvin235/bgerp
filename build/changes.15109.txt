@@ -1,0 +1,1 @@
+A: Support of BGBilling 9.2407 https://bgerp.org/version/3.0/doc/plugin/bgbilling/index.html#config-server

@@ -264,7 +264,9 @@ public class ContractDAO extends BillingDAO {
         applySearchOptions(options, req);
 
         req.setAction("FindContract");
-        if (dbInfo.versionCompare("7.0") >= 0)
+        if (dbInfo.versionCompare("9.2") >= 0)
+            req.setAttribute("type", "c8");
+        else if (dbInfo.versionCompare("7.0") >= 0)
             req.setAttribute("type", "c2");
         else
             req.setAttribute("type", 2);
@@ -290,11 +292,16 @@ public class ContractDAO extends BillingDAO {
 
             List<ParameterSearchedObject<Contract>> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
-                final String fullTitle = item.getAttribute("title");
-
-                Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
-                        StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
-                list.add(new ParameterSearchedObject<>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
+                if (dbInfo.versionCompare("9.2407") >= 0) {
+                    final String comment = item.getAttribute("comment");
+                    Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), comment);
+                    list.add(new ParameterSearchedObject<>(contract, 0, StringUtils.substringBetween(comment, "[", "]").trim()));
+                } else {
+                    final String fullTitle = item.getAttribute("title");
+                    Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
+                            StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
+                    list.add(new ParameterSearchedObject<>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
+                }
             }
         }
     }
