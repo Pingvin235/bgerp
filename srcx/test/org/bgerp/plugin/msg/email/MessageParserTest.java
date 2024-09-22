@@ -95,4 +95,12 @@ public class MessageParserTest {
         Assert.assertEquals("900600880183_qwefcqaweqqf2e.pdf", attaches.get(3).title());
         Assert.assertEquals("Ростелеком.xlsx", attaches.get(4).title());
     }
+
+    @Test
+    public void testMessageParse7() throws Exception {
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail7.eml"));
+        // MaxLineLimitException has been thrown with MimeConfig.DEFAULT in MessageParser
+        List<MessageAttach> attaches = mp.getAttachContent();
+        Assert.assertEquals(0, attaches.size());
+    }
 }

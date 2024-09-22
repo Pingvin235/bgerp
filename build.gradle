@@ -91,8 +91,8 @@ dependencies {
 
     implementation 'com.sun.mail:javax.mail:1.6.2'
     implementation 'javax.activation:activation:1.1.1' //TODO: Fix using classes and remove library.
-    implementation 'org.apache.james:apache-mime4j-dom:0.8.9.bgerp'
-    implementation 'org.apache.james:apache-mime4j-core:0.8.9.bgerp'
+    implementation 'org.apache.james:apache-mime4j-dom:0.8.11'
+    implementation 'org.apache.james:apache-mime4j-core:0.8.11'
 
     implementation 'commons-beanutils:commons-beanutils:1.9.3' // DynActionForm
     implementation 'commons-collections:commons-collections:3.2.2' // 'org.apache.commons:commons-collections4' has a different package

@@ -29,6 +29,7 @@ import org.apache.james.mime4j.dom.Message;
 import org.apache.james.mime4j.dom.Multipart;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
 import org.apache.james.mime4j.message.DefaultMessageWriter;
+import org.apache.james.mime4j.stream.MimeConfig;
 import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -268,7 +269,9 @@ public class MessageParser {
 
         // lazy initialization of mimi4j
         if (mime4j == null) {
-            mime4j = new DefaultMessageBuilder().parseMessage(
+            DefaultMessageBuilder builder = new DefaultMessageBuilder();
+            builder.setMimeEntityConfig(MimeConfig.PERMISSIVE);
+            mime4j = builder.parseMessage(
                 mimeData != null ?
                 new ByteArrayInputStream(mimeData) :
                 ((IMAPMessage) this.message).getMimeStream()
