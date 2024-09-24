@@ -102,8 +102,8 @@ public class MessageAction extends BaseAction {
 
             linksSearch(form, conSet);
 
-            // TODO: Only types with group of the current executor.
-            form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
+            var typeList = ProcessAction.processTypeIsolationFilter(ProcessTypeCache.getTypeList("message", null, null), form);
+            form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
         }
 
         form.setResponseData("message", message);

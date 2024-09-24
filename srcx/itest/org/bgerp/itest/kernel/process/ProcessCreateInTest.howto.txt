@@ -1,0 +1,5 @@
+# Process type has to be available in different places, depends on values in 'create.in.areas' in configuration
+
+# When creating the process type in a customer:
+- address parameter has to be copied
+- the newly created process has to be opened in UI

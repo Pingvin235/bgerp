@@ -178,24 +178,36 @@ How does the configured card look like.
 
 image::_res/card_config.png[width="800"]
 
-[[setup-type-create-process-with-link]]
-==== Создание процесса с привязанными объектами
-Переменная в конфигурации типа процесса:
-[source]
+[[setup-type-create]]
+==== Process Creation
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process description is *Kernel Process Create In*.
+
+Ro restricting areas where the process type can be created, add:
+----
+create.in.areas=<areas>
+----
+
+Where *<areas>* is comma separated list of areas, where process can be created:
+[square]
+* *message* - message processing;
+* *queue* - process queues;
+* *linked* - *Processes* tab for an object like customer.
+
+Empty key value denies process creation for all areas, for the last area *linked* can be additionally configured:
 ----
 # * (default) - allow creation as linked in any object
 #create.in.objectTypes=<типы объектов через запятую>
 create.in.copyParams=перечень пар <с параметра>:<на параметр>, разделённых точкой с запятой
 #
-# открывать (1), не открывать (0), открывать мастером (wizard) вкладку с созданным привязанным процессом
-create.in.<тип объекта>.openCreated=1
+# open the created process
+#create.in.<тип объекта>.openCreated=1
 ----
 
 Разрешает создание процесса с привязанным данным объектом во вкладке Процессы объекта (ниже на скриншоте).
 Копирование параметров поддерживается только для объектов, использующих стандартную систему параметров системы.
 Типы объектов ядра:
 [square]
-* customer - контрагент.
+* *customer* - customer
 
 Типы объектов плагинов описаны в документации плагинов:
 [square]
@@ -491,7 +503,7 @@ contract:bitel.processes.queue=11
 
 [[usage-create]]
 === Создание процесса
-С помощью <<setup-type-create-process-with-link, настройки>> в конфигурации типа процесса возможно разрешение создания процессов определённого типа прямо из данной вкладки.
+С помощью <<setup-type-create, настройки>> в конфигурации типа процесса возможно разрешение создания процессов определённого типа прямо из данной вкладки.
 
 [[usage-related-process]]
 === Related Processes

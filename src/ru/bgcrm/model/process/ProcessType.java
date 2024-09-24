@@ -76,13 +76,12 @@ public class ProcessType extends TreeItem<Integer, ProcessType> implements Compa
     }
 
     /**
-     * Recursive copy of the tree with selected nodes with paths nodes to them.
-     *
-     * @param typeSet each node is chosen, when presented in the set or any child is there.
+     * Recursive copy of the tree with selected nodes with paths nodes to them
+     * @param typeIds each node is chosen, when presented in the set or any child is there
      * @return
      */
-    public ProcessType sub(Set<Integer> typeSet) {
-        if (typeSet == null) return this;
+    public ProcessType sub(Set<Integer> typeIds) {
+        if (typeIds == null) return this;
 
         var result = new ProcessType();
         result.setId(id);
@@ -90,8 +89,8 @@ public class ProcessType extends TreeItem<Integer, ProcessType> implements Compa
 
         var children = new ArrayList<ProcessType>(this.children.size());
         for (var child : this.children) {
-            if (child.isInSet(typeSet))
-                children.add(child.sub(typeSet));
+            if (child.isInSet(typeIds))
+                children.add(child.sub(typeIds));
         }
 
         result.setChildren(children);

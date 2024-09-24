@@ -130,15 +130,15 @@ public class ProcessIsolationTest {
         user.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
         new UserDAO(DbTest.conRoot).updateUser(user);
 
-        var typeList = ProcessTypeCache.getTypeList(
+        var typeList = ProcessTypeCache.getTypeList("queue", null,
                 Set.of(ProcessTest.processTypeTestGroupId, processTypeId, processTypeSpecialId, processType1Id, processType11Id, processType2Id));
-        ProcessAction.applyProcessTypePermission(typeList, new DynActionForm(user));
+        typeList = ProcessAction.processTypeIsolationFilter(typeList, new DynActionForm(user));
         var ids = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
         Assert.assertEquals(ids, Set.of(ProcessTest.processTypeTestGroupId, processTypeId, processType1Id, processType11Id));
 
         user.setConfig("");
-        typeList = ProcessTypeCache.getTypeList(Set.of(processTypeId, processTypeSpecialId, processType2Id));
-        ProcessAction.applyProcessTypePermission(typeList, new DynActionForm(user));
+        typeList = ProcessTypeCache.getTypeList("queue", null, Set.of(processTypeId, processTypeSpecialId, processType2Id));
+        typeList = ProcessAction.processTypeIsolationFilter(typeList, new DynActionForm(user));
         ids = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
         Assert.assertEquals(ids, Set.of(processTypeId, processTypeSpecialId, processType2Id));
     }

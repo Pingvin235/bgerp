@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
@@ -18,6 +17,7 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.config.ProcessCreateInConfig;
 import org.bgerp.model.process.link.config.ProcessCreateLinkConfig;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
@@ -97,8 +97,7 @@ public class ProcessLinkAction extends ProcessAction {
         form.setResponseData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
 
         // type tree for creation
-        var typeList = ProcessTypeCache.getTypeList(objectType);
-        applyProcessTypePermission(typeList, form);
+        var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("linked", objectType, null), form);
         form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
         return html(con, form, PATH_JSP + "/linked_process_list.jsp");
@@ -120,20 +119,13 @@ public class ProcessLinkAction extends ProcessAction {
 
         EventProcessor.processEvent(new LinkAddedEvent(form, link), new SingleConnectionSet(con));
 
-        // копирование параметров
-        ProcessType type = ProcessTypeCache.getProcessType(form.getParamInt("typeId", 0));
-        ConfigMap configMap = type.getProperties().getConfigMap();
+        ProcessType type = ProcessTypeCache.getProcessTypeOrThrow(form.getParamInt("typeId", 0));
+        ProcessCreateInConfig config = type.getProperties().getConfigMap().getConfig(ProcessCreateInConfig.class);
 
-        new ParamValueDAO(con).copyParams(id, process.getId(), configMap.get("create.in.copyParams"));
+        new ParamValueDAO(con).copyParams(id, process.getId(), config.getCopyParams());
 
-        final String key = "create.in." + objectType + ".openCreated";
-        if ("wizard".equals(configMap.get(key)) ||
-            configMap.getBoolean("create.in." + objectType + ".wizardCreated", false)) {
-            form.setResponseData("wizard", 1);
-            form.getResponse().getEventList().clear();
-        } else if (configMap.getBoolean(key, true)) {
+        if (config.openCreated(objectType))
             form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
-        }
 
         return json(con, form);
     }

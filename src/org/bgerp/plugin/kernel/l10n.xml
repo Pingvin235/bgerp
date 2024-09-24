@@ -353,7 +353,7 @@
 	<p><ru>На номер</ru><en>To the number</en></p>
 	<p><ru>Время начала</ru><en>Start time</en></p>
 	<p><en>Set the process by ID</en><ru>Установить процесс по ID</ru></p>
-	<p><ru>Возможные процессы</ru><en>Possible processes</en></p>
+	<p><en>Possible processes</en><ru>Возможные процессы</ru></p>
 	<p><ru>Выберите тип</ru><en>Select type</en></p>
 	<p><ru>Краткое описание процесса</ru><en>Brief description of the process</en></p>
 	<p><ru>Сообщение</ru><en>Message</en></p>

@@ -25,7 +25,7 @@
 		<c:choose>
 			<%-- процесс ещё не привязан --%>
 			<c:when test="${empty message.process}">
-				<h2>${l.l('Set a new process')}</h2>
+				<h1>${l.l('Set a new process')}</h1>
 
 				<form action="/user/message.do" onsubmit="return false;">
 					<input type="hidden" name="method" value="processCreate"/>
@@ -38,7 +38,7 @@
 					</div>
 
 					<div class="mt1">
-						<b>${l.l('Привязать')}:</b><br/>
+						<h2>${l.l('Привязать')}</h2>
 
 						<c:set var="searchBlockId" value="${u:uiid()}"/>
 						<c:set var="searchResultId" value="${u:uiid()}"/>
@@ -74,7 +74,7 @@
 					</div>
 
 					<div class="mt1">
-						<b>${l.l('Description')}:</b><br/>
+						<h2>${l.l('Description')}</h2>
 
 						<textarea name="description" rows="5" style="width: 100%; resize: vertical;">${message.subject}</textarea>
 						<div class="hint">${l.l('Краткое описание процесса')}</div>
@@ -93,7 +93,7 @@
 					</div>
 				</form>
 
-				<h2>${l.l('Возможные процессы')}</h2>
+				<h1>${l.l('Possible processes')}</h1>
 
 				<div>
 					<c:url var="url" value="/user/process.do">

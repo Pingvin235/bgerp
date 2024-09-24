@@ -1,0 +1,10 @@
+# restricted creation areas
+create.in.areas=linked,message,queue
+
+# additional options for area linked
+create.in.objectTypes=customer
+# copy parameter from a customer
+create.in.copyParams={@PARAM_CUSTOMER_ADDR}:{@PARAM_PROCESS_ADDR}
+
+# open a process created as linked for a customer
+create.in.customer.openCreated=1

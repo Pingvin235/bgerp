@@ -1,9 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- afterSelectCommand - команда выполняется после клика по типу процесса --%>
-
-<b>${l.l('Выберите тип')}:</b><br/>
+<h2>${l.l('Выберите тип')}</h2>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 

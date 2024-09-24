@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.model.process.config.ProcessCreateInConfig;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
@@ -67,47 +67,18 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return Utils.maskNull(getProcessType(id), new ProcessType(id, "??? [" + id + "]"));
     }
 
-    public static List<ProcessType> getTypeList(Set<Integer> ids) {
-        List<ProcessType> result = new ArrayList<>();
+    public static List<ProcessType> getTypeList(String area, String objectType, Set<Integer> ids) {
+        List<ProcessType> typeList = HOLDER.getInstance().typeList;
+        List<ProcessType> result = new ArrayList<>(typeList.size());
 
-        for (ProcessType type : HOLDER.getInstance().typeList) {
-            if (ids.contains(type.getId())) {
-                result.add(type);
-            }
-        }
-
-        return result;
-    }
-
-    public static List<ProcessType> getTypeList(String objectType) throws Exception {
-        List<ProcessType> result = new ArrayList<>();
-
-        var filter = new TypeFilter(objectType);
-        for (ProcessType type : HOLDER.getInstance().typeList) {
-            if (filter.check(type))
+        for (ProcessType type : typeList) {
+            ProcessCreateInConfig config = type.getProperties().getConfigMap().getConfig(ProcessCreateInConfig.class);
+            if (config.check(area, objectType) &&
+               (ids == null || ids.contains(type.getId())))
                 result.add(type);
         }
 
         return result;
-    }
-
-    //TODO: Возможно стоит создать Config класс, вынести в model.process.config.LinkedProcessCreateConfig, фильтр сделать на основе expression фильтра.
-    private static class TypeFilter {
-        private final String objectType;
-
-        private TypeFilter(String objectType) {
-            this.objectType = objectType;
-        }
-
-        private boolean check(ProcessType type) throws Exception {
-            ConfigMap configMap = type.getProperties().getConfigMap();
-            Set<String> createInObjectTypes = Utils.toSet(configMap.get("create.in.objectTypes", "*"));
-            if (!createInObjectTypes.contains(objectType) && !createInObjectTypes.contains("*")) {
-                return false;
-            }
-
-            return true;
-        }
     }
 
     public static ProcessType getTypeTreeRoot() {

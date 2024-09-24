@@ -75,7 +75,7 @@
 		<%-- сюда динамически грузятся группы решения --%>
 	</div>
 	<div id="constPart" class="mt05">
-		<b>${l.l('Description')}:</b><br/>
+		<h2>${l.l('Description')}</h2>
 		<textarea name="description" rows="10" style="width: 100%;"></textarea>
 
 		<c:set var="returnToShow">$('#processQueueCreateProcess').hide(); $('#processQueueShow').show();</c:set>

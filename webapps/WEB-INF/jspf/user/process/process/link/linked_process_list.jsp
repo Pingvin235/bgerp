@@ -19,7 +19,7 @@
 			<%-- сюда динамически грузятся группы решения --%>
 		</div>
 		<div id="constPart">
-			<b>${l.l('Description')}:</b><br />
+			<h2>${l.l('Description')}</h2>
 			<textarea name="description" rows="10" style="width: 100%;"></textarea>
 
 			<c:set var="returnToShow">$('#${processTypeTree}').hide(); $('#${linkedProcessList}').show();</c:set>
@@ -36,7 +36,7 @@
 
 			<div class="mt1">
 				<button type="button" class="btn-grey mr1" onclick="${saveCommand}">OK</button>
-				<button type="button" class="btn-grey" onclick="${returnToShow}">${l.l('Cancel')}</button>
+				<button type="button" class="btn-white" onclick="${returnToShow}">${l.l('Cancel')}</button>
 			</div>
 		</div>
 	</form>

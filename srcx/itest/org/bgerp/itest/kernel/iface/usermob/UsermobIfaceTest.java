@@ -11,6 +11,7 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.AddressTest;
+import org.bgerp.itest.kernel.process.ProcessParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.process.ProcessGroups;
@@ -22,7 +23,7 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
 
-@Test(groups = "usermobIface", dependsOnGroups = { "user", "process", "address" })
+@Test(groups = "usermobIface", dependsOnGroups = { "user", "processParam", "address" })
 public class UsermobIfaceTest {
     private static final String TITLE = "Kernel Usermob Interface Process Wizard";
 
@@ -35,7 +36,7 @@ public class UsermobIfaceTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setParameterIds(List.of(ProcessTest.paramAddressId));
+        props.setParameterIds(List.of(ProcessParamTest.paramAddressId));
         props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
@@ -44,7 +45,7 @@ public class UsermobIfaceTest {
     @Test(dependsOnMethods = "processType")
     public void processQueue() throws Exception {
         int queueId = ProcessHelper.addQueue(TITLE, ConfigHelper.generateConstants(
-                "PROCESS_PARAM_ADDRESS_ID", ProcessTest.paramAddressId,
+                "PROCESS_PARAM_ADDRESS_ID", ProcessParamTest.paramAddressId,
                 "PROCESS_TYPE_ID", processType.getId()
             ) + ResourceHelper.getResource(this, "process.queue.config.txt"),
             Set.of(processType.getId()));
@@ -61,7 +62,7 @@ public class UsermobIfaceTest {
             if (i % 2 == 0)
                 statusDao.changeStatus(process, processType,
                         new StatusChange(process.getId(), new Date(), UserTest.userFelixId, ProcessTest.statusProgressId, ""));
-            paramDao.updateParamAddress(process.getId(), ProcessTest.paramAddressId, 0,
+            paramDao.updateParamAddress(process.getId(), ProcessParamTest.paramAddressId, 0,
                     new ParameterAddressValue().withHouseId(AddressTest.houseUfa6.getId()).withFlat("1" + i));
         }
     }

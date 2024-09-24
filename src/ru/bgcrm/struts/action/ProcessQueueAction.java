@@ -66,8 +66,7 @@ public class ProcessQueueAction extends ProcessAction {
 
         // очередь разрешена пользователю
         if (queue != null) {
-            var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
-            applyProcessTypePermission(typeList, form);
+            var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("queue", null, queue.getProcessTypeIds()), form);
             form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
         }
 
@@ -235,8 +234,7 @@ public class ProcessQueueAction extends ProcessAction {
 
             form.setResponseData("queue", queue);
 
-            var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
-            applyProcessTypePermission(typeList, form);
+            var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("queue", null, queue.getProcessTypeIds()), form);
             form.setResponseData("typeList", typeList);
 
             Preferences personalizationMap = user.getPersonalizationMap();

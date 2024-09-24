@@ -121,11 +121,12 @@ public class ProcessAction extends BaseAction {
     }
 
     /**
-     * Cleans not allowed process types out of full list.
-     * @param typeList initial full list, will be changed.
-     * @param form current request info with user and permission.
+     * Cleans not allowed process types out of full list
+     * @param typeList initial full list, will be changed
+     * @param form current request info with user and permission
+     * @return modified {@param typeList}
      */
-    public static void applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {
+    public static List<ProcessType> processTypeIsolationFilter(List<ProcessType> typeList, DynActionForm form) {
         var user = form.getUser();
         var isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
 
@@ -139,6 +140,8 @@ public class ProcessAction extends BaseAction {
                 }
             }
         }
+
+        return typeList;
     }
 
     /**
@@ -428,7 +431,8 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_PRIORITY_CHANGED), con);
     }
 
-    public ActionForward processTypeEdit(DynActionForm form, Connection con) throws Exception {
+    public ActionForward processTypeEdit(DynActionForm form, Connection con) {
+        // all the types are available here, not clear, how to filter them
         form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
         return html(con, form, PATH_JSP + "/process/editor_type.jsp");
@@ -437,7 +441,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward processTypeUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form);
         Process process = getProcess(processDAO, form.getId());
-        int typeId = Utils.parseInt(form.getParam("typeId"));
+        int typeId = form.getParamInt("typeId", Utils::isPositive);
         processTypeUpdate(form, process, con, typeId);
 
         return json(con, form);
