@@ -111,7 +111,7 @@ public class ProcessAction extends BaseAction {
             if (Utils.notBlankString(form.getParam("wizard")) || form.getId() < 0) {
                 Wizard wizard = type.getProperties().getWizard();
                 if (wizard != null) {
-                    form.getHttpRequest().setAttribute("wizardData",
+                    form.setRequestAttribute("wizardData",
                             new WizardData(con, form, wizard, process, form.getId() < 0 ? wizard.getCreateStepList() : wizard.getStepList()));
                 }
             }
@@ -429,7 +429,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processTypeEdit(DynActionForm form, Connection con) throws Exception {
-        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
+        form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
         return html(con, form, PATH_JSP + "/process/editor_type.jsp");
     }

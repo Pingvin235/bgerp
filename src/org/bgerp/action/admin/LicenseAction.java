@@ -21,7 +21,7 @@ public class LicenseAction extends BaseAction {
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.getHttpRequest().setAttribute("license", AppLicense.instance());
+        form.setRequestAttribute("license", AppLicense.instance());
 
         return html(conSet, form, PATH_JSP + "/license.jsp");
     }

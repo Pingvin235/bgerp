@@ -128,7 +128,7 @@ public class ProcessAction extends BaseAction {
         var refConfig = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
         process.setReference(refConfig.getReference(con, form, process, "open.processCard"));
 
-        form.getHttpRequest().setAttribute("config", config);
+        form.setRequestAttribute("config", config);
         form.setResponseData("process", process);
 
         return html(conSet, null, PATH_JSP + "/show.jsp");

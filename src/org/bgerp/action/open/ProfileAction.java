@@ -100,7 +100,7 @@ public class ProfileAction extends BaseAction {
     public ActionForward show(DynActionForm form, ConnectionSet conSet) throws Exception {
         var config = setup.getConfig(Config.class);
         if (config != null && config.isOpen(form.getId())) {
-            form.getHttpRequest().setAttribute("config", config);
+            form.setRequestAttribute("config", config);
             form.setResponseData("user", UserCache.getUser(form.getId()));
         }
         return html(conSet, form, PATH_JSP + "/show.jsp");

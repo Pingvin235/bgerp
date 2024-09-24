@@ -68,7 +68,7 @@ public class ProcessQueueAction extends ProcessAction {
         if (queue != null) {
             var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
             applyProcessTypePermission(typeList, form);
-            form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
+            form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
         }
 
         return html(con, form, PATH_JSP + "/tree/process_type_tree.jsp");
@@ -234,7 +234,6 @@ public class ProcessQueueAction extends ProcessAction {
             request.setAttribute("commonConfig", commonConfig);
 
             form.setResponseData("queue", queue);
-            // form.setResponseData("statusList", new StatusDAO(con).getStatusList());
 
             var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
             applyProcessTypePermission(typeList, form);

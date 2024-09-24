@@ -99,7 +99,7 @@ public class ProcessLinkAction extends ProcessAction {
         // type tree for creation
         var typeList = ProcessTypeCache.getTypeList(objectType);
         applyProcessTypePermission(typeList, form);
-        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
+        form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
         return html(con, form, PATH_JSP + "/linked_process_list.jsp");
     }

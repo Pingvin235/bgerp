@@ -111,7 +111,7 @@ public class LinkAction extends BaseAction {
 
         if (Process.OBJECT_TYPE.equals(link.getObjectType())) {
             Process process = new ProcessDAO(con).getProcess(form.getId());
-            form.getHttpRequest().setAttribute("process", process);
+            form.setRequestAttribute("process", process);
         }
 
         return html(conSet, form, PATH_JSP_USER + "/process/process/link/list.jsp");

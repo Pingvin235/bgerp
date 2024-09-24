@@ -360,7 +360,7 @@ public class MessageAction extends BaseAction {
             }
         }
 
-        form.getHttpRequest().setAttribute("typeMap", typeMap);
+        form.setRequestAttribute("typeMap", typeMap);
 
         return html(conSet, form, PATH_JSP + "/list.jsp");
     }

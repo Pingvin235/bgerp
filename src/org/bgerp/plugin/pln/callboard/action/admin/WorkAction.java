@@ -36,7 +36,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
     public ActionForward workTypeList(DynActionForm form, Connection con) throws Exception {
         int categoryId = form.getParamInt("categoryId", 0);
 
-        form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
+        form.setRequestAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
 
         new WorkTypeDAO(con).searchWorkType(new Pageable<>(form), categoryId);
 
@@ -120,7 +120,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
     public ActionForward shiftList(DynActionForm form, Connection con) throws Exception {
         int categoryId = form.getParamInt("categoryId", 0);
 
-        form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
+        form.setRequestAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
 
         new ShiftDAO(con).searchShift(new Pageable<>(form), categoryId);
 
@@ -144,7 +144,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
             form.setResponseData("workTypeMap", workTypeMap);
         }
 
-        form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
+        form.setRequestAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
         form.setResponseData("workTypeList", new ArrayList<>(workTypeMap.values()));
 
         return html(con, form, PATH_JSP + "/shift/update.jsp");

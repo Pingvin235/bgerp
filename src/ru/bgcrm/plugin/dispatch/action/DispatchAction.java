@@ -46,7 +46,7 @@ public class DispatchAction extends BaseAction {
     }
 
     public ActionForward messageList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.getHttpRequest().setAttribute("dispatchList", new DispatchDAO(conSet.getSlaveConnection()).dispatchList(null));
+        form.setRequestAttribute("dispatchList", new DispatchDAO(conSet.getSlaveConnection()).dispatchList(null));
 
         new DispatchDAO(conSet.getConnection()).messageSearch(new Pageable<>(form), form.getParamBoolean("sent", null));
 
@@ -54,7 +54,7 @@ public class DispatchAction extends BaseAction {
     }
 
     public ActionForward messageGet(DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.getHttpRequest().setAttribute("dispatchList", new DispatchDAO(conSet.getSlaveConnection()).dispatchList(null));
+        form.setRequestAttribute("dispatchList", new DispatchDAO(conSet.getSlaveConnection()).dispatchList(null));
 
         DispatchMessage message = new DispatchMessage();
         if (form.getId() > 0) {

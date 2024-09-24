@@ -625,7 +625,7 @@ public class ContractAction extends BaseAction {
         form.setResponseData("scriptList",
                 new ContractScriptDAO(form.getUser(), billingId).contractScriptList(contractId));
 
-        form.getHttpRequest().setAttribute("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
+        form.setRequestAttribute("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/script/script_list.jsp");
     }
@@ -763,7 +763,7 @@ public class ContractAction extends BaseAction {
         form.setResponseData("statusLog", statusDao.statusLog(contractId, statusTitleMap));
         form.setResponseData("availableStatusList", directoryDAO.getContractStatusList(true));
 
-        form.getHttpRequest().setAttribute("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
+        form.setRequestAttribute("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/status.jsp");
     }

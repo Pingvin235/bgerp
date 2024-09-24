@@ -107,7 +107,7 @@ public class WorkAction extends BaseAction {
                 Map<Date, Integer> excludeDates = new WorkTypeDAO(con).getWorkDaysCalendarExcludes(callboard.getCalendarId());
 
                 // нужен ли он вообще тут?
-                form.getHttpRequest().setAttribute("dayType", calendar.getDayType(date, excludeDates));
+                form.setRequestAttribute("dayType", calendar.getDayType(date, excludeDates));
             }
 
             form.setResponseData("callboard", callboard);
@@ -561,7 +561,7 @@ public class WorkAction extends BaseAction {
 
             form.setResponseData("dateSet", dateSet);
 
-            form.getHttpRequest().setAttribute("prevDate", TimeUtils.getPrevDay(fromDate));
+            form.setRequestAttribute("prevDate", TimeUtils.getPrevDay(fromDate));
 
             //график, которой нужно строить выбран
             if (graphId > 0) {

@@ -356,7 +356,7 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
             }
         }
 
-        form.getHttpRequest().setAttribute("userGroupList", UserCache.getUserGroupList(form.getId(), form.getParamDate("date")));
+        form.setRequestAttribute("userGroupList", UserCache.getUserGroupList(form.getId(), form.getParamDate("date")));
 
         return html(con, form, PATH_JSP + "/user/update_usergroup.jsp");
     }

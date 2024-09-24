@@ -65,7 +65,7 @@ public class DocumentAction extends BaseAction {
                     .collect(Collectors.toList());
         }
 
-        form.getHttpRequest().setAttribute("patternList", patterns);
+        form.setRequestAttribute("patternList", patterns);
 
         return html(con, form, PATH_JSP + "/document_list.jsp");
     }
