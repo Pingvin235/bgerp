@@ -23,7 +23,6 @@ image::_res/sample_act_order/order.png[]
 * link:_res/sample_act_order/head.jsp[head.jsp] - инклуд с определениями различных переменных, стилями и заголовками, используется в обоих шаблонах.
 
 Пример <<index.adoc#setup, настройки>> в конфигурации:
-[source]
 ----
 # печать актов
 document:pattern.21.scope=processQueue
@@ -39,7 +38,6 @@ document:pattern.22.jsp=/WEB-INF/custom/plugin/document/order.jsp
 ----
 
 и в <<../../kernel/process/queue.adoc#processor-default-marked, очереди>> процессов:
-[source]
 ----
 # печать актов
 processor.5.title=Печать актов
@@ -123,17 +121,14 @@ processor.6.responseType=file
 ----
 
 В коде ID параметров подставлены напрямую в местах их использования в коде. Для удобства чтения можно свести эти значения в переменные:
-[source]
 ----
 <c:set var="PROCESS_PARAM_ADDRESS" value="25"/>
 ----
 и в соответствующих местах их использовать:
-[source]
 ----
 <c:forEach var="addr" items="${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS).values()}" varStatus="status">
 ----
 Вывод параметра типа phone:
-[source]
 ----
 Телефон: ${paramDao.getParamPhone(processId, 20).getValue()}
 ----

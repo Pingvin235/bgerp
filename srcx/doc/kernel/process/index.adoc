@@ -99,7 +99,6 @@ descriptionAddPattern.timePattern=dd.MM HH:mm
 
 [[setup-type-param-behaviour]]
 ==== Настройки поведения параметров процесса
-[source]
 ----
 # при ошибке правки параметров - обновление таблицы с параметрами, необходимо в случае, если при этом другие параметры изменяются динамическим кодом
 onErrorChangeParamsReload=1
@@ -119,7 +118,6 @@ readonlyParamIds=<param_codes>
 * *<status_code>* - код текущего статуса процесса.
 
 Для настройки отображения параметра в зависимости от гибкой проверки условия одно или несколько правил:
-[source]
 ----
 # отображение параметра, только если выполняется JEXL выражение
 showParam.<paramId>.checkExpression=<JEXL_EXPR>
@@ -139,7 +137,6 @@ showParam.<paramId>.checkExpression=<JEXL_EXPR>
 [[setup-type-executor-restriction]]
 ==== Ограничение количества исполнителей по группам
 Одно или несколько правил вида:
-[source]
 ----
 executorRestriction.<n>.groupId=<groupId>
 executorRestriction.<n>.maxCount=<maxCount>
@@ -156,7 +153,6 @@ executorRestriction.<n>.maxCount=<maxCount>
 [[setup-type-left]]
 ==== Настройка левой области карточки процесса
 Для настройки отображения левой области карточки процесса в конфигурацию типа добавляются одна или несколько конструкций вида:
-[source]
 ----
 processCard.<id>.mode=<modes>
 processCard.<id>.components=<components>
@@ -214,7 +210,6 @@ create.in.copyParams=перечень пар <с параметра>:<на па�
 * <<../../plugin/bgbilling/index.adoc#process-type-config, BGBilling>>
 
 Пример. Возможность создания процесса с привязкой контрагента, копированием параметра с кодами 1 и 5 в контрагента в параметры процесса с кодами 3 и 6 соответственно:
-[source]
 ----
 create.in.objectTypes=customer
 create.in.copyParams=1:3;5:6
@@ -224,7 +219,6 @@ create.in.copyParams=1:3;5:6
 ==== Process Reference
 Processe reference macros allows to generate dynamically a description text for a process.
 To define a reference add the following block to process type configuration.
-[source]
 ----
 processReference.<n>.objectTypes=<objectTypes>
 processReference.<n>.stringExpression=<macros>
@@ -264,7 +258,6 @@ How does it look in UI like.
 image::_res/reference/title.png[]
 
 Some more examples with different retrieved data:
-[source]
 ----
 processReference.{@inc:cnt}.objectTypes=customer
 processReference.{@cnt}.stringExpression=u.toString(processParam.addressValues(90, 'fromStreet')) + " : " + processParam.getValue(238)
@@ -278,7 +271,6 @@ How you could notice, HTML markup can be used in expressions. It is also possibl
 image::_res/reference/buffer.png[]
 
 Here is the process configuration for that.
-[source]
 ----
 processReference.{@inc:cnt}.objectTypes=processCard
 processReference.{@cnt}.stringExpression="<span class='title'>#" + process.getId() +  " " + process.getTypeTitle() + " " +  "</span><span>" + u.escapeXml(process.getDescription())  + "</span>"
@@ -303,7 +295,6 @@ Where:
 * *Depend* - process *C* depends on process *B* and can be closed only ater closing *B*.
 
 You can change change this default closing linked processes logic in type configuration.
-[source]
 ----
 # on process closing checking of being closed related child processes - 'down', or parents - 'up', 0 - do not check at all
 process.close.check.processDepend=up
@@ -313,7 +304,6 @@ process.close.check.processMade=down
 Such complex character of relations is hidden from the end-user, operating on <<usage-related-process, Related Processes>> tab.
 The tab is shown by default for any process type, it can be however disabled using properties configuration.
 
-[source]
 ----
 # 0 - hide, 1 (default) - show on tab linked processes
 show.tab.links.process=0
@@ -325,7 +315,6 @@ Once the tab is shown, any type of linked processes have to be shown in a separa
 ===== Categories
 For every category of linked processes add the following record in process type configuration.
 
-[source]
 ----
 process.link.category.<n>=<title>
 # optional keys
@@ -350,7 +339,6 @@ Where:
 ===== Create and Link
 For every item in creating and linking process combo box has to be added a record in process type configuration.
 
-[source]
 ----
 processCreateLink.<n>.title=<title>
 processCreateLink.<n>.processTypeId=<typeId>
@@ -484,7 +472,6 @@ image::_res/object_process.png[]
 image::_res/link_process_queue.png[]
 
 Данная функция включается в <<../setup.adoc#config, конфигурации>>:
-[source]
 ----
 <objectType>.processes.queue=<queueId>
 ----
@@ -495,7 +482,6 @@ image::_res/link_process_queue.png[]
 * *<queueId>* - код очереди процессов.
 
 Например:
-[source]
 ----
 customer.processes.queue=12
 contract:bitel.processes.queue=11

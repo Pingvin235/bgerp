@@ -28,7 +28,6 @@ The plugin has to be enabled in <<../../kernel/setup.adoc#config, configuration>
 [[setup-bgerp]]
 === Настройка BGERP
 Настроить в конфигурации BGERP <<../../kernel/message/index.adoc#setup-type, тип сообщения>>, для Slack может быть создан только один тип сообщения:
-[source]
 ----
 messageType.<id>.title=<title>
 messageType.<id>.class=MessageTypeChannel
@@ -46,7 +45,6 @@ messageType.<id>.expressionMessageExtract=<jexl>
 исходное сообщение передаётся в параметре *message*, не null результат скрипта используется как текст входящего сообщения.
 
 Пример настройки типа сообщения. Входящие сообщения выбираются с подстрокой *bg*.
-[source]
 ----
 messageType.5.title=Slack
 messageType.5.class=MessageTypeChannel
@@ -88,7 +86,6 @@ image::_res/slack_2.png[]
 * пригласить исполнителей (они сопоставляются с пользователями Slack по логину в текстовом параметре пользователя BGERP);
 * установить топик канала, полученный из названия статуса процесса и привязанного к процессу контрагента.
 
-[source]
 ----
 onProcessEvent.1.events=statusChanged:10
 onProcessEvent.1.doExpression=<<END
@@ -105,7 +102,6 @@ END
 ----
 
 При переводе процесса в статус 8 перемещение привязанного канала в архив.
-[source]
 ----
 onProcessEvent.2.events=statusChanged:8
 onProcessEvent.2.doExpression=<<END
@@ -114,7 +110,6 @@ END
 ----
 
 При изменении исполнителей процесса - приглашение новых исполнителей.
-[source]
 ----
 onProcessEvent.3.events=executorsChanged
 onProcessEvent.3.doExpression=<<END

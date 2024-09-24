@@ -28,7 +28,6 @@ drawio:_res/data_flow.drawio[]
 с указанием вашего адреса открытого интерфейса BGERP.
 В ответ предоставляется уникальный ключ сервера. Его требуется указать в конфигурации сервера:
 
-[source]
 ----
 mobile:serverId=<ваш ключ>
 ----
@@ -44,7 +43,6 @@ image::_res/mobile_login.png[width="300"]
 Пользователю BGERP с установленным мобильным клиентом возможна отправка сообщений с помощью скрипта в
 doExpression <<../../kernel/process/processing.adoc#, простого обработчика событий>> возможна отправка сообщений.
 
-[source]
 ----
 onProcessEvent.1.events=statusChanged
 onProcessEvent.1.doExpression=<<END

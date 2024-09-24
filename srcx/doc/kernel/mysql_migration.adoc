@@ -13,7 +13,7 @@ versions to <<install.adoc#mysql, required>> MySQL 8.0 version. The migration is
 * install link: https://docs.docker.com/engine/install/[Docker]
 * download and run link:https://hub.docker.com/_/mysql[Mysql 8] in Docker container:
 
-[source]
+[source, sh]
 ----
 docker run --cap-add=sys_nice --name=mysql8 -e MYSQL_ROOT_PASSWORD=12345 -v /etc/my8.cnf.d:/etc/mysql/conf.d -v /var/lib/mysql8/:/var/lib/mysql -v /etc/localtime:/etc/localtime:ro -p 127.0.0.1:33061:3306 -d mysql:8.0 mysqld --default-authentication-plugin=mysql_native_password --ssl=off
 ----
@@ -21,32 +21,32 @@ docker run --cap-add=sys_nice --name=mysql8 -e MYSQL_ROOT_PASSWORD=12345 -v /etc
 Tune the Mysql 8 configuration (in */etc/my8.cnf.d/* directory) so that it runs.
 
 To view the MySQL logs:
-[source]
+[source, sh]
 ----
 docker logs mysql8
 ----
 
 To view the container status:
-[source]
+[source, sh]
 ----
 docker ps
 ----
 
 Connect to the MySQL 8 from host:
-[source]
+[source, sh]
 ----
 mysql --ssl-mode=disabled --protocol tcp -P33061  -u root -p12345
 ----
 
 Create database and fill it from BGERP backup:
-[source]
+[source, sh]
 ----
 mysql --ssl-mode=disabled --protocol tcp -P33061 -u root -p12345 -e "create database bgerp;"
 unzip -p <backup_file>.db.zip dump.sql | mysql --ssl-mode=disabled --protocol tcp -P33061 -D bgerp -u root -p12345
 ----
 
 Add user for the database with this script. Username and password obtained from *bgerp.properties* file:
-[source]
+[source, sh]
 ----
 #!/bin/sh
 

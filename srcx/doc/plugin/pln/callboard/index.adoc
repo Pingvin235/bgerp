@@ -9,7 +9,6 @@ image::_res/i0134.png[]
 Календарь определяет распределение дней по типам. Сами типы дней определяются в конфигурации. Целесообразно выделить конфигурацию по организации работ в отдельный блок.
 
 Типы дней добавляются правилами вида:
-[source]
 ----
 callboard.workdays.type.<id>.title=<title>
 callboard.workdays.type.<id>.color=<color>
@@ -22,7 +21,6 @@ callboard.workdays.type.<id>.color=<color>
 * *<color>* - HTML HEX цвет типа дня.
 
 Пример:
-[source]
 ----
 callboard.workdays.type.1.title=Рабочий день
 callboard.workdays.type.1.color=#1C94C4
@@ -40,7 +38,6 @@ callboard.workdays.type.4.holiday=1
 ----
 
 Конфигурация календаря выглядит следующим образом:
-[source]
 ----
 callboard.workdays.calendar.<id>.title=<title>
 callboard.workdays.calendar.<id>.comment=<comment>
@@ -55,7 +52,6 @@ callboard.workdays.calendar.<id>.rule=<rules>
 Правила разделяются ";". Правила могут быть вида X:Y, либо X1-X2:Y (где X - порядковый день недели, Y - id типа рабочего дня, X1-X2 - диапазон дней недели, например 1-5 значит с 1 по 5)
 Пример настройки календаря с типами дней из предыдущего примера:
 
-[source]
 ----
 callboard.workdays.calendar.1.title=Стандартный
 callboard.workdays.calendar.1.comment=Общий план распределения рабочих дней
@@ -80,7 +76,6 @@ image::_res/i0136.png[]
 Для разделения типов работ, шаблонов смен между подразделениями возможно добавление в конфигурацию категорий.
 
 Категория добавляется следующим правилом:
-[source]
 ----
 callboard.worktype.category.<id>.title=<title>
 callboard.worktype.category.<id>.public=<public>
@@ -93,7 +88,6 @@ callboard.worktype.category.<id>.public=<public>
 * *<public>* - 0, если категория не доступна для всех.
 
 Пример:
-[source]
 ----
 #Конфигурация категорий работ
 callboard.worktype.category.1.title=Общая
@@ -133,7 +127,6 @@ image::_res/i0138.png[]
 
 В конфигурации добавляются одно или несколько правил вида:
 
-[source]
 ----
 rule.<pos>.checkExpression=<expression>
 rule.<pos>.duration=<duration>
@@ -157,7 +150,6 @@ rule.<pos>.duration=<duration>
 
 Пример правил, в зависимости от значения спискового параметра процесса процесс может занимать разную длительность.
 
-[source]
 ----
 cnt=1
 
@@ -204,7 +196,6 @@ image::_res/i0141.png[]
 
 === Настройка
 График дежурств настраивается в конфигурации следующим образом.
-[source]
 ----
 callboard.<id>.groupId=<groupId>
 callboard.<id>.calendarId=<calendarId>
@@ -250,7 +241,6 @@ image::_res/i0145.png[]
 NOTE: Табель может быть сгенерирован только за весь месяц целиком.
 
 Для генерации табеля рабочего времени по графику дежурств необходимо добавить в конфигурацию графика:
-[source]
 ----
 callboard.<id>.tabel.template=<template>
 callboard.<id>.tabel.departmentTitle=<title>
@@ -306,7 +296,6 @@ image::_res/i0148.png[]
 [[usage-set-time]]
 == Назначение времени
 Для отображения в правой области карточки процесса вкладки Уст. времени в конфигурации типа процесса указывается:
-[source]
 ----
 callboard.timeset.graphId=<graphId>
 callboard.timeset.paramId=<paramId>
@@ -320,7 +309,6 @@ callboard.timeset.daysShow=<daysShow>
 * *<daysShow>* - какое количество дней после выбранной даты выводить в списке доступных времён.
 
 Пример:
-[source]
 ----
 callboard.timeset.graphId=3
 callboard.timeset.paramId=610
@@ -341,7 +329,6 @@ image::_res/i0150.png[]
 Цвет означает тип работ. Строка-описание процесса настраивается с помощью JEXL выражения в конфигурации типа процесса, в *objectTypes* указывется *callboard*.
 
 Пример:
-[source]
 ----
 processReference.{@inc:cnt}.objectTypes=callboard
 processReference.{@cnt}.stringExpression=u.escapeXml(u.maskNull(u.getFirst(processParam.addressValues(90, 'fromStreet')))) + " : " + process.getDescription()

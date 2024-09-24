@@ -11,7 +11,6 @@ Configuration has to be done depending on used provider.
 [[setup-mts]]
 === link:https://www.mcommunicator.ru[MTS communicator]
 Required parameters:
-[source]
 ----
 sms:type=mts
 sms:login=<login>
@@ -19,7 +18,6 @@ sms:password=<password>
 ----
 
 Optional (with default values):
-[source]
 ----
 sms:shortcode=bgerp.org
 sms:url=http://mcommunicator.ru/M2M/m2m_api.asmx/SendMessage
@@ -28,7 +26,6 @@ sms:url=http://mcommunicator.ru/M2M/m2m_api.asmx/SendMessage
 [[setup-tele2]]
 === link:https://target.tele2.ru[TELE2 target]
 Required parameters:
-[source]
 ----
 sms:type=tele2
 sms:login=<login>
@@ -36,7 +33,6 @@ sms:password=<password>
 ----
 
 Optional (with default values):
-[source]
 ----
 sms:shortcode=bgerp.org
 sms:url=https://newbsms.tele2.ru/api/?operation=send
@@ -45,7 +41,6 @@ sms:url=https://newbsms.tele2.ru/api/?operation=send
 [[setup-smsc]]
 === link:https://smsc.ru[SMSC.ru]
 Required parameters:
-[source]
 ----
 sms:type=smsc
 sms:login=<login>
@@ -53,7 +48,6 @@ sms:password=<password>
 ----
 
 Optional (with default values):
-[source]
 ----
 sms:url=https://smsc.ru/sys/send.php
 ----
@@ -62,7 +56,6 @@ sms:url=https://smsc.ru/sys/send.php
 === Multiple Providers
 Additionally to the default provider may be configured additional ones, using unique IDs, for example:
 
-[source]
 ----
 # default configuration
 sms:type=tele2
@@ -82,7 +75,6 @@ sms:1.password=pass
 [[usage]]
 == Usage
 It is now possible to send messages in the *doExpression* script of a <<../../../kernel/process/processing.adoc#, simple event handling>>.
-[source]
 ----
 onProcessEvent.1.events=statusChanged
 onProcessEvent.1.doExpression=<<END

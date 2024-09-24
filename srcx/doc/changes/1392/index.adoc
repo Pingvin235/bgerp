@@ -5,7 +5,6 @@
 
 === Strict Config Check of Process Queues
 Some of your queues can disappear with the following error in logs:
-[source]
 ----
 Not found media queue column with ID:
 ----

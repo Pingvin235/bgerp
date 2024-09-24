@@ -14,7 +14,6 @@ NOTE: You can see the plugin enabled and sample configurations in <<demo, Demo S
 [[setup]]
 == Setup
 В <<../../kernel/setup.adoc#config, конфигурации сервера>>.
-[source]
 ----
 # AMI
 asterisk:amiManager.<id>.messageTypeId=<typeId>
@@ -38,7 +37,6 @@ asterisk:amiManager.<id>.version=<version>
 * *<version>* - version string, may be: 'Asterisk 13.0', 'Asterisk 16.0', see: https://github.com/asterisk-java/asterisk-java/blob/master/src/main/java/org/asteriskjava/AsteriskVersion.java
 
 Пример:
-[source]
 ----
 # AMI
 asterisk:amiManager.1.messageTypeId=1
@@ -49,7 +47,6 @@ asterisk:amiManager.1.pswd=55555
 ----
 
 Пример настройки со стороны Asterisk а, файл manager.conf.
-[source]
 ----
 [general]
 enabled = yes
@@ -69,7 +66,6 @@ writetimeout = 5000
 === Debug
 Recommended <<../../kernel/extension.adoc#log4j, logger>> configuration.
 
-[source]
 ----
 # for debugging events
 log4j.logger.ru.bgcrm.plugin.asterisk=DEBUG, filea

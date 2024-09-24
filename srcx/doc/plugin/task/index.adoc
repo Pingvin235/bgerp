@@ -40,7 +40,6 @@ task:type.<id>.doExpression=<jexl>
 Далее при наступлении момента времени задача отрабатывает и отправляет новость о процессе.
 
 Конфигурация на изменение параметра в <<../../kernel/process/processing.adoc#, простом обработчике изменений процесса>>:
-[source]
 ----
 onProcessEvent.1.events=paramChanged:39
 onProcessEvent.1.doExpression=<<END
@@ -51,7 +50,6 @@ END
 ----
 
 Сама задача определяется в <<../../kernel/setup.adoc#config, конфигурации>>:
-[source]
 ----
 task:type.1.id=reminder
 task:type.1.doExpression=<<END
@@ -73,7 +71,6 @@ END
 Класс позволяет периодически уведомлять пользователей через E-Mail о непрочитанных новостях и необработанных сообщениях.
 
 Настройка в <<../../kernel/setup.adoc#config, конфигурации>>:
-[source]
 ----
 task:userStateSender.email.paramId=<paramId>
 task:userStateSender.email.doExpression=<jexl>
@@ -90,7 +87,6 @@ task:userStateSender.email.doExpression=<jexl>
 
 === Пример настройки
 Параметр *79* - с типом email у пользователя.
-[source]
 ----
 task:userStateSender.email.paramId=79
 task:userStateSender.email.doExpression=<<END
@@ -118,7 +114,6 @@ END
 
 == Отображение в карточке процесса
 Для включения карточки в <<../../kernel/process/index.adoc#setup-type, конфигурации типа процесса>> добавить.
-[source]
 ----
 task:processShowTasks=1
 ----

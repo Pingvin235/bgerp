@@ -33,7 +33,6 @@ NOTE: You can see the plugin enabled in <<../../kernel/install.adoc#demo, Demo S
 Но при этом в случае ответа на сообщение бота - ни каких действий не будет происходить.
 
 Пример настройки:
-[source]
 ----
 telegram:botStart=1
 
@@ -75,7 +74,6 @@ telegram:msgUrlHelp=Для получения помощи, обратитесь
 
 При изменении статуса, отправляется сообщение в чаты всех исполнителей процесса и чат самого процесса:
 
-[source]
 ----
 onProcessEvent.1.events=statusChanged
 onProcessEvent.1.doExpression=<<END
@@ -85,7 +83,6 @@ END
 
 При изменении статуса, отправляется сообщение только в чат самого процесса:
 
-[source]
 ----
 onProcessEvent.2.events=statusChanged
 onProcessEvent.2.doExpression=<<END
@@ -93,7 +90,6 @@ onProcessEvent.2.doExpression=<<END
 END
 ----
 
-[source]
 ----
 onProcessEvent.3.events=statusChanged
 onProcessEvent.3.doExpression=<<END
@@ -103,7 +99,6 @@ END
 
 [[setup-process-type-example-chatid]]
 === Example of sending notifications about done processes to wanted chat IDs
-[source]
 ----
 #
 STATUS_DONE_ID=4

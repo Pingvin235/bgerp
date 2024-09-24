@@ -5,7 +5,6 @@
 
 [[create-process-and-link]]
 === Create a process and link int to the existing one
-[source]
 ----
 STATUS_IDS=1,4
 PARAM_LIST_ID=49
@@ -43,7 +42,6 @@ END
 
 [[add-process-customer-link]]
 === Add customer link to a created process
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=created
 onProcessEvent.{@cnt}.doExpression=<<END
@@ -58,7 +56,6 @@ END
 [[check-change]]
 === Разрешение на правку процесса при различных условиях
 В различных статусах различным группам, исполнителю либо администратору и запрет правки закрытого процесса.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.checkExpression=process.getStatusId() !~ [9, 13, 36,39] or 8 =~ user.getGroupIds()
 onProcessEvent.{@cnt}.checkErrorMessage=В этом статусе разрешена правка только сотрудникам КС
@@ -71,7 +68,6 @@ onProcessEvent.{@cnt}.checkErrorMessage=Запрещена правка закр
 [[add-executor]]
 === Добавление пользователя в исполнители и смена статуса
 Добавление текущего пользователя в исполнители и установка в статус с кодом 40, если процесс создан как привязанный к другому процессу.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=createdAsLink
 onProcessEvent.{@cnt}.doExpression=addExecutors({user.getId()});setStatus(40, "")
@@ -80,7 +76,6 @@ onProcessEvent.{@cnt}.doExpression=addExecutors({user.getId()});setStatus(40, ""
 [[set-status]]
 === Установка статуса
 Изменение статуса процесса на 3 при получении в него нового сообщения.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=messageAdded
 onProcessEvent.{@cnt}.ifExpression=process.getStatusId() != 3
@@ -89,7 +84,6 @@ onProcessEvent.{@cnt}.doExpression=setStatus(3, "")
 
 [[set-param-text]]
 === Установка значения параметра типа text
-[source]
 ----
 onProcessEvent.{@inc:cnt}.doExpression=<<END
     dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
@@ -99,7 +93,6 @@ END
 
 [[set-param-list]]
 === Установка значения параметра типа list
-[source]
 ----
 onProcessEvent.{@inc:cnt}.doExpression=<<END
     dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
@@ -108,7 +101,6 @@ END
 ----
 
 После изменения статуса если списковый параметр процесса 63 не содержит значений с кодами 1, 2 и 3 установка значения 1 в этот параметр.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=statusChanged
 onProcessEvent.{@cnt}.ifExpression=empty(cu.intersection(processParam.listValueIds(63), {1,2,3}))
@@ -121,7 +113,6 @@ END
 [[remove-executors-and-groups]]
 === Удаление из процесса исполнителей и групп решения
 C кодом 2 и группы с кодом 37.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.doExpression=<<END
     deleteExecutors({2});
@@ -132,7 +123,6 @@ END
 [[set-date-on-create]]
 === При создании процесса установка параметра типа date
 При создании процесса внесение в параметр типа "date" с кодом 51 значения текущей даты + два дня, не учитывая вторников.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=created
 onProcessEvent.{@cnt}.doExpression=<<END
@@ -152,7 +142,6 @@ END
 [[change-status-linked-process]]
 === Смена статуса привязанного процесса
 Поиск процесса, к которому привязан текущий процесс и если он найден - смена его статуса.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=statusChanged
 onProcessEvent.{@cnt}.doExpression=<<END
@@ -182,7 +171,6 @@ onProcessEvent.{@cnt}.doExpression=setPriority(5);
 
 [[check-event-class]]
 === Проверка класса события
-[source]
 ----
 if (event.getClass().getName() == "ru.bgcrm.event.process.ProcessMessageAddedEvent") {
     text += '<b>Сообщение</b>: ' + u.maskNull(event.getMessage().getText()) + ';';
@@ -191,7 +179,6 @@ if (event.getClass().getName() == "ru.bgcrm.event.process.ProcessMessageAddedEve
 
 [[add-description-on-status-change]]
 === Добавление текста в описание процесса при смене статуса
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=statusChanging
 onProcessEvent.{@cnt}.doExpression=<<END
@@ -210,7 +197,6 @@ END
 === Копирование параметров договора BGBilling
 Копирование параметра адрес с кодом 8 из привязанного договора в параметр процесса с кодом 4.
 Пример может быть легко расширен для переноса любых параметров.
-[source]
 ----
 COPY_BGBILLING_PARAMS=<<END
     paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
@@ -232,7 +218,6 @@ onProcessEvent.{@cnt}.doExpression={@COPY_BGBILLING_PARAMS}
 ----
 
 При привязке договора - копирование значений параметров с кодами 27 и 12 в описание процесса.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=linkAdded
 onProcessEvent.{@cnt}.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbilling:linkedContractParamToDescription:bg:12
@@ -244,7 +229,6 @@ onProcessEvent.{@cnt}.commands=bgbilling:linkedContractParamToDescription:bg:27;
 Отправка СМС сообщения по созданию процесса, в случае наличия в значениях спискового параметра с кодом 26 1, 2 или 3.
 Используется операция пересечения множеств.
 Номер для СМС получается из параметра с кодом 20 типа Phone.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=createFinished
 onProcessEvent.{@cnt}.ifExpression=cu.intersection(processParam.listValueIds(26), {1,2,3}).size() > 0
@@ -261,7 +245,6 @@ END
 === Отправка Push уведомления
 Отправлка уведомление с параметрами процесса диспетчеру аварийной бригады.
 Установлена проверка типа работ из параметра list id 26, передаются номер процесса, адрес, телефоны, тип работ, дата и время приема, комментарий.
-[source]
 ----
 onProcessEvent.{@inc:cnt}.events=createFinished
 onProcessEvent.5.ifExpression=cu.intersection(processParam.listValueIds(26), {2,3,7}).size() > 0

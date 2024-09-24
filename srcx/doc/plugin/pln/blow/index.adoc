@@ -26,7 +26,6 @@ link:../../../../itest/org/bgerp/itest/plugin/pln/blow/BlowTest.process.queue.co
 === Board
 After enabling the plugin via <<../../../kernel/setup.adoc#config-plugin, server config>> add for any board the following configuration:
 
-[source]
 ----
 blow:board.<id>.title=<title>
 blow:board.<id>.queueId=<queueId>

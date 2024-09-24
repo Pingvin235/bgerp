@@ -44,7 +44,7 @@ fulltext:entry.message.paramIds=*
 Для добавления слова как *И* необходимо сопроводить его префиксом *+*.
 
 Поиск производится в режиме *BOOLEAN* следующим запросом:
-[source]
+[source, sql]
 ----
 SELECT * FROM fulltext_data WHERE MATCH(ft.data) AGAINST ("СТРОКА ПОИСКА" IN BOOLEAN MODE)
 ----

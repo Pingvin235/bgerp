@@ -27,7 +27,6 @@ Following settings should be done in the configuration.
 [[setup-type]]
 === Типы
 Типы сообщения настраиваются в конфигурации, одна или несколько записей вида:
-[source]
 ----
 messageType.<id>.title=<title>
 messageType.<id>.class=<messageTypeClassName>
@@ -39,7 +38,6 @@ messageType.<id>.class=<messageTypeClassName>
 * *<messageTypeClassName>* - имя класса-обработчика сообщений.
 
 Опциональные параметры:
-[source]
 ----
 # не информировать о необработанных сообщениях данного типа
 messageType.<id>.unprocessedMessageNotify=0
@@ -50,7 +48,6 @@ messageType.<id>.check.empty.subject=0
 Остальные параметры различаются для разных видов сообщений.
 
 Для типа сообщения могут быть указаны один или несколько режимов поиска:
-[source]
 ----
 messageType.<id>.search.<searchModeId>.title=<title>
 messageType.<id>.search.<searchModeId>.class=<searchModeClassName>
@@ -65,7 +62,6 @@ messageType.<id>.search.<searchModeId>.class=<searchModeClassName>
 
 Необязателен к указанию и класс, сохраняющий контакт.
 
-[source]
 ----
 messageType.<id>.saver.class=<saverClassName>
 ----
@@ -93,7 +89,6 @@ image::_res/i0111.png[]
 |:hardbreaks:
 Нет дополнительных параметров.
 Пример:
-[source]
 ----
 messageType.1.search.2.title=Customer by Title
 messageType.1.search.2.class=MessageTypeSearchCustomerByTitle
@@ -106,7 +101,6 @@ messageType.1.search.2.class=MessageTypeSearchCustomerByTitle
 |:hardbreaks:
 Нет дополнительных параметров.
 Пример:
-[source]
 ----
 messageType.1.search.1.title=Customer by EMail
 messageType.1.search.1.class=MessageTypeSearchEmail
@@ -117,7 +111,6 @@ messageType.1.search.1.class=MessageTypeSearchEmail
 *Auto*
 Поиск контрагента в базе BGERP по номеру телефона звонящего для типа сообщения Call. Поиск производится по точному совпадению.
 |:hardbreaks:
-[source]
 ----
 messageType.<id>.search.<searchModeId>.title=<title>
 messageType.<id>.search.<searchModeId>.class=MessageTypeSearchCall
@@ -131,7 +124,6 @@ messageType.<id>.search.<searchModeId>.expressionNumberPreprocess=<jexl>
 * *<jexl>* - <<../extension.adoc#jexl, JEXL>> выражение для предобработки номера перед поиском с его использованием, исходный номер передаётся переменной *numberFrom*.
 
 Пример:
-[source]
 ----
 messageType.1.search.1.title=Customer by Phone
 messageType.1.search.1.class=MessageTypeSearchCall
@@ -155,7 +147,6 @@ include::../../plugin/bgbilling/message_search_modes.adocf[]
 *MessageTypeContactSaverEmail*
 Сохранение EMail в параметр типа "email" контрагента. Возможно сохранение домена либо только EMail а.
 |:hardbreaks:
-[source]
 ----
 messageType.<id>.saver.class=MessageTypeContactSaverEmail
 messageType.<id>.saver.paramId=<paramId>
@@ -165,7 +156,6 @@ messageType.<id>.saver.paramId=<paramId>
 * *<paramId>* - код параметра контрагента типа "EMail".
 
 Пример:
-[source]
 ----
 messageType.1.saver.class=MessageTypeContactSaverEmail
 messageType.1.saver.paramId=27
@@ -175,7 +165,6 @@ messageType.1.saver.paramId=27
 *MessageTypeContactSaverPhone*
 Сохранение телефона в параметр типа "phone" контрагента. Возможно сохранение домена либо только EMail а.
 |:hardbreaks:
-[source]
 ----
 messageType.<id>.saver.class=MessageTypeContactSaverPhone
 messageType.<id>.saver.paramId=<paramId>
@@ -185,7 +174,6 @@ messageType.<id>.saver.paramId=<paramId>
 * *<paramId>* - код параметра понтрагента типа "Phone".
 
 Пример:
-[source]
 ----
 messageType.1.saver.class=MessageTypeContactSaverPhone
 messageType.1.saver.paramId=37
@@ -204,7 +192,6 @@ Used for appending process notes.
 image::_res/message_notes.png[width="800"]
 
 Addidtional optional settings:
-[source]
 ----
 messageType.<id>.create.unread=1
 ----
@@ -212,7 +199,6 @@ messageType.<id>.create.unread=1
 Allows to create notes as unread.
 
 Example of configuration:
-[source]
 ----
 messageType.100.title=Note
 messageType.100.class=MessageTypeNote
@@ -223,7 +209,6 @@ messageType.100.class=MessageTypeNote
 *<messageTypeClassName>=MessageTypeCall*
 
 Дополнительные необязательные параметры:
-[source]
 ----
 messageType.<id>.offerNumberFromParamId=<offerNumberFromParamId>
 messageType.<id>.autoNumberRegister=<autoNumberRegister>
@@ -269,7 +254,6 @@ NOTE: You can see a sample configurations in <<../install.adoc#demo, Demo System
 *Kernel Message Possible Process Unprocessed message* in <<#usage-queue, queue>>. Server configuration with Possible Processes for that has the name *Kernel Message Possible Process*.
 
 To configure <<usage-queue-possible-process, Possible Processes>> to be found during message processing add to configuration following blocks:
-[source]
 ----
 message.possible.process.<id>.class=<class>
 message.possible.process.<id>.color=<color>

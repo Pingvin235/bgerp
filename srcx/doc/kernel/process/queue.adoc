@@ -20,7 +20,6 @@ image::_res/i0031.png[]
 [[columns]]
 === Колонки
 Одна или несколько записей вида:
-[source]
 ----
 column.<id>.title=<title>
 column.<id>.value=<type>
@@ -354,13 +353,11 @@ WARNING: Использование агрегирующих функций пр
 
 По-умолчанию в таблице оснастки отображаются все настроенные столбцы, ограничить их и поменять порядок можно с помощью опции *media.html.columns=<columnIds>*,
 где *<columnIds>* - id столбцов через запятую в порядке вывода. Например:
-[source]
 ----
 media.html.columns=1,2,3
 ----
 
 Допустима склейка значений нескольких столбцов на одной позиции с помощью символа сложения, например:
-[source]
 ----
 media.html.columns=1,3+4,5,6
 ----
@@ -372,7 +369,6 @@ media.html.columns=1,3+4,5,6
 Пункт выгрузки в Excel появляется также в *Ещё*.
 
 Выводимую в очереди таблицу с процессами можно настроить ещё более гибко, указав в конфигурации очереди:
-[source]
 ----
 rowConfig.1.media=html
 rowConfig.1.expressionHead=<configHead>
@@ -393,7 +389,6 @@ rowConfig.1.expressionRow=<configRow>
 Пример настройки отображения заголовка таблицы и строк с помощью JEXL
 (выражения можно более коротко оформить с помощью <<../interface.adoc#config-multiline, многострочных значений переменных>> конфигураций с JEXL выражениями):
 
-[source]
 ----
 column.1.title=ID
 column.1.value=id
@@ -464,7 +459,6 @@ image::_res/i0115.png[]
 [[filters]]
 === Фильтры
 Одна или несколько записей вида:
-[source]
 ----
 filter.<id>.type=<type>
 # при необходимости сделать фильтр скрытым
@@ -483,7 +477,6 @@ filter.<id>.<paramX>=<valueX>
 Порядок фильтров в конфигурации определяет их порядок в отображении.
 
 Пример. Фильтр по статусу с выбранным по-умолчанию значением и ограничениям на значения, фильтр по дате создания, по группам решения, исполнителям, коду и дате закрытия.
-[source]
 ----
 filter.{@inc:cnt}.type=status
 filter.{@cnt}.availableValues=9,10,12
@@ -598,7 +591,6 @@ param:<paramId>
 * *title* - наименование.
 
 Пример фильтра по коду темы HelpDesk:
-[source]
 ----
 filter.{@inc:cnt}.type=linkObject
 filter.{@cnt}.objectType=bgbilling-helpdesk:bitel
@@ -607,7 +599,6 @@ filter.{@cnt}.title=Тема HelpDesk
 ----
 
 Пример фильтра по наименованию устройства.
-[source]
 ----
 filter.{@inc:cnt}.type=linkObject
 filter.{@cnt}.objectType=bgbilling-device:bitel
@@ -687,7 +678,6 @@ filter.{@cnt}.title=Устройство
 [[sort]]
 === Сортировка
 Конфигурация количества последовательных сортировок (выпадающих списков с режимами сортировки).
-[source]
 ----
 sort.combo.count=<count>
 ----
@@ -696,13 +686,11 @@ sort.combo.count=<count>
 * *<count>* - количество последовательных сортировок.
 
 Пример:
-[source]
 ----
 sort.combo.count=3
 ----
 
 Для каждого выпадающего списка возможно определение значния по-умолчанию:
-[source]
 ----
 sort.combo.<combo_id>.default=<defaultValue>
 ----
@@ -712,7 +700,6 @@ sort.combo.<combo_id>.default=<defaultValue>
 * *<defaultValue>* - выбранное по-умолчанию значение в выпадающем списке начиная с 1.
 
 Либо жёстко определить значение (используется в основном для мобильного интерфейса):
-[source]
 ----
 sort.combo.<combo_id>.value=<value>
 ----
@@ -722,7 +709,6 @@ sort.combo.<combo_id>.value=<value>
 * *<value>* - выбранное значение в выпадающем списке начиная с 1.
 
 Конфигурация режимов сортировок (значения для выпадающих списков), одна или несколько записей вида:
-[source]
 ----
 sort.mode.<id>.columnId=<col_id>
 sort.mode.<id>.title=<title>
@@ -736,7 +722,6 @@ sort.mode.<id>.desc=1
 * *<title>* - название режима сортировки.
 
 Пример. Режимы сортировки по типу процесса, выводимому в колонке 1 и режим обратной соротировке по id процесса.
-[source]
 ----
 sort.mode.1.columnId=1
 sort.mode.1.title=Тип
@@ -755,13 +740,11 @@ image::_res/i0103.png[]
 image::_res/i0104.png[]
 
 По-умолчанию операции отображаются в виде ссылок, для "кнопочного" отображения добавить в конфигурацию очереди.
-[source]
 ----
 actionShowMode=buttons
 ----
 
 Сами операции определяются в конфигурации очереди следующим образом:
-[source]
 ----
 action.<id>.title=<title>
 action.<id>.statusIds=<statusIds>
@@ -783,7 +766,6 @@ action.<id>.style=<style>
 * *<style>* - атрибут HTML style для кнопки.
 
 Пример настройки операций в очереди процессов.
-[source]
 ----
 actionShowMode=buttons
 action.1.title=Принять
@@ -807,7 +789,6 @@ action.3.commands=setStatus:13;clearExecutors;refreshCurrentQueue
 === Processor
 Обработчики позволяют производить пакетную обработку нескольких выделенных процессов. Например, менять статус или устанавливать исполнителя.
 Обработчики добавляются в конфигурации очереди записями следующего вида:
-[source]
 ----
 processor.<id>.title=<title>
 processor.<id>.class=<class>
@@ -828,7 +809,6 @@ processor.<id>.page.url=<pageUrl>
 Параметр *responseType=file* необходимо указывать для обработчиков, генерирующих файлы, например для печати.
 
 Пример обработчиков в конфигурации:
-[source]
 ----
 processor.1.title=Создать компанию обзвона Астериск
 processor.1.class=ru.bgcrm.dyn.ufanet.otm.CreateTMCallCampaign
@@ -846,7 +826,6 @@ image::_res/i0105.png[]
 В системе поставляется обработчик *DefaultMarkedProcessor*,
 позволяющий выполнять некоторые типовые обработки процессов в очереди. Шаблон добавления обработчика:
 
-[source]
 ----
 processor.<id>.title=<title>
 processor.<id>.class=DefaultMarkedProcessor
@@ -874,7 +853,6 @@ processor.<id>.doExpression=<doExpression>
 * *print:<patternId>* - команда должна быть единственной в обработчике; генерация <<../../plugin/document/index.adoc#, бланка документа>> типа jspHtml либо pdfForm.
 
 Шаблон документа для команды print должен обладать scope=processQueue, title=<любая строка>. Пример шаблона:
-[source]
 ----
 document:pattern.100.scope=processQueue
 document:pattern.100.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
@@ -883,7 +861,6 @@ document:pattern.100.jsp=/WEB-INF/jspf/user/plugin/document/template/example/pro
 ----
 
 Sample of processor, set parameter value and delete groups:
-[source]
 ----
 processor.6.title=Set date, delete groups
 processor.6.class=DefaultMarkedProcessor
@@ -894,7 +871,6 @@ processor.6.doExpression=deleteGroups(process.getGroupIds())
 [[processor-open]]
 ==== Open Interface
 For <<../interface.adoc#open, open>> interface definition of processor is easier, example:
-[source]
 ----
 processor.{@inc:cnt}.iface=open
 processor.{@cnt}.page=/WEB-INF/jspf/open/plugin/custom.bitel/calculate_processor.jsp
@@ -905,7 +881,6 @@ Only one open processor per queue is supported. JSP template here placed in <<..
 === PDF generation
 Пример конфигурации. В очереди появляются галочки для выбора процессов, в меню *Ещё* появляется пункт *Бегунок*.
 В *columns* указываются разделённые двоеточиями коды колонок и относительные ширины.
-[source]
 ----
 media.print.1.title=Бегунок
 media.print.1.columns=1:10;4:10;36:10;30:10;31:10;32:10
@@ -915,7 +890,6 @@ media.print.1.orientation=portrait
 ----
 
 === Прочие параметры очереди
-[source]
 ----
 # в каком интерфейсе отображать очередь
 showIn=<show_in>

@@ -12,7 +12,6 @@ NOTE: You can see the plugin enabled and sample configurations in <<../../kernel
 Для работы с рассылками необходимо настроить отдельный EMail адрес в <<../../kernel/setup.adoc#config, конфигурации сервера>>.
 
 Пример настройки.
-[source]
 ----
 # рассылки
 dispatch:manageEmail.email=dispatch@bitel.ru

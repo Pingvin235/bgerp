@@ -109,7 +109,7 @@ Where:
 * *<PORT>* - HTTP port exposed on the localhost.
 
 Example:
-[source]
+[source, sh]
 ----
 sudo bash bgerp_deploy.sh test.bgerp.org 9001
 ----

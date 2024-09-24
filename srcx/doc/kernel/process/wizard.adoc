@@ -7,7 +7,6 @@
 После выполнения всех шагов процесс создаётся окончательно и доступен для работы.
 
 Шаги мастера настраиваются в конфигурации типа процесса в виде одной или нескольких инструкций вида:
-[source]
 ----
 wizard.createStep.<id>.title=<title>
 wizard.createStep.<id>.class=<class>
@@ -107,7 +106,6 @@ include::../../plugin/bgbilling/wizard_steps.adocf[]
 
 == Примеры мастера
 Пример конфигурации мастера.
-[source]
 ----
 wizard.createStep.{@inc:cnt}.title=Контрагент
 wizard.createStep.{@cnt}.class=LinkCustomerStep
