@@ -114,22 +114,6 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return HOLDER.getInstance().tree;
     }
 
-    public static List<Status> getTypeStatusList(ProcessType type, int currentStatusId) {
-        List<Status> result = new ArrayList<>();
-
-        Set<Integer> allowedStatusSet = type.getProperties().getAllowedStatusSet(currentStatusId);
-        allowedStatusSet.add(currentStatusId);
-
-        List<Status> statusList = Utils.getObjectList(ProcessTypeCache.getStatusMap(), type.getProperties().getStatusIds());
-        for (Status status : statusList) {
-            if (allowedStatusSet.contains(status.getId())) {
-                result.add(status);
-            }
-        }
-
-        return result;
-    }
-
     public static List<Status> getStatusList() {
         return HOLDER.getInstance().statusList;
     }
