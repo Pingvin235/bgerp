@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bgerp.app.exception.BGException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.user.User;
@@ -17,7 +18,7 @@ import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestToBilling;
-import ru.bgcrm.plugin.bgbilling.TransferData;
+import ru.bgcrm.util.XMLUtils;
 
 /**
  * DAO в основном для вызова из Web - возвращает результат единообразно в виде
@@ -47,11 +48,19 @@ public class BGBillingDAO
 		}
 		else
 		{
-			result = TransferData.createDocWithError( "Некорректый идентификатор биллинга." );
+			result = createDocWithError( "Некорректый идентификатор биллинга." );
 		}
 
 		return result;
 	}
+
+	private Document createDocWithError(String error) {
+        Document doc = XMLUtils.newDocument();
+        Element rootNode = XMLUtils.newElement(doc, "data");
+        rootNode.setAttribute("status", "error");
+        XMLUtils.createTextNode(rootNode, error);
+        return doc;
+    }
 
 	public Map<String, Document> doRequestToBilling( Collection<String> dBkeys, User user, Request req )
 	{

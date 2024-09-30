@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.util.Log;
+
+import ru.bgcrm.util.Utils;
 
 public class DBInfoManager {
     private static final Log log = Log.getLog();
@@ -19,7 +20,7 @@ public class DBInfoManager {
     private Map<String, DBInfo> dbInfoMap = new HashMap<>();
     private List<DBInfo> dbInfoList = new ArrayList<>();
 
-    private static final Set<String> SUPPORTED_VERSIONS = Set.of("7.0", "7.1", "7.2", "8.0", "8.2", "9.2", "9.2407");
+    static final List<String> SUPPORTED_VERSIONS = List.of("9.2407", "9.2", "8.2", "8.0", "7.2", "7.1", "7.0");
 
     private DBInfoManager(Setup setup) {
         final String prefix = "bgbilling:server.", prefixOld = "bgbilling.";
@@ -33,7 +34,7 @@ public class DBInfoManager {
                 dbInfo.setVersion(params.get("version", ""));
                 dbInfo.setSetup(setup.subSok(prefix + me.getKey() + ".", prefixOld + me.getKey() + "."));
 
-                if (!SUPPORTED_VERSIONS.contains(dbInfo.getVersion())) {
+                if (Utils.notBlankString(dbInfo.getVersion()) && !SUPPORTED_VERSIONS.contains(dbInfo.getVersion())) {
                     throw new BGException("Unsupported billing version: " + dbInfo.getVersion());
                 }
 

@@ -69,6 +69,8 @@ import ru.bgcrm.util.XMLUtils;
 public class TransferData {
     private static final Log log = Log.getLog();
 
+    private static final String REQUEST_ENCODING = "UTF-8";
+
     private static final int LOGGING_REQUEST_TRIM_LENGTH = 3000;
     private static final int LOGGING_RESPONSE_TRIM_LENGTH = 5000;
 
@@ -77,16 +79,6 @@ public class TransferData {
 
     private static final Pattern CHARACTER_ENTITY_INVALID_REGEXP = Pattern.compile(
             "&#0;|&#1;|&#2;|&#3;|&#4;|&#5;|&#6;|&#7;|&#8;|&#11;|&#12;|&#14;|&#15;|&#16;|&#17;|&#18;|&#19;|&#20;|&#21;|&#22;|&#23;|&#24;|&#25;|&#26;|&#27;|&#28;|&#29;|&#30;|&#31;");
-
-    private final ObjectMapper jsonMapper = new ObjectMapper();
-
-    private DBInfo dbInfo;
-    private URL url;
-    private String status;
-    private String message;
-    private String requestEncoding;
-    private String responseEncoding;
-    private int timeOut;
 
     private static class BitelJsonDateFormat extends StdDateFormat {
         private static final TimeZone CURRENT_TIMEZONE = TimeZone.getDefault();
@@ -161,6 +153,14 @@ public class TransferData {
         }
     }
 
+    private final ObjectMapper jsonMapper = new ObjectMapper();
+
+    private final DBInfo dbInfo;
+    private final URL url;
+    private final int timeOut;
+
+    private String responseEncoding;
+
     public TransferData(DBInfo dbInfo) {
         this.dbInfo = dbInfo;
         this.url = dbInfo.getServerUrl();
@@ -176,9 +176,6 @@ public class TransferData {
         jsonMapper.setDateFormat(new BitelJsonDateFormat(timezone));
         jsonMapper.registerModule(JSONObjectDeserializer.toModule());
 
-        String defaultEncoding = dbInfo.versionCompare("6.1") >= 0 ? "UTF-8" : "Cp1251";
-        requestEncoding = dbInfo.getSetup().get("requestEncoding",
-                System.getProperty("bgbilling.transfer.encoding", defaultEncoding));
         timeOut = dbInfo.getSetup().getInt("requestTimeOut", 5000);
     }
 
@@ -232,12 +229,12 @@ public class TransferData {
                         : serialized.substring(0, LOGGING_REQUEST_TRIM_LENGTH)));
             }
 
-            try (var ps = new PrintStream(con.getOutputStream(), true, requestEncoding)) {
+            try (var ps = new PrintStream(con.getOutputStream(), true, REQUEST_ENCODING)) {
                 ps.print(serialized);
             }
 
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                String response = new String(IOUtils.toByteArray(con.getInputStream()), requestEncoding);
+                String response = new String(IOUtils.toByteArray(con.getInputStream()), REQUEST_ENCODING);
 
                 if (log.isDebugEnabled()) {
                     final int len = response.length();
@@ -319,7 +316,7 @@ public class TransferData {
             }
 
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                responseEncoding = requestEncoding;
+                responseEncoding = REQUEST_ENCODING;
 
                 String key;
                 for (int n = 1; (key = con.getHeaderFieldKey(n)) != null; n++) {
@@ -361,9 +358,8 @@ public class TransferData {
      */
     public Document postData(Request request, User user) {
         try {
-            initSession(user);
-
             Document doc = getDocument(new String(postDataAsync(request, user), responseEncoding));
+
             checkDocumentStatus(doc, user);
 
             return doc;
@@ -384,8 +380,6 @@ public class TransferData {
      */
     public JsonNode postData(RequestJsonRpc request, User user) {
         try {
-            initSession(user);
-
             JsonNode rootNode = postDataAsync(request, user);
 
             checkDocumentStatus(rootNode, user);
@@ -477,7 +471,7 @@ public class TransferData {
         return id;
     }
 
-    private void initSession(User user) {
+    public void initSession(User user) {
         if (dbInfo.getPluginSet() == null) {
             // т.к. PluginDAO обратится к этому же методу - то сразу
             // устанавливаем pluginSet, чтобы был не null, иначе - бесконечная рекурсия
@@ -499,6 +493,20 @@ public class TransferData {
 
             for (Element param : XMLUtils.selectElements(doc, "/data/params/param")) {
                 prefs.put(param.getAttribute("key"), param.getAttribute("value"));
+            }
+
+            String version = doc.getDocumentElement().getAttribute("serverversion");
+            if (Utils.notBlankString(version) && Utils.isBlankString(dbInfo.getVersion()) ) {
+                for (String supported : DBInfoManager.SUPPORTED_VERSIONS) {
+                    if (version.startsWith(supported)) {
+                        log.info("Using version: {}", supported);
+                        dbInfo.setVersion(supported);
+                        break;
+                    }
+                }
+
+                if (Utils.isBlankString(dbInfo.getVersion()))
+                    throw new BGException("Can't define BGBilling server version");
             }
         }
     }
@@ -537,40 +545,14 @@ public class TransferData {
         }
     }
 
-    public void setUrl(URL url) {
-        this.url = url;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 
     private String encode(String inValue) {
         String outValue = "";
         try {
-            outValue = URLEncoder.encode(inValue, requestEncoding);
+            outValue = URLEncoder.encode(inValue, REQUEST_ENCODING);
         } catch (UnsupportedEncodingException e) {
         }
         return outValue;
-    }
-
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("url = ");
-        builder.append(url);
-        return builder.toString();
-    }
-
-    public static final Document createDocWithError(String error) {
-        Document doc = XMLUtils.newDocument();
-        Element rootNode = XMLUtils.newElement(doc, "data");
-        rootNode.setAttribute("status", "error");
-        XMLUtils.createTextNode(rootNode, error);
-        return doc;
     }
 
     private void checkDocumentStatus(Document doc, User user) throws BGMessageException {
@@ -592,5 +574,10 @@ public class TransferData {
                 throw new BGException(rootNode.path("message").textValue());
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "url = " + url;
     }
 }

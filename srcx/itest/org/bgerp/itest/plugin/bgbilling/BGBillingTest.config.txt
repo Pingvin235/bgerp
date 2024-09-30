@@ -2,12 +2,12 @@
 bgbilling:server.{@inc:cnt}.id={@BILLING_ID}
 bgbilling:server.{@cnt}.title=BGBilling
 bgbilling:server.{@cnt}.requestTimeOut=20000
-bgbilling:server.{@cnt}.version=9.2407
 # demo.bgbilling.ru
 bgbilling:server.{@cnt}.url=https://demo.bgbilling.ru/executer
 bgbilling:server.{@cnt}.customerIdParam=8
 # запущенный локально BGBilling сервер
 #bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
+#bgbilling:server.{@cnt}.version=9.2407
 #bgbilling:server.{@cnt}.customerIdParam=63
 
 # общий логин с паролем по-умолчанию для обращения к биллингу

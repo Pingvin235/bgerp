@@ -55,11 +55,11 @@ Where:
 bgbilling:server.<n>.id=<id>
 bgbilling:server.<n>.title=<title>
 bgbilling:server.<n>.url=<url>
-bgbilling:server.<n>.version=<version>
 # необязательные параметры
 bgbilling:server.<n>.customerIdParam=<paramId>
 bgbilling:server.<n>.timezone=<timezone>
 bgbilling:server.<n>.requestTimeOut=<timeout>
+bgbilling:server.<n>.version=<version>
 ----
 Где:
 [square]
@@ -67,11 +67,13 @@ bgbilling:server.<n>.requestTimeOut=<timeout>
 * *<id>* - строковый идентификатор биллинга, короткая строка, именно на него ссылаются все остальные записи в конфигурации;
 * *<title>* - отображаемое наименование;
 * *<url>* - URL для подключения к сервлету executer биллинга;
-// версии перечислены в константе SUPPORTED_VERSIONS класса DBInfoManager
-* *<version>* - версия, *максимум* из поддерживаемых значений: 7.0, 7.1, 7.2, 8.0, 8.2, 9.2, 9.2407, *меньший или равный* версии вашего биллинга;
 * *<param_id>* - код текстового параметра договора в биллинге, в котором сохраняется код контрагента, к которому привязан данный договор;
 * *<timezone>* - временная зона сервера, например Europe/Moscow;
-* *<timeout>* - таймаут ожидания ответа сервера биллинга в мс.
+* *<timeout>* - таймаут ожидания ответа сервера биллинга в мс;
+* *<version>* - явно определённая версия сервера биллинга, возможные значения в фрагменте кода далее.
+
+[snippet, from="static", to=");"]
+link:../../../../src/ru/bgcrm/plugin/bgbilling/DBInfoManager.java#L23-L23[DBInfoManager.java]
 
 Например:
 ----

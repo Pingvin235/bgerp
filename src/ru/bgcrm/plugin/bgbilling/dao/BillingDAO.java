@@ -57,13 +57,10 @@ public class BillingDAO {
     }
 
     private void init() {
-        try {
-            this.transferData = dbInfo.getTransferData();
-            this.jsonMapper = transferData.getObjectMapper();
-            this.jsonTypeFactory = jsonMapper.getTypeFactory();
-        } catch (Exception e) {
-            throw new BGException(e);
-        }
+        transferData = dbInfo.getTransferData();
+        jsonMapper = transferData.getObjectMapper();
+        jsonTypeFactory = jsonMapper.getTypeFactory();
+        transferData.initSession(user);
     }
 
     public Document doRequest(Request req) {
