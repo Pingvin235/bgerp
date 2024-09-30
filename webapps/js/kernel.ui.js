@@ -296,21 +296,19 @@ $$.ui = new function () {
 	}
 
 	const inputTextInit = ($input) => {
-		var $clearIcon =
+		const $clearIcon =
 			$("<span class='ti-close'></span>")
 				.css("position", "absolute")
 				.css("cursor", "pointer")
 				.hide();
 
-		$input.parent().append($clearIcon);
+		$input.parent().parent().append($clearIcon);
 
-		var updateClear = function () {
-			var position = $input.offset();
-			var show = $input.val().length > 0;
+		const updateClear = function () {
 			$clearIcon
-				.css("top", position.top + $input.height() / 2 + 2 /*TODO: calculate "+ 2" em based */)
-				.css("left", position.left + $input.width() - 6 /*TODO: calculate "- 6" em based */)
-				.toggle(show);
+				.css("top", "0.75em")
+				.css("right", "4em")
+				.toggle($input.val().length > 0);
 		};
 
 		$input.on("propertychange change click keyup input paste", function () {

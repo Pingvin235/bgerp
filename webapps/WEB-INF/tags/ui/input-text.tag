@@ -23,7 +23,7 @@
 	</c:otherwise>
 </c:choose>
 
-<div style="display: inline-block;">
+<div style="display: inline-block; position: relative;">
 	<div style="display: flex;">
 		<input id="${uiid}" type="text" name="${name}" placeholder="${placeholder}" title="${title}"
 			style="${style}" class="${styleClass} w100p" size="${size}" value="${value}"
