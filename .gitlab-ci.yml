@@ -123,7 +123,7 @@ publish-doc-master:
         - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/javadoc/ cdn@bgerp.org:/home/cdn/www/change/0/javadoc/
         - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/doc/ cdn@bgerp.org:/home/cdn/www/change/0/doc/
     rules:
-        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "p15055-documentation-master"
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "p15055-documentation-master" && $CI_COMMIT_MESSAGE !~ "/^MERGED/"
 
 publish-source:
     stage: .post
