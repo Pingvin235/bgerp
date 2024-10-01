@@ -295,7 +295,7 @@ $$.ui = new function () {
 			date.setMonth(currentMonth - 1);
 	}
 
-	const inputTextInit = ($input) => {
+	const inputTextInit = ($input, showOutButton) => {
 		const $clearIcon =
 			$("<span class='ti-close'></span>")
 				.css("position", "absolute")
@@ -307,7 +307,7 @@ $$.ui = new function () {
 		const updateClear = function () {
 			$clearIcon
 				.css("top", "0.75em")
-				.css("right", "4em")
+				.css("right", showOutButton ? "4em" : "1em")
 				.toggle($input.val().length > 0);
 		};
 

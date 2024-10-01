@@ -111,9 +111,15 @@ cmd do && cmd undo
 		<span class="hint">Hint with some additional info regarding the input</span>
 	</div>
 
-	<div>
-		<b>&lt;ui:input-text&gt;</b><br/>
-		<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)"/>
+	<div class="in-table-cell">
+		<div>
+			<b>&lt;ui:input-text&gt;</b><br/>
+			<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)"/>
+		</div>
+		<div class="pl1">
+			<b>&lt;ui:input-text showOutButton='false'&gt;</b><br/>
+			<ui:input-text name="text" showOutButton='false'/>
+		</div>
 	</div>
 </div>
 

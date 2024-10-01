@@ -36,6 +36,6 @@
 
 <script>
 	$(function() {
-		$$.ui.inputTextInit($('#${uiid}'));
+		$$.ui.inputTextInit($('#${uiid}'), ${showOutButton});
 	})
 </script>
