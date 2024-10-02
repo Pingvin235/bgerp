@@ -50,17 +50,10 @@
 %>
 
 <c:forEach var="item" items="${linksForAdd}">
-	<c:remove var="prefix"/>
-	<c:choose>
-		<c:when test="${item.linkObjectType.startsWith('contract:' )}">
-			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}"/>
-			<c:set var="title" value="Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
-		</c:when>
-		<c:when test="${item.linkObjectType.startsWith('bgbilling-task:' )}">
-			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}"/>
-			<c:set var="title" value="Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
-		</c:when>
-	</c:choose>
+	<c:if test="${item.linkObjectType.startsWith('contract:' )}">
+		<c:set var="billingId" value="${su.substringAfter(item.linkObjectType, ':')}"/>
+		<c:set var="title" value="Договор: ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
+	</c:if>
 
 	additionalLinksForAdd.push( {
 		objectType: '${item.linkObjectType}', id: ${item.linkObjectId},

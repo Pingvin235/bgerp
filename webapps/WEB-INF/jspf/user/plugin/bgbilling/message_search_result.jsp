@@ -3,7 +3,7 @@
 
 <c:choose>
 	<c:when test="${item.linkObjectType.startsWith('contract:' )}">
-		<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}" scope="request"/>
+		<c:set var="billingId" value="${su.substringAfter(item.linkObjectType, ':')}" scope="request"/>
 		<td>Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
 		<c:set var="contractId" value="${item.linkObjectId}" scope="request"/>

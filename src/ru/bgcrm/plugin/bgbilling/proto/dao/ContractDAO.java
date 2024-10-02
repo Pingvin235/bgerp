@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
@@ -145,7 +146,6 @@ public class ContractDAO extends BillingDAO {
                 JsonNode ret = transferData.postData(req, user);
                 List<Contract> contractList = readJsonValue(ret.findValue("return").traverse(),
                         jsonTypeFactory.constructCollectionType(List.class, Contract.class));
-                searchResult.getList().clear();
                 searchResult.getList().addAll(contractList.stream().map(c -> new IdTitle(c.getId(), c.getTitle() + " [ " + c.getComment() + " ] "))
                         .collect(Collectors.toList()));
                 searchResult.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
@@ -329,21 +329,47 @@ public class ContractDAO extends BillingDAO {
     public void searchContractByPhoneParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String phone) {
         final Page page = result.getPage();
 
-        Request req = new Request();
-        req.setPage(page);
-        req.setModule("contract");
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractList0");
+            req.setParam("contractId", 0);
+            req.setParam("fc", -1);
+            req.setParam("entityFilter", List.of(Map.of(
+                "type", "Phone",
+                "entitySpecAttrIds", Utils.toString(paramIds),
+                "mode", 2,
+                "value", phone
+            )));
+            req.setParam("subContracts", false);
+            req.setParam("closed", true);
+            req.setParam("hidden", true);
+            req.setParam("page", page);
+            req.setParam("inAllLabels", true);
 
-        applySearchOptions(options, req);
+            JsonNode ret = transferData.postData(req, user);
 
-        req.setAction("FindContract");
-        if (dbInfo.versionCompare("7.0") >= 0)
-            req.setAttribute("type", "c9");
-        else
-            req.setAttribute("type", 9);
-        req.setAttribute("parameters", Utils.toString(paramIds));
-        req.setAttribute("phone", phone);
+            List<Contract> list = result.getList();
+            list.addAll(readJsonValue(ret.findValue("return").traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class)));
+            for (Contract contract : list)
+                contract.setBillingId(dbInfo.getId());
 
-        addSearchResult(result, page, req);
+            page.setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
+        } else {
+            Request req = new Request();
+            req.setPage(page);
+            req.setModule("contract");
+
+            applySearchOptions(options, req);
+
+            req.setAction("FindContract");
+            if (dbInfo.versionCompare("7.0") >= 0)
+                req.setAttribute("type", "c9");
+            else
+                req.setAttribute("type", 9);
+            req.setAttribute("parameters", Utils.toString(paramIds));
+            req.setAttribute("phone", phone);
+
+            addSearchResult(result, page, req);
+        }
     }
 
     public void searchContractByDateParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, Date dateFrom, Date dateTo) {

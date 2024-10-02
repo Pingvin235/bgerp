@@ -17,16 +17,8 @@
 		<html:hidden property="streetId"/>
 		<html:hidden property="houseId"/>
 
-		<c:forEach var="item" items="${ctxSetup.subIndexed( 'bgbilling:search.' ).values()}">
-			<c:choose>
-				<c:when test="${item.type eq 'dialUpLogin'}">
-					<html:hidden property="dialUpLogin_${item.billingId}_${item.moduleId}"/>
-				</c:when>
-			</c:choose>
-		</c:forEach>
-
 		<c:set var="searchBy" value="${form.param.searchBy}"/>
-		<c:if test="${not (searchBy eq 'id' or searchBy  eq 'dialUpLogin' ) }">
+		<c:if test="${searchBy ne 'id'}">
 			<ui:page-control nextCommand="; $$.ajax.load(this.form, $(this.form).parent());" />
 		</c:if>
 	</html:form>

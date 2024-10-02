@@ -209,22 +209,6 @@ public class InetDAO extends BillingModuleDAO {
         setDeviceTitles(result);
     }
 
-    /* public void getSessionAliveList(Pageable<InetSessionLog> result, Set<Integer> deviceIds, Set<Integer> contractIds, String contract, String login,
-            String ip, String callingStation, Date timeFrom, Date timeTo) {
-        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, "InetSessionService", "inetSessionAliveList");
-        req.setParam("deviceIds", deviceIds);
-        req.setParam("contractIds", contractIds);
-        req.setParam("contract", contract);
-        req.setParam("login", login);
-        req.setParam("ip", ip);
-        req.setParam("callingStation", callingStation);
-        req.setParam("timeFrom", timeFrom);
-        req.setParam("timeTo", timeTo);
-        req.setParam("page", result.getPage());
-
-        extractSessions(result, req);
-    } */
-
     private void extractSessions(Pageable<InetSessionLog> result, RequestJsonRpc req) {
         JsonNode ret = transferData.postDataReturn(req, user);
         List<InetSessionLog> sessionList = readJsonValue(ret.findValue("list").traverse(),
