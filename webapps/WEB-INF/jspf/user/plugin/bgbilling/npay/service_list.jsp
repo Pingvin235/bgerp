@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="url" value="/user/plugin/bgbilling/proto/npay.do">
+<c:url var="url" value="${form.httpRequestURI}">
 	<c:param name="method" value="serviceGet"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
@@ -12,7 +12,7 @@
 </c:url>
 <ui:button type="add" styleClass="mb1" title="Добавить абонплату" onclick="$$.ajax.load('${url}', $('#${uiid}').parent(), {control: this})"/>
 
-<table class="data hl" width="100%" id="${uiid}">
+<table class="data hl" id="${uiid}">
 	<tr>
 		<td width="30"></td>
 		<td width="30%">Услуга</td>
@@ -29,9 +29,9 @@
 				</c:url>
 				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $('#${uiid}').parent(), {control: this})"/>
 
-				<c:url var="deleteUrl" value="/user/plugin/bgbilling/proto/npay.do">
+				<c:url var="deleteUrl" value="${form.httpRequestURI}">
 					<c:param name="method" value="serviceDelete"/>
-					<c:param name="contractId" value="${form.param.conractId}"/>
+					<c:param name="contractId" value="${form.param.contractId}"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="moduleId" value="${form.param.moduleId}"/>
 					<c:param name="id" value="${item.id}"/>

@@ -125,44 +125,29 @@ public class NPayDAO extends BillingModuleDAO {
     public void updateService(NPayService service) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectUpdate");
+            req.setParam("contractId", service.getContractId());
             req.setParam("serviceObject", service);
             transferData.postData(req, user);
-        } else
-            updateService(service.getId(), service.getContractId(), service.getServiceId(), service.getDateFrom(),
-                    service.getDateTo(), service.getObjectId(), service.getCount(), service.getComment());
-    }
-
-    /**
-     * Изменяет либо добавляет абонплату договора.
-     * @param id 0 - добавление, иначе - изменение
-     * @param contractId
-     * @param serviceId
-     * @param dateFrom
-     * @param dateTo
-     * @param objectId
-     * @param count
-     * @param comment
-     */
-    public void updateService(int id, int contractId, int serviceId, Date dateFrom, Date dateTo, int objectId, int count, String comment)
-            {
-        Request req = new Request();
-        req.setModule(NPAY_MODULE_ID);
-        req.setAction("ServiceObjectUpdate");
-        req.setModuleID(String.valueOf(moduleId));
-        req.setContractId(contractId);
-        req.setAttribute("object_id", 0);
-        req.setAttribute("id", id <= 0 ? "new" : id);
-        req.setAttribute("sid", serviceId);
-        req.setAttribute("oid", objectId);
-        req.setAttribute("col", count);
-        req.setAttribute("comment", comment);
-        if (dateFrom != null) {
-            req.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
+        } else {
+            Request req = new Request();
+            req.setModule(NPAY_MODULE_ID);
+            req.setAction("ServiceObjectUpdate");
+            req.setModuleID(String.valueOf(moduleId));
+            req.setContractId(service.getContractId());
+            req.setAttribute("object_id", 0);
+            req.setAttribute("id", service.getId() <= 0 ? "new" : service.getId());
+            req.setAttribute("sid", service.getServiceId());
+            req.setAttribute("oid", service.getObjectId());
+            req.setAttribute("col", service.getCount());
+            req.setAttribute("comment", service.getComment());
+            if (service.getDateFrom() != null) {
+                req.setAttribute("date1", TimeUtils.format(service.getDateFrom(), TimeUtils.PATTERN_DDMMYYYY));
+            }
+            if (service.getDateTo() != null) {
+                req.setAttribute("date2", TimeUtils.format(service.getDateTo(), TimeUtils.PATTERN_DDMMYYYY));
+            }
+            transferData.postData(req, user);
         }
-        if (dateTo != null) {
-            req.setAttribute("date2", TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
-        }
-        transferData.postData(req, user);
     }
 
     /**
@@ -170,10 +155,11 @@ public class NPayDAO extends BillingModuleDAO {
      * @param contractId
      * @param id
      */
-    public void deleteService( int id) {
+    public void deleteService(int contractId, int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectDelete");
-            req.setParam("id", id);
+            req.setParam("contractId", contractId);
+            req.setParam("serviceId", id);
             transferData.postData(req, user);
         } else {
             Request req = new Request();

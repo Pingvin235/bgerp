@@ -72,7 +72,7 @@ public class NPayAction extends BaseAction {
         String billingId = form.getParam("billingId");
         int moduleId = form.getParamInt("moduleId");
 
-        new NPayDAO(form.getUser(), billingId, moduleId).deleteService(form.getId());
+        new NPayDAO(form.getUser(), billingId, moduleId).deleteService(form.getParamInt("contractId"), form.getId());
 
         return json(conSet, form);
     }
