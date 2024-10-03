@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,13 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +34,6 @@ import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
 import org.bgerp.util.Log;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -51,9 +44,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
@@ -74,7 +67,6 @@ public class TransferData {
     private static final int LOGGING_REQUEST_TRIM_LENGTH = 3000;
     private static final int LOGGING_RESPONSE_TRIM_LENGTH = 5000;
 
-    private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool(new NamedThreadFactory());
     private static final Pattern PATTERN_CHARSET = Pattern.compile("charset=([\\w\\d\\-]+)[\\s;]*.*$");
 
     private static final Pattern CHARACTER_ENTITY_INVALID_REGEXP = Pattern.compile(
@@ -118,16 +110,7 @@ public class TransferData {
         }
     }
 
-    private static class JSONObjectDeserializer extends StdDeserializer<JSONObject> {
-
-        public JSONObjectDeserializer() {
-            this(JSONObject.class);
-        }
-
-        protected JSONObjectDeserializer(Class<?> vc) {
-            super(vc);
-        }
-
+    private static class JSONObjectDeserializer extends JsonDeserializer<JSONObject> {
         @Override
         public JSONObject deserialize(JsonParser p, DeserializationContext ctxt)
                 throws IOException, JsonProcessingException {
@@ -141,23 +124,11 @@ public class TransferData {
         }
     }
 
-    private static class NamedThreadFactory implements ThreadFactory {
-        private static ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread thread = defaultThreadFactory.newThread(r);
-            thread.setName("bgbilling-" + thread.getName());
-
-            return thread;
-        }
-    }
-
-    private final ObjectMapper jsonMapper = new ObjectMapper();
-
     private final DBInfo dbInfo;
     private final URL url;
     private final int timeOut;
+
+    private final ObjectMapper jsonMapper = new ObjectMapper();
 
     private String responseEncoding;
 
@@ -193,11 +164,11 @@ public class TransferData {
         }
 
         @Override
-        public JsonNode call() throws Exception {
+        public JsonNode call() throws IOException, URISyntaxException {
             return postData(request, user);
         }
 
-        private JsonNode postData(RequestJsonRpc request, UserAccount user) throws Exception {
+        private JsonNode postData(RequestJsonRpc request, UserAccount user) throws IOException, URISyntaxException {
             JsonNode result = null;
 
             ObjectNode rootObject = jsonMapper.createObjectNode();
@@ -218,6 +189,7 @@ public class TransferData {
             con.setRequestMethod("POST");
             con.setDoOutput(true);
             con.setDoInput(true);
+            con.setReadTimeout(timeOut);
 
             con.setRequestProperty("Content-type", "application/json; charset=UTF-8");
 
@@ -264,23 +236,23 @@ public class TransferData {
         }
 
         @Override
-        public byte[] call() throws Exception {
+        public byte[] call() throws IOException {
             return postData(request, userName, userPswd);
         }
 
-        private byte[] postData(Request request, String userName, String userPswd) throws Exception {
+        private byte[] postData(Request request, String userName, String userPswd) throws IOException {
             byte[] inBytes = null;
 
             byte[] userInfo = (userName + ":" + userPswd).getBytes();
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setReadTimeout(timeOut);
 
             con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
             con.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString(userInfo));
-
-            con.setDoOutput(true);
-            con.setDoInput(true);
 
             String markerParam = dbInfo.getSetup().get("markerRequestParam");
             if (Utils.notBlankString(markerParam)) {
@@ -358,7 +330,7 @@ public class TransferData {
      */
     public Document postData(Request request, User user) {
         try {
-            Document doc = getDocument(new String(postDataAsync(request, user), responseEncoding));
+            Document doc = getDocument(new String(postDataInternal(request, user), responseEncoding));
 
             checkDocumentStatus(doc, user);
 
@@ -380,7 +352,7 @@ public class TransferData {
      */
     public JsonNode postData(RequestJsonRpc request, User user) {
         try {
-            JsonNode rootNode = postDataAsync(request, user);
+            JsonNode rootNode = postDataInternal(request, user);
 
             checkDocumentStatus(rootNode, user);
 
@@ -412,7 +384,7 @@ public class TransferData {
      */
     public byte[] postDataGetBytes(Request request, User user) {
         try {
-            return postDataAsync(request, user);
+            return postDataInternal(request, user);
         } catch (Exception e) {
             throw new BGException(e);
         }
@@ -511,40 +483,22 @@ public class TransferData {
         }
     }
 
-    private byte[] postDataAsync(Request request, User user) throws BGMessageException, InterruptedException, ExecutionException {
+    private byte[] postDataInternal(Request request, User user) throws IOException {
         UserAccount userAccount = UserAccount.getUserAccount(dbInfo.getId(), user);
         try {
-            // "асинхронность" тут весьма условна, положительно то, что можно установить таймаут
-            // + есть ограничение на количество параллельных запросов в биллинги
-            Future<byte[]> future = EXECUTOR.submit(new RequestTask(request, userAccount.getLogin(), userAccount.getPassword()));
-            return future.get(timeOut, TimeUnit.MILLISECONDS);
-        } catch (TimeoutException e) {
-            throw new BGMessageExceptionTransparent("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
+            return new RequestTask(request, userAccount.getLogin(), userAccount.getPassword()).call();
+        } catch (SocketTimeoutException e) {
+            throw new BGException("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
         }
     }
 
-    /**
-     * Отправляет запрос к Web-сервису в формате JSON-RPC.
-     * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
-     *
-     * @param request
-     * @param user
-     * @return
-     * @throws BGMessageException
-     * @throws InterruptedException
-     * @throws ExecutionException
-     */
-    private JsonNode postDataAsync(RequestJsonRpc request, User user) throws BGMessageException, InterruptedException, ExecutionException {
+    private JsonNode postDataInternal(RequestJsonRpc request, User user) throws IOException, URISyntaxException {
         try {
-            // "асинхронность" тут весьма условна, положительно то, что можно установить таймаут
-            // + есть ограничение на количество параллельных запросов в биллинги
-            Future<JsonNode> future = EXECUTOR.submit(new RequestTaskJsonRpc(request, UserAccount.getUserAccount(dbInfo.getId(), user)));
-            return future.get(timeOut, TimeUnit.MILLISECONDS);
-        } catch (TimeoutException e) {
-            throw new BGMessageExceptionTransparent("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
+            return new RequestTaskJsonRpc(request, UserAccount.getUserAccount(dbInfo.getId(), user)).call();
+        } catch (SocketTimeoutException e) {
+            throw new BGException("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
         }
     }
-
 
     private String encode(String inValue) {
         String outValue = "";
@@ -568,7 +522,7 @@ public class TransferData {
         if (!"ok".equals(status)) {
             String exceptionType = rootNode.path("exception").textValue();
             if (exceptionType != null && exceptionType.equals("ru.bitel.bgbilling.common.BGMessageException")) {
-                throw new BGMessageExceptionTransparent("На запрос пользователя {} биллинг {} вернул ошибку {}", user.getLogin(), dbInfo.getId(),
+                throw new BGException("На запрос пользователя {} биллинг {} вернул ошибку {}", user.getLogin(), dbInfo.getId(),
                         rootNode.path("message").textValue());
             } else {
                 throw new BGException(rootNode.path("message").textValue());
