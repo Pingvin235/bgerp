@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -74,10 +74,10 @@ public class CashCheckDAO extends BillingDAO {
                     }
 
                 } catch (Exception e) {
-                    throw new BGMessageExceptionTransparent("Чек не напечатан. " + e.getMessage());
+                    throw new BGMessageExceptionWithoutL10n("Чек не напечатан. " + e.getMessage());
                 }
             } else {
-                throw new BGMessageExceptionTransparent("Чек не напечатан.Ошибка.");
+                throw new BGMessageExceptionWithoutL10n("Чек не напечатан.Ошибка.");
             }
 
             return new Pair<>("", "");

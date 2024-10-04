@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CerberCryptDAO;
@@ -42,7 +42,7 @@ public class CerberCryptAction extends BaseAction {
         int moduleId = form.getParamInt("moduleId");
 
         if (moduleId <= 0) {
-            throw new BGMessageExceptionTransparent("Не указан ID модуля!");
+            throw new BGMessageExceptionWithoutL10n("Не указан ID модуля!");
         }
 
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, moduleId);

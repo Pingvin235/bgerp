@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.ParameterCache;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -770,7 +770,7 @@ public class ContractParamDAO extends BillingDAO {
                 }
             }
         } catch (BGException exp) {
-            throw new BGMessageExceptionTransparent("Ошибка при копировании параметра в биллинг! [" + fromParamId + " - "
+            throw new BGMessageExceptionWithoutL10n("Ошибка при копировании параметра в биллинг! [" + fromParamId + " - "
                     + toParamId + "] " + exp.getMessage());
         }
     }

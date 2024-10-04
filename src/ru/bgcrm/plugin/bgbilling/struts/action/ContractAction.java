@@ -9,7 +9,7 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 
@@ -102,13 +102,13 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
 
         if (config == null) {
-            throw new BGMessageExceptionTransparent("Отсутствующая либо некорректная конфигурация импорта контрагентов.");
+            throw new BGMessageExceptionWithoutL10n("Отсутствующая либо некорректная конфигурация импорта контрагентов.");
         }
 
         ServerCustomerCreator serverCustomerCreator = config.getServerCustomerCreator(billingId, con);
 
         if (serverCustomerCreator == null) {
-            throw new BGMessageExceptionTransparent("Для данного биллинга не настроен импорт контрагентов.");
+            throw new BGMessageExceptionWithoutL10n("Для данного биллинга не настроен импорт контрагентов.");
         }
 
         serverCustomerCreator.createCustomer(billingId, con, form.getParamInt("contractId", -1),
@@ -218,7 +218,7 @@ public class ContractAction extends BaseAction {
 
         IdTitle result = Utils.getFirst(searchResult.getList());
         if (result == null) {
-            throw new BGMessageExceptionTransparent("Договор не найден");
+            throw new BGMessageExceptionWithoutL10n("Договор не найден");
         }
 
         CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, processId,

@@ -7,7 +7,7 @@ import java.util.SortedMap;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
@@ -97,7 +97,7 @@ public class ContractDAO extends BillingDAO {
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BGMessageExceptionTransparent("Ошибка копирования имени контрагента: " + customer.getTitle() + "; "
+            throw new BGMessageExceptionWithoutL10n("Ошибка копирования имени контрагента: " + customer.getTitle() + "; "
                     + dbInfo.getTitle() + ", " + e.getMessage());
         }
 

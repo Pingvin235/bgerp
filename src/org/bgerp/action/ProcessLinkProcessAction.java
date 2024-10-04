@@ -12,7 +12,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
@@ -149,7 +149,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             final var item = itemPair.getFirst();
 
             if (!itemPair.getSecond())
-                throw new BGMessageExceptionTransparent(item.getCheckErrorMessage());
+                throw new BGMessageExceptionWithoutL10n(item.getCheckErrorMessage());
 
             linkObjectType = item.getLinkType();
 

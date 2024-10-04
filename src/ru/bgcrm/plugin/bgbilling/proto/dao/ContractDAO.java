@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
@@ -443,7 +443,7 @@ public class ContractDAO extends BillingDAO {
 
     public Contract createContract(int patternId, Date date, String title, String customTitle, int superId) throws BGMessageException {
         if (dbInfo.getCustomerIdParam() <= 0)
-            throw new BGMessageExceptionTransparent("Не указан параметр customerIdParam для сервера биллинга.");
+            throw new BGMessageExceptionWithoutL10n("Не указан параметр customerIdParam для сервера биллинга.");
 
         Contract contract = null;
 
@@ -730,7 +730,7 @@ public class ContractDAO extends BillingDAO {
         } else if ("del".equals(command)) {
             request.setAction("ContractModuleDelete");
         } else {
-            throw new BGMessageExceptionTransparent("Неверный параметр command");
+            throw new BGMessageExceptionWithoutL10n("Неверный параметр command");
         }
 
         transferData.postData(request, user);
@@ -1261,7 +1261,7 @@ public class ContractDAO extends BillingDAO {
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BGMessageExceptionTransparent("Ошибка копирования имени контрагента: " + customer.getTitle() + "; "
+            throw new BGMessageExceptionWithoutL10n("Ошибка копирования имени контрагента: " + customer.getTitle() + "; "
                     + dbInfo.getTitle() + ", " + e.getMessage());
         }
 

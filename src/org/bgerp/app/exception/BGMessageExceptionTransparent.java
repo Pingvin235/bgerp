@@ -1,14 +1,11 @@
 package org.bgerp.app.exception;
 
-import org.bgerp.app.l10n.Localizer;
-
 /**
- * Message exception without localization of the message.
- *
- * @author Shamil Vakhitov
+ * Use {@link BGMessageExceptionWithoutL10n}
  */
-public class BGMessageExceptionTransparent extends BGMessageException {
+@Deprecated
+public class BGMessageExceptionTransparent extends BGMessageExceptionWithoutL10n {
     public BGMessageExceptionTransparent(String pattern, Object... args) {
-        super(Localizer.TRANSPARENT, pattern, args);
+        super(pattern, args);
     }
 }

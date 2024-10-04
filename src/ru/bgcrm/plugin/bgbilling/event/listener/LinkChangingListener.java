@@ -4,7 +4,7 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.event.link.LinksToRemovingEvent;
@@ -47,12 +47,12 @@ public class LinkChangingListener {
         DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
 
         if (dbInfo == null) {
-            throw new BGMessageExceptionTransparent("Не найден биллинг с идентификатором: " + billingId);
+            throw new BGMessageExceptionWithoutL10n("Не найден биллинг с идентификатором: " + billingId);
         }
 
         int customerIdParam = dbInfo.getCustomerIdParam();
         if (customerIdParam <= 0) {
-            throw new BGMessageExceptionTransparent("Не определён параметр 'customerIdParam' для сервера.");
+            throw new BGMessageExceptionWithoutL10n("Не определён параметр 'customerIdParam' для сервера.");
         }
 
         int contractId = link.getLinkObjectId();

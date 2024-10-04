@@ -12,7 +12,7 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionTransparent;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.UserCache;
 import org.bgerp.model.Pageable;
 
@@ -101,7 +101,7 @@ public class HelpDeskListener {
         // стоимость
         else if (paramId == mt.getCostParamId()) {
             if (HelpDeskDAO.MODE_PACKAGE.equals(mode)) {
-                throw new BGMessageExceptionTransparent("Режим HelpDesk договора пакетный.");
+                throw new BGMessageExceptionWithoutL10n("Режим HelpDesk договора пакетный.");
             }
             hdDao.setTopicCost(topic.getContractId(), topicId,
                     Utils.parseBigDecimal((String) e.getValue(), BigDecimal.ZERO));
@@ -109,7 +109,7 @@ public class HelpDeskListener {
         // вхождение в пакет
         else if (paramId == mt.getPackageParamId()) {
             if (HelpDeskDAO.MODE_ON.equals(mode)) {
-                throw new BGMessageExceptionTransparent("Режим HelpDesk договора обычный.");
+                throw new BGMessageExceptionWithoutL10n("Режим HelpDesk договора обычный.");
             }
             hdDao.setTopicPackageState(topic.getContractId(), topicId, ((Set<Integer>) e.getValue()).size() > 0);
         }
