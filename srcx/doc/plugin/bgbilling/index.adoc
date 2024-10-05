@@ -80,7 +80,6 @@ link:../../../../src/ru/bgcrm/plugin/bgbilling/DBInfoManager.java#L23-L23[DBInfo
 bgbilling:server.1.id=bitel
 bgbilling:server.1.title=BiTel
 bgbilling:server.1.url=http://billing.bitel.ru/executer
-bgbilling:server.1.version=5.2
 bgbilling:server.1.customerIdParam=100
 ----
 
@@ -88,7 +87,6 @@ bgbilling:server.1.customerIdParam=100
 ----
 bgbilling:server.<n>.markerRequestParam=<markerParam>:<markerValue>
 bgbilling:server.<n>.contract_pattern.<pat_num>.title_pattern=<pattern>
-bgbilling:server.<n>.crm.problem.status.list=<status_list>
 bgbilling:server.<n>.copyParamMapping=<mapping>
 ----
 Где:
@@ -106,7 +104,7 @@ bgbilling:server.<n>.copyParamMapping=<mapping>
 
 Например:
 ----
-bgbilling:server.11.copyParamMapping=15:9;72:46;73:5;74:51;75:68;76:69;77:56;78:7;14:8;12:6;109:48;110:50;114:12;115[1,2]:25[4,3];customerTitle:1
+bgbilling:server.1.copyParamMapping=15:9;72:46;73:5;74:51;75:68;76:69;77:56;78:7;14:8;12:6;109:48;110:50;114:12;115[1,2]:25[4,3];customerTitle:1
 ----
 
 [[config-server-report]]
