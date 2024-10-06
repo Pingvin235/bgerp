@@ -39,18 +39,6 @@ JEXL - язык коротких выражений.
 Для вызова функции Java объекта необходимо ввести название объекта в контексте, точку и непосредственно вызов функции.
 Для вызова статического метода класса указывается имя класса с точкой.
 
-Пример использования выражения:
-----
-processCreateLink.1.title=Проект (Уфа)
-processCreateLink.1.processTypeId=9260
-processCreateLink.1.linkType=processDepend
-processCreateLink.1.checkExpression=1 =~ processParam.addressCityIds( 90 ) and process.getStatusId() == 39
-processCreateLink.1.copyParams=90,89,238
-processCreateLink.1.copyLinks=1
-----
-
-В данном случае создание связанного процесса будет доступно только для процессов в статусе с кодом 39 и с наличием адреса в параметре с кодом 90 с городом 1.
-
 [[jexl-standard-context]]
 In JEXL processor always passed the variables:
 [square]
@@ -72,7 +60,7 @@ In JEXL processor always passed the variables:
 * *user* - объект класса javadoc:ru.bgcrm.model.user.User[] - текущий пользователь;
 * *userParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры текущего пользователя;
 * *process* - объект класс javadoc:ru.bgcrm.model.process.Process[] - изменяющийся процесс;
-* *processParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры изменяющегося процесса;
+* *processParam* or *pp* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры изменяющегося процесса;
 * *processLink* - объект класса javadoc:ru.bgcrm.dao.expression.ProcessLinkFunction[] - привязки изменяющегося процесса;
 * *conSet* - объект класса javadoc:ru.bgcrm.util.sql.ConnectionSet[] - соединения к БД;
 * *form* - объект класса javadoc:ru.bgcrm.struts.form.DynActionForm[] - данные по запросу к серверу;

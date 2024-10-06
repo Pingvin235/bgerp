@@ -141,11 +141,13 @@ public class ParamValueFunction {
     }
 
     /**
-     * Selects parameter values for the current object.
-     * @param paramId the parameter ID.
-     * @return string representation of the parameter value.
+     * Selects parameter values for the current object
+     * @param paramId the parameter ID
+     * @param format optional format of the result:<br>
+     * <br>{@code nf} for param type {@code phone} returns {@link ParameterTypePhone} object
+     * @return parameter's value, string if no {@param format} is defined
      */
-    public String getValue(int paramId) {
+    public Object val(int paramId, String format) {
         try {
             Parameter param = ParameterCache.getParameter(paramId);
             switch (Parameter.Type.of(param.getType())) {
@@ -165,6 +167,8 @@ public class ParamValueFunction {
                 }
                 case PHONE -> {
                     ParameterPhoneValue value = paramDao.getParamPhone(objectId, paramId);
+                    if ("nf".equals(format))
+                        return value;
                     return value != null ? value.toString() : "";
                 }
                 case TEXT -> {
@@ -200,6 +204,24 @@ public class ParamValueFunction {
         }
 
         return "";
+    }
+
+    /**
+     * Selects parameter values for the current object.
+     * @param paramId the parameter ID.
+     * @return string representation of the parameter value.
+     */
+    public String val(int paramId) {
+        return (String) val(paramId, null);
+    }
+
+    /**
+     * Selects parameter values for the current object.
+     * @param paramId the parameter ID.
+     * @return string representation of the parameter value.
+     */
+    public String getValue(int paramId) {
+        return val(paramId);
     }
 
     // deprecated methods begin

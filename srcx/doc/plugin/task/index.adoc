@@ -25,7 +25,7 @@ task:type.<id>.doExpression=<jexl>
 * *<title>* - наименование задачи при отображении;
 * *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> скрипт.
 
-В контекст JEXL скрипта помимо <<../../kernel/extension.adoc#jexl-process-context, типового набора для обработки процесса>> передаются:
+В контекст JEXL скрипта помимо <<../../kernel/extension.adoc#jexl-process-context, standard context for process>> передаются:
 [square]
 * *taskObject* - объект класса javadoc:ru.bgcrm.plugin.task.model.Task[];
 * *taskType* - объект класса javadoc:ru.bgcrm.plugin.task.model.TaskType[].

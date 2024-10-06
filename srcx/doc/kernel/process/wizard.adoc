@@ -92,7 +92,7 @@ CAUTION: The step is not recommended to use, as JEXL scripts are very difficult 
 
 Выполнение произвольного <<../extension.adoc#jexl, JEXL>> скрипта.
 [square]
-* *doExpression* - сам скрипт, передаётся <<../extension.adoc#jexl-process-context, типовой контекст для обработки процесса>>.
+* *doExpression* - сам скрипт, передаётся <<../extension.adoc#jexl-process-context, standard context for process>>.
 
 После выполнения скрипт возвращает Map с установленными полями:
 [square]

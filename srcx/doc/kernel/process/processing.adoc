@@ -123,7 +123,7 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 
 [[jexl]]
 == JEXL
-В JEXL процессор передаётся <<../extension.adoc#jexl-process-context, типовой набор объектов для обработки процесса>> плюс:
+В JEXL процессор передаётся <<../extension.adoc#jexl-process-context, standard context for process>> плюс:
 [[event-object]]
 [square]
 * *event* - объект события, расширяющий класс javadoc:ru.bgcrm.event.UserEvent[].

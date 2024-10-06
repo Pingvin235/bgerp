@@ -76,15 +76,15 @@ sms:1.password=pass
 == Usage
 It is now possible to send messages in the *doExpression* script of a <<../../../kernel/process/processing.adoc#, simple event handling>>.
 ----
-onProcessEvent.1.events=statusChanged
-onProcessEvent.1.doExpression=<<END
+onProcessEvent.{@inc:cnt}.events=statusChanged
+onProcessEvent.{@cnt}.doExpression=<<END
 // phone process paramId 86
-phone = processParam.getParamPhoneNoFormat(86);
+phone = u.getFirst(pp.val(86, 'nf').getItemList());
 if (phone) {
     // sending via default provider
-    sms.sendSms(phone, "Your appeal is registered with a number " + process.getId());
+    sms.sendSms(phone.getPhone(), "Your appeal is registered with a number " + process.getId());
     // sending via additional provider with ID=2
-    // sms.sendSms(2, phone, "Your appeal is registered with a number " + process.getId());
+    // sms.sendSms(2, phone.getPhone(), "Your appeal is registered with a number " + process.getId());
 }
 END
 ----

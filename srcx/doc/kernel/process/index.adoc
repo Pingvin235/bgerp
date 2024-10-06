@@ -126,13 +126,7 @@ showParam.<paramId>.checkExpression=<JEXL_EXPR>
 Где:
 [square]
 * *<paramId>* - код параметра;
-* *<JEXL_EXPR>* - <<../extension.adoc#jexl,JEXL>> выражение.
-
-В JEXL процессор передаются следующие объекты для вызова функций:
-[square]
-* *user* - объект класса javadoc:ru.bgcrm.model.user.User[] - текущий пользователь;
-* *process* - объект класс javadoc:ru.bgcrm.model.process.Process[] - изменяющийся процесс;
-* *processParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры изменяющегося процесса.
+* *<JEXL_EXPR>* - <<../extension.adoc#jexl, JEXL>> script with <<../extension.adoc#jexl-process-context, standard context for process>>.
 
 [[setup-type-executor-restriction]]
 ==== Ограничение количества исполнителей по группам
@@ -228,7 +222,7 @@ Where:
 [square]
 * *<n>* - порядковый номер записи;
 * *<objectTypes>* - areas, there the macros is applicable, see the possible values below;
-* *<macros>* - <<../extension.adoc#jexl,JEXL>> expression, passed objects see below.
+* *<macros>* - <<../extension.adoc#jexl,JEXL>> expression script with <<../extension.adoc#jexl-process-context, standard context for process>>.
 
 Areas:
 [square]
@@ -238,14 +232,6 @@ Areas:
 * *linkProcessList* - table with child <<#usage-related-process, related processes>>;
 * *messagePossibleProcess* - table with <<../message/index.adoc#usage-queue-possible-process, possible processes>> for a message;
 * *open.processCard* - process card in <<../interface.adoc#open-process, open>> interface.
-
-В JEXL процессор передаются объекты:
-[square]
-* *process* - объект класса javadoc:ru.bgcrm.model.process.Process[] - процесс;
-* *processParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры процесса.
-* *processLink* - объект класса javadoc:ru.bgcrm.dao.expression.ProcessLinkFunction[] - для работы с привязками процесса.
-
-Кроме того доступны переменные устанавливаемые в javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[].
 
 CAUTION: Retrieving parameters may be quite expensive.
 

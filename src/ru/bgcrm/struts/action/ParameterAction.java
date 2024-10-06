@@ -48,7 +48,6 @@ import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ParamValueFunction;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.DateChangingEvent;
 import ru.bgcrm.event.ParamChangedEvent;
@@ -63,7 +62,6 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.config.ListParamConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.struts.form.Response;
@@ -141,11 +139,7 @@ public class ParameterAction extends BaseAction {
             for (Entry<Integer, ConfigMap> entry : type.getProperties().getConfigMap().subIndexed("showParam.").entrySet()) {
                 String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
-                Map<String, Object> context = new HashMap<>();
-                context.put(User.OBJECT_TYPE, form.getUser());
-                context.put(Process.OBJECT_TYPE, process);
-                context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, process.getId()));
-                // TODO: Use DefaultProcessChangeListener#initExpression()
+                Map<String, Object> context = Expression.context(null, form, null, process);
                 if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {
                     hideParamIds.add(entry.getKey());
                 }

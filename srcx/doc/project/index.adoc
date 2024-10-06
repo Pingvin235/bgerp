@@ -497,7 +497,7 @@ link:../../../src/org/bgerp/plugin/kernel/db.sql#L368-L368[src/org/bgerp/plugin/
 
 [[cache]]
 ===== Cache
-Caching is used within internal Map and List in order to significantly (100s of times) expedite directory data retrieval when <<jsp, building UI>> or when running <<../kernel/extension.adoc#jexl-process-context, JEXL scripts>>
+Caching is used within internal Map and List in order to significantly (100s of times) expedite directory data retrieval when <<jsp, building UI>> or when running <<../kernel/extension.adoc#jexl, JEXL scripts>>
 Map allows to get specific value based on they kay (from a 'key-value' pair), list - an alphabetically sorted list.
 Users, User Groups, Process types, configurations are examples of such cached data.
 

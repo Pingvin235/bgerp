@@ -188,7 +188,9 @@ public class Expression {
         context.put(User.OBJECT_TYPE, form.getUser());
         context.put(User.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, form.getUserId()));
         context.put(Process.OBJECT_TYPE, process);
-        context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, process.getId()));
+        ParamValueFunction pp = new ParamValueFunction(con, process.getId());
+        context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, pp);
+        context.put("pp", pp);
         context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, process.getId()));
         context.put(ConnectionSet.KEY, conSet);
         context.put(DynActionForm.KEY, form);
