@@ -9,7 +9,7 @@ import ru.bgcrm.util.Utils;
 
 /**
  * BGBilling address parameter value.
- * 
+ *
  * TODO: Use after {@link ParameterAddressValue}.
  */
 public class ParamAddressValue {
@@ -140,33 +140,6 @@ public class ParamAddressValue {
         this.comment = comment;
     }
 
-    public static final String buildAddressValue(final ParamAddressValue val) {
-        if (val == null) {
-            return "";
-        }
-
-        StringBuilder result = new StringBuilder();
-        result.append(val.getCityTitle()).append(", ");
-        result.append(val.getAreaTitle()).append(", ");
-        result.append(val.getQuarterTitle()).append(", ");
-        result.append(val.getStreetTitle()).append(" д. ");
-        result.append(val.getHouse());
-
-        if (Utils.notBlankString(val.getIndex())) {
-            result.append("/").append(val.getIndex());
-        }
-
-        if (Utils.notBlankString(val.getFlat())) {
-            result.append(", кв. ").append(val.getFlat());
-        }
-
-        if (Utils.notBlankString(val.getRoom())) {
-            result.append(", ком. ").append(val.getRoom());
-        }
-
-        return result.toString();
-    }
-    
     /**
      * Конвертирует объект в формат ERP.
      * @param con
