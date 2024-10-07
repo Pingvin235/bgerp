@@ -215,7 +215,7 @@ public class ContractAction extends BaseAction {
                 break;
             }
             case ParameterType.ContractType.TYPE_PHONE: {
-                form.setResponseData("value", new ParameterPhoneValue(paramDAO.getPhoneParam(contractId, paramId)));
+                form.setResponseData("value", paramDAO.getPhoneParam(contractId, paramId));
                 break;
             }
             case ParameterType.ContractType.TYPE_EMAIL: {

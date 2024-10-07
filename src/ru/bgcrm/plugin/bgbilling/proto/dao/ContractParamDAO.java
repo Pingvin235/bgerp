@@ -218,8 +218,8 @@ public class ContractParamDAO extends BillingDAO {
         }
     }
 
-    public List<ParameterPhoneValueItem> getPhoneParam(int contractId, int paramId) {
-        List<ParameterPhoneValueItem> result = new ArrayList<>();
+    public ParameterPhoneValue getPhoneParam(int contractId, int paramId) {
+        ParameterPhoneValue result = new ParameterPhoneValue();
 
         Request billingRequest = new Request();
         billingRequest.setModule(CONTRACT_MODULE_ID);
@@ -257,7 +257,7 @@ public class ContractParamDAO extends BillingDAO {
                 item.setPhone(number);
                 item.setComment(comment);
 
-                result.add(item);
+                result.addItem(item);
             }
         }
 

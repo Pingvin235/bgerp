@@ -512,8 +512,7 @@ public class ServerCustomerCreator {
                         log.info("Add phone param values, param: " + param.getId() + "; values: " + Utils.toString(billingValues));
 
                         ContractParamDAO contractParamDAO = new ContractParamDAO(user, dbInfo);
-                        List<ParameterPhoneValueItem> paramPhoneValueItemList = contractParamDAO.getPhoneParam(contractId, billingParamId);
-                        ParameterPhoneValue parameterPhoneValue = new ParameterPhoneValue(paramPhoneValueItemList);
+                        ParameterPhoneValue parameterPhoneValue = contractParamDAO.getPhoneParam(contractId, billingParamId);
 
                         for (ParameterPhoneValueItem item : parameterPhoneValue.getItemList()) {
                             if (!billingValues.contains(item.getPhone())) {

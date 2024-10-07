@@ -1,7 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bgerp.app.bean.annotation.Bean;
@@ -43,10 +42,7 @@ public class BGBillingMessageTypeContactSaverPhone extends ru.bgcrm.dao.message.
         String billingId = new Contract(contractLink).getBillingId();
 
         ContractParamDAO paramDao = new ContractParamDAO(form.getUser(), billingId);
-        List<ParameterPhoneValueItem> values = new ArrayList<>();
-        for (ParameterPhoneValueItem item : paramDao.getPhoneParam(contractLink.getLinkObjectId(), paramId)) {
-            values.add(item);
-        }
+        List<ParameterPhoneValueItem> values = paramDao.getPhoneParam(contractLink.getLinkObjectId(), paramId).getItemList();
 
         boolean exists = false;
         for (ParameterPhoneValueItem value : values) {
