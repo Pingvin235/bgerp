@@ -14,6 +14,7 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.event.base.UserEvent;
 import org.bgerp.util.Log;
@@ -361,12 +362,12 @@ public class DefaultProcessChangeListener {
         }
     }
 
-    public static class Rule {
+    private static class Rule {
         private final String expression;
         private final String checkErrorMessage;
         private final boolean showEvent;
 
-        public Rule(ConfigMap rule) {
+        private Rule(ConfigMap rule) {
             expression = rule.get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
             checkErrorMessage = rule.get(Expression.CHECK_ERROR_MESSAGE_CONFIG_KEY);
             showEvent = rule.getBoolean("checkErrorShowEvent", false);
@@ -377,12 +378,12 @@ public class DefaultProcessChangeListener {
             }
         }
 
-        public void check(Expression expr, UserEvent e) throws BGMessageException {
+        private void check(Expression expr, UserEvent e) throws BGMessageException {
             if (!expr.check(expression)) {
                 if (showEvent) {
-                    throw new BGMessageException(checkErrorMessage + "\n (" + e + ")");
+                    throw new BGMessageExceptionWithoutL10n(checkErrorMessage + "\n (" + e + ")");
                 } else {
-                    throw new BGMessageException(checkErrorMessage);
+                    throw new BGMessageExceptionWithoutL10n(checkErrorMessage);
                 }
             }
         }
