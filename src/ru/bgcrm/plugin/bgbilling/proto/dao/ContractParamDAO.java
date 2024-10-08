@@ -15,9 +15,6 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.ParameterCache;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
@@ -26,14 +23,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import ru.bgcrm.dao.AddressDAO;
+import com.fasterxml.jackson.databind.JsonNode;
+
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.ParamList;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
-import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
@@ -76,35 +73,6 @@ public class ContractParamDAO extends BillingDAO {
         }
 
         return crmItem;
-    }
-
-    @Deprecated
-    public static ParamAddressValue toBillingObject(ParameterAddressValue parameterAddressValue, Connection connection)
-            throws SQLException {
-        ParamAddressValue paramAddressValue = null;
-
-        if (parameterAddressValue != null) {
-            paramAddressValue = new ParamAddressValue();
-
-            paramAddressValue.setHouseId(parameterAddressValue.getHouseId());
-            paramAddressValue.setPod(String.valueOf(parameterAddressValue.getPod()));
-            paramAddressValue.setFloor(
-                    String.valueOf(parameterAddressValue.getFloor() == -1 ? "" : parameterAddressValue.getFloor()));
-            paramAddressValue.setFlat(parameterAddressValue.getFlat());
-            paramAddressValue.setRoom(parameterAddressValue.getRoom());
-            paramAddressValue.setComment(parameterAddressValue.getComment());
-
-            AddressDAO addressDAO = new AddressDAO(connection);
-            AddressHouse addressHouse = addressDAO.getAddressHouse(parameterAddressValue.getHouseId(), false, true,
-                    true);
-
-            paramAddressValue.setHouse(addressHouse.getHouseAndFrac());
-            paramAddressValue.setStreetTitle(addressHouse.getAddressStreet().getTitle());
-            paramAddressValue.setCityTitle(addressHouse.getAddressStreet().getAddressCity().getTitle());
-            paramAddressValue.setIndex(addressHouse.getPostIndex());
-        }
-
-        return paramAddressValue;
     }
 
     /**
@@ -178,7 +146,12 @@ public class ContractParamDAO extends BillingDAO {
         return contractParam != null ? contractParam.getValue() : "";
     }
 
-    public ContractParameter getParameter(int contractId, int paramId) {
+    public Date getDateParam(int contractId, int paramId) {
+        ContractParameter contractParam = getParameter(contractId, paramId);
+        return contractParam != null ? TimeUtils.parse(contractParam.getValue(), TimeUtils.PATTERN_DDMMYYYY) : null;
+    }
+
+    private ContractParameter getParameter(int contractId, int paramId) {
         for (ContractParameter param : getParameterListWithDir(contractId, false, false).getSecond()) {
             if (param.getParamId() == paramId) {
                 return param;

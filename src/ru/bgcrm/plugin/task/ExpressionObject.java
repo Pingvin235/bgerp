@@ -1,13 +1,11 @@
 package ru.bgcrm.plugin.task;
 
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
 
 public class ExpressionObject {
-
     /**
      * Создаёт задачу с указанным типом. Существующая задача с таким же типом  и кодом процесса перетирается.
      * @param task

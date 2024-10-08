@@ -22,6 +22,10 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+/*
+ * Not documented, delete the class later together with bgbilling/_processing_commands.adocf 05.09.2024
+*/
+@Deprecated
 public class ProcessDoActionListener {
     public ProcessDoActionListener() {
         EventProcessor.subscribe(new EventListener<>() {

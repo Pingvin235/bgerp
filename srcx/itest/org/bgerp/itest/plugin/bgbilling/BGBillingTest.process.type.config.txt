@@ -1,1 +1,18 @@
 bgbilling:processShowLinkedContractsInfo=memo
+
+# коды параметров договора в DEMO биллинге
+PARAM_BILLING_FIO=2
+PARAM_BILLING_ADDR=12
+PARAM_BILLING_BIRTHDAY=10
+PARAM_BILLING_EMAIL=15
+PARAM_BILLING_PHONE=16
+
+onProcessEvent.{@inc:cnt}.events=linkAdded;createdAsLink
+onProcessEvent.{@cnt}.doExpression=<<END
+    bgbilling.cp({@PARAM_BILLING_FIO}, '',  {@PARAM_TEXT_ID});
+    bgbilling.cp({@PARAM_BILLING_ADDR}, '', {@PARAM_ADDR_ID});
+    bgbilling.cp({@PARAM_BILLING_ADDR}, 'address', {@PARAM_ADDR_TEXT_ID});
+    bgbilling.cp({@PARAM_BILLING_BIRTHDAY}, '', {@PARAM_DATE_ID});
+    bgbilling.cp({@PARAM_BILLING_PHONE}, '', {@PARAM_PHONE_ID});
+    bgbilling.cp({@PARAM_BILLING_PHONE}, 'phone', {@PARAM_PHONE_TEXT_ID});
+END

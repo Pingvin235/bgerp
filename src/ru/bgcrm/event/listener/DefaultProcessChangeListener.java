@@ -277,9 +277,11 @@ public class DefaultProcessChangeListener {
                     }
                 }
 
-                log.debug("Processing commands: {}", commands);
+                if (!commands.isEmpty()) {
+                    log.warn("Processing commands: {}", commands);
 
-                ProcessCommandExecutor.processDoCommands(conSet.getConnection(), e.getForm(), process, e, commands);
+                    ProcessCommandExecutor.processDoCommands(conSet.getConnection(), e.getForm(), process, e, commands);
+                }
             }
         }
 

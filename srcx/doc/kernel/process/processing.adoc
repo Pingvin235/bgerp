@@ -126,7 +126,18 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 В JEXL процессор передаётся <<../extension.adoc#jexl-process-context, standard context for process>> плюс:
 [[event-object]]
 [square]
-* *event* - объект события, расширяющий класс javadoc:ru.bgcrm.event.UserEvent[].
+* *event* - объект события, расширяющий класс javadoc:ru.bgcrm.event.UserEvent[]
+
+Depending on enabled plugins passed the following variables:
+[square]
+* *bgbilling* - object of class javadoc:ru.bgcrm.plugin.bgbilling.ExpressionObject[]
+* *email* - object of class javadoc:org.bgerp.plugin.msg.email.ExpressionObject[]
+* *mobile* - object of class javadoc:ru.bgcrm.plugin.mobile.ExpressionObject[]
+* *secret* - object of class javadoc:org.bgerp.plugin.sec.secret.ExpressionObject[]
+* *slack* - object of class javadoc:ru.bgcrm.plugin.slack.ExpressionObject[]
+* *sms* - object of class javadoc:org.bgerp.plugin.msg.sms.ExpressionObject[]
+* *task* - object of class javadoc:ru.bgcrm.plugin.task.ExpressionObject[]
+* *telegram* - object of class javadoc:org.bgerp.plugin.telegram.ExpressionObject[]
 
 [[commands]]
 == Commands (Deprecated)
@@ -180,7 +191,7 @@ CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expressio
 === Команды плагина BGBilling
 CAUTION: Устарели, использовать JEXL скрипты по <<processing_samples.adoc#bgbilling-copy-params, образцу>>.
 
-include::../../plugin/bgbilling/processing_commands.adocf[]
+// include::../../plugin/bgbilling/processing_commands.adocf[]
 
 [[samples]]
 == Примеры

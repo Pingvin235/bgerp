@@ -36,8 +36,8 @@ JEXL - язык коротких выражений.
 Помимо операторов, описание которых доступно по ссылке в конце раздела, язык поддерживает обращение к функциям Java - объектов,
 переданных на вход обработчика в зависимости от условий.
 
-Для вызова функции Java объекта необходимо ввести название объекта в контексте, точку и непосредственно вызов функции.
-Для вызова статического метода класса указывается имя класса с точкой.
+При необходимости выражения могут быть <<interface.adoc#config-multiline, многострочными>>, при этом результат (если он есть) возвращается оператором *return*.
+Пример многострочного скрипта для <<process/processing.adoc#, простого обработчика событий процесса>>:
 
 [[jexl-standard-context]]
 In JEXL processor always passed the variables:
@@ -52,10 +52,8 @@ In JEXL processor always passed the variables:
 * *NEW_LINE* - line break;
 * *NEW_LINE2* - two line breaks.
 
-Дополнительные объекты передаются в зависимости от места использования.
-
 [[jexl-process-context]]
-Типовой дополнительный набор объектов для обработчика процесса:
+Variables for process handling:
 [square]
 * *user* - объект класса javadoc:ru.bgcrm.model.user.User[] - текущий пользователь;
 * *userParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры текущего пользователя;
@@ -65,44 +63,7 @@ In JEXL processor always passed the variables:
 * *conSet* - объект класса javadoc:ru.bgcrm.util.sql.ConnectionSet[] - соединения к БД;
 * *form* - объект класса javadoc:ru.bgcrm.struts.form.DynActionForm[] - данные по запросу к серверу;
 * все переменные контекста из javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[];
-* объект класса javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать непосредственно в скрипте.
-
-При необходимости выражения могут быть <<interface.adoc#config-multiline, многострочными>>, при этом результат (если он есть) возвращается оператором *return*.
-Пример многострочного скрипта для <<process/processing.adoc#, простого обработчика событий процесса>>:
-
-[source,java]
-----
-onProcessEvent.2.doExpression=<<END
-  dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
-  dao.updateParamText(process.getId(), 63, "тест");
-END
-----
-
-Часто необходимая информация (детальное описание - по ссылкам далее):
-[square]
-* оператор *[]* - создание массива, *{}* - HashSet, подойдёт на место Collection;
-* функция *new* (см. пример выше) - создание объекта класса, конструктор может быть с параметрами;
-* операторы проверки наличия объектов в коллекциях: *=~* , *!~*
-
-Методы вызываются у объектов классов с помощью точки, для вызова статического метода используется объект типа *java.lang.Class* нужного класса, который может быть создан просто записью полного имени класса. Небольшой пример, как вызывать статические методы javadoc:ru.bgcrm.util.Utils[].
-
-[source,java]
-----
-u = ru.bgcrm.util.Utils;
-v = u.parseInt(3);
-----
-
-Подробная спецификация по языку:
-[square]
-* http://commons.apache.org/jexl/reference/syntax.html#Functions
-* https://commons.apache.org/proper/commons-jexl/apidocs/org/apache/commons/jexl3/package-summary.html
-
-CAUTION: Обратите внимание на вызов функции u.escapeXml - она преобразует все символы HTML разметки в спецпоследовательности. Если не использовать эту функцию для генерации HTML, возможны проблемы, в случае появления в описании процесса символов <,> либо кавычек. Пример ниже.
-
-[source,java]
-----
-processReference.1.stringExpression=u.escapeXml( u.maskNull( u.getFirst( processParam.addressValues( 345, 'fromStreet' ) ) ) ) + " (" + size( processParam.addressValues( 345 ) ) + ")"
-----
+* объект класса javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать в скрипте без префикса параменной с точкой.
 
 [[regexp]]
 === Java REGEXP

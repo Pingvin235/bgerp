@@ -25,7 +25,6 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
     public ExpressionObject() {}
 
     public ExpressionObject(Process process, DynActionForm form, Connection con) throws Exception {
-        this();
         setExpression(new Expression(Expression.context(new SingleConnectionSet(con), form, null, process)));
     }
 

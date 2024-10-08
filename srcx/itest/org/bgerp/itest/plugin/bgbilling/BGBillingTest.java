@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -33,6 +34,13 @@ public class BGBillingTest {
 
     private int processTypeId;
 
+    private int paramAddressId;
+    private int paramAddressTextId;
+    private int paramDateId;
+    private int paramPhoneId;
+    private int paramPhoneTextId;
+    private int paramTextId;
+
     private int paramHdCostId;
     private int paramHdStatusId;
     private int paramHdAutoCloseId;
@@ -41,18 +49,42 @@ public class BGBillingTest {
 
     @Test
     public void param() throws Exception {
-        paramHdCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE_HD + " Cost", ProcessTest.posParam += 2, "", "");
-        paramHdStatusId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " Status", ProcessTest.posParam += 2, "",
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Адрес", ProcessTest.posParam += 2, "", "");
+        paramAddressTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Адрес (текст)", ProcessTest.posParam += 2, "", "");
+        paramDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " Дата", ProcessTest.posParam += 2, "", "");
+        paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " Телефон", ProcessTest.posParam += 2, "", "");
+        paramPhoneTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Телефон (текст)", ProcessTest.posParam += 2, "", "");
+        paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Текст", ProcessTest.posParam += 2, "", "");
+
+        paramHdCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE_HD + " Стоимость", ProcessTest.posParam += 2, "", "");
+        paramHdStatusId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " Статус", ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "param.hd.status.values.txt"));
-        paramHdAutoCloseId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " AutoClose", ProcessTest.posParam += 2, "",
+        paramHdAutoCloseId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " Автозакрытие", ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "param.hd.autoclose.values.txt"));
     }
 
     @Test(dependsOnMethods = "param")
     public void processType() throws Exception {
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, true, null).getId();
-
         var props = new TypeProperties();
+        props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
+        props.setCreateStatusId(ProcessTest.statusOpenId);
+        props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
+        props.setParameterIds(List.of(paramAddressId, paramAddressTextId, paramDateId, paramPhoneId, paramPhoneTextId, paramTextId));
+        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));
+        props.setConfig(
+            ConfigHelper.generateConstants(
+                "PARAM_ADDR_ID", paramAddressId,
+                "PARAM_ADDR_TEXT_ID", paramAddressTextId,
+                "PARAM_DATE_ID", paramDateId,
+                "PARAM_PHONE_ID", paramPhoneId,
+                "PARAM_PHONE_TEXT_ID", paramPhoneTextId,
+                "PARAM_TEXT_ID", paramTextId
+            ) + ResourceHelper.getResource(this, "process.type.config.txt")
+        );
+
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+
+        props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
@@ -99,7 +131,8 @@ public class BGBillingTest {
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
         int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
-        new ProcessLinkDAO(DbTest.conRoot).addLinkIfNotExist(new ProcessLink(processId, Contract.OBJECT_TYPE + ":" + BILLING_ID, 455, "x0000"));
+        new ProcessLinkDAO(DbTest.conRoot).addLinkIfNotExist(new ProcessLink(processId, Contract.OBJECT_TYPE + ":" + BILLING_ID, 1, "test"));
+        MessageHelper.addHowToTestNoteMessage(processId, this);
 
         // HD processes have to be imported
     }

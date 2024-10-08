@@ -3,43 +3,6 @@
 
 == Kernel
 
-[[create-process-and-link]]
-=== Create a process and link int to the existing one
-----
-STATUS_IDS=1,4
-PARAM_LIST_ID=49
-PROCESS_TYPE_ID=8
-
-onProcessEvent.{@inc:cnt}.events=statusChanged:{@STATUS_IDS}
-onProcessEvent.{@cnt}.doExpression=<<END
-    processId = event.getProcess().getId();
-
-    dao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
-    listValue = u.getFirst(dao.getParamList(processId,{@PARAM_LIST_ID}));
-
-    log.debug("listValue: " + listValue);
-
-    // if the list parameter value is 1
-    if (listValue == 1) {
-        // create a new process
-        dao = new("ru.bgcrm.dao.process.ProcessDAO", conSet.getConnection());
-        process = new("ru.bgcrm.model.process.Process");
-        process.setTypeId({@PROCESS_TYPE_ID});
-        process.setDescription("Created automatically");
-
-        action = ru.bgcrm.struts.action.ProcessAction;
-        action.processCreate(event.getForm(), conSet.getConnection(), process);
-
-        log.debug("Created process: " + process.getId());
-
-        // link it to the current one with relation type 'link'
-        dao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
-        link = new("org.bgerp.model.process.link.ProcessLinkProcess", processId, "processLink", process.getId());
-        dao.addLink(link);
-    }
-END
-----
-
 [[add-process-customer-link]]
 === Add customer link to a created process
 ----
@@ -198,29 +161,8 @@ END
 Копирование параметра адрес с кодом 8 из привязанного договора в параметр процесса с кодом 4.
 Пример может быть легко расширен для переноса любых параметров.
 ----
-COPY_BGBILLING_PARAMS=<<END
-    paramDao = new("org.bgerp.dao.param.ParamValueDAO", conSet.getConnection());
-    linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
-    contractLink = u.getFirst(linkDao.getObjectLinksWithType(process.getId(),"%contract%"));
-    if (contractLink != null) {
-         contractId =  contractLink.getLinkedObjectId();
-         billingId = su.substringAfter(contractLink.getLinkedObjectType(), ":");
-         contractParamDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO", ctxUser, billingId);
-         address = contractParamDao.getAddressParam(contractId, 8);
-         if (address != null)
-            paramDao.updateParamAddress(process.getId(), 4, 1, address.toParameterAddressValue(conSet.getConnection()));
-         // копирование других параметров
-    }
-END
-
 onProcessEvent.{@inc:cnt}.events=linkAdded;createdAsLink
-onProcessEvent.{@cnt}.doExpression={@COPY_BGBILLING_PARAMS}
-----
-
-При привязке договора - копирование значений параметров с кодами 27 и 12 в описание процесса.
-----
-onProcessEvent.{@inc:cnt}.events=linkAdded
-onProcessEvent.{@cnt}.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbilling:linkedContractParamToDescription:bg:12
+onProcessEvent.{@cnt}.doExpression=bgbilling.paramCopy(8, 4)
 ----
 
 == Плагин <<../../plugin/msg/sms/index.adoc#, SMS>>
