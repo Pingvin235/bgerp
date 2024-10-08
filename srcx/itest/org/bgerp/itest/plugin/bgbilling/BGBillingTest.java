@@ -91,7 +91,7 @@ public class BGBillingTest {
         props.setParameterIds(List.of(paramHdCostId, paramHdStatusId, paramHdAutoCloseId));
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));
 
-        processHdTypeId = ProcessHelper.addType(TITLE_HD, processTypeId, false, props).getId();
+        processHdTypeId = ProcessHelper.addType(TITLE_HD, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")
