@@ -111,7 +111,7 @@ onProcessEvent.{@cnt}.doExpression=<<END
     pld = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
     linked = u.getFirst(pld.getLinkedProcessList(process.getId(), null, false, {1}));
     if (linked != null) {
-         change = new("ru.bgcrm.model.process.StatusChange");
+        change = new("ru.bgcrm.model.process.StatusChange");
         change.setDate(new("java.util.Date"));
         change.setProcessId(linked.getId());
         change.setUserId(event.getUser().getId());
@@ -159,10 +159,9 @@ END
 [[bgbilling-copy-params]]
 === Копирование параметров договора BGBilling
 Копирование параметра адрес с кодом 8 из привязанного договора в параметр процесса с кодом 4.
-Пример может быть легко расширен для переноса любых параметров.
 ----
 onProcessEvent.{@inc:cnt}.events=linkAdded;createdAsLink
-onProcessEvent.{@cnt}.doExpression=bgbilling.paramCopy(8, 4)
+onProcessEvent.{@cnt}.doExpression=bgbilling.cp(8, '', 4)
 ----
 
 == Плагин <<../../plugin/msg/sms/index.adoc#, SMS>>
