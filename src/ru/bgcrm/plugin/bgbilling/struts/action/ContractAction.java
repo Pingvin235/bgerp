@@ -2,7 +2,6 @@ package ru.bgcrm.plugin.bgbilling.struts.action;
 
 import java.sql.Connection;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.event.EventProcessor;
@@ -29,7 +28,6 @@ import ru.bgcrm.plugin.bgbilling.dao.ContractCustomerDAO;
 import ru.bgcrm.plugin.bgbilling.model.ContractType;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ContractNoteDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
@@ -226,20 +224,5 @@ public class ContractAction extends BaseAction {
         LinkAction.addLink(form, con, link);
 
         return json(con, form);
-    }
-
-    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-        int contractId = form.getParamInt("contractId");
-
-        List<String> whatShow = Utils.toList(form.getParam("whatShow"));
-        for (String item : whatShow) {
-            if ("memo".equals(item)) {
-                form.setResponseData("memoList", new ContractNoteDAO(form.getUser(), billingId).list(contractId));
-            }
-            // TODO: Выбор остальных вариантов.
-        }
-
-        return html(conSet, form, PATH_JSP + "/process_contract_info.jsp");
     }
 }

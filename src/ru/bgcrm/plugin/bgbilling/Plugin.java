@@ -83,7 +83,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             entry("user.customer.tabs.jsp", List.of(PATH_JSP_USER + "/customer_tabs.jsp")),
             entry("user.search.jsp", List.of(PATH_JSP_USER + "/search.jsp")),
             entry("user.url.jsp", List.of(PATH_JSP_USER + "/url.jsp")),
-            entry(Endpoint.USER_PROCESS_TABS, List.of(PATH_JSP_USER + "/process_tabs.jsp")),
             entry("user.process.link.list.jsp", List.of(PATH_JSP_USER + "/process_link_list.jsp")),
             entry("user.process.linked.list.jsp", List.of(PATH_JSP_USER + "/process_linked_list.jsp")),
             entry("user.process.linkForAdd.list.jsp", List.of(PATH_JSP_USER + "/process_link_for_add_list.jsp")),
