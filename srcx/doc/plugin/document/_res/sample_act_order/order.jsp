@@ -71,7 +71,7 @@
 	            </tr>
 	            <tr>
 	                <td style="font-style: italic">Вид работ</td>
-	                <td colspan="5">${ctxProcessTypeMap[process.typeId].title}</td>
+	                <td colspan="5">${process.type.title}</td>
 	            </tr>
 	            <tr>
 	                <td rowspan="3" style="font-style: italic">Клиент</td>

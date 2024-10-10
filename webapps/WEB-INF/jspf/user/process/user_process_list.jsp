@@ -46,8 +46,8 @@
 			<td class="min"><a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a></td>
 			<td class="min">${tu.format(process.createTime, 'ymdhms')}</td>
 			<td class="min">${tu.format(process.closeTime, 'ymdhms')}</td>
-			<td>${ctxProcessTypeMap[process.typeId].title}</td>
-			<td>${ctxProcessStatusMap[process.statusId].title}</td>
+			<td>${process.type.title}</td>
+			<td>${process.statusTitle}</td>
 			<td>${process.reference().description()}</td>
 		</tr>
 	</c:forEach>

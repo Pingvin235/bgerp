@@ -12,7 +12,7 @@
 	<input type="hidden" name="method" value="processStatusUpdate"/>
 
 	<ui:combo-single
-		prefixText="<b>${ctxProcessStatusMap[process.statusId].title}</b> ${l.l('status.to')}"
+		prefixText="<b>${process.statusTitle}</b> ${l.l('status.to')}"
 		style="width: 100%;" hiddenName="statusId">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${statusList}">

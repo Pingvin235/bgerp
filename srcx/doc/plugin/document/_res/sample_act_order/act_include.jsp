@@ -4,7 +4,7 @@
 <p>Акт сдачи-приёмки работ № ${process.id} от ${tu.format(curdate, 'ymd')} по договору: ${contractLink.linkObjectTitle}</p>
 <p>Заказчик: ${contractInfo.comment}</p>
 <p>Адрес: ${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS, 1).value}</p>
-<p>Вид работ: ${ctxProcessTypeMap[process.typeId].title}</p>
+<p>Вид работ: ${process.type.title}</p>
 <p>Исполнители: ${u.getObjectTitles(ctxUserList, process.getExecutorIds())}</p>
 
 <p>Производимые работы (оказываемые услуги):</p>
