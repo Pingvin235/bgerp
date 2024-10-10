@@ -98,28 +98,25 @@
 				</tr>
 				<c:forEach var="item" items="${frd.list}">
 					<c:set var="process" value="${item.second}" />
-					<c:if test="${ form.param.createDate.trim() eq tu.format( process.createTime, 'ymd' ) or empty form.param.createDate or
-									(form.param.closeDate.trim() eq tu.format( process.closeTime, 'ymd' ) and not empty form.param.closeDate) }">
-						<tr id="${linkedProcessList}-linkedObject-${process.id}">
-							<td nowrap="nowrap"><a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a></td>
-							<td>${tu.format( process.createTime, 'ymdhms' )}</td>
-							<td>${process.statusTitle}</td>
-							<td>${tu.format( process.closeTime, 'ymdhms' )}</td>
-							<td nowrap="nowrap">
-								<c:set var="linkedObjectType" value="${item.first}" scope="request" />
-								<c:choose>
-									<c:when test="${linkedObjectType.startsWith('customer' ) }">
-										${customerLinkRoleConfig.modeMap[linkedObjectType]}
-									</c:when>
-									<c:otherwise>
-										<plugin:include endpoint="user.process.linked.list.jsp"/>
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td>${process.type.title}</td>
-							<td>${process.reference().description()}</td>
-						</tr>
-					</c:if>
+					<tr>
+						<td nowrap="nowrap"><a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a></td>
+						<td>${tu.format( process.createTime, 'ymdhms' )}</td>
+						<td>${process.statusTitle}</td>
+						<td>${tu.format( process.closeTime, 'ymdhms' )}</td>
+						<td nowrap="nowrap">
+							<c:set var="linkedObjectType" value="${item.first}" scope="request" />
+							<c:choose>
+								<c:when test="${linkedObjectType.startsWith('customer' ) }">
+									${customerLinkRoleConfig.modeMap[linkedObjectType]}
+								</c:when>
+								<c:otherwise>
+									<plugin:include endpoint="user.process.linked.list.jsp"/>
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td>${process.type.title}</td>
+						<td>${process.reference().description()}</td>
+					</tr>
 				</c:forEach>
 			</table>
 		</c:otherwise>
