@@ -91,7 +91,7 @@
 	<tr>
 		<td width="30">ID</td>
 		<td>${l.l('Название')}</td>
-		<td>${l.l('Creation time')}</td>
+		<td>${l.l('Created')}</td>
 		<td width="30">&#160;</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}" >

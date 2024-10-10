@@ -36,7 +36,7 @@
 		<c:set var="process" value="${item.first}"/>
 		<c:set var="color" value="${item.second.color}"/>
 		<%-- on empty color value expected to be ignored by browser --%>
-		<tr style="background-color: ${color}" title="${l.l('Creation time')}: ${tu.format(process.createTime, 'ymdhms')}">
+		<tr style="background-color: ${color}" title="${l.l('Created')}: ${tu.format(process.createTime, 'ymdhms')}">
 			<td>
 				<a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a>
 				<c:url var="url" value="${updateProcessUrl}">

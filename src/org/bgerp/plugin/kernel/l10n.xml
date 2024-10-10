@@ -161,7 +161,6 @@
 	<p><ru>Вывести</ru><en>Show</en></p>
 	<p><ru>Вывести для</ru><en>Output for</en></p>
 	<p><ru>Вывести на дату</ru><en>Output to date</en></p>
-	<p><en>Creation time</en><ru>Время создания</ru></p>
 	<p><ru>Открыть</ru><en>Open</en></p>
 	<p><ru>Создание новости</ru><en>News creation</en></p>
 	<p><ru>Заголовок</ru><en>Title</en></p>
@@ -363,7 +362,6 @@
 	<p><ru>Не сохранять</ru><en>Do not save</en></p>
 	<p><ru>Cохранить EMail</ru><en>Save EMail</en></p>
 	<p><ru>Cохранить EMail домен</ru><en>Save EMail domain</en></p>
-	<p><ru>Время закрытия</ru><en>Closing time</en></p>
 	<p><ru>Дата генерации</ru><en>Generation date</en></p>
 	<p><ru>Тест title</ru><en>Test title</en></p>
 	<p><ru>Тест state</ru><en>Test state</en></p>

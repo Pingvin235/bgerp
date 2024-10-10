@@ -90,10 +90,10 @@
 				<tr>
 					<td>ID</td>
 					<td>${l.l('Created')}</td>
+					<td>${l.l('Status')}</td>
 					<td>${l.l('Closed')}</td>
 					<td>${l.l('Роль')}</td>
 					<td>${l.l('Type')}</td>
-					<td>${l.l('Status')}</td>
 					<td>${l.l('Description')}</td>
 				</tr>
 				<c:forEach var="item" items="${frd.list}">
@@ -103,6 +103,7 @@
 						<tr id="${linkedProcessList}-linkedObject-${process.id}">
 							<td nowrap="nowrap"><a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a></td>
 							<td>${tu.format( process.createTime, 'ymdhms' )}</td>
+							<td>${process.statusTitle}</td>
 							<td>${tu.format( process.closeTime, 'ymdhms' )}</td>
 							<td nowrap="nowrap">
 								<c:set var="linkedObjectType" value="${item.first}" scope="request" />
@@ -116,7 +117,6 @@
 								</c:choose>
 							</td>
 							<td>${process.type.title}</td>
-							<td>${process.statusTitle}</td>
 							<td>${process.reference().description()}</td>
 						</tr>
 					</c:if>

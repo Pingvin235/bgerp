@@ -39,7 +39,7 @@
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
 
-		<tr openUrl="${url}" title="${l.l('Creation time')}: ${tu.format(process.createTime, 'ymdhms')}">
+		<tr openUrl="${url}" title="${l.l('Created')}: ${tu.format(process.createTime, 'ymdhms')}">
 			<c:if test="${allowLinkDelete}">
 				<td class="min">
 					<c:url var="deleteUrl" value="${form.httpRequestURI}">

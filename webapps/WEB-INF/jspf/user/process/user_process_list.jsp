@@ -35,19 +35,19 @@
 <table class="data hl">
 	<tr>
 		<td>ID</td>
-		<td>${l.l('Creation time')}</td>
-		<td class="min">${l.l('Время закрытия')}</td>
-		<td>${l.l('Type')}</td>
+		<td>${l.l('Created')}</td>
 		<td>${l.l('Status')}</td>
+		<td class="min">${l.l('Closed')}</td>
+		<td>${l.l('Type')}</td>
 		<td>${l.l('Description')}</td>
 	</tr>
 	<c:forEach var="process" items="${frd.list}">
-		<tr openCommand="$$.process.open(${process.id })">
+		<tr>
 			<td class="min"><a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a></td>
 			<td class="min">${tu.format(process.createTime, 'ymdhms')}</td>
+			<td>${process.statusTitle}</td>
 			<td class="min">${tu.format(process.closeTime, 'ymdhms')}</td>
 			<td>${process.type.title}</td>
-			<td>${process.statusTitle}</td>
 			<td>${process.reference().description()}</td>
 		</tr>
 	</c:forEach>

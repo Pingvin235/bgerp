@@ -429,13 +429,13 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
 
         if (createTime != null) {
             result
-                .append("; Creation time: ")
+                .append("; Created: ")
                 .append(TimeUtils.format(createTime, TimeUtils.FORMAT_TYPE_YMDHMS));
         }
 
         if (closeTime != null) {
             result
-                .append("; Close time: ")
+                .append("; Closed: ")
                 .append(TimeUtils.format(closeTime, TimeUtils.FORMAT_TYPE_YMDHMS));
         }
         result

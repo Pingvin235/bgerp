@@ -8,7 +8,7 @@
 		<c:when test="${form.param.mode eq MODE_USER_CREATED}">
 			<tr>
 				<td width="30">ID</td>
-				<td width="120">${l.l('Creation time')}</td>
+				<td width="120">${l.l('Created')}</td>
 				<td>${l.l('Description')}</td>
 			</tr>
 			<c:forEach var="item" items="${frd.list}">
@@ -24,7 +24,7 @@
 		<c:when test="${form.param.mode eq MODE_USER_CLOSED}">
 			<tr>
 				<td width="30">ID</td>
-				<td width="120">${l.l('Время закрытия')}</td>
+				<td width="120">${l.l('Closed')}</td>
 				<td>${l.l('Description')}</td>
 			</tr>
 			<c:forEach var="item" items="${frd.list}">
