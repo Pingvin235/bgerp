@@ -63,7 +63,7 @@
 					"/>
 				</td>
 			</c:if>
-			<td title="${l.l('Type')}: ${process.type.title}"><ui:process-link id="${process.id}" text="${process.reference().description()}"/></td>
+			<td title="${l.l('Type')}: ${process.type.title}"><ui:process-link id="${process.id}" text="${process.title}"/></td>
 			<td title="${ui.processCreatedAndClosed(l, process)}">${process.statusTitle}</td>
 		</tr>
 	</c:forEach>

@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<div class="pl1" style="flex-basis: 50%;">
-			<shell:title text="${process.reference().title()}"/>
+			<shell:title text="${process.title}"/>
 
 			<%@ include file="/WEB-INF/jspf/user/process/process/process_header.jsp"%>
 			<u:sc>

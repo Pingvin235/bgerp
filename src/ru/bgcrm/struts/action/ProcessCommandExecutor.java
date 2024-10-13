@@ -23,7 +23,6 @@ import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
-import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -113,15 +112,6 @@ public class ProcessCommandExecutor {
                 String subject = Utils.maskEmpty(StringUtils.substringAfterLast(command, ":"), "Изменился процесс ");
 
                 String text = "Изменился процесс, в котором вы числитесь исполнителем.\n\n" + "Описание:<br/>" + process.getDescription();
-
-                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                process.setReference(config.getReference(con, form, process, "newsNotifySubject", "processCard"));
-
-                if (Utils.notBlankString(process.getReference())) {
-                    subject += process.getReference();
-                } else {
-                    subject += type.getTitle() + "#" + process.getId();
-                }
 
                 NewsDAO newsDao = new NewsDAO(con);
 

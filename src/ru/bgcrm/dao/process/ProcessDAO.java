@@ -76,16 +76,17 @@ public class ProcessDAO extends CommonDAO {
         Process process = new Process();
 
         process.setId(rs.getInt(prefix + "id"));
-        process.setDescription(rs.getString(prefix + "description"));
+        process.setTitle(rs.getString(prefix + "title"));
         process.setTypeId(rs.getInt(prefix + "type_id"));
         process.setStatusId(rs.getInt(prefix + "status_id"));
+        process.setStatusTime(rs.getTimestamp(prefix + "status_dt"));
         process.setStatusUserId(rs.getInt(prefix + "status_user_id"));
+        process.setCreateTime(rs.getTimestamp(prefix + "create_dt"));
         process.setCreateUserId(rs.getInt(prefix + "create_user_id"));
+        process.setCloseTime(rs.getTimestamp(prefix + "close_dt"));
         process.setCloseUserId(rs.getInt(prefix + "close_user_id"));
         process.setPriority(rs.getInt(prefix + "priority"));
-        process.setCreateTime(rs.getTimestamp(prefix + "create_dt"));
-        process.setCloseTime(rs.getTimestamp(prefix + "close_dt"));
-        process.setStatusTime(rs.getTimestamp(prefix + "status_dt"));
+        process.setDescription(rs.getString(prefix + "description"));
 
         List<IdTitle> idTitle = Utils.parseIdTitleList(rs.getString(prefix + "groups"), "0");
         ProcessGroups processGroups = new ProcessGroups();

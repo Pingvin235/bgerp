@@ -13,10 +13,8 @@ import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
-import org.bgerp.model.base.Id;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.process.ProcessGroups;
-import org.bgerp.model.process.Reference;
-import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +23,7 @@ import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
-public class Process extends Id implements Comparable<Process>, Cloneable {
+public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     private static final Log log = Log.getLog();
 
     public static final String OBJECT_TYPE = "process";
@@ -53,6 +51,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     private int priority;
 
     private String description = "";
+    @Deprecated
     private String reference = "";
 
     private ProcessGroups groups = new ProcessGroups();
@@ -197,6 +196,19 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         this.priority = priority;
     }
 
+    @Override
+    public String getTitle() {
+        String result = title;
+
+        if (Utils.isBlankString(result))
+            result = reference;
+
+        if (Utils.isBlankString(result))
+            result = "#" + id + " " + Utils.escapeXml(description);
+
+        return result;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -210,17 +222,9 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         return this;
     }
 
-    public String getReference() {
-        return reference;
-    }
-
+    @Deprecated
     public void setReference(String reference) {
         this.reference = reference;
-    }
-
-    @Dynamic
-    public Reference reference() {
-        return new Reference(this);
     }
 
     /**

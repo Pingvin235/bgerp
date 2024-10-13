@@ -10,6 +10,7 @@ import java.util.Set;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.process.Process;
@@ -17,7 +18,10 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
+@Deprecated
 public class ProcessReferenceConfig extends Config {
+    private static final Log log = Log.getLog();
+
     private List<ProcessReferenceConfigItem> itemList = new ArrayList<>();
 
     public ProcessReferenceConfig(ConfigMap config) {
@@ -31,6 +35,8 @@ public class ProcessReferenceConfig extends Config {
             }
         }
 
+        if (!itemList.isEmpty())
+            log.warnd("'processReference' configuration key is deprecated, use 'title.expression' instead");
     }
 
     public String getReference(Connection con, DynActionForm form, Process process, String... objectTypes) {
