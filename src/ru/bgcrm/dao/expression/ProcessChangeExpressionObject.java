@@ -22,21 +22,21 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.ProcessAction;
-import ru.bgcrm.struts.action.ProcessCommandExecutor;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Класс выполняет базовые операции над процессом.
- * В перспективе этот набор функций заменит команды по изменению процесса из {@link ProcessCommandExecutor}.
+ * Expression object for performing process related operations.
+ *
+ * @author Shamil Vakhitov
  */
-public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
+public class ProcessChangeExpressionObject extends ExpressionContextAccessingObject {
     private static final Log log = Log.getLog();
 
     private final Process process;
     private final DynActionForm form;
     private final Connection con;
 
-    public ProcessChangeFunctions(Process process, DynActionForm form, Connection con) {
+    public ProcessChangeExpressionObject(Process process, DynActionForm form, Connection con) {
         this.process = process;
         this.form = form;
         this.con = con;

@@ -197,7 +197,7 @@ public class Expression {
         if (event != null)
             context.put(Event.KEY, event);
 
-        context.put(null, new ProcessChangeFunctions(process, form, con));
+        context.put(null, new ProcessChangeExpressionObject(process, form, con));
 
         context.putAll(SetRequestParamsFilter.getContextVariables(form.getHttpRequest()));
 

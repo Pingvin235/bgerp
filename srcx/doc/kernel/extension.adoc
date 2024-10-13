@@ -63,7 +63,7 @@ Variables for process handling:
 * *conSet* - объект класса javadoc:ru.bgcrm.util.sql.ConnectionSet[] - соединения к БД;
 * *form* - объект класса javadoc:ru.bgcrm.struts.form.DynActionForm[] - данные по запросу к серверу;
 * все переменные контекста из javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[];
-* объект класса javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать в скрипте без префикса параменной с точкой.
+* объект класса javadoc:ru.bgcrm.dao.expression.ProcessChangeExpressionObject[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать в скрипте без префикса параменной с точкой.
 
 [[regexp]]
 === Java REGEXP

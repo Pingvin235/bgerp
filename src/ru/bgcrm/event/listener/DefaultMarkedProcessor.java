@@ -25,7 +25,7 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ProcessChangeFunctions;
+import ru.bgcrm.dao.expression.ProcessChangeExpressionObject;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.model.process.Process;
@@ -210,7 +210,7 @@ public class DefaultMarkedProcessor extends Processor {
                             ProcessAction.processStatusUpdate(form, con, process, change);
                         }
                     } else if (name.equals(COMMAND_ADD_EXECUTORS)) {
-                        new ProcessChangeFunctions(process, form, con).addExecutors(form.getParamValues("executor"));
+                        new ProcessChangeExpressionObject(process, form, con).addExecutors(form.getParamValues("executor"));
                     } else if (name.equals(COMMAND_SET_PARAM)) {
                         final String paramType = ParameterCache.getParameter(command.paramId).getType();
                         final String paramName = "param" + command.paramId;
