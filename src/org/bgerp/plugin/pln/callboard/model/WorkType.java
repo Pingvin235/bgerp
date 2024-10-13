@@ -13,7 +13,7 @@ import org.bgerp.plugin.pln.callboard.model.work.ShiftData;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ParamExpressionObject;
-import ru.bgcrm.dao.expression.ProcessLinkFunction;
+import ru.bgcrm.dao.expression.ProcessLinkExpressionObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.Utils;
 
@@ -169,7 +169,7 @@ public class WorkType
 		Map<String, Object> context = new HashMap<>(4);
 		context.put( Process.OBJECT_TYPE, process );
 		context.put( Process.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX, new ParamExpressionObject( con, process.getId() ) );
-		context.put( ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction( con, process.getId() ) );
+		context.put( ProcessLinkExpressionObject.KEY, new ProcessLinkExpressionObject( con, process.getId() ) );
 		context.put( "shift", shiftData );
 
 		for( Rule rule : getRuleExpresionList() )

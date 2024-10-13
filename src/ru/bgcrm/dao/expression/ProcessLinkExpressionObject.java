@@ -9,15 +9,17 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.Process;
 
 /**
- * JEXL script functions for {@link ProcessLinkDAO}.
+ * Expression object for operations with process links
+ *
+ * @author Shamil Vakhitov
  */
-public class ProcessLinkFunction {
-    public static final String PROCESS_LINK_FUNCTION = "processLink";
+public class ProcessLinkExpressionObject {
+    public static final String KEY = "processLink";
 
     private final ProcessLinkDAO linkDao;
     private final int processId;
 
-    public ProcessLinkFunction(Connection con, int processId) {
+    public ProcessLinkExpressionObject(Connection con, int processId) {
         this.linkDao = new ProcessLinkDAO(con);
         this.processId = processId;
     }

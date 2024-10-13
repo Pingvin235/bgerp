@@ -191,7 +191,7 @@ public class Expression {
         ParamExpressionObject pp = new ParamExpressionObject(con, process.getId());
         context.put(Process.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX, pp);
         context.put("pp", pp);
-        context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, process.getId()));
+        context.put(ProcessLinkExpressionObject.KEY, new ProcessLinkExpressionObject(con, process.getId()));
         context.put(ConnectionSet.KEY, conSet);
         context.put(DynActionForm.KEY, form);
         if (event != null)
