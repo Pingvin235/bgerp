@@ -2,6 +2,7 @@ package ru.bgcrm.dao.expression;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -124,13 +125,13 @@ public class ExpressionTest {
 
     @Test
     public void testNewCall() {
-        Expression exp = new Expression(new HashMap<>());
+        Expression exp = new Expression(Map.of());
         assertEquals("value44", exp.getString("new('ru.bgcrm.dao.expression.ExpressionTestClass', 'value44').getValue()"));
     }
 
     @Test
     public void testIfExpr() {
-        Map<String, Object> map = new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>();
         map.put("numberFrom", "13333333333");
 
         String expr = "if (numberFrom.length() == 11) { numberFrom = numberFrom.substring(1) }; return numberFrom;";
@@ -143,17 +144,26 @@ public class ExpressionTest {
         String expr =
                 "u = ru.bgcrm.util.Utils;"
                 + "return u.parseInt('3') + 't';";
-        String value = new Expression(new HashMap<>()).getString(expr);
+        String value = new Expression(Map.of()).getString(expr);
         assertEquals("3t", value);
     }
 
     @Test
     public void testConcatenationNull() {
-        Map<String, Object> map = new HashMap<>(1);
+        Map<String, Object> map = new HashMap<>();
         map.put("a", "t");
         String expr = "b = null;" +
                 "return a + b;";
         String value = new Expression(map).getString(expr);
         assertEquals("t", value);
+    }
+
+    @Test
+    public void testMethodOfNullCall() {
+        String expr = "p.value()";
+        Map<String, Object> context = new HashMap<>();
+        context.put("p", null);
+        String value = new Expression(context).getString(expr);
+        assertNull(value);
     }
 }
