@@ -20,7 +20,9 @@ import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ParamExpressionObject;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
+import ru.bgcrm.dao.expression.ProcessParamExpressionObject;
+import ru.bgcrm.dao.expression.UserExpressionObject;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
@@ -29,7 +31,6 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.wizard.base.Step;
 import ru.bgcrm.model.process.wizard.base.StepData;
 import ru.bgcrm.model.process.wizard.base.WizardData;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -126,9 +127,9 @@ public class FillParamsStep extends Step {
                     String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
                     Map<String, Object> context = new HashMap<>();
-                    context.put(User.OBJECT_TYPE, data.getUser());
-                    context.put(Process.OBJECT_TYPE, process);
-                    context.put(Process.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX, new ParamExpressionObject(connection, process.getId()));
+                    context.put(UserExpressionObject.KEY, data.getUser());
+                    ProcessExpressionObject.context(context, process);
+                    ProcessParamExpressionObject.context(context, connection, process);
 
                     // TODO: Use DefaultProcessChangeListener#initExpression()
                     if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {

@@ -32,8 +32,6 @@ import ru.bgcrm.util.Utils;
 public class ParamExpressionObject {
     private static final Log log = Log.getLog();
 
-    public static final String PARAM_FUNCTION_SUFFIX = "Param";
-
     private final ParamValueDAO paramDao;
     private final int objectId;
 

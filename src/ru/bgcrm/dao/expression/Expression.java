@@ -20,7 +20,6 @@ import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
@@ -185,12 +184,10 @@ public class Expression {
         Connection con = conSet.getConnection();
 
         Map<String, Object> context = new HashMap<>(100);
-        context.put(User.OBJECT_TYPE, form.getUser());
-        context.put(User.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX, new ParamExpressionObject(con, form.getUserId()));
-        context.put(Process.OBJECT_TYPE, process);
-        ParamExpressionObject pp = new ParamExpressionObject(con, process.getId());
-        context.put(Process.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX, pp);
-        context.put("pp", pp);
+        context.put(UserExpressionObject.KEY, form.getUser());
+        UserParamExpressionObject.context(context, con, form.getUser());
+        ProcessExpressionObject.context(context, process);
+        ProcessParamExpressionObject.context(context, con, process);
         context.put(ProcessLinkExpressionObject.KEY, new ProcessLinkExpressionObject(con, process.getId()));
         context.put(ConnectionSet.KEY, conSet);
         context.put(DynActionForm.KEY, form);

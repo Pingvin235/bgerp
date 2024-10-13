@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ParamExpressionObject;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.dao.expression.ProcessLinkExpressionObject;
-import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.user.User;
+import ru.bgcrm.dao.expression.ProcessParamExpressionObject;
+import ru.bgcrm.dao.expression.UserExpressionObject;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -36,11 +36,10 @@ public abstract class StepData<T extends Step> {
         }
 
         Map<String, Object> context = new HashMap<>();
-        context.put(Process.OBJECT_TYPE, data.getProcess());
-        context.put(Process.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX,
-                new ParamExpressionObject(con, data.getProcess().getId()));
+        ProcessExpressionObject.context(context, data.getProcess());
+        ProcessParamExpressionObject.context(context, con, data.getProcess());
         context.put(ProcessLinkExpressionObject.KEY, new ProcessLinkExpressionObject(con, data.getProcess().getId()));
-        context.put(User.OBJECT_TYPE, data.getUser());
+        context.put(UserExpressionObject.KEY, data.getUser());
 
         return new Expression(context).check(step.getExpression());
     }

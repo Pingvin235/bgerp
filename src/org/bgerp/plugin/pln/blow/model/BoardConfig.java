@@ -14,8 +14,8 @@ import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.dao.expression.Expression;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.util.Utils;
@@ -85,7 +85,7 @@ public class BoardConfig extends IdTitle {
      */
     public String getCellContent(Item item) {
         Map<String, Object> context = new HashMap<>();
-        context.put(Process.OBJECT_TYPE, item.getProcess());
+        ProcessExpressionObject.context(context, item.getProcess());
         context.put("params", item.getParams());
         context.putAll(SetRequestParamsFilter.getContextVariables(null));
         return new Expression(context).getString(cellExpression);

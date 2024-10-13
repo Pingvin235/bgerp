@@ -17,6 +17,7 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
+import ru.bgcrm.dao.expression.UserExpressionObject;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.task.Plugin;
@@ -85,7 +86,7 @@ public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
                 context.put("msg", msg);
                 context.put("emails", emails);
                 context.put(Event.KEY, event);
-                context.put(User.OBJECT_TYPE, user);
+                context.put(UserExpressionObject.KEY, user);
 
                 new Expression(context).executeScript(cfg.emailExpression);
             }
