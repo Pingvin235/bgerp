@@ -186,10 +186,10 @@ public class Expression {
 
         Map<String, Object> context = new HashMap<>(100);
         context.put(User.OBJECT_TYPE, form.getUser());
-        context.put(User.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, form.getUserId()));
+        context.put(User.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX, new ParamExpressionObject(con, form.getUserId()));
         context.put(Process.OBJECT_TYPE, process);
-        ParamValueFunction pp = new ParamValueFunction(con, process.getId());
-        context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, pp);
+        ParamExpressionObject pp = new ParamExpressionObject(con, process.getId());
+        context.put(Process.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX, pp);
         context.put("pp", pp);
         context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, process.getId()));
         context.put(ConnectionSet.KEY, conSet);

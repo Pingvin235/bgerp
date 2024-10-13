@@ -25,11 +25,11 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
- * Wrapper for {@link ParamValueDAO} with an object context.
+ * Expression object for retrieving object parameter values
  *
  * @author Shamil Vakhitov
  */
-public class ParamValueFunction {
+public class ParamExpressionObject {
     private static final Log log = Log.getLog();
 
     public static final String PARAM_FUNCTION_SUFFIX = "Param";
@@ -37,7 +37,7 @@ public class ParamValueFunction {
     private final ParamValueDAO paramDao;
     private final int objectId;
 
-    public ParamValueFunction(Connection con, int objectId) {
+    public ParamExpressionObject(Connection con, int objectId) {
         this.paramDao = new ParamValueDAO(con);
         this.objectId = objectId;
     }

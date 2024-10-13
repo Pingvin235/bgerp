@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ParamValueFunction;
+import ru.bgcrm.dao.expression.ParamExpressionObject;
 import ru.bgcrm.dao.expression.ProcessLinkFunction;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -37,8 +37,8 @@ public abstract class StepData<T extends Step> {
 
         Map<String, Object> context = new HashMap<>();
         context.put(Process.OBJECT_TYPE, data.getProcess());
-        context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
-                new ParamValueFunction(con, data.getProcess().getId()));
+        context.put(Process.OBJECT_TYPE + ParamExpressionObject.PARAM_FUNCTION_SUFFIX,
+                new ParamExpressionObject(con, data.getProcess().getId()));
         context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, data.getProcess().getId()));
         context.put(User.OBJECT_TYPE, data.getUser());
 

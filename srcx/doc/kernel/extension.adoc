@@ -56,9 +56,9 @@ In JEXL processor always passed the variables:
 Variables for process handling:
 [square]
 * *user* - объект класса javadoc:ru.bgcrm.model.user.User[] - текущий пользователь;
-* *userParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры текущего пользователя;
+* *userParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры текущего пользователя;
 * *process* - объект класс javadoc:ru.bgcrm.model.process.Process[] - изменяющийся процесс;
-* *processParam* or *pp* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры изменяющегося процесса;
+* *processParam* or *pp* - объект класса javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры изменяющегося процесса;
 * *processLink* - объект класса javadoc:ru.bgcrm.dao.expression.ProcessLinkFunction[] - привязки изменяющегося процесса;
 * *conSet* - объект класса javadoc:ru.bgcrm.util.sql.ConnectionSet[] - соединения к БД;
 * *form* - объект класса javadoc:ru.bgcrm.struts.form.DynActionForm[] - данные по запросу к серверу;

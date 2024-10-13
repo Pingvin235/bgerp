@@ -781,7 +781,7 @@ Here is the list of typical issies there and ways to fix it.
 |CommonObjectLink - Deprecated method 'getLinkedObjectId' was called. Use 'getLinkObjectId' instead.
 |Replace in process configurations *getLinkedObjectId* to *getLinkObjectId*
 
-|ParamValueFunction - Deprecated method 'listValueTitles' was called. Use 'getValue' instead.
+|ParamExpressionObject - Deprecated method 'listValueTitles' was called. Use 'getValue' instead.
 |Replace in process configurations *u.toString(processParam.listValueTitles(<ID>))* to *processParam.getValue(<ID>)*
 |===
 
