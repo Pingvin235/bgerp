@@ -27,22 +27,21 @@
 
 <table class="data mt1 hl">
 	<tr>
-		<td>ID</td>
-		<td>${l.l('Status')}</td>
+		<td class="min">&nbsp;</td>
 		<td>${l.l('Description')}</td>
+		<td>${l.l('Status')}</td>
 	</tr>
 
 	<c:forEach var="item" items="${frd.list}">
 		<c:set var="process" value="${item.first}"/>
 		<c:set var="color" value="${item.second.color}"/>
 		<%-- on empty color value expected to be ignored by browser --%>
-		<tr style="background-color: ${color}" title="${l.l('Created')}: ${tu.format(process.createTime, 'ymdhms')}">
+		<tr style="background-color: ${color}">
 			<td>
-				<a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a>
 				<c:url var="url" value="${updateProcessUrl}">
 					<c:param name="processId" value="${process.id}"/>
 				</c:url>
-				[<a href="#" onclick="
+				<button class="btn-white btn-small icon" onclick="
 					if (confirm('${l.l('Link the message to the process?')}')) {
 						$$.ajax
 							.post('${url}')
@@ -51,10 +50,10 @@
 							});
 						return false;
 					}
-				">${l.l('set')}</a>]
+				"><i class="ti-link"></i></button>
 			</td>
-			<td>${process.statusTitle}</td>
-			<td>${process.reference().description()}</td>
+			<td><ui:process-link id="${process.id}" text="${process.reference().description()}"/></td>
+			<td title="${ui.processCreatedAndClosed(l, process)}">${process.statusTitle}</td>
 		</tr>
 	</c:forEach>
 </table>

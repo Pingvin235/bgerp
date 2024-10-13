@@ -23,10 +23,8 @@
 		<c:if test="${allowLinkDelete}">
 			<td class="min">&nbsp;</td>
 		</c:if>
-		<td class="min">ID</td>
-		<td>${l.l('Type')}</td>
-		<td>${l.l('Status')}</td>
 		<td>${l.l('Description')}</td>
+		<td>${l.l('Status')}</td>
 	</tr>
 
 	<c:forEach var="item" items="${frd.list}">
@@ -39,7 +37,7 @@
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
 
-		<tr openUrl="${url}" title="${l.l('Created')}: ${tu.format(process.createTime, 'ymdhms')}">
+		<tr openUrl="${url}">
 			<c:if test="${allowLinkDelete}">
 				<td class="min">
 					<c:url var="deleteUrl" value="${form.httpRequestURI}">
@@ -65,12 +63,8 @@
 					"/>
 				</td>
 			</c:if>
-			<td class="min">
-				<ui:process-link id="${process.id}"/>
-			</td>
-			<td>${process.type.title}</td>
-			<td>${process.statusTitle}</td>
-			<td>${process.reference().description()}</td>
+			<td title="${l.l('Type')}: ${process.type.title}"><ui:process-link id="${process.id}" text="${process.reference().description()}"/></td>
+			<td title="${ui.processCreatedAndClosed(l, process)}">${process.statusTitle}</td>
 		</tr>
 	</c:forEach>
 </table>

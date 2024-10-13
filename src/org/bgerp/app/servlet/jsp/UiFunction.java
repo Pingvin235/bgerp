@@ -10,10 +10,14 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.action.base.BaseAction;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.model.base.iface.Comment;
 import org.bgerp.model.base.iface.IdTitle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.util.TimeUtils;
 
 /**
  * Functions called from ui JSP taglib.
@@ -57,5 +61,13 @@ public class UiFunction {
                 .collect(Collectors.toList());
 
         return BaseAction.MAPPER.writeValueAsString(result);
+    }
+
+    public static final String processCreatedAndClosed(Localizer l, Process process) {
+        var result = new StringBuilder(100)
+            .append(l.l("Created")).append(": ").append(TimeUtils.format(process.getCreateTime(), TimeUtils.FORMAT_TYPE_YMDHMS));
+        if (process.getCloseTime() != null)
+            result.append(" ").append(l.l("Closed")).append(": ").append(TimeUtils.format(process.getCloseTime(), TimeUtils.FORMAT_TYPE_YMDHMS));
+        return result.toString();
     }
 }
