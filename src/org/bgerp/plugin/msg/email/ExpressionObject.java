@@ -27,11 +27,12 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
     public ExpressionObject() {}
 
     public ExpressionObject(Process process, DynActionForm form, Connection con) throws Exception {
-        setExpression(new Expression(Expression.context(new SingleConnectionSet(con), form, null, process)));
+        context = Expression.context(new SingleConnectionSet(con), form, null, process);
     }
 
     @Override
     public void toContext(Map<String, Object> context) {
+        super.toContext(context);
         context.put(Plugin.ID, this);
     }
 
@@ -44,8 +45,8 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws SQLException
      */
     public void sendMessageToExecutors(int paramId, String subject, String text) throws BGMessageException, SQLException {
-        Process process = (Process)expression.getContextObject(ProcessExpressionObject.KEY);
-        DynActionForm form = (DynActionForm)expression.getContextObject(DynActionForm.KEY);
+        Process process = (Process)context.get(ProcessExpressionObject.KEY);
+        DynActionForm form = (DynActionForm)context.get(DynActionForm.KEY);
 
         Set<Integer> executorIds = process.getExecutorIds().stream()
             .filter(userId -> userId != form.getUserId())
@@ -64,7 +65,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws SQLException
      */
     public void sendMessageToUsers(Iterable<Integer> userIds, int paramId, String subject, String text) throws BGMessageException, SQLException {
-        DynActionForm form = (DynActionForm)expression.getContextObject(DynActionForm.KEY);
+        DynActionForm form = (DynActionForm)context.get(DynActionForm.KEY);
 
         Parameter param = null;
         if (paramId == 0)

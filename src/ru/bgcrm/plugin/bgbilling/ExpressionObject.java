@@ -27,6 +27,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
 
     @Override
     public void toContext(Map<String, Object> context) {
+        super.toContext(context);
         context.put(Plugin.ID, this);
     }
 
@@ -41,13 +42,13 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * <li>{@code phone} from {@code phone} type of contract parameter
      */
     public void cp(int contractParamId, String contractParamType, int processParamId) throws Exception {
-        Process process = (Process)expression.getContextObject(ProcessExpressionObject.KEY);
+        Process process = (Process)context.get(ProcessExpressionObject.KEY);
 
         Parameter processParam = ParameterCache.getParameter(processParamId);
         if (processParam == null)
             throw new NotFoundException("Not found parameter with ID: " + processParamId);
 
-        ConnectionSet conSet = (ConnectionSet)expression.getContextObject(ConnectionSet.KEY);
+        ConnectionSet conSet = (ConnectionSet)context.get(ConnectionSet.KEY);
 
         var linkDao = new ProcessLinkDAO(conSet.getSlaveConnection());
         var contractLink = Utils.getFirst(linkDao.getObjectLinksWithType(process.getId(), Contract.OBJECT_TYPE + "%"));
@@ -59,7 +60,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
         int contractId = contractLink.getLinkObjectId();
         String billingId = StringUtils.substringAfter(contractLink.getLinkObjectType(), ":");
 
-        User user = (User)expression.getContextObject(UserExpressionObject.KEY);
+        User user = (User)context.get(UserExpressionObject.KEY);
 
         var contractParamDao = new ContractParamDAO(user, billingId);
         var paramDao = new ParamValueDAO(conSet.getConnection());

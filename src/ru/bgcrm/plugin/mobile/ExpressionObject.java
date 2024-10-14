@@ -23,6 +23,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
 
     @Override
     public void toContext(Map<String, Object> context) {
+        super.toContext(context);
         context.put(Plugin.ID, this);
     }
 
@@ -33,8 +34,8 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws SQLException
      */
     public void sendMessageToExecutors(String subject, String text) throws SQLException {
-        Process process = (Process)expression.getContextObject(ProcessExpressionObject.KEY);
-        DynActionForm form = (DynActionForm)expression.getContextObject(DynActionForm.KEY);
+        Process process = (Process)context.get(ProcessExpressionObject.KEY);
+        DynActionForm form = (DynActionForm)context.get(DynActionForm.KEY);
 
         Collection<Integer> userIds = process.getExecutorIds().stream()
             .filter(userId -> userId != form.getUserId())

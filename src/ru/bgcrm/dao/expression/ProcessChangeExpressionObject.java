@@ -45,6 +45,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
 
     @Override
     public void toContext(Map<String, Object> context) {
+        super.toContext(context);
         context.put(null, this);
     }
 
@@ -191,7 +192,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
         log.warnd("Used deprecated call 'emailNotifyExecutors', use 'email.sendMessageToExecutors' instead.");
 
         var eo = new ExpressionObject();
-        eo.setExpression(expression);
+        eo.toContext(context);
         eo.sendMessageToExecutors(paramId, subject, text);
     }
 
@@ -200,7 +201,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
         log.warnd("Used deprecated call 'emailNotifyUsers', use 'email.sendMessageToUsers' instead.");
 
         var eo = new ExpressionObject();
-        eo.setExpression(expression);
+        eo.toContext(context);
         eo.sendMessageToUsers(userIds, paramId, subject, text);
     }
 

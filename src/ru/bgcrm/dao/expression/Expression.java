@@ -50,8 +50,13 @@ public class Expression {
 
     private JexlEngine jexl;
 
-    // Вроде как тут заложена возможность создавать классы по их полному названию,
-    // скорее всего для вызовов статических методов вида ru.bgcrm.Utils.doSomth().
+    /**
+     * Extended JEXL context, providing creation of static class contexts by full name.
+     * <pre>
+     *  var = org.bgerp.SomeClass;
+     *  var.someStaticMethod();
+     * </pre>
+     */
     private JexlContext context = new MapContext() {
         @Override
         public boolean has(String name) {
@@ -88,39 +93,37 @@ public class Expression {
         }
     }
 
-    public Expression(Map<String, Object> contextVars) {
+    public Expression(Map<String, Object> context) {
         // TreeMap would be better here, but doesn't support null keys
-        contextVars = new HashMap<>(contextVars);
+        context = new HashMap<>(context);
 
         try {
-            EventProcessor.processEvent(new ContextInitEvent(contextVars), null);
+            EventProcessor.processEvent(new ContextInitEvent(context), null);
         } catch (Exception e) {
             log.error(e);
         }
 
         JexlBuilder jexlBuilder = new JexlBuilder()
-                .namespaces(contextVars) // нам нужен только неймспейс null
-                .strict(true) // выброс исключений
+                // only null namespace is needed here, it provides possibility to call methods without any prefix
+                // calling methods from other namespaces like namespace:method has been deprecated
+                .namespaces(context)
+                // throw exceptions on missing methods
+                .strict(true)
+                // but ignore calling methods of null variables
                 .arithmetic(new JexlArithmetic(false)); // но игнорирование null операндов
         jexl = jexlBuilder.create();
 
-        //TODO: Для совместимости пока объекты декларируются и как объекты и как функции.
-        //В будущем оставить только объекты, методы вызывать через точку.
+        setExpressionContextUtils(context);
 
-        setExpressionContextUtils(contextVars);
+        context.put("log", log);
 
-        contextVars.put("log", log);
+        context.put("NEW_LINE", "\n");
+        context.put("NEW_LINE2", "\n\n");
 
-        contextVars.put("NEW_LINE", "\n");
-        contextVars.put("NEW_LINE2", "\n\n");
-
-        // все функции объявляются как переменные контекста
-        contextVars.entrySet().stream().filter(me -> me.getKey() != null)
-                .forEach(me -> context.set(me.getKey(), me.getValue()));
-
-        // установка ссылки на экспрешшен
-        contextVars.values().stream().filter(v -> v instanceof ExpressionContextAccessingObject)
-                .forEach(v -> ((ExpressionContextAccessingObject) v).setExpression(this));
+        // all vars except the null one are set to the JEXL context
+        context.entrySet().stream()
+            .filter(me -> me.getKey() != null)
+            .forEach(me -> this.context.set(me.getKey(), me.getValue()));
     }
 
     public static void setExpressionContextUtils(Map<String, Object> contextVars) {
@@ -130,10 +133,6 @@ public class Expression {
         contextVars.put("su", PREFIX_su);
         contextVars.put("cu", PREFIX_cu);
         contextVars.put("fu", PREFIX_fu);
-    }
-
-    public Object getContextObject(String name) {
-        return context.get(name);
     }
 
     public boolean check(String expression) {
