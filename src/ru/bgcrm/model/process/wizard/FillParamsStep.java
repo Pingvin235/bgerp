@@ -128,8 +128,8 @@ public class FillParamsStep extends Step {
 
                     Map<String, Object> context = new HashMap<>();
                     context.put(UserExpressionObject.KEY, data.getUser());
-                    ProcessExpressionObject.context(context, process);
-                    ProcessParamExpressionObject.context(context, connection, process);
+                    new ProcessExpressionObject(process).toContext(context);
+                    new ProcessParamExpressionObject(connection, process.getId()).toContext(context);
 
                     // TODO: Use DefaultProcessChangeListener#initExpression()
                     if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {

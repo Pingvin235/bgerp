@@ -5,13 +5,17 @@ import java.util.Map;
 
 import ru.bgcrm.model.user.User;
 
-public class UserParamExpressionObject {
+public class UserParamExpressionObject extends ParamExpressionObject {
     public static final String KEY = User.OBJECT_TYPE + "Param";
     public static final String KEY_SHORT = "up";
 
-    public static void context(Map<String, Object> context, Connection con, User user) {
-        ParamExpressionObject pp = new ParamExpressionObject(con, user.getId());
-        context.put(KEY, pp);
-        context.put(KEY_SHORT, pp);
+    protected UserParamExpressionObject(Connection con, int userId) {
+        super(con, userId);
+    }
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(KEY, this);
+        context.put(KEY_SHORT, this);
     }
 }

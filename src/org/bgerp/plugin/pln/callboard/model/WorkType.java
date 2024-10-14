@@ -168,7 +168,7 @@ public class WorkType
 
 		Map<String, Object> context = new HashMap<>(4);
 		context.put( Process.OBJECT_TYPE, process );
-		ProcessParamExpressionObject.context(context, con, process);
+		new ProcessParamExpressionObject(con, process.getId()).toContext(context);
 		context.put( ProcessLinkExpressionObject.KEY, new ProcessLinkExpressionObject( con, process.getId() ) );
 		context.put( "shift", shiftData );
 

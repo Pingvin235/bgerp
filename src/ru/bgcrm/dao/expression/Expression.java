@@ -185,9 +185,9 @@ public class Expression {
 
         Map<String, Object> context = new HashMap<>(100);
         context.put(UserExpressionObject.KEY, form.getUser());
-        UserParamExpressionObject.context(context, con, form.getUser());
-        ProcessExpressionObject.context(context, process);
-        ProcessParamExpressionObject.context(context, con, process);
+        new UserParamExpressionObject(con, form.getUserId()).toContext(context);
+        new ProcessExpressionObject(process).toContext(context);
+        new ProcessParamExpressionObject(con, process.getId()).toContext(context);
         context.put(ProcessLinkExpressionObject.KEY, new ProcessLinkExpressionObject(con, process.getId()));
         context.put(ConnectionSet.KEY, conSet);
         context.put(DynActionForm.KEY, form);

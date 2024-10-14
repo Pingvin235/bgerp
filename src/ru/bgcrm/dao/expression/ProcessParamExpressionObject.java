@@ -5,13 +5,17 @@ import java.util.Map;
 
 import ru.bgcrm.model.process.Process;
 
-public class ProcessParamExpressionObject {
+public class ProcessParamExpressionObject extends ParamExpressionObject {
     public static final String KEY = Process.OBJECT_TYPE + "Param";
     public static final String KEY_SHORT = "pp";
 
-    public static void context(Map<String, Object> context, Connection con, Process process) {
-        ParamExpressionObject pp = new ParamExpressionObject(con, process.getId());
-        context.put(KEY, pp);
-        context.put(KEY_SHORT, pp);
+    public ProcessParamExpressionObject(Connection con, int processId) {
+        super(con, processId);
+    }
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(KEY, this);
+        context.put(KEY_SHORT, this);
     }
 }

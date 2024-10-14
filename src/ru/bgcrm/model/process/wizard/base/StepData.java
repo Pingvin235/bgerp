@@ -36,8 +36,8 @@ public abstract class StepData<T extends Step> {
         }
 
         Map<String, Object> context = new HashMap<>();
-        ProcessExpressionObject.context(context, data.getProcess());
-        ProcessParamExpressionObject.context(context, con, data.getProcess());
+        new ProcessExpressionObject(data.getProcess()).toContext(context);
+        new ProcessParamExpressionObject(con, data.getProcess().getId()).toContext(context);
         context.put(ProcessLinkExpressionObject.KEY, new ProcessLinkExpressionObject(con, data.getProcess().getId()));
         context.put(UserExpressionObject.KEY, data.getUser());
 

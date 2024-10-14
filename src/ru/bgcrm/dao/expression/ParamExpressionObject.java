@@ -29,13 +29,13 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class ParamExpressionObject {
+public abstract class ParamExpressionObject implements ExpressionObject {
     private static final Log log = Log.getLog();
 
     private final ParamValueDAO paramDao;
     private final int objectId;
 
-    public ParamExpressionObject(Connection con, int objectId) {
+    protected ParamExpressionObject(Connection con, int objectId) {
         this.paramDao = new ParamValueDAO(con);
         this.objectId = objectId;
     }
