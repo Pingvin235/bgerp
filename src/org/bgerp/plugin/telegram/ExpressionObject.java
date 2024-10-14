@@ -2,6 +2,7 @@ package org.bgerp.plugin.telegram;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,10 +15,12 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
-public class ExpressionObject {
+public class ExpressionObject implements ru.bgcrm.dao.expression.ExpressionObject {
     private static final Log log = Log.getLog();
 
     private static final Set<Character> SPECIAL_CHARACTERS_MD = Set.of('(', ')');
+
+    ExpressionObject() {}
 
     /**
      * Send message in a chat.
@@ -138,5 +141,10 @@ public class ExpressionObject {
         }
 
         return result.toString();
+    }
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(Plugin.ID, this);
     }
 }

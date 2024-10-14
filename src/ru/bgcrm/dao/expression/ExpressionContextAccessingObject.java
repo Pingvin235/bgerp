@@ -5,7 +5,7 @@ package ru.bgcrm.dao.expression;
  *
  * @author Shamil Vakhitov
  */
-public class ExpressionContextAccessingObject {
+public abstract class ExpressionContextAccessingObject implements ExpressionObject {
     protected Expression expression;
 
     public void setExpression(Expression expression) {

@@ -46,7 +46,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         new ProcessNotificationListener();
 
         EventProcessor.subscribe((e, conSet) -> {
-            e.getContext().put(ID, new ExpressionObject());
+            new ExpressionObject().toContext(e.getContext());
         }, ContextInitEvent.class);
     }
 }

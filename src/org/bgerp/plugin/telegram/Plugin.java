@@ -21,7 +21,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         Bot.getInstance();
 
         EventProcessor.subscribe((e, conSet) -> {
-            e.getContext().put(ID, new ExpressionObject());
+            new ExpressionObject().toContext(e.getContext());
         }, ContextInitEvent.class);
     }
 }

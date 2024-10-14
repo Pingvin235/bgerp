@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,11 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
         this.process = process;
         this.form = form;
         this.con = con;
+    }
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(null, this);
     }
 
     /**

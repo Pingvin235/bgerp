@@ -2,6 +2,7 @@ package org.bgerp.plugin.msg.email;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,11 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
 
     public ExpressionObject(Process process, DynActionForm form, Connection con) throws Exception {
         setExpression(new Expression(Expression.context(new SingleConnectionSet(con), form, null, process)));
+    }
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(Plugin.ID, this);
     }
 
     /**

@@ -1,5 +1,7 @@
 package ru.bgcrm.plugin.bgbilling;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -18,6 +20,13 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ExpressionObject extends ExpressionContextAccessingObject {
     private static final Log log = Log.getLog();
+
+    ExpressionObject() {}
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(Plugin.ID, this);
+    }
 
     /**
      * Copy parameter value from link contract to the process

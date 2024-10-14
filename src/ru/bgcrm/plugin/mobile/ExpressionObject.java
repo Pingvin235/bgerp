@@ -2,6 +2,7 @@ package ru.bgcrm.plugin.mobile;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.Setup;
@@ -16,6 +17,13 @@ import ru.bgcrm.struts.form.DynActionForm;
 
 public class ExpressionObject extends ExpressionContextAccessingObject {
     private static final Log log = Log.getLog();
+
+    ExpressionObject() {}
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(Plugin.ID, this);
+    }
 
     /**
      * Sends mobile app push notification to executors, except ones from the current {@link DynActionForm}.
