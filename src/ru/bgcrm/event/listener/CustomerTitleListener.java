@@ -1,7 +1,6 @@
 package ru.bgcrm.event.listener;
 
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
@@ -11,24 +10,18 @@ import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class CustomerSystemListener {
+public class CustomerTitleListener {
     private static final Log log = Log.getLog();
 
-    public CustomerSystemListener() {
-        EventProcessor.subscribe(new EventListener<>() {
-            @Override
-            public void notify(ParamChangedEvent e, ConnectionSet connectionSet) {
-                paramChanged(e, connectionSet);
-            }
-
-        }, ParamChangedEvent.class);
+    public CustomerTitleListener() {
+        EventProcessor.subscribe((e, conSet) -> paramChanged(e, conSet), ParamChangedEvent.class);
     }
 
-    private void paramChanged(ParamChangedEvent e, ConnectionSet connectionSet) {
+    private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) {
         Parameter param = e.getParameter();
         if (Customer.OBJECT_TYPE.equals(param.getObject())) {
             try {
-                CustomerDAO customerDAO = new CustomerDAO(connectionSet.getConnection());
+                CustomerDAO customerDAO = new CustomerDAO(conSet.getConnection());
 
                 Customer customer = customerDAO.getCustomerById(e.getObjectId());
                 if (customer == null) {
@@ -37,7 +30,7 @@ public class CustomerSystemListener {
 
                 customerDAO.updateCustomerTitle(customer.getTitle(), customer, param.getId(), e.getForm().getResponse());
             } catch (Exception ex) {
-                log.error(ex.getMessage(), ex);
+                log.error(ex);
             }
         }
     }

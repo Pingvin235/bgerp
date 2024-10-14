@@ -10,7 +10,7 @@ import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.Locker;
-import ru.bgcrm.event.listener.CustomerSystemListener;
+import ru.bgcrm.event.listener.CustomerTitleListener;
 import ru.bgcrm.event.listener.DefaultProcessChangeListener;
 import ru.bgcrm.event.listener.Files;
 import ru.bgcrm.event.listener.LoginEventListener;
@@ -100,7 +100,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         super.init(con);
 
         // event listeners
-        new CustomerSystemListener();
+        new CustomerTitleListener();
         new ParamValidatorSystemListener();
         new ProcessClosingListener();
         new DefaultProcessChangeListener();
