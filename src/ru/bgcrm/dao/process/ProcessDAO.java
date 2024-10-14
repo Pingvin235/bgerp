@@ -13,14 +13,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
@@ -179,23 +176,12 @@ public class ProcessDAO extends CommonDAO {
         return result;
     }
 
-    /** Use {@link org.bgerp.dao.process.ProcessSearchDAO} */
-    @Deprecated
-    public List<Process> getProcessList(Collection<Integer> processIds) {
-        List<Process> processList = new ArrayList<>();
-        try {
-            String query = "SELECT process.* " + SQL_FROM + TABLE_PROCESS + " AS process " + "WHERE process.id IN ( "
-                    + Utils.toString(processIds) + ")";
-            PreparedStatement ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                processList.add(getProcessFromRs(rs));
-            }
-            ps.close();
-
-            return processList;
-        } catch (SQLException e) {
-            throw new BGException(e);
+    public void updateProcessTitle(int processId, String title) throws SQLException {
+        String query = SQL_UPDATE + Tables.TABLE_PROCESS + SQL_SET + "title=?" + SQL_WHERE + "id=?";
+        try (var ps = con.prepareStatement(query)) {
+            ps.setString(1, title);
+            ps.setInt(2, processId);
+            ps.executeUpdate();
         }
     }
 

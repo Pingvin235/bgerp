@@ -160,10 +160,6 @@ Depending on enabled plugins passed the following variables:
 [square]
 * *<subject>* - начало темы новости, если не указано - то "Изменился процесс".
 
-Продолжение темы новости генерируется с помощью <<index.adoc#setup-type-reference, макроса описаний>>.
-Первым ищется описание с ключом *newsNotifySubject*, затем *processCard*.
-Если описание не найдено то добавляются наименование типа и код процесса.
-
 ==== clearGroups
 Очистить список групп процесса.
 
@@ -190,8 +186,6 @@ CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expressio
 [[commands-bgbilling]]
 === Команды плагина BGBilling
 CAUTION: Устарели, использовать JEXL скрипты по <<processing_samples.adoc#bgbilling-copy-params, образцу>>.
-
-// include::../../plugin/bgbilling/processing_commands.adocf[]
 
 [[samples]]
 == Примеры

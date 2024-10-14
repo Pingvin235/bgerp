@@ -10,6 +10,7 @@ import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.model.process.TypeProperties;
+import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 
 @Test(groups = "processReference", dependsOnGroups = { "process", "processParam" })
 public class ProcessReferenceTest {
@@ -29,6 +30,9 @@ public class ProcessReferenceTest {
         ) + ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+
+        // only to do not forget remove the test with the config
+        props.getConfigMap().getConfig(ProcessReferenceConfig.class);
     }
 
     @Test(dependsOnMethods = "processType")

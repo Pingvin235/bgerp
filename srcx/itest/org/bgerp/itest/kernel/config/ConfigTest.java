@@ -3,6 +3,7 @@ package org.bgerp.itest.kernel.config;
 import java.util.Date;
 
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
@@ -35,6 +36,9 @@ public class ConfigTest {
         Assert.assertTrue(configMainId > 0);
 
         dao.setActiveGlobalConfig(configMainId);
+
+        // other plugins are initialized inside their tests
+        PluginHelper.initPlugin(org.bgerp.plugin.kernel.Plugin.INSTANCE);
     }
 
     @Test(dependsOnMethods = "initMainConfig")

@@ -1,0 +1,1 @@
+B: Generated process title. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-title

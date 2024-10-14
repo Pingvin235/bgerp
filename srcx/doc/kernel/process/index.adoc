@@ -97,8 +97,27 @@ descriptionAddPattern.timePattern=dd.MM HH:mm
 * *<status_ids>* - коды статусов через запятую;
 * *<groupIds>* - коды групп через запятую.
 
+[[setup-type-title]]
+==== Title
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process description is *Kernel Process Title*.
+
+By default for every process type <<usage-card, title>> has generated like *#<PROCESS_ID> <PROCESS_DESCRIPTION>*, but that may be changed by placing in the type configuration:
+----
+title.expression=<jexl>
+----
+
+Where *<jexl>* contains <<../extension.adoc#jexl, JEXL>> expression with the following variables in context:
+[square]
+* *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[] - the process;
+* *pp* or *processParam*  - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - process parameters.
+
+Example with title generation out of process ID, type title and parameter with ID = 3 value.
+----
+title.expression=p.getId() + " " + p.getTypeTitle() + " " + pp.val(3)
+----
+
 [[setup-type-param-behaviour]]
-==== Настройки поведения параметров процесса
+==== Params Behaviour
 ----
 # при ошибке правки параметров - обновление таблицы с параметрами, необходимо в случае, если при этом другие параметры изменяются динамическим кодом
 onErrorChangeParamsReload=1
@@ -128,8 +147,34 @@ showParam.<paramId>.checkExpression=<JEXL_EXPR>
 * *<paramId>* - код параметра;
 * *<JEXL_EXPR>* - <<../extension.adoc#jexl, JEXL>> script with <<../extension.adoc#jexl-process-context, standard context for process>>.
 
+[[setup-type-left]]
+==== Card Left Area
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process description is *Kernel Process Card*.
+
+Для настройки отображения левой области карточки процесса в конфигурацию типа добавляются одна или несколько конструкций вида:
+----
+processCard.<id>.mode=<modes>
+processCard.<id>.components=<components>
+----
+
+Где:
+[square]
+* *<id>* - порядковый номер правила;
+* *<modes>* - список через запятую режимов отображения карточки процесса, допустимые значения:
+   ** *card* - просмотр карточки с открытием в буфере,
+   ** *linked* - просмотр карточки процесса, привязанного к другому процессу с открытием в правой области первого процесса;
+* *<components>* - через запятую компоненты левого блока, допустимые стандартные блоки: *header*, *description*, *executors*, *links*, *params*; or custom JSP files prefixied by *jsp:*.
+
+Example:
+[snippet, from="processCard", to="executors"]
+link:../../../itest/org/bgerp/itest/kernel/process/ProcessCardTest.process.type.config.txt#L1-L2[Kernel Process Card type configuration]
+
+How does the configured card look like.
+
+image::_res/card_config.png[width="800"]
+
 [[setup-type-executor-restriction]]
-==== Ограничение количества исполнителей по группам
+==== Executors Limit
 Одно или несколько правил вида:
 ----
 executorRestriction.<n>.groupId=<groupId>
@@ -144,32 +189,8 @@ executorRestriction.<n>.maxCount=<maxCount>
 
 Просматриваются все правила в порядке их номеров.
 
-[[setup-type-left]]
-==== Настройка левой области карточки процесса
-Для настройки отображения левой области карточки процесса в конфигурацию типа добавляются одна или несколько конструкций вида:
-----
-processCard.<id>.mode=<modes>
-processCard.<id>.components=<components>
-----
-
-Где:
-[square]
-* *<id>* - порядковый номер правила;
-* *<modes>* - список через запятую режимов отображения карточки процесса, допустимые значения:
-   ** *card* - просмотр карточки с открытием в буфере,
-   ** *linked* - просмотр карточки процесса, привязанного к другому процессу с открытием в правой области первого процесса;
-* *<components>* - через запятую компоненты левого блока, допустимые стандартные блоки: *header*, *description*, *executors*, *links*, *params*; or custom JSP filed prefixied by *jsp:*.
-
-Example:
-[snippet, from="processCard", to="executors"]
-link:../../../itest/org/bgerp/itest/kernel/process/ProcessCardTest.process.type.config.txt#L1-L2[Kernel Process Card type configuration]
-
-How does the configured card look like.
-
-image::_res/card_config.png[width="800"]
-
 [[setup-type-create]]
-==== Process Creation
+==== Creation
 NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process description is *Kernel Process Create In*.
 
 Ro restricting areas where the process type can be created, add:
@@ -207,59 +228,6 @@ create.in.copyParams=перечень пар <с параметра>:<на па�
 ----
 create.in.objectTypes=customer
 create.in.copyParams=1:3;5:6
-----
-
-[[setup-type-reference]]
-==== Process Reference
-Processe reference macros allows to generate dynamically a description text for a process.
-To define a reference add the following block to process type configuration.
-----
-processReference.<n>.objectTypes=<objectTypes>
-processReference.<n>.stringExpression=<macros>
-----
-
-Where:
-[square]
-* *<n>* - порядковый номер записи;
-* *<objectTypes>* - areas, there the macros is applicable, see the possible values below;
-* *<macros>* - <<../extension.adoc#jexl,JEXL>> expression script with <<../extension.adoc#jexl-process-context, standard context for process>>.
-
-Areas:
-[square]
-* *customer* - <<usage-link-process, Tab>> *Processes* in a customer;
-* *processCard* - title of process' card;
-* *linkedProcessList* - table with parent <<#usage-related-process, related processes>>;
-* *linkProcessList* - table with child <<#usage-related-process, related processes>>;
-* *messagePossibleProcess* - table with <<../message/index.adoc#usage-queue-possible-process, possible processes>> for a message;
-* *open.processCard* - process card in <<../interface.adoc#open-process, open>> interface.
-
-CAUTION: Retrieving parameters may be quite expensive.
-
-Here is a simple example from our <<../install.adoc#demo, Demo System>>, type configuration of process *Kernel Process Reference*.
-[snippet, from="processReference", to="END"]
-link:../../../itest/org/bgerp/itest/kernel/process/ProcessReferenceTest.process.type.config.txt#L1-L4[Process Type Config Sample]
-
-How does it look in UI like.
-
-image::_res/reference/title.png[]
-
-Some more examples with different retrieved data:
-----
-processReference.{@inc:cnt}.objectTypes=customer
-processReference.{@cnt}.stringExpression=u.toString(processParam.addressValues(90, 'fromStreet')) + " : " + processParam.getValue(238)
-processReference.{@inc:cnt}.objectTypes=processCard
-processReference.{@cnt}.stringExpression="Request: " + u.escapeXml(u.toString(processLink.linkTitles("customer"))) + "<br/>" + u.escapeXml(u.toString(processParam.addressValues(90, 'fromStreet'))) + "&nbsp;"
-----
-
-[[setup-type-reference-sample-type]]
-How you could notice, HTML markup can be used in expressions. It is also possible to separate some buffer shown text like that.
-
-image::_res/reference/buffer.png[]
-
-Here is the process configuration for that.
-----
-processReference.{@inc:cnt}.objectTypes=processCard
-processReference.{@cnt}.stringExpression="<span class='title'>#" + process.getId() +  " " + process.getTypeTitle() + " " +  "</span><span>" + u.escapeXml(process.getDescription())  + "</span>"
 ----
 
 [[setup-type-related-process]]
@@ -390,15 +358,14 @@ NOTE: Only child related processes can be created in a this way.
 
 [[usage-card]]
 === Process Card
-Карточка процесса открывается в буфере объектов и позволяет редактировать свойства уже созданного процесса.
+Process card shows in UI process properties and parameters. In the top left area there is a <<setup-type-title, configurable process title>>, click to it causes reload of the card.
+Clicking to the cross right of the title closes the card.
+When a process wasn't closed, but you moved away it to a different UI place, the process title will stay in <<../interface.adoc#user-object, buffer>> that allows you quickly going back to it.
 
-image::_res/card.png[]
+image::_res/card.png[width="800"]
 
 В левой области расположены блоки редактирования свойства процесса и ссылки для их редактирования, настроенные для <<setup-type, типа>> процесса <<../setup.adoc#param, параметры>>.
 Вид левого блока можно <<setup-type-left, настроить>> в конфигурации типа процесса.
-
-Строка с описанием процесса (по-умолчанию содержит код процесса и наименование его типа) может быть <<setup-type-reference, настроена>> в конфигурации.
-Эта же строка отображается в буфере закрытых объектов, позволяя вернуться на недавно открытый процесс.
 
 В правой области отображаются связанные с процессом данные, например <<usage-related-process,связанные процессы>>, либо различные расширения, предоставляемые плагинами.
 
@@ -449,9 +416,7 @@ image::_res/link.png[]
 
 image::_res/object_process.png[]
 
-По-умолчанию отображаются несколько обязательных полей процессов, возможна настройка <<setup-type-reference, описания>> в конфигурации типа для области *customer*.
-
-Данный способ, однако, вызывает значительную дополнительную нагрузку на БД при выводе списка и не позволяет гибко настраивать отображаемые столбцы.
+По-умолчанию отображаются несколько обязательных полей процессов.
 Вместо стандартного списка может быть отображена <<queue.adoc#, очередь процессов>> с фильтром по данному объекту.
 В конфигурации очереди могут быть определены столбцы и <<queue.adoc#sort, сортировки>> с явным значением *value*.
 

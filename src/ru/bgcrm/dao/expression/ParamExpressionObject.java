@@ -120,7 +120,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
         return result;
     }
 
-    private Collection<ParameterAddressValue> getParamAddressValues(int paramId, String formatName) {
+    protected Collection<ParameterAddressValue> getParamAddressValues(int paramId, String formatName) {
         Collection<ParameterAddressValue> value = Collections.emptyList();
 
         try {
@@ -222,7 +222,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
         return val(paramId);
     }
 
-    // deprecated methods begin
+    // DEPRECATED
 
     /**
      * Use {@link ParamValueDAO#getParamAddress(int, int)}

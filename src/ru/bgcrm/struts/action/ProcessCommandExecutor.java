@@ -21,7 +21,6 @@ import ru.bgcrm.model.News;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
-import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -36,8 +35,6 @@ public class ProcessCommandExecutor {
 
     public static void processDoCommands(Connection con, DynActionForm form, Process process, UserEvent event, List<String> commands)
             throws Exception {
-        ProcessType type = ProcessAction.getProcessType(process.getTypeId());
-
         for (String command : commands) {
             //linked:<typeId>:...
             if (command.startsWith("linkedProcess:")) {
@@ -109,7 +106,7 @@ public class ProcessCommandExecutor {
             } else if (command.equals("close")) {
                 form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessCloseEvent(process.getId()));
             } else if (command.startsWith("newsNotifyExecutors") || command.startsWith("newsPopupNotifyExecutors")) {
-                String subject = Utils.maskEmpty(StringUtils.substringAfterLast(command, ":"), "Изменился процесс ");
+                String subject = Utils.maskEmpty(StringUtils.substringAfterLast(command, ":"), "Изменился процесс") + " #" + process.getId();
 
                 String text = "Изменился процесс, в котором вы числитесь исполнителем.\n\n" + "Описание:<br/>" + process.getDescription();
 

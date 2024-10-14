@@ -51,6 +51,8 @@ public class ProcessParamTest {
     private int paramDateTimeId;
     private int paramEmailId;
     private int paramFileId;
+    // TODO: Make private
+    @Deprecated
     static int paramListId;
     private int paramListDirConfigId;
     private int paramListCountId;

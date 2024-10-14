@@ -55,15 +55,15 @@ In JEXL processor always passed the variables:
 [[jexl-process-context]]
 Variables for process handling:
 [square]
-* *user* - объект класса javadoc:ru.bgcrm.model.user.User[] - текущий пользователь;
-* *userParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры текущего пользователя;
-* *process* - объект класс javadoc:ru.bgcrm.model.process.Process[] - изменяющийся процесс;
-* *processParam* or *pp* - объект класса javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры изменяющегося процесса;
-* *processLink* - объект класса javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[] - привязки изменяющегося процесса;
-* *conSet* - объект класса javadoc:ru.bgcrm.util.sql.ConnectionSet[] - соединения к БД;
-* *form* - объект класса javadoc:ru.bgcrm.struts.form.DynActionForm[] - данные по запросу к серверу;
+* *user* - object of class javadoc:ru.bgcrm.model.user.User[] - текущий пользователь;
+* *up* or *userParam* - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры текущего пользователя;
+* *p* or *process* - объект of class javadoc:ru.bgcrm.model.process.Process[] - изменяющийся процесс;
+* *pp* or *processParam*  - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры изменяющегося процесса;
+* *processLink* - object of class javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[] - привязки изменяющегося процесса;
+* *conSet* - object of class javadoc:ru.bgcrm.util.sql.ConnectionSet[] - соединения к БД;
+* *form* - object of class javadoc:ru.bgcrm.struts.form.DynActionForm[] - данные по запросу к серверу;
 * все переменные контекста из javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[];
-* объект класса javadoc:ru.bgcrm.dao.expression.ProcessChangeExpressionObject[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать в скрипте без префикса параменной с точкой.
+* object of class javadoc:ru.bgcrm.dao.expression.ProcessChangeExpressionObject[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать в скрипте без префикса параменной с точкой.
 
 [[regexp]]
 === Java REGEXP

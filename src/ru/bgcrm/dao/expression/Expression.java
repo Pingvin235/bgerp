@@ -110,7 +110,7 @@ public class Expression {
                 // throw exceptions on missing methods
                 .strict(true)
                 // but ignore calling methods of null variables
-                .arithmetic(new JexlArithmetic(false)); // но игнорирование null операндов
+                .arithmetic(new JexlArithmetic(false));
         jexl = jexlBuilder.create();
 
         setExpressionContextUtils(context);
