@@ -57,9 +57,8 @@ public class HelpDeskListener {
 
     @SuppressWarnings("unchecked")
     private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws BGMessageException {
-        // TODO: Предварительно можно сделать отсев по кодам параметров, которые могут
-        // быть связаны с хелпдеском.
-        if (!Process.OBJECT_TYPE.equals(e.getParameter().getObject())) {
+        // TODO: Предварительно можно сделать отсев по кодам параметров, которые могут быть связаны с хелпдеском.
+        if (!Process.OBJECT_TYPE.equals(e.getParameter().getObjectType())) {
             return;
         }
 

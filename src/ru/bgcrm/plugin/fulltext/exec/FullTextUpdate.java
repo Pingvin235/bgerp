@@ -104,7 +104,7 @@ public class FullTextUpdate extends Task {
                     }
 
                     List<Parameter> paramList = ParameterCache.getParameterMap().values().stream()
-                        .filter(p -> p.getObject().equals(item.getObjectType()) && config.isParamConfigured(p))
+                        .filter(p -> p.getObjectType().equals(item.getObjectType()) && config.isParamConfigured(p))
                         .collect(Collectors.toList());
 
                     if (!paramList.isEmpty()) {

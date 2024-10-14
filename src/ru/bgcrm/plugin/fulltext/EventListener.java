@@ -41,7 +41,7 @@ public class EventListener implements org.bgerp.app.event.iface.EventListener<Ev
         if (e instanceof ParamChangedEvent) {
             ParamChangedEvent event = (ParamChangedEvent) e;
             if (config.isParamConfigured(event.getParameter()))
-                dao.scheduleUpdate(event.getParameter().getObject(), event.getObjectId());
+                dao.scheduleUpdate(event.getParameter().getObjectType(), event.getObjectId());
         } else if (e instanceof CustomerChangedEvent) {
             CustomerChangedEvent event = (CustomerChangedEvent) e;
             if (config.getObjectTypeMap().containsKey(Customer.OBJECT_TYPE))

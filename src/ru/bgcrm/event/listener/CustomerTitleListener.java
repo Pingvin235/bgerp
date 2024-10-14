@@ -19,7 +19,7 @@ public class CustomerTitleListener {
 
     private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) {
         Parameter param = e.getParameter();
-        if (Customer.OBJECT_TYPE.equals(param.getObject())) {
+        if (Customer.OBJECT_TYPE.equals(param.getObjectType())) {
             try {
                 CustomerDAO customerDAO = new CustomerDAO(conSet.getConnection());
 

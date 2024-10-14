@@ -60,10 +60,10 @@ public class DefaultProcessChangeListener {
         EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getProcess()),
                 ProcessRemovedEvent.class);
 
-        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getParameter().getObject(), e.getObjectId()),
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getParameter().getObjectType(), e.getObjectId()),
                 ParamChangingEvent.class);
 
-        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getParameter().getObject(), e.getObjectId()),
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getParameter().getObjectType(), e.getObjectId()),
                 ParamChangedEvent.class);
 
         EventProcessor.subscribe(

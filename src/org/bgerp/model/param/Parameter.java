@@ -12,10 +12,15 @@ import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.util.Dynamic;
+import org.bgerp.util.Log;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.util.TimeUtils;
 
 public class Parameter extends IdTitleComment {
+    private static final Log log = Log.getLog();
+
     public static final String PARAM_MULTIPLE_KEY = "multiple";
 
     public static final String LIST_PARAM_USE_DIRECTORY_KEY = "directory";
@@ -64,7 +69,7 @@ public class Parameter extends IdTitleComment {
     }
 
     private String type;
-    private String object;
+    private String objectType;
     private String config;
     private ConfigMap configMap;
     private String valuesConfig;
@@ -82,12 +87,12 @@ public class Parameter extends IdTitleComment {
         this.type = type;
     }
 
-    public String getObject() {
-        return object;
+    public String getObjectType() {
+        return objectType;
     }
 
-    public void setObject(String object) {
-        this.object = object;
+    public void setObjectType(String object) {
+        this.objectType = object;
     }
 
     public int getOrder() {
@@ -152,7 +157,7 @@ public class Parameter extends IdTitleComment {
         builder.append("[ id = ");
         builder.append(id);
         builder.append("; object = ");
-        builder.append(object);
+        builder.append(objectType);
         builder.append("; type = ");
         builder.append(type);
         builder.append("; title = ");
@@ -161,5 +166,18 @@ public class Parameter extends IdTitleComment {
         builder.append(config == null ? "null" : config.split("\n").length + " lines");
         builder.append(" ]");
         return builder.toString();
+    }
+
+    @Deprecated
+    @JsonIgnore
+    public String getObject() {
+        log.warndMethod("getObject", "getObjectType");
+        return objectType;
+    }
+
+    @Deprecated
+    public void setObject(String object) {
+        log.warndMethod("setObject", "setObjectType");
+        this.objectType = object;
     }
 }

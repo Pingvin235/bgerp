@@ -169,7 +169,7 @@ public class ParamDAO extends CommonDAO {
         if (parameter.getId() < 0) {
             query = "INSERT INTO param_pref SET object=?, type=?, title=?, `order`=?, config=?, comment=?";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(index++, parameter.getObject());
+            ps.setString(index++, parameter.getObjectType());
             ps.setString(index++, parameter.getType());
             ps.setString(index++, parameter.getTitle());
             ps.setInt(index++, parameter.getOrder());
@@ -287,10 +287,10 @@ public class ParamDAO extends CommonDAO {
         while (rs.next()) {
             Parameter param = getParameterFromRs(rs);
 
-            List<Parameter> paramList = result.get(param.getObject());
+            List<Parameter> paramList = result.get(param.getObjectType());
             if (paramList == null) {
                 paramList = new ArrayList<>();
-                result.put(param.getObject(), paramList);
+                result.put(param.getObjectType(), paramList);
             }
 
             paramList.add(param);
@@ -520,7 +520,7 @@ public class ParamDAO extends CommonDAO {
         parameter.setId(rs.getInt("id"));
         parameter.setType(rs.getString("type"));
         parameter.setTitle(rs.getString("title"));
-        parameter.setObject(rs.getString("object"));
+        parameter.setObjectType(rs.getString("object"));
         parameter.setOrder(rs.getInt("order"));
         parameter.setConfig(rs.getString("config"));
         parameter.setComment(rs.getString("comment"));

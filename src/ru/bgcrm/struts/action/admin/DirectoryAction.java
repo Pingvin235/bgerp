@@ -128,7 +128,7 @@ public class DirectoryAction extends BaseAction {
 
         Parameter parameter = new Parameter();
         parameter.setId(form.getId());
-        parameter.setObject(getObjectType(form.getParam("directoryId")));
+        parameter.setObjectType(getObjectType(form.getParam("directoryId")));
         parameter.setType(form.getParam("type"));
 
         if (form.getId() > 0) {

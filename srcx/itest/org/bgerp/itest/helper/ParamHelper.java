@@ -22,7 +22,7 @@ public class ParamHelper {
         var param = new Parameter();
         param.setId(-1);
         param.setComment("");
-        param.setObject(object);
+        param.setObjectType(object);
         param.setType(type);
         param.setTitle(title);
         param.setOrder(pos);
