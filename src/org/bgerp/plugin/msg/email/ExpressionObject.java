@@ -15,6 +15,7 @@ import org.bgerp.model.param.Parameter;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -43,7 +44,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws SQLException
      */
     public void sendMessageToExecutors(int paramId, String subject, String text) throws BGMessageException, SQLException {
-        Process process = (Process)expression.getContextObject(Process.OBJECT_TYPE);
+        Process process = (Process)expression.getContextObject(ProcessExpressionObject.KEY);
         DynActionForm form = (DynActionForm)expression.getContextObject(DynActionForm.KEY);
 
         Set<Integer> executorIds = process.getExecutorIds().stream()

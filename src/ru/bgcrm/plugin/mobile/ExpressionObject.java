@@ -9,6 +9,7 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.mobile.dao.MobileDAO;
@@ -32,7 +33,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws SQLException
      */
     public void sendMessageToExecutors(String subject, String text) throws SQLException {
-        Process process = (Process)expression.getContextObject(Process.OBJECT_TYPE);
+        Process process = (Process)expression.getContextObject(ProcessExpressionObject.KEY);
         DynActionForm form = (DynActionForm)expression.getContextObject(DynActionForm.KEY);
 
         Collection<Integer> userIds = process.getExecutorIds().stream()

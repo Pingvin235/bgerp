@@ -5,7 +5,7 @@ import java.util.Map;
 import ru.bgcrm.model.user.User;
 
 public class UserExpressionObject implements ExpressionObject {
-    private static final String KEY = User.OBJECT_TYPE;
+    public static final String KEY = User.OBJECT_TYPE;
     // DO NOT CREATE KEY_SHORT = "u", will conflict to Utils
 
     private final User user;

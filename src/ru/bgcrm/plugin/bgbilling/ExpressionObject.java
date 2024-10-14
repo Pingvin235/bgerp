@@ -10,6 +10,8 @@ import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
+import ru.bgcrm.dao.expression.UserExpressionObject;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -39,7 +41,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * <li>{@code phone} from {@code phone} type of contract parameter
      */
     public void cp(int contractParamId, String contractParamType, int processParamId) throws Exception {
-        Process process = (Process)expression.getContextObject(Process.OBJECT_TYPE);
+        Process process = (Process)expression.getContextObject(ProcessExpressionObject.KEY);
 
         Parameter processParam = ParameterCache.getParameter(processParamId);
         if (processParam == null)
@@ -57,7 +59,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
         int contractId = contractLink.getLinkObjectId();
         String billingId = StringUtils.substringAfter(contractLink.getLinkObjectType(), ":");
 
-        User user = (User)expression.getContextObject(User.OBJECT_TYPE);
+        User user = (User)expression.getContextObject(UserExpressionObject.KEY);
 
         var contractParamDao = new ContractParamDAO(user, billingId);
         var paramDao = new ParamValueDAO(conSet.getConnection());
