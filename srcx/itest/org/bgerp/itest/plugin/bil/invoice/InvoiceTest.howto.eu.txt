@@ -1,4 +1,4 @@
-Use built-in user Administrator for the testing.
-1. An invoice is available in "Invoices" tab.
-2. Generated form is shown. Invoice is produced from the test customer to himself.
-3. Remove one logo from the link customer, the logo in the form must be changed.
+# Use built-in user Administrator for the testing:
+- An invoice is available in "Invoices" tab.
+- Generated print form is shown. Invoice is produced from the test customer to himself.
+- Remove one logo from the link customer, the logo in the form must be changed.

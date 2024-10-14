@@ -1,9 +1,7 @@
-Blow Board checks:
-1. Shown nice.
-2. Drag & Drop over groups.
-3. Cut & Paste over groups.
-4. Search messages.
-5. Buttons with counters work.
-6. Open board is shown.
-
-
+# In Blow Board:
+- Shown nicely
+- Drag & Drop over groups
+- Cut & Paste over groups
+- Search messages
+- Buttons with counters work
+- The board is visible in 'Open' interface

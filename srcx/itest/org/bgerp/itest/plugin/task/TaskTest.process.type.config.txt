@@ -1,7 +1,7 @@
 task:processShowTasks=1
 
-onProcessEvent.1.events=paramChanged:{@DEADLINE_PARAM_ID}
-onProcessEvent.1.doExpression=<<END
+onProcessEvent.{@inc:cnt}.events=paramChanged:{@DEADLINE_PARAM_ID}
+onProcessEvent.{@cnt}.doExpression=<<END
     t = new("ru.bgcrm.plugin.task.model.Task", "reminder", process.getId(), event.getValue());
     t.getConfig().put("userId", user.getId().toString());
     task.setTask(t);

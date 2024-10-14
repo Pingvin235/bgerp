@@ -1,2 +1,2 @@
-To test plugin change 'deadline' parameter,
-that should create a task.
+# When 'deadline' parameter is changed:
+- A task has to be created and shown on the process tab
