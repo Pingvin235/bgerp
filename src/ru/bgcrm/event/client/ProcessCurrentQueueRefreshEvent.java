@@ -3,9 +3,9 @@ package ru.bgcrm.event.client;
 import org.bgerp.event.base.ClientEvent;
 
 /**
- * Сообщение о необходимости перейти в текущую выбранную очередь процессов
- * (если открыты очереди процессов) и обновить её.
+ * Refresh currently open process queue
+ *
+ * @author Shamil Vakhitov
  */
-public class ProcessCurrentQueueRefreshEvent
-	extends ClientEvent
-{}
+public class ProcessCurrentQueueRefreshEvent extends ClientEvent {
+}
