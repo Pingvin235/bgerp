@@ -127,7 +127,7 @@ public class FillParamsStep extends Step {
                     String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
                     Map<String, Object> context = new HashMap<>();
-                    context.put(UserExpressionObject.KEY, data.getUser());
+                    new UserExpressionObject(data.getUser()).toContext(context);
                     new ProcessExpressionObject(process).toContext(context);
                     new ProcessParamExpressionObject(connection, process.getId()).toContext(context);
 

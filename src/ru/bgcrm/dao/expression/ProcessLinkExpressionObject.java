@@ -3,6 +3,7 @@ package ru.bgcrm.dao.expression;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
@@ -13,8 +14,8 @@ import ru.bgcrm.model.process.Process;
  *
  * @author Shamil Vakhitov
  */
-public class ProcessLinkExpressionObject {
-    public static final String KEY = "processLink";
+public class ProcessLinkExpressionObject implements ExpressionObject {
+    private static final String KEY = "processLink";
 
     private final ProcessLinkDAO linkDao;
     private final int processId;
@@ -22,6 +23,11 @@ public class ProcessLinkExpressionObject {
     public ProcessLinkExpressionObject(Connection con, int processId) {
         this.linkDao = new ProcessLinkDAO(con);
         this.processId = processId;
+    }
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(KEY, this);
     }
 
     /**

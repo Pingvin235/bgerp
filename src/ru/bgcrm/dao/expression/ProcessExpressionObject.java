@@ -3,10 +3,16 @@ package ru.bgcrm.dao.expression;
 import java.util.Map;
 
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.util.Utils;
 
 public class ProcessExpressionObject extends Process implements ExpressionObject {
-    public static final String KEY = Process.OBJECT_TYPE;
-    public static final String KEY_SHORT = "p";
+    private static final String KEY = Process.OBJECT_TYPE;
+    private static final String KEY_SHORT = "p";
+
+    public static final boolean called(String expression) {
+        return Utils.notBlankString(expression)
+                && (expression.contains(KEY_SHORT + ".") || expression.contains(KEY + "."));
+    }
 
     private final Process process;
 

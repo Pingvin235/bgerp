@@ -82,11 +82,11 @@ public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
                 NewsInfoEvent event = UserNewsCache.getUserEvent(new SingleConnectionSet(con), user.getId());
                 log.info("Sending email to: {}", user.getLogin());
 
-                Map<String, Object> context = new HashMap<>(10);
+                Map<String, Object> context = new HashMap<>();
                 context.put("msg", msg);
                 context.put("emails", emails);
                 context.put(Event.KEY, event);
-                context.put(UserExpressionObject.KEY, user);
+                new UserExpressionObject(user).toContext(context);
 
                 new Expression(context).executeScript(cfg.emailExpression);
             }
