@@ -31,6 +31,6 @@ public class ProcessCreateInConfig extends Config {
     }
 
     public boolean openCreated(String objectType) {
-        return config.getBoolean(objectType + ".openCreated");
+        return config.getBoolean(objectType + ".openCreated", config.getBoolean("*.openCreated"));
     }
 }
