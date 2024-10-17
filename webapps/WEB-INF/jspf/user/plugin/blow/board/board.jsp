@@ -20,10 +20,10 @@
 
 <ui:combo-single id="${uiid}"
 	value="${boardId}"
-	widthTextValue="220px"
+	widthTextValue="15em"
 	prefixText="${l.l('План')}:"
 	list="${frd.boards}"
-	onSelect="$$.ajax.loadContent('${showUrl}&id=' + $hidden.val(), this)"/>
+	onSelect="$$.ajax.loadContent('${showUrl}&id=' + this.value, this)"/>
 
 <shell:state moveSelector="#${uiid}"/>
 

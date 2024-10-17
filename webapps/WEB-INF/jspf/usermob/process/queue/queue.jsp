@@ -22,7 +22,7 @@
 
 		<ui:combo-single hiddenName="id" valuesHtml="${valuesHtml}" value="${currentQueueId}"
 			prefixText="${l.l('Очередь')}:" style="width: 100%;"
-			onSelect="$$.ajax.load($hidden[0].form, $('#processQueueShow').parent())"/>
+			onSelect="$$.ajax.load(this.form, $('#processQueueShow').parent())"/>
 
 		<%-- allowed for creation types --%>
 		<c:set var="createAllowedProcessList" value="${queue.createAllowedProcessList}"/>

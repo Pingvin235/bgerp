@@ -13,8 +13,8 @@
 		<li value="-1">-- ${l.l('выберите отчёт')} --</li>
 	</jsp:attribute>
 	<jsp:attribute name="onSelect">
-		if ($hidden.val())
-			$$.ajax.loadContent('/user/plugin/report/report.do?method=get&reportId=' + $hidden.val(), this);
+		if (this.value)
+			$$.ajax.loadContent('/user/plugin/report/report.do?method=get&reportId=' + this.value, this);
 	</jsp:attribute>
 </ui:combo-single>
 

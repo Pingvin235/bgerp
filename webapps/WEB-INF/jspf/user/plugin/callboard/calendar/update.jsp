@@ -31,7 +31,7 @@
 <div id="${uiid}" class="in-ml1">
 	<h1 style="display: inline-block;">${calendar.title}</h1>
 
-	<ui:combo-single hiddenName="year" value="${year}" style="width: 5em;" onSelect="$$.ajax.loadContent('${getUrl}&year='+ $hidden.val());">
+	<ui:combo-single hiddenName="year" value="${year}" style="width: 5em;" onSelect="$$.ajax.loadContent('${getUrl}&year='+ this.value);">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" begin="${year-1}" end="${year+1}">
 				<li value="${item}">${item}</li>

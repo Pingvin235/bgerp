@@ -45,7 +45,7 @@
 
 						<div class="in-inline-block" id="${searchBlockId}">
 							<ui:combo-single hiddenName="searchId" value="${form.param.searchId}" prefixText="${l.l('Поиск')}:" styleClass="mr1"
-								onSelect="$('#${searchBlockId} > .filter').hide();$('#${searchBlockId} > .filter#' + $hidden.val() ).show();"/>
+								onSelect="$('#${searchBlockId} > .filter').hide();$('#${searchBlockId} > .filter#' + this.value ).show();"/>
 
 							<c:set var="searchScript">
 								const searchId = this.form.searchId.value;

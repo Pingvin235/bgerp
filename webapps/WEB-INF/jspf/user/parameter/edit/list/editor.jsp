@@ -114,10 +114,10 @@ Incoming variables:
 				</c:forEach>
 			</c:when>
 			<c:when test="${editAs eq 'select'}">
-				<ui:select-single list="${listValues}" value="${currentValue}" onSelect="$('#${valueUiid}').val( $hidden.val() ); ${changeScript}" styleClass="w100p"/>
+				<ui:select-single list="${listValues}" value="${currentValue}" onSelect="$('#${valueUiid}').val(this.value); ${changeScript}" styleClass="w100p"/>
 			</c:when>
 			<c:otherwise>
-				<ui:combo-single value="${currentValue}" style="width: 100%;" onSelect="$('#${valueUiid}').val($hidden.val()); ${changeScript}">
+				<ui:combo-single value="${currentValue}" style="width: 100%;" onSelect="$('#${valueUiid}').val(this.value); ${changeScript}">
 					<jsp:attribute name="valuesHtml">
 						<li value="0">-- ${l.l('значение не установлено')} --</li>
 						<c:forEach var="item" items="${listValues}">

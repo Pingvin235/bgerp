@@ -449,9 +449,9 @@
 
 					<div class="pl05">
 						<ui:combo-single hiddenName="mode" widthTextValue="50px" onSelect="
-							$('#${uiid} #categories').toggle( $hidden.val() == 0 );
-							$('#${uiid} #shiftArea').toggle( $hidden.val() == 0 );
-							$('#${uiid} #teams').toggle( $hidden.val() == 1 );
+							$('#${uiid} #categories').toggle( this.value == 0 );
+							$('#${uiid} #shiftArea').toggle( this.value == 0 );
+							$('#${uiid} #teams').toggle( this.value == 1 );
 						">
 							<jsp:attribute name="valuesHtml">
 								<li value="0">Смены</li>
@@ -462,7 +462,7 @@
 				</div>
 				<div id="categories">
 					<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId"
-						onSelect="var url = '/user/plugin/callboard/work.do?method=callboardAvailableShift&categoryId=' + $hidden.val();
+						onSelect="var url = '/user/plugin/callboard/work.do?method=callboardAvailableShift&categoryId=' + this.value;
 								$$.ajax.load( url, $('#${uiid} #shiftArea') );"
 						style="width: 100%;" placeholder="Категория смен"/>
 				</div>

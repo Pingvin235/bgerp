@@ -26,8 +26,8 @@ $$.process.link = new function () {
         $.when.apply($, deferreds).done(() => { $$.ajax.load(requestUrl, $('#' + uiid).parent()) });
     }
 
-    const customerRoleChanged = ($hidden) => {
-        $hidden.closest('tr').find('form')[0].linkedObjectType.value = $hidden.val();
+    const customerRoleChanged = (hidden) => {
+        $(hidden).closest('tr').find('form')[0].linkedObjectType.value = hidden.value;
     }
 
     // public functions
