@@ -62,16 +62,10 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static Group getUserGroup(final int groupId) {
-        final List<Group> groups = HOLDER.getInstance().userGroupList;
-        for (final Group group : groups) {
-            if (group.getId() == groupId) {
-                return group;
-            }
-        }
-
-        return null;
+        return HOLDER.getInstance().userGroupMap.get(groupId);
     }
 
+    @Deprecated
     public static int getUserGroupChildCount(final int groupId) {
         int result = 0;
 

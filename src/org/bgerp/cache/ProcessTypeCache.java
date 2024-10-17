@@ -10,6 +10,7 @@ import java.util.Set;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.process.config.ProcessCreateInConfig;
 import org.bgerp.util.Log;
 
@@ -64,7 +65,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
      * @return type instance or mock object with a title, generated out of {@code id}.
      */
     public static ProcessType getProcessTypeSafe(int id) {
-        return Utils.maskNull(getProcessType(id), new ProcessType(id, "??? [" + id + "]"));
+        return Utils.maskNull(getProcessType(id), new ProcessType(id, IdTitle.unknown(id)));
     }
 
     public static List<ProcessType> getTypeList(String area, String objectType, Set<Integer> ids) {
@@ -94,7 +95,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static Status getStatusSafe(int statusId) {
-        return Utils.maskNull(getStatusMap().get(statusId), new Status(statusId, "??? [" + statusId + "]"));
+        return Utils.maskNull(getStatusMap().get(statusId), new Status(statusId, IdTitle.unknown(statusId)));
     }
 
     public static List<ProcessType> getTypePath(int id) {
@@ -109,7 +110,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
             type = HOLDER.getInstance().typeMap.get(parentId);
             if (type == null) {
                 type = new ProcessType();
-                type.setTitle("??? [" + parentId + "]");
+                type.setTitle(IdTitle.unknown(parentId));
             }
             result.add(0, type);
         }

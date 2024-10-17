@@ -5,6 +5,10 @@ import org.w3c.dom.Element;
 import ru.bgcrm.util.Utils;
 
 public class IdTitle extends Id implements org.bgerp.model.base.iface.IdTitle<Integer> {
+    public static String unknown(int id) {
+        return "??? [" + id + "]";
+    }
+
     protected String title;
 
     @Override
