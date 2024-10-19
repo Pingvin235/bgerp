@@ -27,7 +27,7 @@ $$.shell = new function () {
 	 * @param {*} closable
 	 */
 	const getCommandDiv = function (command, closable) {
-		var $commandDiv = $("body > #content > div#" + command);
+		let $commandDiv = $("body > #content > div#" + command);
 
 		if (closable) {
 			$("body > #content > div[id!='" + command + "']").hide();
@@ -45,7 +45,7 @@ $$.shell = new function () {
 			$('body > #content').append(sprintf("<div id='%s'></div>", command));
 			$commandDiv = $("body > #content > div#" + command);
 
-			var divTemplate =
+			let divTemplate =
 				"<div id='%s' class='status'>\
 					<div class='wrap'>\
 						<div class='left'>\
@@ -83,7 +83,7 @@ $$.shell = new function () {
 
 	const onCommandDivShow = function ($commandDiv) {
 		// вызов onShow обработчика, если оснастка его повесила
-		var onShow = $commandDiv.data('onShow');
+		const onShow = $commandDiv.data('onShow');
 		if (onShow) {
 			debug("call onShow");
 			onShow();
@@ -162,11 +162,11 @@ $$.shell = new function () {
 
 		// open object, if wasn't a menu tool
 		if (!isMenu) {
-			var m = null;
-			var url = null;
+			let m = null;
+			let url = null;
 
-			var bgcolor = "";
-			var objectId = 0;
+			let bgcolor = "";
+			let objectId = 0;
 
 			// open customer
 			if ((m = href.match(/.*customer#(\d+)/)) != null) {
@@ -208,7 +208,7 @@ $$.shell = new function () {
 				$("#taskPanel div")
 					.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task");
 
-				var $commandLi = $(sprintf("#objectBuffer ul>li[value='%s']", id));
+				const $commandLi = $(sprintf("#objectBuffer ul>li[value='%s']", id));
 				if ($commandLi.length) {
 					if (bufferBehavior == 1)
 						$commandLi.remove();
@@ -223,18 +223,18 @@ $$.shell = new function () {
 					})
 				} else {
 					while (getBufferCount() > maxObjectsInBuffer) {
-						var $li = $("#objectBuffer ul li:first");
+						const $li = $("#objectBuffer ul li:first");
 						removeCommandDiv($li.attr("value"));
 						$li.remove();
 					}
 				}
 
-				var currentOpened = $("body > #content > div:visible").attr("id");
+				const currentlyOpen = $("body > #content > div:visible").attr("id");
 
-				var $commandDiv = getCommandDiv(id, true);
+				const $commandDiv = getCommandDiv(id, true);
 
 				// если это не повторное открытие того же объекта
-				if ($commandDiv.attr("id") != currentOpened) {
+				if ($commandDiv.attr("id") != currentlyOpen) {
 					pushHistoryState(command);
 
 					onCommandDivShow($commandDiv);
@@ -247,20 +247,20 @@ $$.shell = new function () {
 
 					// функция перемещения текущего объекта в буфер
 					$$.closeObject = function () {
-						var liCode = sprintf("<li style='border-left: 8px solid %s;' value='%s'>%s</li>", bgcolor, id,
+						const liCode = sprintf("<li style='border-left: 8px solid %s;' value='%s'>%s</li>", bgcolor, id,
 							"<span class='icon-close ti-close'></span>" + $("#title #" + id + " h1.title").html());
 
 						if (bufferBehavior == 1)
 							$('#objectBuffer ul').prepend(liCode);
 						else {
-							var $li = $('#objectBuffer ul>li[value="' + id + '"]');
+							const $li = $('#objectBuffer ul>li[value="' + id + '"]');
 							if ($li.length)
 								$li.replaceWith(liCode);
 							else
 								$('#objectBuffer ul').append(liCode);
 						}
 
-						var $commandLi = $('#objectBuffer ul>li[value="' + id + '"]');
+						const $commandLi = $('#objectBuffer ul>li[value="' + id + '"]');
 
 						$commandLi.one("click", function (event) {
 							contentLoad(href);
@@ -315,13 +315,13 @@ $$.shell = new function () {
 		options = options || {};
 
 		const pos = command.indexOf('#');
-		const commandBeforeSharp = pos > 0 ? command.substring(0, pos) : command;
-		const commandId = pos > 0 ? "&id=" + command.substring(pos + 1) : "";
+		const commandBeforeHash = pos > 0 ? command.substring(0, pos) : command;
+		const commandId = getCommandId(command, pos);
 
-		const item = menuItems[commandBeforeSharp];
+		const item = menuItems[commandBeforeHash];
 		if (item) {
 			// after prefix '/user', for backward compatibility
-			const id = commandBeforeSharp.substring(6).replace(/\//g, "-");
+			const id = commandBeforeHash.substring(6).replace(/\//g, "-");
 
 			if (!item.allowed)
 				alert("The menu item is not allowed.");
@@ -353,7 +353,7 @@ $$.shell = new function () {
 					$('#taskPanel').append(taskButton);
 					$taskButton = $('#taskPanel > div#' + id);
 
-					var $commandDiv;
+					let $commandDiv;
 
 					$taskButton.data("href", href);
 
@@ -406,7 +406,7 @@ $$.shell = new function () {
 						// закрытие активной оснастки
 						if ($taskButton.hasClass("btn-task-active")) {
 							// последняя неактивная кнопка становится активной
-							var $inactiveButtons = $("#taskPanel > div.btn-task");
+							const $inactiveButtons = $("#taskPanel > div.btn-task");
 							if ($inactiveButtons.length > 0)
 								$inactiveButtons[$inactiveButtons.length - 1].click()
 							else
@@ -422,6 +422,12 @@ $$.shell = new function () {
 			}
 			return true;
 		}
+	}
+
+	const getCommandId = (command, pos) => {
+		if (pos > 0)
+			return (command.includes('?') > 0 ? "&" : "?") + "id=" + command.substring(pos + 1);
+		return "";
 	}
 
 	const initBuffer = function () {
@@ -444,8 +450,8 @@ $$.shell = new function () {
 		if (($$.pers["iface.buffer.openOnLongPress"] || 0) === 1) {
 			const debug = $$.debug("buffer");
 
-			var $buffer = $("#objectBuffer");
-			var $bufferDrop = $("#objectBuffer > ul.drop");
+			const $buffer = $("#objectBuffer");
+			const $bufferDrop = $("#objectBuffer > ul.drop");
 
 			popupObjectBuffer = {
 				startTimer: function (event) {
@@ -481,16 +487,16 @@ $$.shell = new function () {
 							.show();
 					}
 
-					var closeBuffer = function (e) {
+					const closeBuffer = function (e) {
 						// неоднократно могут вызываться при очистке буфера
 						if ($buffer.find(e.target).length <= 0) {
 							debug('Hide buffer');
 
 							$buffer.css("position", "relative");
 
-							var position = $bufferDrop.position();
-							var width = $bufferDrop.width();
-							var height = $bufferDrop.height();
+							const position = $bufferDrop.position();
+							const width = $bufferDrop.width();
+							const height = $bufferDrop.height();
 
 							$bufferDrop
 								.css('display', 'none')
@@ -546,10 +552,14 @@ $$.shell = new function () {
 		}
 	}
 
+	/**
+	 * Set URL fragment #ID
+	 * @param {*} id fragment's ID
+	 */
 	const stateFragment = (id) => {
-		var state = history.state;
+		const state = history.state;
 		if (id > 0 && state) {
-			var pos = state.href.indexOf('#');
+			const pos = state.href.indexOf('#');
 			state.href = (pos < 0 ? state.href : state.href.substring(0, pos)) + "#" + id;
 			history.replaceState(state, null, state.href)
 		}
