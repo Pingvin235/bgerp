@@ -21,8 +21,8 @@
 		</c:otherwise>
 	</c:choose>
 	<c:set var="selector" value="#${uiid}"/>
-	<input type="text" name="${paramName}" id="${uiid}" class="${styleClass}" placeholder="${placeholder}" value="${value}"/>
-</c:if>
+	<input type="text" name="${paramName}" id="${uiid}" class="${styleClass}" placeholder="${placeholder}" value="${value}"/><%--
+--%></c:if>
 
 <%-- type: ymd, ymdh, ymdhm, ymdhms --%>
 <c:if test="${empty type and not empty parameter}">
@@ -111,6 +111,3 @@
 	$("${selector}").attr( "size", "${size}" );
 	$("${selector}").css( "text-align", "center" );
 </script>
-
-<c:set var="type" value=""/>
-<c:set var="value" value=""/>
