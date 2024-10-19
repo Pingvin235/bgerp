@@ -9,7 +9,7 @@
 
 /* можно посмотреть http://www.howtomake.com.ua/html-and-css/stilizaciya-vsex-elementov-form-s-pomoshhyu-css-i-jquery.html */
 .combo .text-pref {
-	color: #505050;
+	color: var(--p-color);
 	padding-left: 0.5em;
 	/*height: 100%;*/
 	white-space: nowrap;

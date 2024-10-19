@@ -1,7 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h1>Headers and Text</h1>
+<h1>Text</h1>
+
+<div>
+	<div>Normal Text</div>
+
+	<p>Paragraph Text</p>
+
+	<div class="tt">Title Text</div>
+</div>
+
+<h1>Headers</h1>
 
 <div>
 	<h1>Header Level 1 <span class="normal">[<a href="#">action</a>]</span></h1>
@@ -9,11 +19,9 @@
 	<h2>Header Level 2 <span class="normal">[<a href="#">action</a>]</span></h2>
 
 	<div>
-		<b>Header-like bold Text <span class="normal">[<a href="#">action</a>]</span></b>
+		<b>Header Level 3 bold Text <span class="normal">[<a href="#">action</a>]</span></b>
 		<span class="bold">The same bold but using CSS class</span>
 	</div>
-
-	<div class="tt">Title Text</div>
 </div>
 
 <h1>Code Block</h1>

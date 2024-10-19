@@ -40,7 +40,7 @@
 	border: none;
 	border-top: 1px solid #d5d5d5;
 	padding: 0.5em;
-	color: #505050;
+	color: var(--p-color);
 	cursor: pointer;
 }
 

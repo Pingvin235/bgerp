@@ -135,7 +135,7 @@
 .tagator_option {
 	padding: 0.5em;
 	cursor: pointer;
-	color: #505050;
+	color: var(--p-color);
 	border-top: 1px solid #d5d5d5;
 }
 

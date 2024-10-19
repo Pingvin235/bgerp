@@ -26,7 +26,7 @@ table.data > tbody > tr > td {
 table.hdata > thead > tr > td,
 table.hdata > tbody > tr > td,
 table.data > tbody > tr > td {
-	color: #505050;
+	color: var(--p-color);
 	border: 1px solid var(--table-border-color);
 }
 
@@ -35,15 +35,15 @@ table.hdata > tbody > tr > th,
 table.hdata > tbody > tr > td.header,
 table.hdata > tbody > tr.header > td,
 table.data > tbody > tr:nth-child(1) > td {
-	color: #346484;
+	color: var(--table-head-txt-color);
 	border: 1px solid var(--table-border-color);
-	background-color: #eaf3f9;
+	background-color: var(--table-head-bg-color);
 }
 
 table.hdata.hl > tbody > tr:hover,
 table.data.hl tr:hover,
 table tr.hl {
-	background-color: #A9F5F2;
+	background-color: var(--table-hl-bg-color);
 }
 
 table.fixed-header tr:nth-child(1) td {
@@ -62,20 +62,20 @@ td.min {
 
 table.data > tbody > tr > td.group-border-b {
 	border-bottom-width: 2px;
-	border-bottom-color: black;
+	border-bottom-color: var(--table-cell-group-color);
 }
 
 table.data > tbody > tr > td.group-border-t {
 	border-top-width: 2px;
-	border-top-color: black;
+	border-top-color: var(--table-cell-group-color);
 }
 
 table.data > tbody > tr > td.group-border-l {
 	border-left-width: 2px;
-	border-left-color: black;
+	border-left-color: var(--table-cell-group-color);
 }
 
 table.data > tbody > tr > td.group-border-r {
 	border-right-width: 2px;
-	border-right-color: black;
+	border-right-color: var(--table-cell-group-color);
 }

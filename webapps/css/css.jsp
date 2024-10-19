@@ -27,12 +27,11 @@ time, mark, audio, video {
 	vertical-align: middle;
 }
 
-<%@ include file="style.color.css.jsp"%>
+<%@ include file="style.var.color.css.jsp"%>
 
 ol, ul {
 	list-style: none;
 }
-
 
 html {
 	overflow-y: scroll;
@@ -82,27 +81,22 @@ body > #content h1 {
 }
 
 body > #content h2 {
-	color: #353535;
+	color: var(--h2-color);
 	font-weight: bold;
 	margin: 1em 0 0.5em 0;
 	font-size: 1.1em;
 }
 
 body > #content p {
-	color: #505050;
+	color: var(--p-color);
 	margin: 0.3em 0;
-}
-
-.separator {
-	margin: 0.7em 0;
-	border-bottom: 1px solid #e7e7e7;
 }
 
 .hint {
 	display: block;
 	font-size: 0.8em;
 	font-style: italic;
-	color: #707070;
+	color: var(--hint-color);
 	padding: 0.5em 0;
 }
 
@@ -122,6 +116,11 @@ body > #content p {
 
 .normal a {
 	color: var(--link-color);
+}
+
+.separator {
+	margin: 0.7em 0;
+	border-bottom: 1px solid var(--separator-border-color);
 }
 
 .center1020 {

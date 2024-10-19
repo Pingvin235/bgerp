@@ -29,7 +29,7 @@
 }
 
 .select .icon.disabled {
-	color: #505050;
+	color: var(--p-color);
 }
 
 .select:hover {
@@ -66,7 +66,7 @@
 	position: relative;
 	padding: 0.5em;
 	padding-left: 1.8em;
-	color: #505050;
+	color: var(--p-color);
 	cursor: pointer;
 	white-space: nowrap;
 }

@@ -8,7 +8,7 @@
 }
 
 .btn-toggle > .text-pref {
-	color: #505050;
+	color: var(--p-color);
 	padding-left: 0.5em;
 	display: inline-block;
 	white-space: nowrap;
