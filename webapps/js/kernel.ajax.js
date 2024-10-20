@@ -468,22 +468,16 @@ $$.ajax = new function () {
 	/**
 	 * Builds URL from key-value pairs.
 	 * @param {*} requestParams key value param pairs
-	 * @param {*} subParam NO IDEA
 	 */
-	const requestParamsToUrl = function (requestParams, subParam) {
-		let url = "";
+	const requestParamsToUrl = (requestParams) => {
+		let result = '';
 		for (const k in requestParams) {
-			url += "&";
-			if (subParam) {
-				url += subParam + "(";
-			}
-			url += encodeURIComponent(k);
-			if (subParam) {
-				url += ")";
-			}
-			url += "=" + encodeURIComponent(requestParams[k]);
+			if (result)
+				result += '&';
+			result += encodeURIComponent(k);
+			result += '=' + encodeURIComponent(requestParams[k]);
 		}
-		return url;
+		return result;
 	}
 
 	/**
