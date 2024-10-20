@@ -20,8 +20,6 @@ $$.blow = new function() {
 
 	const selectItem = ($td, $cells) => {
 		const itemId = $td.attr(ATTR_BG_ID);
-		const parentId = $td.attr(ATTR_BG_PARENT_ID);
-
 		if (itemId) {
 			$td.addClass(CLASS_SELECTED);
 			$cells.filter("[" + ATTR_BG_PARENT_ID + "=" + itemId + "]").each(function () {
