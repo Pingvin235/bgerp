@@ -22,7 +22,6 @@ import org.testng.annotations.Test;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
@@ -66,7 +65,7 @@ public class GitTest {
     public void process() throws Exception {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
-        var process = ProcessHelper.addProcess(processTypeId, User.USER_SYSTEM_ID, TITLE + " Task");
+        var process = ProcessHelper.addProcess(processTypeId, TITLE + " Task");
         ProcessHelper.addGroup(process, UserTest.groupAdminsId);
         ProcessHelper.addExecutor(process, UserTest.groupAdminsId, UserTest.USER_ADMIN_ID);
 

@@ -30,8 +30,8 @@ public class ProcessQueueExpressionTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " 1");
-        var p2 = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " 2");
+        ProcessHelper.addProcess(processTypeId, TITLE + " 1");
+        var p2 = ProcessHelper.addProcess(processTypeId, TITLE + " 2");
         p2.setPriority(4);
         new ProcessDAO(DbTest.conRoot).updateProcess(p2);
     }

@@ -20,7 +20,6 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.AddressTest;
 import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
-import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.callboard.Plugin;
 import org.bgerp.plugin.pln.callboard.dao.ShiftDAO;
@@ -102,10 +101,9 @@ public class CallboardTest {
 
     @Test(dependsOnMethods = { "param", "processType" })
     public void process() throws Exception {
-        var process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Connection");
+        var process = ProcessHelper.addProcess(processTypeId, TITLE + " Connection");
         ProcessHelper.addGroup(process, userGroupIdSub1);
         ProcessHelper.addGroup(process, userGroupIdSub2);
-        // ProcessHelper.addExecutor(process, userKarlId, userGroupIdSub1);
 
         var dao = new ParamValueDAO(DbTest.conRoot);
 

@@ -67,14 +67,14 @@ public class ProcessQueueColumnTest {
     public void process() throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot);
 
-        var processFirst = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+        var processFirst = ProcessHelper.addProcess(processTypeId, TITLE);
         processFirst.setCloseTime(Date.from(Instant.now().minusSeconds(100)));
         new ProcessDAO(DbTest.conRoot).updateProcess(processFirst);
         dao.updateParamMoney(processFirst.getId(), paramMoneyAmountId, "3.44");
         dao.updateParamBlob(processFirst.getId(), paramBlobLargeTextId, ResourceHelper.getResource(this, "param.blob.large.text.value.1.txt"));
         dao.updateParamText(processFirst.getId(), paramTextIntId, "100500");
 
-        var processSecond = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+        var processSecond = ProcessHelper.addProcess(processTypeId, TITLE);
         processSecond.setCloseTime(new Date());
         new ProcessDAO(DbTest.conRoot).updateProcess(processSecond);
         dao.updateParamMoney(processSecond.getId(), paramMoneyAmountId, "4.0");

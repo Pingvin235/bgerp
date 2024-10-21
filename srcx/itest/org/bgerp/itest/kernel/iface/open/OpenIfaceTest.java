@@ -52,7 +52,7 @@ public class OpenIfaceTest {
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
 
-        processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
 
         new ParamValueDAO(DbTest.conRoot).updateParamText(processId, processOpenParamId, "The value should be visible in open interface");
     }

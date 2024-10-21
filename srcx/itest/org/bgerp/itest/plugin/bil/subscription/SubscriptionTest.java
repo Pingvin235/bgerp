@@ -214,7 +214,7 @@ public class SubscriptionTest {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
         var processDao = new ProcessDAO(DbTest.conRoot);
 
-        var processProduct1Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 1").getId();
+        var processProduct1Id = ProcessHelper.addProcess(processProductTypeId, TITLE + " Product 1").getId();
         processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId, 1)), processProduct1Id);
         processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner1Id, userGroupOwnersId, 1)), processProduct1Id);
         paramDao.updateParamText(processProduct1Id, paramProductId, "product1");
@@ -227,7 +227,7 @@ public class SubscriptionTest {
                 LIMIT_VALUE_UNLIM, Utils.parseBigDecimal("3")
         ));
 
-        var processProduct2Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 2").getId();
+        var processProduct2Id = ProcessHelper.addProcess(processProductTypeId, TITLE + " Product 2").getId();
         processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId, 1)), processProduct2Id);
         processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner2Id, userGroupOwnersId, 1)), processProduct2Id);
         paramDao.updateParamText(processProduct2Id, paramProductId, "product2");
@@ -240,7 +240,7 @@ public class SubscriptionTest {
                 LIMIT_VALUE_UNLIM, Utils.parseBigDecimal("3.24")
         ));
 
-        var processSubscriptionRubId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription RUB").getId();
+        var processSubscriptionRubId = ProcessHelper.addProcess(processSubscriptionTypeId, TITLE + " Subscription RUB").getId();
         processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupConsultantsId)), processSubscriptionRubId);
         processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userConsultantRuId, userGroupConsultantsId)), processSubscriptionRubId);
         paramDao.updateParamEmail(processSubscriptionRubId, paramEmailId, 0, new ParameterEmailValue("testclient-ru@bgerp.org"));
@@ -261,7 +261,7 @@ public class SubscriptionTest {
 
         MessageHelper.addHowToTestNoteMessage(processSubscriptionRubId, this);
 
-        var processSubscriptionEurId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription EUR").getId();
+        var processSubscriptionEurId = ProcessHelper.addProcess(processSubscriptionTypeId, TITLE + " Subscription EUR").getId();
         processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupConsultantsId)), processSubscriptionEurId);
         processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userConsultantEnId, userGroupConsultantsId)), processSubscriptionEurId);
         paramDao.updateParamEmail(processSubscriptionEurId, paramEmailId, 0, new ParameterEmailValue("testclient-eu@bgerp.org"));

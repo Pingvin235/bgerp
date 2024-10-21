@@ -83,12 +83,12 @@ public class InvoiceTest {
     public void process() throws Exception {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
-        process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Contract EU");
+        process = ProcessHelper.addProcess(processTypeId, TITLE + " Contract EU");
         paramDao.updateParamDate(process.getId(), paramContractDateId, Date.from(Instant.now().plus(Duration.ofDays(-60))));
         paramDao.updateParamMoney(process.getId(), paramCostId, "42.51");
         ProcessHelper.addCustomerLink(process.getId(), Customer.OBJECT_TYPE, CustomerTest.customerOrgNs);
 
-        processRu = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Contract RU");
+        processRu = ProcessHelper.addProcess(processTypeId, TITLE + " Contract RU");
         paramDao.updateParamDate(processRu.getId(), paramContractDateId, Date.from(Instant.now().plus(Duration.ofDays(-31))));
         paramDao.updateParamMoney(processRu.getId(), paramCostId, "42.50");
         ProcessHelper.addCustomerLink(processRu.getId(), Customer.OBJECT_TYPE, CustomerRuTest.customerOrgIvan);

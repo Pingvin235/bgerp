@@ -130,7 +130,7 @@ public class BGBillingTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
         new ProcessLinkDAO(DbTest.conRoot).addLinkIfNotExist(new ProcessLink(processId, Contract.OBJECT_TYPE + ":" + BILLING_ID, 1, "test"));
         MessageHelper.addHowToTestNoteMessage(processId, this);
 

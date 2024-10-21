@@ -93,8 +93,8 @@ public class BlowTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        ProcessHelper.addProcess(processTypeId, processQueueId, TITLE);
-        MessageHelper.addHowToTestNoteMessage(processQueueId, this);
+        int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        MessageHelper.addHowToTestNoteMessage(processId, this);
 
         processUi();
         processArch();
@@ -102,7 +102,7 @@ public class BlowTest {
     }
 
     private void processUi() throws Exception {
-        int processUiId = ProcessHelper.addProcess(processTypeTaskId, userLeonId, TITLE + " UI").getId();
+        int processUiId = ProcessHelper.addProcess(processTypeTaskId, UserTest.USER_ADMIN_ID, TITLE + " UI").getId();
         MessageHelper.addNoteMessage(processUiId, userFelixId, Duration.ofDays(-30), "", "Upload multiple files");
         MessageHelper.addNoteMessage(processUiId, userFelixId, Duration.ofDays(-22), "", "Param phone copy values, remove values");
         MessageHelper.addNoteMessage(processUiId, userLeonId, Duration.ofDays(-17), "", "User photo");

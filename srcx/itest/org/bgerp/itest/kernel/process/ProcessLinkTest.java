@@ -82,26 +82,26 @@ public class ProcessLinkTest {
     public void process() throws Exception {
         var dao = new ProcessLinkDAO(DbTest.conRoot);
 
-        int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
         MessageHelper.addHowToTestNoteMessage(processId, this);
         dao.addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, customer.getId(), customer.getTitle()));
 
         // existing linked processes
         for (int i = 0; i <= 2; i++) {
-            int parentProcessId = ProcessHelper.addProcess(processTypeLinkedMadeId, UserTest.USER_ADMIN_ID, TITLE_LINKED_MADE + " " + i).getId();
+            int parentProcessId = ProcessHelper.addProcess(processTypeLinkedMadeId, TITLE_LINKED_MADE + " " + i).getId();
             dao.addLink(new ProcessLinkProcess.Made(parentProcessId, processId));
         }
 
         for (int i = 0; i <= 2; i++) {
-            int childProcessId = ProcessHelper.addProcess(processTypeLinkDependId, UserTest.USER_ADMIN_ID, TITLE_LINK_DEPEND + " " + i).getId();
+            int childProcessId = ProcessHelper.addProcess(processTypeLinkDependId, TITLE_LINK_DEPEND + " " + i).getId();
             dao.addLink(new ProcessLinkProcess.Depend(processId, childProcessId));
         }
 
         // available to be linked processes
         for (int i = 0; i <= 1; i++)
-            ProcessHelper.addProcess(processTypeLinkedMadeId, UserTest.USER_ADMIN_ID, TITLE_LINKED_MADE + " a" + i).getId();
+            ProcessHelper.addProcess(processTypeLinkedMadeId, TITLE_LINKED_MADE + " a" + i).getId();
 
         for (int i = 0; i <= 1; i++)
-            ProcessHelper.addProcess(processTypeLinkDependId, UserTest.USER_ADMIN_ID, TITLE_LINK_DEPEND + " a" + i).getId();
+            ProcessHelper.addProcess(processTypeLinkDependId, TITLE_LINK_DEPEND + " a" + i).getId();
     }
 }

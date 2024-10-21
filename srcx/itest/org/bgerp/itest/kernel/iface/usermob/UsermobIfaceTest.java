@@ -58,7 +58,7 @@ public class UsermobIfaceTest {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
         for (int i = 0; i <= 5; i++) {
-            var process = ProcessHelper.addProcess(processType.getId(), UserTest.USER_ADMIN_ID, TITLE + " " + i);
+            var process = ProcessHelper.addProcess(processType.getId(), TITLE + " " + i);
             if (i % 2 == 0)
                 statusDao.changeStatus(process, processType,
                         new StatusChange(process.getId(), new Date(), UserTest.userFelixId, ProcessTest.statusProgressId, ""));

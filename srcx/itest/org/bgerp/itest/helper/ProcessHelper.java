@@ -6,6 +6,7 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.itest.kernel.db.DbTest;
+import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.process.link.ProcessLink;
 import org.testng.Assert;
 
@@ -86,6 +87,12 @@ public class ProcessHelper {
         queue.getProcessTypeIds().addAll(processTypeIds);
 
         dao.updateQueue(queue, User.USER_SYSTEM_ID);
+    }
+
+    public static Process addProcess(int typeId, String description) throws Exception {
+        var result = addProcess(typeId, UserTest.USER_ADMIN_ID, description, 0);
+        Assert.assertTrue(0 < result.getId());
+        return result;
     }
 
     public static Process addProcess(int typeId, int createUserId, String description) throws Exception {

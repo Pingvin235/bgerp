@@ -13,7 +13,6 @@ import org.bgerp.plugin.pln.agree.Plugin;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.model.user.User;
 
 @Test(groups = "agree", priority = 100, dependsOnGroups = "process")
 public class AgreeTest {
@@ -75,6 +74,6 @@ public class AgreeTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        ProcessHelper.addProcess(processTypeId, User.USER_SYSTEM_ID, TITLE);
+        ProcessHelper.addProcess(processTypeId, TITLE);
     }
 }

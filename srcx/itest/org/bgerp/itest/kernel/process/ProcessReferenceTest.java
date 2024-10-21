@@ -37,6 +37,6 @@ public class ProcessReferenceTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+        ProcessHelper.addProcess(processTypeId, TITLE);
     }
 }

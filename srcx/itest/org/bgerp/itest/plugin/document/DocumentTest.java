@@ -10,7 +10,6 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
-import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.process.link.ProcessLink;
 import org.testng.annotations.Test;
 
@@ -55,7 +54,7 @@ public class DocumentTest {
 
     @Test(dependsOnMethods = { "customer", "processType" })
     public void process() throws Exception {
-        int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
 
         new ProcessLinkDAO(DbTest.conRoot).addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, customer.getId(), TITLE));
 

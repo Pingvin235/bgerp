@@ -16,8 +16,8 @@ public class ProcessTextTest {
 
     @Test
     public void process() throws Exception {
-        processId1 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " 1").getId();
-        processId2 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + "\n" + text()).getId();
+        processId1 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, TITLE + " 1").getId();
+        processId2 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, TITLE + "\n" + text()).getId();
     }
 
     @Test(dependsOnMethods = "process")

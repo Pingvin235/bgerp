@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.model.user.User;
 
 @Test(groups = "email", priority = 100, dependsOnGroups = { "config", "openIface", "user", "message" })
 public class EMailTest {
@@ -43,7 +42,7 @@ public class EMailTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        var process = ProcessHelper.addProcess(processTypeId, User.USER_SYSTEM_ID, TITLE);
+        var process = ProcessHelper.addProcess(processTypeId, TITLE);
         ProcessHelper.addGroup(process, UserTest.groupAdminsId);
         ProcessHelper.addExecutor(process, UserTest.USER_ADMIN_ID, UserTest.groupAdminsId);
         ProcessHelper.addExecutor(process, UserTest.userKarlId, UserTest.groupAdminsId);

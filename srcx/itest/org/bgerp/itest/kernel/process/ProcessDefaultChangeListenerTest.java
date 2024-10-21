@@ -43,7 +43,7 @@ public class ProcessDefaultChangeListenerTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        var process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+        var process = ProcessHelper.addProcess(processTypeId, TITLE);
         ProcessHelper.addGroup(process, UserTest.groupAdminsId);
         MessageHelper.addHowToTestNoteMessage(process.getId(), this);
     }

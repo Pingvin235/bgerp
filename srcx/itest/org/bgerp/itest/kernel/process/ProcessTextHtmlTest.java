@@ -16,7 +16,7 @@ public class ProcessTextHtmlTest {
 
     @Test
     public void process() throws Exception {
-        processId = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " " + text()).getId();
+        processId = ProcessHelper.addProcess(ProcessTest.processTypeTestId, TITLE + " " + text()).getId();
     }
 
     @Test(dependsOnMethods = { "process" })

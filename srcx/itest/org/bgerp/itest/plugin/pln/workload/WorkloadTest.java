@@ -20,7 +20,6 @@ import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.AddressTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
-import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.plugin.pln.workload.Plugin;
 import org.testng.annotations.Test;
@@ -86,7 +85,7 @@ public class WorkloadTest {
 
         LocalDate today = LocalDate.now();
 
-        var process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Work 1");
+        var process = ProcessHelper.addProcess(processTypeId, TITLE + " Work 1");
         ProcessHelper.addGroup(process, userGroupId);
         ProcessHelper.addExecutor(process, userVyacheslavId, userGroupId);
 
@@ -97,7 +96,7 @@ public class WorkloadTest {
         dao.updateParamDateTime(process.getId(), paramDateTimeFromId, Date.from(LocalDateTime.of(today, LocalTime.of(12, 30)).atZone(ZoneId.systemDefault()).toInstant()));
         dao.updateParamDateTime(process.getId(), paramDateTimeToId, Date.from(LocalDateTime.of(today, LocalTime.of(18, 20)).atZone(ZoneId.systemDefault()).toInstant()));
 
-        process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Work 2");
+        process = ProcessHelper.addProcess(processTypeId, TITLE + " Work 2");
         ProcessHelper.addGroup(process, userGroupId);
         ProcessHelper.addExecutor(process, userVladimirId, userGroupId);
 

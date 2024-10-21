@@ -9,7 +9,6 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.customer.CustomerTest;
-import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.param.Parameter;
 import org.testng.annotations.Test;
 
@@ -47,7 +46,7 @@ public class ProcessCreateInTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
         MessageHelper.addHowToTestNoteMessage(processId, this);
     }
 }

@@ -126,13 +126,13 @@ public class MessagePossibleProcessTest {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
         var linkDao = new ProcessLinkDAO(DbTest.conRoot);
 
-        process1Id = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " 1").getId();
+        process1Id = ProcessHelper.addProcess(processTypeId, TITLE + " 1").getId();
 
-        process2Id = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " 2").getId();
+        process2Id = ProcessHelper.addProcess(processTypeId, TITLE + " 2").getId();
         process2Customer2Link = new ProcessLink(process2Id, Customer.OBJECT_TYPE, customer2.getId(), customer2.getTitle());
         linkDao.addLink(process2Customer2Link);
 
-        process3Id = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " 3").getId();
+        process3Id = ProcessHelper.addProcess(processTypeId, TITLE + " 3").getId();
         paramDao.updateParamList(process3Id, paramCityId, Set.of(city3.getId()));
     }
 

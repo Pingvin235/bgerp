@@ -149,7 +149,7 @@ public class ProcessParamTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
+        processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
         MessageHelper.addHowToTestNoteMessage(processId, this);
     }
 
