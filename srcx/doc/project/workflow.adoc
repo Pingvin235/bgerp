@@ -44,17 +44,20 @@ All the following GIT commands have to be executed in the project's directory.
 
 [[change-git-create]]
 ==== Creation a change branch
+[source, bash]
 ----
 git checkout master && git pull origin master && git checkout -b p12345-my-change-branch
 ----
 
 [[change-git-commit]]
 ==== Commit and push changes
+[source, bash]
 ----
 git checkout p12345-my-change-branch && git add . && git commit -am "My changes" && git push
 ----
 
 At the first push for a branch you will be asked to set an upstream branch using the command.
+[source, bash]
 ----
 git push --set-upstream origin p12345-my-change-branch
 ----
@@ -62,17 +65,20 @@ git push --set-upstream origin p12345-my-change-branch
 [[change-git-state]]
 ==== Show current workdirs' state
 For showing the current state of GIT working directory use:
+[source, bash]
 ----
 git status
 ----
 
 Displays text-rendered GIT graph:
+[source, bash]
 ----
 git log --oneline --decorate --all --graph
 ----
 
 [[change-git-update]]
 ==== Update a change branch
+[source, bash]
 ----
 git checkout p12345-my-change-branch && git pull --rebase && git fetch origin master:master && git merge master
 ----
@@ -80,6 +86,7 @@ git checkout p12345-my-change-branch && git pull --rebase && git fetch origin ma
 [[change-git-cleanup]]
 ==== Cleanup
 Clean all links to non-existent/deleted branches.
+[source, bash]
 ----
 git remote prune origin
 ----
@@ -91,6 +98,7 @@ git gc --prune=now
 ----
 
 Clean unneeded link:https://git-lfs.github.com/[GIT LFS] files.
+[source, bash]
 ----
 git lfs prune
 ----
@@ -100,6 +108,7 @@ git lfs prune
 Error: *Encountered 7 file(s) that should have been pointers, but weren't*
 
 Fixing commands:
+[source, bash]
 ----
 git rm --cached -r . && git reset --hard
 ----
@@ -114,6 +123,7 @@ So merge the latest state of master to the 'change' branch before passing a chan
 image::_res/branch_compare.png[]
 
 GIT commands to be used for merging change from *pXXXXX-short-change-description* branch to master:
+[source, bash]
 ----
 git checkout pXXXXX-short-change-description && git pull
 git commit --allow-empty -m "MERGED" && git push
@@ -122,16 +132,19 @@ git merge --squash pXXXXX-short-change-description
 ----
 
 Commit with current GIT user.
+[source, bash]
 ----
 git commit -am "pXXXXX Some change description."
 ----
 
 Or for preserving the author in GitHub. Mapping internal to external mails is available in file `.gitlab-ci-publish-author.sh`
+[source, bash]
 ----
 git commit -am "pXXXXX Some change description." --author="Developer Name <internal@gitlab.email>"
 ----
 
 And finally, push.
+[source, bash]
 ----
 git push
 ----
@@ -285,7 +298,7 @@ docker run --rm -it -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitla
 ----
 
 [[build]]
-== Build and publish
+== Build & Publish
 Project is configured in Gradle format (configuration file: link:../../../build.gradle[build.gradle])
 
 For building and publishing, apart from Java you will need <<index.adoc#env-console, console environment>> with available *scp*, *ssh* and *rsync* commands.
@@ -294,6 +307,7 @@ NOTE: Here and below all commands are shown for WSL environment, *NIX will not n
 
 [[build-doc]]
 === Documentation
+[source, bash]
 ----
 bash -c "./gradlew clean doc"
 ----
@@ -324,6 +338,7 @@ Before you publish a change update, make sure that `ssh cdn@bgerp.org` and `ssh 
 Script `files.sh` uses *rename* command, it must be installed.
 
 When pushing Docker images from a system first you would need to perform login:
+[source, bash]
 ----
 docker login --username bgerp
 ----
@@ -338,6 +353,7 @@ CAUTION: Be sure that <<test-integration, Integration tests>> are successfully d
 CAUTION: Stop all running IDEs with opened project directory.
 
 Reset the properties files:
+[source, bash]
 ----
 ./gradlew resetProperties
 ----
@@ -345,6 +361,7 @@ Reset the properties files:
 Set the new stable release version in *build.number* property of `build/update/update.properties` file.
 
 Perform the following:
+[source, bash]
 ----
 ./gradlew clean updateLibProperties buildUpdateLib updateProperties buildUpdate buildDist
 ----
@@ -352,47 +369,56 @@ Perform the following:
 NOTE: *buildUpdateLib* and *updateLibProperties* tasks check existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
 
 Build the *bgerp/base* Docker Image, which should be rebuilt in case of updating MySQL or Java versions in it:
+[source, bash]
 ----
 bash build/docker/base/files.sh && docker build build/docker/base -t bgerp/base
 ----
 
 Build the *bgerp/bgerp* Docker image:
+[source, bash]
 ----
 bash build/docker/bgerp/files.sh && docker build build/docker/bgerp -t bgerp/bgerp
 ----
 
 Test the created image with in local Docker:
+[source, bash]
 ----
 docker run -d --name bgerp --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
 ----
 
 Build the *bgerp/devd* Docker image:
+[source, bash]
 ----
 docker build build/docker/devd -t bgerp/devd
 ----
 
 Then apply file changes and commit them:
+[source, bash]
 ----
 ./gradlew changesFile changesRss changesDoc publishCommit
 ----
 
 Copy the built artifacts to the server and check the results on https://bgerp.org and https://hub.docker.com/r/bgerp/bgerp/tags
+[source, bash]
 ----
 bash -c "./gradlew publishRelease"
 docker push bgerp/base && docker push bgerp/bgerp && docker push bgerp/devd
 ----
 
 Check the release commit and push it:
+[source, bash]
 ----
 git push
 ----
 
 Merge the latest state of the master on <<doc-release, documentation>> branch:
+[source, bash]
 ----
 git checkout p11862-documentation && git pull --rebase && git merge master && git push
 ----
 
 Pick documentation changes back to master. *Normally there shouldn't be anyone.*
+[source, bash]
 ----
 git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation."
 ----
@@ -400,6 +426,26 @@ git checkout master && git pull --rebase && git merge --squash p11862-documentat
 Add news to Web sites about release with a link to the release changes.
 
 NOTE: In case of bugfix releases already existing changes document may be renamed, now news is needed.
+
+[[build-release-fix]]
+=== Release Fix
+Here is the description of the simplified release process with fixes only.
+Replace *<YYMM>* to your current stable release ending number.
+
+CAUTION: Stop all running IDEs with opened project directory.
+
+[source, bash]
+----
+git checkout stable-<YYMM>
+
+./gradlew clean buildUpdate buildDist
+bash build/docker/bgerp/files.sh && docker build build/docker/bgerp -t bgerp/bgerp
+git commit -m "PUBLISH <YYMM>" --allow-empty
+
+docker push bgerp/bgerp
+bash -c "./gradlew publishRelease"
+git push
+----
 
 [[test]]
 == Tests
@@ -410,6 +456,7 @@ JUnit framework is used (`srcx/test` directory)
 Used to test specific algorithms, test do not depend on each other and do not work with DB.
 
 Test are launched locally using the following command:
+[source, bash]
 ----
 bash -c "./gradlew clean test"
 ----
@@ -421,44 +468,10 @@ TestNG framework is used (`srcx/itest` directory)
 Integration test performs initialization an empty DB and filling after it with configuration.
 Tests form a dependencies graph which defined order and execution parallelism.
 
+[source, bash]
 ----
 ./gradlew itest
 ----
 
 By default the tests uses MySQL instance with credentials taken from `bgerp.properties` file.
 For local run use <<index.adoc#run-data, Docker DB Instance>> for that.
-
-[[integration-test-opt]]
-==== Optimization
-Additionally to the recommended MySQL <<../kernel/install.adoc#mysql, configuration>>, check and set in `my.ini`:
-----
-innodb_file_per_table=0
-----
-
-That will significantly increase table creation speed.
-After the first successful run, the structure of a DB will remain persistent and re-created faster by this way.
-
-Creation of dump for Windows:
-----
-echo DROP DATABASE IF EXISTS bgerp; > ./dump.sql &&
-echo CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; >> ./dump.sql &&
-echo USE bgerp; >> ./dump.sql &&
-mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
-type build\bgerp\db_init_end.sql >> ./dump.sql
-----
-
-For *NIX:
-----
-echo "DROP DATABASE IF EXISTS bgerp;" > ./dump.sql &&
-echo "CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;" >> ./dump.sql &&
-echo "USE bgerp;" >> ./dump.sql &&
-mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
-cat build/bgerp/db_init_end.sql >> ./dump.sql
-----
-
-Running the tests after:
-----
-mysql -uDB_USER -pDB_PSWD < ./dump.sql &&
-gradlew integrationTest -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD -Pskip.dbReset=true
-----
-
