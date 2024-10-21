@@ -316,10 +316,11 @@ $$.shell = new function () {
 
 		const pos = command.indexOf('#');
 		const commandBeforeHash = pos > 0 ? command.substring(0, pos) : command;
-		const commandId = getCommandId(command, pos);
 
 		const item = menuItems[commandBeforeHash];
 		if (item) {
+			const idParam = getIdParam(command, pos, item.action);
+
 			// after prefix '/user', for backward compatibility
 			const id = commandBeforeHash.substring(6).replace(/\//g, "-");
 
@@ -378,7 +379,7 @@ $$.shell = new function () {
 								.click(function () {
 									removeCommandDiv(id);
 									$taskButton.click();
-									$$.ajax.load(item.action + commandId, $commandDiv);
+									$$.ajax.load(item.action + idParam, $commandDiv);
 								});
 						}
 
@@ -400,7 +401,7 @@ $$.shell = new function () {
 
 					$taskButton.click();
 
-					$$.ajax.load(item.action + commandId, $commandDiv, {dfd: contentLoadDfd});
+					$$.ajax.load(item.action + idParam, $commandDiv, {dfd: contentLoadDfd});
 
 					$taskButton.find('.icon-close').click(function () {
 						// закрытие активной оснастки
@@ -424,9 +425,16 @@ $$.shell = new function () {
 		}
 	}
 
-	const getCommandId = (command, pos) => {
+	/**
+	 * Creates from #<ID> ending of URL id=<ID> HTTP param.
+	 * @param {*} command command URL, shown in browser address field
+	 * @param {*} pos pos of '#' in URL
+	 * @param {*} action URL, actually called from the server side
+	 * @returns
+	 */
+	const getIdParam = (command, pos, action) => {
 		if (pos > 0)
-			return (command.includes('?') > 0 ? "&" : "?") + "id=" + command.substring(pos + 1);
+			return (action.includes('?') > 0 ? "&" : "?") + "id=" + command.substring(pos + 1);
 		return "";
 	}
 
