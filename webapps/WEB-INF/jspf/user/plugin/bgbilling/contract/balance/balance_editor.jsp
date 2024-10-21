@@ -1,7 +1,3 @@
-<%@page import="ru.bgcrm.struts.form.DynActionForm"%>
-<%@page import="ru.bgcrm.plugin.bgbilling.TransferData"%>
-<%@page import="ru.bgcrm.model.user.User"%>
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
@@ -30,14 +26,7 @@
 
 		<c:set var="dbInfo" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId]}"/>
 		<c:if test="${dbInfo.pluginSet.contains('ru.bitel.bgbilling.plugins.cashcheck')}">
-			<%
-				DynActionForm form = (DynActionForm)request.getAttribute("form");
-				User user = (User)request.getAttribute("ctxUser");
-
-				pageContext.setAttribute("login", TransferData.getUserAccount(form.getParam("billingId"), user).getLogin());
-			%>
-
-			<c:set var="mode" value="${dbInfo.guiConfigValues.get('cashcheck.user.'.concat(login).concat('.checkbox.mode'))	}"/>
+			<c:set var="mode" value="${dbInfo.guiConfigValues.get('cashcheck.user.'.concat(ctxUser.login).concat('.checkbox.mode'))	}"/>
 			<c:if test="${empty mode}">
 				<c:set var="mode" value="${dbInfo.guiConfigValues.get('cashcheck.default.checkbox.mode')}"/>
 			</c:if>
