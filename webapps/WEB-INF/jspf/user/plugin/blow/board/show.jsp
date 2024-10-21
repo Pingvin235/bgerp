@@ -33,20 +33,20 @@
 	</table>
 
 	<c:set var="uiidRcMenu" value="${u:uiid()}"/>
-	<ul style="display: none; z-index: 2000;" id="${uiidRcMenu}">
+	<ui:popup-menu id="${uiidRcMenu}">
 		<li id="create"><a>${l.l('rc.menu.create')}</a></li>
 		<li id="cut"><a>${l.l('Вырезать')}</a></li>
 		<li id="paste" style="display: none;"><a>${l.l('Вставить')}</a></li>
 		<li id="free" style="display: none;"><a>${l.l('rc.menu.free')}</a></li>
 		<li id="merge" style="display: none;"><a>${l.l('Слить')}</a></li>
-	</ul>
+	</ui:popup-menu>
 
 	<script>
 		$(function () {
 			$$.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
 
 			$('#content > #blow-board').data('onShow', function () {
-				$$.ajax.loadContent('${form.httpRequestURI}?method=show&id=${form.id}', $('#${uiid}'));
+				$$.ajax.loadContent('${form.requestUrl}', $('#${uiid}'));
 			});
 
 			$$.shell.stateFragment(${form.id});
