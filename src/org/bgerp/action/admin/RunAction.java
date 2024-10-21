@@ -70,12 +70,12 @@ public class RunAction extends BaseAction {
         else {
             Class<?> clazz = Bean.getClass(className);
 
-            if (Runnable.class.isAssignableFrom(clazz)) {
+            if (java.lang.Runnable.class.isAssignableFrom(clazz)) {
                 boolean sync = form.getParamBoolean("sync");
                 if (sync)
-                    ((Runnable) clazz.getDeclaredConstructor().newInstance()).run();
+                    ((java.lang.Runnable) clazz.getDeclaredConstructor().newInstance()).run();
                 else
-                    new Thread((Runnable) clazz.getDeclaredConstructor().newInstance()).start();
+                    new Thread((java.lang.Runnable) clazz.getDeclaredConstructor().newInstance()).start();
             } else {
                 throw new BGMessageException("The class does not implement java.lang.Runnable: {}", className);
             }
