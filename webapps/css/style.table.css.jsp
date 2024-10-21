@@ -46,6 +46,10 @@ table tr.hl {
 	background-color: var(--table-hl-bg-color);
 }
 
+table.hl-td td:hover {
+	background-color: var(--table-hl-bg-color);
+}
+
 table.fixed-header tr:nth-child(1) td {
 	position: sticky;
 	top: 0;

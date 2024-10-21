@@ -363,6 +363,20 @@ cmd do && cmd undo
 			<td>Data 3</td>
 		</tr>
 	</table>
+
+	<h2>Data Table with Cell highlight</h2>
+	<table class="data hl-td">
+		<tr>
+			<td>Header 1</td>
+			<td>Header 2</td>
+			<td>Header 3</td>
+		</tr>
+		<tr>
+			<td>Data 1</td>
+			<td>Data 2</td>
+			<td>Data 3</td>
+		</tr>
+	</table>
 </div>
 
 <h1>ETC</h1>

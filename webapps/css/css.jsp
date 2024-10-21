@@ -134,7 +134,11 @@ body > #content p {
 }
 
 .text-center {
-	text-align: center;
+	text-align: center !important;
+}
+
+.text-right {
+	text-align: right !important;
 }
 
 .nowrap {
