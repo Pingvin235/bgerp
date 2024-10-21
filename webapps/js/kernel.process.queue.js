@@ -94,7 +94,7 @@ $$.process.queue = new function () {
 
 	const updateSelected = (id) => {
 		$$.ajax
-			.post("/user/process/queue.do?method=queueSavedPanelSet" + $$.ajax.requestParamsToUrl({command: "updateSelected",  queueId: id}))
+			.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedPanelSet', command: 'updateSelected', queueId: id }))
 			.done(() => {
 				$(".btn-panel input[type=hidden]").each(function () {
 					if ($(this).val() == id) {
@@ -146,7 +146,7 @@ function addToPanelScript(id, title, isNew)
 	{
 		$("#processQueueSelect").find("li[value="+id+"]").remove();
 
-		$$.ajax.post("/user/process/queue.do?method=queueSavedPanelSet" + $$.ajax.requestParamsToUrl({command: "add", queueId: id, queueTitle: title}));
+		$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedPanelSet', command: "add", queueId: id, queueTitle: title }));
 	}
 
 	$( '#processQueueSelect' ).before(	"<div onclick=$('#processQueueSelect').find('input[type=hidden]').val("+id+");$$.process.queue.changed();$$.process.queue.updateSelected("+id+"); class='btn-white btn-panel'>" +
@@ -178,7 +178,7 @@ function addToPanelScript(id, title, isNew)
 
 function removeFromPanel(id, title) {
 	$$.ajax
-		.post("/user/process/queue.do?method=queueSavedPanelSet" + $$.ajax.requestParamsToUrl({command: "delete", queueId: id}))
+		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedPanelSet', command: "delete", queueId: id }))
 		.done(() => {
 			$("#processQueueSelect").find(".drop").append("<li value="+id+" onclick='$$.process.queue.updateSelected("+id+");$$.process.queue.showSelected(("+id+");'><div style='display: inline;'>"+ title +
 			"</div><div class='icon-add'></div></li>");
@@ -193,10 +193,10 @@ function removeFromPanel(id, title) {
 
 function exportFilterToCommons()
 {
-	var queueId = $("#processQueueSelect > input[type=hidden]").val();
-	var buttonId = $("#savedFilters .btn-blue").attr("id");
-	var url = $("#savedFilters form[id='"+queueId+"-"+buttonId+"']").attr("action");
-	var title = $("#savedFilters .btn-blue").html();
+	const queueId = $("#processQueueSelect > input[type=hidden]").val();
+	const buttonId = $("#savedFilters .btn-blue").attr("id");
+	const url = $("#savedFilters form[id='" + queueId + "-" + buttonId + "']").attr("action");
+	const title = $("#savedFilters .btn-blue").html();
 
 	if (!buttonId) {
 		alert("Не выбран сохранённый фильтр!");
@@ -204,7 +204,7 @@ function exportFilterToCommons()
 	}
 
 	$$.ajax
-		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet","command":"addCommon","url":url,"queueId":queueId,"title":title}))
+		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'addCommon', url: url, queueId: queueId, title: title }))
 		.done(() => {
 			location.reload();
 		})
@@ -212,9 +212,9 @@ function exportFilterToCommons()
 
 function importFilterFromCommons()
 {
-	var queueId = $("#processQueueSelect > input[type=hidden]").val();
-	var id = $("#commonFiltersPanel input[type=hidden]").val();
-	var title = $("#commonFiltersPanel .text-value").html();
+	const queueId = $("#processQueueSelect > input[type=hidden]").val();
+	const id = $("#commonFiltersPanel input[type=hidden]").val();
+	const title = $("#commonFiltersPanel .text-value").html();
 
 	if (!id) {
 		alert("Не выбран общий фильтр для импорта!");
@@ -222,7 +222,7 @@ function importFilterFromCommons()
 	}
 
 	$$.ajax
-		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet","command":"importCommon","id":id,"queueId":queueId,"title":title}))
+		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'importCommon', id: id, queueId: queueId, title: title }))
 		.done(() => {
 			location.reload();
 		});
@@ -232,12 +232,12 @@ function deleteFilterFromCommons()
 {
 	if ( confirm("Вы уверены что хотите удалить общий фильтр?") )
 	{
-		var queueId = $("#processQueueSelect > input[type=hidden]").val();
-		var id = $("#commonFiltersPanel input[type=hidden]").val();
-		var title = $("#commonFiltersPanel .text-value").html();
+		const queueId = $("#processQueueSelect > input[type=hidden]").val();
+		const id = $("#commonFiltersPanel input[type=hidden]").val();
+		const title = $("#commonFiltersPanel .text-value").html();
 
 		$$.ajax
-			.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet", "command":"deleteCommon", "id":id, "queueId":queueId, "title":title}))
+			.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'deleteCommon', id: id, queueId: queueId, title: title }))
 			.done(() => {
 				location.reload();
 			});
@@ -433,8 +433,8 @@ function updateSavedFiltersOrder(container) {
 
 function setFilterStatusRare( filterId, value )
 {
-	var queueId = $("#processQueueSelect > input[type=hidden]").val();
-	$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"method":"queueSavedFilterSet","command":"setRareStatus","filterId":filterId, "rare":value, "queueId":queueId}));
+	const queueId = $("#processQueueSelect > input[type=hidden]").val();
+	$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setRareStatus', filterId: filterId, rare: value, queueId: queueId }));
 }
 
 //Drag&Drop filters --- end ----
@@ -444,7 +444,7 @@ function updateSelectedFilterAndOpen( queueId, filterId )
 {
 	$$.shell.followLink("/user/process/queue", "");
 	$$.ajax
-		.post("/user/process/queue.do?method=queueSavedFilterSet" + $$.ajax.requestParamsToUrl({"command":"select", "id":filterId, "queueId":queueId}))
+		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'select', id: filterId, queueId: queueId }))
 		.done(() => {
 			$$.process.queue.updateSelected(queueId);
 			$$.process.queue.showSelected(queueId);
@@ -540,7 +540,7 @@ function addCounterToPanel( buttonId, queueId, buttonName, queueName, color, url
 					$("#colorPickerModal").hide();
 					$( this ).dialog( "close" );
 					$("#filterCounterPanel").prepend("<a style='margin-left: 4px; color:"+filterColor+";' id='panelFilterCounter-" + queueId + "-" + filterButtonId + "' queue="+queueId+" url="+url+" title='"+ filterQueueName + " " + filterButtonName +"' onclick='updateSelectedFilterAndOpen("+ queueId +","+ filterButtonId+ ")' href='#'>"+filterButtonCount+" </a>");
-					$$.ajax.post("/user/process/queue.do?method=queueSavedFilterSet" + $$.ajax.requestParamsToUrl({"command":"setStatusCounterOnPanel", "filterId":filterButtonId, "queueId":queueId, "color":filterColor, "statusCounterOnPanel":true, "title": filterButtonName, "queueName": filterQueueName}));
+					$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setStatusCounterOnPanel', filterId: filterButtonId, queueId: queueId, color: filterColor, statusCounterOnPanel: true, title: filterButtonName, queueName: filterQueueName }));
 				},
 				Cancel: function()
 				{
@@ -548,7 +548,7 @@ function addCounterToPanel( buttonId, queueId, buttonName, queueName, color, url
 					$("#colorPickerModal").hide();
 					$( this ).dialog( "close" );
 					$("#filterCounterPanel").prepend("<a style='margin-left: 4px; color:"+filterColor+";' id='panelFilterCounter-" + queueId + "-" + filterButtonId + "' queue="+queueId+" url="+url+" title='"+ filterQueueName + " " + filterButtonName +"' onclick='updateSelectedFilterAndOpen("+ queueId +","+ filterButtonId+ ")' href='#'>"+filterButtonCount+" </a>");
-					$$.ajax.post("/user/process/queue.do?method=queueSavedFilterSet" + $$.ajax.requestParamsToUrl({"command":"setStatusCounterOnPanel", "filterId":filterButtonId, "queueId":queueId, "color":filterColor, "statusCounterOnPanel":true, "title": filterButtonName, "queueName": filterQueueName}));
+					$$.ajax.post("/user/process/queue.do" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setStatusCounterOnPanel', filterId: filterButtonId, queueId: queueId, color: filterColor, statusCounterOnPanel: true, title: filterButtonName, queueName: filterQueueName }));
 				}
 			}
 		});
@@ -584,7 +584,7 @@ function delCounterFromPanel()
 
 	$("a#panelFilterCounter-" + queueId + "-" + filterButtonId ).remove();
 
-	$$.ajax.post("/user/process/queue.do?method=queueSavedFilterSet" + $$.ajax.requestParamsToUrl({"command":"setStatusCounterOnPanel", "filterId":filterButtonId, "queueId":queueId, "statusCounterOnPanel":false}));
+	$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setStatusCounterOnPanel', filterId: filterButtonId, queueId: queueId, statusCounterOnPanel: false }));
 }
 
 // processing client events
