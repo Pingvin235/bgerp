@@ -74,7 +74,12 @@
 			<%@ include file="process_header_type.jsp"%>
 
 			<ui:when type="user">
-				(<ui:process-link id="${process.id}"/>)
+				<u:sc>
+					<c:set var="processTmp" value="${process}" scope="page"/>
+					<c:remove var="process" scope="request"/>
+					(<ui:process-link id="${process.id}"/>)
+					<c:set var="process" value="${processTmp}" scope="request"/>
+				</u:sc>
 
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate">
 					<c:if test="${processType.properties.configMap['hidePriority'] ne 1}">

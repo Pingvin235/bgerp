@@ -3,7 +3,7 @@
 
 <%@ attribute name="id" description="Process ID" type="java.lang.Integer"%>
 <%@ attribute name="process" description="Process object" type="ru.bgcrm.model.process.Process"%>
-<%@ attribute name="text" description="Optional link text, if not defined - used process title"%>
+<%@ attribute name="text" description="Optional link text, if not defined - used process.title or ID"%>
 
 <c:if test="${not empty process}">
 	<c:set var="id" value="${process.id}"/>
@@ -12,7 +12,7 @@
 <c:set var="text">
 	<c:choose>
 		<c:when test="${not empty text}">${text}</c:when>
-		<c:otherwise>${process.title}</c:otherwise>
+		<c:otherwise>${empty process.title ? id : process.title}</c:otherwise>
 	</c:choose>
 </c:set>
 

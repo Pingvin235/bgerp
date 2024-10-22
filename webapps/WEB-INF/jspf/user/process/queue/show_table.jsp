@@ -98,7 +98,7 @@ Incoming variables:
 					</c:when>
 
 					<c:when test="${column.value eq 'id' and not mob}">
-						<ui:process-link id="${process.id}" text="${process.id}"/>
+						<ui:process-link id="${process.id}"/>
 					</c:when>
 
 					<c:when test="${column.value.startsWith('linkCustomerLink') or
