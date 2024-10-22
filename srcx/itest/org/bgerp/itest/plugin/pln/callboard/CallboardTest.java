@@ -96,7 +96,7 @@ public class CallboardTest {
                 "PROCESS_PARAM_CONNECTION_TIME_ID", paramConnectionTimeId,
                 "PROCESS_PARAM_ADDRESS_ID", paramAddressId
             ) + ResourceHelper.getResource(this, "process.type.config.txt"));
-        processTypeId = ProcessHelper.addType(TITLE + " Connection", ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE + " Connection", ProcessTest.processTypeTestGroupId, props).getId();
     }
 
     @Test(dependsOnMethods = { "param", "processType" })

@@ -41,17 +41,17 @@ public class ProcessHelper {
         return status.getId();
     }
 
-    public static ProcessType addType(String title, int parentId, boolean useParentProperties, TypeProperties props) throws Exception {
+    public static ProcessType addType(String title, int parentId, TypeProperties props) throws Exception {
         var con = DbTest.conRoot;
         var dao = new ProcessTypeDAO(con);
 
         var type = new ProcessType(-1, title);
         type.setParentId(parentId);
-        type.setUseParentProperties(useParentProperties);
+        type.setUseParentProperties(props == null);
         dao.updateProcessType(type, User.USER_SYSTEM_ID);
         Assert.assertTrue(type.getId() > 0);
 
-        if (!useParentProperties && props != null) {
+        if (props != null) {
             Preferences.processIncludes(new ConfigDAO(DbTest.conRoot), props.getConfig(), true);
             type.setProperties(props);
             dao.updateTypeProperties(type);

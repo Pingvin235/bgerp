@@ -39,7 +39,7 @@ public class UsermobIfaceTest {
         props.setParameterIds(List.of(ProcessParamTest.paramAddressId));
         props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
-        processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
+        processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props);
     }
 
     @Test(dependsOnMethods = "processType")

@@ -6,7 +6,6 @@ import java.util.Set;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
-import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.model.process.TypeProperties;
@@ -29,7 +28,7 @@ public class ProcessReferenceTest {
             "PARAM_LIST_ID", ProcessParamTest.paramListId
         ) + ResourceHelper.getResource(this, "process.type.config.txt"));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
 
         // only to do not forget remove the test with the config
         props.getConfigMap().getConfig(ProcessReferenceConfig.class);

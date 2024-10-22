@@ -48,7 +48,7 @@ public class ProcessQueueColumnTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramMoneyAmountId, paramBlobLargeTextId, paramTextIntId));
 
-       processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+       processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")

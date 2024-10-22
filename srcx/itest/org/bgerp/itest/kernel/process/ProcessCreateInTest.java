@@ -41,7 +41,7 @@ public class ProcessCreateInTest {
             ResourceHelper.getResource(this, "process.type.config.txt")
         );
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")

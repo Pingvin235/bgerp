@@ -51,13 +51,13 @@ public class ProcessIsolationTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setAllowedGroups(new ProcessGroups(userGroupId));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
-        processTypeSpecialId = ProcessHelper.addType(TITLE + " special", processTypeId, false, null).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
+        processTypeSpecialId = ProcessHelper.addType(TITLE + " special", processTypeId, new TypeProperties()).getId();
 
-        processType1Id = ProcessHelper.addType(TITLE + " 1", processTypeId, false, null).getId();
-        processType11Id = ProcessHelper.addType(TITLE + " 1.1", processType1Id, false, props).getId();
+        processType1Id = ProcessHelper.addType(TITLE + " 1", processTypeId, new TypeProperties()).getId();
+        processType11Id = ProcessHelper.addType(TITLE + " 1.1", processType1Id, props).getId();
 
-        processType2Id  = ProcessHelper.addType(TITLE + " 2", processTypeId, false, null).getId();
+        processType2Id  = ProcessHelper.addType(TITLE + " 2", processTypeId, new TypeProperties()).getId();
     }
 
     @Test(dependsOnMethods = "processType")

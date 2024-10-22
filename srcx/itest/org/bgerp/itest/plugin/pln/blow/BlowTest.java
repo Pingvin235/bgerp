@@ -58,9 +58,9 @@ public class BlowTest {
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
-        processTypeTaskId = ProcessHelper.addType(TITLE + " Task", processTypeId, true, null).getId();
-        processTypeIncidentId = ProcessHelper.addType(TITLE + " Incident", processTypeId, true, null).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
+        processTypeTaskId = ProcessHelper.addType(TITLE + " Task", processTypeId, null).getId();
+        processTypeIncidentId = ProcessHelper.addType(TITLE + " Incident", processTypeId, null).getId();
     }
 
     @Test(dependsOnMethods = "processType")

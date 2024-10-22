@@ -64,7 +64,7 @@ public class WorkloadTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramAddressId, paramDateTimeFromId, paramDateTimeToId));
 
-        var type = ProcessHelper.addType(TITLE + " Work", ProcessTest.processTypeTestGroupId, false, props);
+        var type = ProcessHelper.addType(TITLE + " Work", ProcessTest.processTypeTestGroupId, props);
         processTypeId = type.getId();
 
         props.setConfig(

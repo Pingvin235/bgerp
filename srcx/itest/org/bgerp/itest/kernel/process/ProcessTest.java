@@ -49,9 +49,9 @@ public class ProcessTest {
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
 
-        processTypeTestGroupId = ProcessHelper.addType(TITLE, 0, false, props).getId();
+        processTypeTestGroupId = ProcessHelper.addType(TITLE, 0, props).getId();
 
-        processTypeTestId = ProcessHelper.addType(TITLE, processTypeTestGroupId, true, null).getId();
+        processTypeTestId = ProcessHelper.addType(TITLE, processTypeTestGroupId, null).getId();
     }
 
     @Test(dependsOnMethods = "processType")

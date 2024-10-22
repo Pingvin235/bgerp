@@ -82,7 +82,7 @@ public class BGBillingTest {
             ) + ResourceHelper.getResource(this, "process.type.config.txt")
         );
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
 
         props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
@@ -91,7 +91,7 @@ public class BGBillingTest {
         props.setParameterIds(List.of(paramHdCostId, paramHdStatusId, paramHdAutoCloseId));
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));
 
-        processHdTypeId = ProcessHelper.addType(TITLE_HD, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processHdTypeId = ProcessHelper.addType(TITLE_HD, ProcessTest.processTypeTestGroupId, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")

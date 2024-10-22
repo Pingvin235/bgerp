@@ -56,7 +56,7 @@ public class AgreeTest {
             "STATUS_TO_ID", statusToId,
             "GROUP_ID", userGroupId
         ) + ResourceHelper.getResource(this, "process.type.config.txt"));
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")

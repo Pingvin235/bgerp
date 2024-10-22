@@ -40,17 +40,17 @@ public class ProcessLinkTest {
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
 
-        var processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
+        var processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props);
         processTypeId = processType.getId();
 
-        var processTypeLinkedMade = ProcessHelper.addType(TITLE_LINKED_MADE, processTypeId, false, props);
+        var processTypeLinkedMade = ProcessHelper.addType(TITLE_LINKED_MADE, processTypeId, props);
         processTypeLinkedMadeId = processTypeLinkedMade.getId();
         props.setConfig(ConfigHelper.generateConstants(
             "PROCESS_TYPE_ID", processTypeId
         ) + ResourceHelper.getResource(this, "process.linked.type.config.txt"));
         new ProcessTypeDAO(DbTest.conRoot).updateTypeProperties(processTypeLinkedMade);
 
-        var processTypeLinkDepend = ProcessHelper.addType(TITLE_LINK_DEPEND, processTypeId, false, props);
+        var processTypeLinkDepend = ProcessHelper.addType(TITLE_LINK_DEPEND, processTypeId, props);
         processTypeLinkDependId = processTypeLinkDepend.getId();
         props.setConfig(ConfigHelper.generateConstants(
             "PROCESS_TYPE_ID", processTypeId

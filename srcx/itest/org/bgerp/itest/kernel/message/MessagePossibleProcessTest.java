@@ -93,7 +93,7 @@ public class MessagePossibleProcessTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.getParameterIds().addAll(List.of(paramCityId));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
     }
 
     @Test

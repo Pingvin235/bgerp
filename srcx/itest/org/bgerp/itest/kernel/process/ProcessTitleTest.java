@@ -46,7 +46,7 @@ public class ProcessTitleTest {
         props.setConfig(ConfigHelper.generateConstants("PARAM_LIST_ID", paramListId)
                 + ResourceHelper.getResource(this, "process.type.config.txt"));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")

@@ -50,7 +50,7 @@ public class OpenIfaceTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(processOpenParamId));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
 
         processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
 

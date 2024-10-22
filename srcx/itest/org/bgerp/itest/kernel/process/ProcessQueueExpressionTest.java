@@ -19,7 +19,7 @@ public class ProcessQueueExpressionTest {
 
     @Test
     public void processType() throws Exception {
-       processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, true, null).getId();
+       processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, null).getId();
     }
 
     @Test(dependsOnMethods = "processType")
