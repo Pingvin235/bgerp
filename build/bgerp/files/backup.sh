@@ -78,7 +78,7 @@ function create_db () {
     mkdir ${BACKUP_TMP}
 
     cd ${BACKUP_TMP}
-    ${MYSQLDUMP} --no-tablespaces --routines --host=${HOST_SQL} --user=${USER_SQL} --password=${PASSWORD_SQL} ${PORT_SQL} ${DBASE_NAME} > ${DUMP}
+    ${MYSQLDUMP} --single-transaction --no-tablespaces --routines --host=${HOST_SQL} --user=${USER_SQL} --password=${PASSWORD_SQL} ${PORT_SQL} ${DBASE_NAME} > ${DUMP}
 
     cp -r ../${LIB} ./
     cp -r ../${WEBAPPS} ./
