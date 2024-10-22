@@ -1,5 +1,6 @@
 # Changing status to 'Progress':
 - Is allowed only when description contain string 'BLA'
+- Appends the current user to the process executors
 
 # Changing status to 'Done':
 - Is allowed only when description contain string 'BLI'
