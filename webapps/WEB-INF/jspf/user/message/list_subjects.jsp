@@ -28,7 +28,7 @@
 						<td>${item.subject}</td>
 						<td>${item.from}</td>
 						<td>${tu.format(item.fromTime, 'ymdhm')}</td>
-						<td><ui:process-link id="${item.process.id}" text="${item.process.id}"/></td>
+						<td><ui:process-link process="${item.process}"/></td>
 					</tr>
 				</c:forEach>
 			</table>

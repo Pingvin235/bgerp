@@ -36,7 +36,7 @@
 				</td>
 			</c:if>
 			<td width="50%">${l.l('File')}</td>
-			<td width="50%">${l.l('Время изменения')}</td>
+			<td width="50%">${l.l('Modification time')}</td>
 			<td>${l.l('Size')}</td>
 			<c:if test="${restoreAllowed}">
 				<td width="1em"></td>

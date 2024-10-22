@@ -88,7 +88,7 @@
 
 			<table class="data hl">
 				<tr>
-					<td>${l.l('Title')}</td>
+					<td>${l.l('Process')}</td>
 					<td>${l.l('Type')}</td>
 					<td>${l.l('Created')}</td>
 					<td>${l.l('Status')}</td>
@@ -98,7 +98,7 @@
 				<c:forEach var="item" items="${frd.list}">
 					<c:set var="process" value="${item.second}" />
 					<tr>
-						<td><ui:process-link id="${process.id}" text="${process.title}"/></td>
+						<td><ui:process-link process="${process}"/></td>
 						<td>${process.type.title}</td>
 						<td>${tu.format(process.createTime, 'ymdhms')}</td>
 						<td>${process.statusTitle}</td>

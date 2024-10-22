@@ -23,7 +23,7 @@
 		<c:if test="${allowLinkDelete}">
 			<td class="min">&nbsp;</td>
 		</c:if>
-		<td>${l.l('Description')}</td>
+		<td>${l.l('Process')}</td>
 		<td>${l.l('Status')}</td>
 	</tr>
 
@@ -63,7 +63,7 @@
 					"/>
 				</td>
 			</c:if>
-			<td title="${l.l('Type')}: ${process.type.title}"><ui:process-link id="${process.id}" text="${process.title}"/></td>
+			<td title="${l.l('Type')}: ${process.type.title}"><ui:process-link process="${process}"/></td>
 			<td title="${ui.processCreatedAndClosed(l, process)}">${process.statusTitle}</td>
 		</tr>
 	</c:forEach>

@@ -385,7 +385,7 @@
 	<p><en>Update</en><ru>Обновить</ru></p>
 	<p><ru>Обновить на изменение</ru><en>Update to change</en></p>
 	<p><ru>Сессии пользователей</ru><en>Sessions of users</en></p>
-	<p><ru>Время изменения</ru><en>Modification time</en></p>
+	<p><en>Modification time</en><ru>Время изменения</ru></p>
 	<p><ru>Логи приложения</ru><en>Application logs</en></p>
 	<p><ru>Копировать свойства из</ru><en>Copy properties from</en></p>
 	<p><ru>Файлы</ru><en>Files</en></p>

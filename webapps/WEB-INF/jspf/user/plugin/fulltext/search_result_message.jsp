@@ -8,9 +8,9 @@
 <table class="data mt1">
 	<tr>
 		<td width="30">ID</td>
-		<td>Тип</td>
-		<td>Время</td>
-		<td>Процесс</td>
+		<td>${l.l('Type')}</td>
+		<td>${l.l('Time')}</td>
+		<td>${l.l('Process')}</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}">
 		<c:set var="message" value="${item.first}"/>
@@ -25,7 +25,7 @@
 			<td nowrap="nowrap">${tu.format(message.fromTime, 'ymdhm')}</td>
 			<td>
 				<c:if test="${not empty process}">
-					<ui:process-link id="${process.id}" text="${process.description}"/>
+					<ui:process-link process="${process}"/>
 				</c:if>
 			</td>
 		</tr>

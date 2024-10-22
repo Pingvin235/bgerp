@@ -28,7 +28,7 @@
 <table class="data mt1 hl">
 	<tr>
 		<td class="min">&nbsp;</td>
-		<td>${l.l('Title')}</td>
+		<td>${l.l('Process')}</td>
 		<td>${l.l('Status')}</td>
 	</tr>
 
@@ -52,7 +52,7 @@
 					}
 				"><i class="ti-link"></i></button>
 			</td>
-			<td><ui:process-link id="${process.id}" text="${process.title}"/></td>
+			<td><ui:process-link process="${process}"/></td>
 			<td title="${ui.processCreatedAndClosed(l, process)}">${process.statusTitle}</td>
 		</tr>
 	</c:forEach>

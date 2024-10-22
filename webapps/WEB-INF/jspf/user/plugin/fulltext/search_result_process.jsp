@@ -3,15 +3,15 @@
 
 <%@ include file="search_common.jsp"%>
 
-<table class="data mt1">
+<table class="data mt1 hl">
 	<tr>
 		<td width="30">ID</td>
-		<td>Описание</td>
+		<td>${l.l('Process')}</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.id}</td>
-			<td><ui:process-link id="${item.id}" text="${item.description}"/></td>
+			<td><ui:process-link process="${item}"/></td>
 		</tr>
 	</c:forEach>
 </table>
