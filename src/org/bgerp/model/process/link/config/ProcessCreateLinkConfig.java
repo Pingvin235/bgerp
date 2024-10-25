@@ -69,6 +69,6 @@ public class ProcessCreateLinkConfig extends Config {
     }
 
     private boolean isEnabled(Map<String, Object> context, ProcessCreateLinkItem item) {
-        return Utils.isBlankString(item.getExpression()) || new Expression(context).check(item.getExpression());
+        return Utils.isBlankString(item.getExpression()) || new Expression(context).executeCheck(item.getExpression());
     }
 }

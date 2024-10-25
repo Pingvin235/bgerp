@@ -46,7 +46,7 @@ public class ProcessReferenceConfig extends Config {
             for (String objectType : objectTypes) {
                 if (item.objectTypes.contains(objectType)) {
                     Map<String, Object> context = Expression.context(new SingleConnectionSet(con), form, null, process);
-                    result = new Expression(context).getString(item.macros);
+                    result = new Expression(context).executeGetString(item.macros);
                     break MAIN_LOOP;
                 }
             }

@@ -42,7 +42,7 @@ public class ProcessTitleListener {
             new ProcessExpressionObject(process).toContext(context);
             new ProcessParamExpressionObject(conSet.getConnection(), e.getObjectId()).toContext(context);
 
-            String title = Utils.maskNull(new Expression(context).getString(config.getExpression()));
+            String title = Utils.maskNull(new Expression(context).executeGetString(config.getExpression()));
             if (!title.equals(process.getTitle())) {
                 dao.updateProcessTitle(e.getObjectId(), title);
                 e.getForm().getResponse().addEvent(new ProcessChangedEvent(e.getObjectId()));

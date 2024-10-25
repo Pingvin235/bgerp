@@ -41,7 +41,7 @@ public abstract class StepData<T extends Step> {
         new ProcessLinkExpressionObject(con, data.getProcess().getId()).toContext(context);
         new UserExpressionObject(data.getUser()).toContext(context);
 
-        return new Expression(context).check(step.getExpression());
+        return new Expression(context).executeCheck(step.getExpression());
     }
 
     public abstract boolean isFilled(DynActionForm form, Connection con) throws Exception;

@@ -256,7 +256,7 @@ public class DefaultProcessChangeListener {
                 Class<? extends EventListener<UserEvent>> listenerClass = (Class<? extends EventListener<UserEvent>>) Bean.getClass(className);
                 listenerClass.getDeclaredConstructor().newInstance().notify(e, conSet);
             } else {
-                if (Utils.notBlankString(ifExpression) && !Expression.init(conSet, e, process).check(ifExpression)) {
+                if (Utils.notBlankString(ifExpression) && !Expression.init(conSet, e, process).executeCheck(ifExpression)) {
                     log.debug("Skipping rule by ifExpression.");
                     return;
                 }
@@ -268,7 +268,7 @@ public class DefaultProcessChangeListener {
                     log.debug("Do expression: {}", doExpression);
 
                     try {
-                        Expression.init(conSet, e, process).executeScript(doExpression);
+                        Expression.init(conSet, e, process).execute(doExpression);
                     }
                     catch (Exception ex) {
                         if (ex.getCause() instanceof BGMessageException)
@@ -381,7 +381,7 @@ public class DefaultProcessChangeListener {
         }
 
         private void check(Expression expr, UserEvent e) throws BGMessageException {
-            if (!expr.check(expression)) {
+            if (!expr.executeCheck(expression)) {
                 if (showEvent) {
                     throw new BGMessageExceptionWithoutL10n(checkErrorMessage + "\n (" + e + ")");
                 } else {

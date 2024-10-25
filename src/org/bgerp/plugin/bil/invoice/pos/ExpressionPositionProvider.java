@@ -34,6 +34,6 @@ public class ExpressionPositionProvider extends PositionProvider {
             "invoice", invoice,
             "process", process,
             "processParam", processParam
-        )).executeScript(expression);
+        )).execute(expression);
     }
 }

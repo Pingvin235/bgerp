@@ -10,7 +10,7 @@ import ru.bgcrm.util.Utils;
 /*
  * Process accessing secret JEXL expression.
  * Used for dynamically connecting plugin functionality.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class SecretExpression {
@@ -42,7 +42,7 @@ public class SecretExpression {
         return (String) new Expression(Map.of(
             "key", Process.OBJECT_TYPE + "-" + process.getId(),
             "update", true
-        )).executeScript(expression);
+        )).execute(expression);
     }
 
     /**
@@ -57,7 +57,7 @@ public class SecretExpression {
         return (String) new Expression(Map.of(
             "key", Process.OBJECT_TYPE + "-" + process.getId(),
             "update", false
-        )).executeScript(expression);
+        )).execute(expression);
     }
 
     /**

@@ -227,7 +227,7 @@ public class DefaultMarkedProcessor extends Processor {
 
                 if (Utils.notBlankString(config.doExpression)) {
                     log.debug("Executing expression: {}", config.doExpression);
-                    Expression.init(conSet, e, process).executeScript(config.doExpression);
+                    Expression.init(conSet, e, process).execute(config.doExpression);
                 }
 
                 conSet.commit();

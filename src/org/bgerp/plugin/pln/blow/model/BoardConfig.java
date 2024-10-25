@@ -71,7 +71,7 @@ public class BoardConfig extends IdTitle {
             context.put("items", items);
             context.put("filter", filter);
             context.putAll(SetRequestParamsFilter.getContextVariables(null));
-            String text = new Expression(context).getString(filter.getStringExpression());
+            String text = new Expression(context).executeGetString(filter.getStringExpression());
 
             result.add(new Pair<>(filter, text));
         }
@@ -88,7 +88,7 @@ public class BoardConfig extends IdTitle {
         new ProcessExpressionObject(item.getProcess()).toContext(context);
         context.put("params", item.getParams());
         context.putAll(SetRequestParamsFilter.getContextVariables(null));
-        return new Expression(context).getString(cellExpression);
+        return new Expression(context).executeGetString(cellExpression);
     }
 
     public Set<Integer> getExecutorGroupIds() {

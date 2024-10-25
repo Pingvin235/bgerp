@@ -148,7 +148,7 @@ public class WorkType extends IdTitle {
         context.put("shift", shiftData);
 
         for (Rule rule : getRuleExpresionList()) {
-            if (new Expression(context).check(rule.checkExpression)) {
+            if (new Expression(context).executeCheck(rule.checkExpression)) {
                 result = rule.duration;
                 break;
             }

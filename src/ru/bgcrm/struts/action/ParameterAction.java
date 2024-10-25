@@ -140,7 +140,7 @@ public class ParameterAction extends BaseAction {
                 String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
                 Map<String, Object> context = Expression.context(null, form, null, process);
-                if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {
+                if (Utils.notBlankString(expression) && !(new Expression(context).executeCheck(expression))) {
                     hideParamIds.add(entry.getKey());
                 }
             }

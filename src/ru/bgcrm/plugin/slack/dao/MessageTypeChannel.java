@@ -203,7 +203,7 @@ public class MessageTypeChannel extends MessageType {
                     ctx.put("message", text);
                     ctx.put("m", m);
 
-                    if ((text = new Expression(ctx).getString(stringExpressionMessageExtract)) != null) {
+                    if ((text = new Expression(ctx).executeGetString(stringExpressionMessageExtract)) != null) {
                         int userId = User.USER_SYSTEM_ID;
                         if (accountParam != null) {
                             String slackLogin = accountMap.get(m.get("user").asText());

@@ -65,7 +65,7 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
             Map<String, Object> map = new HashMap<>(1);
             map.put("numberFrom", message.getFrom());
 
-            numberFrom = new Expression(map).getString(phonePreprocessJexl);
+            numberFrom = new Expression(map).executeGetString(phonePreprocessJexl);
 
             log.debug("Number preprocessed: {} => {}", message.getFrom(), numberFrom);
         }

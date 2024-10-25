@@ -132,7 +132,7 @@ public class FillParamsStep extends Step {
                     new ProcessParamExpressionObject(connection, process.getId()).toContext(context);
 
                     // TODO: Use DefaultProcessChangeListener#initExpression()
-                    if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {
+                    if (Utils.notBlankString(expression) && !(new Expression(context).executeCheck(expression))) {
                         hideParamIds.add(entry.getKey());
                     }
                 }

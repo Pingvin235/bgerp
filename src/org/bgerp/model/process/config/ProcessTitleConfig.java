@@ -46,7 +46,7 @@ public class ProcessTitleConfig extends Config {
         Map<String, Object> context = new HashMap<>();
         pp.toContext(context);
 
-        new Expression(context).getString(expression);
+        new Expression(context).executeGetString(expression);
 
         return pp.getParamIds();
     }

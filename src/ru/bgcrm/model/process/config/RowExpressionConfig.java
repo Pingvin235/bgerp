@@ -32,7 +32,7 @@ public class RowExpressionConfig extends Config {
 
         Expressions expressions = mediaExpressions.get(media);
         if (expressions != null)
-            result = new Expression(data).getString(expressions.headRowExpression);
+            result = new Expression(data).executeGetString(expressions.headRowExpression);
 
         return result;
     }
@@ -42,7 +42,7 @@ public class RowExpressionConfig extends Config {
 
         Expressions expressions = mediaExpressions.get(media);
         if (expressions != null)
-            result = new Expression(data).getString(expressions.rowExpression);
+            result = new Expression(data).executeGetString(expressions.rowExpression);
 
         return result;
     }

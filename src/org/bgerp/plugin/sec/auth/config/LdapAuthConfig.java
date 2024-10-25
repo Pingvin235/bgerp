@@ -58,7 +58,7 @@ public class LdapAuthConfig extends Config {
 
     public AuthResult auth(String login, String password) {
         try {
-            String searchFilter = new Expression(Map.of("login", login)).getString(this.searchExpression);
+            String searchFilter = new Expression(Map.of("login", login)).executeGetString(this.searchExpression);
             Attributes attrs = searchAttributes(login, password, searchFilter);
             return new AuthResult(user(login, password, new LDAPAttributes(attrs)));
         } catch (CommunicationException e) {
@@ -74,7 +74,7 @@ public class LdapAuthConfig extends Config {
         log.debug("Found LDAP attributes for login {}: {}", login, attrs);
         var user = new User(login, "");
         user.setStatus(User.STATUS_EXTERNAL);
-        user.setTitle(new Expression(Map.of("attrs", attrs)).getString(titleExpression));
+        user.setTitle(new Expression(Map.of("attrs", attrs)).executeGetString(titleExpression));
         user.setGroupIds(getGroupIds(attrs));
         return user;
     }
@@ -100,7 +100,7 @@ public class LdapAuthConfig extends Config {
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, url);
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, new Expression(Map.of("login", login)).getString(loginExpression));
+        env.put(Context.SECURITY_PRINCIPAL, new Expression(Map.of("login", login)).executeGetString(loginExpression));
         env.put(Context.SECURITY_CREDENTIALS, password);
         // env.put( Context.REFERRAL, "follow" );
         return env;
@@ -108,7 +108,7 @@ public class LdapAuthConfig extends Config {
 
     @SuppressWarnings("unchecked")
     private Set<Integer> getGroupIds(LDAPAttributes attrs) throws NamingException {
-        var result = (Set<Integer>) new Expression(Map.of("attrs", attrs)).executeScript(groupIdsExpression);
+        var result = (Set<Integer>) new Expression(Map.of("attrs", attrs)).execute(groupIdsExpression);
         return Collections.unmodifiableSet(result);
     }
 

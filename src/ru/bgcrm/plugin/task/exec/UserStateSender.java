@@ -88,7 +88,7 @@ public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
                 context.put(Event.KEY, event);
                 new UserExpressionObject(user).toContext(context);
 
-                new Expression(context).executeScript(cfg.emailExpression);
+                new Expression(context).execute(cfg.emailExpression);
             }
         } catch (Exception e) {
             log.error(e);

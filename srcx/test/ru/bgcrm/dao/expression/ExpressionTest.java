@@ -30,7 +30,7 @@ public class ExpressionTest {
         ctx.put(null, new LibraryMain());
 
         Expression exp = new Expression(ctx);
-        exp.executeScript("test1('ddd'); test1('ddd', 'mmm');");
+        exp.execute("test1('ddd'); test1('ddd', 'mmm');");
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ExpressionTest {
 
         Expression exp = new Expression(ctx);
         try {
-            exp.executeScript("test4('ddd');");
+            exp.execute("test4('ddd');");
         } catch (JexlException.Method e) {
             thrown = true;
         }
@@ -59,7 +59,7 @@ public class ExpressionTest {
 
         Expression exp = new Expression(ctx);
         try {
-            exp.executeScript("test2(11111, \"TEST\");");
+            exp.execute("test2(11111, \"TEST\");");
         } catch (JexlException.Method e) {
             thrown = true;
         }
@@ -85,10 +85,10 @@ public class ExpressionTest {
         ctx.put("t", new TestExpression());
 
         Expression exp = new Expression(ctx);
-        assertTrue(exp.check("1 =~ t.getIds()"));
-        assertFalse(exp.check("7 =~ t.getIds()"));
+        assertTrue(exp.executeCheck("1 =~ t.getIds()"));
+        assertFalse(exp.executeCheck("7 =~ t.getIds()"));
         assertEquals("testValue",
-                exp.executeScript("b = '0'; a = t.getIds(); if (1 =~ a){b = 'testValue'}; return b;"));
+                exp.execute("b = '0'; a = t.getIds(); if (1 =~ a){b = 'testValue'}; return b;"));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class ExpressionTest {
         ctx.put("t", testExpr);
 
         Expression exp = new Expression(ctx);
-        exp.executeScript("if (!cu.isEmpty(t.getIds())){t.setValue('testValue')};");
+        exp.execute("if (!cu.isEmpty(t.getIds())){t.setValue('testValue')};");
 
         assertEquals("testValue", testExpr.value);
     }
@@ -110,7 +110,7 @@ public class ExpressionTest {
         ctx.put("t", testExpr);
 
         Expression exp = new Expression(ctx);
-        assertEquals(true, exp.executeScript("return !empty(cu.intersection({1,2}, t.getIds()))"));
+        assertEquals(true, exp.execute("return !empty(cu.intersection({1,2}, t.getIds()))"));
     }
 
     @Test
@@ -120,13 +120,13 @@ public class ExpressionTest {
         ctx.put("t", testExpr);
 
         Expression exp = new Expression(ctx);
-        assertEquals("ab", exp.getString("'a'.concat('b')"));
+        assertEquals("ab", exp.executeGetString("'a'.concat('b')"));
     }
 
     @Test
     public void testNewCall() {
         Expression exp = new Expression(Map.of());
-        assertEquals("value44", exp.getString("new('ru.bgcrm.dao.expression.ExpressionTestClass', 'value44').getValue()"));
+        assertEquals("value44", exp.executeGetString("new('ru.bgcrm.dao.expression.ExpressionTestClass', 'value44').getValue()"));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ExpressionTest {
         map.put("numberFrom", "13333333333");
 
         String expr = "if (numberFrom.length() == 11) { numberFrom = numberFrom.substring(1) }; return numberFrom;";
-        String processed = new Expression(map).getString(expr);
+        String processed = new Expression(map).executeGetString(expr);
         assertEquals("3333333333", processed);
     }
 
@@ -144,7 +144,7 @@ public class ExpressionTest {
         String expr =
                 "u = ru.bgcrm.util.Utils;"
                 + "return u.parseInt('3') + 't';";
-        String value = new Expression(Map.of()).getString(expr);
+        String value = new Expression(Map.of()).executeGetString(expr);
         assertEquals("3t", value);
     }
 
@@ -154,7 +154,7 @@ public class ExpressionTest {
         map.put("a", "t");
         String expr = "b = null;" +
                 "return a + b;";
-        String value = new Expression(map).getString(expr);
+        String value = new Expression(map).executeGetString(expr);
         assertEquals("t", value);
     }
 
@@ -163,7 +163,7 @@ public class ExpressionTest {
         String expr = "p.value()";
         Map<String, Object> context = new HashMap<>();
         context.put("p", null);
-        String value = new Expression(context).getString(expr);
+        String value = new Expression(context).executeGetString(expr);
         assertNull(value);
     }
 }

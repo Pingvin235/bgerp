@@ -60,7 +60,7 @@ public class TaskRunner extends org.bgerp.app.exec.scheduler.Task {
                             context.put("taskObject", task);
                             context.put("taskType", type);
                             Expression expression = new Expression(context);
-                            expression.executeScript(type.getDoExpression());
+                            expression.execute(type.getDoExpression());
                         } catch (Exception e) {
                             log.error("Task execution error: " + e.getMessage(), e);
                         }

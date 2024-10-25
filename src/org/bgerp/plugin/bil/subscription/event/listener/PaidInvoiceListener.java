@@ -60,7 +60,7 @@ public class PaidInvoiceListener {
     private FileData updateLic(DynActionForm form, ConnectionSet conSet, Invoice invoice, Config config, PaidInvoiceConfig onPaidConfig) throws Exception {
         LocalDate dateTo = (LocalDate) new Expression(Map.of(
             "invoice", invoice
-        )).executeScript(onPaidConfig.getDateToExpression());
+        )).execute(onPaidConfig.getDateToExpression());
 
         log.debug("dateTo: {}", dateTo);
 
@@ -94,7 +94,7 @@ public class PaidInvoiceListener {
         message.setSubject(onPaidConfig.getEmailSubject());
         message.setText((String) new Expression(Map.of(
             "invoice", invoice
-        )).executeScript(onPaidConfig.getEmailTextExpression()));
+        )).execute(onPaidConfig.getEmailTextExpression()));
 
         message.addAttach(fd);
 

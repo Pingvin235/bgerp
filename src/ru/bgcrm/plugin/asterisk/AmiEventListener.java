@@ -91,7 +91,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
             Map<String, Object> context = new HashMap<>();
             context.put(numberFrom, numberFrom);
             context.put(numberTo, numberTo);
-            registerBecauseExpression = new Expression(context).check(messageType.getCheckExpressionCallStore());
+            registerBecauseExpression = new Expression(context).executeCheck(messageType.getCheckExpressionCallStore());
         }
 
         CallRegistration reg = messageType.getRegistrationByNumber(numberTo);

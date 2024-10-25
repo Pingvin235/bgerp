@@ -135,15 +135,15 @@ public class Expression {
         contextVars.put("fu", PREFIX_fu);
     }
 
-    public boolean check(String expression) {
+    public boolean executeCheck(String expression) {
         return (Boolean) jexl.createScript(expression).execute(context);
     }
 
-    public String getString(String expression) {
+    public String executeGetString(String expression) {
         return (String) jexl.createScript(expression).execute(context);
     }
 
-    public Object executeScript(String expression) {
+    public Object execute(String expression) {
         log.debug("Executing script: {}", expression);
 
         try {

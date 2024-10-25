@@ -76,7 +76,7 @@ public class MessageContent {
                 User.OBJECT_TYPE, UserCache.getUser(msg.getUserId()),
                 "message", msg
             );
-            text.append(new Expression(context).getString(signExpression));
+            text.append(new Expression(context).executeGetString(signExpression));
         }
 
         if (signStandard)
