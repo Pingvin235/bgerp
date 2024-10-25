@@ -42,9 +42,10 @@ public abstract class ParamExpressionObject implements ExpressionObject {
 
     /**
      * Возвращает список строк со значениями адресного параметра, формат указан.
-     * @param paramId
+     * @param paramId the parameter ID
      * @return
      */
+    @Deprecated
     public List<String> addressValues(int paramId, String formatName) {
         List<String> result = new ArrayList<>();
 
@@ -57,9 +58,9 @@ public abstract class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Возвращает набор с кодами городов адресного параметра процесса.
-     * @param paramId
-     * @return
+     * Selects set with city IDs of parameter with type {@code address}
+     * @param paramId the parameter ID
+     * @return not {@code null} set of values
      */
     public Set<Integer> addressCityIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
@@ -73,9 +74,9 @@ public abstract class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Возвращает набор с кодами улиц адресного параметра процесса.
-     * @param paramId
-     * @return
+     * Selects set with street IDs of parameter with type {@code address}
+     * @param paramId the parameter ID
+     * @return not {@code null} set of values
      */
     public Set<Integer> addressStreetIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
@@ -89,9 +90,9 @@ public abstract class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Возвращает набор с кодами кварталов адресного параметра процесса.
-     * @param paramId
-     * @return
+     * Selects set with quarter IDs of parameter with type {@code address}
+     * @param paramId the parameter ID
+     * @return not {@code null} set of values
      */
     public Set<Integer> addressQuarterIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
@@ -105,9 +106,9 @@ public abstract class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Возвращает набор с кодами районов из адресного параметра процесса.
-     * @param paramId
-     * @return
+     * Selects set with area IDs of parameter with type {@code address}
+     * @param paramId the parameter ID
+     * @return not {@code null} set of values
      */
     public Set<Integer> addressAreaIds(int paramId) {
         Collection<ParameterAddressValue> value = getParamAddressValues(paramId, null);
@@ -136,6 +137,29 @@ public abstract class ParamExpressionObject implements ExpressionObject {
         }
 
         return value;
+    }
+
+    /**
+     * Selects value IDs of {@code list} and {@code listcount} parameter types
+     * @param paramId the parameter ID
+     * @return not {@code null} set of values
+     */
+    public Set<Integer> listValueIds(int paramId) {
+        Set<Integer> result = Set.of();
+
+        try {
+            Parameter param = ParameterCache.getParameter(paramId);
+            if (param == null || (!Parameter.TYPE_LIST.equals(param.getType()) && !Parameter.TYPE_LISTCOUNT.equals(param.getType()))) {
+                log.error("Param not found with ID: " + paramId + " or has no 'list'/'listcount' type");
+                return result;
+            }
+
+            result = Parameter.TYPE_LIST.equals(param.getType()) ? paramDao.getParamList(objectId, paramId) : paramDao.getParamListCount(objectId, paramId).keySet();
+        } catch (SQLException e) {
+            log.error(e);
+        }
+
+        return result;
     }
 
     /**
@@ -232,30 +256,6 @@ public abstract class ParamExpressionObject implements ExpressionObject {
         log.warndMethod("addressValues", "getValue");
 
         return addressValues(paramId, null);
-    }
-
-    /**
-     * Use {@link ParamValueDAO#getParamList(int, int)}
-     */
-    @Deprecated
-    public Set<Integer> listValueIds(int paramId) {
-        log.warndMethod("listValueIds", "paramValueDAO.getParamList");
-
-        Set<Integer> result = Collections.emptySet();
-
-        try {
-            Parameter param = ParameterCache.getParameter(paramId);
-            if (param == null || !Parameter.TYPE_LIST.equals(param.getType())) {
-                log.error("Param not found: " + paramId + " or not list in expression");
-                return Collections.emptySet();
-            }
-
-            result = paramDao.getParamList(objectId, paramId);
-        } catch (SQLException e) {
-            log.error(e);
-        }
-
-        return result;
     }
 
     /**
