@@ -2,10 +2,7 @@ package ru.bgcrm.util;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -13,11 +10,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.bgerp.app.exception.BGException;
 import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.PeriodSet;
@@ -37,9 +29,6 @@ public class TimeUtils {
     public static final String FORMAT_TYPE_YMDH = "ymdh";
     public static final String FORMAT_TYPE_YMDHM = "ymdhm";
     public static final String FORMAT_TYPE_YMDHMS = "ymdhms";
-
-    @Deprecated
-    private static final String[] shortDayNames = { "пн", "вт", "ср", "чт", "пт", "сб", "вс" };
 
     /**
      * Date and time format string compatible with {@link SimpleDateFormat}.
@@ -61,92 +50,16 @@ public class TimeUtils {
         }
     }
 
-    // ########################################################################################
-    // # Битовые маски
-    // ########################################################################################
-    //
     /**
-     * Возвращает битовую маску дня недели.
-     * @param date дата
-     * @return 1(понедельник), 2(вторник), ... 64(воскресенье)
-     */
-    public static final int getDayOfWeekMask(Calendar date) {
-        return 1 << (getDayOfWeekPosition(date));
-    }
-
-    /**
-     * Возвращает порядок дня недели от понедельника, начиная с 1.
+     * Day of week starting from Monday = 1
      * @param date
      * @return
      */
-    public static final int getDayOfWeekPosition(Calendar date) {
-        return (date.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY + 7) % 7 + 1;
-    }
-
     public static final int getDayOfWeekPosition(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        return getDayOfWeekPosition(calendar);
+        Calendar calendar = convertDateToCalendar(date);
+        return (calendar.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY + 7) % 7 + 1;
     }
 
-    /**
-     * Битовая маска дня месяца.
-     * @param date дата
-     * @return 1(01), 2(02), 4(03), 8(04), ... 2147483648(31)
-     */
-    public static final int getDayOfMonthMask(Calendar date) {
-        return 1 << (date.get(Calendar.DAY_OF_MONTH) - 1);
-    }
-
-    /**
-     * Битовая маска часа суток.
-     * @param date
-     * @return 1(00), 2(01), 4(02), ... 8388608(23)
-     */
-    public static final int getHourOfDayMask(Calendar date) {
-        return 1 << date.get(Calendar.HOUR_OF_DAY);
-    }
-
-    /**
-     * Битовая маска месяца года.
-     * @param date
-     * @return 1(январь), 2(февраль), ... 2048(декабрь)
-     */
-    public static final int getMonthOfYearMask(Calendar date) {
-        return 1 << date.get(Calendar.MONTH);
-    }
-
-    /**
-     * Проверка соответствует ли указанная дата, всем заданным маскам (если
-     * маска равна 0, в проверке не участвует).
-     * @param date проверяемая дата
-     * @param hourOfDay  часа
-     * @param dayOfWeek маска дня неделе
-     * @param monthOfYear маска месяца года
-     * @param dayOfMonth маска дня месяца
-     * @return true - соотвествует или false - если нет
-     */
-    public static final boolean checkMasks(Calendar date, int hourOfDay, int dayOfWeek, int monthOfYear, int dayOfMonth) {
-        boolean result = true;
-        if (hourOfDay > 0) {
-            result = (hourOfDay & getHourOfDayMask(date)) > 0;
-        }
-        if (result && dayOfWeek > 0) {
-            result = (dayOfWeek & getDayOfWeekMask(date)) > 0;
-        }
-        if (result && dayOfMonth > 0) {
-            result = (dayOfMonth & getDayOfMonthMask(date)) > 0;
-        }
-        if (result && monthOfYear > 0) {
-            result = (monthOfYear & getMonthOfYearMask(date)) > 0;
-        }
-        return result;
-    }
-
-    // ########################################################################################
-    // # Формирование и парсинг строк.
-    // ########################################################################################
 
     /**
      * Формирует строку с датой по заданному шаблону.
@@ -221,95 +134,14 @@ public class TimeUtils {
     }
 
     /**
-     * Форматирует разницу во времени
-     * @param delta разница во времени в миллисекундах
-     * @return
-     */
-    public static final String formatDeltaTime(long delta) {
-        int days = (int) (delta / 86400);
-        delta -= days * 86400;
-        int hours = (int) (delta / 3600);
-        delta -= hours * 3600;
-        int min = (int) (delta / 60);
-        delta -= min * 60;
-        int sec = (int) (delta);
-        StringBuffer result = new StringBuffer(30);
-        DecimalFormat dfTime = new DecimalFormat("00");
-        result.append(days);
-        result.append(" d ");
-        result.append(dfTime.format(hours));
-        result.append(":");
-        result.append(dfTime.format(min));
-        result.append(":");
-        result.append(dfTime.format(sec));
-        return result.toString();
-    }
-
-    /**
-     * Форматирует дату явно указанным шаблоном.
-     * Можно использовать {@link #format(Date, String)} - по виду шаблона разбирает сам, тип это или формат.
-     *
-     * @param date
-     * @param pattern
-     * @return
-     */
-    @Deprecated
-    public static final String formatDateWithPattern(Date date, String pattern) {
-        try {
-            return new SimpleDateFormat(pattern).format(date);
-        } catch (Exception e) {
-        }
-
-        return "";
-    }
-
-    /**
-     * Парсит дату из строки с явно указанным шаблоном.
-     * Можно использовать {@link TimeUtils#parse(String, String)} - по виду шаблона разбирает сам, тип это или формат.
-     *
-     * @param date
-     * @param pattern
-     * @return
-     */
-    @Deprecated
-    public static final Date parseDateWithPattern(String date, String pattern) {
-        try {
-            return new SimpleDateFormat(pattern).parse(date);
-        } catch (Exception e) {
-        }
-
-        return null;
-    }
-
-    /**
      * Форматирует дату в вид 'yyyy-MM-dd' для подстановки в SQL запрос, сразу окружённую кавычками.
      * @param date
      * @return
      */
     public static final String formatSqlDate(Date date) {
-        return formatDateWithPattern(date, "''yyyy-MM-dd''");
+        return new SimpleDateFormat( "''yyyy-MM-dd''").format(date);
     }
 
-    public static final String formatSqlDateNoQuote(Date date) {
-        return formatDateWithPattern(date, "yyyy-MM-dd");
-    }
-
-    /**
-     * Форматирует дату + время в вид 'yyyy-MM-dd' для подстановки в SQL запрос, сразу окружённую кавычками.
-     * @param date
-     * @return
-     */
-    public static final String formatSqlDatetime(Date date) {
-        return new SimpleDateFormat("''yyyy-MM-dd HH:mm:ss''").format(date);
-    }
-
-    public static final String formatSqlDatetimeNoQuote(Date date) {
-        String result = null;
-        if (date != null) {
-            result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-        }
-        return result;
-    }
 
     // ########################################################################################
     // # Преобразование объектов
@@ -370,40 +202,6 @@ public class TimeUtils {
     }
 
     /**
-     * This converting is not needed at all, because {@link Timestamp} extends {@link Date}.
-     */
-    @Deprecated
-    public static final Date convertTimestampToDate(Timestamp time) {
-        Date result = null;
-        if (time != null) {
-            result = new Date(time.getTime());
-        }
-        return result;
-    }
-
-    /**
-     * Превращает SQL-дату в календарь.
-     * @param date дата.
-     * @return
-     */
-    public static final java.util.Calendar convertSqlDateToCalendar(java.sql.Date date) {
-        return convertDateToCalendar(convertSqlDateToDate(date));
-    }
-
-    /**
-     * Преобразование объекта Calendar в java.sql.Date.
-     * @param calendar исходный объект.
-     * @return java.sql.Date, если calendar != null, иначе null.
-     */
-    public static final java.sql.Date convertCalendarToSqlDate(Calendar calendar) {
-        java.sql.Date result = null;
-        if (calendar != null) {
-            result = new java.sql.Date(calendar.getTimeInMillis());
-        }
-        return result;
-    }
-
-    /**
      * Преобразование объекта java.util.Date в java.sql.Date.
      * @param date исходный объект.
      * @return java.sql.Date, если date != null, иначе null.
@@ -423,28 +221,6 @@ public class TimeUtils {
             result = new java.sql.Timestamp(calendar.getTimeInMillis());
         }
         return result;
-    }
-
-    /**
-     * Use {@link TimeConvert#toTimestamp(Date)}.
-     */
-    @Deprecated
-    public static final java.sql.Timestamp convertDateToTimestamp(Date date) {
-        return TimeConvert.toTimestamp(date);
-    }
-
-    public static final XMLGregorianCalendar convertDateToXMLCalendar(Date date) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        return convertCalendarToXMLCalendar(calendar);
-    }
-
-    public static final XMLGregorianCalendar convertCalendarToXMLCalendar(GregorianCalendar calendar) {
-        try {
-            return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
-        } catch (DatatypeConfigurationException e) {
-            throw new BGException(e);
-        }
     }
 
     /**
@@ -473,18 +249,6 @@ public class TimeUtils {
     // # вычисления разниц
     // ########################################################################################
     /**
-     * Возвращает разницу в днях
-     * @param date1
-     * @param date2
-     * @return
-     */
-    @Deprecated
-    public static final int getDays(Calendar date1, Calendar date2) {
-        int days = (date2.get(Calendar.YEAR) - date1.get(Calendar.YEAR)) * 365 + date2.get(Calendar.DAY_OF_YEAR) - date1.get(Calendar.DAY_OF_YEAR);
-        return days;
-    }
-
-    /**
      * 24h days difference between to dates. The method is time-proven, but
      * since Java 8 there is also available: {@link java.time.temporal.ChronoUnit#DAYS#between(java.time.temporal.Temporal, java.time.temporal.Temporal)}
      * @param dayFrom
@@ -499,61 +263,9 @@ public class TimeUtils {
         return days2 - days1;
     }
 
-    /**
-     * Use {@link #daysDelta(Date, Date)}.
-     */
-    public static final int daysDelta(Calendar dayFrom, Calendar dayTo) {
-        return daysDelta(dayFrom.getTime(), dayTo.getTime());
-    }
-
-    /**
-     * Возвращает длительность периода между hourFrom и hourTo в часах.
-     * @param hourFrom дата начала периода.
-     * @param hourTo дата окончания периода.
-     * @return длительность периода в часах.
-     */
-    public static final int hourDelta(Calendar hourFrom, Calendar hourTo) {
-        long delta = (hourTo.getTimeInMillis() - hourFrom.getTimeInMillis()) / 1000L;
-        return (int) (delta / 3600);
-    }
-
-    /**
-     * Возвращает длительность периода между dateFrom и dateTo в месяцах.
-     * @param dateFrom дата начала периода.
-     * @param dateTo дате окончания периода.
-     * @return длительность периода в месяцах.
-     */
-    public static final int monthsDelta(Date dateFrom, Date dateTo) {
-        return monthsDelta(convertDateToCalendar(dateFrom), convertDateToCalendar(dateTo));
-    }
-
-    /**
-     * Возвращает длительность периода между dateFrom и dateTo в месяцах.
-     * @param dateFrom дата начала периода.
-     * @param dateTo дате окончания периода.
-     * @return длительность периода в месяцах.
-     */
-    public static final int monthsDelta(Calendar dateFrom, Calendar dateTo) {
-        return (dateTo.get(Calendar.YEAR) - dateFrom.get(Calendar.YEAR)) * 12 + (dateTo.get(Calendar.MONTH) - dateFrom.get(Calendar.MONTH));
-    }
-
     // ########################################################################################
     // # проверки
     // ########################################################################################
-    /**
-     * Проверка date1 < date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!)
-     * @param date1 первая дата.
-     * @param date2 вторая дата.
-     * @return true - date1 < date2, иначе false.
-     */
-    public static boolean dateBefore(final Calendar date1, final Calendar date2) {
-        if (date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR)) {
-            return date1.get(Calendar.DAY_OF_YEAR) < date2.get(Calendar.DAY_OF_YEAR);
-        } else {
-            return date1.get(Calendar.YEAR) < date2.get(Calendar.YEAR);
-        }
-    }
-
     /**
      * Проверка date1 < date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
      * @param date1 первая дата.
@@ -564,15 +276,12 @@ public class TimeUtils {
         return dateBefore(convertDateToCalendar(date1), convertDateToCalendar(date2));
     }
 
-    /**
-     * Проверка date1 == date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
-     * @param date1 первая дата.
-     * @param date2 вторая дата.
-     * @return true - date1 == date2, иначе false.
-     */
-    public static boolean dateEqual(Calendar date1, Calendar date2) {
-        return (date1 == date2) || (date1 != null && date2 != null && (date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR))
-                && (date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR)));
+    private static boolean dateBefore(final Calendar date1, final Calendar date2) {
+        if (date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR)) {
+            return date1.get(Calendar.DAY_OF_YEAR) < date2.get(Calendar.DAY_OF_YEAR);
+        } else {
+            return date1.get(Calendar.YEAR) < date2.get(Calendar.YEAR);
+        }
     }
 
     /**
@@ -585,14 +294,9 @@ public class TimeUtils {
         return dateEqual(convertDateToCalendar(date1), convertDateToCalendar(date2));
     }
 
-    /**
-     * Проверка date1 == date2 (С ТОЧНОСТЬЮ ДО ЧАСА ДНЯ!!!).
-     * @param dtime1 первая дата + время.
-     * @param dtime2 вторая дата + время.
-     * @return true - date1 == date2, иначе false.
-     */
-    public static boolean dateHourEqual(Calendar dtime1, Calendar dtime2) {
-        return dateEqual(dtime1, dtime2) && dtime1.get(Calendar.HOUR_OF_DAY) == dtime2.get(Calendar.HOUR_OF_DAY);
+    private static boolean dateEqual(Calendar date1, Calendar date2) {
+        return (date1 == date2) || (date1 != null && date2 != null && (date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR))
+                && (date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR)));
     }
 
     /**
@@ -701,19 +405,6 @@ public class TimeUtils {
     }
 
     /**
-     * Устанавливает минуты, секунды и миллисекунды в ноль.
-     * @param time исходный объект.
-     * @return
-     */
-    @Deprecated
-    public static final Calendar clear_MIN_MIL_SEC(Calendar time) {
-        time.set(Calendar.MILLISECOND, 0);
-        time.set(Calendar.SECOND, 0);
-        time.set(Calendar.MINUTE, 0);
-        return time;
-    }
-
-    /**
      * Сброс времени на начало дня.
      * @param time исходная дата.
      * @return сброшенная дата (часы=минуты=секунды=мсек=0).
@@ -722,6 +413,13 @@ public class TimeUtils {
     public static final Calendar clear_HOUR_MIN_MIL_SEC(Calendar time) {
         clear_MIN_MIL_SEC(time);
         time.set(Calendar.HOUR_OF_DAY, 0);
+        return time;
+    }
+
+    private static final Calendar clear_MIN_MIL_SEC(Calendar time) {
+        time.set(Calendar.MILLISECOND, 0);
+        time.set(Calendar.SECOND, 0);
+        time.set(Calendar.MINUTE, 0);
         return time;
     }
 
@@ -797,33 +495,14 @@ public class TimeUtils {
     }
 
     /**
-     * Returns the date with offset in days from now.
-     * @param offset positive or negative offset
-     * @return date with the offset
-     */
-    @Deprecated
-    public static final Date getDateWithOffset(int offset) {
-        return Date.from(Instant.now().plus(Duration.ofDays(offset)));
-    }
-
-    /**
-     * Дата с каким-либо часом.
-     */
-    public static Date getDateHour(Date date, int hour) {
-        Calendar result = TimeUtils.convertDateToCalendar(date);
-        if (result != null) {
-            result.set(Calendar.HOUR, hour);
-        }
-        return TimeUtils.convertCalendarToDate(result);
-    }
-
-    /**
      * Возвращает сокращенное название дня недели (пн - понедельник, вт - вторник и т.д.)
      * @param date Дата, на основании которой определяется день недели
      * @return String сокращенное название дня недели
      */
+    @Deprecated
     public static String getShortDateName(Date date) {
         // TODO: Use Java API
+        final String[] shortDayNames = { "пн", "вт", "ср", "чт", "пт", "сб", "вс" };
         return shortDayNames[getDayOfWeekPosition(date) - 1];
     }
 

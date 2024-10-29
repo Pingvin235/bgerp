@@ -202,12 +202,6 @@ public class ContractAction extends BaseAction {
                 break;
             }
             case ParameterType.ContractType.TYPE_DATE: {
-                /*
-                 * if( Utils.notBlankString( parameter.getValue() ) ) {
-                 * resp.setData( "dateValue", new SimpleDateFormat( "yyyy-MM-dd"
-                 * ).format( TimeUtils.parseDateWithPattern(
-                 * parameter.getValue(), TimeUtils.PATTERN_DDMMYYYY ) ) ); }
-                 */
                 break;
             }
             case ParameterType.ContractType.TYPE_LIST: {
