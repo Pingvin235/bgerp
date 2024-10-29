@@ -107,7 +107,7 @@ body > #content p {
 }
 
 .bold {
-	font-weight: bold;
+	font-weight: bold !important;
 }
 
 .normal {
