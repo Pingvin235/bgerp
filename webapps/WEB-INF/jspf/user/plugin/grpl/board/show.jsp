@@ -7,7 +7,7 @@
 <c:set var="board" value="${frd.board}"/>
 <c:if test="${not empty board}">
 	<c:set var="uiid" value="${u:uiid()}"/>
-	<table id="${uiid}" class="hdata hl-td">
+	<table id="${uiid}" class="hdata hl-td grpl-board">
 		<tr class="header">
 			<td class="min text-right">${l.l('Date')}</td>
 			<c:forEach var="column" items="${board.columns.values()}">
@@ -29,9 +29,11 @@
 					<c:set var="cell" value="${row.getCell(columnId)}"/>
 					<c:set var="group" value="${cell.group}"/>
 					<td bg-column-id="${columnId}" class="${tu.dateBefore(row.date, today) ? 'grpl-past' : ''}">
-						<div class="grpl-board-group">${group.title}</div>
+						<c:if test="${not empty group}">
+							<div class="grpl-board-group">${group.title}</div>
+						</c:if>
 						<c:forEach var="slot" items="${cell.slots}">
-							<div class="grpl-board-process">
+							<div class="grpl-board-process" style="background-color: ${board.getProcessBackgroundColor(slot.process.statusId)};">
 								<c:if test="${not empty slot.time}">(${slot.time})&nbsp;</c:if>
 								<ui:process-link process="${slot.process}"/>
 							</div>

@@ -65,9 +65,9 @@ public class GrplTest {
     @Test(dependsOnMethods = {"userGroup", "param"})
     public void processType() throws Exception {
         var props = new TypeProperties();
-        props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
+        props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId, ProcessTest.statusRejectId));
         props.setCreateStatusId(ProcessTest.statusOpenId);
-        props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
+        props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId, ProcessTest.statusRejectId));
         props.setParameterIds(List.of(ProcessParamTest.paramAddressId, paramWorkTypeId));
         props.setConfig(ConfigHelper.generateConstants(
             "PARAM_ADDRESS_ID", ProcessParamTest.paramAddressId,
@@ -87,7 +87,9 @@ public class GrplTest {
                 "CITY_UFA_ID", AddressTest.cityUfa.getId(),
                 "PARAM_ADDRESS_ID", ProcessParamTest.paramAddressId,
                 "USER_GROUP_IDS", Utils.toString(Set.of(userGroupFirstId, userGroupSecondId, userGroupThirdId)),
-                "PARAM_WORK_TYPE_ID", paramWorkTypeId
+                "PARAM_WORK_TYPE_ID", paramWorkTypeId,
+                "STATUS_DONE_ID", ProcessTest.statusDoneId,
+                "STATUS_REJECT_ID", ProcessTest.statusRejectId
             ) + ResourceHelper.getResource(this, "config.txt")
         );
     }

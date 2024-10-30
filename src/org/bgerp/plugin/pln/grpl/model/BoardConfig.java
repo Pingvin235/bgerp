@@ -32,6 +32,7 @@ public class BoardConfig extends Config implements IdTitle<Integer> {
     private final List<Integer> groupIds;
     private final ShiftConfig shift;
     private final String processDurationExpression;
+    private final ConfigMap backgroundColors;
 
     public BoardConfig(int id, ConfigMap config) {
         super(null);
@@ -44,6 +45,7 @@ public class BoardConfig extends Config implements IdTitle<Integer> {
         this.groupIds = Utils.toIntegerList(config.get("groups"));
         this.shift = new ShiftConfig(config);
         this.processDurationExpression = config.get("process.duration." + Expression.EXPRESSION_CONFIG_KEY, "30M");
+        this.backgroundColors = config.sub("process.background.color.");
     }
 
     private Map<Integer, ColumnConfig> loadColumns(ConfigMap config) {
@@ -129,5 +131,9 @@ public class BoardConfig extends Config implements IdTitle<Integer> {
         }
 
         return times;
+    }
+
+    public String getProcessBackgroundColor(int statusId) {
+        return backgroundColors.getOrDefault(String.valueOf(statusId), "");
     }
 }

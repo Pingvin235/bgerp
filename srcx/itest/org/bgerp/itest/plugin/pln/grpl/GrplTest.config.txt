@@ -22,3 +22,5 @@ grpl:board.1.process.duration.expression=<<END
         return "60M";
     return "30M";
 END
+grpl:board.1.process.background.color.{@STATUS_DONE_ID}=lightgreen
+grpl:board.1.process.background.color.{@STATUS_REJECT_ID}=#ffe599

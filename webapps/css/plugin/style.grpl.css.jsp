@@ -1,5 +1,9 @@
 <%@ page contentType="text/css; charset=UTF-8"%>
 
+.grpl-board td[bg-column-id] {
+	padding: 0 !important;
+}
+
 .grpl-non-working-day {
 	color: red !important;
 	font-weight: bold;
@@ -10,9 +14,18 @@
 }
 
 .grpl-board-group {
-	padding-bottom: 0.5em;
+	padding: 0.5em 1em;
+	background-color: #b7e1cd;
+}
+
+.grpl-board-group:hover {
+	background-color: var(--table-hl-bg-color);
 }
 
 .grpl-board-process {
-	padding: 0.5em 0;
+	padding: 0.5em 1em;
+}
+
+.grpl-board-process:hover {
+	background-color: var(--table-hl-bg-color);
 }
