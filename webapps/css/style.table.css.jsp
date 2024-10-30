@@ -60,7 +60,7 @@ table.fixed-header tr:nth-child(1) td {
 }
 
 td.min {
-	width: 1%;
+	width: .001%;
 	white-space: nowrap;
 }
 
