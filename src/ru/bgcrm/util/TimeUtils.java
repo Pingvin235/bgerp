@@ -3,6 +3,7 @@ package ru.bgcrm.util;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -51,17 +52,6 @@ public class TimeUtils {
     }
 
     /**
-     * Day of week starting from Monday = 1
-     * @param date
-     * @return
-     */
-    public static final int getDayOfWeekPosition(Date date) {
-        Calendar calendar = convertDateToCalendar(date);
-        return (calendar.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY + 7) % 7 + 1;
-    }
-
-
-    /**
      * Формирует строку с датой по заданному шаблону.
      * @param date исходная дата
      * @param patternType шаблон даты {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.
@@ -70,6 +60,43 @@ public class TimeUtils {
     public static final String format(java.util.Date date, String patternType) {
         DateFormat format = new SimpleDateFormat(getTypeFormat(patternType));
         return date == null ? "" : format.format(date);
+    }
+
+    /**
+     * Форматирует дату в вид 'yyyy-MM-dd' для подстановки в SQL запрос, сразу окружённую кавычками.
+     * @param date
+     * @return
+     */
+    public static final String formatSqlDate(Date date) {
+        return new SimpleDateFormat( "''yyyy-MM-dd''").format(date);
+    }
+
+    /**
+     * Formats a duration object to a human-readable string like {@code 5h 15m}
+     * @param duration
+     * @return
+     */
+    public static final String format(Duration duration) {
+        return duration.toString()
+            .substring(2)
+            .replaceAll("(\\d[HMS])(?!$)", "$1 ")
+            .toLowerCase();
+    }
+
+    public static final String formatPeriod(java.util.Date dateFrom, java.util.Date dateTo, String patternType) {
+        return format(dateFrom, patternType) + "-" + format(dateTo, patternType);
+    }
+
+    /**
+     * Формирует строку период.
+     * @param date1 начала периода.
+     * @param date2 конец периода.
+     * @return строка "dd.MM.yyyy-dd.MM.yyyy", если один из парамеметров равен
+     *         null, вместо соответствующей даты выводиться пустая строка,
+     *         например "-dd.MM.yyyy", "dd.MM.yyyy-", "-".
+     */
+    public static final String formatPeriod(Date date1, Date date2) {
+        return format(date1, FORMAT_TYPE_YMD) + "-" + format(date2, FORMAT_TYPE_YMD);
     }
 
     public static final Date parse(String date, String patternType) {
@@ -103,45 +130,6 @@ public class TimeUtils {
             periodSet.setDateTo(TimeUtils.parse(tokens[1].trim(), patternType));
         }
     }
-
-    public static final String formatPeriod(java.util.Date dateFrom, java.util.Date dateTo, String patternType) {
-        return format(dateFrom, patternType) + "-" + format(dateTo, patternType);
-    }
-
-    /**
-     * Формирует строку период дат.
-     * @param date1 начало периода.
-     * @param date2 конец периода.
-     * @return строка "dd.MM.yyyy-dd.MM.yyyy", если один из парамеметров равен
-     *         null, вместо соответствующей даты выводиться пустая строка,
-     *         например "-dd.MM.yyyy", "dd.MM.yyyy-", "-"
-     */
-    public static final String formatPeriod(Calendar date1, Calendar date2) {
-        return format(TimeUtils.convertCalendarToDate(date1), FORMAT_TYPE_YMD) + "-"
-                + format(TimeUtils.convertCalendarToDate(date2), FORMAT_TYPE_YMD);
-    }
-
-    /**
-     * Формирует строку период.
-     * @param date1 начала периода.
-     * @param date2 конец периода.
-     * @return строка "dd.MM.yyyy-dd.MM.yyyy", если один из парамеметров равен
-     *         null, вместо соответствующей даты выводиться пустая строка,
-     *         например "-dd.MM.yyyy", "dd.MM.yyyy-", "-".
-     */
-    public static final String formatPeriod(Date date1, Date date2) {
-        return format(date1, FORMAT_TYPE_YMD) + "-" + format(date2, FORMAT_TYPE_YMD);
-    }
-
-    /**
-     * Форматирует дату в вид 'yyyy-MM-dd' для подстановки в SQL запрос, сразу окружённую кавычками.
-     * @param date
-     * @return
-     */
-    public static final String formatSqlDate(Date date) {
-        return new SimpleDateFormat( "''yyyy-MM-dd''").format(date);
-    }
-
 
     // ########################################################################################
     // # Преобразование объектов
@@ -225,24 +213,11 @@ public class TimeUtils {
 
     /**
      * Преобразование long в java.sql.Timestamp.
-     * @param calendar исходный объект.
+     * @param millis исходный объект.
      * @return java.sql.Timestamp.
      */
     public static final java.sql.Timestamp convertLongToTimestamp(long millis) {
         return new java.sql.Timestamp(millis);
-    }
-
-    /**
-     * Преобразование java.lang.Long в java.sql.Timestamp.
-     * @param millis сходный объект.
-     * @return java.sql.Timestamp, если millis != null, иначе null.
-     */
-    public static final java.sql.Timestamp convertLongToTimestamp(Long millis) {
-        java.sql.Timestamp result = null;
-        if (millis != null) {
-            result = new java.sql.Timestamp(millis.longValue());
-        }
-        return result;
     }
 
     // ########################################################################################
@@ -261,6 +236,16 @@ public class TimeUtils {
         int days1 = (int) (time1 / 86400000L);
         int days2 = (int) (time2 / 86400000L);
         return days2 - days1;
+    }
+
+    /**
+     * Day of week starting from Monday = 1
+     * @param date
+     * @return
+     */
+    public static final int getDayOfWeekPosition(Date date) {
+        Calendar calendar = convertDateToCalendar(date);
+        return (calendar.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY + 7) % 7 + 1;
     }
 
     // ########################################################################################
