@@ -12,11 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bgerp.app.exception.BGException;
-import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.base.Id;
 import org.bgerp.util.Log;
-import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.Page;
@@ -34,8 +31,6 @@ public class CommonDAO {
     protected final static String SQL_DISTINCT = "DISTINCT ";
     protected final static String SQL_INSERT_IGNORE = "INSERT IGNORE INTO ";
     protected final static String SQL_INSERT_INTO = "INSERT INTO ";
-    @Deprecated
-    protected final static String SQL_INSERT = SQL_INSERT_INTO;
     protected final static String SQL_VALUES = "VALUES ";
     protected final static String SQL_SET = " SET ";
     protected final static String SQL_UPDATE = "UPDATE ";
@@ -78,14 +73,6 @@ public class CommonDAO {
     }
 
     /**
-     * Use {@link #foundRows(Statement)}
-     */
-    @Deprecated
-    protected int getFoundRows(Statement st) throws SQLException {
-        return foundRows(st);
-    }
-
-    /**
      * Selects {@code FOUND_ROWS()} for given statement.
      * @param st
      * @return
@@ -98,30 +85,6 @@ public class CommonDAO {
             result = rs.getInt(1);
         }
         return result;
-    }
-
-    /**
-     * Use {@link LikePattern#SUB}
-     */
-    @Deprecated
-    public static final String getLikePatternSub(String substring) {
-        return LikePattern.SUB.get(substring);
-    }
-
-    /**
-     * Use {@link LikePattern#START}
-     */
-    @Deprecated
-    public static final String getLikePatternStart(String substring) {
-        return LikePattern.START.get(substring);
-    }
-
-    /**
-     * Use {@link LikePattern#END}
-     */
-    @Deprecated
-    public static final String getLikePatternEnd(String substring) {
-        return LikePattern.END.get(substring);
     }
 
     /**
@@ -227,13 +190,10 @@ public class CommonDAO {
      * @return
      * @throws SQLException
      */
-    protected List<Integer> getIds(String tableName, String linkColumn, String selectColumn, String posColumn, int id)
-            throws SQLException {
+    protected List<Integer> getIds(String tableName, String linkColumn, String selectColumn, String posColumn, int id) throws SQLException {
         List<Integer> result = new ArrayList<>();
 
-        String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=? "
-                + " ORDER BY " + posColumn;
-
+        String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=? " + " ORDER BY " + posColumn;
         try (var ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -245,61 +205,51 @@ public class CommonDAO {
         return result;
     }
 
-    protected Map<Integer, Set<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn)
-            {
-        try {
-            Map<Integer, Set<Integer>> result = new HashMap<>();
+    protected Map<Integer, Set<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn) throws SQLException {
+        Map<Integer, Set<Integer>> result = new HashMap<>();
 
-            String query = SQL_SELECT + linkColumn + "," + selectColumn + SQL_FROM + tableName + SQL_ORDER_BY
-                    + linkColumn;
-            PreparedStatement ps = con.prepareStatement(query);
+        String query = SQL_SELECT + linkColumn + "," + selectColumn + SQL_FROM + tableName + SQL_ORDER_BY + linkColumn;
+        PreparedStatement ps = con.prepareStatement(query);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int key = rs.getInt(1);
-                int value = rs.getInt(2);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int key = rs.getInt(1);
+            int value = rs.getInt(2);
 
-                Set<Integer> values = result.get(key);
-                if (values == null) {
-                    result.put(key, values = new HashSet<>());
-                }
-                values.add(value);
+            Set<Integer> values = result.get(key);
+            if (values == null) {
+                result.put(key, values = new HashSet<>());
             }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+            values.add(value);
         }
+        ps.close();
+
+        return result;
     }
 
-    protected Map<Integer, List<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn,
-            String posColumn) {
-        try {
-            Map<Integer, List<Integer>> result = new HashMap<>();
+    protected Map<Integer, List<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn, String posColumn)
+            throws SQLException {
+        Map<Integer, List<Integer>> result = new HashMap<>();
 
-            String query = SQL_SELECT + linkColumn + "," + selectColumn + SQL_FROM + tableName +
-            // сортировка по выбираемому значению для однозначного порядка в случае нулевых позиций
-                    SQL_ORDER_BY + linkColumn + ", " + posColumn + ", " + selectColumn;
-            PreparedStatement ps = con.prepareStatement(query);
+        String query = SQL_SELECT + linkColumn + "," + selectColumn + SQL_FROM + tableName +
+                // сортировка по выбираемому значению для однозначного порядка в случае нулевых позиций
+                SQL_ORDER_BY + linkColumn + ", " + posColumn + ", " + selectColumn;
+        PreparedStatement ps = con.prepareStatement(query);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int key = rs.getInt(1);
-                int value = rs.getInt(2);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int key = rs.getInt(1);
+            int value = rs.getInt(2);
 
-                List<Integer> values = result.get(key);
-                if (values == null) {
-                    result.put(key, values = new ArrayList<>());
-                }
-                values.add(value);
+            List<Integer> values = result.get(key);
+            if (values == null) {
+                result.put(key, values = new ArrayList<>());
             }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+            values.add(value);
         }
+        ps.close();
+
+        return result;
     }
 
     protected static interface ObjectExtractor<T> {
@@ -415,13 +365,5 @@ public class CommonDAO {
         ps.setInt(2, id);
         ps.executeUpdate();
         ps.close();
-    }
-
-    protected void sqlToBgException(SQLException e) throws BGMessageException, BGException {
-        if (e.getMessage().startsWith("Duplicate entry")) {
-            throw new BGMessageException("Дубликат записи.");
-        } else {
-            throw new BGException(e);
-        }
     }
 }

@@ -162,11 +162,11 @@ public class UserGroupDAO extends CommonDAO {
         return getIds(TABLE_USER_GROUP_PERMSET, "group_id", "permset_id", "pos", groupId);
     }
 
-    public Map<Integer, List<Integer>> getAllGroupPermsetIds() {
+    public Map<Integer, List<Integer>> getAllGroupPermsetIds() throws SQLException {
         return getGroupedIds(TABLE_USER_GROUP_PERMSET, "group_id", "permset_id", "pos");
     }
 
-    public Map<Integer, Set<Integer>> getAllGroupQueueIds() {
+    public Map<Integer, Set<Integer>> getAllGroupQueueIds() throws SQLException {
         return getGroupedIds(TABLE_USER_GROUP_QUEUE, "group_id", "queue_id");
     }
 

@@ -269,7 +269,7 @@ public class UserDAO extends CommonDAO {
         return getIds(TABLE_USER_GROUP, "user_id", "group_id", userId);
     }
 
-    public Map<Integer, Set<Integer>> getAllUserGroupIds() {
+    public Map<Integer, Set<Integer>> getAllUserGroupIds() throws SQLException {
         return getGroupedIds(TABLE_USER_GROUP, "user_id", "group_id");
     }
 
@@ -277,7 +277,7 @@ public class UserDAO extends CommonDAO {
         return getIds(TABLE_USER_PERMSET, "user_id", "permset_id", "pos", userId);
     }
 
-    public Map<Integer, List<Integer>> getAllUserPermsetIds() {
+    public Map<Integer, List<Integer>> getAllUserPermsetIds() throws SQLException {
         return getGroupedIds(TABLE_USER_PERMSET, "user_id", "permset_id", "pos");
     }
 
@@ -285,7 +285,7 @@ public class UserDAO extends CommonDAO {
         return getIds(TABLE_USER_QUEUE, "user_id", "queue_id", userId);
     }
 
-    public Map<Integer, Set<Integer>> getAllUserQueueIds() {
+    public Map<Integer, Set<Integer>> getAllUserQueueIds() throws SQLException {
         return getGroupedIds(TABLE_USER_QUEUE, "user_id", "queue_id");
     }
 
