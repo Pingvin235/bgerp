@@ -202,10 +202,19 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * @return request URI using method {@link ServletUtils#getRequestURI(HttpServletRequest)} with parameter {@link #httpRequest}.
+     * @return http request path without query string
      */
-    public String getHttpRequestURI() {
+    public String getRequestURI() {
         return ServletUtils.getRequestURI(httpRequest);
+    }
+
+    /**
+     * Use {@link #getRequestPath()}
+     */
+    @Deprecated
+    public String getHttpRequestURI() {
+        log.warndMethod("getHttpRequestURI", "getRequestURI");
+        return getRequestURI();
     }
 
     public HttpServletResponse getHttpResponse() {
@@ -256,10 +265,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     @Deprecated
     public String getAction() {
         String value = getMethod();
-        log.warnd("Deprecated method 'getAction' was called. Use 'getMethod' instead. Value: {}, URI: {}", value, getHttpRequestURI());
+        log.warnd("Deprecated method 'getAction' was called. Use 'getMethod' instead. Value: {}, URI: {}", value, getRequestURI());
         return value;
     }
-
 
     /**
      * Builds {@link #action} as semicolon separated action ID and method name from {@link #getMethod()}
@@ -290,11 +298,11 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     /**
      * Sets request parameter {@code requestUrl}.
-     * @param requestURI start of {@code requestUrl}.
+     * @param path start of {@code requestUrl}.
      * @param queryString query string, if not blank then added to end after query char.
      */
-    public void requestUrl(String requestURI, String queryString) {
-        String requestUrl = requestURI;
+    public void requestUrl(String path, String queryString) {
+        String requestUrl = path;
         if (Utils.notBlankString(queryString))
             requestUrl += "?" + queryString;
         setRequestUrl(requestUrl);

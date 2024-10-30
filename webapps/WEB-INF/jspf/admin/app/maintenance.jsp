@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 <div id="${uiid}" class="center1020">
 	<p:check action="org.bgerp.action.admin.AppAction:maintenanceStart">
-		<form action="${form.httpRequestURI}">
+		<form action="${form.requestURI}">
 			<c:set var="maintenance" value="${frd.maintenance}"/>
 			<h2>${l.l('Maintenance')}</h2>
 			<c:set var="command">$$.ajax.post(this).done(() => $$.ajax.load('${form.requestUrl}', $(document.getElementById('${uiid}').parentElement)))</c:set>

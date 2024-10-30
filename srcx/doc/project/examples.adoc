@@ -115,7 +115,7 @@ JSP page:
 [snippet, from="<form", to="form>", remove-leading="				"]
 link:../../../webapps/WEB-INF/jspf/admin/license/license.jsp#L9-L16[webapps/WEB-INF/jspf/admin/license/license.jsp]
 
-Put an attention to the *${form.httpRequestURI}* expression, which gets action URL of the current action and prevents duplication of code.
+Put an attention to the *${form.requestURI}* expression, which gets action URL of the current action and prevents duplication of code.
 
 Action:
 [snippet, from="public ActionForward u", to="}", remove-leading="    "]

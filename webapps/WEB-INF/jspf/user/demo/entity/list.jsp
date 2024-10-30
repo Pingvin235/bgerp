@@ -1,14 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="editAllowed" value="${ctxUser.checkPerm('${form.httpRequestURI}:entityGet')}"/>
-<c:set var="deleteAllowed" value="${ctxUser.checkPerm('${form.httpRequestURI}:entityDelete')}"/>
+<c:set var="editAllowed" value="${ctxUser.checkPerm('${form.requestURI}:entityGet')}"/>
+<c:set var="deleteAllowed" value="${ctxUser.checkPerm('${form.requestURI}:entityDelete')}"/>
 <c:set var="changeAllowed" value="${editAllowed or deleteAllowed}"/>
 
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<html:hidden property="method"/>
 	<c:if test="${editAllowed}">
-		<c:url var="url" value="${form.httpRequestURI}">
+		<c:url var="url" value="${form.requestURI}">
 			<c:param name="method" value="entityGet"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
@@ -31,7 +31,7 @@
 			<c:if test="${changeAllowed}">
 				<td class="nowrap">
 					<c:if test="${editAllowed}">
-						<c:url var="url" value="${form.httpRequestURI}">
+						<c:url var="url" value="${form.requestURI}">
 							<c:param name="method" value="entityGet"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
 							<c:param name="id" value="${item.id}"/>
@@ -39,7 +39,7 @@
 						<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${url}', $(this).closest('table').parent(), {control: this})"/>
 					</c:if>
 					<c:if test="${deleteAllowed}">
-						<c:url var="url" value="${form.httpRequestURI}">
+						<c:url var="url" value="${form.requestURI}">
 							<c:param name="method" value="entityDelete"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>

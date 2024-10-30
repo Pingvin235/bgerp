@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <div id="${uiid}">
-	<form action="${form.httpRequestURI}" onsubmit="return false;" style="display: inline-block;">
+	<form action="${form.requestURI}" onsubmit="return false;" style="display: inline-block;">
 		<input type="hidden" name="method" value="log"/>
 		<ui:toggle inputName="enable" value="${frd.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
 	</form>

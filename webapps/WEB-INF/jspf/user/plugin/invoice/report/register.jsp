@@ -6,7 +6,7 @@
 <shell:state text="${l.l('Invoice Register')}"/>
 
 <div class="report">
-	<html:form action="${form.httpRequestURI}">
+	<html:form action="${form.requestURI}">
 		<ui:date-month value="${form.param.dateFrom}"/>
 
 		<c:set var="outId" value="${u:uiid()}"/>

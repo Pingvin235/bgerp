@@ -9,7 +9,7 @@
 		<%@ include file="filters.jsp"%>
 
 		<p:check action="org.bgerp.plugin.pln.blow.action.BoardAction:search">
-			<form action="${form.httpRequestURI}">
+			<form action="${form.requestURI}">
 				<input type="hidden" name="method" value="search"/>
 				<c:forEach var="id" items="${frd.processIds}">
 					<input type="hidden" name="processId" value="${id}"/>

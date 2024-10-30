@@ -6,7 +6,7 @@
 <c:set var="listBuffer" value="${frd.listBuffer}"/>
 <c:set var="list" value="${frd.list}"/>
 
-<html:form action="${form.httpRequestURI}" styleClass="mb1">
+<html:form action="${form.requestURI}" styleClass="mb1">
 	<html:hidden property="method"/>
 	<html:hidden property="id"/>
 	<html:hidden property="categoryId"/>
@@ -16,7 +16,7 @@
 	<ui:input-text name="filter" value="${form.param.filter}" onSelect="$$.ajax.load(this.form, $(this.form).parent())" placeholder="${l.l('ID or Description part')}" size="20" styleClass="ml05"/>
 </html:form>
 
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<input type="hidden" name="method" value="linkProcessExisting"/>
 	<html:hidden property="id"/>
 	<html:hidden property="categoryId"/>

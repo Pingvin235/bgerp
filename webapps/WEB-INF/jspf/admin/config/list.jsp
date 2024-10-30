@@ -1,10 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="${form.httpRequestURI}" styleClass="in-mr1" style="display: inline-block;">
+<html:form action="${form.requestURI}" styleClass="in-mr1" style="display: inline-block;">
 	<input type="hidden" name="method" value="list"/>
 
-	<c:url var="url" value="${form.httpRequestURI}">
+	<c:url var="url" value="${form.requestURI}">
 		<c:param name="method" value="get"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>

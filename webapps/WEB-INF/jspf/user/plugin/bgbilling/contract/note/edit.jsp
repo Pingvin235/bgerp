@@ -3,7 +3,7 @@
 
 <h1>Редактор</h1>
 
-<form action="${form.httpRequestURI}">
+<form action="${form.requestURI}">
 	<input type="hidden" name="method" value="updateMemo" />
 	<input type="hidden" name="billingId" value="${form.param.billingId}" />
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />

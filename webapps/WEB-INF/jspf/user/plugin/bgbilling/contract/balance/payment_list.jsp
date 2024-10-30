@@ -5,7 +5,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="createUrl" value="${form.httpRequestURI}">
+<c:url var="createUrl" value="${form.requestURI}">
 	<c:param name="method" value="balanceEditor" />
 	<c:param name="billingId" value="${form.param.billingId}" />
 	<c:param name="contractId" value="${form.param.contractId}" />
@@ -32,7 +32,7 @@
 	<c:forEach var="payment" items="${frd.list}" varStatus="varStatus">
 		<tr>
 			<td nowrap="nowrap">
-				<c:url var="url" value="${form.httpRequestURI}">
+				<c:url var="url" value="${form.requestURI}">
 					<c:param name="method" value="balanceEditor"/>
 					<c:param name="item" value="contractPayment" />
 					<c:param name="billingId" value="${form.param.billingId}" />
@@ -43,7 +43,7 @@
 				</c:url>
 				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
 
-				<c:url var="url" value="${form.httpRequestURI}">
+				<c:url var="url" value="${form.requestURI}">
 					<c:param name="method" value="deletePayment"/>
 					<c:param name="billingId" value="${form.param.billingId}" />
 					<c:param name="contractId" value="${form.param.contractId}" />

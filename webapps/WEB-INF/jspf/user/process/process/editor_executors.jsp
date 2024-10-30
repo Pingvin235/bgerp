@@ -3,7 +3,7 @@
 
 <h1>${l.l('Выберите исполнителей')}</h1>
 
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<html:hidden property="id"/>
 	<input type="hidden" name="method" value="processExecutorsUpdate"/>
 

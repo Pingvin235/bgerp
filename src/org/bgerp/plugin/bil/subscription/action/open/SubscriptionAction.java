@@ -29,7 +29,7 @@ public class SubscriptionAction extends BaseAction {
         if (queue == null)
             throw new NotFoundException("Not found process queue with ID=" + queueId);
 
-        String uri = form.getHttpRequestURI();
+        String uri = form.getRequestURI();
         var processor = queue.getProcessorByPageUrl(uri);
         if (processor == null)
             throw new NotFoundException("Not found processor for page URL: " + uri);

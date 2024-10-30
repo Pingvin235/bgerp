@@ -6,7 +6,7 @@
 <shell:state text="${l.l('Процессы')}"/>
 
 <div class="report">
-	<html:form action="${form.httpRequestURI}">
+	<html:form action="${form.requestURI}">
 		<ui:combo-single hiddenName="mode" widthTextValue="5em" value="${form.param.mode}">
 			<jsp:attribute name="valuesHtml">
 				<li value="create">${l.l('Созданные')}</li>

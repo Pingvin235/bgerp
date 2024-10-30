@@ -6,7 +6,7 @@
 <shell:state text="${l.l('Subscription Payments')}"/>
 
 <div class="report center1020">
-	<html:form action="${form.httpRequestURI}" styleClass="in-ml05">
+	<html:form action="${form.requestURI}" styleClass="in-ml05">
 		<ui:date-month value="${form.param.dateFrom}"/>
 
 		<ui:toggle inputName="det" value="${form.getParamBoolean('det')}" onChange="$$.ajax.loadContent(this)" prefixText="Details" styleClass="mr05"/>

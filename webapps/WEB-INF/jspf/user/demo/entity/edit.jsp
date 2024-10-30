@@ -3,7 +3,7 @@
 
 <c:set var="entity" value="${frd.entity}"/>
 
-<html:form action="${form.httpRequestURI}" styleClass="box">
+<html:form action="${form.requestURI}" styleClass="box">
 	<html:hidden property="method" value="entityUpdate"/>
 
 	<h1>Entity Editor</h1>

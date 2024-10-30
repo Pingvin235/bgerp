@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<html:hidden property="method"/>
 	<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 	<html:hidden property="id"/>
@@ -40,7 +40,7 @@
 		<tr openUrl="${url}">
 			<c:if test="${allowLinkDelete}">
 				<td class="min">
-					<c:url var="deleteUrl" value="${form.httpRequestURI}">
+					<c:url var="deleteUrl" value="${form.requestURI}">
 						<c:param name="method" value="linkProcessDelete"/>
 						<c:param name="linkedObjectType" value="${item.first}"/>
 

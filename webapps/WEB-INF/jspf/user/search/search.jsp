@@ -31,7 +31,7 @@
 		</u:sc>
 
 		<div id="searchForms">
-			<html:form action="${form.httpRequestURI}"
+			<html:form action="${form.requestURI}"
 				styleId="searchForm-customer" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="method" value="customerSearch" />
 				<html:hidden property="searchBy" />
@@ -52,7 +52,7 @@
 				</div>
 			</html:form>
 
-			<html:form action="${form.httpRequestURI}"
+			<html:form action="${form.requestURI}"
 				styleId="searchForm-process" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="method" value="processSearch" />
 				<html:hidden property="searchBy" />

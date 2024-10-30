@@ -3,7 +3,7 @@
 
 <c:set var="resultUiid" value="${u:uiid()}"/>
 
-<form action="${form.httpRequestURI}">
+<form action="${form.requestURI}">
 	<input type="hidden" name="method" value="calc"/>
 
 	<c:choose>

@@ -96,7 +96,7 @@
 				<c:when test="${not empty contract.title}">
 					<c:set var="contractTabId" value="bgbilling-contractTabs-${billingId}-${contractId}"/>
 
-					<c:url var="url" value="${form.httpRequestURI}">
+					<c:url var="url" value="${form.requestURI}">
 						<c:param name="method" value="copyCustomerParamToContract"/>
 						<c:param name="contractId" value="${contractId}"/>
 						<c:param name="contractTitle" value="${contract.title}"/>
@@ -109,7 +109,7 @@
 						Скопировать параметры
 					</button>
 
-					<c:url var="url" value="${form.httpRequestURI}">
+					<c:url var="url" value="${form.requestURI}">
 						<c:param name="method" value="createCustomerFromContract"/>
 						<c:param name="customerId" value="${customer.id}"/>
 						<c:param name="contractId" value="${contractId}"/>

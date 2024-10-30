@@ -5,7 +5,7 @@
 
 <h1>Редактор</h1>
 
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<input type="hidden" name="method" value="serviceUpdate" />
 	<html:hidden property="contractId" value="${form.param.contractId}" />
 	<html:hidden property="billingId"/>

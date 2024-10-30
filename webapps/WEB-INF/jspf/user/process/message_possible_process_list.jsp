@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<html:hidden property="method"/>
 	<html:hidden property="from"/>
 	<html:hidden property="open"/>

@@ -6,7 +6,7 @@
 <c:set var="process" value="${frd.process}" />
 <c:set var="processType" value="${process.type}"/>
 
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<html:hidden property="id" />
 	<input type="hidden" name="method" value="processGroupsUpdate" />
 

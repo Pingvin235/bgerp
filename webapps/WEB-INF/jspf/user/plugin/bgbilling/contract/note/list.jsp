@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="url" value="${form.httpRequestURI}">
+<c:url var="url" value="${form.requestURI}">
 	<c:param name="method" value="getMemo"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
@@ -27,7 +27,7 @@
 				</c:url>
 				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $('#${uiid}').parent())"/>
 
-				<c:url var="deleteUrl" value="${form.httpRequestURI}">
+				<c:url var="deleteUrl" value="${form.requestURI}">
 					<c:param name="method" value="deleteMemo"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="contractId" value="${form.param.contractId}"/>

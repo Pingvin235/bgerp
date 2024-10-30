@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:url var="baseUrl" value="${form.httpRequestURI}">
+<c:url var="baseUrl" value="${form.requestURI}">
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>

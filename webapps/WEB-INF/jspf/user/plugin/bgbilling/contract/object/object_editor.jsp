@@ -7,7 +7,7 @@
 	Редактор <span class="normal">[<a href="#" onclick="$$.ajax.load('${form.returnUrl}', document.getElementById('${uiid}').parentElement); return false;">закрыть</a>]</span>
 </h1>
 
-<form id="${uiid}" action="${form.httpRequestURI}" class="mb1">
+<form id="${uiid}" action="${form.requestURI}" class="mb1">
 	<c:set var="object" value="${frd.object}"/>
 
 	<input type="hidden" name="method" value="updateContractObject"/>
@@ -38,7 +38,7 @@
 	$(function() {
 		const $objectEditorTabs = $("#${tabsUiid}").tabs({refreshButton: true});
 
-		<c:url var="url" value="${form.httpRequestURI}">
+		<c:url var="url" value="${form.requestURI}">
 			<c:param name="method" value="contractObjectParameterList"/>
 			<c:param name="billingId" value="${form.param.billingId}"/>
 			<c:param name="contractId" value="${form.param.contractId}"/>
@@ -46,7 +46,7 @@
 		</c:url>
 		$objectEditorTabs.tabs("add", "${url}", "Параметры объекта");
 
-		<c:url var="url" value="${form.httpRequestURI}">
+		<c:url var="url" value="${form.requestURI}">
 			<c:param name="method" value="contractObjectModuleSummaryTable"/>
 			<c:param name="billingId" value="${form.param.billingId}"/>
 			<c:param name="contractId" value="${form.param.contractId}"/>

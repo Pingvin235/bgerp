@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:if test="${not empty createTypeList}">
-	<html:form action="${form.httpRequestURI}">
+	<html:form action="${form.requestURI}">
 		<input type="hidden" name="method" value="linkProcessCreate"/>
 		<input type="hidden" name="id" value="${form.id}"/>
 

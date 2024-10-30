@@ -10,7 +10,7 @@
 	<button type="button" class="btn-green" onclick="$('#${createButtonsUiid}').hide(); $('#${createContractUiid}').show();">Создать договор</button>
 </div>
 
-<html:form action="${form.httpRequestURI}" style="display: none;" styleClass="in-table-cell nowrap in-pr05" styleId="${createContractUiid}">
+<html:form action="${form.requestURI}" style="display: none;" styleClass="in-table-cell nowrap in-pr05" styleId="${createContractUiid}">
 	<input type="hidden" name="method" value="contractCreate"/>
 	<input type="hidden" name="date" value="${currentDate}"/>
 	<html:hidden property="customerId"/>

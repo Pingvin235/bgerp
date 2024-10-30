@@ -8,7 +8,7 @@
 
 <div class="tt">Текущее время: <b>${tu.format(task.time, 'ymdhm')}</b></div>
 
-<html:form action="${form.httpRequestURI}" styleId="${uiid}" styleClass="mt1">
+<html:form action="${form.requestURI}" styleId="${uiid}" styleClass="mt1">
 	<input type="hidden" name="method" value="processTime"/>
 	<input type="hidden" name="processId" value="${form.param.processId}"/>
 
@@ -17,7 +17,7 @@
 
 	<button type="button" class="btn-grey ml05" onclick="$$.ajax.load(this, $(this.form).parent())">${l.l('Вывести')}</button>
 
-	<c:url var="url" value="${form.httpRequestURI}">
+	<c:url var="url" value="${form.requestURI}">
 		<c:param name="method" value="processTimeSet"/>
 		<c:param name="processId" value="${form.param.processId}"/>
 	</c:url>
@@ -40,7 +40,7 @@
 		<c:forEach var="slot" items="${slotList}">
 			<tr>
 				<td nowrap="nowrap">${tu.format(slot.time, 'ymdhm')}</td>
-				<c:url var="url" value="${form.httpRequestURI}">
+				<c:url var="url" value="${form.requestURI}">
 					<c:param name="method" value="processTimeSet"/>
 					<c:param name="processId" value="${form.param.processId}"/>
 					<c:param name="time" value="${tu.format(slot.time, 'ymdhm')}"/>

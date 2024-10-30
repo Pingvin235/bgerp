@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<form id="${uiid}" action="${form.httpRequestURI}">
+<form id="${uiid}" action="${form.requestURI}">
 	<input type="hidden" name="method" value="contractObjectParameterList"/>
 	<input type="hidden" name="billingId" value="${form.param.billingId}" />
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
@@ -31,7 +31,7 @@
 					<%-- editing wasn't implemented for all parameter types, because of deprecated contract objects functionality, the read-only mode is used
 					<c:set var="viewEditDivId" value="${u:uiid()}"/>
 					<div id="${viewEditDivId}">
-						<c:url var="url" value="${form.httpRequestURI}">
+						<c:url var="url" value="${form.requestURI}">
 							<c:param name="method" value="getObjectParameter"/>
 							<c:param name="billingId" value="${form.param.billingId}"/>
 							<c:param name="contractId" value="${form.param.contractId}"/>

@@ -6,7 +6,7 @@
 </div>
 
 <p:check action="/admin/license:upload">
-	<form action="${form.httpRequestURI}" method="POST" enctype="multipart/form-data">
+	<form action="${form.requestURI}" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="method" value="upload"/>
 		<input type="hidden" name="responseType" value="json"/>
 		<input type="file" name="file" style="visibility: hidden; display: none;"/>

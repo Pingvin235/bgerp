@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <div class="in-table-cell">
-	<html:form action="${form.httpRequestURI}" styleClass="in-table-cell">
+	<html:form action="${form.requestURI}" styleClass="in-table-cell">
 		<html:hidden property="id"/>
 		<html:hidden property="scope"/>
 		<html:hidden property="method" value="generateDocument"/>
@@ -69,7 +69,7 @@
 	</html:form>
 
 	<p:check action="ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument">
-		<form action="${form.httpRequestURI}" method="POST" enctype="multipart/form-data">
+		<form action="${form.requestURI}" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="method" value="uploadDocument"/>
 			<input type="hidden" name="responseType" value="json"/>
 			<input type="hidden" name="id" value="${id}"/>
@@ -100,7 +100,7 @@
 			<c:param name="title" value="${item.fileData.title}"/>
 			<c:param name="secret" value="${item.fileData.secret}"/>
 		</c:url>
-		<c:url var="deleteUrl" value="${form.httpRequestURI}">
+		<c:url var="deleteUrl" value="${form.requestURI}">
 			<c:param name="method" value="deleteDocument"/>
 			<c:param name="id" value="${item.id}"/>
 			<c:param name="fileId" value="${item.fileData.id}"/>

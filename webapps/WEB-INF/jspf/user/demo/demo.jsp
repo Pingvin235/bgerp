@@ -6,9 +6,9 @@
 <h1>AJAX</h1>
 
 <div>
-	<p:check action="${form.httpRequestURI}:formSend">
+	<p:check action="${form.requestURI}:formSend">
 		<h2>Send Form with Parameter Validation</h2>
-		<form action="${form.httpRequestURI}">
+		<form action="${form.requestURI}">
 			<input type="hidden" name="method" value="formSend"/>
 			<input name="title" type="text" size="50" placeholder="Title"/>
 			<button type="button" class="btn-grey ml1" onclick="
@@ -19,10 +19,10 @@
 		</form>
 	</p:check>
 
-	<p:check action="${form.httpRequestURI}:entityList">
+	<p:check action="${form.requestURI}:entityList">
 		<h2>Entities</h2>
 		<div>
-			<c:url var="url" value="${form.httpRequestURI}">
+			<c:url var="url" value="${form.requestURI}">
 				<c:param name="method" value="entityList"/>
 			</c:url>
 			<c:import url="${url}"/>

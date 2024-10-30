@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="${form.httpRequestURI}" styleId="${uiid}">
+<html:form action="${form.requestURI}" styleId="${uiid}">
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
 	<input type="hidden" name="method" value="serviceList"/>
 
-	<c:url var="url" value="${form.httpRequestURI}">
+	<c:url var="url" value="${form.requestURI}">
 		<c:param name="method" value="serviceGet"/>
 		<c:param name="contractId" value="${form.param.contractId}"/>
 		<c:param name="billingId" value="${form.param.billingId}"/>

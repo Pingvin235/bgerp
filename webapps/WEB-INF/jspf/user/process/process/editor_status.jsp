@@ -7,7 +7,7 @@
 <c:set var="allowedStatusIds" value="${process.allowedToChangeStatusIds}"/>
 
 <h1>${l.l('Change status')}</h1>
-<html:form action="${form.httpRequestURI}">
+<html:form action="${form.requestURI}">
 	<input type="hidden" name="id" value="${process.id}"/>
 	<input type="hidden" name="method" value="processStatusUpdate"/>
 
