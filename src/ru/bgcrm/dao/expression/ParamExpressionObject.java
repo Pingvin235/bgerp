@@ -45,7 +45,6 @@ public abstract class ParamExpressionObject implements ExpressionObject {
      * @param paramId the parameter ID
      * @return
      */
-    @Deprecated
     public List<String> addressValues(int paramId, String formatName) {
         List<String> result = new ArrayList<>();
 

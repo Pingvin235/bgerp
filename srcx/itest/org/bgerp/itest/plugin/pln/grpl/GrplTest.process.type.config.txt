@@ -1,0 +1,1 @@
+title.expression=u.getFirst(pp.addressValues({@PARAM_ADDRESS_ID}, 'streetHouse')) + " [" + pp.val({@PARAM_WORK_TYPE_ID}) + "]"

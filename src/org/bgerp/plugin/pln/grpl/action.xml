@@ -1,0 +1,12 @@
+<item title="Plugin Group Plan">
+	<item action="/user/plugin/grpl/board:null" title="Board">
+		<item action="/user/plugin/grpl/board:show" title="View"/>
+		<item action="/user/plugin/grpl/board:cellGroup, /user/plugin/grpl/board:menu" title="Edit Groups"/>
+	</item>
+	<item action="/user/plugin/grpl/process:null" title="Process">
+		<item action="/user/plugin/grpl/process:slotSet" title="Set Slot"/>
+		<item action="/user/plugin/grpl/process:slotSetTime" title="Set Slot Time"/>
+		<item action="/user/plugin/grpl/process:slotFree" title="Free Slot"/>
+		<item action="/user/plugin/grpl/process:slotFreeTime" title="Free Slot Time"/>
+	</item>
+</item>

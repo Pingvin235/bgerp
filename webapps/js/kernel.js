@@ -3,7 +3,6 @@
  * All the other functions and fields must be placed inside.
  */
 const bgerp = {};
-const bgcrm = bgerp;
 const $$ = bgerp;
 
 // personal user settings
@@ -32,7 +31,8 @@ $$.debugAreas = {
 	'ui.layout' : 0,
 	'ui.select': 0,
 	queueFilterDrag: 0,
-	blow: 0
+	blow: 0,
+	grpl: 0
 };
 
 /*

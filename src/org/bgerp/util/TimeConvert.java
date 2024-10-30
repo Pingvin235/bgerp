@@ -1,8 +1,10 @@
 package org.bgerp.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Date;
@@ -13,6 +15,8 @@ import java.util.Date;
  * @author Shamil Vakhitov
  */
 public class TimeConvert {
+    private static final LocalTime ZERO_TIME = LocalTime.of(0, 0);
+
     /**
      * Converts date to month of year.
      * @param value
@@ -82,5 +86,23 @@ public class TimeConvert {
             value == null ?
             null :
             value.atZone(ZoneId.systemDefault()).toInstant();
+    }
+
+    /**
+     * Converts a local time to duration between 0 and the time
+     * @param value
+     * @return
+     */
+    public static Duration toDuration(LocalTime value) {
+        return Duration.between(ZERO_TIME, value);
+    }
+
+    /**
+     * Converts a duration to time after adding the duration to 0
+     * @param duration
+     * @return
+     */
+    public static LocalTime toLocalTime(Duration duration) {
+        return ZERO_TIME.plus(duration);
     }
 }

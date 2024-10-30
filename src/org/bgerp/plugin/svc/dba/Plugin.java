@@ -22,7 +22,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     @Override
     protected Map<String, List<String>> loadEndpoints() {
-
         return Map.of(
             Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
             Endpoint.USER_ADMIN_MENU_ITEMS, List.of(PATH_JSP_ADMIN + "/menu_items.jsp")

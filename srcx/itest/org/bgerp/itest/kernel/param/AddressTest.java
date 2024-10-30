@@ -19,6 +19,7 @@ import ru.bgcrm.model.param.address.AddressItem;
 @Test(groups = "address", dependsOnGroups = "config")
 public class AddressTest {
     public static volatile AddressCity cityUfa;
+    public static volatile AddressCity cityMuenchen;
 
     public static volatile AddressHouse houseMuenchen;
     public static volatile AddressHouse houseUfa7f1;
@@ -56,10 +57,10 @@ public class AddressTest {
         Assert.assertTrue(houseUfa7f1.getId() > 0 );
 
         country = dao.updateAddressCountry(new AddressCountry().withTitle("Bayern"));
-        var city = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("München"));
-        area = dao.updateAddressArea(new AddressItem().withCityId(city.getId()).withTitle("Obermenzing"));
-        street = dao.updateAddressStreet(new AddressItem().withCityId(city.getId()).withTitle("Karl-Marx-Ring"));
-        street = dao.updateAddressStreet(new AddressItem().withCityId(city.getId()).withTitle("Dorfstraße"));
+        cityMuenchen = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("München"));
+        area = dao.updateAddressArea(new AddressItem().withCityId(cityMuenchen.getId()).withTitle("Obermenzing"));
+        street = dao.updateAddressStreet(new AddressItem().withCityId(cityMuenchen.getId()).withTitle("Karl-Marx-Ring"));
+        street = dao.updateAddressStreet(new AddressItem().withCityId(cityMuenchen.getId()).withTitle("Dorfstraße"));
         houseMuenchen = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId()).withAreaId(area.getId())
             .withPostIndex("81247").withHouseAndFrac("99a").withComment("Nette Leute"));
         Assert.assertTrue(houseMuenchen.getId() > 0);

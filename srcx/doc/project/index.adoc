@@ -996,4 +996,4 @@ link:../../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
 
 Enabling debug:
 [snippet, from="$$.", to="0,"]
-link:../../../webapps/js/kernel.js#L19-L23[webapps/js/kernel.js]
+link:../../../webapps/js/kernel.js#L18-L24[webapps/js/kernel.js]

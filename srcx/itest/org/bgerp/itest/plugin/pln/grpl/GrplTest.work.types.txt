@@ -1,0 +1,5 @@
+1=Drink
+2=Dance
+3=Sing
+4=Speak
+5=Connection Settings Check

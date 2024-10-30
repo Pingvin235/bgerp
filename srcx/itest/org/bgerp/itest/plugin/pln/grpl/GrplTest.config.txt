@@ -1,0 +1,24 @@
+address.format.streetHouse=(${street})(, ${house})
+
+grpl:board.1.title={@BOARD_TITLE}
+grpl:board.1.process.types={@PROCESS_TYPE_IDS}
+grpl:board.1.column.1.title=München
+grpl:board.1.column.1.cities={@CITY_MUENCHEN_ID}
+grpl:board.1.column.2.title=Ufa
+grpl:board.1.column.2.cities={@CITY_UFA_ID}
+grpl:board.1.column.expression=<<END
+    cityId = u.getFirst(pp.addressCityIds({@PARAM_ADDRESS_ID}));
+    if (cityId == {@CITY_MUENCHEN_ID})
+        return 1;
+    if (cityId == {@CITY_UFA_ID})
+        return 2;
+END
+grpl:board.1.groups={@USER_GROUP_IDS}
+grpl:board.1.shift.from=09:00
+grpl:board.1.shift.to=18:00
+grpl:board.1.process.duration.expression=<<END
+    workType = pp.listValueIds({@PARAM_WORK_TYPE_ID});
+    if (workType =~ {5})
+        return "60M";
+    return "30M";
+END
