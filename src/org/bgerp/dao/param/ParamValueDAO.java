@@ -290,20 +290,11 @@ public class ParamValueDAO extends CommonDAO {
         ps.setInt(3, position);
 
         ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            result = getParameterAddressValueFromRs(rs);
-        }
+        if (rs.next())
+            result = getParameterAddressValueFromRs(rs, "");
         ps.close();
 
         return result;
-    }
-
-    public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs) throws SQLException {
-        return getParameterAddressValueFromRs(rs, "");
-    }
-
-    public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs, String prefix) throws SQLException {
-        return getParameterAddressValueFromRs(rs, "", false, null);
     }
 
     /**
@@ -314,7 +305,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId) throws SQLException {
-        return getParamAddressExt(id, paramId, false, null);
+        return getParamAddress(id, paramId, false, null);
     }
 
     /**
@@ -325,8 +316,8 @@ public class ParamValueDAO extends CommonDAO {
      * @return ключ - позиция, значение - значение на позиции.
      * @throws SQLException
      */
-    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs) throws SQLException {
-        return getParamAddressExt(id, paramId, loadDirs, null);
+    public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId, boolean loadDirs) throws SQLException {
+        return getParamAddress(id, paramId, loadDirs, null);
     }
 
     /**
@@ -338,7 +329,7 @@ public class ParamValueDAO extends CommonDAO {
      * @return ключ - позиция, значение - значение на позиции.
      * @throws SQLException
      */
-    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs, String formatName)
+    public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId, boolean loadDirs, String formatName)
             throws SQLException {
         SortedMap<Integer, ParameterAddressValue> result = new TreeMap<>();
 
@@ -362,7 +353,11 @@ public class ParamValueDAO extends CommonDAO {
         return result;
     }
 
-    public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs, String prefix, boolean loadDirs, String formatName)
+    private ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs, String prefix) throws SQLException {
+        return getParameterAddressValueFromRs(rs, "", false, null);
+    }
+
+    private ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs, String prefix, boolean loadDirs, String formatName)
             throws SQLException {
         ParameterAddressValue result = new ParameterAddressValue();
 
@@ -1105,7 +1100,7 @@ public class ParamValueDAO extends CommonDAO {
             int paramId = rs.getInt("param_id");
             int pos = rs.getInt("n");
 
-            ParameterAddressValue value = getParameterAddressValueFromRs(rs);
+            ParameterAddressValue value = getParameterAddressValueFromRs(rs, "");
             value.setValue(AddressUtils.buildAddressValue(value, con));
 
             updateParamAddress(id, paramId, pos, value);
@@ -1940,5 +1935,24 @@ public class ParamValueDAO extends CommonDAO {
     @Deprecated
     public Set<Integer> searchObjectByParameterList(int parameterId, int value) throws Exception {
         return new org.bgerp.dao.param.OldParamSearchDAO(con).searchObjectByParameterList(parameterId, value);
+    }
+
+    /**
+     * @see #getParamAddress(int, int, boolean, String)
+     */
+    @Deprecated
+    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs, String formatName)
+            throws SQLException {
+        log.warndMethod("getParamAddressExt", "getParamAddress");
+        return getParamAddress(id, paramId, loadDirs, formatName);
+    }
+
+    /**
+     * @see #getParamAddress(int, int, boolean)
+     */
+    @Deprecated
+    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs) throws SQLException {
+        log.warndMethod("getParamAddressExt", "getParamAddress");
+        return getParamAddress(id, paramId, loadDirs);
     }
 }
