@@ -358,7 +358,7 @@ public class CommonDAO {
         ps.close();
     }
 
-    public void updateColumn(String tableName, int id, String columnName, String value) throws SQLException {
+    protected void updateColumn(String tableName, int id, String columnName, String value) throws SQLException {
         String query = "UPDATE " + tableName + " SET `" + columnName + "`=? WHERE id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, value);
