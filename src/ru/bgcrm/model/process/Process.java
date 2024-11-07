@@ -131,6 +131,11 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
         this.statusId = statusId;
     }
 
+    public Process withStatusId(int value) {
+        setStatusId(value);
+        return this;
+    }
+
     /**
      * @return process status object from {@link ProcessTypeCache#getStatusSafe(int)}.
      */
