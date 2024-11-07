@@ -1,6 +1,7 @@
 package org.bgerp.itest.plugin.pln.grpl;
 
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ import org.bgerp.plugin.pln.grpl.dao.GrplDAO;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
@@ -46,6 +48,9 @@ public class GrplTest {
     private int paramWorkTypeId;
 
     private int processTypeId;
+
+    private int cityMuenchenId;
+    private int cityUfaId;
 
     @Test
     public void userGroup() throws Exception {
@@ -83,8 +88,9 @@ public class GrplTest {
             ConfigHelper.generateConstants(
                 "BOARD_TITLE", PLUGIN.getTitle() + " Board",
                 "PROCESS_TYPE_IDS", processTypeId,
-                "CITY_MUENCHEN_ID",  AddressTest.cityMuenchen.getId(),
-                "CITY_UFA_ID", AddressTest.cityUfa.getId(),
+                "CITY_MUENCHEN_ID", cityMuenchenId = AddressTest.cityMuenchen.getId(),
+                "CITY_UFA_ID", cityUfaId = AddressTest.cityUfa.getId(),
+                "CITY_STERLITAMAK_ID", AddressTest.citySterlitamak.getId(),
                 "PARAM_ADDRESS_ID", ProcessParamTest.paramAddressId,
                 "USER_GROUP_IDS", Utils.toString(Set.of(userGroupFirstId, userGroupSecondId, userGroupThirdId)),
                 "PARAM_WORK_TYPE_ID", paramWorkTypeId,
@@ -100,35 +106,69 @@ public class GrplTest {
         var board = config.getBoardOrThrow(1);
 
         var dao = new GrplDAO(DbTest.conRoot);
-
-        var today = new Date();
-        dao.setGroup(board.getId(), today, 1, userGroupFirstId);
-        dao.setGroup(board.getId(), today, 2, userGroupSecondId);
-
-        var tomorrow = TimeUtils.getNextDay(today);
-        dao.setGroup(board.getId(), tomorrow, 1, userGroupSecondId);
-        dao.setGroup(board.getId(), tomorrow, 2, userGroupThirdId);
-
-        var afterTomorrow = TimeUtils.getNextDay(tomorrow);
-        dao.setGroup(board.getId(), afterTomorrow, 1, userGroupThirdId);
-        dao.setGroup(board.getId(), afterTomorrow, 2, userGroupFirstId);
-
-        // processes
         var paramDao = new ParamValueDAO(DbTest.conRoot);
+        var processDao = new ProcessDAO(DbTest.conRoot);
         var conSet = new SingleConnectionSet(DbTest.conRoot);
 
+        var yesterday = TimeUtils.getPrevDay(new Date());
+        dao.updateGroup(board.getId(), yesterday, cityMuenchenId, userGroupThirdId);
+        dao.updateGroup(board.getId(), yesterday, cityUfaId, userGroupFirstId);
+
         for (int i = 1; i <= 3; i++) {
-            var process = ProcessHelper.addProcess(processTypeId, TITLE + " München " + i);
+            var process = ProcessHelper.addProcess(processTypeId, TITLE + " München Yesterday " + i);
             paramDao.updateParamAddress(process.getId(), ProcessParamTest.paramAddressId, 0, new ParameterAddressValue().withHouseId(AddressTest.houseMuenchen.getId()));
             paramDao.updateParamList(process.getId(), paramWorkTypeId, Set.of(i));
             EventProcessor.processEvent(new ParamChangedEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramWorkTypeId), process.getId(), null), conSet);
 
             var duration = board.getProcessDuration(conSet, process);
-            dao.setSlot(board, tomorrow, 1, process, duration);
+            if (i == 1) {
+                processDao.updateProcess(process.withStatusId(ProcessTest.statusDoneId));
+                dao.updateSlotTime(board.getId(), process.getId(), yesterday, board.getShift().getFrom().plus(duration));
+            } else if (i == 2) {
+                processDao.updateProcess(process.withStatusId(ProcessTest.statusRejectId));
+                dao.updateSlotTime(board.getId(), process.getId(), yesterday, board.getShift().getFrom().plus(duration.multipliedBy(3)));
+            } else
+                dao.updateSlotTime(board.getId(), process.getId(), yesterday, LocalTime.of(14, 00));
+        }
+
+        var today = new Date();
+        dao.updateGroup(board.getId(), today, cityMuenchenId, userGroupFirstId);
+        dao.updateGroup(board.getId(), today, cityUfaId, userGroupSecondId);
+
+        for (int i = 1; i <= 3; i++) {
+            var process = ProcessHelper.addProcess(processTypeId, TITLE + " München Today " + i);
+            paramDao.updateParamAddress(process.getId(), ProcessParamTest.paramAddressId, 0, new ParameterAddressValue().withHouseId(AddressTest.houseMuenchen.getId()));
+            paramDao.updateParamList(process.getId(), paramWorkTypeId, Set.of(i));
+            EventProcessor.processEvent(new ParamChangedEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramWorkTypeId), process.getId(), null), conSet);
+
+            var duration = board.getProcessDuration(conSet, process);
+            if (i == 1) {
+                processDao.updateProcess(process.withStatusId(ProcessTest.statusRejectId));
+                dao.updateSlotTime(board.getId(), process.getId(), today, board.getShift().getFrom().plus(duration));
+            } else if (i == 2) {
+                processDao.updateProcess(process.withStatusId(ProcessTest.statusDoneId));
+                dao.updateSlotTime(board.getId(), process.getId(), today, board.getShift().getFrom().plus(duration.multipliedBy(3)));
+            } else
+                dao.updateSlotTime(board.getId(), process.getId(), today, LocalTime.of(15, 00));
+        }
+
+        var tomorrow = TimeUtils.getNextDay(today);
+        dao.updateGroup(board.getId(), tomorrow, cityMuenchenId, userGroupSecondId);
+        dao.updateGroup(board.getId(), tomorrow, cityUfaId, userGroupThirdId);
+
+        for (int i = 1; i <= 3; i++) {
+            var process = ProcessHelper.addProcess(processTypeId, TITLE + " München Tomorrow " + i);
+            paramDao.updateParamAddress(process.getId(), ProcessParamTest.paramAddressId, 0, new ParameterAddressValue().withHouseId(AddressTest.houseMuenchen.getId()));
+            paramDao.updateParamList(process.getId(), paramWorkTypeId, Set.of(i));
+            EventProcessor.processEvent(new ParamChangedEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramWorkTypeId), process.getId(), null), conSet);
+
+            var duration = board.getProcessDuration(conSet, process);
             if (i == 1)
-                dao.updateSlotTime(board.getId(), process.getId(), board.getShift().getFrom().plus(duration));
+                dao.updateSlotTime(board.getId(), process.getId(), tomorrow, board.getShift().getFrom().plus(duration));
             else if (i == 2)
-                dao.updateSlotTime(board.getId(), process.getId(), board.getShift().getFrom().plus(duration.multipliedBy(3)));
+                dao.updateSlotTime(board.getId(), process.getId(), tomorrow, board.getShift().getFrom().plus(duration.multipliedBy(3)));
+            else
+                dao.updateSlotTime(board.getId(), process.getId(), tomorrow, null);
         }
 
         for (int i = 1; i <= 3; i++) {

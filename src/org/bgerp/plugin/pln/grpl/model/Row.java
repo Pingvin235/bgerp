@@ -36,6 +36,9 @@ public class Row {
     }
 
     public boolean isWorkingDay() {
+        if (date == null)
+            return true;
+
         var dw = TimeConvert.toLocalDate(date).getDayOfWeek();
         return dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY;
     }
@@ -48,6 +51,14 @@ public class Row {
 
     public Cell getCell(int columnId) {
         return cells.get(columnId);
+    }
+
+    public boolean hasCells() {
+        return !cells.isEmpty();
+    }
+
+    public Set<Integer> getUsedColumnIds() {
+        return cells.keySet();
     }
 
     Set<Integer> excludeGroupIds() {

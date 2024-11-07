@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 import org.bgerp.plugin.pln.grpl.model.BoardConfig;
 import org.bgerp.plugin.pln.grpl.model.Cell;
@@ -19,6 +20,7 @@ import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessGroup;
+import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.TimeUtils;
 
 public class GrplDAO extends CommonDAO {
@@ -73,7 +75,30 @@ public class GrplDAO extends CommonDAO {
             dateFrom = TimeUtils.getNextDay(dateFrom);
         }
 
-        return result.values().stream().toList();
+        // last row with process queues
+        Row row = new Row(board, (Date) null);
+
+        query = SQL_SELECT + "bp.column_id, bp.duration, bp.time, p.*" + SQL_FROM + Tables.TABLE_BOARD_PROCESS + "AS bp"
+            + SQL_LEFT_JOIN + ru.bgcrm.dao.process.Tables.TABLE_PROCESS + "AS p ON bp.process_id=p.id"
+            + SQL_WHERE + "bp.board_id=? AND bp.date IS NULL";
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(board.getId());
+
+            var rs = pq.executeQuery();
+            while (rs.next()) {
+                int columnId = rs.getInt("column_id");
+
+                var cell = row.getCell(columnId);
+                if (cell == null)
+                    cell = row.setCell(columnId, 0);
+
+                cell.getSlots().add(new Slot(cell, ProcessDAO.getProcessFromRs(rs, "p."), rs));
+            }
+        }
+
+        return row.hasCells() ?
+            Stream.concat(result.values().stream(), Stream.of(row)).toList() :
+            result.values().stream().toList();
     }
 
     public Row getRow(BoardConfig board, Date date) throws SQLException {
@@ -92,7 +117,7 @@ public class GrplDAO extends CommonDAO {
         return result;
     }
 
-    public void setGroup(int boardId, Date date, int columnId, int groupId) throws SQLException {
+    public void updateGroup(int boardId, Date date, int columnId, int groupId) throws SQLException {
         if (groupId > 0)
             updateOrInsert(
                 SQL_UPDATE + Tables.TABLE_BOARD_GROUP + "SET group_id=?" + SQL_WHERE + "board_id=? AND date=? AND column_id=?",
@@ -111,9 +136,9 @@ public class GrplDAO extends CommonDAO {
     public Slot getSlot(BoardConfig board, Process process) throws SQLException {
         Slot result = null;
 
-        try (var pq = new PreparedQuery(con, SQL_SELECT + "bp.date, bp.column_id, bp.duration, bp.time, bg.group_id"
+        try (var pq = new PreparedQuery(con, SQL_SELECT + "bp.column_id, bp.duration, bp.date, bp.time, bg.group_id"
             + SQL_FROM + Tables.TABLE_BOARD_PROCESS + "AS bp"
-            + SQL_INNER_JOIN + Tables.TABLE_BOARD_GROUP + "AS bg ON bp.board_id=bg.board_id AND bp.date=bg.date AND bp.column_id=bg.column_id"
+            + SQL_LEFT_JOIN + Tables.TABLE_BOARD_GROUP + "AS bg ON bp.board_id=bg.board_id AND bp.column_id=bg.column_id AND bp.date=bg.date"
             + SQL_WHERE + "bp.board_id=? AND bp.process_id=?")) {
             pq.addInt(board.getId());
             pq.addInt(process.getId());
@@ -129,7 +154,7 @@ public class GrplDAO extends CommonDAO {
         return result;
     }
 
-    public List<Slot> getSlots(BoardConfig board, Date date, int columnId, int excludeProcessId) throws SQLException {
+    /* public List<Slot> getSlots(BoardConfig board, Date date, int columnId, int excludeProcessId) throws SQLException {
         Row row = new Row(board, date);
         Cell cell = row.setCell(columnId, 0);
 
@@ -182,43 +207,38 @@ public class GrplDAO extends CommonDAO {
         }
 
         return result.values().stream().toList();
-    }
+    }*/
 
-    public void setSlot(BoardConfig board, Date date, int columnId, Process process, Duration duration) throws SQLException {
-        try (var pq = new PreparedQuery(con,
-                SQL_INSERT_INTO + Tables.TABLE_BOARD_PROCESS + "(board_id, date, column_id, process_id, duration)" + SQL_VALUES + "(?,?,?,?,?)")) {
-            pq.addInt(board.getId());
-            pq.addDate(date);
-            pq.addInt(columnId);
-            pq.addInt(process.getId());
-            pq.addLong(duration.toMinutes());
-            pq.executeUpdate();
-        }
+    public void updateSlot(BoardConfig board, Process process, int columnId, Duration duration) throws SQLException {
+        updateOrInsert(
+            SQL_UPDATE + Tables.TABLE_BOARD_PROCESS + SQL_SET + "column_id=?, duration=?" + SQL_WHERE + "board_id=? AND process_id=?",
+            SQL_INSERT_INTO + Tables.TABLE_BOARD_PROCESS + "(column_id, duration, board_id, process_id)" + SQL_VALUES + "(?,?,?,?)",
+            columnId, duration.toMinutes(), board.getId(), process.getId());
 
         // update process groups
         var slot = getSlot(board, process);
 
         var groups = process.getGroups();
         groups.removeIf(pg -> board.getGroupIds().contains(pg.getGroupId()));
-        groups.add(new ProcessGroup(slot.getCell().getGroup().getId()));
+        Group group = slot.getCell().getGroup();
+        if (group != null)
+            groups.add(new ProcessGroup(group.getId()));
 
         new ProcessDAO(con).updateProcessGroups(groups, process.getId());
     }
 
-    public void deleteSlot(int boardId, int processId) throws SQLException {
+    /* public void deleteSlot(int boardId, int processId) throws SQLException {
         try (var pq = new PreparedQuery(con, SQL_DELETE_FROM + Tables.TABLE_BOARD_PROCESS + SQL_WHERE + "board_id=? AND process_id=?")) {
             pq.addInt(boardId);
             pq.addInt(processId);
             pq.executeUpdate();
         }
-    }
+    } */
 
-    public void updateSlotTime(int boardId, int processId, LocalTime time) throws SQLException {
+    public void updateSlotTime(int boardId, int processId, Date date, LocalTime time) throws SQLException {
         try (var pq = new PreparedQuery(con,
-                SQL_UPDATE + Tables.TABLE_BOARD_PROCESS + SQL_SET + "time=?" + SQL_WHERE + "board_id=? AND process_id=?")) {
-            pq.addObjects(time);
-            pq.addInt(boardId);
-            pq.addInt(processId);
+                SQL_UPDATE + Tables.TABLE_BOARD_PROCESS + SQL_SET + "date=?, time=?" + SQL_WHERE + "board_id=? AND process_id=?")) {
+            pq.addObjects(date, time, boardId, processId);
             pq.executeUpdate();
         }
     }

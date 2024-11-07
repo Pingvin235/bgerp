@@ -2,8 +2,8 @@ package org.bgerp.plugin.pln.grpl;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.ConfigMap;
@@ -13,11 +13,13 @@ import javassist.NotFoundException;
 
 public class Config extends org.bgerp.app.cfg.Config {
     private final Map<Integer, BoardConfig> boards;
+    private final Map<Integer, BoardConfig> paramBoard;
 
     protected Config(ConfigMap config) {
         super(null);
         config = config.sub(Plugin.ID + ":");
         boards = loadBoards(config);
+        paramBoard = boards.values().stream().collect(Collectors.toUnmodifiableMap(BoardConfig::getParamId, Function.identity()));
     }
 
     private Map<Integer, BoardConfig> loadBoards(ConfigMap config) {
@@ -35,6 +37,10 @@ public class Config extends org.bgerp.app.cfg.Config {
         return boards;
     }
 
+    public BoardConfig getBoard(int paramId) {
+        return paramBoard.get(paramId);
+    }
+
     public BoardConfig getBoardOrThrow(int id) throws NotFoundException {
         var result = boards.get(id);
         if (result == null)
@@ -42,9 +48,9 @@ public class Config extends org.bgerp.app.cfg.Config {
         return result;
     }
 
-    public List<BoardConfig> getBoards(int processTypeId) {
+    /* public List<BoardConfig> getBoards(int processTypeId) {
         return boards.values().stream()
             .filter(b -> b.getProcessTypeIds().contains(processTypeId))
             .collect(Collectors.toList());
-    }
+    } */
 }

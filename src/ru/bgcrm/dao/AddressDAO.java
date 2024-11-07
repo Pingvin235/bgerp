@@ -16,6 +16,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.Page;
@@ -184,6 +185,29 @@ public class AddressDAO extends CommonDAO {
         ps.close();
 
         return addressCity;
+    }
+
+    /**
+     * Selects cities restricted and ordered by their IDs
+     * @param ids the IDs
+     * @return
+     * @throws SQLException
+     */
+    public List<IdTitle> getAddressCities(List<Integer> ids) throws SQLException {
+        var result = new ArrayList<IdTitle>();
+
+        String idsStr = Utils.toString(ids);
+
+        String query = SQL_SELECT_ALL_FROM + Tables.TABLE_ADDRESS_CITY
+            + SQL_WHERE + "id IN (" + idsStr + ")"
+            + SQL_ORDER_BY + "FIELD (id," + idsStr + ")";
+        try (var ps = con.prepareStatement(query)) {
+            var rs = ps.executeQuery();
+            while (rs.next())
+                result.add(new IdTitle(rs.getInt("id"), rs.getString("title")));
+        }
+
+        return result;
     }
 
     public void searchAddressAreaList(Pageable<AddressItem> searchResult, int cityId) throws SQLException {

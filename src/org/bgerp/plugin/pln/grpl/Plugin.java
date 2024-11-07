@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.util.Dynamic;
+import org.bgerp.app.event.EventProcessor;
+import org.bgerp.plugin.pln.grpl.dao.GrplDAO;
 
+import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.plugin.Endpoint;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
@@ -29,8 +32,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
        return Map.of(
             Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
             Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID)),
-            Endpoint.USER_PROCESS_MENU_ITEMS, List.of(PATH_JSP_USER + "/menu_items.jsp"),
-            Endpoint.USER_PROCESS_TABS, List.of(PATH_JSP_USER + "/process_tabs.jsp")
+            Endpoint.USER_PROCESS_MENU_ITEMS, List.of(PATH_JSP_USER + "/menu_items.jsp")
         );
     }
 
@@ -38,23 +40,20 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     public void init(Connection con) throws Exception {
         super.init(con);
 
-        /* EventProcessor.subscribe((e, conSet) -> {
-            if (!e.isStatus())
+        EventProcessor.subscribe((e, conSet) -> {
+            var config = getConfig(Setup.getSetup());
+            var board = config.getBoard(e.getParameter().getId());
+            if (board == null)
                 return;
 
-            Process process = e.getProcess();
+            var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(e.getObjectId());
+            var column = board.getColumnOrThrow(conSet, process);
+            var duration = board.getProcessDuration(conSet, process);
 
-            var typeConfig = process.getType().getProperties().getConfigMap().getConfig(ProcessTypeConfig.class);
-            if (typeConfig == null)
-                return;
-
-            log.debug("Agree status changing for process {}", process.getId());
-
-            typeConfig.statusChanged(e, conSet, process);
-        }, ProcessChangedEvent.class, 1); */
+            new GrplDAO(conSet.getConnection()).updateSlot(board, process, column.getId(), duration);
+        }, ParamChangedEvent.class);
     }
 
-    @Dynamic
     public Config getConfig(Setup setup) {
         return setup.getConfig(Config.class);
     }

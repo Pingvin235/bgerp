@@ -19,11 +19,13 @@ import ru.bgcrm.model.param.address.AddressItem;
 @Test(groups = "address", dependsOnGroups = "config")
 public class AddressTest {
     public static volatile AddressCity cityUfa;
-    public static volatile AddressCity cityMuenchen;
-
-    public static volatile AddressHouse houseMuenchen;
     public static volatile AddressHouse houseUfa7f1;
     public static volatile AddressHouse houseUfa6;
+
+    public static volatile AddressCity citySterlitamak;
+
+    public static volatile AddressCity cityMuenchen;
+    public static volatile AddressHouse houseMuenchen;
 
     @Test
     public void config() throws Exception {
@@ -55,6 +57,8 @@ public class AddressTest {
             .withAreaId(area.getId()).withQuarterId(quarter.getId())
             .withPostIndex("450103").withHouseAndFrac("6").withComment("Чокнутая консьержка"));
         Assert.assertTrue(houseUfa7f1.getId() > 0 );
+
+        citySterlitamak = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("Стерлитамак"));
 
         country = dao.updateAddressCountry(new AddressCountry().withTitle("Bayern"));
         cityMuenchen = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("München"));

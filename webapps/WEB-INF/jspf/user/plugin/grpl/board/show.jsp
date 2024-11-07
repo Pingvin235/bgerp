@@ -4,13 +4,16 @@
 <c:set var="menuUiid" value="${u:uiid()}"/>
 <ui:popup-menu id="${menuUiid}"><%-- dynamically loaded --%></ui:popup-menu>
 
+<c:set var="dialogUiid" value="${u:uiid()}"/>
+<form id="${dialogUiid}" action="${form.requestURI}" style="display: none;"><%-- dynamically loaded --%></form>
+
 <c:set var="board" value="${frd.board}"/>
 <c:if test="${not empty board}">
 	<c:set var="uiid" value="${u:uiid()}"/>
-	<table id="${uiid}" class="hdata hl-td grpl-board">
+	<table id="${uiid}" class="hdata grpl-board">
 		<tr class="header">
 			<td class="min text-right">${l.l('Date')}</td>
-			<c:forEach var="column" items="${board.columns.values()}">
+			<c:forEach var="column" items="${frd.columns}">
 				<td width="${board.columnWidth}%">${column.title}</td>
 			</c:forEach>
 		</tr>
@@ -24,19 +27,32 @@
 				<td class="header nowrap text-right
 					${row.workingDay ? '' : ' grpl-non-working-day'}
 					${tu.dateEqual(today, row.date) ? ' bold' : ''}
-				">${format.format(row.date)}</td>
-				<c:forEach var="columnId" items="${board.columns.keySet()}">
-					<c:set var="cell" value="${row.getCell(columnId)}"/>
+				">
+					<c:choose>
+						<c:when test="${not empty row.date}">${format.format(row.date)}</c:when>
+						<c:otherwise><b>${l.l('QUEUE')}</b></c:otherwise>
+					</c:choose>
+				</td>
+				<c:forEach var="column" items="${frd.columns}">
+					<c:set var="cell" value="${row.getCell(column.id)}"/>
 					<c:set var="group" value="${cell.group}"/>
-					<td bg-column-id="${columnId}" class="${tu.dateBefore(row.date, today) ? 'grpl-past' : ''}">
+					<td bg-column-id="${column.id}" class="${row.date ne null and tu.dateBefore(row.date, today) ? 'grpl-past' : ''}">
 						<c:if test="${not empty group}">
 							<div class="grpl-board-group">${group.title}</div>
 						</c:if>
 						<c:forEach var="slot" items="${cell.slots}">
-							<div class="grpl-board-process" style="background-color: ${board.getProcessBackgroundColor(slot.process.statusId)};">
-								<c:if test="${not empty slot.time}">(${slot.time})&nbsp;</c:if>
-								<ui:process-link process="${slot.process}"/>
-							</div>
+							<c:choose>
+								<c:when test="${not empty slot.process}">
+									<div bg-process-id="${slot.process.id}" bg-duration="${slot.duration.toMinutes()}" id="${u:uiid()}" class="grpl-board-process" style="background-color: ${board.getProcessBackgroundColor(slot.process.statusId)};">
+										<c:if test="${not empty slot.time}">(${slot.time})&nbsp;</c:if>
+										<ui:process-link process="${slot.process}"/>
+										<c:if test="${empty slot.time}">&nbsp;(${tu.format(slot.duration)})</c:if>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div bg-duration="${slot.duration.toMinutes()}" bg-time="${slot.time}" class="grpl-board-process-placement">${slot.time} - ${slot.timeTo}</div>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</td>
 				</c:forEach>
@@ -47,6 +63,8 @@
 	<script>
 		$(function () {
 			$$.grpl.menuInit('${uiid}', '${menuUiid}', ${board.id}, '${form.requestURI}', '${form.requestUrl}');
+
+			$$.grpl.dragInit('${uiid}', '${dialogUiid}', ${board.id}, '${form.requestURI}', '${form.requestUrl}');
 
 			$('#content > #grpl-board').data('onShow', () => {
 				$$.ajax.loadContent('${form.requestUrl}', $('#${uiid}'));

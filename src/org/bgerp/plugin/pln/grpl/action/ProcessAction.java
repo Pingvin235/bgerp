@@ -1,4 +1,4 @@
-package org.bgerp.plugin.pln.grpl.action;
+/* package org.bgerp.plugin.pln.grpl.action;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -104,3 +104,4 @@ public class ProcessAction extends BaseAction {
         return json(conSet, form);
     }
 }
+ */

@@ -130,7 +130,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
                 return Collections.emptySet();
             }
 
-            value = paramDao.getParamAddressExt(objectId, param.getId(), true, formatName).values();
+            value = paramDao.getParamAddress(objectId, param.getId(), true, formatName).values();
         } catch (SQLException e) {
             log.error(e);
         }
