@@ -13,7 +13,7 @@ which will be used for saved messages.
 Example:
 ----
 feedback:enable=1
-#
+
 feedback:messageTypeEmailId=1
 ----
 

@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.dao;
+package ru.bgcrm.plugin.bgbilling.message;
 
 import java.sql.Connection;
 import java.util.List;

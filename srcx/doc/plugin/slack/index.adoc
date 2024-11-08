@@ -27,39 +27,7 @@ The plugin has to be enabled in <<../../kernel/setup.adoc#config, configuration>
 
 [[setup-bgerp]]
 === Настройка BGERP
-Настроить в конфигурации BGERP <<../../kernel/message/index.adoc#setup-type, тип сообщения>>, для Slack может быть создан только один тип сообщения:
-----
-messageType.<id>.title=<title>
-messageType.<id>.class=MessageTypeChannel
-messageType.<id>.authToken=<token>
-# необязательные параметры
-messageType.<id>.accountParamId=<slackLoginParamId>
-messageType.<id>.expressionMessageExtract=<jexl>
-----
-
-Параметры, отличные от прочих типов сообщений:
-[square]
-* *<token>* - TOKEN авторизации, сохранённый ранее;
-* *<slackLoginParamId>* - код текстового <<../../kernel/setup.adoc#param, параметра>> пользователя, хранящего логин Slack, позволяющий сопоставить пользователя BGERP с пользователем Slack;
-* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> выражение для извлечения сообщения Slack в текст входящего сообщения,
-исходное сообщение передаётся в параметре *message*, не null результат скрипта используется как текст входящего сообщения.
-
-Пример настройки типа сообщения. Входящие сообщения выбираются с подстрокой *bg*.
-----
-messageType.5.title=Slack
-messageType.5.class=MessageTypeChannel
-messageType.5.authToken=xoxp-112244252083-112987389558-112322797394-6aa31425be1725ee6ee0265a2dff1236
-messageType.5.accountParamId=88
-messageType.5.expressionMessageExtract=<<END
-   pos = message.toLowerCase().indexOf("bg");
-   if (pos >= 0)
-        return message.substring(0, pos) + message.substring(pos + 2);
-   return null;
-END
-----
-
-Синхронизация с форумом производится <<../../kernel/message/index.adoc#setup-scheduler, стандартной задачей>> обработки сообщений.
-Отправка сообщений производится немедленно, задача синхронизации лишь производит импорт необходимых сообщений.
+Настроить в конфигурации <<../../kernel/message/index.adoc#setup-type-slack, тип сообщения>>
 
 [[message]]
 == Работа с сообщениями

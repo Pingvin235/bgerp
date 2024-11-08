@@ -16,6 +16,6 @@ messageType.<id>.saver.format=<format>
 Пример:
 [source]
 ----
-messageType.1.saver.class=BGBillingMessageTypeContactSaverPhone
-messageType.1.saver.paramId=27
+messageType.{@inc:cnt}.saver.class=BGBillingMessageTypeContactSaverPhone
+messageType.{@cnt}.saver.paramId=27
 ----

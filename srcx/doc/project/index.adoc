@@ -944,7 +944,7 @@ link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L242-L242[ru.bgcrm.s
 In the following snippet might be seen, how it can be thrown in a plugin's logic.
 
 [snippet, from="if (", to="x);", remove-leading="                    "]
-link:../../../src/org/bgerp/plugin/msg/email/Addresses.java#L103-L107[org.bgerp.plugin.msg.email.Addresses]
+link:../../../src/org/bgerp/plugin/msg/email/message/Addresses.java#L104-L108[org.bgerp.plugin.msg.email.message.Addresses]
 
 As there is no way to make localization on the Frontend, phrases may be sent there from the Backend.
 Here are two samples for such cases.

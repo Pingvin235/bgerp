@@ -1,4 +1,4 @@
-package ru.bgcrm.dao.message;
+package org.bgerp.plugin.msg.email.message;
 
 import java.util.Set;
 
@@ -8,6 +8,7 @@ import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CustomerDAO;
+import ru.bgcrm.dao.message.MessageTypeSearch;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
@@ -17,7 +18,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 // TODO: Сделать параметры с конфигурацией что искать.
-@Bean
+@Bean(oldClasses = "ru.bgcrm.dao.message.MessageTypeSearchEmail")
 public class MessageTypeSearchEmail extends MessageTypeSearch {
     public MessageTypeSearchEmail(ConfigMap config) {
         super(config);

@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.dao;
+package ru.bgcrm.plugin.bgbilling.message;
 
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;

@@ -17,7 +17,7 @@ import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
-import ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk;
+import ru.bgcrm.plugin.bgbilling.message.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
 import ru.bgcrm.servlet.ActionServlet.Action;

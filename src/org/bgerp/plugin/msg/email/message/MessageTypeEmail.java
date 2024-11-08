@@ -1,4 +1,4 @@
-package org.bgerp.plugin.msg.email;
+package org.bgerp.plugin.msg.email.message;
 
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -31,6 +31,8 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.file.FileInfo;
 import org.bgerp.model.file.SessionTemporaryFiles;
+import org.bgerp.plugin.msg.email.MessageParser;
+import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 import org.bgerp.util.Log;
 

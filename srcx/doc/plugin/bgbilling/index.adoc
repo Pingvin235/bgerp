@@ -368,81 +368,15 @@ NOTE: Создание нового договора возможно тольк
 Настройка связки BGERP с плагином HelpDesk BGBilling а позволяет:
 [square]
 * получать отображение тем HelpDesk одного или нескольких биллингов в виде процессов BGERP, автоматически привязываемых к договору и (если есть) к контрагенту;
-* вести переписку в темах с помощью стандартного механизма <<../../kernel/message/index.adoc#, сообщений>>;
+* вести переписку в темах с помощью стандартного механизма <<../../kernel/message/index.adoc#setup-type-bgbilling, сообщений>>;
 * устанавливать статусы тем, стоимость, менять исполнителей из карточки процесса в BGERP;
 * учитывать дополнительные параметры, привязанные к процессам HelpDesk.
-
-=== Настройка
-Всем пользователям, работающим с HelpDesk, должен быть сопоставлен <<config-user, аккаунт>> в биллинге.
-
-Для каждого биллинга, с которым необходима настройка указывается в конфигурации свой отдельный <<../../kernel/message/index.adoc#setup-type, тип сообщения>>, следующим образом:
-----
-messageType.<id>.title=<title>
-messageType.<id>.billingId=<billingId>
-messageType.<id>.class=MessageTypeHelpDesk
-messageType.<id>.user=<user>
-messageType.<id>.pswd=<pswd>
-messageType.<id>.processTypeId=<processTypeId>
-messageType.<id>.openStatusId=<openStatusId>
-messageType.<id>.closeStatusId=<closeStatusId>
-messageType.<id>.costParamId=<costParamId>
-messageType.<id>.statusParamId=<statusParamId>
-messageType.<id>.autoCloseParamId=<autoCloseParamId>
-messageType.<id>.pageSize=<pageSize>
-messageType.<id>.newMessageEvent=<event>
-# необязательные
-messageType.<id>.markMessagesReadStatusIds=<readStatusIds>
-# добавлять первое сообщение в описание процесса
-messageType.<id>.addFirstMessageInDescription=1
-# во время отладки ограничение синхронизацию одной темой
-#messageType.<id>.topicId=<topicId>
-----
-
-Где:
-[square]
-* *<id>* - код типа сообщения;
-* *<billingId>* - строковый <<config-server, идентификатор>> сервера биллинга;
-* *<user>* - пользователь биллинга, под которым BGERP будет производить периодическое сканирование тем для синхронизации;
-* *<pswd>* - пароль пользователя биллинга *<user>*;
-* *<processTypeId>* - тип создаваемого процесса;
-* *<openStatusId>* - код статуса, в который процесс переводится при открытии темы в биллинге;
-* *<closeStatusId>* - код статуса, в который процесс переводится при закрытии темы в биллинге;
-* *<costParamId>* - код текстового параметра процесса со стоимостью обращения;
-* *<statusParamId>* - код спискового параметра процесса со статусом темы, значения должны соответствовать занесённым в справочник BGBilling;
-* *<autoCloseParamId>* - код спискового параметра с флагом автозакрытия темы, должно быть одно значение 1=Да;
-* *<pageSize>* - количество отслеживаемых тем HelpDesk, можно выставить в 10000;
-* *<event>* - 1, если необходимо генерировать событие при поступлении нового сообщения в тему, при первичном импорте лучше установить в 0 - не генерировать;
-* *<readStatusIds>* - коды статусов процессов, при переводе в которые все сообщения помечаются прочитанными (необязательно).
-
-Тип процесса <processTypeId> должен существовать, у него должны присутствовать указанные выше параметры и статусы, переходы в которые должны быть разрешены.
-
-Пример настройки:
-----
-messageType.2.title=HD
-messageType.2.billingId=bg
-messageType.2.class=MessageTypeHelpDesk
-messageType.2.user=bgcrm
-messageType.2.pswd=bgcrm
-messageType.2.processTypeId=3
-messageType.2.costParamId=23
-messageType.2.statusParamId=25
-messageType.2.autoCloseParamId=24
-messageType.2.openStatusId=1
-messageType.2.closeStatusId=4
-messageType.2.pageSize=100000
-messageType.2.newMessageEvent=1
-messageType.2.markMessagesReadStatusIds=2,3,4,5
-----
-
-После добавления данного типа сообщения при первом выполнении задачи <<../../kernel/message/index.adoc#setup-scheduler, синхронизации>> в системе создаются процессы указанного типа,
-куда будут импортированы параметры тем и их менеджеры. При произведении модификаций над процессом в BGERP, как то: смена исполнителя,
-параметра - обращение в BGBilling будет выполняться от лица модифицирующего пользователя, т.е. либо с его логином-паролем либо с указанными в его конфигурации.
 
 === Работа
 Процесс, связанный с темой HelpDesk выглядит примерно следующим образом. Работа производится через стандартную вкладку с <<../../kernel/message/index.adoc#usage-process, сообщениями>> процесса.
 Там же могут присутствовать сообщения других типов: EMail переписка, заметки.
 
-image::_res/i0100.png[]
+image::_res/process_helpdesk.png[]
 
 NOTE: После первичного создания у процесса можно изменять тип, связь с топиком HelpDesk не потеряется.
 

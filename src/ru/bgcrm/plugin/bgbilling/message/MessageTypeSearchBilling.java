@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.dao;
+package ru.bgcrm.plugin.bgbilling.message;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;

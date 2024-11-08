@@ -15,9 +15,9 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
 
-    static final String ENDPOINT_MESSAGE_VIEWER = PATH_JSP_USER + "/message_viewer.jsp";
-    static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/process_message_header.jsp";
-    static final String ENDPOINT_MESSAGE_EDITOR = PATH_JSP_USER + "/process_message_editor.jsp";
+    public static final String ENDPOINT_MESSAGE_VIEWER = PATH_JSP_USER + "/message_viewer.jsp";
+    public static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/process_message_header.jsp";
+    public static final String ENDPOINT_MESSAGE_EDITOR = PATH_JSP_USER + "/process_message_editor.jsp";
 
     private Plugin() {
         super(ID);

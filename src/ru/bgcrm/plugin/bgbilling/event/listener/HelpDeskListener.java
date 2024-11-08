@@ -29,7 +29,7 @@ import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk;
+import ru.bgcrm.plugin.bgbilling.message.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
 import ru.bgcrm.util.Utils;

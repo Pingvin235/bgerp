@@ -25,7 +25,7 @@ E-Mail, телефоны и т.п.. Процесс может легко быт�
 Following settings should be done in the configuration.
 
 [[setup-type]]
-=== Типы
+=== Types
 Типы сообщения настраиваются в конфигурации, одна или несколько записей вида:
 ----
 messageType.<id>.title=<title>
@@ -37,7 +37,7 @@ messageType.<id>.class=<messageTypeClassName>
 * *<title>* - наименование типа сообщения;
 * *<messageTypeClassName>* - имя класса-обработчика сообщений.
 
-Опциональные параметры:
+Optional config:
 ----
 # не информировать о необработанных сообщениях данного типа
 messageType.<id>.unprocessedMessageNotify=0
@@ -45,8 +45,68 @@ messageType.<id>.unprocessedMessageNotify=0
 messageType.<id>.check.empty.subject=0
 ----
 
-Остальные параметры различаются для разных видов сообщений.
+Rest of configurations is different for message types.
 
+[cols="a,a", options="header"]
+|===
+
+|*<messageTypeClassName>*, description
+|Configuration
+
+|[[setup-type-note]] *MessageTypeNote*
+
+Used for appending process notes.
+
+image::_res/message_notes.png[width="800"]
+
+|:hardbreaks: Optional config:
+----
+messageType.<id>.create.unread=1
+----
+
+Allows to create notes as unread.
+
+Example of configuration:
+----
+messageType.100.title=Note
+messageType.100.class=MessageTypeNote
+----
+
+|[[setup-type-call]] *MessageTypeCall*
+
+Тип сообщения представляет из себя звонок, который обрабатывается оператором.
+
+Для данного типа сообщения в оснастке <<#usage-queue, обработки>> сообщений отображается поле занятия номера.
+Это означает, что в системе может быть зарегистрирован только один тип сообщения Call.
+
+image::_res/i0109.png[]
+
+As a call's supplier should be used <<../../plugin/asterisk/index.adoc#, Asterisk>> plugin or external <<../extension.adoc#run-http, HTTP requests>>.
+
+|:hardbreaks: Optional config:
+----
+messageType.<id>.offerNumberFromParamId=<offerNumberFromParamId>
+messageType.<id>.autoNumberRegister=<autoNumberRegister>
+----
+Where:
+[square]
+* *<offerNumberFromParamId>* - код текстового параметра пользователя, содержащий номер, предлагаемый к занятию по-умолчанию.
+* *<autoNumberRegister>* - 0, to disable automatic registering user number on login.
+
+include::../../plugin/msg/email/message_types.adocf[]
+
+include::../../plugin/slack/message_types.adocf[]
+
+// DO NOT TRANSLATE for BGBilling Plugin!!!
+include::../../plugin/bgbilling/message_types.adocf[]
+|===
+
+For message type can be defined different search modes (1) and contact savers (2)
+
+image::_res/message_process.png[]
+
+[[setup-type-search]]
+==== Search Modes
 Для типа сообщения могут быть указаны один или несколько режимов поиска:
 ----
 messageType.<id>.search.<searchModeId>.title=<title>
@@ -59,26 +119,12 @@ messageType.<id>.search.<searchModeId>.class=<searchModeClassName>
 * *<searchModeclassName>* - имя класса, реализующего режим поиска.
 
 Первый режим поиска применяется по-умолчанию при открытии сообщения для обработки.
-
-Необязателен к указанию и класс, сохраняющий контакт.
-
-----
-messageType.<id>.saver.class=<saverClassName>
-----
-
-На скриншоте цифрой 1 изображены режимы поиска, 2 - режимы сохранения контакта.
-
-image::_res/message_process.png[]
-
-Режимы поиска и сохранения могут быть специфичны для типа сообщения.
 Search modes, marked as *Auto* are automatically and parallel running when a message is opened.
 
-[[setup-type-search]]
-==== Режимы поиска
 [cols="a,a", options="header"]
 |===
 
-|Значение <searchModeClassName>, что ищет
+|Значение *<searchModeClassName>*, что ищет
 |Конфигурация и пример
 
 |:hardbreaks:
@@ -92,18 +138,6 @@ image::_res/i0111.png[]
 ----
 messageType.1.search.2.title=Customer by Title
 messageType.1.search.2.class=MessageTypeSearchCustomerByTitle
-----
-
-|:hardbreaks:
-*MessageTypeSearchEmail*
-*Auto*
-Поиск контрагента по Email для типа сообщения Email.
-|:hardbreaks:
-Нет дополнительных параметров.
-Пример:
-----
-messageType.1.search.1.title=Customer by EMail
-messageType.1.search.1.class=MessageTypeSearchEmail
 ----
 
 |:hardbreaks:
@@ -131,12 +165,20 @@ messageType.1.search.1.commands=customerByPhoneParam:10
 messageType.1.search.1.expressionNumberPreprocess=if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;
 ----
 
-// DO NOT TRANSLATE modes for BGBilling Plugin!!!
+include::../../plugin/msg/email/message_search_modes.adocf[]
+
+// DO NOT TRANSLATE for BGBilling Plugin!!!
 include::../../plugin/bgbilling/message_search_modes.adocf[]
 |===
 
 [[setup-type-saver]]
-==== Режимы сохранения
+==== Contact Savers
+Contact Saver has defined in a message type configuration:
+
+----
+messageType.<id>.saver.class=<saverClassName>
+----
+
 [cols="a,a", options="header"]
 |===
 
@@ -144,26 +186,8 @@ include::../../plugin/bgbilling/message_search_modes.adocf[]
 |Конфигурация и пример
 
 |:hardbreaks:
-*MessageTypeContactSaverEmail*
-Сохранение EMail в параметр типа "email" контрагента. Возможно сохранение домена либо только EMail а.
-|:hardbreaks:
-----
-messageType.<id>.saver.class=MessageTypeContactSaverEmail
-messageType.<id>.saver.paramId=<paramId>
-----
-Где:
-[square]
-* *<paramId>* - код параметра контрагента типа "EMail".
-
-Пример:
-----
-messageType.1.saver.class=MessageTypeContactSaverEmail
-messageType.1.saver.paramId=27
-----
-
-|:hardbreaks:
 *MessageTypeContactSaverPhone*
-Сохранение телефона в параметр типа "phone" контрагента. Возможно сохранение домена либо только EMail а.
+Сохранение телефона в параметр типа "phone" контрагента.
 |:hardbreaks:
 ----
 messageType.<id>.saver.class=MessageTypeContactSaverPhone
@@ -179,61 +203,11 @@ messageType.1.saver.class=MessageTypeContactSaverPhone
 messageType.1.saver.paramId=37
 ----
 
-// DO NOT TRANSLATE modes for BGBilling Plugin!!!
+include::../../plugin/msg/email/message_save_modes.adocf[]
+
+// DO NOT TRANSLATE modes BGBilling Plugin!!!
 include::../../plugin/bgbilling/message_save_modes.adocf[]
 |===
-
-[[setup-type-note]]
-==== Type Note
-*<messageTypeClassName>=MessageTypeNote*
-
-Used for appending process notes.
-
-image::_res/message_notes.png[width="800"]
-
-Addidtional optional settings:
-----
-messageType.<id>.create.unread=1
-----
-
-Allows to create notes as unread.
-
-Example of configuration:
-----
-messageType.100.title=Note
-messageType.100.class=MessageTypeNote
-----
-
-[[setup-type-call]]
-==== Type Call
-*<messageTypeClassName>=MessageTypeCall*
-
-Дополнительные необязательные параметры:
-----
-messageType.<id>.offerNumberFromParamId=<offerNumberFromParamId>
-messageType.<id>.autoNumberRegister=<autoNumberRegister>
-----
-Где:
-[square]
-* *<offerNumberFromParamId>* - код текстового параметра пользователя, содержащий номер, предлагаемый к занятию по-умолчанию.
-* *<autoNumberRegister>* - 0, to disable automatic registering user number on login.
-
-Тип сообщения представляет из себя звонок, который обрабатывается оператором.
-Для данного типа сообщения в оснастке <<#usage-queue, обработки>> сообщений отображается поле занятия номера. Строго говоря, это означает,
-что в системе может быть зарегистрирован только один тип сообщения Call.
-
-image::_res/i0109.png[]
-
-As a call's supplier should be used <<../../plugin/asterisk/index.adoc#, Asterisk>> plugin or external <<../extension.adoc#run-http, HTTP requests>>.
-
-[[setup-type-other]]
-==== Other Text Types
-The following plugins provide support for different text message types:
-[square]
-* <<../../plugin/msg/email/index.adoc#, E-Mail>>
-* <<../../plugin/feedback/index.adoc#, Feedback>>
-* <<../../plugin/bgbilling/index.adoc#helpdesk, BGBilling>> HelpDesk
-* <<../../plugin/slack/index.adoc#, Slack>>
 
 [[setup-tag]]
 === Tags

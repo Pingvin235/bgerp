@@ -18,7 +18,7 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.process.link.ProcessLink;
-import org.bgerp.plugin.msg.email.MessageTypeEmail;
+import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -11,7 +11,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGSecurityException;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.link.ProcessLink;
-import org.bgerp.plugin.msg.email.MessageTypeEmail;
+import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import org.bgerp.plugin.msg.feedback.Plugin;
 
 import ru.bgcrm.dao.CustomerDAO;
