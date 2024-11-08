@@ -20,7 +20,7 @@
 
 <td colspan="${colspan}" class="${filters} bgcolor-${color.replace('#', '')}" bg-id="${item.processId}" bg-parent-id="${parentId}" bg-type-id="${item.process.typeId}" draggable="${draggable}">
 	<c:set var="content">
-		<ui:process-link process="${item.process}"/>&nbsp;
+		<ui:process-link id="${item.process.id}"/>&nbsp;
 		${board.config.getCellContent(item)}
 	</c:set>
 
