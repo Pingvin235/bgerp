@@ -46,7 +46,7 @@ public class BoardConfig extends Config implements org.bgerp.model.base.iface.Id
         super(null);
         this.id = id;
         this.title = config.get("title", "???");
-        this.paramId = config.getInt("param");
+        this.paramId = config.getInt("on.changed.param");
         this.columnsConfig = new ColumnsConfig(config);
         this.columns = loadColumns(config);
         this.columnMapSize = columns.size() + 2;

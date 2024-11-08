@@ -1,10 +1,10 @@
 address.format.streetHouse=(${street})(, ${house})
 
 grpl:board.1.title={@BOARD_TITLE}
-grpl:board.1.param={@PARAM_WORK_TYPE_ID}
+grpl:board.1.on.changed.param={@PARAM_WORK_TYPE_ID}
 
-grpl:board.1.column.cities={@CITY_MUENCHEN_ID},{@CITY_STERLITAMAK_ID},{@CITY_UFA_ID}
 grpl:board.1.column.param={@PARAM_ADDRESS_ID}
+grpl:board.1.column.cities={@CITY_MUENCHEN_ID},{@CITY_STERLITAMAK_ID},{@CITY_UFA_ID}
 # modified title
 grpl:board.1.column.{@CITY_MUENCHEN_ID}.title=MUENCHEN
 
