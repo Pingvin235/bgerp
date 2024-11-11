@@ -85,6 +85,8 @@ $$.grpl = new function() {
 	const dragInit = (tableUiid, dialogUiid, boardId, requestURI, returnUrl) => {
 		const $table = $(document.getElementById(tableUiid));
 
+		let dragId;
+
 		$table.find('.grpl-board-process')
 			.attr('draggable', true)
 			.on('dragstart', function (event) {
@@ -92,7 +94,7 @@ $$.grpl = new function() {
 
 				debug('drag', this, event);
 
-				event.dataTransfer.setData('id', event.target.id);
+				dragId = event.target.id;
 			});
 
 		const removeAllowed = function () {
@@ -102,7 +104,7 @@ $$.grpl = new function() {
 		$table.find('.grpl-board-process-placement')
 			.on('dragover', function (event) {
 				event = event.originalEvent;
-				const el = document.getElementById(event.dataTransfer.getData('id'));
+				const el = document.getElementById(dragId);
 
 				debug('dragover', this, event, el);
 
@@ -117,7 +119,7 @@ $$.grpl = new function() {
 			.on('mouseleave', removeAllowed)
 			.on('drop', function (event) {
 				event = event.originalEvent;
-				const el = document.getElementById(event.dataTransfer.getData('id'));
+				const el = document.getElementById(dragId);
 
 				debug('drop', this, event, el);
 
