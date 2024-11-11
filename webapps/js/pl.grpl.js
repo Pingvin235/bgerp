@@ -112,8 +112,10 @@ $$.grpl = new function() {
 				const $target = $(this);
 
 				if (parseInt($target.attr(ATTR_DURATION)) >= parseInt($el.attr(ATTR_DURATION)) &&
-					$target.closest('td').attr(ATTR_COLUMN_ID) === $el.closest('td').attr(ATTR_COLUMN_ID))
+					$target.closest('td').attr(ATTR_COLUMN_ID) === $el.closest('td').attr(ATTR_COLUMN_ID)) {
 					$target.addClass(CLASS_DROP_ALLOWED);
+					event.preventDefault();
+				}
 			})
 			.on('dragleave', removeAllowed)
 			.on('mouseleave', removeAllowed)
