@@ -8,3 +8,5 @@ scheduler.task.backupFull.class=Backup
 scheduler.task.backupFull.db=1
 scheduler.task.backupFull.hours=3
 scheduler.task.backupFull.minutes=10
+# delete old backup files
+scheduler.task.backupFull.delete.old=1
