@@ -9,12 +9,9 @@
 	<c:set var="id" value="${process.id}"/>
 </c:if>
 
-<c:set var="text">
-	<c:choose>
-		<c:when test="${not empty text}">${text}</c:when>
-		<c:otherwise>${empty process.title ? id : process.title}</c:otherwise>
-	</c:choose>
-</c:set>
+<c:if test="${empty text}">
+	<c:set var="text" value="${empty process.title ? id : process.title}"/>
+</c:if>
 
 <ui:when type="user"><%--
 --%><a href="/user/process#${id}" onclick="$$.process.open(${id}); return false;">${text}</a><%--

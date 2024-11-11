@@ -202,7 +202,7 @@ Incoming variables:
 									</a>
 								</c:when>
 								<c:when test="${column.value eq 'descriptionLink'}">
-									<ui:process-link id="${process.id}" text="${col}"/>
+									<ui:process-link process="${process}" text="${col}"/>
 								</c:when>
 								<c:otherwise>${col}</c:otherwise>
 							</c:choose>
