@@ -23,8 +23,8 @@ backup:enable=1
 [[setup-scheduler]]
 === Scheduler
 Configure a <<../../../kernel/setup.adoc#scheduler, scheduled task>> with class *Backup* to perform backups automatically. Example:
-[snippet, from="# b", to="s=10", remove-leading=    "]
-link:../../../../itest/org/bgerp/itest/plugin/svc/backup/BackupTest.config.txt#L1-L10[Backup Scheduler Config Sample]
+[snippet, from="# b", to="old=1", remove-leading=    "]
+link:../../../../itest/org/bgerp/itest/plugin/svc/backup/BackupTest.config.txt#L1-L12[Backup Scheduler Config Sample]
 
 [[setup-remote-ssh]]
 === Setting up remote backup via SSH
