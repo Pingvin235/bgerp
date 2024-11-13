@@ -18,7 +18,6 @@ import ru.bgcrm.dao.process.SecretExpression;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -123,10 +122,6 @@ public class ProcessAction extends BaseAction {
         var process = new ProcessDAO(con).getProcess(form.getId());
         if (config == null || !config.isOpen(process, form))
             return null;
-
-        var type = ru.bgcrm.struts.action.ProcessAction.getProcessType(process.getTypeId());
-        var refConfig = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-        process.setReference(refConfig.getReference(con, form, process, "open.processCard"));
 
         form.setRequestAttribute("config", config);
         form.setResponseData("process", process);

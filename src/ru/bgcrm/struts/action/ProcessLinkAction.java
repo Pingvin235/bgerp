@@ -87,10 +87,6 @@ public class ProcessLinkAction extends ProcessAction {
             processLinkDAO.searchLinkedProcessList(searchResult, LikePattern.START.get(objectType), id, null,
                     paramProcessTypeId, form.getParamValues("statusId"), form.getParam("paramFilter"),
                     paramOpen);
-
-            // generate references
-            for (Pair<String, Process> pair : searchResult.getList())
-                setProcessReference(con, form, pair.getSecond(), objectType);
         }
 
         // filter type list

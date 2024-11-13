@@ -67,7 +67,6 @@ import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
-import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
@@ -222,16 +221,13 @@ public class WorkAction extends BaseAction {
                     WorkTask task = new WorkTask();
                     task.setGraphId(callboard.getId());
                     task.setProcessId(processId);
+                    task.setReference(process.getTitle());
                     task.setDuration(allowedSlot.duration);
                     task.setSlotFrom(allowedSlot.slotFrom);
                     task.setGroupId(allowedSlot.groupId);
                     task.setTeam(allowedSlot.shiftData.team);
                     task.setUserId(allowedSlot.shiftData.team > 0 ? 0 : userId);
                     task.setTime(time);
-
-                    // генерация описания процесса
-                    ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                    task.setReference(config.getReference(con, form, process, "callboard"));
 
                     new WorkTaskDAO(con).addTask(task);
 

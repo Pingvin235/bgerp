@@ -87,16 +87,9 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             .withLinkType(Set.of(category.getLinkType()));
         dao.search(pageable, category.isLink(), form.getId());
 
-        setReferences(form, conSet.getSlaveConnection(), pageable, category.isLink() ? "linkProcessList" : "linkedProcessList");
-
         form.setRequestAttribute("category", category);
 
         return html(conSet, form, PATH_JSP + "/show_category.jsp");
-    }
-
-    private void setReferences(DynActionForm form, Connection con, Pageable<Pair<String, Process>> pageable, String area) {
-        for (var pair : pageable.getList())
-            setProcessReference(con, form, pair.getSecond(), area);
     }
 
     public ActionForward addCreated(DynActionForm form, ConnectionSet conSet) throws Exception {

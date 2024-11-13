@@ -51,8 +51,6 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     private int priority;
 
     private String description = "";
-    @Deprecated
-    private String reference = "";
 
     private ProcessGroups groups = new ProcessGroups();
     private Set<ProcessExecutor> executors = new HashSet<>();
@@ -206,9 +204,6 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
         String result = title;
 
         if (Utils.isBlankString(result))
-            result = reference;
-
-        if (Utils.isBlankString(result))
             result = "#" + id + " " + Utils.escapeXml(description);
 
         return result;
@@ -225,11 +220,6 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     public Process withDescription(String value) {
         setDescription(value);
         return this;
-    }
-
-    @Deprecated
-    public void setReference(String reference) {
-        this.reference = reference;
     }
 
     /**
@@ -471,7 +461,6 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
         process.priority = priority;
         process.executors = new LinkedHashSet<>(executors);
         process.groups = new ProcessGroups(groups);
-        process.reference = reference;
         process.statusId = statusId;
         process.statusTime = statusTime;
         process.statusTitle = statusTitle;

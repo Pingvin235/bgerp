@@ -326,12 +326,4 @@ image::_res/process_set_time.png[width="800"]
 
 image::_res/i0150.png[]
 
-Цвет означает тип работ. Строка-описание процесса настраивается с помощью JEXL выражения в конфигурации типа процесса, в *objectTypes* указывется *callboard*.
-
-Пример:
-----
-processReference.{@inc:cnt}.objectTypes=callboard
-processReference.{@cnt}.stringExpression=u.escapeXml(u.maskNull(u.getFirst(processParam.addressValues(90, 'fromStreet')))) + " : " + process.getDescription()
-----
-
-Описание процесса для плана генерируется только в момент установки времени процесса и не изменяется в дальнейшем при правке процесса.
+Цвет означает тип работ.

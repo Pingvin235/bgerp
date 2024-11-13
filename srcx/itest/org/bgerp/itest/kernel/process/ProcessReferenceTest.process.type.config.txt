@@ -1,4 +1,0 @@
-processReference.{@inc:cnt}.objectTypes=customer,processCard
-processReference.{@cnt}.stringExpression=<<END
-    return "Reference 1: " + processParam.getValue({@PARAM_LIST_ID});
-END

@@ -63,7 +63,6 @@ import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TransactionProperties;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.Wizard;
-import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.process.wizard.base.WizardData;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
@@ -91,19 +90,13 @@ public class ProcessAction extends BaseAction {
         var process = new ProcessDAO(con, form).getProcess(form.getId());
         if (process == null) {
             process = new Process(form.getId());
-            process.setReference(l.l("ПРОЦЕСС ДЛЯ ВАС НЕ СУЩЕСТВУЕТ"));
+            process.setTitle(l.l("ПРОЦЕСС ДЛЯ ВАС НЕ СУЩЕСТВУЕТ"));
             form.setResponseData("process", process);
         } else {
             ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
             form.setResponseData("process", process);
 
             form.setRequestAttribute("processType", type);
-
-            // reference generation
-            if (type != null) {
-                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                process.setReference(config.getReference(conSlave, form, process, "processCard"));
-            }
 
             form.setRequestAttribute("ifaceStateMap", new IfaceStateDAO(conSlave).getIfaceStates(Process.OBJECT_TYPE, process.getId()));
 
@@ -844,10 +837,6 @@ public class ProcessAction extends BaseAction {
         Pageable<Pair<Process, MessagePossibleProcessSearch>> processSearchResult = new Pageable<>(form);
         new ProcessMessageDAO(conSet.getConnection(), form).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
 
-        var conSlave = conSet.getSlaveConnection();
-        for (var pair : processSearchResult.getList())
-            setProcessReference(conSlave, form, pair.getFirst(), "messagePossibleProcess");
-
         return html(conSet, form, PATH_JSP + "/message_possible_process_list.jsp");
     }
 
@@ -904,18 +893,5 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessRemovedEvent(form, process), con);
 
         return json(con, form);
-    }
-
-    protected void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
-        try {
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            if (type != null) {
-                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                process.setReference(config.getReference(con, form, process, objectType));
-            }
-        } catch (Exception e) {
-            process.setReference(e.getMessage());
-            log.error(e);
-        }
     }
 }
