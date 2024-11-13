@@ -12,8 +12,8 @@ import ru.bgcrm.struts.form.DynActionForm;
 
 public abstract class MessageTypeContactSaver {
     private static final List<IdTitled> STANDARD_MODE_LIST = List.of(
-        new IdTitled(0, "Не сохранять"),
-        new IdTitled(1, "Cохранить")
+        new IdTitled(1, "Cохранить"),
+        new IdTitled(0, "Не сохранять")
     );
 
     public MessageTypeContactSaver(ConfigMap config) throws Exception {}

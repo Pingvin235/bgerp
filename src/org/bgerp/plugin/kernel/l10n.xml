@@ -360,6 +360,7 @@
 	<p><ru>Контакт</ru><en>Contact</en></p>
 	<p><en>Open only</en><ru>Только открытые</ru></p>
 	<p><ru>Не сохранять</ru><en>Do not save</en></p>
+	<p><ru>Cохранить</ru><en>Save</en></p>
 	<p><ru>Cохранить EMail</ru><en>Save EMail</en></p>
 	<p><ru>Cохранить EMail домен</ru><en>Save EMail domain</en></p>
 	<p><ru>Дата генерации</ru><en>Generation date</en></p>
@@ -501,7 +502,6 @@
 	<p><en>Mark as unread</en><ru>Отметить непрочитанным</ru></p>
 	<p><en>Search string must be {} and more symbols length.</en><ru>Строка поиска должна быть {} и более симоволов длинной.</ru></p>
 	<p><en>Modified time</en><ru>Время изменения</ru></p>
-	<p><en>Cохранить</en><ru>Save</ru></p>
 	<p><en>Extend right process card area on scroll down</en><ru>Расширять правую часть карточки процесса при промотке вниз</ru></p>
 	<p><en>set</en><ru>уст.</ru></p>
 	<p><en>License Check Error</en><ru>Ошибка проверки лицензии</ru></p>
