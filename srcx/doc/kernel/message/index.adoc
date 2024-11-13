@@ -118,7 +118,7 @@ messageType.<id>.search.<searchModeId>.class=<searchModeClassName>
 * *<title>* - наименование режима поиска;
 * *<searchModeclassName>* - имя класса, реализующего режим поиска.
 
-Первый режим поиска применяется по-умолчанию при открытии сообщения для обработки.
+// Первый режим поиска применяется по-умолчанию при открытии сообщения для обработки.
 Search modes, marked as *Auto* are automatically and parallel running when a message is opened.
 
 [cols="a,a", options="header"]
@@ -136,8 +136,8 @@ image::_res/i0111.png[]
 Нет дополнительных параметров.
 Пример:
 ----
-messageType.1.search.2.title=Customer by Title
-messageType.1.search.2.class=MessageTypeSearchCustomerByTitle
+messageType.1.search.{@inc:cnt}.title=Customer by Title
+messageType.1.search.{@cnt}.class=MessageTypeSearchCustomerByTitle
 ----
 
 |:hardbreaks:
@@ -159,10 +159,10 @@ messageType.<id>.search.<searchModeId>.expressionNumberPreprocess=<jexl>
 
 Пример:
 ----
-messageType.1.search.1.title=Customer by Phone
-messageType.1.search.1.class=MessageTypeSearchCall
-messageType.1.search.1.commands=customerByPhoneParam:10
-messageType.1.search.1.expressionNumberPreprocess=if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;
+messageType.1.search.{@inc:cnt}.title=Customer by Phone
+messageType.1.search.{@cnt}.class=MessageTypeSearchCall
+messageType.1.search.{@cnt}.commands=customerByPhoneParam:10
+messageType.1.search.{@cnt}.expressionNumberPreprocess=if (numberFrom.length() == 11) { numberFrom = numberFrom.substring(1) }; return numberFrom;
 ----
 
 include::../../plugin/msg/email/message_search_modes.adocf[]
@@ -187,17 +187,17 @@ messageType.<id>.saver.class=<saverClassName>
 
 |:hardbreaks:
 *MessageTypeContactSaverPhone*
-Сохранение телефона в параметр типа "phone" контрагента.
+Save the calling phone number to parameter with type *phone* of process or a linked customer
 |:hardbreaks:
 ----
 messageType.<id>.saver.class=MessageTypeContactSaverPhone
 messageType.<id>.saver.paramId=<paramId>
 ----
-Где:
+Where:
 [square]
-* *<paramId>* - код параметра понтрагента типа "Phone".
+* *<paramId>* - the parameter ID
 
-Пример:
+Example:
 ----
 messageType.1.saver.class=MessageTypeContactSaverPhone
 messageType.1.saver.paramId=37

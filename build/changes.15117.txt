@@ -1,0 +1,1 @@
+A: MessageTypeContactSaverPhone saving a calling number to process parameter. https://bgerp.org/change/0/doc/kernel/message/index.html#setup-type-saver

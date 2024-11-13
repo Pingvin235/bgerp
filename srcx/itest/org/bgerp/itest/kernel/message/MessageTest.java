@@ -41,8 +41,6 @@ public class MessageTest {
 
     public static volatile int configId;
 
-    private int processTypeId;
-
     // TODO: Logically the message type has to be added by EMailTest.
     public static volatile MessageTypeEmail messageTypeEmailDemo;
     public static volatile MessageTypeNote messageTypeNote;
@@ -53,6 +51,7 @@ public class MessageTest {
     public static volatile Tag tagTodo;
     public static volatile Tag tagOpen;
 
+    private int processTypeId;
     private int process1Id;
     private int process2Id;
 
@@ -141,5 +140,11 @@ public class MessageTest {
         dao.addLink(new ProcessLink(process1Id, Customer.OBJECT_TYPE, CustomerTest.customerPersonIvan.getId(),
                 CustomerTest.customerPersonIvan.getTitle()));
         dao.addLink(new ProcessLink(process2Id, Customer.OBJECT_TYPE, CustomerTest.customerOrgNs.getId(), CustomerTest.customerOrgNs.getTitle()));
+    }
+
+    @Test(dependsOnMethods =  "config")
+    public void message() throws Exception {
+        MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100",
+                TITLE + " Unprocessed message from Ivan", "");
     }
 }
