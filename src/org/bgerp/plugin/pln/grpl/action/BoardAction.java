@@ -44,7 +44,7 @@ public class BoardAction extends BaseAction {
 
         form.setResponseData("boards", config.getBoards());
 
-        return html(conSet, form, PATH_JSP + "/null.jsp");
+        return html(conSet, form, PATH_JSP + "/board.jsp");
     }
 
     public ActionForward show(DynActionForm form, Connection con) throws Exception {

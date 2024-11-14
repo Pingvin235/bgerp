@@ -18,6 +18,15 @@
 	background-color: #b7e1cd80;
 }
 
+.grpl-board-process-description {
+	position: absolute;
+	padding: 0.5em;
+	border: var(--popup-border);
+	background-color: #ffffff;
+	box-shadow: var(--popup-box-shadow);
+	z-index: 999;
+}
+
 .grpl-board-process, .grpl-board-process-placement {
 	padding: 0.5em 1em;
 }

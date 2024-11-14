@@ -47,6 +47,9 @@
 										<c:if test="${not empty slot.time}">(${slot.time})&nbsp;</c:if>
 										<ui:process-link process="${slot.process}"/>
 										<c:if test="${empty slot.time}">&nbsp;(${tu.format(slot.duration)})</c:if>
+										<div class="grpl-board-process-description drop" style="display: none;">
+											${slot.process.description}
+										</div>
 									</div>
 								</c:when>
 								<c:otherwise>
@@ -62,9 +65,11 @@
 
 	<script>
 		$(function () {
-			$$.grpl.menuInit('${uiid}', '${menuUiid}', ${board.id}, '${form.requestURI}', '${form.requestUrl}');
+			$$.grpl.menu('${uiid}', '${menuUiid}', ${board.id}, '${form.requestURI}', '${form.requestUrl}');
 
-			$$.grpl.dragInit('${uiid}', '${dialogUiid}', ${board.id}, '${form.requestURI}', '${form.requestUrl}');
+			$$.grpl.drag('${uiid}', '${dialogUiid}', ${board.id}, '${form.requestURI}', '${form.requestUrl}');
+
+			$$.grpl.popup('${uiid}');
 
 			$('#content > #grpl-board').data('onShow', () => {
 				$$.ajax.loadContent('${form.requestUrl}', $('#${uiid}'));

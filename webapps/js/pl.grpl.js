@@ -9,7 +9,7 @@ $$.grpl = new function() {
 	const ATTR_COLUMN_ID = 'bg-column-id';
 	const ATTR_DATE = 'bg-date';
 
-	const menuInit = (tableUiid, menuUiid, boardId, requestURI, returnUrl) => {
+	const menu = (tableUiid, menuUiid, boardId, requestURI, returnUrl) => {
 		const $table = $(document.getElementById(tableUiid));
 		const $menu = $(document.getElementById(menuUiid)).menu();
 
@@ -77,12 +77,7 @@ $$.grpl = new function() {
 			});
 	}
 
-	const ATTR_DURATION = 'bg-duration';
-	const ATTR_PROCESS_ID = 'bg-process-id';
-
-	const CLASS_DROP_ALLOWED = 'grpl-board-drop-allowed';
-
-	const dragInit = (tableUiid, dialogUiid, boardId, requestURI, returnUrl) => {
+	const drag = (tableUiid, dialogUiid, boardId, requestURI, returnUrl) => {
 		const $table = $(document.getElementById(tableUiid));
 
 		let dragId;
@@ -96,6 +91,9 @@ $$.grpl = new function() {
 
 				dragId = event.target.id;
 			});
+
+		const ATTR_DURATION = 'bg-duration';
+		const CLASS_DROP_ALLOWED = 'grpl-board-drop-allowed';
 
 		const removeAllowed = function () {
 			$(this).removeClass(CLASS_DROP_ALLOWED);
@@ -136,7 +134,7 @@ $$.grpl = new function() {
 							method: 'dialog',
 							id: boardId,
 							columnId: $targetTd.attr(ATTR_COLUMN_ID),
-							processId: $(el).attr(ATTR_PROCESS_ID),
+							processId: $(el).attr('bg-process-id'),
 							date: $targetTd.closest('tr').attr(ATTR_DATE),
 							time: $target.attr('bg-time'),
 							duration: $target.attr(ATTR_DURATION),
@@ -156,8 +154,23 @@ $$.grpl = new function() {
 			});
 	}
 
+	const popup = (tableUiid) => {
+		const $table = $(document.getElementById(tableUiid));
+
+		$table.find('.grpl-board-process > a')
+			.on('mouseover', function () {
+				$$.ui.dropShow($(this.parentElement.querySelector('.grpl-board-process-description')));
+			});
+
+		$table.find('.grpl-board-process > .grpl-board-process-description')
+			.on('mouseleave', function () {
+				$(this).hide();
+			});
+	}
+
 	// public functions
-	this.menuInit = menuInit;
+	this.menu = menu;
 	this.menuClick = menuClick;
-	this.dragInit = dragInit;
+	this.drag = drag;
+	this.popup = popup;
 }
