@@ -11,7 +11,6 @@
 .combo .text-pref {
 	color: var(--p-color);
 	padding-left: 0.5em;
-	/*height: 100%;*/
 	white-space: nowrap;
 }
 
@@ -25,7 +24,6 @@
 }
 
 .combo > .icon {
-	/*height: 100%;*/
 	padding-right: 0.5em;
 }
 

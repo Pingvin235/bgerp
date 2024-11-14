@@ -49,7 +49,7 @@
 }
 
 .select-mult ul.drop-list {
-	border: 1px solid #d5d5d5;
+	border: var(--popup-border);
 	background-color: #ffffff;
 	/* чтобы список значений не был шире редактируемой области сверху */
 	box-sizing: border-box;
@@ -62,7 +62,7 @@
 }
 
 .select-mult ul.drop-list >  li {
-	border-top: 1px solid #d5d5d5;
+	border-top: var(--popup-border);
 	position: relative;
 	padding: 0.5em;
 	padding-left: 1.8em;

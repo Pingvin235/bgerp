@@ -13,4 +13,7 @@
 	--table-head-bg-color: #eaf3f9;
 	--table-head-txt-color: #346484;
 	--table-hl-bg-color: #a9f5f2;
+	/* popup */
+	--popup-border: 1px solid #d5d5d5;
+	--popup-box-shadow: 0 0 5px #cbcbcb;
 }

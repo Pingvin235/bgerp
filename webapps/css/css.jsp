@@ -27,7 +27,7 @@ time, mark, audio, video {
 	vertical-align: middle;
 }
 
-<%@ include file="style.var.color.css.jsp"%>
+<%@ include file="style.var.css.jsp"%>
 
 ol, ul {
 	list-style: none;
