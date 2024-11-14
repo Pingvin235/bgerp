@@ -116,6 +116,25 @@ Example with title generation out of process ID, type title and parameter with I
 title.expression=p.getId() + " " + p.getTypeTitle() + " " + pp.val(3)
 ----
 
+[[setup-type-description]]
+==== Description
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process description is *Kernel Process Description*.
+
+Similar to process title may be gererated process description by placing in the type configuration:
+----
+description.expression=<jexl>
+----
+
+Where *<jexl>* contains <<../extension.adoc#jexl, JEXL>> expression with the following variables in context:
+[square]
+* *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[] - the process;
+* *pp* or *processParam*  - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - process parameters.
+
+Example with title generation out of process ID, type title and parameter with ID = 3 value.
+----
+description.expression=p.getId() + " " + p.getTypeTitle() + " " + pp.val(3)
+----
+
 [[setup-type-param-behaviour]]
 ==== Params Behaviour
 ----

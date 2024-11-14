@@ -1,0 +1,2 @@
+# When changing the list param or process properties:
+- Process description has to be updated

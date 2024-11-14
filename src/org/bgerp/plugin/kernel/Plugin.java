@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.event.listener.ProcessTitleListener;
+import org.bgerp.event.listener.ProcessTextListener;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.Locker;
@@ -102,7 +102,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
         // event listeners
         new CustomerTitleListener();
-        new ProcessTitleListener();
+        new ProcessTextListener();
         new ParamValidatorSystemListener();
         new ProcessClosingListener();
         new DefaultProcessChangeListener();
