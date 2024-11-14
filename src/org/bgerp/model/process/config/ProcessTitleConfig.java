@@ -10,6 +10,7 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.CalledParamIdsExpressionObject;
 import ru.bgcrm.dao.expression.Expression;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.util.Utils;
 
 public class ProcessTitleConfig extends Config {
@@ -34,6 +35,10 @@ public class ProcessTitleConfig extends Config {
 
     public String getExpression() {
         return expression;
+    }
+
+    public boolean isProcessUsed() {
+        return expression.contains(ProcessExpressionObject.KEY + ".") || expression.contains(ProcessExpressionObject.KEY_SHORT + ".");
     }
 
     public Set<Integer> getParamIds() {

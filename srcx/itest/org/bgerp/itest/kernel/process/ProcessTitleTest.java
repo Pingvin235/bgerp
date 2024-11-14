@@ -57,7 +57,7 @@ public class ProcessTitleTest {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
         var process = processDao.getProcess(processId);
-        Assert.assertEquals(process.getTitle(), "#" + processId + " " + TITLE);
+        Assert.assertEquals(process.getTitle(), "LIST VALUE: ; DESCRIPTION: " + TITLE);
 
         Set<Integer> value = Set.of(2);
         paramDao.updateParamList(processId, paramListId, value);

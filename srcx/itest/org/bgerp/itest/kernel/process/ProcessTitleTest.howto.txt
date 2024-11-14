@@ -1,2 +1,2 @@
-# When changing the list param:
+# When changing the list param or process properties:
 - Process title has to be updated
