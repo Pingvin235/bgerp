@@ -88,7 +88,7 @@ function create_db () {
 
     echo "Backup name: $CUR_BACKUP_NAME"
 
-    ${ZIP} -r ../${BACKUP_DIR}/${CUR_BACKUP_NAME} ${DUMP} ${LIB} ${WEBAPPS}
+    ${ZIP} -rq ../${BACKUP_DIR}/${CUR_BACKUP_NAME} ${DUMP} ${LIB} ${WEBAPPS}
     cd ..
 
     rm -rf ${BACKUP_TMP}
