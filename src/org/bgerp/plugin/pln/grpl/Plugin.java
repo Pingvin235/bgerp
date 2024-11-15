@@ -47,10 +47,12 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
                 return;
 
             var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(e.getObjectId());
-            var column = board.getColumnOrThrow(conSet, process);
-            var duration = board.getProcessDuration(conSet, process);
+            if (board.processTypeId(process.getTypeId())) {
+                var column = board.getColumnOrThrow(conSet, process);
+                var duration = board.getProcessDuration(conSet, process);
 
-            new GrplDAO(conSet.getConnection()).updateSlot(board, process, column.getId(), duration);
+                new GrplDAO(conSet.getConnection()).updateSlot(board, process, column.getId(), duration);
+            }
         }, ParamChangedEvent.class);
     }
 

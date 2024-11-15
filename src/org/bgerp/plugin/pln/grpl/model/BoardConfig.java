@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
@@ -34,6 +35,7 @@ public class BoardConfig extends Config implements org.bgerp.model.base.iface.Id
     private final int id;
     private final String title;
     private final int paramId;
+    private final Set<Integer> processTypeIds;
     private final ColumnsConfig columnsConfig;
     private final Map<Integer, IdTitle> columns;
     final int columnMapSize;
@@ -47,6 +49,7 @@ public class BoardConfig extends Config implements org.bgerp.model.base.iface.Id
         this.id = id;
         this.title = config.get("title", "???");
         this.paramId = config.getInt("on.changed.param");
+        this.processTypeIds = Collections.unmodifiableSet(Utils.toIntegerSet(config.get("process.types")));
         this.columnsConfig = new ColumnsConfig(config);
         this.columns = loadColumns(config);
         this.columnMapSize = columns.size() + 2;
@@ -88,6 +91,10 @@ public class BoardConfig extends Config implements org.bgerp.model.base.iface.Id
 
     public int getParamId() {
         return paramId;
+    }
+
+    public boolean processTypeId(int id) {
+        return processTypeIds.isEmpty() || processTypeIds.contains(id);
     }
 
     public Map<Integer, IdTitle> getColumns() {
