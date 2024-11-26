@@ -159,7 +159,7 @@ dependencies {
     implementation fileTree(dir: 'lib', include: ['*.jar'])
 
     // documentation library
-    doc 'org.pzdcdoc:pzdcdoc:2.7'
+    doc 'org.pzdcdoc:pzdcdoc:2.8'
 
     // tool libraries
     tool 'org.apache.ant:ant:1.10.12'
