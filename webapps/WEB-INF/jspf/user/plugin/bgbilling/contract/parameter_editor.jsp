@@ -88,8 +88,6 @@
 		</c:when>
 
 		<c:when test="${paramType eq 3}"> <!-- email + subscriptions -->
-
-
 			<c:choose>
 				<c:when test="${dbInfo.getVersion().compareTo( '9.1' ) gt 0 }">
 				<div class="mb1">
@@ -126,7 +124,7 @@
 		</c:when>
 
 		<c:when test="${paramType eq 6}"> <!-- date -->
-			<ui:date-time paramName="value" value="${form.param.value}" id="${focusFieldUiid}" styleClass="mr1"/>
+			<ui:date-time paramName="value" value="${form.param.value}" saveCommand="${saveCommand}" id="${focusFieldUiid}" styleClass="mr1"/>
 			<c:set var="hideButtons" value="1"/>
 		</c:when>
 
@@ -135,12 +133,6 @@
 			<div class="mb1">
 				<ui:select-single list="${value.values}" hiddenName="value" value="${value.id}" style="width: 250px;"/>
 			</div>
-
-			<%-- <select name="listValueId" style="width: 100%" multiline="1" size="10" >
-				<c:forEach var="value" items="${data.valueList}">
-					 <option value="${ value.getId() }">${ value.getTitle() }</option>
-				</c:forEach>
-			</select> --%>
 		</c:when>
 
 		<c:when test="${paramType eq 9}"> <!-- phone -->

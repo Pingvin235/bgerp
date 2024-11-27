@@ -41,14 +41,18 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamEmailValue;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParameterType;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrAddress;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrDate;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrEmail;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrList;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrPhone;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrText;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
 public class ContractParamDAO extends BillingDAO {
+    private static final String KERNEL_CONTRACT_API = ContractDAO.KERNEL_CONTRACT_API;
     private static final String CONTRACT_MODULE_ID = "contract";
 
     public ContractParamDAO(User user, String billingId) {
@@ -164,7 +168,7 @@ public class ContractParamDAO extends BillingDAO {
 
         if (dbInfo.versionCompare("9.2") >= 0) {
 
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                     "ContractParameterService",
                     "contractParameterListItemList");
 
@@ -258,9 +262,7 @@ public class ContractParamDAO extends BillingDAO {
     public ParamEmailValue getEmailParam(int contractId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
 
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
-                    "ContractService",
-                    "contractParameterGet");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterGet");
 
             req.setParam("contractId", contractId);
             req.setParam("parameterId", paramId);
@@ -359,9 +361,7 @@ public class ContractParamDAO extends BillingDAO {
 
     public ParamList getListParamValue(int contractId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
-                    "ContractService",
-                    "contractParameterGet");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterGet");
             req.setParam("contractId", contractId);
             req.setParam("parameterId", paramId);
 
@@ -416,24 +416,29 @@ public class ContractParamDAO extends BillingDAO {
     }
 
     public void updateTextParameter(int contractId, int paramId, String value) {
-        Request req = new Request();
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterTextUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("parameter", new EntityAttrText(contractId, paramId, value));
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
 
-        req.setModule(CONTRACT_MODULE_ID);
-        req.setAction("UpdateParameterType" + String.valueOf(ParameterType.ContractType.TYPE_TEXT));
-        req.setContractId(contractId);
-        req.setAttribute("pid", paramId);
-        req.setAttribute("value", value);
+            req.setModule(CONTRACT_MODULE_ID);
+            req.setAction("UpdateParameterType1");
+            req.setContractId(contractId);
+            req.setAttribute("pid", paramId);
+            req.setAttribute("value", value);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        }
     }
 
     public void updateListParameter(int contractId, int paramId, int value) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             EntityAttrList attrEmail = new EntityAttrList( contractId, paramId,value,null );
 
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
-                    "ContractService",
-                    "contractParameterListUpdate");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterListUpdate");
             req.setParam("contractId", contractId);
             req.setParam("parameter", attrEmail);
 
@@ -465,8 +470,7 @@ public class ContractParamDAO extends BillingDAO {
             attrAddress.setRoom(Utils.maskNull(address.getRoom()));
             attrAddress.setComment(Utils.maskNull(address.getComment()));
 
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
-                    "ContractService", "contractParameterListUpdate");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterListUpdate");
             req.setParam("contractId", contractId);
             req.setParam("entityAttrAddress", attrAddress);
 
@@ -506,42 +510,60 @@ public class ContractParamDAO extends BillingDAO {
     }
 
     public void updateDateParameter(int contractId, int paramId, String value) {
-        Request req = new Request();
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterDateUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("parameter", new EntityAttrDate(contractId, paramId, TimeUtils.parse(value, TimeUtils.FORMAT_TYPE_YMD)));
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
 
-        req.setModule(CONTRACT_MODULE_ID);
-        req.setAction("UpdateParameterType" + String.valueOf(ParameterType.ContractType.TYPE_DATE));
-        req.setContractId(contractId);
-        req.setAttribute("pid", paramId);
-        req.setAttribute("value", value);
+            req.setModule(CONTRACT_MODULE_ID);
+            req.setAction("UpdateParameterType6");
+            req.setContractId(contractId);
+            req.setAttribute("pid", paramId);
+            req.setAttribute("value", value);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        }
     }
 
     public void updatePhoneParameter(int contractId, int paramId, ParameterPhoneValue phoneValue) {
-        Request req = new Request();
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            var value = new EntityAttrPhone(contractId, paramId);
+            for (var item : phoneValue.getItemList())
+                value.addContact(item.getPhone(), item.getComment());
 
-        req.setModule(CONTRACT_MODULE_ID);
-        req.setAction("UpdatePhoneInfo");
-        req.setContractId(contractId);
-        req.setAttribute("pid", paramId);
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterPhoneUpdate");
+            req.setParam("contractId", contractId);
+            req.setParam("parameter", value);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
 
-        List<ParameterPhoneValueItem> phones = phoneValue.getItemList();
+            req.setModule(CONTRACT_MODULE_ID);
+            req.setAction("UpdatePhoneInfo");
+            req.setContractId(contractId);
+            req.setAttribute("pid", paramId);
 
-        int itemCount = phones.size();
-        // до 5.1 было просто зашито 5 телефонов
-        if (dbInfo.versionCompare("5.1") <= 0) {
-            itemCount = 5;
+            List<ParameterPhoneValueItem> phones = phoneValue.getItemList();
+
+            int itemCount = phones.size();
+            // до 5.1 было просто зашито 5 телефонов
+            if (dbInfo.versionCompare("5.1") <= 0) {
+                itemCount = 5;
+            }
+
+            for (int i = 0; i < itemCount; i++) {
+                req.setAttribute("phone" + (i + 1), i < phones.size() ? phones.get(i).getPhone() : "");
+                req.setAttribute("comment" + (i + 1), i < phones.size() ? phones.get(i).getComment() : "");
+            }
+
+            // с 5.2 требуется count
+            req.setAttribute("count", itemCount);
+
+            transferData.postData(req, user);
         }
-
-        for (int i = 0; i < itemCount; i++) {
-            req.setAttribute("phone" + (i + 1), i < phones.size() ? phones.get(i).getPhone() : "");
-            req.setAttribute("comment" + (i + 1), i < phones.size() ? phones.get(i).getComment() : "");
-        }
-
-        // с 5.2 требуется count
-        req.setAttribute("count", itemCount);
-
-        transferData.postData(req, user);
     }
 
     public void updateEmailParameter(int contractId, int paramId, Collection<ParameterEmailValue> emailValues)
@@ -552,10 +574,7 @@ public class ContractParamDAO extends BillingDAO {
             EntityAttrEmail attrEmail = new EntityAttrEmail( contractId, paramId );
             emailValues.stream().forEach(p->attrEmail.addContact(p.getComment(),p.getValue()));
 
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
-                    "ContractService",
-                    "contractParameterEmailUpdate");
-
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterEmailUpdate");
             req.setParam("contractId", contractId);
             req.setParam("parameter", attrEmail);
             transferData.postDataReturn(req, user);
@@ -579,18 +598,13 @@ public class ContractParamDAO extends BillingDAO {
             req.setAttribute("eid", 0);
             req.setAttribute("buf", "");
 
-        /*req.setAttribute( "eid", emailValue.getEid() );
-        req.setAttribute( "buf", Utils.toText( emailValue.getSubscrs(), "," ) );*/
-
             transferData.postData(req, user);
         }
     }
 
     public void updateParameterGroup(int contractId, int groupId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
-                    "ContractService",
-                    "contractParameterGroupSet");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterGroupSet");
             req.setParam("contractId", contractId);
             req.setParam("paramGroupId", groupId);
 
