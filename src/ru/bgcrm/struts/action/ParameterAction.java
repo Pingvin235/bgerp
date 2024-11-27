@@ -30,7 +30,6 @@ import org.bgerp.action.FileAction;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
@@ -102,12 +101,12 @@ public class ParameterAction extends BaseAction {
         return html(con, form, BaseAction.PATH_JSP + "/entity_log.jsp");
     }
 
-    public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
-        parameterListInternal(form, con);
-        return html(con, form, PATH_JSP + "/list.jsp");
+    public ActionForward parameterList(DynActionForm form, ConnectionSet conSet) throws Exception {
+        parameterListInternal(form, conSet);
+        return html(conSet, form, PATH_JSP + "/list.jsp");
     }
 
-    protected void parameterListInternal(DynActionForm form, Connection con) throws Exception {
+    protected void parameterListInternal(DynActionForm form, ConnectionSet conSet) throws Exception {
         int id = form.getId();
         String objectType = form.getParam("objectType");
         int parameterGroupId = form.getParamInt("parameterGroup", -1); // doesn't work with 0!!
@@ -123,11 +122,7 @@ public class ParameterAction extends BaseAction {
         Set<Integer> hideParamIds = Collections.emptySet();
 
         if (Process.OBJECT_TYPE.equals(objectType)) {
-            Process process = new ProcessDAO(con).getProcess(id);
-            if (process == null) {
-                throw new BGException("Process not found: " + id);
-            }
-
+            Process process = new ProcessDAO(conSet.getConnection()).getProcessOrThrow(id);
             ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
 
             hideParamIds = Utils.toIntegerSet(type.getProperties().getConfigMap().get("hideParamIdsInStatus." + process.getStatusId(), ""));
@@ -135,11 +130,10 @@ public class ParameterAction extends BaseAction {
                 paramList = Utils.getObjectList(ParameterCache.getParameterMap(), type.getProperties().getParameterIds());
             }
 
-            // показывает параметры процесса только в том случае, если выполняется JEXL выражение: showParam.<paramId>.checkExpression=<expr>
             for (Entry<Integer, ConfigMap> entry : type.getProperties().getConfigMap().subIndexed("showParam.").entrySet()) {
                 String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
-                Map<String, Object> context = Expression.context(null, form, null, process);
+                Map<String, Object> context = Expression.context(conSet, form, null, process);
                 if (Utils.notBlankString(expression) && !(new Expression(context).executeCheck(expression))) {
                     hideParamIds.add(entry.getKey());
                 }
@@ -166,7 +160,7 @@ public class ParameterAction extends BaseAction {
 
         boolean offEncryption = form.getPermission().getBoolean("offEncrypt", false);
 
-        List<ParameterValuePair> parameterValuePairList = new ParamValueDAO(con).loadParameters(paramList, id, offEncryption);
+        List<ParameterValuePair> parameterValuePairList = new ParamValueDAO(conSet.getConnection()).loadParameters(paramList, id, offEncryption);
 
         form.setResponseData("list", parameterValuePairList);
     }

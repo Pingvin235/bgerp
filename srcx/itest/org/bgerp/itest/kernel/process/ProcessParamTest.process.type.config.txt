@@ -1,0 +1,1 @@
+showParam.{@CONDITIONALLY_SHOWN_PARAM_ID}.checkExpression=p.getStatusId() == {@STATUS_OPEN_ID}

@@ -1,17 +1,16 @@
 package org.bgerp.action.open;
 
-import java.sql.Connection;
-
 import org.apache.struts.action.ActionForward;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/open/parameter")
 public class ParameterAction extends ru.bgcrm.struts.action.ParameterAction {
     @Override
-    public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
-        super.parameterListInternal(form, con);
-        return html(con, null, PATH_JSP + "/list.jsp");
+    public ActionForward parameterList(DynActionForm form, ConnectionSet conSet) throws Exception {
+        super.parameterListInternal(form, conSet);
+        return html(conSet, null, PATH_JSP + "/list.jsp");
     }
 }

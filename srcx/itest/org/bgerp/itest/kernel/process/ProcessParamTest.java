@@ -51,9 +51,7 @@ public class ProcessParamTest {
     private int paramDateTimeId;
     private int paramEmailId;
     private int paramFileId;
-    // TODO: Make private
-    @Deprecated
-    static int paramListId;
+    private int paramListId;
     private int paramListDirConfigId;
     private int paramListCountId;
     private int paramMoneyId;
@@ -64,6 +62,8 @@ public class ProcessParamTest {
     private int paramPhoneId;
     private int paramTreeId;
     private int paramTreeCountId;
+
+    private int paramConditionallyShownId;
 
     private int processTypeId;
     private int processId;
@@ -130,6 +130,9 @@ public class ProcessParamTest {
                 ProcessTest.posParam += 2,
                 ResourceHelper.getResource(this, "param.treecount.config.txt"),
                 ResourceHelper.getResource(this, "param.treecount.values.txt"));
+
+        paramConditionallyShownId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " shown only in 'Open' status",
+                ProcessTest.posParam += 2, "", "");
     }
 
     @Test(dependsOnMethods = "param")
@@ -141,8 +144,13 @@ public class ProcessParamTest {
         props.setParameterIds(List.of(
             paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId, paramListDirConfigId,
             paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongTitleId, paramTextRegexpId, paramPhoneId,
-            paramTreeId, paramTreeCountId
+            paramTreeId, paramTreeCountId,
+            paramConditionallyShownId
         ));
+        props.setConfig(ConfigHelper.generateConstants(
+            "CONDITIONALLY_SHOWN_PARAM_ID", paramConditionallyShownId,
+            "STATUS_OPEN_ID", ProcessTest.statusOpenId
+        ) + ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
     }
