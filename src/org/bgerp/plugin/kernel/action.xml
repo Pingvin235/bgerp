@@ -65,7 +65,7 @@
 			<item action="/user/message:messageUpdateRead, ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Update read state"/>
 			<item action="/user/message:messageUpdateProcess, ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
 			<item action="/user/message:messageUpdateProcessToCopy, ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
-			<item action="/user/message:processMessageEdit, ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Edit">
+			<item action="/user/message:processMessageEdit, /user/message:messageUpdate, ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Edit">
 				<b>allowedTypeIds</b> - comma separated type ID list for created messages<br/>
 			</item>
 			<item action="/user/message:modifyNotOwned, org.bgerp.action.MessageAction:modifyNotOwned" title="Update and Delete not owned"/>
