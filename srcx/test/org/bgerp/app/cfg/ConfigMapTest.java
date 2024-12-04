@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.model.config.IsolationConfig;
+import org.bgerp.model.process.config.IsolationConfig;
 import org.junit.Assert;
 import org.junit.Test;
 

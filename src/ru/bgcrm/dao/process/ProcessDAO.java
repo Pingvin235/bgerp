@@ -22,9 +22,9 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
-import org.bgerp.model.config.IsolationConfig;
-import org.bgerp.model.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.model.process.config.IsolationConfig;
+import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 

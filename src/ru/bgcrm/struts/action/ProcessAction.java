@@ -35,10 +35,10 @@ import org.bgerp.dao.process.ProcessMessageDAO;
 import org.bgerp.event.base.UserEvent;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
-import org.bgerp.model.config.IsolationConfig;
-import org.bgerp.model.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.model.process.config.IsolationConfig;
+import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.Log;
 

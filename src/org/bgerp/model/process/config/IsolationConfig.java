@@ -1,4 +1,4 @@
-package org.bgerp.model.config;
+package org.bgerp.model.process.config;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Config;

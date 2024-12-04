@@ -24,7 +24,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
-import org.bgerp.model.config.IsolationConfig;
+import org.bgerp.model.process.config.IsolationConfig;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;

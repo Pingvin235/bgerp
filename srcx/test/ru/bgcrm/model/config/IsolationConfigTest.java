@@ -1,8 +1,8 @@
 package ru.bgcrm.model.config;
 
 import org.bgerp.app.cfg.SimpleConfigMap;
-import org.bgerp.model.config.IsolationConfig;
-import org.bgerp.model.config.IsolationConfig.IsolationProcess;
+import org.bgerp.model.process.config.IsolationConfig;
+import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
 import org.junit.Assert;
 import org.junit.Test;
 
