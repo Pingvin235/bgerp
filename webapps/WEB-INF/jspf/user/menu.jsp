@@ -9,8 +9,7 @@
 <ui:menu-item title="${l.l('Адреса')}" href="directory/address" icon="ti-book"
 	action="ru.bgcrm.struts.action.DirectoryAddressAction:null" />
 
-<ui:menu-item title="${l.l('Сообщения')}" href="message/queue" icon="ti-email"
-	action="ru.bgcrm.struts.action.MessageAction:messageList" />
+<ui:menu-item title="${l.l('Сообщения')}" href="message/queue" icon="ti-email" action="/user/message:messageList" />
 
 <ui:menu-group title="${l.l('Процессы')}" icon="ti-control-shuffle">
 	<ui:menu-item title="${l.l('Очереди процессов')}" href="process/queue"

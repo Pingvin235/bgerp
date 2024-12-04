@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.action.MessageAction;
 import org.bgerp.action.NewsAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
@@ -20,7 +21,7 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.struts.action.MessageAction;
+import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -58,7 +59,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
             // необработанные сообщения
             int currentUnprocessedMessages = 0;
 
-            if (UserCache.getUser(userId).checkPerm(MessageAction.class.getName() + ":messageList")) {
+            if (UserCache.getUser(userId).checkPerm(MessageAction.class.getAnnotation(ActionServlet.Action.class).path() + ":messageList")) {
                 MessageTypeConfig mtConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
                 for (MessageType type : mtConfig.getTypeMap().values()) {
                     if (type.getUnprocessedMessagesCount() != null)

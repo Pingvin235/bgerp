@@ -8,9 +8,9 @@
 <c:set var="TAG_ATTACH_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_ATTACH_ID%></c:set>
 <c:set var="TAG_PIN_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_PIN_ID%></c:set>
 
-<c:set var="ACTION_MODIFY_NOT_OWNED"><%=ru.bgcrm.struts.action.MessageAction.ACTION_MODIFY_NOT_OWNED%></c:set>
+<c:set var="ACTION_MODIFY_NOT_OWNED"><%=org.bgerp.action.MessageAction.ACTION_MODIFY_NOT_OWNED%></c:set>
 
-<c:set var="allowedTags" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateTags')}"/>
+<c:set var="allowedTags" value="${ctxUser.checkPerm('/user/message:messageUpdateTags')}"/>
 
 <ui:when type="user">
 	<html:form action="${form.requestURI}" styleId="${formUiid}">
@@ -247,7 +247,7 @@
 								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Tags')}</a></li>
 							</c:if>
 
-							<c:if test="${messageType.readable and message.read and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
+							<c:if test="${messageType.readable and message.read and ctxUser.checkPerm('/user/message:messageUpdateRead')}">
 								<li><a href="#" onclick="
 									$$.ajax.post('${readUrl}&value=0').done(() => {
 										$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
@@ -308,7 +308,7 @@
 							</c:if>
 
 							<c:if test="${form.user.id == message.userId or ctxUser.checkPerm(ACTION_MODIFY_NOT_OWNED)}">
-								<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:processMessageEdit')}">
+								<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('/user/message:processMessageEdit')}">
 									<c:url var="editUrl" value="${form.requestURI}">
 										<c:param name="method" value="processMessageEdit"/>
 										<c:param name="id" value="${message.id}"/>
@@ -323,7 +323,7 @@
 										return false;">${l.l('Редактировать')}</a></li>
 								</c:if>
 
-								<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageDelete')}">
+								<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('/user/message:messageDelete')}">
 									<c:url var="deleteUrl" value="${form.requestURI}">
 										<c:param name="method" value="messageDelete"/>
 										<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
@@ -342,7 +342,7 @@
 						</ui:when>
 					</ui:popup-menu>
 
-					<c:if test="${messageType.readable and message.unread and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
+					<c:if test="${messageType.readable and message.unread and ctxUser.checkPerm('/user/message:messageUpdateRead')}">
 						<button class="btn-white icon mr05" title="${l.l('Mark as read')}" onclick="
 							$$.ajax.post('${readUrl}&value=1').done(() => {
 								$$.ajax.load('${form.requestUrl}', $('#${formUiid}').parent());

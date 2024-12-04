@@ -938,7 +938,7 @@ By doing <<action>> in object *l* the localization context is passed, containing
 Localized key string may contain placeholders for some values, marked as *{}*.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L242-L242[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/org/bgerp/action/MessageAction.java#L244-L244[org.bgerp.action.MessageAction]
 
 <<exception, BGMessageException>> can contain localized message, translated when shown to a user.
 In the following snippet might be seen, how it can be thrown in a plugin's logic.
@@ -953,7 +953,7 @@ Here are two samples for such cases.
 link:../../../src/org/bgerp/app/dist/lic/License.java#L154-L157[org.bgerp.app.dist.lic.License]
 
 [snippet, from="final v", to="es\");", remove-leading="            "]
-link:../../../src/org/bgerp/cache/UserNewsCache.java#L81-L85[org.bgerp.cache.UserNewsCache]
+link:../../../src/org/bgerp/cache/UserNewsCache.java#L82-L86[org.bgerp.cache.UserNewsCache]
 
 [[l10n-dev]]
 ==== Development

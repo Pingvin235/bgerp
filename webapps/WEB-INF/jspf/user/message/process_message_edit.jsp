@@ -43,7 +43,7 @@
 					</c:when>
 				</c:choose>
 
-				<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.MessageAction:processMessageEdit')}"/>
+				<c:set var="perm" value="${ctxUser.getPerm('/user/message:processMessageEdit')}"/>
 				<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm['allowedTypeIds'])}"/>
 
 				<ui:combo-single

@@ -90,7 +90,7 @@
 						<div class="mt1">
 							<%@ include file="process_link_params.jsp"%>
 
-							<%-- TODO: Make button disabled <p:check action="ru.bgcrm.struts.action.MessageAction:processCreate"> --%>
+							<%-- TODO: Make button disabled <p:check action="/user/message:processCreate"> --%>
 							<button class="btn-grey" type="button" onclick="
 								$$.ajax.post(this).done((result) => {
 									const url = '/user/message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent('${form.returnUrl}');
