@@ -173,13 +173,11 @@
 	<p><ru>Обычная</ru><en>Regular</en></p>
 	<p><ru>Всплывающая</ru><en>Popup</en></p>
 	<p><ru>Если группы не указаны - новость получают все пользователи.</ru><en>If groups are not specified, all users receive the news.</en></p>
-	<p><ru>Непрочитанные</ru><en>Unread</en></p>
-	<p><ru>Прочитанные</ru><en>Read</en></p>
 	<p><ru>Фильтр по тексту</ru><en>Filter by text</en></p>
 	<p><ru>Создал</ru><en>Created by</en></p>
 	<p><ru>Удалить</ru><en>Delete</en></p>
-	<p><ru>Не прочитано</ru><en>Unread</en></p>
-	<p><ru>Прочитано</ru><en>Read</en></p>
+	<p><en>Unread</en><ru>Не прочитано</ru></p>
+	<p><en>Read</en><ru>Прочитано</ru></p>
 	<p><ru>Пометить все новости прочитанными</ru><en>Mark all news as read</en></p>
 	<p><ru>Все прочитаны</ru><en>All read</en></p>
 	<p><ru>Редактор</ru><en>Editor</en></p>

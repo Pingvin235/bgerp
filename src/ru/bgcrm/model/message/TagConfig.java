@@ -53,9 +53,12 @@ public class TagConfig extends Config {
 
         // Positive IDs are used for user defined tags
 
-        /** Filtering messages by attachment. Fake tag, not persisted in DB. */
+        /** Filtering messages by attachment. The tag is not persisted in DB. */
         @Dynamic
         public static final int TAG_ATTACH_ID = -1;
+        /** Filtering unread messages. The tag is not persisted in DB. */
+        @Dynamic
+        public static final int TAG_UNREAD_ID = -5;
 
         /** Attaching History.txt with messages from address */
         @Dynamic

@@ -34,8 +34,8 @@ import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -517,7 +517,7 @@ public class MessageDAO extends CommonDAO {
     public Map<Integer, Set<Integer>> getProcessMessageTagMap(Collection<Integer> processIds) throws SQLException {
         Map<Integer, Set<Integer>> result = new HashMap<>();
 
-        String query = SQL_SELECT + "m.id, m.attach_data, mt.tag_id" + SQL_FROM + TABLE_MESSAGE + "AS m"
+        String query = SQL_SELECT + "m.id, m.to_dt, m.attach_data, mt.tag_id" + SQL_FROM + TABLE_MESSAGE + "AS m"
                 + SQL_LEFT_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id "
                 + SQL_WHERE + "m.process_id IN (" + Utils.toString(processIds) + ")";
         try (PreparedStatement ps = con.prepareStatement(query)) {
@@ -525,14 +525,21 @@ public class MessageDAO extends CommonDAO {
             while (rs.next()) {
                 Set<Integer> messageTags = null;
 
-                if (!Utils.isBlankString(rs.getString(2))) {
-                    messageTags = result.computeIfAbsent(rs.getInt(1), id -> new HashSet<>());
+                int messageId = rs.getInt("m.id");
+                if (!Utils.isBlankString(rs.getString("m.attach_data"))) {
+                    messageTags = result.computeIfAbsent(messageId, id -> new HashSet<>());
                     messageTags.add(TagConfig.Tag.TAG_ATTACH_ID);
                 }
 
-                int tagId = rs.getInt(3);
+                if (rs.getTimestamp("m.to_dt") == null) {
+                    messageTags = result.computeIfAbsent(messageId, id -> new HashSet<>());
+                    messageTags.add(TagConfig.Tag.TAG_UNREAD_ID);
+                }
+
+                int tagId = rs.getInt("mt.tag_id");
                 if (messageTags == null)
-                    messageTags = result.computeIfAbsent(rs.getInt(1), id -> new HashSet<>());
+                    messageTags = result.computeIfAbsent(messageId, id -> new HashSet<>());
+
                 messageTags.add(tagId);
             }
         }

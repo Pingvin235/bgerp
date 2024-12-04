@@ -487,6 +487,7 @@ public class MessageAction extends BaseAction {
             .withProcessIds(processIds)
             .withTypeIds(allowedTypeIds)
             .withAttach(tagId == TagConfig.Tag.TAG_ATTACH_ID ? true : null)
+            .withRead(tagId == TagConfig.Tag.TAG_UNREAD_ID ? false : null)
             .withDateFrom(form.getParamDate("dateFrom"), form.getParamDate("dateTo"))
             .order(MessageSearchDAO.Order.PINNED_FIRST)
             .order(MessageSearchDAO.Order.FROM_TIME_DESC)

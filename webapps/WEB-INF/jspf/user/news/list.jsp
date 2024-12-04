@@ -19,9 +19,9 @@
 
 		<ui:combo-single hiddenName="read" value="${form.param['read']}" widthTextValue="100px" onSelect="${showCode}">
 			<jsp:attribute name="valuesHtml">
-				<li value="0">${l.l('Непрочитанные')}</li>
+				<li value="0">${l.l('Unread')}</li>
 				<li value="-1">${l.l('Все')}</li>
-				<li value="1">${l.l('Прочитанные')}</li>
+				<li value="1">${l.l('Read')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
 
@@ -78,10 +78,10 @@
 				<td style="text-align: right;">
 					<c:choose>
 						<c:when test="${item.read}">
-							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?method=newsSetRead&newsId=${item.id}&value=0').done(() => { ${showCode} })">${l.l('Не прочитано')}</button>
+							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?method=newsSetRead&newsId=${item.id}&value=0').done(() => { ${showCode} })">${l.l('Unread')}</button>
 						</c:when>
 						<c:otherwise>
-							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?method=newsSetRead&newsId=${item.id}&value=1').done(() => { ${showCode} })">${l.l('Прочитано')}</button>
+							<button class="btn-white btn-small" onclick="$$.ajax.post('/user/news.do?method=newsSetRead&newsId=${item.id}&value=1').done(() => { ${showCode} })">${l.l('Read')}</button>
 						</c:otherwise>
 					</c:choose>
 				</td>

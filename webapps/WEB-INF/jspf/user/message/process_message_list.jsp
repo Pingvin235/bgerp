@@ -6,6 +6,7 @@
 
 <c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
 <c:set var="TAG_ATTACH_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_ATTACH_ID%></c:set>
+<c:set var="TAG_UNREAD_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_UNREAD_ID%></c:set>
 <c:set var="TAG_PIN_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_PIN_ID%></c:set>
 
 <c:set var="ACTION_MODIFY_NOT_OWNED"><%=org.bgerp.action.MessageAction.ACTION_MODIFY_NOT_OWNED%></c:set>
@@ -34,6 +35,9 @@
 			<li value="0">${l.l('Все')}</li>
 			<c:if test="${frd.tagIds.contains(u:int(TAG_ATTACH_ID))}">
 				<li value="${TAG_ATTACH_ID}">${l.l('Вложение')}</li>
+			</c:if>
+			<c:if test="${frd.tagIds.contains(u:int(TAG_UNREAD_ID))}">
+				<li value="${TAG_UNREAD_ID}">${l.l('Unread')}</li>
 			</c:if>
 			<c:forEach var="item" items="${tagConfig.tagList}">
 				<c:if test="${frd.tagIds.contains(item.id)}">

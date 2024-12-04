@@ -42,7 +42,7 @@
 	<c:if test="${form.param.processed eq 1}">
 		<ui:combo-single
 			hiddenName="read" value="${form.param.read}"
-			prefixText="${l.l('Прочитанные')}:" widthTextValue="3em"
+			prefixText="${l.l('Read')}:" widthTextValue="3em"
 			onSelect="${script}">
 			<jsp:attribute name="valuesHtml">
 				<li value="">${l.l('Any')}</li>
