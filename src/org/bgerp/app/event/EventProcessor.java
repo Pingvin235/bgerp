@@ -94,7 +94,7 @@ public class EventProcessor {
         final long timeout = Setup.getSetup().getLong("event.process.timeout", 5000L);
         try {
             if (!isDebugMode()) {
-                Future<byte[]> future = EXECUTOR.submit(new RequestTask(listener, event, conSet));
+                Future<byte[]> future = EXECUTOR.submit(new RequestTask(conSet, event, listener));
                 future.get(timeout, TimeUnit.MILLISECONDS);
             } else {
                 listener.notify(event, conSet);

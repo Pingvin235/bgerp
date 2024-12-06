@@ -3,13 +3,11 @@ package org.bgerp.util.log;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.buffer.CircularFifoBuffer;
 import org.apache.log4j.WriterAppender;
 
 /**
@@ -19,7 +17,7 @@ import org.apache.log4j.WriterAppender;
  */
 public class SessionLogAppender extends WriterAppender {
     public static final String TRACKING_KEY = SessionLogAppender.class.getName();
-    private static final int MAX_LOG_LINES = 1000;
+    static final int MAX_LOG_LINES = 1000;
     /** key - thread, value - tracked session */
     private static final Map<Thread, TrackedSession> TRACKED_SESSIONS = new ConcurrentHashMap<>();
 
@@ -32,22 +30,27 @@ public class SessionLogAppender extends WriterAppender {
      * @param session the session
      */
     public static final void trackSession(HttpSession session, boolean create) {
-        TrackedSession tracked = untrackSession(session);
+        TrackedSession tracked = getTrackedSession(session);
         if (tracked == null && create)
             tracked = new TrackedSession(session);
         if (tracked != null)
             TRACKED_SESSIONS.put(Thread.currentThread(), tracked);
     }
 
-    public static final TrackedSession untrackSession(HttpSession session) {
-        Collection<TrackedSession> valuesIterator = TRACKED_SESSIONS.values();
-        for (TrackedSession tracked : valuesIterator) {
-            if (tracked.session == session) {
-                valuesIterator.remove(tracked);
-                return tracked;
-            }
-        }
-        return null;
+    /**
+     * Removes references of all threads to a tracked session
+     * @param session the session
+     */
+    public static final void untrackSession(HttpSession session) {
+        TRACKED_SESSIONS.values().removeIf(tracked -> tracked.session == session);
+    }
+
+    /**
+     * Found a tracked session for the current thread
+     * @return the found tracked session or {@code null}
+     */
+    public static TrackedSession getTrackedSession() {
+        return TRACKED_SESSIONS.get(Thread.currentThread());
     }
 
     public static boolean isSessionTracked(HttpSession session) {
@@ -72,15 +75,6 @@ public class SessionLogAppender extends WriterAppender {
         }
 
         return result.toString();
-    }
-
-    private static class TrackedSession {
-        private final HttpSession session;
-        private final CircularFifoBuffer buffer = new CircularFifoBuffer(MAX_LOG_LINES);
-
-        private TrackedSession(HttpSession session) {
-            this.session = session;
-        }
     }
 
     private class SessionBufferWriter extends Writer {
