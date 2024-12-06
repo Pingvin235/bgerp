@@ -61,7 +61,7 @@
 			<item action="/user/message:processMessageList, ru.bgcrm.struts.action.MessageAction:processMessageList" title="List">
 				<b>allowedTypeIds</b> - comma separated type ID list<br/>
 			</item>
-			<item action="/user/message:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageToggleTags" title="Pin and Tag"/>
+			<item action="/user/message:messageUpdateTags, /user/message:messageToggleTags, ru.bgcrm.struts.action.MessageAction:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageToggleTags" title="Pin and Tag"/>
 			<item action="/user/message:messageUpdateRead, ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Update read state"/>
 			<item action="/user/message:messageUpdateProcess, ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
 			<item action="/user/message:messageUpdateProcessToCopy, ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
