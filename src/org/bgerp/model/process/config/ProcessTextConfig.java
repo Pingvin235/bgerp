@@ -22,7 +22,6 @@ abstract class ProcessTextConfig extends Config {
         expression = config.get(key());
         initWhen(Utils.notBlankString(expression));
         paramIds = paramIds();
-        initWhen(!paramIds.isEmpty());
     }
 
     protected abstract String key();
