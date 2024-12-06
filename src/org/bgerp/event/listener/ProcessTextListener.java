@@ -11,6 +11,7 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ProcessExpressionObject;
+import ru.bgcrm.dao.expression.ProcessLinkExpressionObject;
 import ru.bgcrm.dao.expression.ProcessParamExpressionObject;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ParamChangedEvent;
@@ -100,6 +101,7 @@ public class ProcessTextListener {
         var result = new HashMap<String, Object>();
         new ProcessExpressionObject(process).toContext(result);
         new ProcessParamExpressionObject(conSet.getConnection(), process.getId()).toContext(result);
+        new ProcessLinkExpressionObject(conSet.getConnection(), process.getId()).toContext(result);
         return result;
     }
 }

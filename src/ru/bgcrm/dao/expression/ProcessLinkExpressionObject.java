@@ -15,7 +15,8 @@ import ru.bgcrm.model.process.Process;
  * @author Shamil Vakhitov
  */
 public class ProcessLinkExpressionObject implements ExpressionObject {
-    private static final String KEY = "processLink";
+    private static final String KEY = Process.OBJECT_TYPE + "Link";
+    private static final String KEY_SHORT = "pl";
 
     private final ProcessLinkDAO linkDao;
     private final int processId;
@@ -28,6 +29,7 @@ public class ProcessLinkExpressionObject implements ExpressionObject {
     @Override
     public void toContext(Map<String, Object> context) {
         context.put(KEY, this);
+        context.put(KEY_SHORT, this);
     }
 
     /**
