@@ -45,7 +45,7 @@
 	<div class="in-table-cell pt1">
 		<input type="hidden" name="updateTags" value="1"/>
 
-		<c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
+		<c:set var="tagConfig" value="${ctxSetup.getConfig('org.bgerp.model.msg.config.TagConfig')}"/>
 		<c:set var="messageTagIds" value="${frd.messageTagIds}"/>
 
 		<div style="width: 30px; vertical-align: top;">
@@ -53,8 +53,8 @@
 			<ui:combo-single hiddenName="tagId" value="${tagConfig.getSelectedHistoryTag(messageTagIds)}" widthTextValue="10em">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">-- ${l.l('нет')} --</li>
-					<li value="<%=ru.bgcrm.model.message.TagConfig.Tag.TAG_HISTORY_WITH_ADDRESS_ID%>">${l.l('Переписка с данным адресом')}</li>
-					<li value="<%=ru.bgcrm.model.message.TagConfig.Tag.TAG_HISTORY_ALL_ID%>">${l.l('Все сообщения')}</li>
+					<li value="<%=org.bgerp.model.msg.config.TagConfig.Tag.TAG_HISTORY_WITH_ADDRESS_ID%>">${l.l('Переписка с данным адресом')}</li>
+					<li value="<%=org.bgerp.model.msg.config.TagConfig.Tag.TAG_HISTORY_ALL_ID%>">${l.l('Все сообщения')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
 		</div>

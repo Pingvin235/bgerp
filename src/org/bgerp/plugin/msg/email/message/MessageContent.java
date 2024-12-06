@@ -21,6 +21,8 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.cache.UserCache;
+import org.bgerp.model.msg.config.TagConfig;
+import org.bgerp.model.msg.config.TagConfig.Tag;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.util.Log;
 
@@ -31,8 +33,6 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
-import ru.bgcrm.model.message.TagConfig;
-import ru.bgcrm.model.message.TagConfig.Tag;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

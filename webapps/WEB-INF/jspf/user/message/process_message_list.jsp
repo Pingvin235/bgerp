@@ -4,10 +4,10 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 <c:set var="editorContainerUiid" value="${u:uiid()}" scope="request"/>
 
-<c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
-<c:set var="TAG_ATTACH_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_ATTACH_ID%></c:set>
-<c:set var="TAG_UNREAD_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_UNREAD_ID%></c:set>
-<c:set var="TAG_PIN_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_PIN_ID%></c:set>
+<c:set var="tagConfig" value="${ctxSetup.getConfig('org.bgerp.model.msg.config.TagConfig')}"/>
+<c:set var="TAG_ATTACH_ID"><%=org.bgerp.model.msg.config.TagConfig.Tag.TAG_ATTACH_ID%></c:set>
+<c:set var="TAG_UNREAD_ID"><%=org.bgerp.model.msg.config.TagConfig.Tag.TAG_UNREAD_ID%></c:set>
+<c:set var="TAG_PIN_ID"><%=org.bgerp.model.msg.config.TagConfig.Tag.TAG_PIN_ID%></c:set>
 
 <c:set var="ACTION_MODIFY_NOT_OWNED"><%=org.bgerp.action.MessageAction.ACTION_MODIFY_NOT_OWNED%></c:set>
 

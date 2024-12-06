@@ -1,4 +1,4 @@
-package ru.bgcrm.model.message;
+package org.bgerp.model.msg.config;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Dynamic;
 
 /**
- * Message tags config.
+ * Message tags config
  *
  * @author Shamil Vakhitov
  */
