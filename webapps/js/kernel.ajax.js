@@ -558,7 +558,8 @@ $$.ajax = new function () {
 	 */
 	const error = (url, jqXHR, textStatus, errorThrown) => {
 		if (jqXHR.status == 401) {
-			$$.shell.login.show();
+			document.getElementById('scroll-to-top').click();
+			setTimeout(() => $$.shell.login.show(), 500);
 		} else {
 			let text = "<b>URL</b>: " + url.replaceAll('&', '&amp;');
 			if (jqXHR.responseText)

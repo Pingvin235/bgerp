@@ -860,7 +860,7 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="function fo", to="}"]
-link:../../../webapps/js/kernel.ajax.js#L586-L590[webapps/js/kernel.ajax.js]
+link:../../../webapps/js/kernel.ajax.js#L587-L591[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
@@ -897,10 +897,10 @@ New localization phrases should be added to the end of the list in the file.
 
 <<../kernel/extension.adoc#custom-l10n, Custom>> localization may overwrite all of them and read out `custom/l10n.xml` file in case of existing that.
 
-The key of the localizing phrase is the first entry in any language, for example Russian:
+The key of the localizing phrase is the first entry in any language, for example English:
 [source, xml]
 ----
-<p><ru>Требуется повторный вход</ru><en>Re-login is required</en></p>
+<p><en>Re-login is required</en><ru>Требуется повторный вход</ru></p>
 ----
 
 [[l10n-lang-sys]]
@@ -929,7 +929,7 @@ $('#loginForm').dialog({
 	modal: true,
 	draggable: false,
 	resizable: false,
-	title: "${l.l('Требуется повторный вход')}",
+	title: "${l.l('Re-login is required')}",
 	position: { my: "center top", at: "center top+100px", of: window }
 });
 ----

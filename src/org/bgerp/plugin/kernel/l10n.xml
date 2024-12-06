@@ -81,7 +81,7 @@
 	<p><ru>Объектов в буфере</ru><en>Objects in buffer</en></p>
 	<p><ru>BGERP 3.0 не будет корректно работать в вашем браузере!</ru><en>BGERP 3.0 will not work correctly in this browser!</en></p>
 	<p><ru>Поддерживаемые браузеры: Mozilla Firefox {} и новее, Google Chrome {} и новее, Safari {} и новее.</ru><en>Supported browsers: Mozilla Firefox {} and newer, Google Chrome {} and newer, Safari {} and newer.</en></p>
-	<p><ru>Требуется повторный вход</ru><en>Re-login is required</en></p>
+	<p><en>Re-login is required</en><ru>Требуется повторный вход</ru></p>
 	<p><ru>Войти</ru><en>Login</en></p>
 	<p><en>Open Interface</en><ru>Открытый интерфейс</ru></p>
 	<p><en>Title</en><ru>Наименование</ru></p>

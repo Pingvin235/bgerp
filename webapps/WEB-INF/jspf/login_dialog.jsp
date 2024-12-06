@@ -12,7 +12,7 @@
 			modal: true,
 			draggable: false,
 			resizable: false,
-			title: "${l.l('Требуется повторный вход')}",
+			title: "${l.l('Re-login is required')}",
 			position: { my: "center top", at: "center top+100px", of: window }
 		});
 	})
