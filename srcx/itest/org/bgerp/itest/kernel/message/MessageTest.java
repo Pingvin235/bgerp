@@ -18,6 +18,7 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.msg.Message;
+import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.msg.config.TagConfig;
 import org.bgerp.model.msg.config.TagConfig.Tag;
 import org.bgerp.model.process.link.ProcessLink;
@@ -30,7 +31,6 @@ import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeNote;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.config.MessageTypeConfig;
 
 @Test(groups = "message", dependsOnGroups = { "customer", "user", "process" })
 public class MessageTest {

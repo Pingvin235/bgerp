@@ -1,4 +1,4 @@
-package ru.bgcrm.model.message.config;
+package org.bgerp.model.msg.config;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;

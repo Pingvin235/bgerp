@@ -12,11 +12,11 @@ import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.model.msg.Message;
+import org.bgerp.model.msg.config.MessageTypeConfig;
 
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.plugin.bgbilling.message.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;

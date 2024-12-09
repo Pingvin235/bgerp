@@ -7,11 +7,11 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.app.l10n.Localizer;
+import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
-import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.util.Utils;
 
 @Bean(oldClasses = "ru.bgcrm.worker.MessageExchange")

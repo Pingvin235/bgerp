@@ -3,7 +3,7 @@
 
 <%@ include file="search_common.jsp"%>
 
-<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.message.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.model.msg.config.MessageTypeConfig')}"/>
 
 <table class="data mt1">
 	<tr>
