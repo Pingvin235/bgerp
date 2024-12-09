@@ -20,7 +20,7 @@
 		</c:set>
 
 		<c:if test="${not empty actionFactory}">
-			<c:forEach var="action" items="${u.newInstance(actionFactory).create()}">
+			<c:forEach var="action" items="${u:newInstance0(actionFactory).create()}">
 				<ui:menu-item title="${action.getTitle()}" href="${action.href}" action="${action.action}"/>
 			</c:forEach>
 		</c:if>

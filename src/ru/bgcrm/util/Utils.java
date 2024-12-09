@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -206,37 +205,13 @@ public class Utils {
         return value != null ? value : BigDecimal.ZERO;
     }
 
-    /**
-     * Возвращает пустой немодифируемый Set, если value == null либо value.
-     * @param <T>
-     * @param value
-     * @return
-     */
-    public static final <T> Set<T> maskNullSet(Set<T> value) {
-        if (value == null) {
-            value = Collections.emptySet();
-        }
-        return value;
-    }
 
     /**
-     * Возвращает null, если Set пустой либо null, иначе возвращает исходный Set.
-     * @param value
-     * @return
+     * Converts to {@code null} an empty collection
+     * @param value the input collection
+     * @return the input collection, if it is not empty, or {@code null}
      */
-    public static final <T> Set<T> emptyToNull(Set<T> value) {
-        if (value == null || value.size() == 0) {
-            return null;
-        }
-        return value;
-    }
-
-    /**
-     * Возвращает null, если List пустой либо null, иначе возвращает исходный List.
-     * @param value
-     * @return
-     */
-    public static final <T> List<T> emptyToNull(List<T> value) {
+    public static final <T, C extends Collection<T>> C emptyToNull(C value) {
         if (value == null || value.size() == 0) {
             return null;
         }
@@ -816,14 +791,6 @@ public class Utils {
         return TMP_DIR;
     }
 
-    /**
-     * @see #isValidEmail(String).
-     */
-    @Deprecated
-    public static final boolean validateEmail(String email) {
-        return isValidEmail(email);
-    }
-
     public static final File createDirectoryIfNoExistInWorkDir(String dirName) {
         File dir = new File(dirName);
         if (!dir.exists()) {
@@ -950,6 +917,7 @@ public class Utils {
      */
     @Deprecated
     public static Object newInstance(String className, Object... args) throws Exception {
+        log.warndMethod("u.newInstance", "u:newInstance0");
         return UtilFunction.newInstance(className, args);
     }
 
