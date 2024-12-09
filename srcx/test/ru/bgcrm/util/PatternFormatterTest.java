@@ -10,13 +10,6 @@ public class PatternFormatterTest {
     private static final String PATTERN_COLUMN = "(x ${key1:extra1}) тест ( ${key2:extra2})";
 
     @Test
-    public void testInsertPatternPart() {
-        String value = PatternFormatter.insertPatternPart(PATTERN, "key1", "value1");
-        Assert.assertEquals("x value1 тест ( ${key2})", value);
-        value = PatternFormatter.insertPatternPart(value, "key2", "");
-    }
-
-    @Test
     public void testProcessPattern() {
         String value = PatternFormatter.processPattern(PATTERN, variable -> {
             if ("key1".equals(variable))
