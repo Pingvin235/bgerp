@@ -279,6 +279,26 @@ public class Utils {
     }
 
     /**
+     * Counts the number of lines in string
+     * @param value the string
+     * @return the count of {@code \n} chars
+     */
+    public static final int countLines(String value) {
+        if (value == null)
+            return 0;
+
+        int count = 0;
+        int index = value.indexOf('\n');
+
+        while (index != -1) {
+            count++;
+            index = value.indexOf('\n', index + 1);
+        }
+
+        return count;
+    }
+
+    /**
      * Is the integer value greater than zero. To do not create lambda functions.
      * @param value
      * @return

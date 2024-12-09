@@ -344,11 +344,11 @@ END
 ----
 Значение value будет *Line1Line2*. Переносы строк не участвуют в склеивании. Вместо *END* можно использовать любую строку.
 
-[[log-dyn]]
-== Dynamic Log
+[[user-session-log]]
+== User Session Log
 This tool may is available in *Log* menu and allows collecting session logs, which may be requested by developers.
 
-image::_res/log_dyn.png[width="800"]
+image::_res/user_session_log.png[width="800"]
 
 Once enabled the tool is collecting logs starting from *DEBUG* level for the current user session only,
 that allows easier observe possible problems.

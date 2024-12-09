@@ -111,7 +111,7 @@ Samples, how to enable loggers wanted package or classes to *log/bgerp.all.log* 
 
 В конфигурационном файле возможно изменять формат информации в файле, фильтр по классам и другие параметры логирования.
 
-To observe only the logs of the current user session, use <<interface.adoc#log-dyn, Dynamic Log>>.
+To observe only the logs of the current user session, use <<interface.adoc#user-session-log, User Session Log>>.
 
 Ссылки:
 [square]

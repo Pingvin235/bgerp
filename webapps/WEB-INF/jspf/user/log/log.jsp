@@ -11,8 +11,8 @@
 	<textarea style="width: 100%; resize: vertical;" rows="50" wrap="off"> ${frd.log}</textarea>
 </div>
 
-<shell:title text="Log"/>
-<shell:state help="kernel/extension.html#log-dyn" moveSelector="#${uiid} > form"/>
+<shell:title text="Log (${u.countLines(frd.log)})"/>
+<shell:state help="kernel/extension.html#user-session-log" moveSelector="#${uiid} > form"/>
 
 <script>
 	$(function () {
