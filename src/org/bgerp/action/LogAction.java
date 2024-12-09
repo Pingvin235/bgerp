@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,7 +10,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path ="/user/log")
+@Action(path ="/user/log", pathId = true)
 public class LogAction extends BaseAction {
     private static final String JSP = PATH_JSP_USER + "/log/log.jsp";
 

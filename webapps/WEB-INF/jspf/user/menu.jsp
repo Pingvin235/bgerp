@@ -25,7 +25,7 @@
 	<ui:menu-item title="${l.l('Создать')}" action="ru.bgcrm.struts.action.CustomerAction:customerCreate" command="$$.customer.createAndEdit()"/>
 </ui:menu-group>
 
-<ui:menu-item title="Log" href="log" icon="ti-receipt" action="ru.bgcrm.struts.action.LogAction:null" />
+<ui:menu-item title="Log" href="log" icon="ti-receipt" action="/user/log:null" />
 
 <plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_MENU_ITEMS%>"/>
 

@@ -41,7 +41,7 @@
 		<item action="ru.bgcrm.struts.action.CustomerAction:customerMerge" title="Слияние контрагентов"/>
 	</item>
 
-	<item action="ru.bgcrm.struts.action.LogAction:null, ru.bgcrm.struts.action.LogAction:log, ru.bgcrm.struts.action.LogAction:download" title="Log"/>
+	<item action="/user/log:null, /user/log:log, /user/log:download, ru.bgcrm.struts.action.LogAction:null, ru.bgcrm.struts.action.LogAction:log, ru.bgcrm.struts.action.LogAction:download" title="Log"/>
 
 	<item title="Message">
 		<item title="Queue">
