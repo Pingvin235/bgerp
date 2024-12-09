@@ -31,6 +31,7 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.file.FileInfo;
 import org.bgerp.model.file.SessionTemporaryFiles;
+import org.bgerp.model.msg.Message;
 import org.bgerp.plugin.msg.email.MessageParser;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
@@ -44,7 +45,6 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
@@ -618,7 +618,7 @@ public class MessageTypeEmail extends MessageType {
     private Message extractMessage(MessageParser mp, boolean extractText) throws Exception {
         Message msg = new Message();
         msg.setTypeId(id);
-        msg.setDirection(ru.bgcrm.model.message.Message.DIRECTION_INCOMING);
+        msg.setDirection(org.bgerp.model.msg.Message.DIRECTION_INCOMING);
         msg.setFrom(mp.getFrom());
         msg.setTo(mp.getTo());
         msg.setSystemId(mp.getMessageId());

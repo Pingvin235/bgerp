@@ -9,13 +9,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

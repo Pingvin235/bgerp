@@ -1,4 +1,4 @@
-package ru.bgcrm.model.message;
+package org.bgerp.model.msg;
 
 import java.util.ArrayList;
 import java.util.Date;

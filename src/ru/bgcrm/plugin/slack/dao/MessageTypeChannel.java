@@ -18,6 +18,7 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
@@ -31,7 +32,6 @@ import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;

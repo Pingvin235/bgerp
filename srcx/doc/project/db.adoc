@@ -332,7 +332,7 @@ File data.
 |===
 
 === message
-Message, entities of javadoc:ru.bgcrm.model.message.Message[].
+Message, entities of javadoc:org.bgerp.model.msg.Message[].
 [cols="a,a,50%a", options="header"]
 |===
 |Column

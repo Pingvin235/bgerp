@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.fulltext;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.Event;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.event.MessageRemovedEvent;
 import ru.bgcrm.event.ParamChangedEvent;
@@ -12,7 +13,6 @@ import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;

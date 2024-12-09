@@ -1,7 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.proto.model;
 
-import org.bgerp.model.base.IdTitle;
-
 public class UserInfo  {
     private int id;
     private String name;

@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitled;
+import org.bgerp.model.msg.Message;
 
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 

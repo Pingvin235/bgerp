@@ -6,7 +6,6 @@ import java.util.List;
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;

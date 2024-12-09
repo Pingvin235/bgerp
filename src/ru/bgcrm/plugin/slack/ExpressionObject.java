@@ -11,10 +11,10 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.slack.dao.MessageTypeChannel;
 import ru.bgcrm.plugin.slack.dao.SlackProto;

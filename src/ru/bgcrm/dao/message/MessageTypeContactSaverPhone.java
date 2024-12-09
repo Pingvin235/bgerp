@@ -7,13 +7,13 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.msg.Message;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.process.Process;

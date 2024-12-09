@@ -10,12 +10,12 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.model.News;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;

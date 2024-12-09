@@ -15,7 +15,6 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -23,6 +22,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.model.msg.Message;
 import org.bgerp.plugin.pln.blow.Plugin;
 import org.bgerp.plugin.pln.blow.dao.BoardDAO;
 import org.bgerp.plugin.pln.blow.model.Board;

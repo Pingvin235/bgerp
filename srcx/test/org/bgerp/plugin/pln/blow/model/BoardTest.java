@@ -98,7 +98,6 @@ public class BoardTest {
 
         Process p11 = new ProcessWithExecutor(11, 1, 2);
 
-        @SuppressWarnings("unchecked")
         List<Pair<ru.bgcrm.model.process.Process, Map<String, Object>>> processes = Lists.newArrayList(new Pair<>(p1, null), new Pair<>(p2, null), new Pair<>(p3, null),
                 new Pair<>(p4, null), new Pair<>(p5, null), new Pair<>(p6, null), new Pair<>(p7, null), new Pair<>(p8, null), new Pair<>(p9, null),
                 new Pair<>(p10, null), new Pair<>(p11, null));

@@ -13,12 +13,12 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

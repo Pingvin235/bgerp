@@ -1,8 +1,7 @@
 package ru.bgcrm.event.client;
 
 import org.bgerp.event.base.ClientEvent;
-
-import ru.bgcrm.model.message.Message;
+import org.bgerp.model.msg.Message;
 
 /**
  * Open message for processing.

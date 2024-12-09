@@ -12,11 +12,11 @@ import org.bgerp.app.servlet.Interface;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.SecretExpression;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

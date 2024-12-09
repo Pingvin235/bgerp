@@ -13,10 +13,10 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.message.MessageTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.msg.Message;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "email", priority = 100, dependsOnGroups = { "config", "openIface", "user", "message" })

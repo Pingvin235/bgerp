@@ -19,12 +19,12 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdStringTitle;
+import org.bgerp.model.msg.Message;
 import org.bgerp.model.param.Parameter;
 
 import com.google.common.collect.Sets;
 
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.Plugin;
 import ru.bgcrm.util.Utils;

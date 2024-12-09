@@ -10,12 +10,12 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitled;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.dao.message.MessageTypeContactSaver;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;

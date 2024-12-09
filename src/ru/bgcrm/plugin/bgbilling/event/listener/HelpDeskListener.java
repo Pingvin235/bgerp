@@ -15,6 +15,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.UserCache;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
@@ -24,7 +25,6 @@ import ru.bgcrm.event.client.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;

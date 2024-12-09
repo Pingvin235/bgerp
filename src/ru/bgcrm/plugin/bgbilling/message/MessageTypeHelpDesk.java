@@ -28,6 +28,7 @@ import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.file.FileInfo;
 import org.bgerp.model.file.SessionTemporaryFiles;
+import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageDAO;
@@ -39,7 +40,6 @@ import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;

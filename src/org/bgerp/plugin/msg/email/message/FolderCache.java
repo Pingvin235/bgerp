@@ -10,10 +10,10 @@ import javax.mail.Folder;
 import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.msg.Message;
 import org.bgerp.plugin.msg.email.MessageParser;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.util.Utils;
 
 /**

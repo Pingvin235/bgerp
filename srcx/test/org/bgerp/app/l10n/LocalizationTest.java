@@ -2,8 +2,6 @@ package org.bgerp.app.l10n;
 
 import java.util.List;
 
-import org.bgerp.app.l10n.Localization;
-import org.bgerp.app.l10n.Localizer;
 import org.junit.Assert;
 import org.junit.Test;
 

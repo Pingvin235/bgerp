@@ -3,10 +3,9 @@ package ru.bgcrm.plugin.fulltext.action;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 
-import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.Plugin;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;

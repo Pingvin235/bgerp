@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -22,7 +23,6 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
 

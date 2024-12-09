@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -16,7 +17,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;

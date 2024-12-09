@@ -14,13 +14,13 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.TagConfig;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Period;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

@@ -6,12 +6,12 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.message.MessageTypeSearch;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

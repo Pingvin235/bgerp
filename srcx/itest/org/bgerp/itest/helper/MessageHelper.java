@@ -7,9 +7,9 @@ import java.util.Date;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.message.MessageTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.msg.Message;
 
 import ru.bgcrm.dao.message.MessageDAO;
-import ru.bgcrm.model.message.Message;
 
 public class MessageHelper {
     public static final String HOW_TO_TEST_MESSAGE_SUBJECT = "How to test";

@@ -8,10 +8,10 @@ import java.sql.Connection;
 
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.Runnable;
+import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;

@@ -12,12 +12,12 @@ import org.bgerp.app.l10n.Localization;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.file.FileInfo;
 import org.bgerp.model.file.SessionTemporaryFiles;
+import org.bgerp.model.msg.Message;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.struts.form.DynActionForm;
