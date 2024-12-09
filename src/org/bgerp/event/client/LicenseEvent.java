@@ -1,7 +1,7 @@
 package org.bgerp.event.client;
 
 import org.bgerp.event.base.ClientEvent;
-import org.bgerp.model.Message;
+import org.bgerp.model.base.Message;
 
 /**
  * License state event.
