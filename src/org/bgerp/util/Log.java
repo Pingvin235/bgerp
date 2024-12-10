@@ -106,6 +106,15 @@ public class Log {
     }
 
     /**
+     * Writes deprecated warning for a created class instance
+     * @param deprecatedClass the deprecated class
+     * @param actualClass the actual ones
+     */
+    public void warndClass(Class<?> deprecatedClass, Class<?> actualClass) {
+        warnd("Deprecated class '{}' was created, use '{}' instead", deprecatedClass.getName(), actualClass.getName());
+    }
+
+    /**
      * Writes deprecation warning for a JSP call.
      * @param deprecatedName the deprecated call string.
      * @param actualName the actual call string.

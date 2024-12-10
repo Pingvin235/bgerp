@@ -158,13 +158,13 @@ public class Invoice extends Id {
 
     @Deprecated
     public String getDateFromMonthDisplayName(String lang) {
-        log.warnd("Used deprecated call 'getDateFromMonthDisplayName', use 'dateFromMonthDisplayName' instead.");
+        log.warndMethod("getDateFromMonthDisplayName", "dateFromMonthDisplayName");
         return dateFromMonthDisplayName(lang);
     }
 
     @Deprecated
     public int getDateFromYear() {
-        log.warnd("Used deprecated call 'getDateFromYear', use 'dateFromYear' instead.");
+        log.warndMethod("getDateFromYear", "dateFromYear");
         return dateFromYear();
     }
 

@@ -58,7 +58,7 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     @JsonIgnore
     @Deprecated
     public List<C> getChilds() {
-        log.warnd("Called deprecated method 'getChilds', use 'getChildren' instead.");
+        log.warndMethod("getChilds", "getChildren");
         return children;
     }
 
