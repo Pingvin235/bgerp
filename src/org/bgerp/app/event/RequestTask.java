@@ -20,14 +20,20 @@ class RequestTask implements Callable<byte[]> {
         this.conSet = conSet;
         this.event = event;
         this.listener = listener;
-        this.trackedSession = SessionLogAppender.getTrackedSession();
+        this.trackedSession = SessionLogAppender.getTracked();
     }
 
     @Override
     public byte[] call() throws Exception {
-        if (trackedSession != null)
-            SessionLogAppender.trackSession(trackedSession.getSession(), false);
-        listener.notify(event, conSet);
+        try {
+            if (trackedSession != null)
+                SessionLogAppender.track(trackedSession.getSession(), false);
+            listener.notify(event, conSet);
+        } finally {
+            if (trackedSession != null)
+                SessionLogAppender.untrack();
+        }
+
         return new byte[0];
     }
 }

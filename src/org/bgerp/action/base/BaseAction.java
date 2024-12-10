@@ -149,7 +149,7 @@ public abstract class BaseAction extends DispatchAction {
         form.setConnectionSet(conSet);
 
         // refresh thread of tracked log
-        SessionLogAppender.trackSession(request.getSession(), false);
+        SessionLogAppender.track(request.getSession(), false);
 
         long timeStart = System.currentTimeMillis();
 

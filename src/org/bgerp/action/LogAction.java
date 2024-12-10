@@ -18,7 +18,7 @@ public class LogAction extends BaseAction {
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
         HttpSession session = form.getHttpRequest().getSession();
 
-        form.setResponseData("state", SessionLogAppender.isSessionTracked(session));
+        form.setResponseData("state", SessionLogAppender.isTracked(session));
         form.setResponseData("log", SessionLogAppender.getSessionLog(session));
 
         return html(conSet, form, JSP);
@@ -29,9 +29,9 @@ public class LogAction extends BaseAction {
 
         HttpSession session = form.getHttpRequest().getSession();
         if (value)
-            SessionLogAppender.trackSession(session, true);
+            SessionLogAppender.track(session, true);
         else
-            SessionLogAppender.untrackSession(session);
+            SessionLogAppender.untrack(session);
 
         return unspecified(form, conSet);
     }
@@ -41,9 +41,9 @@ public class LogAction extends BaseAction {
 
         HttpSession session = form.getHttpRequest().getSession();
         if (value)
-            SessionLogAppender.trackSession(session, true);
+            SessionLogAppender.track(session, true);
         else
-            SessionLogAppender.untrackSession(session);
+            SessionLogAppender.untrack(session);
 
         return json(conSet, form);
     }
