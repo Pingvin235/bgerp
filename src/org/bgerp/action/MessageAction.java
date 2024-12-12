@@ -536,7 +536,7 @@ public class MessageAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/process_message_edit.jsp");
     }
 
-    public ActionForward messageUpdate(DynActionForm form, Connection con) throws Exception {
+    public ActionForward processMessageUpdate(DynActionForm form, Connection con) throws Exception {
         var type = getType(form.getParamInt("typeId"));
 
         // preserving message type for choosing in next usage of editor

@@ -14,7 +14,7 @@
 </c:set>
 
 <html:form action="/user/message" styleId="${editorUiid}" styleClass="editorStopReload">
-	<input type="hidden" name="method" value="messageUpdate"/>
+	<input type="hidden" name="method" value="processMessageUpdate"/>
 	<html:hidden property="processId"/>
 	<html:hidden property="id"/>
 	<html:hidden property="areaId"/>
@@ -85,7 +85,7 @@
 	<c:set var="editorJsp" value="${messageType.editorJsp}"/>
 	<c:if test="${not empty editorJsp}">
 		<html:form action="/user/message" styleId="${editorUiid}-${messageType.id}" styleClass="editorStopReload" style="display: none;">
-			<input type="hidden" name="method" value="messageUpdate"/>
+			<input type="hidden" name="method" value="processMessageUpdate"/>
 			<html:hidden property="processId"/>
 			<html:hidden property="id"/>
 			<c:if test="${messageType.checkEmptySubject}">
