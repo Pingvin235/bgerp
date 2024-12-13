@@ -30,6 +30,7 @@ import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.msg.config.TagConfig;
+import org.bgerp.model.msg.config.TemplateConfig;
 import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.sql.LikePattern;
@@ -525,6 +526,8 @@ public class MessageAction extends BaseAction {
         if (tagConfig != null)
             form.setResponseData("messageTagIds", dao.getMessageTags(form.getId()));
 
+        form.setRequestAttribute("templateConfig", setup.getConfig(TemplateConfig.class));
+
         if (message != null)
             form.setResponseData("message", message);
 
@@ -583,5 +586,11 @@ public class MessageAction extends BaseAction {
 
     public ActionForward modifyNotOwned(DynActionForm form, ConnectionSet conSet) {
         throw new PermissionActionMethodException();
+    }
+
+    public ActionForward template(DynActionForm form, ConnectionSet conSet) {
+        form.setResponseData("template", setup.getConfig(TemplateConfig.class).getTemplates().get(form.getId()));
+
+        return json(conSet, form);
     }
 }

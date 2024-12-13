@@ -212,7 +212,6 @@ include::../../plugin/bgbilling/message_save_modes.adocf[]
 [[setup-tag]]
 === Tags
 Colored message tags <<usage-process-tag, allow>> to separate messages in process tab. Example of configuration:
-[square]
 ----
 tag.1.title=Access
 tag.1.color=red
@@ -221,6 +220,26 @@ tag.2.color=green
 tag.3.title=TODO
 tag.3.color=magenta
 ----
+
+[[setup-template]]
+=== Templates
+Message Templates allow to create pre-defined subject and text content, to begin typical messages.
+
+To add a template, add the following configuration block.
+----
+message.template.{@inc:cnt}.title=<title>
+message.template.{@cnt}.subject=<subject>
+message.template.{@cnt}.text=<text>
+----
+
+All the values are self-explainable, here is the sample of configured template.
+
+[snippet, from="message.template", to="END", remove-leading=""]
+link:../../../itest/org/bgerp/itest/kernel/message/MessageTest.config.txt#L56-L62[MessageTest.config.txt]
+
+And how does it look like.
+
+image::_res/message_template.png[width="800"]
 
 [[setup-possible-process]]
 === Possible Processes
@@ -288,7 +307,7 @@ In the left bottom area during message processing are shown <<setup-possible-pro
 image::_res/message_process_possible_process.png[width="800"]
 
 [[usage-process]]
-=== Работа в процессе
+=== Процесс
 Отображение вкладки сообщений должно быть настроено в <<../process/index.adoc#config-messages, конфигурации типа процесса>>.
 
 image::_res/process_messages.png[]

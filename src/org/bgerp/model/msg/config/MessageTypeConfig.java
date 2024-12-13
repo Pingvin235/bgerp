@@ -41,7 +41,7 @@ public class MessageTypeConfig extends Config {
         }
     };
 
-    public MessageTypeConfig(ConfigMap config) {
+    protected MessageTypeConfig(ConfigMap config) {
         super(null);
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("messageType.").entrySet()) {
             int id = me.getKey();

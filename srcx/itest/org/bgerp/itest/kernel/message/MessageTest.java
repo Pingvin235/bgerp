@@ -89,7 +89,7 @@ public class MessageTest {
 
     @Test(dependsOnMethods = { "user", "config", "processType" })
     public void process() throws Exception {
-        process1Id = ProcessHelper.addProcess(processTypeId, TITLE + " Many Messages, Large Messages, Tags").getId();
+        process1Id = ProcessHelper.addProcess(processTypeId, TITLE + " Many Messages, Large Messages, Tags, Patterns").getId();
         process2Id = ProcessHelper.addProcess(processTypeId, TITLE + " Unread").getId();
     }
 

@@ -21,7 +21,7 @@ public class TagConfig extends Config {
     private final List<Tag> tagList = new ArrayList<>(10);
     private final Map<Integer, Tag> tagMap;
 
-    public TagConfig(ConfigMap config) {
+    protected TagConfig(ConfigMap config) {
         super(null);
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("tag.").entrySet())
             tagList.add(new Tag(me.getKey(), me.getValue()));
@@ -70,14 +70,9 @@ public class TagConfig extends Config {
         @Dynamic
         public static final int TAG_PIN_ID = -4;
 
-        private Tag(int id, String title, String color) {
-            super(id, title);
-            this.color = color;
-        }
-
-        private Tag(int id, ConfigMap params) {
-            super(id, params.get("title", "???"));
-            this.color = params.get("color", "ff0000");
+        private Tag(int id, ConfigMap config) {
+            super(id, config.get("title", "???"));
+            this.color = config.get("color", "ff0000");
         }
 
         public String getColor() {

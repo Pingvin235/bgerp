@@ -115,11 +115,34 @@ $$.message = new function() {
 		$(a.querySelector('i')).toggle($msgBox.hasClass('nowrap'));
 	}
 
+	/**
+	 * Loads a message template
+	 *
+	 * @param {HTMLInputElement} hidden input with the template ID
+	 * @param {String} message alert confirmation message
+	 */
+	const templateLoad = (hidden, message) => {
+		const form = hidden.form;
+		const subject = form.subject;
+		const text = form.text;
+
+		if ((subject.value || text.value) && !confirm(message)) return;
+
+		$$.ajax
+			.post('/user/message.do?' + $$.ajax.requestParamsToUrl({ method: 'template', id: hidden.value }))
+			.done((response) => {
+				const template = response.data.template;
+				subject.value = template.subject;
+				text.value = template.text;
+			});
+	}
+
 	// public functions
 	this.editorTypeChanged = editorTypeChanged;
 	this.subjectTableInit = subjectTableInit;
 	this.checkSubject = checkSubject;
 	this.checkAttach = checkAttach;
 	this.lineBreak = lineBreak;
+	this.templateLoad = templateLoad;
 }
 

@@ -33,6 +33,8 @@ messageType.1.search.{@cnt}.class=MessageTypeSearchCustomerByTitle
 messageType.1.saver.class=MessageTypeContactSaverEmail
 messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 
+# IDs from 2 to 50 are reserved for plugin's message types
+
 messageType.50.title=Call
 messageType.50.class=MessageTypeCall
 messageType.50.search.{@inc:cnt}.title=By Phone
@@ -50,6 +52,14 @@ messageType.100.class=MessageTypeNote
 #messageType.100.create.unread=1
 # do not check empty subjects
 #messageType.100.check.empty.subject=0
+
+message.template.{@inc:cnt}.title=Greetings from BGERP
+message.template.{@cnt}.subject=Hello from BGERP
+message.template.{@cnt}.text=<<END
+Dear Friend,
+
+the Team BGERP wishes you all the best!
+END
 
 # scheduled task
 scheduler.task.messages.class=MessageExchange
