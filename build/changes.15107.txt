@@ -1,0 +1,3 @@
+C: Make root MySQL password in Docker container equals to the app's one
+C: Update in Docker image MySQL to 8.0.40
+C: Update in Docker image Java to 21.0.5+11

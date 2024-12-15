@@ -25,7 +25,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /tmp/bgerp/bgerp.properties
     sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /tmp/bgerp/db_create.sql
 
-    echo "Moving bgerp.properites"
+    echo "Moving bgerp.properties"
     mv -v /tmp/bgerp/bgerp.properties .
 
     echo "Creating BGERP user and init database"

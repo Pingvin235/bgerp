@@ -9,7 +9,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     docker_wait_mysql_up
 
     # BGERP init DB connection properties
-    export ERP_DB_PWD=`pwgen`
+    export ERP_DB_PWD=$MYSQL_ROOT_PASSWORD
     echo "Setting DB password: '$ERP_DB_PWD'"
     sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/bgerp/bgerp.properties
     sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/bgerp/db_create.sql
