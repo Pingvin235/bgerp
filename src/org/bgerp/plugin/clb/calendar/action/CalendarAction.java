@@ -29,7 +29,7 @@ public class CalendarAction extends BaseAction {
         form.setResponseData("weekNext", TimeConvert.toDate(TimeConvert.toLocalDate(week).plusWeeks(1)));
 
         if (form.getId() > 0) {
-            var calendar = config.getCalendarMap().get(form.getId());
+            //var calendar = config.getCalendarMap().get(form.getId());
         }
 
         return html(conSet, form, PATH_JSP + "/calendar.jsp");

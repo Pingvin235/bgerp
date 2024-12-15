@@ -6,14 +6,12 @@ import static org.bgerp.plugin.bil.invoice.dao.Tables.TABLE_INVOICE_POSITION_PRE
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
-import org.bgerp.plugin.bil.invoice.model.Position;
 import org.bgerp.util.sql.PreparedQuery;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.PeriodicDAO;
