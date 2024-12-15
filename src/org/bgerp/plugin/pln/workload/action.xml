@@ -1,5 +1,0 @@
-<item title="Plugin Workload">
-	<item title="Сводка">
-		<item action="org.bgerp.plugin.pln.workload.action.GroupLoadAction:show, ru.bgerp.plugin.workload.struts.action.GroupLoadAction:show" title="Сводка"/>
-	</item>
-</item>
