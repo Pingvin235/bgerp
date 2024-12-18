@@ -257,15 +257,15 @@ public class MessageDAO extends CommonDAO {
             message = getMessageById(id);
         }
 
-        PreparedStatement ps = con.prepareStatement("DELETE FROM " + TABLE_MESSAGE + "WHERE id=?");
-        ps.setInt(1, id);
-        ps.executeUpdate();
-        ps.close();
+        try (var ps = con.prepareStatement(SQL_DELETE_FROM + TABLE_MESSAGE + SQL_WHERE + "id=?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
 
-        ps = con.prepareStatement(SQL_DELETE_FROM + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?");
-        ps.setInt(1, id);
-        ps.executeUpdate();
-        ps.close();
+        try (var ps = con.prepareStatement(SQL_DELETE_FROM + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
 
         if (message != null) {
             updateProcessLastMessageTime(message);

@@ -327,19 +327,21 @@
 										return false;">${l.l('Редактировать')}</a></li>
 								</c:if>
 
-								<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('/user/message:messageDelete')}">
+								<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('/user/message:processMessageDelete')}">
 									<c:url var="deleteUrl" value="${form.requestURI}">
-										<c:param name="method" value="messageDelete"/>
-										<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
+										<c:param name="method" value="processMessageDelete"/>
+										<c:param name="id" value="${message.id}"/>
 									</c:url>
 
-									<li><a href="#" onclick="
+									<li>
+										<a href="#" onclick="
 										if (confirm('${l.l('Удалить сообщение?')}'))
 											$$.ajax.post('${deleteUrl}').done(() => {
 												$$.ajax.load('${form.requestUrl}', $('#${formUiid}').parent());
 											});
 										return false;
-										">${l.l('Удалить')}</a></li>
+										"><i class="ti-trash"></i> ${l.l('Удалить')}</a>
+									</li>
 								</c:if>
 							</c:if>
 

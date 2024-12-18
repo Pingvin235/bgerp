@@ -46,31 +46,32 @@
 	<item title="Message">
 		<item title="Queue">
 			<item action="/user/message:messageList, ru.bgcrm.struts.action.MessageAction:messageList" title="List">
-				<b>allowedTypeIds</b> - comma separated type ID list<br/>
+				<b>allowedTypeIds</b> - comma separated type IDs<br/>
 			</item>
 			<item action="/user/message:null, ru.bgcrm.struts.action.MessageAction:null, ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="View"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Possible processes list"/>
-			<item action="/user/message:processCreate, ru.bgcrm.struts.action.MessageAction:processCreate" title="Create process for message"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Possible Processes"/>
+			<item action="/user/message:processCreate, ru.bgcrm.struts.action.MessageAction:processCreate" title="Create a Process"/>
 			<item title="Call">
 				<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Occupy number"/>
 				<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Release number"/>
 				<item action="ru.bgcrm.struts.action.MessageCallAction:testCall" title="Test call"/>
 			</item>
+			<item action="/user/message:messageDelete, ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
 		</item>
-		<item title="In process">
+		<item title="Process">
 			<item action="/user/message:processMessageList, ru.bgcrm.struts.action.MessageAction:processMessageList" title="List">
-				<b>allowedTypeIds</b> - comma separated type ID list<br/>
+				<b>allowedTypeIds</b> - comma separated type IDs<br/>
 			</item>
 			<item action="/user/message:messageUpdateTags, /user/message:messageToggleTags, ru.bgcrm.struts.action.MessageAction:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageToggleTags" title="Pin and Tag"/>
-			<item action="/user/message:messageUpdateRead, ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Update read state"/>
-			<item action="/user/message:messageUpdateProcess, ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
-			<item action="/user/message:messageUpdateProcessToCopy, ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
+			<item action="/user/message:messageUpdateRead, ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Mark as read"/>
+			<item action="/user/message:messageUpdateProcess, ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Change Process"/>
+			<item action="/user/message:messageUpdateProcessToCopy, ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Change Process to a Copy"/>
 			<item action="/user/message:processMessageEdit, /user/message:template, /user/message:processMessageUpdate, /user/message:messageUpdate, ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Edit">
-				<b>allowedTypeIds</b> - comma separated type ID list for created messages<br/>
+				<b>allowedTypeIds</b> - comma separated type IDs<br/>
 			</item>
-			<item action="/user/message:modifyNotOwned, org.bgerp.action.MessageAction:modifyNotOwned" title="Update and Delete not owned"/>
+			<item action="/user/message:processMessageDelete" title="Delete"/>
+			<item action="/user/message:modifyNotOwned, org.bgerp.action.MessageAction:modifyNotOwned" title="Edit or Delete not owned"/>
 		</item>
-		<item action="/user/message:messageDelete, ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
 	</item>
 
 	<item title="Process">
@@ -88,7 +89,7 @@
 		</item>
 		<item action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate" title="Create process"/>
 		<item title="Card">
-			<item action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process" title="View process card"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process" title="View"/>
 
 			<item action="ru.bgcrm.struts.action.ProcessAction:processClone" title="Clone"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>

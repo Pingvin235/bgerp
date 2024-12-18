@@ -31,11 +31,11 @@ Let's take interface filters, as example - use *restoreRequestParams* method in 
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../../src/org/bgerp/action/MessageAction.java#L510-L510[org.bgerp.action.MessageAction]
+link:../../../src/org/bgerp/action/MessageAction.java#L498-L498[org.bgerp.action.MessageAction]
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/org/bgerp/action/MessageAction.java#L542-L549[org.bgerp.action.MessageAction]
+link:../../../src/org/bgerp/action/MessageAction.java#L530-L537[org.bgerp.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]

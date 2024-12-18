@@ -723,7 +723,7 @@ The first identifier is used upon the next save operation of the permission set.
 In the following example an action class was renamed two times and action method changed first to *unspecified*, defined in the configuration by *null* and later to *status*.
 
 [snippet, from="<item ti", to="s\"/>", remove-leading="		"]
-link:../../../src/org/bgerp/plugin/kernel/action.xml#L318-L319[org/bgerp/plugin/kernel/action.xml]
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L319-L320[org/bgerp/plugin/kernel/action.xml]
 
 And in this sample action ID was changed from *class* to *path*. Old IDs were preserved as well.
 link:../../../src/org/bgerp/plugin/kernel/action.xml#L345-L355[org/bgerp/plugin/kernel/action.xml]

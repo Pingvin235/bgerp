@@ -252,11 +252,12 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward messageDelete(DynActionForm form, ConnectionSet conSet) throws Exception {
-        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
-
         int cnt = 0;
 
+        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
+
         Map<MessageType, List<String>> typeSystemIds = new HashMap<>(10);
+
         for (String pair : form.getParamValuesListStr("typeId-systemId")) {
             // to avoid too long processing
             if (++cnt > MAX_MESSAGE_DELETE_QNT)
@@ -273,23 +274,10 @@ public class MessageAction extends BaseAction {
                 .add(StringUtils.substringAfter(pair, "-"));
         }
 
-        // if no the special permission checking all the messages for ownerships
-        if (!form.getUser().checkPerm(ACTION_MODIFY_NOT_OWNED)) {
-            MessageDAO messageDao = new MessageDAO(conSet.getConnection());
-            for (Integer sysId : typeSystemIds.values().stream().flatMap(List::stream).map(Utils::parseInt).collect(Collectors.toSet())) {
-                Message message = messageDao.getMessageById(sysId);
-                if (message != null && message.getUserId() != form.getUserId()) {
-                    throw new BGException("Deletion not own messages is not allowed");
-                }
-            }
-        }
-
         for (Map.Entry<MessageType, List<String>> me : typeSystemIds.entrySet())
             me.getKey().messageDelete(conSet, me.getValue().toArray(new String[me.getValue().size()]));
 
-        EventProcessor.processEvent(new MessageRemovedEvent(form, form.getId()), conSet);
-
-        return html(conSet, form, PATH_JSP + "/message.jsp");
+        return json(conSet, form);
     }
 
     public ActionForward messageList(DynActionForm form, final ConnectionSet conSet) throws Exception {
@@ -552,9 +540,7 @@ public class MessageAction extends BaseAction {
         if (form.getId() > 0)
             message = new MessageDAO(con).getMessageById(form.getId());
 
-        if (message.getId() > 0 && message.getUserId() != form.getUserId() && !form.getUser().checkPerm(ACTION_MODIFY_NOT_OWNED)) {
-            throw new BGException("Editing of not own messages is not allowed");
-        }
+        modifyNotOwnedCheck(form, message);
 
         Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
         if (message.getId() <= 0 && !allowedTypeIds.isEmpty() && !allowedTypeIds.contains(type.getId())) {
@@ -582,6 +568,25 @@ public class MessageAction extends BaseAction {
         form.setResponseData("message", message);
 
         return json(con, form);
+    }
+
+    public ActionForward processMessageDelete(DynActionForm form, ConnectionSet conSet) throws Exception {
+        MessageDAO dao = new MessageDAO(conSet.getConnection());
+
+        Message message = dao.getMessageById(form.getId());
+
+        modifyNotOwnedCheck(form, message);
+
+        dao.deleteMessage(form.getId());
+
+        EventProcessor.processEvent(new MessageRemovedEvent(form, form.getId()), conSet);
+
+        return json(conSet, form);
+    }
+
+    private void modifyNotOwnedCheck(DynActionForm form, Message message) throws BGMessageException {
+        if (message.getId() > 0 && message.getUserId() != form.getUserId() && !form.getUser().checkPerm(ACTION_MODIFY_NOT_OWNED))
+            throw new BGMessageException("Editing of not own messages is not allowed");
     }
 
     public ActionForward modifyNotOwned(DynActionForm form, ConnectionSet conSet) {
