@@ -18,8 +18,8 @@
 		<item action="/admin/plugin/dba/db:null, org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:null" title="View State"/>
 		<item action="/admin/plugin/dba/db:tableDrop, org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:tableDrop" title="Drop table"/>
 		<item title="Cleanup">
-			<item action="org.bgerp.plugin.svc.dba.action.admin.CleanupAction:null, org.bgerp.plugin.svc.dba.action.admin.CleanupAction:queryDryRun" title="View State"/>
-			<item action="org.bgerp.plugin.svc.dba.action.admin.CleanupAction:queryRun" title="Execute"/>
+			<item action="/admin/plugin/dba/cleanup:null, org.bgerp.plugin.svc.dba.action.admin.CleanupAction:null, org.bgerp.plugin.svc.dba.action.admin.CleanupAction:queryDryRun" title="View State"/>
+			<item action="/admin/plugin/dba/cleanup:queryRun, org.bgerp.plugin.svc.dba.action.admin.CleanupAction:queryRun" title="Execute"/>
 		</item>
 	</item>
 </item>

@@ -12,7 +12,7 @@
 		<c:url var="url" value="/admin/plugin/dba/cleanup.do">
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
-		<p:check action="org.bgerp.plugin.svc.dba.action.admin.CleanupAction:null">
+		<p:check action="/admin/plugin/dba/cleanup:null">
 			[<a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">cleanup</a>]
 		</p:check>
 	</div>
