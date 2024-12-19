@@ -86,4 +86,8 @@ public class QueryAction extends BaseAction {
     public ActionForward queryCall(DynActionForm form, ConnectionSet conSet) {
         throw new PermissionActionMethodException();
     }
+
+    public ActionForward queryExplain(DynActionForm form, ConnectionSet conSet) {
+        throw new PermissionActionMethodException();
+    }
 }

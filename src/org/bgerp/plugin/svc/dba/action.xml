@@ -9,6 +9,7 @@
 		<item action="/admin/plugin/dba/query:queryAlter" title="ALTER"/>
 		<item action="/admin/plugin/dba/query:queryDrop, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDrop" title="DROP"/>
 		<item action="/admin/plugin/dba/query:queryCall" title="CALL"/>
+		<item action="/admin/plugin/dba/query:queryExplain" title="EXPLAIN"/>
 		<item title="History">
 			<item action="/admin/plugin/dba/query/history:get, org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get" title="Load"/>
 			<item action="/admin/plugin/dba/query/history:del, org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:del" title="Delete"/>

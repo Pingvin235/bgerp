@@ -43,7 +43,7 @@ public class QueryDAO extends CommonDAO {
         try (var st = conSet.getConnection().createStatement()) {
             st.execute(query);
 
-            if (type == QueryType.SELECT || type == QueryType.SHOW) {
+            if (type == QueryType.SELECT || type == QueryType.SHOW || type == QueryType.EXPLAIN) {
                 table.set(st.getResultSet());
 
                 if (type == QueryType.SELECT)
