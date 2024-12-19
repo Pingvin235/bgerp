@@ -12,7 +12,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/plugin/dba/db")
+@Action(path = "/admin/plugin/dba/db", pathId = true)
 public class DatabaseAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
