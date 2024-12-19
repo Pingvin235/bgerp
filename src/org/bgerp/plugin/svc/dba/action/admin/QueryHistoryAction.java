@@ -12,7 +12,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/plugin/dba/query/history")
+@Action(path = "/admin/plugin/dba/query/history", pathId = true)
 public class QueryHistoryAction extends BaseAction {
     public ActionForward get(DynActionForm form, ConnectionSet conSet) throws SQLException {
         var query = new QueryHistoryDAO(conSet.getConnection()).get(form.getUserId(), form.getId());

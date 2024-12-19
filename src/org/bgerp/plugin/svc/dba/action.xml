@@ -10,8 +10,8 @@
 		<item action="/admin/plugin/dba/query:queryDrop, org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDrop" title="DROP"/>
 		<item action="/admin/plugin/dba/query:queryCall" title="CALL"/>
 		<item title="History">
-			<item action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get" title="Load"/>
-			<item action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:del" title="Delete"/>
+			<item action="/admin/plugin/dba/query/history:get, org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get" title="Load"/>
+			<item action="/admin/plugin/dba/query/history:del, org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:del" title="Delete"/>
 		</item>
 	</item>
 	<item title="Database">

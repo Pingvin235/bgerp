@@ -2,11 +2,11 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <form action="${form.requestURI}">
-	<c:if test="${ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get') and not empty frd.storedQueries}">
+	<c:if test="${ctxUser.checkPerm('/admin/plugin/dba/query/history:get') and not empty frd.storedQueries}">
 		<div class="mb1" style="white-space: nowrap;">
 			<button type="button" class="btn-grey icon mr1" title="${l.l('Load query')}" onclick="$$.dba.queryHistoryGet(this)"><i class="ti-import"></i></button><%--
 		--%><ui:combo-single hiddenName="queryHistoryId" list="${frd.storedQueries}" styleClass="layout-width-rest"/>
-			<p:check action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:del">
+			<p:check action="/admin/plugin/dba/query/history:del">
 				<button type="button" class="btn-grey icon ml1" title="${l.l('Delete from history')}" onclick="if ($$.confirm.del()) { $$.dba.queryHistoryDel(this) }"><i class="ti-trash"></i></button>
 			</p:check>
 		</div>
