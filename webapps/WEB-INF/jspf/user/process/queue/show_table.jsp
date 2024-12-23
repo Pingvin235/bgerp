@@ -138,7 +138,7 @@ Incoming variables:
 					<c:when test="${column.value eq 'actions'}">
 						<c:set var="actionShowMode" value="${queue.configMap.actionShowMode}"/>
 
-						<c:forEach var="method" items="${queue.actionList}">
+						<c:forEach var="action" items="${queue.actionList}">
 							<c:if test="${action.statusIds.contains(process.statusId)}">
 								<c:url var="url" value="/user/process.do">
 									<c:param name="id" value="${process.id}"/>
