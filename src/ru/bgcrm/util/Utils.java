@@ -869,9 +869,11 @@ public class Utils {
     /**
      * Calls {@link Functions#escapeXml(String)} - replaces XML markup symbols to special codes.
      * @param value
-     * @return
+     * @return the input string with replacements
      */
     public static String escapeXml(String value) {
+        if (isBlankString(value))
+            return value;
         return Functions.escapeXml(value);
     }
 
