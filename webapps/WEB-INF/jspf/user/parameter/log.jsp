@@ -22,7 +22,7 @@
 	<html:hidden property="returnUrl"/>
 	<table id="${paramLinkId}" class="data mt05">
 		<tr>
-			<td>${l.l('Дата')}</td>
+			<td>${l.l('Date')}</td>
 			<td>${l.l('User')}</td>
 			<td>${l.l('Параметр')}</td>
 			<td width="100%">${l.l('Value')}</td>

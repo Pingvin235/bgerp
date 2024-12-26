@@ -45,7 +45,7 @@
 		</div>
 
 		<div>
-			 <ui:date-time paramName="date" value="${form.param.date}" placeholder="${l.l('Дата')}"/>
+			 <ui:date-time paramName="date" value="${form.param.date}" placeholder="${l.l('Date')}"/>
 		 </div>
 
 		<div>

@@ -251,7 +251,7 @@
 	<p><ru>улицы</ru><en>street</en></p>
 	<p><ru>Открыт</ru><en>Open</en></p>
 	<p><ru>Сумма</ru><en>Total</en></p>
-	<p><ru>Дата</ru><en>Date</en></p>
+	<p><en>Date</en><ru>Дата</ru></p>
 	<p><ru>Подгрупп</ru><en>Subgroups</en></p>
 	<p><ru>Скрытая</ru><en>Hidden</en></p>
 	<p><ru>Группы пользователей</ru><en>Groups of users</en></p>

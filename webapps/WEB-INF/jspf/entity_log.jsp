@@ -13,7 +13,7 @@
 	<table class="data">
 		<%-- TODO: Check, is hideTr somewhere used.  --%>
 		<tr ${hideTr}>
-			<td>${l.l('Дата')}</td>
+			<td>${l.l('Date')}</td>
 			<td>${l.l('User')}</td>
 			<td width="100%">${l.l('Текст')}</td>
 		</tr>
