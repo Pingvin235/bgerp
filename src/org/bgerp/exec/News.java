@@ -6,8 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.cache.UserNewsCache;
 import org.bgerp.plugin.kernel.Plugin;

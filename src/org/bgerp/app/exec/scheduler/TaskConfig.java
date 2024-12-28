@@ -9,8 +9,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.model.base.iface.IdTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;

@@ -3,8 +3,8 @@ package ru.bgcrm.model.process.wizard;
 import java.sql.Connection;
 import java.util.Map;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.process.wizard.base.Step;

@@ -2,8 +2,8 @@ package ru.bgcrm.plugin.bgbilling.message;
 
 import java.util.Set;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 

@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;

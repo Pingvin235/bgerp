@@ -3,8 +3,8 @@ package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 import java.sql.Connection;
 import java.util.List;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;

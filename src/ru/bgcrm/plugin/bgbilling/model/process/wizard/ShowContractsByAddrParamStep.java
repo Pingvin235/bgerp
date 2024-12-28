@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.w3c.dom.Document;

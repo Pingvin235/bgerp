@@ -2,7 +2,7 @@ package ru.bgcrm.struts.action.admin;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
-import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGMessageException;

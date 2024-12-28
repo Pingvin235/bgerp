@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.cache.ProcessTypeCache;

@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.UserCache;

@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.servlet.jsp.GetJsp;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.bil.invoice.Plugin;

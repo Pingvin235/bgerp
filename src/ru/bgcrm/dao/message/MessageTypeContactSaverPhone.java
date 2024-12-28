@@ -2,8 +2,8 @@ package ru.bgcrm.dao.message;
 
 import java.sql.Connection;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;

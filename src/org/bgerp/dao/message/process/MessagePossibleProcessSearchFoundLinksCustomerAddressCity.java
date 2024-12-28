@@ -5,8 +5,8 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.sql.PreparedQuery;

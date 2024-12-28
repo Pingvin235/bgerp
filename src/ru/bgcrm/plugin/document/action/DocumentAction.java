@@ -16,7 +16,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.action.FileAction;
 import org.bgerp.action.base.BaseAction;
-import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;

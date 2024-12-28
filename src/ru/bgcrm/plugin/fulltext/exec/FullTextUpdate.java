@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.cache.ParameterCache;

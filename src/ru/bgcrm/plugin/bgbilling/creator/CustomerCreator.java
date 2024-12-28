@@ -2,8 +2,8 @@ package ru.bgcrm.plugin.bgbilling.creator;
 
 import java.sql.Connection;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
 

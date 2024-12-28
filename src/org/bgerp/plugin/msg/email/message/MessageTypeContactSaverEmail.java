@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitled;

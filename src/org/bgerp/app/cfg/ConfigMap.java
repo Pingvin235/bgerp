@@ -13,8 +13,8 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.Config.InitStopException;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;

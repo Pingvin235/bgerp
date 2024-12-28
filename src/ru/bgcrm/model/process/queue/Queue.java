@@ -11,9 +11,9 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;

@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.model.process.link.ProcessLink;

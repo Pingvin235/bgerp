@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bgerp.action.base.Actions;
-import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.dist.App;
 import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.app.dist.inst.InstallerChanges;

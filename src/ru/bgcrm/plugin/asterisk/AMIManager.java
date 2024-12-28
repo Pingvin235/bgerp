@@ -3,9 +3,9 @@ package ru.bgcrm.plugin.asterisk;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.util.Log;

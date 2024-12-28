@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.sql.PreparedQuery;
 

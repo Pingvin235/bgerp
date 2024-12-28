@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Utils;

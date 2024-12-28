@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Utils;

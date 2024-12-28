@@ -2,9 +2,9 @@ package org.bgerp.plugin.svc.backup.exec;
 
 import java.util.Set;
 
-import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.plugin.svc.backup.Config;

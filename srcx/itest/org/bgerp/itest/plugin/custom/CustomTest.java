@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
 import org.apache.commons.io.FileUtils;
-import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.custom.Custom;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.util.RuntimeRunner;
