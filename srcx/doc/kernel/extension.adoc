@@ -247,7 +247,7 @@ git push
 * *<user>* и *<pswd>* - логин и пароль пользователя BGERP, подробнее о запросах внешних систем;
 * *<iface>* - тип класса-обработчика, подробнее ниже.
 
-При параметре *<iface>* равным *event* класс должен реализовывать интерфейс javadoc:ru.bgcrm.event.listener.EventListener[]
+При параметре *<iface>* равным *event* класс должен реализовывать интерфейс javadoc:org.bgerp.app.event.iface.EventListener[]
 в который передаётся событие javadoc:ru.bgcrm.event.RunClassRequestEvent[].
 В противном случае класс может реализовать интерфейс java.lang.Runnable, который просто будет запущен.
 

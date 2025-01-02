@@ -803,7 +803,7 @@ processor.<id>.page.url=<pageUrl>
 Где:
 [square]
 * *<id>* - числовой идентификатор обработчика;
-* *<class>* - динамический либо обычный класс, расширяющий javadoc:ru.bgcrm.event.listener.EventListener[]
+* *<class>* - динамический либо обычный класс, расширяющий javadoc:org.bgerp.app.event.iface.EventListener[]
 * *<jspPage>* - JSP страница со свойствами обработчика.
 
 Параметр *responseType=file* необходимо указывать для обработчиков, генерирующих файлы, например для печати.
