@@ -3,8 +3,8 @@ package org.bgerp.itest.kernel.db;
 import java.sql.Connection;
 
 import org.bgerp.app.cfg.SimpleConfigMap;
+import org.bgerp.util.sql.pool.ConnectionPool;
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.util.Utils;

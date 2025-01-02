@@ -1,4 +1,4 @@
-package org.bgerp.app.db.sql.pool;
+package org.bgerp.util.sql.pool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,8 +20,8 @@ import org.apache.commons.dbcp2.PoolableConnection;
 import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.db.sql.pool.fakesql.FakeConnection;
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.pool.fakesql.FakeConnection;
 
 import ru.bgcrm.util.AlarmErrorMessage;
 import ru.bgcrm.util.AlarmSender;

@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.bgerp.app.db.sql.pool.ConnectionPool;
-import org.bgerp.app.db.sql.pool.fakesql.FakeConnection;
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.pool.ConnectionPool;
+import org.bgerp.util.sql.pool.fakesql.FakeConnection;
 
 /**
  * Set with DB connections, taken from a pool on demand.

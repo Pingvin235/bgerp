@@ -15,12 +15,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.db.sql.TableChangeMonitor;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.TableChangeMonitor;
 
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;

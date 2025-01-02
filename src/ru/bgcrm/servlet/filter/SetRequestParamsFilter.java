@@ -13,7 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.Interface;
@@ -26,6 +25,7 @@ import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.cache.UserGroupRoleCache;
+import org.bgerp.util.sql.pool.ConnectionPool;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.process.ProcessType;

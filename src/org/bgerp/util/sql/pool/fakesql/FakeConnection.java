@@ -1,4 +1,4 @@
-package org.bgerp.app.db.sql.pool.fakesql;
+package org.bgerp.util.sql.pool.fakesql;
 
 import java.sql.Array;
 import java.sql.Blob;

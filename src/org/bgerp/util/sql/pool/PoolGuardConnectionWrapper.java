@@ -1,4 +1,4 @@
-package org.bgerp.app.db.sql.pool;
+package org.bgerp.util.sql.pool;
 
 import java.sql.Array;
 import java.sql.Blob;

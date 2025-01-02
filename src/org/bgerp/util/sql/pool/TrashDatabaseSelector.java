@@ -1,4 +1,4 @@
-package org.bgerp.app.db.sql.pool;
+package org.bgerp.util.sql.pool;
 
 import java.util.ArrayList;
 import java.util.List;

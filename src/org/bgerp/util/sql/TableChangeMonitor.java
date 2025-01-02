@@ -1,4 +1,4 @@
-package org.bgerp.app.db.sql;
+package org.bgerp.util.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
