@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,7 +19,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractNote;
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class ContractNoteDAO extends ContractDAO {
     public ContractNoteDAO(User user, String billingId) {

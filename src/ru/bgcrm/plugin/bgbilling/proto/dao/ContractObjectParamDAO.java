@@ -9,6 +9,7 @@ import java.util.Map;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -27,7 +28,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrList;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrText;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class ContractObjectParamDAO extends BillingDAO {
     private static final Log log = Log.getLog();

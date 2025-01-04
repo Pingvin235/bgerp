@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,7 +19,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.cerbercrypt.CardPacket;
 import ru.bgcrm.plugin.bgbilling.proto.model.cerbercrypt.UserCard;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class CerberCryptDAO extends BillingModuleDAO {
     private static final String CERBERCRYPT_MODULE = "ru.bitel.bgbilling.modules.cerbercrypt";

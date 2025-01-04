@@ -26,6 +26,7 @@ import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
+import org.bgerp.util.xml.XMLUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -61,7 +62,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class ContractDAO extends BillingDAO {
     private static final Log log = Log.getLog();

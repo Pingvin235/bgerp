@@ -10,6 +10,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -25,7 +26,6 @@ import ru.bgcrm.plugin.bgbilling.dao.BGBillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 @Bean
 public class ShowContractsByAddrParamStep extends BaseStep {

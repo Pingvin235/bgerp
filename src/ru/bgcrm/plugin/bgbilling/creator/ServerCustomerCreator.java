@@ -26,6 +26,7 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.text.LevenshteinDistance;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -53,7 +54,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 

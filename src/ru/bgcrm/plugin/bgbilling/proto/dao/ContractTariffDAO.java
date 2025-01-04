@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -22,7 +23,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffGroup;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffOption;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO {
     private static final Log log = Log.getLog();

@@ -22,11 +22,11 @@ import org.bgerp.app.l10n.Localizer;
 import org.bgerp.dao.Cleaner;
 import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import org.bgerp.util.Log;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 /**
  * Parent class for all the plugins.

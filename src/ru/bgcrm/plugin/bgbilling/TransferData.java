@@ -35,6 +35,7 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
+import org.bgerp.util.xml.XMLUtils;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -57,7 +58,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.BGServerFile;
 import ru.bgcrm.plugin.bgbilling.transfer.UserAccount;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class TransferData {
     private static final Log log = Log.getLog();

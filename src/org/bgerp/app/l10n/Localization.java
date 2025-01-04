@@ -19,13 +19,13 @@ import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.app.servlet.util.ServletUtils;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 /**
  * A localization unit, loaded from l10n.xml for a plugin.

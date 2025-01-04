@@ -4,11 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 /*
  * Класс для структурного хранения результата выполнения действия биллинга OpenContract

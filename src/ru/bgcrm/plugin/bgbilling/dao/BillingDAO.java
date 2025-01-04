@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.dao;
 import java.util.StringTokenizer;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -19,7 +20,6 @@ import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.TransferData;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class BillingDAO {
     // page

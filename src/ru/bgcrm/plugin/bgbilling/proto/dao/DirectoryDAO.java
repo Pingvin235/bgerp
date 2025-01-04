@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdTitleTreeItem;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -27,7 +28,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractOb
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class DirectoryDAO extends BillingDAO {
     private static final String CONTRACT_STATUS_MODULE_ID = "ru.bitel.bgbilling.kernel.contract.status";

@@ -19,6 +19,7 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -49,7 +50,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrText;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class ContractParamDAO extends BillingDAO {
     private static final String KERNEL_CONTRACT_API = ContractDAO.KERNEL_CONTRACT_API;

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -24,7 +25,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.bill.Bill;
 import ru.bgcrm.plugin.bgbilling.proto.model.bill.Invoice;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class BillDAO extends BillingModuleDAO {
     private static final String BILL_MODULE_ID = "bill";

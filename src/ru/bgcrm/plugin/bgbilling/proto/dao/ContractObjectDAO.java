@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -26,7 +27,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractOb
 
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class ContractObjectDAO extends BillingDAO {
     public ContractObjectDAO(User user, String billingId) {

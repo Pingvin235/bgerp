@@ -10,6 +10,7 @@ import java.util.List;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -27,7 +28,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdMessage;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class HelpDeskDAO extends BillingDAO {
     private static final String MODULE = "ru.bitel.bgbilling.plugins.helpdesk";

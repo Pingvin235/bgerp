@@ -16,6 +16,7 @@ import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.exec.CorrectPermissions;
 import org.bgerp.util.Log;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -25,7 +26,6 @@ import javassist.NotFoundException;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 /**
  * Permissions tree node, allowing one or more actions.

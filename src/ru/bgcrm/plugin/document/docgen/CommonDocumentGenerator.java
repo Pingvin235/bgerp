@@ -21,6 +21,7 @@ import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.servlet.util.ServletResponseInterceptor;
+import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -36,7 +37,6 @@ import ru.bgcrm.plugin.document.model.Pattern;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.RegexpStringUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class CommonDocumentGenerator implements EventListener<Event> {

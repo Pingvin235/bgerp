@@ -3,6 +3,7 @@ package ru.bgcrm.util;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.bgerp.util.xml.XMLUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;

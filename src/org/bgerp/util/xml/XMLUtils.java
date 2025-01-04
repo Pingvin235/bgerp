@@ -1,4 +1,4 @@
-package ru.bgcrm.util;
+package org.bgerp.util.xml;
 
 import java.io.InputStream;
 import java.io.OutputStream;
