@@ -1,3 +1,0 @@
-
-# areas to search recipient's e-mails in message editor, other possible values: users
-#email:recipients.search.area=process,executors,process_customers
