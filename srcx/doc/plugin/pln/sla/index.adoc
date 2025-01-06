@@ -8,7 +8,7 @@ Expiring times are presented as reverse minutes counters with colored background
 
 image::_res/process_queue.png[width="800"]
 
-NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
+NOTE: You can link:https://demo.bgerp.org/user/process/queue[see] (queue *Plugin SLA*) an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
 == Setup

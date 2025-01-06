@@ -36,6 +36,7 @@
 *** <<plugin/pln/agree/index.adoc#, Agree>>
 *** <<plugin/pln/blow/index.adoc#, Blow>>
 *** <<plugin/pln/callboard/index.adoc#, CallBoard>>
+*** <<plugin/pln/grpl/index.adoc#, Group Plan>>
 *** <<plugin/pln/sla/index.adoc#, SLA>>
 ** Messaging
 *** <<plugin/msg/email/index.adoc#, E-Mail>>

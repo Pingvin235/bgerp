@@ -59,7 +59,7 @@ address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})
 # formatting for <<#param-phone, parameter type "phone">> [[config-param-phone]]
 # item format
 param.phone.format=(${number})( [${comment}])
-# comma separated number formats
+# comma-separated number formats
 # Ufa, Russia
 param.phone.format.number=+7 (347) XXX-XX-XX,+7 9XX XXX-XX-XX
 # Munich, Germany
@@ -351,7 +351,7 @@ For *group* mode may be defined additionally process types which have *executor*
 ----
 isolation.process.group.executor.typeIds=<typeIds>
 ----
-Where *<typeIds>* comma separated list of process type IDs.
+Where *<typeIds>* comma-separated list of process type IDs.
 
 [[user-isolation-process-type-filter]]
 ==== Creation process type filtering
@@ -379,11 +379,11 @@ image::_res/i0092.png[]
 [[param-config]]
 Ключи конфигурации параметра различаются для типов параметров, общие для всех типов необязательные значения:
 ----
-# comma separated parameter IDs, must be set before the parameter
+# comma-separated parameter IDs, must be set before the parameter
 requireBeforeFillParamIds=<codes>
-# comma separated parameter IDs, must be empty before the parameter set
+# comma-separated parameter IDs, must be empty before the parameter set
 requireBeforeEmptyParamIds=<codes>
-# comma separated tag strings, tagged parameter can be viewed or edited only
+# comma-separated tag strings, tagged parameter can be viewed or edited only
 # with explicitly allowance in permission options
 tags=<tags>
 # read only parameter, can't be edited in UI
@@ -394,8 +394,8 @@ style=<style>
 
 Where:
 [square]
-* *<codes>* - comma separated parameter IDs;
-* *<tags>* - comma separated tag strings;
+* *<codes>* - comma-separated parameter IDs;
+* *<tags>* - comma-separated tag strings;
 * *<style>* - CSS style attribute value.
 
 [[customer-param-group]]

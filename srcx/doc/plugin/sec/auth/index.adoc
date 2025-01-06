@@ -33,7 +33,7 @@ Where:
 * *<loginExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> expression for getting LDAP login out of user *login*;
 * *<searchBase>* - LDAP search base;
 * *<searchExpression>* - JEXL expression for getting LDAP search query out of user *login*;
-* *<attributes>* - optional comma separated list of searched attributes;
+* *<attributes>* - optional comma-separated list of searched attributes;
 * *<groupIdsExpression>* - JEXL expression for getting user group IDs out of *attrs* object, instance of javadoc:org.bgerp.plugin.sec.auth.config.LDAPAttributes[];
 * *<titleExpression>*- - JEXL expression for getting user title out of *attrs* object, instance of javadoc:org.bgerp.plugin.sec.auth.config.LDAPAttributes[].
 

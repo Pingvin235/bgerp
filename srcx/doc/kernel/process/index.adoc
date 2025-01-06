@@ -224,7 +224,7 @@ Ro restricting areas where the process type can be created, add:
 create.in.areas=<areas>
 ----
 
-Where *<areas>* is comma separated list of areas, where process can be created:
+Where *<areas>* is comma-separated list of areas, where process can be created:
 [square]
 * *message* - message processing;
 * *queue* - process queues;
@@ -315,7 +315,7 @@ Where:
 * *<relationType>* - process relation type: *processLink* (default), *processMade*, *processDepend*;
 * *<processTypes>* - comma separted process type IDs of linked processes;
 * *<add>* - *1* for ability to add linked processes in the category;
-* *<addProcessStatuses>* - comma separated process statuses for filtering available for adding; the order of statuses is used for sorting them.
+* *<addProcessStatuses>* - comma-separated process statuses for filtering available for adding; the order of statuses is used for sorting them.
 
 [[setup-type-related-process-create-and-link]]
 ===== Create and Link
@@ -342,7 +342,7 @@ Where:
 * *<typeId>* - created process type ID;
 * *<expression>* - <<../extension.adoc#jexl, JEXL>> expression, when returns *false* - the combo-box item is displayed strikethrough;
 * *<exressionError>* - error message shown on attempt to use a disabled item;
-* *<copyRules>* - comma separated parameter IDs to be copied in each newly created process, or mapping pairs *<from_id>:<to_id>* for copying between different parameters but with a same type;
+* *<copyRules>* - comma-separated parameter IDs to be copied in each newly created process, or mapping pairs *<from_id>:<to_id>* for copying between different parameters but with a same type;
 * *<copyLinks>* - copy links to a created process, *1* - copy all links, but also possible to limit them by type, e.g.: *contract%*, *customer%*.
 
 To JEXL processor for *<expression>* are passed objects:

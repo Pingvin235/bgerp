@@ -8,7 +8,7 @@ The plugin allows to organize up-to-down planning for complex software and simil
 Unlike Kanban or SCRAM approaches, providing flat list of tasks, a Blow board visualizes task's hierarchy and their distribution over executors.
 The main goal is providing very quick overview of the current project state with clear understanding what should be done next for each of team members.
 
-NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
+NOTE: You can link:https://demo.bgerp.org/user/blow/board#1[see] an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
 == Setup
@@ -24,12 +24,12 @@ link:../../../../itest/org/bgerp/itest/plugin/pln/blow/BlowTest.process.queue.co
 
 [[setup-board]]
 === Board
-After enabling the plugin via <<../../../kernel/setup.adoc#config-plugin, server config>> add for any board the following configuration:
+After enabling the plugin via <<../../../kernel/setup.adoc#config-plugin, server config>> add for any board the following configuration block.
 
 ----
 blow:board.<id>.title=<title>
 blow:board.<id>.queueId=<queueId>
-# optional parameters
+# optional keys
 blow:board.<id>.executor.groups=<groupIds>
 blow:board.<id>.executor.roles=<roleIds>
 blow:board.<id>.expressionCell=<expressionCell>
@@ -39,14 +39,17 @@ blow:board.<id>.openUrl=<openUrl>
 Where:
 [square]
 * *<id>* - unique numeric board ID;
+* *<title>* - board title;
 * *<queueId>* - primary data <<#setup-queue, process queue>> ID;
-* *<groupIds>* - comma separated process execution groups IDs, by default all groups are taken;
-* *<roleIds>* - comma separated process execution <<../../../kernel/process/index.adoc#usage-card-executor, roles>> IDs, by default only role *0* is taken;
+* *<groupIds>* - comma-separated process execution groups IDs, by default all groups are taken;
+* *<roleIds>* - comma-separated process execution <<../../../kernel/process/index.adoc#usage-card-executor, roles>> IDs, by default only role *0* is taken;
 * *<openUrl>* - board name for publishing on <<../../../kernel/interface.adoc#open, open interface>> with URL  *../open/blow/<openUrl>*.
 
 *<expressionCell>* contains <<../../../kernel/extension.adoc#jexl, JEXL>> expression for evaluating of cell text.
 In the expression context beside default variables and *process* are passed queue column values as variables *colX*, where *X* is a column ID.
-If not defined in the board cells are shown process descriptions. Here is an example of such configuration, taken from Demo:
+If not defined in the board cells are shown process descriptions.
+
+Here is an example of a configuration in the Demo.
 
 [snippet, from="blow:board.1.expr", to="END"]
 link:../../../../itest/org/bgerp/itest/plugin/pln/blow/BlowTest.config.txt#L4-L27[Plugin Blow board config]

@@ -46,7 +46,7 @@ bgbilling:search.contract.param.address.paramIds=<paramIds>
 
 Where:
 [square]
-* *<paramIds>* - comma separated list of BGBilling parameter IDs.
+* *<paramIds>* - comma-separated list of BGBilling parameter IDs.
 
 [[config-server]]
 === Серверы биллинга

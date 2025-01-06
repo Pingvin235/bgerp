@@ -40,7 +40,7 @@ Where:
 [square]
 * *<paramBranchId>* - process parameter type 'text', storing GIT branch, required;
 * *<paramEmailId>* - user parameter type 'email', storing author's identity;
-* *<allowedStatusIds>* - comma separated list of allowed status IDs with set branch name.
+* *<allowedStatusIds>* - comma-separated list of allowed status IDs with set branch name.
 
 To enable *GIT* tab in process card add in <<../../kernel/process/index.adoc#, type configuration>>.
 [source]

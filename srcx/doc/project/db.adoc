@@ -1076,7 +1076,7 @@ Cтроковые параметры
 
 |process_id
 |INT
-|process ID
+|process ID, link to <<_process, process:id>>
 
 |group_id
 |INT
@@ -1084,11 +1084,11 @@ Cтроковые параметры
 
 |role_id
 |INT
-|ID роли, которую исполняет группа в процессе
+|execution role ID from configuration
 
 |user_id
 |INT
-|ID пользователя
+|user ID, link to <<_user, user:id>>
 |===
 
 === process_group
@@ -1106,11 +1106,11 @@ Cтроковые параметры
 
 |group_id
 |INT
-|ID группы, link to <<_user_group_title, user_group_title:id>>
+|group ID, link to <<_user_group_title, user_group_title:id>>
 
 |role_id
 |INT
-|ID роли, которую исполняет группа в процессе
+|execution role ID from configuration
 |===
 
 === process_link
@@ -1613,6 +1613,7 @@ Permission sets.
 
 include::../plugin/bil/invoice/db.adocf[]
 include::../plugin/fulltext/db.adocf[]
+include::../plugin/pln/grpl/db.adocf[]
 include::../plugin/task/db.adocf[]
 include::../plugin/clb/team/db.adocf[]
 include::../plugin/sec/secret/db.adocf[]

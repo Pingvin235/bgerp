@@ -220,7 +220,7 @@ user.open.show.paramIds=<PARAM_IDS>
 
 Where:
 [square]
-* *<PARAM_IDS>* - comma separated user parameter IDs to be shown, parameter type *file* is not supported
+* *<PARAM_IDS>* - comma-separated user parameter IDs to be shown, parameter type *file* is not supported
 
 [[open-process]]
 === Process
@@ -237,9 +237,9 @@ process.open.show.message.tagIds=<MESSAGE_TAG_IDS>
 
 Where:
 [square]
-* *<TYPE_IDS>* - comma separated process type IDs to be shown;
-* *<PARAM_IDS>* - comma separated process parameter IDs to be shown, parameter type *file* is not supported;
-* *<MESSAGE_TAG_IDS>* - comma separated <<message/index.adoc#usage-process-tag, message tag>> IDs to be shown, * - show all tags;
+* *<TYPE_IDS>* - comma-separated process type IDs to be shown;
+* *<PARAM_IDS>* - comma-separated process parameter IDs to be shown, parameter type *file* is not supported;
+* *<MESSAGE_TAG_IDS>* - comma-separated <<message/index.adoc#usage-process-tag, message tag>> IDs to be shown, * - show all tags;
 * *<SECRET_EXPRESSION>* - <<extension.adoc#jexl, JEXL>> expression for secret handling, e.g using plugin <<../plugin/sec/secret/index.adoc#, secret>>.
 
 [[open-process-queue]]
@@ -253,7 +253,7 @@ media.html.open.columns=<COLUMN_IDS>
 
 Where:
 [square]
-* *<COLUMN_IDS>* - comma separated list of queue <<process/queue.adoc#setup, columns>>.
+* *<COLUMN_IDS>* - comma-separated list of queue <<process/queue.adoc#setup, columns>>.
 
 [[open-l10n]]
 === Localization

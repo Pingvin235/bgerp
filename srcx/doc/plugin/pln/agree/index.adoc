@@ -7,7 +7,7 @@ The plugin allows to control process' switches between two statuses with an agre
 
 During an agreement procedure <<../../msg/email/index.adoc#setup-process-type-change-notification, email>> notifications are sent ot all the involved process executors.
 
-NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
+NOTE: You can link:https://demo.bgerp.org/user/process/queue[see] (process *Plugin Agree*) an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
 == Setup
