@@ -63,7 +63,7 @@ public class Setup extends Preferences {
 
         loadBundle(bundleName, this.data, false);
         if (initConfigAndPool) {
-            connectionPool = new ConnectionPool("MAIN", this);
+            connectionPool = new ConnectionPool("bgerp", this);
 
             loadConfigMap(this.data);
             loadBundle(bundleName, data, false);
@@ -93,22 +93,6 @@ public class Setup extends Preferences {
             if (!Utils.isBlankString(value))
                 System.setProperty("bgerp." + key, value);
         }
-    }
-
-    /**
-     * Use {@link #getDBConnectionFromPool()}.
-     */
-    @Deprecated
-    public DataSource getDataSource() {
-        return connectionPool.getDataSource();
-    }
-
-    /**
-    * Use {@link #getDBSlaveConnectionFromPool()}.
-    */
-    @Deprecated
-    public DataSource getSlaveDataSource() {
-        return connectionPool.getSlaveDataSource();
     }
 
     public ConnectionPool getConnectionPool() {
@@ -193,5 +177,21 @@ public class Setup extends Preferences {
                 includes.put(included.getId(), included.getData());
             }
         }
+    }
+
+    /**
+     * Use {@link #getDBConnectionFromPool()}.
+     */
+    @Deprecated
+    public DataSource getDataSource() {
+        return connectionPool.getDataSource();
+    }
+
+    /**
+    * Use {@link #getDBSlaveConnectionFromPool()}.
+    */
+    @Deprecated
+    public DataSource getSlaveDataSource() {
+        return connectionPool.getSlaveDataSource();
     }
 }

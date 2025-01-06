@@ -20,11 +20,10 @@ import org.apache.commons.dbcp2.PoolableConnection;
 import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.alarm.AlarmSender;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.pool.fakesql.FakeConnection;
 
-import ru.bgcrm.util.AlarmErrorMessage;
-import ru.bgcrm.util.AlarmSender;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -265,36 +264,23 @@ public class ConnectionPool {
 
         try {
             if (connectionPool.isOverload()) {
-                log.error(name + "Pool: Connections limit is over!!!!!");
+                log.error("Master pool '{}' connections limit is over", name);
 
-                String key = "db.master.connection.limit.over";
-                long time = System.currentTimeMillis();
-
-                if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
-                    String message = "Это может привести к снижению времени отклика системы."
-                            + "\nНеобходимо предпринять меры по ускорению работы Master базы данных." + "\n\n" + poolStatus();
-
-                    AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Достигнут лимит одновременных подключений к Master базе", message);
-                    AlarmSender.sendAlarm(alarm, time);
-                }
+                AlarmSender.send("db.master.connection.limit.over", 30 * 1000, "Master DB connections limit is over", () ->
+                    "That can slow down the app instance." +
+                    "\nSomething has to be done to speed up work of Master DB." +
+                    "\n\n" + poolStatus());
             }
 
             con = connectionPool.dataSource.getConnection();
             con.setAutoCommit(false);
         } catch (Exception ex) {
-            String key = "db.master.connect.error";
-            long time = System.currentTimeMillis();
+            log.error(name + " " + ex.getMessage(), ex);
 
-            if (AlarmSender.needAlarmSend(key, time, 10 * 1000)) {
-                String message = "Необходимо срочно восстановить соединение с Master базой.";
+            AlarmSender.send("db.master.connect.error", 10 * 1000, "Master DB connection error",
+                    () -> "Commection to Master DB '" + name + "' must be urgently restored", ex, null);
 
-                AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Ошибка соединения с Master базой данных", message, ex);
-                AlarmSender.sendAlarm(alarm, time);
-            }
-
-            this.lastMasterErrorTime.set(time);
-
-            log.error(name + ex.getMessage(), ex);
+            this.lastMasterErrorTime.set(System.currentTimeMillis());
         }
 
         return con;
@@ -340,19 +326,12 @@ public class ConnectionPool {
                         boolean slaveOk = true;
 
                         if (prefPool.isOverload()) {
-                            log.error("Slave Pool [XXX:" + prefId + "]: Connections limit is over!!!!!");
+                            log.error("Slave pool '{}' connections limit is over", prefId);
 
-                            String key = "db.slave.connection.limit.over";
-                            long time = System.currentTimeMillis();
-
-                            if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
-                                String message = "Это может привести к снижению времени отклика системы."
-                                        + "\nНеобходимо предпринять меры по ускорению работы Slave баз данных." + "\n\n" + poolStatus();
-
-                                AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Достигнут лимит одновременных подключений к Slave базам",
-                                        message);
-                                AlarmSender.sendAlarm(alarm, time);
-                            }
+                            AlarmSender.send("db.slave.connection.limit.over",  30 * 1000, "Slave DB connections limit is over", () ->
+                                "That can slow down the app instance." +
+                                "\nSomething has to be done to speed up work of Slave DB." +
+                                "\n\n" + poolStatus());
 
                             // можно использоать slave только если не включена защита от зависания БД
                             slaveOk = disablePreventionSlaveOverrun;
@@ -365,21 +344,12 @@ public class ConnectionPool {
                         }
                     }
                 } catch (Exception ex) {
-                    String key = "db.slave.connect.error";
-                    long time = System.currentTimeMillis();
+                    log.error(name + " " + ex.getMessage(), ex);
 
-                    if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
-                        String message = "Ошибка соединения с Slave базой данных: " + prefId + ". "
-                                + "\nВместо соединения с данной базой было использовано соединение с Master базой. "
-                                + "\nНеобходимо срочно восстановить соединение с Slave базой " + prefId + ".";
-
-                        AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Ошибка соединения с Slave базой данных", message, ex);
-                        AlarmSender.sendAlarm(alarm, time);
-                    }
+                    AlarmSender.send("db.slave.connect.error", 30 * 1000, "Slave DB connection error",
+                        () -> "Commection to Slave DB '" + name + "' must be urgently restored", ex, null);
 
                     slaveErrorTimes.put(prefId, now);
-
-                    log.error(ex.getMessage(), ex);
                 }
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
@@ -454,21 +424,14 @@ public class ConnectionPool {
                 GuardSupportedPool trashPool = trashPools.get(trashBase);
                 if (trashPool != null) {
                     if (trashPool.isOverload()) {
-                        //возвращаем пустышку
                         result = new FakeConnection();
-                        //и шлем аларм
-                        log.error("Trash Pool [" + trashBase + "]: Connections limit is over!!!!!");
 
-                        String key = "db.trash.connection.limit.over";
-                        long time = System.currentTimeMillis();
+                        log.error("Trash pool '{}' connections limit is over", trashBase);
 
-                        if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
-                            String message = "Это может привести к недостоверности получаемых данных."
-                                    + "\nНеобходимо предпринять меры по ускорению работы Trash баз данных." + "\n\n" + poolStatus();
-
-                            AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Достигнут лимит одновременных подключений к Trash базам", message);
-                            AlarmSender.sendAlarm(alarm, time);
-                        }
+                        AlarmSender.send("db.trash.connection.limit.over", 30 * 1000, "Trash DB connections limit is over", () ->
+                            "That can cause missing of some data for users." +
+                            "\nSomething has to be done to speed up work of Trash DB." +
+                            "\n\n" + poolStatus());
                     } else {
                         result = trashPool.dataSource.getConnection();
                         result.setAutoCommit(false);
@@ -523,68 +486,6 @@ public class ConnectionPool {
         return getDBTrashConnectionFromPool(tableName, RETURN_SLAVE);
     }
 
-    /**
-     * Возвращает соединение с slave базой.
-     * если неверная база то null со всем вытекающим, так как
-     * применяется только при принудительном выборе базы в некоторых специфичных
-     * служебных случаях.
-     * @param poolId - ид базы
-     * @return коннекшен
-     */
-    public final Connection getSlaveConnectionFromPool(String poolId) {
-        Connection con = null;
-        try {
-            if (poolId != null) {
-                GuardSupportedPool pool = slavePools.get(poolId);
-                if (pool != null) {
-                    con = pool.dataSource.getConnection();
-                    con.setAutoCommit(false);
-                    if (!isReplicationAvailable(poolId)) {
-                        String key = "slave.enable";
-                        long time = System.currentTimeMillis();
-
-                        if (AlarmSender.needAlarmSend(key, time, 60 * 1000)) {
-                            String message = "Восстановлено соединение с Slave БД с идентификатором  '" + poolId + "' ";
-                            AlarmSender.sendAlarm(new AlarmErrorMessage(key, "Восстановлена работа со Slave БД", message), time);
-
-                            setReplicationAvailable(poolId, true);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            String key = "db.slave.connect.error";
-            long time = System.currentTimeMillis();
-            if (isReplicationAvailable(poolId)) {
-                if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
-                    String message = "Ошибка соединения с Slave базой данных: " + poolId + ". "
-                            + "\nНеобходимо срочно восстановить соединение с Slave базой " + poolId + ".";
-
-                    AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Ошибка соединения с Slave базой данных", message, e);
-                    AlarmSender.sendAlarm(alarm, time);
-
-                    setReplicationAvailable(poolId, false);
-                }
-            }
-            log.error(e.getMessage(), e);
-        }
-        return con;
-    }
-
-    /**
-     * Установка/Отключение доступности Slave базы
-     * @param slaveId идентификатор Slave базы
-     * @param available true -не доступно; false - доступно
-     */
-    private void setReplicationAvailable(String slaveId, boolean available) {
-        synchronized (repMutex) {
-            if (available) {
-                notAvailableReplications.remove(slaveId);
-            } else {
-                notAvailableReplications.add(slaveId);
-            }
-        }
-    }
 
     /**
      * Возвращает идентификаторы slave баз.
@@ -634,7 +535,7 @@ public class ConnectionPool {
             return "";
         }
 
-        StringBuffer sb = new StringBuffer("Connections pool to Master status ");
+        StringBuffer sb = new StringBuffer("Connections pool to Master '" + name + "' status ");
         // статус Master пула
         sb.append(poolStatus(connectionPool.pool));
 
@@ -644,7 +545,7 @@ public class ConnectionPool {
             GenericObjectPool<?> pool = me.getValue().pool;
 
             sb.append("\n");
-            sb.append("Connections pool to Slave \"" + name + "\" status ");
+            sb.append("Connections pool to Slave '" + name + "' status ");
             sb.append(poolStatus(pool));
         }
 
@@ -654,7 +555,7 @@ public class ConnectionPool {
             GenericObjectPool<?> pool = me.getValue().pool;
 
             sb.append("\n");
-            sb.append("Connections pool to Trash \"" + name + "\" status ");
+            sb.append("Connections pool to Trash '" + name + "' status ");
             sb.append(poolStatus(pool));
         }
 

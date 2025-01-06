@@ -135,7 +135,7 @@ public class MessageAction extends BaseAction {
         }
 
         if (message == null)
-            throw new BGMessageException("Сообщение не найдено.");
+            throw new BGMessageException("Message not found");
 
         form.setResponseData("id", message.getId());
 
@@ -209,11 +209,9 @@ public class MessageAction extends BaseAction {
 
         Message message = messageDao.getMessageById(form.getId());
         if (message == null)
-            throw new BGMessageException("Сообщение не найдено.");
+            throw new BGMessageException("Message not found");
 
-        Process process = processDao.getProcess(message.getProcessId());
-        if (process == null)
-            throw new BGMessageException("Процесс не найден.");
+        Process process = processDao.getProcessOrThrow(message.getProcessId());
 
         String linkType = form.getParam("linkType");
 

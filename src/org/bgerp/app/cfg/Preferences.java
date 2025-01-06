@@ -234,6 +234,23 @@ public class Preferences extends ConfigMap {
         return line;
     }
 
+    /**
+     * Inserts includes placed with <pre>include.ID=1</pre> expressions.
+     * @param configDao DAO for getting includes.
+     * @param config key-value lines of main configuration.
+     * @param validate check existence of includes configurations, variables.
+     * @throws BGMessageException
+     * @throws SQLException
+     */
+    public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGMessageException, SQLException {
+        Iterable<String> includes = Config.getIncludes(configDao, new Preferences(config), validate);
+        return new Preferences(config, includes, validate);
+    }
+
+    /**
+     * Use {@link #sub(String)}
+     */
+    @Deprecated
     public Map<String, String> getHashValuesWithPrefix(String prefix) {
         Map<String, String> result = new HashMap<>();
 
@@ -249,21 +266,7 @@ public class Preferences extends ConfigMap {
     }
 
     /**
-     * Inserts includes placed with <pre>include.ID=1</pre> expressions.
-     * @param configDao DAO for getting includes.
-     * @param config key-value lines of main configuration.
-     * @param validate check existence of includes configurations, variables.
-     * @throws BGMessageException
-     * @throws SQLException
-     */
-    public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGMessageException, SQLException {
-        Iterable<String> includes = Config.getIncludes(configDao, new Preferences(config), validate);
-        return new Preferences(config, includes, validate);
-    }
-
-    /**
      * Use {@link #subIndexed(String)}
-     * @return
      */
     @Deprecated
     public List<Map<String, String>> parseObjects(String prefix) {

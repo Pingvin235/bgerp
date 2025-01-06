@@ -20,12 +20,12 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
+import org.bgerp.util.mail.MailConfig;
+import org.bgerp.util.mail.MailMsg;
 
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.plugin.dispatch.Plugin;
-import ru.bgcrm.util.MailConfig;
-import ru.bgcrm.util.MailMsg;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 

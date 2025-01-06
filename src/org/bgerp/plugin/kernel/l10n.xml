@@ -671,6 +671,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Update on the change?</en><ru>Обновить на изменение?</ru></p>
 	<p><en>Perform restart?</en><ru>Выполнить перезапуск?</ru></p>
 	<p><en>Perform update?</en><ru>Выполнить обновление?</ru></p>
+	<p><en>Message not found</en><ru>Сообщение не найдено</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

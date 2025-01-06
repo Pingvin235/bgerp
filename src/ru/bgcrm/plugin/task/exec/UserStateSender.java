@@ -15,13 +15,13 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.event.client.NewsInfoEvent;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
+import org.bgerp.util.mail.MailMsg;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.UserExpressionObject;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.task.Plugin;
-import ru.bgcrm.util.MailMsg;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**

@@ -938,13 +938,13 @@ By doing <<action>> in object *l* the localization context is passed, containing
 Localized key string may contain placeholders for some values, marked as *{}*.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
-link:../../../src/org/bgerp/action/MessageAction.java#L245-L245[org.bgerp.action.MessageAction]
+link:../../../src/org/bgerp/action/MessageAction.java#L243-L243[org.bgerp.action.MessageAction]
 
 <<exception, BGMessageException>> can contain localized message, translated when shown to a user.
 In the following snippet might be seen, how it can be thrown in a plugin's logic.
 
 [snippet, from="if (", to="x);", remove-leading="                    "]
-link:../../../src/org/bgerp/plugin/msg/email/message/Addresses.java#L104-L108[org.bgerp.plugin.msg.email.message.Addresses]
+link:../../../src/org/bgerp/util/mail/Addresses.java#L104-L108[org.bgerp.util.mail.Addresses]
 
 As there is no way to make localization on the Frontend, phrases may be sent there from the Backend.
 Here are two samples for such cases.

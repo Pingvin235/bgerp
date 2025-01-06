@@ -29,6 +29,7 @@ import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.Bean;
+import org.bgerp.app.exception.alarm.AlarmSender;
 import org.bgerp.app.exec.scheduler.Scheduler;
 import org.bgerp.app.servlet.util.AccessLogValve;
 import org.bgerp.custom.Custom;
@@ -36,7 +37,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.AdminPortListener;
-import ru.bgcrm.util.AlarmSender;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -92,7 +92,7 @@ public class Server extends Tomcat {
 
             Scheduler.getInstance();
 
-            AlarmSender.initSender(setup);
+            AlarmSender.init(setup);
         } catch (Exception e) {
             log.error(e);
             System.exit(1);

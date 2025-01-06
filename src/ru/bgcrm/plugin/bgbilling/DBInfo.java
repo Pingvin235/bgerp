@@ -90,7 +90,7 @@ public class DBInfo {
 
     public void setSetup(ConfigMap setup) {
         this.setup = setup;
-        this.connectionPool = new ConnectionPool("bgbilling-pool-" + getId(), setup);
+        this.connectionPool = new ConnectionPool("bgbilling-" + getId(), setup);
     }
 
     public ConnectionPool getConnectionPool() {

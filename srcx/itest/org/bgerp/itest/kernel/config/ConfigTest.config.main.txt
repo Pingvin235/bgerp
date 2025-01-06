@@ -10,6 +10,19 @@ URL=https://demo.bgerp.org
 url.user={@URL}/user
 url.open=/open
 
+# email sending options smtp !!!
+mail.from.email=demo@bgerp.org
+mail.from.name={@title}
+mail.transport.protocol=smtps
+mail.smtp.host=smtp.yandex.com
+mail.smtp.user=demo@bgerp.org
+mail.smtp.pswd=bgdemo
+# debug smtp exchange
+#mail.debug=1
+
+# app's alarms comma separated emails !!!
+#alarm.mail=demo@bgerp.org
+
 # password check rules
 user.password.chars=1234567890qwertyupasdfghjkzxcvbnmiloQWERTYUIOPASDFGHJKLZXCVBNM
 user.password.length.min=5
@@ -25,14 +38,6 @@ user.permission.check=0
 
 # group roles in processes, semicolon separated pairs <id>:<title>
 processGroupRoles=0:Execution;1:Follow
-
-# E-Mail send options SMTP !!!
-mail.from.email=demo@bgerp.org
-mail.from.name={@title}
-mail.transport.protocol=smtps
-mail.smtp.host=smtp.yandex.com
-mail.smtp.user=demo@bgerp.org
-mail.smtp.pswd=bgdemo
 
 # comma separated list of Java normal or dynamic classes implementing java.lang.Runnable, running on server start
 #runOnStart=
