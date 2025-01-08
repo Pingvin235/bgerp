@@ -446,6 +446,9 @@ public abstract class BaseAction extends DispatchAction {
                 if (Utils.notBlankString(values)) {
                     map.put(key, values);
                     log.debug("Storing param: {}, key: {}", param, key);
+                } else {
+                    map.remove(key);
+                    log.debug("Removing key: {}", key);
                 }
             }
         }

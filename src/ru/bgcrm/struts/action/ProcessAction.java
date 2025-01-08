@@ -849,6 +849,8 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward userProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
+        restoreRequestParams(conSet.getConnection(), form, true, true, "open");
+
         new ProcessDAO(conSet.getSlaveConnection()).searchProcessListForUser(new Pageable<>(form),
                 form.getUserId(), form.getParamBoolean("open", null));
 
