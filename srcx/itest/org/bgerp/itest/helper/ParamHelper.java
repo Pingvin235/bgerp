@@ -17,23 +17,24 @@ import ru.bgcrm.model.param.Pattern;
 public class ParamHelper {
 
     public static int addParam(String object, String type, String title, int pos, String config, String valuesConfig) throws SQLException {
+        return addParam(new Parameter()
+            .withObjectType(object)
+            .withType(type)
+            .withTitle(title)
+            .withOrder(pos)
+            .withConfig(config)
+            .withValuesConfig(valuesConfig)).getId();
+    }
+
+    public static Parameter addParam(Parameter param) throws SQLException {
         var con = DbTest.conRoot;
 
-        var param = new Parameter();
-        param.setId(-1);
-        param.setComment("");
-        param.setObjectType(object);
-        param.setType(type);
-        param.setTitle(title);
-        param.setOrder(pos);
-        param.setConfig(config);
-        param.setValuesConfig(valuesConfig);
         new ParamDAO(con).updateParameter(param);
         Assert.assertTrue(param.getId() > 0);
 
         ParameterCache.flush(con);
 
-        return param.getId();
+        return param;
     }
 
     public static int addParamGroup(String object, String title, Set<Integer> params) throws SQLException {

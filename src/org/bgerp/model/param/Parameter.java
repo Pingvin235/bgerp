@@ -52,7 +52,7 @@ public class Parameter extends IdTitleComment {
             .collect(Collectors.toMap(type -> type.name, type -> type));
 
     /** Parameter types enum. */
-    public enum Type {
+    public static enum Type {
         ADDRESS(TYPE_ADDRESS), BLOB(TYPE_BLOB), DATE(TYPE_DATE), DATETIME(TYPE_DATETIME), EMAIL(TYPE_EMAIL),
         FILE(TYPE_FILE), LIST(TYPE_LIST), LISTCOUNT(TYPE_LISTCOUNT), MONEY(TYPE_MONEY), TEXT(TYPE_TEXT),
         PHONE(TYPE_PHONE), TREE(TYPE_TREE), TREECOUNT(TYPE_TREECOUNT);
@@ -70,10 +70,20 @@ public class Parameter extends IdTitleComment {
 
     private String type;
     private String objectType;
-    private String config;
+    private String config = "";
     private ConfigMap configMap;
     private String valuesConfig;
     private int order;
+
+    public Parameter withTitle(String value) {
+        setTitle(value);
+        return this;
+    }
+
+    public Parameter withComment(String value) {
+        setComment(value);
+        return this;
+    }
 
     public String getType() {
         return type;
@@ -87,12 +97,22 @@ public class Parameter extends IdTitleComment {
         this.type = type;
     }
 
+    public Parameter withType(String value) {
+        type = value;
+        return this;
+    }
+
     public String getObjectType() {
         return objectType;
     }
 
-    public void setObjectType(String object) {
-        this.objectType = object;
+    public void setObjectType(String value) {
+        this.objectType = value;
+    }
+
+    public Parameter withObjectType(String value) {
+        objectType = value;
+        return this;
     }
 
     public int getOrder() {
@@ -101,6 +121,11 @@ public class Parameter extends IdTitleComment {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public Parameter withOrder(int value) {
+        order = value;
+        return this;
     }
 
     public String getConfig() {
@@ -116,12 +141,22 @@ public class Parameter extends IdTitleComment {
         configMap = new Preferences(config);
     }
 
+    public Parameter withConfig(String value) {
+        setConfig(value);
+        return this;
+    }
+
     public void setValuesConfig(String config) {
         this.valuesConfig = config;
     }
 
     public String getValuesConfig() {
         return valuesConfig;
+    }
+
+    public Parameter withValuesConfig(String value) {
+        valuesConfig = value;
+        return this;
     }
 
     public List<IdTitle> getListParamValues() {

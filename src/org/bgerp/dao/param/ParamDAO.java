@@ -166,7 +166,7 @@ public class ParamDAO extends CommonDAO {
         String query = null;
         PreparedStatement ps = null;
 
-        if (parameter.getId() < 0) {
+        if (parameter.getId() <= 0) {
             query = "INSERT INTO param_pref SET object=?, type=?, title=?, `order`=?, config=?, comment=?";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, parameter.getObjectType());
