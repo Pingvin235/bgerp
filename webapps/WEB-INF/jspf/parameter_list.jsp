@@ -26,9 +26,6 @@
 <table id="${tableId}" class="data">
 	<c:if test="${showTr}">
 		<tr>
-			<c:if test="${showId}">
-				<td width="30">ID</td>
-			</c:if>
 			<td>${l.l('Название')}</td>
 			<td width="100%">${l.l('Value')}</td>
 		</tr>
@@ -70,16 +67,10 @@
 
 		<c:set var="viewDivId" value="${u:uiid()}"/>
 		<c:set var="editDivId" value="${u:uiid()}"/>
-		<c:set var="editColspan" value="2"/>
 
 		<c:set var="startEdit">{  $('#${viewDivId}').hide(); $('#${editDivId}').parent().show(); }; return false;</c:set>
 
-		<tr ${hide} id="${viewDivId}" title="${parameter.comment}" style="${style}">
-			<c:if test="${showTr and showId}">
-				<td>${parameter.id}</td>
-				<c:set var="editColspan" value="3"/>
-			</c:if>
-
+		<tr ${hide} id="${viewDivId}" title="${showId ? ui.idAndComment(parameter) : ""}" style="${style}">
 			<td width="50%">${parameter.title}</td>
 			<td width="50%">
 				<c:choose>
@@ -424,7 +415,7 @@
 		</tr>
 		<tr style="display: none;">
 			<%-- сюда динамически загружается редактор --%>
-			<td colspan="${editColspan}" id="${editDivId}"></td>
+			<td colspan="2" id="${editDivId}"></td>
 		</tr>
 	</c:forEach>
 </table>

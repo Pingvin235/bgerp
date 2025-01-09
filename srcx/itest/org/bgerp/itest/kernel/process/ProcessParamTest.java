@@ -58,7 +58,8 @@ public class ProcessParamTest {
     private int paramTextId;
     private int paramTextRegexpId;
     private int paramTextShowAsLinkId;
-    private int paramTextLongTitleId;
+    private int paramTextLongId;
+    private int paramTextCommentId;
     private int paramPhoneId;
     private int paramTreeId;
     private int paramTreeCountId;
@@ -115,8 +116,11 @@ public class ProcessParamTest {
         paramTextShowAsLinkId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' show as link",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.show.as.link.config.txt"), "");
 
-        paramTextLongTitleId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text with very long title long title long title long title long title long title long title long title",
+        paramTextLongId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' with very long long long long long long long long long long long long long long long title",
                 ProcessTest.posParam += 2, "", "");
+
+        paramTextCommentId = ParamHelper.addParam(new Parameter().withObjectType(Process.OBJECT_TYPE).withOrder(ProcessTest.posParam += 2).withType(Parameter.TYPE_TEXT)
+                .withTitle(TITLE + " type 'text' with comment").withComment("Parameter's comment with \" and <> symbols")).getId();
 
         paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " type 'phone'",
                 ProcessTest.posParam += 2, "", "");
@@ -143,9 +147,8 @@ public class ProcessParamTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(
             paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId, paramListDirConfigId,
-            paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongTitleId, paramTextRegexpId, paramPhoneId,
-            paramTreeId, paramTreeCountId,
-            paramConditionallyShownId
+            paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongId, paramTextCommentId, paramTextRegexpId,
+            paramPhoneId, paramTreeId, paramTreeCountId, paramConditionallyShownId
         ));
         props.setConfig(ConfigHelper.generateConstants(
             "CONDITIONALLY_SHOWN_PARAM_ID", paramConditionallyShownId,
@@ -470,8 +473,12 @@ public class ProcessParamTest {
         Assert.assertEquals(log.get(--cnt).getText(), "");
         Assert.assertEquals(log.get(--cnt).getText(), "Value 2");
 
-        // paramText show as link
+        // paramTextShowAsLinkId
         dao.updateParamText(processId, paramTextShowAsLinkId, "1.1.1.1");
+
+        // paramTextLongId
+        dao.updateParamText(processId, paramTextLongId,
+                "Very long long long long long long long long long, value, long long long long long long long long long long long long long long long long long long value, long long long long long long long long long value");
     }
 
     private void paramValuePhone(int processId) throws Exception {
