@@ -66,7 +66,7 @@ public class DemoAction extends org.bgerp.action.open.DemoAction {
         String filter = form.getParam("filter");
 
         Pageable<DemoEntity> pageable = new Pageable<>(form, 5);
-        new DemoDAO(con).list(pageable, filter);
+        new DemoDAO(con).search(pageable, filter);
 
         return html(con, form, PATH_JSP + "/entity/list.jsp");
     }

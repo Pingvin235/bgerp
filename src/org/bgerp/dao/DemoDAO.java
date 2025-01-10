@@ -46,9 +46,8 @@ public class DemoDAO extends CommonDAO {
         deleteById(TABLE_DEMO_ENTITY, id);
     }
 
-    public void list(Pageable<DemoEntity> pageable, String filter) throws SQLException {
-        var list = pageable.getList();
-        var page = pageable.getPage();
+    public void search(Pageable<DemoEntity> result, String filter) throws SQLException {
+        var page = result.getPage();
 
         try (var pq = new PreparedQuery(con)) {
             pq.addQuery(SQL_SELECT_COUNT_ROWS + "*" + SQL_FROM + TABLE_DEMO_ENTITY + SQL_WHERE + "1>0");
@@ -61,12 +60,10 @@ public class DemoDAO extends CommonDAO {
             pq.addQuery(getPageLimit(page));
 
             var rs = pq.executeQuery();
-            while (rs.next()) {
-                var entity = getFromRs(rs);
-                list.add(entity);
-            }
+            while (rs.next())
+                result.add(getFromRs(rs));
 
-            setRecordCount(pageable.getPage(), pq.getPrepared());
+            setRecordCount(result.getPage(), pq.getPrepared());
         }
     }
 

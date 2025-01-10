@@ -9,7 +9,7 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Pagination supporting list.
+ * Pagination supporting search results list
  *
  * @author Shamil Vakhitov
  */
@@ -80,5 +80,13 @@ public class Pageable<T> {
     @Dynamic
     public List<T> getList() {
         return list;
+    }
+
+    /**
+     * Adds an item to result list
+     * @param item
+     */
+    public void add(T item) {
+        list.add(item);
     }
 }
