@@ -64,8 +64,6 @@ import ru.bgcrm.util.Utils;
 public class ParamValueDAO extends CommonDAO {
     private static final Log log = Log.getLog();
 
-    public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
-
     public static final String[] TABLE_NAMES = {
         Tables.TABLE_PARAM_ADDRESS,
         Tables.TABLE_PARAM_BLOB,

@@ -127,7 +127,7 @@
 	<p><ru>Шаблоны названия контрагентов</ru><en>Parameter title patters</en></p>
 	<p><ru>Параметры домов</ru><en>House parameters</en></p>
 	<p><en>Filter</en><ru>Фильтр</ru></p>
-	<p><ru>По наименованию, комментарию, конфигурации</ru><en>By title, comment, configuration</en></p>
+	<p><en>By ID, title, comment, configuration</en><ru>По ID, наименованию, комментарию, конфигурации</ru></p>
 	<p><en>Interface</en><ru>Интерфейс</ru></p>
 	<p><ru>Выйти</ru><en>Log off</en></p>
 	<p><ru>Очередь</ru><en>Queue</en></p>

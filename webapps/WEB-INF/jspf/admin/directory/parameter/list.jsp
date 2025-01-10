@@ -10,14 +10,14 @@
 	<%@ include file="../create_button.jsp"%>
 
 	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Filter')}" size="40"
-		title="${l.l('По наименованию, комментарию, конфигурации')}"
+		title="${l.l('By ID, title, comment, configuration')}"
 		onSelect="$$.ajax.loadContent(this)"/>
 
 	<ui:page-control/>
 </html:form>
 
 <c:if test="${not empty form.param.directoryId}">
-	<table class="data mt1">
+	<table class="data mt1 hl">
 		<tr>
 			<td width="30">&#160;</td>
 			<td width="30">ID</td>

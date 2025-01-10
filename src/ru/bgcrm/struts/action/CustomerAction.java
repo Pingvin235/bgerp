@@ -12,7 +12,6 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.dao.param.ParamValueDAO;
-import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
 import org.bgerp.util.sql.LikePattern;
@@ -149,20 +148,13 @@ public class CustomerAction extends BaseAction {
         Connection con = conSet.getConnection();
 
         ParamValueDAO paramValueDAO = new ParamValueDAO(con);
-        ParamDAO paramDAO = new ParamDAO(con);
         CustomerLinkDAO customerLinkDAO = new CustomerLinkDAO(con);
-        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con);
-        CustomerDAO customerDAO = new CustomerDAO(con);
-
-        Pageable<Parameter> searchResult = new Pageable<>();
-        paramDAO.getParameterList(searchResult, Customer.OBJECT_TYPE, "", 0, null);
-
-        List<Parameter> customerParameterList = searchResult.getList();
+        List<Parameter> customerParameterList = new ParamDAO(con).getParameterList(Customer.OBJECT_TYPE, 0);
 
         List<ParameterValuePair> customerParamValues = paramValueDAO.loadParameters(customerParameterList, customerId, true);
         List<ParameterValuePair> mergingCustomerParamValues = paramValueDAO.loadParameters(customerParameterList, mergingCustomerId, true);
 
-        //копирование параметров контрагента
+        // params copy
         for (Parameter param : customerParameterList) {
             String type = param.getType();
             Object paramCustomerValue = "";
@@ -185,7 +177,7 @@ public class CustomerAction extends BaseAction {
             }
 
             if (paramCustomerValue != null && paramMergingCustomerValue != null) {
-                //логика мерджа
+                // param merging
                 boolean isMultiple = param.getConfigMap().getBoolean(Parameter.PARAM_MULTIPLE_KEY, false);
 
                 if (Parameter.TYPE_ADDRESS.equals(type) && isMultiple) {
@@ -248,7 +240,7 @@ public class CustomerAction extends BaseAction {
             //оба null, оба пустые или менять не надо
         }
 
-        //копирование привязанных сущностей
+        // links copy (there are only bgbilling contracts)
         for (CommonObjectLink link : customerLinkDAO.getObjectLinksWithType(mergingCustomerId, "")) {
             customerLinkDAO.deleteLink(link);
 
@@ -261,13 +253,13 @@ public class CustomerAction extends BaseAction {
             customerLinkDAO.addLink(link);
         }
 
-        processLinkDAO.linkToAnotherObject(mergingCustomerId, "customer", customerId, "customer", "", "");
+        new ProcessLinkDAO(con).linkToAnotherObject(mergingCustomerId, "customer", customerId, "customer", "", "");
 
         EventProcessor.processEvent(new CustomerChangedEvent(form, customerId), conSet);
         EventProcessor.processEvent(new CustomerRemovedEvent(form, mergingCustomerId), conSet);
 
-        //удаление контрагента
-        customerDAO.deleteCustomer(mergingCustomerId);
+        // customer deletion of merged customer
+        new CustomerDAO(con).deleteCustomer(mergingCustomerId);
         new CustomerLinkDAO(con).deleteObjectLinks(mergingCustomerId);
 
         return json(con, form);

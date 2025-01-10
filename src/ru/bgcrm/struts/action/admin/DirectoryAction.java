@@ -72,15 +72,13 @@ public class DirectoryAction extends BaseAction {
         return parameterList(form, con);
     }
 
-    // параметры
     public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
-        ParamDAO paramDAO = new ParamDAO(con);
         var request = form.getHttpRequest();
 
         setDirectoryList(request);
         Pageable<Parameter> searchResult = new Pageable<>(form);
 
-        paramDAO.getParameterList(searchResult, getObjectType(form.getParam("directoryId")),
+        new ParamDAO(con).searchParameter(searchResult, getObjectType(form.getParam("directoryId")),
                 LikePattern.SUB.get(form.getParam("filter")), 0, null);
 
         return html(con, form, PATH_JSP + "/parameter/list.jsp");
@@ -273,24 +271,6 @@ public class DirectoryAction extends BaseAction {
             } else if (directoryId.startsWith("address")) {
                 objectType = AddressHouse.OBJECT_TYPE;
             }
-            // TODO: some outdated plugin parameters support
-            /* else {
-                PluginManager pluginManager = PluginManager.getInstance();
-                for (Plugin plugin : pluginManager.getPluginList()) {
-                    Iterable<Element> endpoints = XMLUtils.selectElements(plugin.getDocument(), "/plugin/endpoint[@id='directory.param']");
-
-                    if (endpoints != null) {
-                        for (Element endpoint : endpoints) {
-                            String entity = endpoint.getAttribute("entity");
-
-                            if (directoryId.startsWith(entity)) {
-                                objectType = entity;
-                                break;
-                            }
-                        }
-                    }
-                }
-            } */
         }
         return objectType;
     }

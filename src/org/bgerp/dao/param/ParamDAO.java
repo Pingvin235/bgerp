@@ -26,8 +26,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.util.Utils;
 
 public class ParamDAO extends CommonDAO {
-    public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
-
     public ParamDAO(Connection con) {
         super(con);
     }
@@ -397,75 +395,45 @@ public class ParamDAO extends CommonDAO {
         return listValuesMap;
     }
 
-    /*используется в DirectoryAction тащит за собой public List<Parameter> getParameterList( String objectType,
-     int paramGroupId, Set<Integer> parameterIdList ) ПЕРЕДЕЛАТЬ!*/
-    public List<Parameter> getParameterList(String objectType, int paramGroupId) throws SQLException {
-        return getParameterList(objectType, paramGroupId, null);
+    public void searchParameter(Pageable<Parameter> result, String objectType, String filter, int paramGroupId, Set<Integer> parameterIds)
+            throws SQLException {
+        try (var pq = new PreparedQuery(con)) {
+            pq.addQuery(SQL_SELECT_COUNT_ROWS + "param_pref.*" + SQL_FROM + Tables.TABLE_PARAM_PREF);
+
+            if (Customer.OBJECT_TYPE.equals(objectType) && paramGroupId > 0) {
+                pq.addQuery(SQL_INNER_JOIN + "param_group ON param_pref.id=param_group.param_id AND param_group.group_id=?");
+                pq.addInt(paramGroupId);
+            }
+
+            pq.addQuery(SQL_WHERE + "object=?");
+            pq.addString(objectType);
+
+            if (Utils.notBlankString(filter)) {
+                pq.addQuery(" AND (param_pref.id LIKE ? OR param_pref.title LIKE ? OR param_pref.comment LIKE ? OR param_pref.config LIKE ?)");
+
+                pq.addString(filter).addString(filter).addString(filter).addString(filter);
+            }
+
+            if (parameterIds != null && !parameterIds.isEmpty())
+                pq.addQuery(" AND param_pref.id IN ( ").addQuery(Utils.toString(parameterIds)).addQuery(" )");
+
+            pq.addQuery(SQL_ORDER_BY + "`order`, title");
+
+            Page page = result.getPage();
+
+            pq.addQuery(getPageLimit(page));
+
+            ResultSet rs = pq.executeQuery();
+            while (rs.next())
+                result.add(getParameterFromRs(rs));
+
+            if (page != null)
+                page.setRecordCount(foundRows(pq.getPrepared()));
+        }
     }
 
-    public void getParameterList(Pageable<Parameter> searchResult, String objectType, String titleOrCommentOrConfigFilter, int paramGroupId,
-            Set<Integer> parameterIdList) {
-        try {
-            Page page = searchResult.getPage();
-
-            PreparedQuery psDelay = new PreparedQuery(con);
-            StringBuilder query = new StringBuilder();
-
-            query.append("SELECT SQL_CALC_FOUND_ROWS param_pref.* FROM ");
-            query.append(Tables.TABLE_PARAM_PREF);
-            if (objectType != null && Customer.OBJECT_TYPE.equals(objectType) && paramGroupId > 0) {
-                query.append(" LEFT JOIN param_group ON param_pref.id=param_group.param_id");
-            }
-            query.append(" WHERE object=?");
-
-            if (Utils.notBlankString(titleOrCommentOrConfigFilter)) {
-                query.append(" AND ( param_pref.title LIKE ? OR param_pref.comment LIKE ? OR param_pref.config LIKE ?)");
-            }
-
-            if (parameterIdList != null && parameterIdList.size() > 0) {
-                StringBuilder pids = new StringBuilder();
-                for (Integer pid : parameterIdList) {
-                    if (pids.length() > 0) {
-                        pids.append(", ");
-                    }
-                    pids.append(pid);
-                }
-                if (pids.length() > 0) {
-                    query.append(" AND param_pref.id IN ( ");
-                    query.append(pids);
-                    query.append(" )");
-                }
-            }
-            if (objectType != null && Customer.OBJECT_TYPE.equals(objectType) && paramGroupId > 0) {
-                query.append(" AND param_group.group_id=");
-                query.append(paramGroupId);
-                query.append(" ");
-            }
-            query.append(" ORDER BY `order`, title");
-            query.append(getPageLimit(page));
-            psDelay.addQuery(query.toString());
-
-            psDelay.addString(objectType);
-            if (Utils.notBlankString(titleOrCommentOrConfigFilter)) {
-                psDelay.addString(titleOrCommentOrConfigFilter);
-                psDelay.addString(titleOrCommentOrConfigFilter);
-                psDelay.addString(titleOrCommentOrConfigFilter);
-            }
-
-            ResultSet rs = psDelay.executeQuery();
-
-            while (rs.next()) {
-                searchResult.getList().add(getParameterFromRs(rs));
-            }
-
-            if (page != null) {
-                page.setRecordCount(foundRows(psDelay.getPrepared()));
-            }
-
-            psDelay.close();
-        } catch (Exception e) {
-            throw new BGException(e);
-        }
+    public List<Parameter> getParameterList(String objectType, int paramGroupId) throws SQLException {
+        return getParameterList(objectType, paramGroupId, null);
     }
 
     public List<Parameter> getParameterList(String objectType, int paramGroupId, Set<Integer> parameterIdList) throws SQLException {
@@ -526,5 +494,13 @@ public class ParamDAO extends CommonDAO {
         parameter.setComment(rs.getString("comment"));
 
         return parameter;
+    }
+
+    // deprecated
+    @Deprecated
+    public void getParameterList(Pageable<Parameter> searchResult, String objectType, String filter, int paramGroupId, Set<Integer> parameterIdList)
+            throws SQLException {
+        log.warndMethod("getParameterList", "searchParameter");
+        searchParameter(searchResult, objectType, filter, paramGroupId, parameterIdList);
     }
 }
