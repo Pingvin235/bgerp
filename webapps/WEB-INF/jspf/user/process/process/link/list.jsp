@@ -41,10 +41,9 @@
 	</c:otherwise>
 </c:choose>
 
-<table class="data mt05" style="width: 100%;">
+<table class="data mt05">
 	<tr>
 		<td>&nbsp;</td>
-		<td>ID</td>
 		<td>${l.l('Type')}</td>
 		<td width="100%">${l.l('Title')}</td>
 	</tr>
@@ -69,9 +68,8 @@
 		<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkObjectType]}"/>
 
 		<c:if test="${not empty customerLinkRole}">
-			<tr>
+			<tr title="ID: ${item.linkObjectId}">
 				<td>${delButton}</td>
-				<td>${item.linkObjectId}</td>
 				<td>${customerLinkRole}</td>
 				<td><ui:customer-link id="${item.linkObjectId}" text="${item.linkObjectTitle}"/></td>
 			</tr>
