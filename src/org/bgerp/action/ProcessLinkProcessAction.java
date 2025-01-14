@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
+import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
@@ -21,11 +21,13 @@ import org.bgerp.model.Pageable;
 import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.model.process.link.config.ProcessCreateLinkConfig;
 import org.bgerp.model.process.link.config.ProcessLinkCategoryConfig;
+import org.bgerp.util.Log;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
+import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.link.LinkRemovedEvent;
 import ru.bgcrm.event.link.LinkRemovingEvent;
 import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
@@ -44,6 +46,8 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/process/link/process")
 public class ProcessLinkProcessAction extends ProcessLinkAction {
+    private static final Log log = Log.getLog();
+
     private static final String PATH_JSP = PATH_JSP_USER + "/process/process/link/process";
 
     @Override
@@ -151,17 +155,25 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
 
             processCreate(form, con, process, groupId);
 
-            String copyParams = item.getCopyParamsMapping();
-            if ("all".equals(copyParams)) {
-                ProcessType type = getProcessType(process.getTypeId());
-                List<Integer> paramIds = type.getProperties().getParameterIds();
-                List<Integer> linkedParamIds = linkedType.getProperties().getParameterIds();
-                List<Integer> paramIdsBothHave = new ArrayList<>(linkedParamIds);
-                paramIdsBothHave.retainAll(paramIds);
+            String copyParams = item.getCopyParams();
+            if (Utils.notBlankString(copyParams)) {
+                if ("*".equals(copyParams) || "all".equals(copyParams)) {
+                    List<Integer> paramIdsBothHave = new ArrayList<>(linkedType.getProperties().getParameterIds());
+                    paramIdsBothHave.retainAll(process.getType().getProperties().getParameterIds());
+                    copyParams = Utils.toString(paramIdsBothHave);
+                }
 
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), StringUtils.join(paramIdsBothHave, ","));
-            } else {
                 new ParamValueDAO(con).copyParams(linkedId, process.getId(), copyParams);
+
+                for (String token : Utils.toList(copyParams, ParamValueDAO.COPY_PARAMS_SEPARATORS)) {
+                    int pos = token.indexOf(':');
+                    int paramId = Utils.parseInt(pos > 0 ? token.substring(pos + 1) : token);
+                    if (paramId > 0)
+                        // parameter value has been set to null, as the copy performed with SQL queries
+                        EventProcessor.processEvent(new ParamChangedEvent(form, ParameterCache.getParameter(paramId), process.getId(), null), new SingleConnectionSet(con));
+                    else
+                        log.error("Incorrect copy param mapping: {}", token);
+                }
             }
 
             String copyLinks = item.getCopyLinks();

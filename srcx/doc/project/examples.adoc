@@ -38,8 +38,8 @@ Restoring a value:
 link:../../../src/org/bgerp/action/MessageAction.java#L528-L535[org.bgerp.action.MessageAction]
 
 Saving and restoring a value at once:
-[snippet, from="//", to=");", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L48-L52[ru.bgcrm.struts.action.ProcessLinkAction]
+[snippet, from="public A", to=");", remove-leading="    "]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L48-L51[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[code-personalization-map-ff]]
 === Feature flag for UI
@@ -65,7 +65,7 @@ link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L77-L
 
 Update value in DB:
 [snippet, from="Iface", to="}", remove-leading="        "]
-link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L53-L61[org.bgerp.action.ProcessLinkProcessAction]
+link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L57-L65[org.bgerp.action.ProcessLinkProcessAction]
 
 Refresh on a tab's header:
 [snippet, from="<script", to="script>", remove-leading="						"]

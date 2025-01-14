@@ -342,7 +342,7 @@ Where:
 * *<typeId>* - created process type ID;
 * *<expression>* - <<../extension.adoc#jexl, JEXL>> expression, when returns *false* - the combo-box item is displayed strikethrough;
 * *<exressionError>* - error message shown on attempt to use a disabled item;
-* *<copyRules>* - comma-separated parameter IDs to be copied in each newly created process, or mapping pairs *<from_id>:<to_id>* for copying between different parameters but with a same type;
+* *<copyRules>* - comma-separated parameter IDs to be copied in each newly created process, or mapping pairs *<from_id>:<to_id>* for copying between different parameters but with a same type, or *** to copy all parameters existing both in initial process and in the newly created;
 * *<copyLinks>* - copy links to a created process, *1* - copy all links, but also possible to limit them by type, e.g.: *contract%*, *customer%*.
 
 To JEXL processor for *<expression>* are passed objects:

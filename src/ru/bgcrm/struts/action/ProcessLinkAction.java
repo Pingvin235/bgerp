@@ -1,36 +1,33 @@
 package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.ProcessLinkProcessAction;
 import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.config.ProcessCreateInConfig;
-import org.bgerp.model.process.link.config.ProcessCreateLinkConfig;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
 import org.bgerp.model.process.queue.filter.FilterList;
 import org.bgerp.model.process.queue.filter.FilterOpenClose;
 import org.bgerp.model.process.queue.filter.FilterProcessType;
+import org.bgerp.util.Log;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
-import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
@@ -43,6 +40,8 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/process/link")
 public class ProcessLinkAction extends ProcessAction {
+    private static final Log log = Log.getLog();
+
     private static final String PATH_JSP = PATH_JSP_USER + "/process/process/link";
 
     // процессы, к которым привязана сущность
@@ -126,65 +125,10 @@ public class ProcessLinkAction extends ProcessAction {
         return json(con, form);
     }
 
+    @Deprecated
     public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String objectType,
             int createTypeId, String description, int groupId) throws Exception {
-        final ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
-
-        int linkedId = linkedProcess.getId();
-
-        Process process = new Process();
-        if (createTypeId > 0) {
-            ProcessType linkedType = getProcessType(linkedProcess.getTypeId());
-
-            var pair = linkedType.getProperties().getConfigMap().getConfig(ProcessCreateLinkConfig.class)
-                .getItem(form, con, linkedProcess, createTypeId);
-            if (pair == null)
-                throw new BGException("Not found rule with ID: {}", createTypeId);
-
-            var item = pair.getFirst();
-
-            objectType = item.getLinkType();
-
-            process.setTypeId(item.getProcessTypeId());
-            process.setDescription(description);
-
-            processCreate(form, con, process, groupId);
-
-            String copyParams = item.getCopyParamsMapping();
-            if ("all".equals(copyParams)) {
-                ProcessType type = getProcessType(process.getTypeId());
-                List<Integer> paramIds = type.getProperties().getParameterIds();
-                List<Integer> linkedParamIds = linkedType.getProperties().getParameterIds();
-                List<Integer> paramIdsBothHave = new ArrayList<>(linkedParamIds);
-                paramIdsBothHave.retainAll(paramIds);
-
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), StringUtils.join(paramIdsBothHave, ","));
-            } else {
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), copyParams);
-            }
-
-            String copyLinks = item.getCopyLinks();
-
-            // пока копирование сразу всех привязок
-            if (Utils.notBlankString(copyLinks)) {
-                if (copyLinks.equals("1")) {
-                    linkDao.copyLinks(linkedId, process.getId(), null, Process.OBJECT_TYPE + "%");
-                } else {
-                    linkDao.copyLinks(linkedId, process.getId(), copyLinks, Process.OBJECT_TYPE + "%");
-                }
-            }
-        } else {
-            process.setTypeId(typeId);
-            process.setDescription(description);
-
-            processCreate(form, con, process, -1);
-        }
-
-        // добавление привязки
-        linkDao.addLink(new CommonObjectLink(linkedId, objectType, process.getId(), ""));
-
-        EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process), new SingleConnectionSet(con));
-
-        return process;
+        log.warnd("linkProcessCreate", "ProcessLinkProcessAction.linkProcessCreate");
+        return ProcessLinkProcessAction.linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, groupId);
     }
 }

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -36,6 +35,7 @@ import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.process.config.ProcessCreateInConfig;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -78,6 +78,8 @@ public class ParamValueDAO extends CommonDAO {
         Tables.TABLE_PARAM_TEXT,
         Tables.TABLE_PARAM_TREE
     };
+
+    public static final String COPY_PARAMS_SEPARATORS = ";,";
 
     /** Write param changes history. */
     private boolean history;
@@ -213,19 +215,15 @@ public class ParamValueDAO extends CommonDAO {
             return;
         }
 
-        StringTokenizer st = new StringTokenizer(copyMapping, ";,");
-        while (st.hasMoreTokens()) {
-            String token = st.nextToken();
-
+        for (String token : Utils.toList(copyMapping, COPY_PARAMS_SEPARATORS)) {
             String[] pair = token.split(":");
             if (pair.length == 2) {
                 copyParam(fromObjectId, Utils.parseInt(pair[0]), toObjectId, Utils.parseInt(pair[1]));
             } else if (Utils.parseInt(token) > 0) {
                 int paramId = Utils.parseInt(token);
                 copyParam(fromObjectId, paramId, toObjectId, paramId);
-            } else {
-                log.error("Incorrect copy param mapping: " + token);
-            }
+            } else
+                log.error("Incorrect copy param mapping: {}", token);
         }
     }
 

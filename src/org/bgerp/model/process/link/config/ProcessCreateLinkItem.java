@@ -13,7 +13,7 @@ public class ProcessCreateLinkItem extends Config {
     private final String linkType;
     private final String expression;
     private final String checkErrorMessage;
-    private final String copyParamsMapping;
+    private final String copyParams;
     private final String copyLinks;
 
     ProcessCreateLinkItem(int id, ConfigMap config) throws InitStopException {
@@ -24,7 +24,7 @@ public class ProcessCreateLinkItem extends Config {
         this.linkType = config.get("linkType", Process.LINK_TYPE_LINK);
         this.expression = config.get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
         this.checkErrorMessage = config.get(Expression.CHECK_ERROR_MESSAGE_CONFIG_KEY);
-        this.copyParamsMapping = config.get("copyParams");
+        this.copyParams = config.get("copyParams");
         this.copyLinks = config.get("copyLinks");
         initWhen(processTypeId > 0);
     }
@@ -53,8 +53,8 @@ public class ProcessCreateLinkItem extends Config {
         return checkErrorMessage;
     }
 
-    public String getCopyParamsMapping() {
-        return copyParamsMapping;
+    public String getCopyParams() {
+        return copyParams;
     }
 
     public String getCopyLinks() {
