@@ -3,9 +3,8 @@
 
 <c:choose>
 	<c:when test="${item.linkObjectType.startsWith('contract:' )}">
-		<tr>
+		<tr title="ID: ${item.linkObjectId}">
 			<td>${delButton}</td>
-			<td>${item.linkObjectId}</td>
 			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}" scope="request"/>
 			<td>Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
@@ -40,9 +39,8 @@
 		</c:if>
 	</c:when>
 	<c:when test="${item.linkObjectType.startsWith('bgbilling-helpdesk:' )}">
-		<tr>
+		<tr title="ID: ${item.linkObjectId}">
 			<td>${delButton}</td>
-			<td>${item.linkObjectId}</td>
 			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}"/>
 			<td>HelpDesk:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 			<td></td>
