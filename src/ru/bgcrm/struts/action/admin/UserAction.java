@@ -1,6 +1,7 @@
 package ru.bgcrm.struts.action.admin;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -101,17 +102,14 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward groupList(DynActionForm form, Connection con) {
-        String filter = form.getParam("filter", "");
-
+    public ActionForward groupList(DynActionForm form, Connection con) throws SQLException {
         int parentId = form.getParamInt("parentGroupId", 0);
-        int archive = form.getParamInt("archive", 0);
 
         HttpServletRequest request = form.getHttpRequest();
 
         request.setAttribute("groupPath", UserCache.getGroupPath(parentId));
 
-        new UserGroupDAO(con).searchGroup(new Pageable<>(form), parentId, archive, filter);
+        new UserGroupDAO(con).searchGroup(new Pageable<>(form), parentId, LikePattern.SUB.get(form.getParam("filter")));
 
         int id = form.getParamInt("markGroup", -1);
         if (id > 0) {

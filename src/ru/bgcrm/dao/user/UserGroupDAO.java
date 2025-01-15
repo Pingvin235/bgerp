@@ -1,6 +1,8 @@
 package ru.bgcrm.dao.user;
 
-import static ru.bgcrm.dao.user.Tables.*;
+import static ru.bgcrm.dao.user.Tables.TABLE_USER_GROUP_PERMSET;
+import static ru.bgcrm.dao.user.Tables.TABLE_USER_GROUP_QUEUE;
+import static ru.bgcrm.dao.user.Tables.TABLE_USER_GROUP_TITLE;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,11 +15,9 @@ import java.util.Set;
 
 import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
-import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -27,48 +27,36 @@ public class UserGroupDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchGroup(Pageable<Group> searchResult, int parentId) {
-        searchGroup(searchResult, parentId, 0, "");
-    }
-
-    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive) {
-        searchGroup(searchResult, parentId, 0, "");
-    }
-
-    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive, String filter) {
-        Page page = searchResult.getPage();
-        try {
-            List<Group> list = searchResult.getList();
-
-            PreparedQuery pq = new PreparedQuery(con);
-
+    /**
+     * Searches over user groups
+     * @param result the result
+     * @param parentId the parent ID, can't be used with {@code filter}
+     * @param filter the SQL LIKE filter, can't be used with {@code parentId}
+     * @throws SQLException
+     */
+    public void searchGroup(Pageable<Group> result, int parentId, String filter) throws SQLException {
+        try (PreparedQuery pq = new PreparedQuery(con)) {
             pq.addQuery(SQL_SELECT_COUNT_ROWS + "g.*, " + "( SELECT GROUP_CONCAT(gp.permset_id SEPARATOR ',') FROM " + TABLE_USER_GROUP_PERMSET
                     + " AS gp WHERE gp.group_id=g.id ORDER BY pos) AS permsets, " + "( SELECT GROUP_CONCAT(gq.queue_id SEPARATOR ',') FROM "
                     + TABLE_USER_GROUP_QUEUE + " AS gq WHERE gq.group_id=g.id) AS queues " + " FROM " + TABLE_USER_GROUP_TITLE + " AS g "
                     + " WHERE ");
 
             if (Utils.notBlankString(filter)) {
-                pq.addQuery("(title LIKE ? OR config LIKE ?)");
-                pq.addString(LikePattern.SUB.get(filter));
-                pq.addString(LikePattern.SUB.get(filter));
+                pq.addQuery("(id LIKE ? OR title LIKE ? OR config LIKE ?)");
+                pq.addString(filter).addString(filter).addString(filter);
             } else {
                 pq.addQuery("parent_id=?");
                 pq.addInt(parentId);
             }
 
-            pq.addQuery(" ORDER BY title" + getPageLimit(page));
+            pq.addQuery(SQL_ORDER_BY + "title");
+            pq.addQuery(getPageLimit(result.getPage()));
 
             ResultSet rs = pq.executeQuery();
-            while (rs.next()) {
-                list.add(getFromRs(rs, true));
-            }
+            while (rs.next())
+                result.add(getFromRs(rs, true));
 
-            if (page != null) {
-                page.setRecordCount(foundRows(pq.getPrepared()));
-            }
-            pq.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+            setRecordCount(result.getPage(), pq.getPrepared());
         }
     }
 

@@ -29,7 +29,7 @@
 	<button type="button" class="btn-grey"
 		onclick="$$.ajax.post('${url}').done(() => $$.ajax.loadContent('${urlList}', this))">${l.l('Вставить')} [${markGroupString}]</button>
 
-	<ui:input-text name="filter" onSelect="$$.ajax.loadContent(this)" placeholder="${l.l('Filter')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
+	<ui:input-text name="filter" onSelect="$$.ajax.loadContent(this)" placeholder="${l.l('Filter')}" size="40" value="${form.param['filter']}" title="${l.l('Filter by ID, title, configuration')}"/>
 
 	<ui:page-control/>
 </html:form>

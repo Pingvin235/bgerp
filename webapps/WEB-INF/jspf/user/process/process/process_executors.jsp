@@ -56,8 +56,8 @@
 					<c:if test="${not empty groupIs}">
 						<div>
 							<c:choose>
-								<c:when test="${role.id eq '0'}"><b>${ctxUserGroupMap[group.id]}: </b></c:when>
-								<c:otherwise><b>${ctxUserGroupMap[group.id]} (${ctxUserGroupRoleMap[role.id].title}): </b></c:otherwise>
+								<c:when test="${role.id eq '0'}"><b title="ID: ${group.id}">${ctxUserGroupMap[group.id]}: </b></c:when>
+								<c:otherwise><b title="ID: ${group.id}">${ctxUserGroupMap[group.id]} (<span title="ID: ${role.id}">${ctxUserGroupRoleMap[role.id].title}</span>): </b></c:otherwise>
 							</c:choose>
 
 							<%-- в списке есть текущий пользователь --%>
