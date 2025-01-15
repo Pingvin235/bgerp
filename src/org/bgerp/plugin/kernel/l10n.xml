@@ -257,7 +257,7 @@
 	<p><ru>Группы пользователей</ru><en>Groups of users</en></p>
 	<p><ru>Роли</ru><en>Roles</en></p>
 	<p><ru>Права</ru><en>Permissions</en></p>
-	<p><ru>Фильтр по наименованию</ru><en>Filter by title</en></p>
+	<p><en>Filter by ID, title, login, comment</en><ru>Фильтр по ID, наименованию, логину, комментарию</ru></p>
 	<p><ru>значение не установлено</ru><en>value is undefined</en></p>
 	<p><ru>Включить</ru><en>Turn on</en></p>
 	<p><ru>Выключить</ru><en>Turn off</en></p>

@@ -49,95 +49,89 @@ public class UserDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchUser(Pageable<User> searchResult, String filterLike, Set<Integer> groupFilter,
+    public void searchUser(Pageable<User> result, String filterLike, Set<Integer> groupFilter,
             Set<Integer> groupSelectFilter, Date date, Set<Integer> permsetFilter, int statusFilter)
             throws SQLException {
-        Page page = searchResult.getPage();
-        PreparedQuery psDelay = new PreparedQuery(con);
+        try (PreparedQuery pq = new PreparedQuery(con)) {
+            pq.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT user.*, ");
+            pq.addQuery(SELECT_PERMSETS_QUERY);
 
-        psDelay.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT user.*, ");
-        psDelay.addQuery(SELECT_PERMSETS_QUERY);
+            Date prevDay = date != null ? TimeUtils.getPrevDay(date) : null;
 
-        Date prevDay = date != null ? TimeUtils.getPrevDay(date) : null;
+            if (date == null) {
+                pq.addQuery(SELECT_GROUPS_QUERY);
+            } else {
+                pq.addQuery("( SELECT GROUP_CONCAT(ug.group_id SEPARATOR ',') FROM " + TABLE_USER_GROUP + " AS ug "
+                        + "WHERE ug.user_id=user.id AND (ug.date_from IS NULL OR ug.date_from<=?) AND (ug.date_to >? OR ug.date_to IS NULL) ) AS `groups` ");
 
-        if (date == null) {
-            psDelay.addQuery(SELECT_GROUPS_QUERY);
-        } else {
-            psDelay.addQuery("( SELECT GROUP_CONCAT(ug.group_id SEPARATOR ',') FROM " + TABLE_USER_GROUP + " AS ug "
-                    + "WHERE ug.user_id=user.id AND (ug.date_from IS NULL OR ug.date_from<=?) AND (ug.date_to >? OR ug.date_to IS NULL) ) AS `groups` ");
-
-            psDelay.addTimestamp(TimeConvert.toTimestamp(date));
-            psDelay.addTimestamp(TimeConvert.toTimestamp(prevDay));
-        }
-
-        psDelay.addQuery(" FROM " + TABLE_USER + " AS user ");
-
-        if (groupFilter != null && groupFilter.size() > 0) {
-            psDelay.addQuery(SQL_INNER_JOIN);
-            psDelay.addQuery(
-                    TABLE_USER_GROUP + " AS user_group ON user.id=user_group.user_id AND user_group.group_id IN(");
-            psDelay.addQuery(Utils.toString(groupFilter));
-            psDelay.addQuery(")");
-
-            if (date != null) {
-                psDelay.addQuery(
-                        " AND (user_group.date_from IS NULL OR user_group.date_from<=?) AND (user_group.date_to>? OR user_group.date_to IS NULL) ");
-
-                psDelay.addTimestamp(TimeConvert.toTimestamp(date));
-                psDelay.addTimestamp(TimeConvert.toTimestamp(prevDay));
+                pq.addTimestamp(TimeConvert.toTimestamp(date));
+                pq.addTimestamp(TimeConvert.toTimestamp(prevDay));
             }
-        }
 
-        if (groupSelectFilter != null && groupSelectFilter.size() > 0) {
-            psDelay.addQuery(SQL_INNER_JOIN);
-            psDelay.addQuery(TABLE_USER_GROUP
-                    + " AS user_select_group ON user.id=user_select_group.user_id AND user_select_group.group_id IN(");
-            psDelay.addQuery(Utils.toString(groupSelectFilter));
-            psDelay.addQuery(")");
+            pq.addQuery(" FROM " + TABLE_USER + " AS user ");
 
-            if (date != null) {
-                psDelay.addQuery(
-                        " AND user_select_group.date_from <=? AND (user_select_group.date_to >? OR user_select_group.date_to IS NULL) ");
+            if (groupFilter != null && groupFilter.size() > 0) {
+                pq.addQuery(SQL_INNER_JOIN);
+                pq.addQuery(
+                        TABLE_USER_GROUP + " AS user_group ON user.id=user_group.user_id AND user_group.group_id IN(");
+                pq.addQuery(Utils.toString(groupFilter));
+                pq.addQuery(")");
 
-                psDelay.addTimestamp(TimeConvert.toTimestamp(date));
-                psDelay.addTimestamp(TimeConvert.toTimestamp(prevDay));
+                if (date != null) {
+                    pq.addQuery(
+                            " AND (user_group.date_from IS NULL OR user_group.date_from<=?) AND (user_group.date_to>? OR user_group.date_to IS NULL) ");
+
+                    pq.addTimestamp(TimeConvert.toTimestamp(date));
+                    pq.addTimestamp(TimeConvert.toTimestamp(prevDay));
+                }
             }
+
+            if (groupSelectFilter != null && groupSelectFilter.size() > 0) {
+                pq.addQuery(SQL_INNER_JOIN);
+                pq.addQuery(TABLE_USER_GROUP
+                        + " AS user_select_group ON user.id=user_select_group.user_id AND user_select_group.group_id IN(");
+                pq.addQuery(Utils.toString(groupSelectFilter));
+                pq.addQuery(")");
+
+                if (date != null) {
+                    pq.addQuery(
+                            " AND user_select_group.date_from <=? AND (user_select_group.date_to >? OR user_select_group.date_to IS NULL) ");
+
+                    pq.addTimestamp(TimeConvert.toTimestamp(date));
+                    pq.addTimestamp(TimeConvert.toTimestamp(prevDay));
+                }
+            }
+
+            if (permsetFilter != null && permsetFilter.size() > 0) {
+                pq.addQuery(SQL_INNER_JOIN);
+                pq.addQuery(TABLE_USER_PERMSET
+                        + " AS user_permset ON user.id=user_permset.user_id AND user_permset.permset_id IN(");
+                pq.addQuery(Utils.toString(permsetFilter));
+                pq.addQuery(")");
+            }
+
+            pq.addQuery(" WHERE 1=1 ");
+
+            if (Utils.notBlankString(filterLike)) {
+                pq.addQuery(" AND (id LIKE ? OR title LIKE ? OR login LIKE ? OR description LIKE ?) ");
+                pq.addString(filterLike).addString(filterLike).addString(filterLike).addString(filterLike);
+            }
+
+            if (statusFilter >= 0) {
+                pq.addQuery(" AND status=? ");
+                pq.addInt(statusFilter);
+            }
+
+            pq.addQuery(" ORDER BY title ");
+            pq.addQuery(getPageLimit(result.getPage()));
+
+            ResultSet rs = pq.executeQuery();
+            while (rs.next()) {
+                result.getList().add(getFromRS(rs, "", true, false));
+            }
+
+            setRecordCount(result.getPage(), pq.getPrepared());
         }
-
-        if (permsetFilter != null && permsetFilter.size() > 0) {
-            psDelay.addQuery(SQL_INNER_JOIN);
-            psDelay.addQuery(TABLE_USER_PERMSET
-                    + " AS user_permset ON user.id=user_permset.user_id AND user_permset.permset_id IN(");
-            psDelay.addQuery(Utils.toString(permsetFilter));
-            psDelay.addQuery(")");
-        }
-
-        psDelay.addQuery(" WHERE 1=1 ");
-
-        if (Utils.notBlankString(filterLike)) {
-            psDelay.addQuery(" AND ( title LIKE ? OR login LIKE ? OR description LIKE ? ) ");
-            psDelay.addString(filterLike);
-            psDelay.addString(filterLike);
-            psDelay.addString(filterLike);
-        }
-
-        if (statusFilter >= 0) {
-            psDelay.addQuery(" AND status=? ");
-            psDelay.addInt(statusFilter);
-        }
-
-        psDelay.addQuery(" ORDER BY title ");
-        psDelay.addQuery(getPageLimit(page));
-
-        ResultSet rs = psDelay.executeQuery();
-        while (rs.next()) {
-            searchResult.getList().add(getFromRS(rs, "", true, false));
-        }
-
-        if (page != null) {
-            page.setRecordCount(foundRows(psDelay.getPrepared()));
-        }
-        psDelay.close();
     }
 
     /**

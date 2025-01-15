@@ -16,7 +16,7 @@
 	<input type="hidden" name="method" value="userList"/>
 	<input type="hidden" name="pageableId" value="userList"/>
 
-	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Filter')}" title="${l.l('Фильтр по наименованию')}"
+	<ui:input-text name="filter" showOutButton="false" value="${form.param.filter}" size="20" placeholder="${l.l('Filter')}" title="${l.l('Filter by ID, title, login, comment')}"
 		onSelect="$$.ajax.loadContent(this);"/>
 
 	<%@ include file="user_status_const.jsp"%>

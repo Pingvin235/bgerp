@@ -6,7 +6,7 @@
 
 <ui:when type="user">
 	<c:if test="${not empty id}"><%--
-		--%><a href="/user/profile#${id}" onclick="$$.shell.followLink(this.href, event)">${not empty text ? text : ctxUserMap[id].title}</a><%--
+		--%><a href="/user/profile#${id}" onclick="$$.shell.followLink(this.href, event)" title="ID: ${id}">${not empty text ? text : ctxUserMap[id].title}</a><%--
 --%></c:if>
 </ui:when>
 <ui:when type="open">

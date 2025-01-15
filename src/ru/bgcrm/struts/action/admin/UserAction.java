@@ -223,7 +223,7 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
             groups = Utils.toIntegerSet(allowOnlyGroups);
         }
 
-        new UserDAO(con).searchUser(new Pageable<>(form), LikePattern.SUB.get(form.getParam("title")),
+        new UserDAO(con).searchUser(new Pageable<>(form), LikePattern.SUB.get(form.getParam("filter")),
                 groups, null, actualDate, permsets, status);
 
         return html(con, form, PATH_JSP + "/user/list.jsp");
