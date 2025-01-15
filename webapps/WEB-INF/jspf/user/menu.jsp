@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<ui:menu-item title="${l.l('Поиск')}" href="search" icon="ti-search"
-	action="ru.bgcrm.struts.action.SearchAction:null" />
+<ui:menu-item title="${l.l('Поиск')}" href="search" icon="ti-search" action="/user/search:null" />
 
 <ui:menu-item title="${l.l('News')}" href="news" icon="ti-bell" action="org.bgerp.action.NewsAction:newsList" />
 

@@ -1,7 +1,6 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.sql.Connection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
@@ -23,7 +22,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/search")
+@Action(path = "/user/search", pathId = true)
 public class SearchAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/search";
     private static final String JSP_DEFAULT = PATH_JSP + "/search.jsp";
@@ -77,13 +76,13 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerList(result, LikePattern.SUB.get(title));
 
             return html(con, form, JSP_CUSTOMER);
-        } else if ("group".equals(searchBy)) {
+        } /* else if ("group".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<>(form);
 
             customerDao.searchCustomerList(result, form.getParamValues("groupId"));
 
             return html(con, form, JSP_CUSTOMER);
-        } else if ("address".equals(searchBy)) {
+        } */ else if ("address".equals(searchBy)) {
             Pageable<ParameterSearchedObject<Customer>> result = new Pageable<>(form);
 
             int streetId = Utils.parseInt(form.getParam("streetId"));
@@ -95,7 +94,7 @@ public class SearchAction extends BaseAction {
                     streetId, house, flat, room);
 
             return html(con, form, JSP_CUSTOMER_PARAM);
-        } else if ("email".equals(searchBy)) {
+        }/* else if ("email".equals(searchBy)) {
             Pageable<ParameterSearchedObject<Customer>> result = new Pageable<>(form);
 
             String email = form.getParam("email");
@@ -126,7 +125,7 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerByLinkedObjectTitle(result, linkedObjectTypeLike, linkedObjectTitle);
 
             return html(con, form, JSP_CUSTOMER);
-        }
+        }*/
 
         return html(con, form, JSP_DEFAULT);
     }

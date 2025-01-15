@@ -1,11 +1,11 @@
 <item title="Kernel">
 	<item title="Search">
-		<item action="ru.bgcrm.struts.action.SearchAction:null" title="Search">
+		<item action="/user/search:null, ru.bgcrm.struts.action.SearchAction:null" title="Search">
 			<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
 			<b>defaultForm</b> - default search form
 		</item>
-		<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Customer"/>
-		<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
+		<item action="/user/search:customerSearch, ru.bgcrm.struts.action.SearchAction:customerSearch" title="Customer"/>
+		<item action="/user/search:processSearch, ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
 	</item>
 	<item title="News">
 		<item action="org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList" title="View" />
