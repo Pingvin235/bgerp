@@ -18,7 +18,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <table class="data hl mt05" id="${uiid}">
-	<c:set var="allowLinkDelete" value="${ctxUser.checkPerm('org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete')}"/>
+	<c:set var="allowLinkDelete" value="${ctxUser.checkPerm('/user/process/link/process:linkProcessDelete')}"/>
 	<tr>
 		<c:if test="${allowLinkDelete}">
 			<td class="min">&nbsp;</td>

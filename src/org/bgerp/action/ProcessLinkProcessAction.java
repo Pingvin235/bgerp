@@ -45,7 +45,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/process/link/process")
+@Action(path = "/user/process/link/process", pathId = true)
 public class ProcessLinkProcessAction extends ProcessLinkAction {
     private static final Log log = Log.getLog();
 

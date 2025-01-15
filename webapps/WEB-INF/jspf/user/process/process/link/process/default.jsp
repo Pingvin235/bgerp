@@ -29,7 +29,7 @@
 				</jsp:attribute>
 			</ui:combo-single>
 
-			<c:if test="${not empty createTypeList and ctxUser.checkPerm('org.bgerp.action.ProcessLinkProcessAction:addCreated')}">
+			<c:if test="${not empty createTypeList and ctxUser.checkPerm('/user/process/link/process:addCreated')}">
 				<c:url var="url" value="${form.requestURI}">
 					<c:param name="method" value="addCreated"/>
 					<c:param name="id" value="${form.id}"/>
