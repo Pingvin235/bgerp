@@ -97,7 +97,7 @@
 
 			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate, ru.bgcrm.struts.action.ProcessAction:processStatusEdit" title="Edit status"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="View status history"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate" title="Edit priority"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate, ru.bgcrm.struts.action.ProcessAction:processPriorityEdit" title="Edit priority"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate" title="Edit description"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd" title="Add to description"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate, ru.bgcrm.struts.action.ProcessAction:processGroupsEdit" title="Edit groups"/>

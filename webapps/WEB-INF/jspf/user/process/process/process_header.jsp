@@ -83,11 +83,11 @@
 
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate">
 					<c:if test="${processType.properties.configMap['hidePriority'] ne 1}">
-						<c:url var="url" value="/user/empty.do">
+						<c:url var="url" value="/user/process.do">
+							<c:param name="method" value="processPriorityEdit"/>
 							<c:param name="returnUrl" value="${requestUrl}"/>
 							<c:param name="returnChildUiid" value="${tableId}"/>
 							<c:param name="id" value="${process.id}"/>
-							<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_priority.jsp"/>
 							<c:param name="priority" value="${process.priority}"/>
 						</c:url>
 						[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('priority')}</a>]

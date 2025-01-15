@@ -404,6 +404,10 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/process/status_history.jsp");
     }
 
+    public ActionForward processPriorityEdit(DynActionForm form, ConnectionSet conSet) {
+        return html(conSet, form, PATH_JSP + "/process/editor_priority.jsp");
+    }
+
     public ActionForward processPriorityUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form);
 
