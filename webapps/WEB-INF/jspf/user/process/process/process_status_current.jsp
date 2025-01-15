@@ -24,7 +24,7 @@
 					<c:param name="returnUrl" value="${requestUrl}"/>
 					<c:param name="returnChildUiid" value="${tableId}"/>
 				</c:url>
-				<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;"><%--
+				<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;" title="ID: ${process.statusId}"><%--
 		--%></c:if>
 			${process.statusTitle}
 			<c:if test="${statusEdit}"></a></c:if>
