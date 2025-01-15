@@ -33,11 +33,11 @@
 						</c:if>
 
 						<c:if test="${mergeAllowed}">
-							<c:url var="url" value="/user/empty.do">
+							<c:url var="url" value="/user/process.do">
+								<c:param name="method" value="processMergeEdit"/>
 								<c:param name="returnUrl" value="${requestUrl}"/>
 								<c:param name="returnChildUiid" value="${tableId}"/>
 								<c:param name="id" value="${process.id}"/>
-								<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_merge.jsp"/>
 							</c:url>
 							<li>
 								<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">

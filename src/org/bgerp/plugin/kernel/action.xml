@@ -93,7 +93,7 @@
 
 			<item action="ru.bgcrm.struts.action.ProcessAction:processClone" title="Clone"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processMerge, ru.bgcrm.struts.action.ProcessAction:processMergeEdit" title="Merge"/>
 
 			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate, ru.bgcrm.struts.action.ProcessAction:processStatusEdit" title="Edit status"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="View status history"/>

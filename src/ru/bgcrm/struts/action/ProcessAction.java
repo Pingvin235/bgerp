@@ -857,6 +857,10 @@ public class ProcessAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/user_process_list.jsp");
     }
 
+    public ActionForward processMergeEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return html(conSet, form, PATH_JSP + "/process/editor_merge.jsp");
+    }
+
     public ActionForward processMerge(DynActionForm form, Connection con) throws Exception {
         var processDao = new ProcessDAO(con);
         var messageDao = new MessageDAO(con);
