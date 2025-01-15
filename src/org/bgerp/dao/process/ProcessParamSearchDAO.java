@@ -71,16 +71,18 @@ public class ProcessParamSearchDAO extends SearchDAO {
             var list = result.getList();
 
             pq.addQuery(SQL_SELECT_COUNT_ROWS + "p.*, param.*" + SQL_FROM + TABLE_PROCESS + "AS p");
-            pq.addQuery(SQL_INNER_JOIN);
 
             if (Utils.notBlankString(paramTextValue)) {
-                pq.addQuery(Tables.TABLE_PARAM_TEXT + "AS param ON p.id=param.id AND param.value LIKE ?");
+                pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_PARAM_TEXT + "AS param ON p.id=param.id AND param.value LIKE ?");
                 pq.addString(paramTextValue);
-
-                if (CollectionUtils.isNotEmpty(paramTextIds))
-                    pq.addQuery(SQL_AND + "param.param_id IN (").addQuery(Utils.toString(paramTextIds)).addQuery(")");
             } else
-                throw new IllegalArgumentException("No param value filter was defined.");
+                throw new IllegalArgumentException("No param value filter was defined");
+
+            pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_PARAM_PREF + "AS param_pref ON param.param_id=param_pref.id AND param_pref.object=?");
+            pq.addString(Process.OBJECT_TYPE);
+
+            if (CollectionUtils.isNotEmpty(paramTextIds))
+                pq.addQuery(SQL_AND + "param.param_id IN (").addQuery(Utils.toString(paramTextIds)).addQuery(")");
 
             pq.addQuery(SQL_WHERE + "1>0 ");
             filterOpen(pq);

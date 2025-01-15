@@ -31,8 +31,7 @@
 		</u:sc>
 
 		<div id="searchForms">
-			<html:form action="${form.requestURI}"
-				styleId="searchForm-customer" styleClass="searchForm in-mb1 mt1 in-w100p">
+			<html:form action="${form.requestURI}" styleId="searchForm-customer" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="method" value="customerSearch" />
 				<html:hidden property="searchBy" />
 
@@ -41,19 +40,23 @@
 					onSelect="this.form.searchBy.value='title';
 							  $$.ajax.load(this.form, '#searchResult')"/>
 
-				<%@ include file="search_address_filter.jsp"%>
 				<ui:input-text
 					name="id" placeholder="ID" title="${l.l('Для поиска введите код контрагента и нажмите Enter')}"
 					onSelect="this.form.searchBy.value='id';
-							  $$.ajax.load(this.form, '#searchResult')"/>
+							$$.ajax.load(this.form, '#searchResult')"/>
+
+				<%@ include file="search_address_filter.jsp"%>
+
+				<ui:combo-check paramName="textParam" prefixText="${l.l('Param text')}:" list="${customerParamTextList}" styleClass="w100p"/>
+
+				<%@ include file="search_text_filter.jsp"%>
 
 				<div>
 					<button type="button" class="btn-white" onclick="$('#searchForm-customer').each (function(){this.reset(); });">${l.l('Очистить')}</button>
 				</div>
 			</html:form>
 
-			<html:form action="${form.requestURI}"
-				styleId="searchForm-process" styleClass="searchForm in-mb1 mt1 in-w100p">
+			<html:form action="${form.requestURI}" styleId="searchForm-process" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="method" value="processSearch" />
 				<html:hidden property="searchBy" />
 
@@ -90,20 +93,7 @@
 
 				<ui:combo-check paramName="textParam" prefixText="${l.l('Param text')}:" list="${processParamTextList}" styleClass="w100p"/>
 
-				<div style="display: flex;">
-					<ui:combo-single hiddenName="textLikeMode" style="width: 10em;">
-						<jsp:attribute name="valuesHtml">
-							<li value="sub">${l.l('search.sub')}</li>
-							<li value="eq">${l.l('search.eq')}</li>
-							<li value="start">${l.l('search.prefix')}</li>
-							<li value="end">${l.l('search.suffix')}</li>
-						</jsp:attribute>
-					</ui:combo-single>
-
-					<ui:input-text
-						name="text" placeholder="${l.l('Value')}" title="${l.l('To search input a string and press Enter')}"
-						onSelect="this.form.searchBy.value='text'; $$.ajax.load(this.form, '#searchResult')" styleClass="ml1"/>
-				</div>
+				<%@ include file="search_text_filter.jsp"%>
 			</html:form>
 
 			<c:remove var="mode"/>

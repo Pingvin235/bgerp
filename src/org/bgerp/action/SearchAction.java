@@ -7,6 +7,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
+import org.bgerp.dao.customer.CustomerParamSearchDAO;
 import org.bgerp.dao.process.ProcessParamSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter.Type;
@@ -37,6 +38,10 @@ public class SearchAction extends BaseAction {
 
     @Override
     public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
+        form.setRequestAttribute("customerParamTextList", ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE).stream()
+            .filter(p -> p.getTypeType() == Type.TEXT)
+            .collect(Collectors.toList())
+        );
         form.setRequestAttribute("processParamTextList", ParameterCache.getObjectTypeParameterList(Process.OBJECT_TYPE).stream()
             .filter(p -> p.getTypeType() == Type.TEXT)
             .collect(Collectors.toList())
@@ -45,8 +50,8 @@ public class SearchAction extends BaseAction {
         return html(con, form, JSP_DEFAULT);
     }
 
-    public ActionForward customerSearch(DynActionForm form, Connection con) throws Exception {
-        CustomerDAO customerDao = new CustomerDAO(con);
+    public ActionForward customerSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
+        CustomerDAO customerDao = new CustomerDAO(conSet.getSlaveConnection());
 
         String searchBy = form.getParam("searchBy");
 
@@ -63,7 +68,7 @@ public class SearchAction extends BaseAction {
                 result.getPage().setRecordCount(0);
             }
 
-            return html(con, form, JSP_CUSTOMER);
+            return html(conSet, form, JSP_CUSTOMER);
         } else if ("title".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<>(form);
 
@@ -75,7 +80,7 @@ public class SearchAction extends BaseAction {
 
             customerDao.searchCustomerList(result, LikePattern.SUB.get(title));
 
-            return html(con, form, JSP_CUSTOMER);
+            return html(conSet, form, JSP_CUSTOMER);
         } /* else if ("group".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<>(form);
 
@@ -93,8 +98,20 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerListByAddress(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
                     streetId, house, flat, room);
 
-            return html(con, form, JSP_CUSTOMER_PARAM);
-        }/* else if ("email".equals(searchBy)) {
+            return html(conSet, form, JSP_CUSTOMER_PARAM);
+        } else if ("text".equals(searchBy)) {
+            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<>(form);
+
+            String text = form.getParam("text");
+
+            if (Utils.notBlankString(text))
+                new CustomerParamSearchDAO(conSet.getSlaveConnection())
+                    .withParamTextValue(LikePattern.of(form.getParam("textLikeMode")).get(text))
+                    .withParamTextIds(form.getParamValues("textParam"))
+                    .search(result);
+
+            return html(conSet, form, JSP_CUSTOMER_PARAM);
+        } /* else if ("email".equals(searchBy)) {
             Pageable<ParameterSearchedObject<Customer>> result = new Pageable<>(form);
 
             String email = form.getParam("email");
@@ -127,7 +144,7 @@ public class SearchAction extends BaseAction {
             return html(con, form, JSP_CUSTOMER);
         }*/
 
-        return html(con, form, JSP_DEFAULT);
+        return html(conSet, form, JSP_DEFAULT);
     }
 
     public ActionForward processSearch(DynActionForm form, ConnectionSet conSet) throws Exception {

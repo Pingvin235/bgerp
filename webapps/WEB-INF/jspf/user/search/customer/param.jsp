@@ -3,7 +3,7 @@
 
 <%@ include file="common.jsp"%>
 
-<table class="data mt1">
+<table class="data mt1 hl">
 	<tr>
 		<td width="30">ID</td>
 		<td>${l.l('Title')}</td>
