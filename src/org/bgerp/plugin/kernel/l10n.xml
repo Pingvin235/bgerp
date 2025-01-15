@@ -672,6 +672,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Perform restart?</en><ru>Выполнить перезапуск?</ru></p>
 	<p><en>Perform update?</en><ru>Выполнить обновление?</ru></p>
 	<p><en>Message not found</en><ru>Сообщение не найдено</ru></p>
+	<p><en>Filter by ID, title, configuration</en><ru>Фильтр по ID, наименованию, конфигурации</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

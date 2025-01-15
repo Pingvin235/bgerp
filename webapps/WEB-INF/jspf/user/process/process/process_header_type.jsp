@@ -11,7 +11,7 @@
 			<c:param name="returnUrl" value="${requestUrl}"/>
 			<c:param name="returnChildUiid" value="${tableId}"/>
 		</c:url>
-		[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;"><%--
+		[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;" title="ID: ${process.typeId}"><%--
 --%></c:if><%--
 --%><b><%--
 	--%><c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>

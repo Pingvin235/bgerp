@@ -32,7 +32,7 @@
 
 	<ui:input-text name="filter" placeholder="${l.l('Filter')}" size="40" value="${form.param['filter']}"
 		onSelect="$$.ajax.loadContent(this)"
-		title="${l.l('Фильтр по наименованию, конфигурации')}"/>
+		title="${l.l('Filter by ID, title, configuration')}"/>
 
 	<ui:page-control/>
 </html:form>

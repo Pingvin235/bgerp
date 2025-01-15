@@ -34,46 +34,46 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Ищет типы процессов.
-     * @param searchResult результат
-     * @param parentId если больше либо равен 0 - фильтр по родительскому узлу
-     * @param filterLike если не null - SQL LIKE выражение, фильтр по наименованию типа либо конфигурации
+     * Searches process types
+     * @param result the result
+     * @param parentId when greater 0 - filter by parent type id
+     * @param filterLike when not {@code null} or empty, SQL LIKE expression to filter by ID, title, or config
      * @throws Exception
      */
-    public void searchProcessType(Pageable<ProcessType> searchResult, int parentId, String filterLike) throws Exception {
-        if (searchResult != null) {
-            Page page = searchResult.getPage();
-            List<ProcessType> list = searchResult.getList();
+    public void searchProcessType(Pageable<ProcessType> result, int parentId, String filterLike) throws Exception {
+        if (result != null) {
+            Page page = result.getPage();
+            List<ProcessType> list = result.getList();
 
-            PreparedQuery ps = new PreparedQuery(con);
+            try (var pq = new PreparedQuery(con)) {
+                pq.addQuery(SQL_SELECT_COUNT_ROWS);
+                pq.addQuery(SHORT_COLUMN_LIST);
+                pq.addQuery(SQL_FROM);
+                pq.addQuery(TABLE_PROCESS_TYPE);
+                pq.addQuery(SQL_WHERE);
+                pq.addQuery("1>0");
 
-            ps.addQuery(SQL_SELECT_COUNT_ROWS);
-            ps.addQuery(SHORT_COLUMN_LIST);
-            ps.addQuery(SQL_FROM);
-            ps.addQuery(TABLE_PROCESS_TYPE);
-            ps.addQuery(SQL_WHERE);
-            ps.addQuery("1>0");
+                if (parentId >= 0) {
+                    pq.addQuery(" AND parent_id=?");
+                    pq.addInt(parentId);
+                }
+                if (Utils.notBlankString(filterLike)) {
+                    pq.addQuery(" AND (id LIKE ? OR title LIKE ? OR config LIKE ?)");
+                    pq.addString(filterLike);
+                    pq.addString(filterLike);
+                    pq.addString(filterLike);
+                }
 
-            if (parentId >= 0) {
-                ps.addQuery(" AND parent_id=?");
-                ps.addInt(parentId);
+                pq.addQuery(SQL_ORDER_BY);
+                pq.addQuery("title");
+                pq.addQuery(getPageLimit(page));
+
+                ResultSet rs = pq.executeQuery();
+                while (rs.next())
+                    list.add(getTypeFromRs(rs, false));
+
+                page.setRecordCount(foundRows(pq.getPrepared()));
             }
-            if (Utils.notBlankString(filterLike)) {
-                ps.addQuery(" AND (title LIKE ? OR config LIKE ?)");
-                ps.addString(filterLike);
-                ps.addString(filterLike);
-            }
-
-            ps.addQuery(SQL_ORDER_BY);
-            ps.addQuery("title");
-            ps.addQuery(getPageLimit(page));
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(getTypeFromRs(rs, false));
-            }
-            page.setRecordCount(foundRows(ps.getPrepared()));
-            ps.close();
         }
     }
 
