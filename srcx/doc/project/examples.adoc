@@ -65,7 +65,7 @@ link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L77-L
 
 Update value in DB:
 [snippet, from="Iface", to="}", remove-leading="        "]
-link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L57-L65[org.bgerp.action.ProcessLinkProcessAction]
+link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L58-L66[org.bgerp.action.ProcessLinkProcessAction]
 
 Refresh on a tab's header:
 [snippet, from="<script", to="script>", remove-leading="						"]

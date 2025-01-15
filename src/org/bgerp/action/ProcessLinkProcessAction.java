@@ -18,6 +18,7 @@ import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
 import org.bgerp.dao.process.ProcessSearchDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.model.process.link.config.ProcessCreateLinkConfig;
 import org.bgerp.model.process.link.config.ProcessLinkCategoryConfig;
@@ -163,16 +164,29 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
                     copyParams = Utils.toString(paramIdsBothHave);
                 }
 
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), copyParams);
+                ParamValueDAO paramDao = new ParamValueDAO(con);
+                paramDao.copyParams(linkedId, process.getId(), copyParams);
+
+                List<Parameter> parameters = new ArrayList<>();
 
                 for (String token : Utils.toList(copyParams, ParamValueDAO.COPY_PARAMS_SEPARATORS)) {
                     int pos = token.indexOf(':');
                     int paramId = Utils.parseInt(pos > 0 ? token.substring(pos + 1) : token);
                     if (paramId > 0)
-                        // parameter value has been set to null, as the copy performed with SQL queries
-                        EventProcessor.processEvent(new ParamChangedEvent(form, ParameterCache.getParameter(paramId), process.getId(), null), new SingleConnectionSet(con));
+                        parameters.add(ParameterCache.getParameter(paramId));
                     else
                         log.error("Incorrect copy param mapping: {}", token);
+                }
+
+                var pairs = paramDao.loadParameters(parameters, process.getId(), true);
+                SingleConnectionSet conSet = new SingleConnectionSet(con);
+
+                for (var pair : pairs) {
+                    Object value = pair.getValue();
+                    if (value != null)
+                        EventProcessor.processEvent(new ParamChangedEvent(form, pair.getParameter(), process.getId(), value), conSet);
+                    else
+                        log.error("Null value for param: {}, process: {}", pair.getParameter().getId(), process.getId());
                 }
             }
 
