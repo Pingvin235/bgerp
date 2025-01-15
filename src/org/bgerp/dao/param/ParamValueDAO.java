@@ -35,7 +35,6 @@ import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValuePair;
-import org.bgerp.model.process.config.ProcessCreateInConfig;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -1653,15 +1652,6 @@ public class ParamValueDAO extends CommonDAO {
         return title + ": " + count;
     }
 
-    /**
-     * Loads parameter's values.
-     * @param paramList parameters list.
-     * @param id entity id.
-     * @throws SQLException
-    */
-    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id) throws SQLException {
-        return loadParameters(paramList, id, false);
-    }
 
     /**
      * Loads parameter's values.
@@ -1694,13 +1684,6 @@ public class ParamValueDAO extends CommonDAO {
             updateParamValueMap(paramMap, type, paramTypeMap.get(type), id, offEncryption);
 
         return result;
-    }
-
-    @Deprecated
-    public void loadParameterValue(ParameterValuePair param, int objectId, boolean offEncription) throws Exception {
-        Parameter parameter = param.getParameter();
-        updateParamValueMap(Collections.singletonMap(parameter.getId(), param), parameter.getType(),
-                Collections.singletonList(parameter.getId()), objectId, offEncription);
     }
 
     /**
@@ -1899,6 +1882,18 @@ public class ParamValueDAO extends CommonDAO {
             ps.setInt(2, paramId);
             ps.executeUpdate();
         }
+    }
+
+    @Deprecated
+    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id) throws SQLException {
+        return loadParameters(paramList, id, false);
+    }
+
+    @Deprecated
+    public void loadParameterValue(ParameterValuePair param, int objectId, boolean offEncription) throws Exception {
+        Parameter parameter = param.getParameter();
+        updateParamValueMap(Collections.singletonMap(parameter.getId(), param), parameter.getType(),
+                Collections.singletonList(parameter.getId()), objectId, offEncription);
     }
 
     /**
