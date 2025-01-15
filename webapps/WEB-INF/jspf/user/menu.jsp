@@ -3,7 +3,7 @@
 
 <ui:menu-item title="${l.l('Поиск')}" href="search" icon="ti-search" action="/user/search:null" />
 
-<ui:menu-item title="${l.l('News')}" href="news" icon="ti-bell" action="org.bgerp.action.NewsAction:newsList" />
+<ui:menu-item title="${l.l('News')}" href="news" icon="ti-bell" action="/user/news:newsList" />
 
 <ui:menu-item title="${l.l('Адреса')}" href="directory/address" icon="ti-book"
 	action="ru.bgcrm.struts.action.DirectoryAddressAction:null" />

@@ -8,14 +8,14 @@
 		<item action="/user/search:processSearch, ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
 	</item>
 	<item title="News">
-		<item action="org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList" title="View" />
-		<item action="org.bgerp.action.NewsAction:newsSetRead, ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Mark as read" />
-		<item action="org.bgerp.action.NewsAction:newsSetAllRead, ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Mark all as read" />
-		<item action="org.bgerp.action.NewsAction:newsEdit, org.bgerp.action.NewsAction:newsUpdate, ru.bgcrm.struts.action.NewsAction:newsEdit, ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Edit">
+		<item action="/user/news:newsList, org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList" title="View" />
+		<item action="/user/news:newsSetRead, org.bgerp.action.NewsAction:newsSetRead, ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Mark as read" />
+		<item action="/user/news:newsSetAllRead, org.bgerp.action.NewsAction:newsSetAllRead, ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Mark all as read" />
+		<item action="/user/news:newsEdit, /user/news:newsUpdate, org.bgerp.action.NewsAction:newsEdit, org.bgerp.action.NewsAction:newsUpdate, ru.bgcrm.struts.action.NewsAction:newsEdit, ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Edit">
 			<b>allowedGroupIds</b> - comma separated IDs of allowed user groups
 		</item>
-		<item action="org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete" title="Delete"/>
-		<item action="org.bgerp.action.NewsAction:newsGet" allowAll="1"/>
+		<item action="/user/news:newsDelete, org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete" title="Delete"/>
+		<item action="/user/news:newsGet, org.bgerp.action.NewsAction:newsGet" allowAll="1"/>
 	</item>
 	<item title="Address">
 		<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address" title="View"/>

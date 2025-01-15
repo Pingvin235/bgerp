@@ -20,7 +20,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Action(path = "/user/news")
+@Action(path = "/user/news", pathId = true)
 public class NewsAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/news";
 
