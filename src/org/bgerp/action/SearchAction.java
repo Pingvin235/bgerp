@@ -147,6 +147,12 @@ public class SearchAction extends BaseAction {
         return html(conSet, form, JSP_DEFAULT);
     }
 
+    public ActionForward customerSearchProcessLink(DynActionForm form, ConnectionSet conSet) throws Exception {
+        customerSearch(form, conSet);
+
+        return html(conSet, form, PATH_JSP_USER + "/process/process/link/list_search_customer.jsp");
+    }
+
     public ActionForward processSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
         ProcessDAO processDao = new ProcessDAO(conSet.getSlaveConnection(), form);
 
