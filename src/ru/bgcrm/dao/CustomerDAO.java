@@ -558,43 +558,6 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Получение набора контрагентов по их ID
-     * @param customerIds идентификаторы контрагентов
-     * @return
-     */
-    public static Set<Customer> getCustomers(Connection connection, Collection<Integer> customerIds) {
-        Set<Customer> customers = new HashSet<>();
-
-        String sql = "SELECT * FROM customer WHERE customer.id IN ( ";
-        sql += Utils.toString(customerIds);
-        sql += " )";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                customers.add(getCustomerFromRs(rs, ""));
-            }
-
-            ps.close();
-        } catch (SQLException exception) {
-            throw new BGException(exception);
-        }
-
-        return customers;
-    }
-
-    /**
-     * Получение набора контрагентов по их ID
-     * @param customerIds идентификаторы контрагентов
-     * @return
-     */
-    public Set<Customer> getCustomers(Collection<Integer> customerIds) {
-        return getCustomers(con, customerIds);
-    }
-
-    /**
      * Выбирает контрагента по названию.
      * @param customerTitle название
      * @return
@@ -786,5 +749,46 @@ public class CustomerDAO extends CommonDAO {
             EntityLogDAO entityLogDAO = new EntityLogDAO(this.con, TABLE_CUSTOMER_LOG);
             entityLogDAO.insertEntityLog(customer.getId(), userId, customer.toLog(con, oldCustomer));
         }
+    }
+
+    // deprecated
+
+    /**
+     * Получение набора контрагентов по их ID
+     * @param customerIds идентификаторы контрагентов
+     * @return
+     */
+    @Deprecated
+    public static Set<Customer> getCustomers(Connection connection, Collection<Integer> customerIds) {
+        Set<Customer> customers = new HashSet<>();
+
+        String sql = "SELECT * FROM customer WHERE customer.id IN ( ";
+        sql += Utils.toString(customerIds);
+        sql += " )";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                customers.add(getCustomerFromRs(rs, ""));
+            }
+
+            ps.close();
+        } catch (SQLException exception) {
+            throw new BGException(exception);
+        }
+
+        return customers;
+    }
+
+    /**
+     * Получение набора контрагентов по их ID
+     * @param customerIds идентификаторы контрагентов
+     * @return
+     */
+    @Deprecated
+    public Set<Customer> getCustomers(Collection<Integer> customerIds) {
+        return getCustomers(con, customerIds);
     }
 }
