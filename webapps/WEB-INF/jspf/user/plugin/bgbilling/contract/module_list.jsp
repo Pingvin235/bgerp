@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <div class="in-table-cell" id="${uiid}">
-	<form style="width: 300; vertical-align: top;" action="/user/plugin/bgbilling/proto/contract.do" id="selected">
+	<form style="width: 30em; vertical-align: top;" action="/user/plugin/bgbilling/proto/contract.do">
 		<input type="hidden" name="method" value="updateModules"/>
 		<input type="hidden" name="command" value="del"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
@@ -20,7 +20,7 @@
 			&gt;&gt;&gt;
 		</button>
 	</form>
-	<form style="width: 300; vertical-align: top;" action="/user/plugin/bgbilling/proto/contract.do" id="available">
+	<form style="width: 30em; vertical-align: top;" action="/user/plugin/bgbilling/proto/contract.do">
 		<input type="hidden" name="method" value="updateModules"/>
 		<input type="hidden" name="command" value="add"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>

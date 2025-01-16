@@ -700,40 +700,60 @@ public class ContractDAO extends BillingDAO {
     }
 
     public Pair<List<IdTitle>, List<IdTitle>> moduleList(int contractId) {
-        List<IdTitle> selectedList = new ArrayList<>();
-        List<IdTitle> availableList = new ArrayList<>();
+        List<IdTitle> selectedList = new ArrayList<>(), availableList = new ArrayList<>();
 
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("ContractModuleList");
-        request.setContractId(contractId);
+        if (dbInfo.versionCompare("9.2410") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.module", "ModuleService", "contractModules");
+            req.setParamContractId(contractId);
+            selectedList = readJsonValue(transferData.postDataReturn(req, user).traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
 
-        Document document = transferData.postData(request, user);
-        for (Element item : XMLUtils.selectElements(document, "/data/list_select/item")) {
-            selectedList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
-        }
-        for (Element item : XMLUtils.selectElements(document, "/data/list_avaliable/item")) {
-            availableList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+            req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.module", "ModuleService", "moduleList");
+            availableList = readJsonValue(transferData.postDataReturn(req, user).traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+
+            Set<Integer> selectedIds = Utils.getObjectIdsSet(selectedList);
+            availableList.removeIf(module -> selectedIds.contains(module.getId()));
+        } else {
+            Request request = new Request();
+            request.setModule("contract");
+            request.setAction("ContractModuleList");
+            request.setContractId(contractId);
+
+            Document document = transferData.postData(request, user);
+            for (Element item : XMLUtils.selectElements(document, "/data/list_select/item")) {
+                selectedList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+            }
+            for (Element item : XMLUtils.selectElements(document, "/data/list_avaliable/item")) {
+                availableList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+            }
         }
 
         return new Pair<>(selectedList, availableList);
     }
 
     public void updateModule(int contractId, int moduleId, String command) throws BGMessageException {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setContractId(contractId);
-        request.setAttribute("module_id", moduleId);
+        if (dbInfo.versionCompare("9.2410") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService",
+                    "del".equals(command) ? "contractModuleDelete" : "contractModuleAdd");
+            req.setParamContractId(contractId);
+            req.setParam("moduleIds", List.of(moduleId));
 
-        if ("add".equals(command)) {
-            request.setAction("ContractModuleAdd");
-        } else if ("del".equals(command)) {
-            request.setAction("ContractModuleDelete");
+            transferData.postData(req, user);
         } else {
-            throw new BGMessageExceptionWithoutL10n("Неверный параметр command");
-        }
+            Request request = new Request();
+            request.setModule("contract");
+            request.setContractId(contractId);
+            request.setAttribute("module_id", moduleId);
 
-        transferData.postData(request, user);
+            if ("add".equals(command)) {
+                request.setAction("ContractModuleAdd");
+            } else if ("del".equals(command)) {
+                request.setAction("ContractModuleDelete");
+            } else {
+                throw new BGMessageExceptionWithoutL10n("Неверный параметр command");
+            }
+
+            transferData.postData(request, user);
+        }
     }
 
     public BigDecimal limit(int contractId, Pageable<LimitLogItem> log, List<LimitChangeTask> taskList) {
