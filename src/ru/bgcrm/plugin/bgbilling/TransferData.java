@@ -471,8 +471,8 @@ public class TransferData {
             if (Utils.notBlankString(version) && Utils.isBlankString(dbInfo.getVersion()) ) {
                 for (String supported : DBInfoManager.SUPPORTED_VERSIONS) {
                     if (version.startsWith(supported)) {
-                        log.info("Using version: {}", supported);
-                        dbInfo.setVersion(supported);
+                        log.info("Using version: {}", version);
+                        dbInfo.setVersion(version);
                         break;
                     }
                 }

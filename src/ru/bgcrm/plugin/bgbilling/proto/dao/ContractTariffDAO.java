@@ -160,7 +160,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractTariffService", "contractTariffList");
             req.setParamContractId(contractId);
-            req.setParam("entityMid", 0);
+            req.setParam(dbInfo.versionCompare("9.2410") >= 0 ? "entityModuleId" : "entityMid", 0);
             req.setParam("entityId", 0);
 
             List<ContractTariff> result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
