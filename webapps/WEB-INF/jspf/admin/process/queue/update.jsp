@@ -55,13 +55,12 @@
 
 		<c:url var="editUrl" value="/admin/process.do">
 			<c:param name="method" value="queueGet"/>
-			<c:param name="id" value="${form.id}"/>
 			<c:param name="returnUrl" value="${form.returnUrl}"/>
 		</c:url>
 
 		<button type="button" class="btn-grey" onclick="
-				${saveCommand}.done(() => {
-					$$.ajax.load('${editUrl}', $(this.form).parent())
+				${saveCommand}.done((result) => {
+					$$.ajax.load('${editUrl}&id=' + result.data.queue.id, $(this.form).parent())
 				})"
 			style="float: right;" title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
 	</div>
