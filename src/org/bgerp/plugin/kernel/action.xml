@@ -116,7 +116,7 @@
 				<item title="Add">
 					<item action="/user/process/link/process:addCreated, /user/process/link/process:linkProcessCreate, org.bgerp.action.ProcessLinkProcessAction:addCreated, org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
 						title="Create a process and link it"/>
-					<item action="/user/process/link/process:addExisting, org.bgerp.action.ProcessLinkProcessAction:addExisting, org.bgerp.action.ProcessLinkProcessAction:linkProcessExisting" title="Link existing process to a Link Category"/>
+					<item action="/user/process/link/process:addExisting, /user/process/link/process:linkProcessExisting, org.bgerp.action.ProcessLinkProcessAction:addExisting, org.bgerp.action.ProcessLinkProcessAction:linkProcessExisting" title="Link existing process to a Link Category"/>
 				</item>
 				<item action="/user/process/link/process:linkProcessDelete, org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete process link"/>
 			</item>
