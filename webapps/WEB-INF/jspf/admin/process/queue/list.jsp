@@ -45,7 +45,7 @@
 			<td nowrap="nowrap">
 				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}', {control: this}).done(
-					() => $$.ajax.load('${form.requestUrl}', this)
+					() => $$.ajax.loadContent('${form.requestUrl}', this)
 				)"/>
 			</td>
 			<td>${item.id}</td>
