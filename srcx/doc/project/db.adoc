@@ -1234,32 +1234,32 @@ Generated secrets for accessing processes via open interface.
 
 |process_id
 |INT
-|process ID
+|process ID, link to <<_process, process:id>>
 
 |dt
 |DATETIME
-|время изменения статуса
+|change time
 
 |status_id
 |INT
-|ID статуса
+|status ID, link to <<_process_status_title, process_status_title:id>>
 
 |user_id
 |INT
-|ID пользователя изменившего статус
+|user ID, link to <<_user, user:id>>
 
 |last
 |TINYINT
-|
+|*1* - if the change was the latest for the status in the process
 
 |comment
 |VARCHAR
-|comment
+|change comment
 |===
 
 === process_status_title
-
 Статусы процессов
+
 [cols="a,a,50%a", options="header"]
 |===
 |Column
@@ -1280,8 +1280,8 @@ Generated secrets for accessing processes via open interface.
 |===
 
 === process_type
-
 типы процессов
+
 [cols="a,a,50%a", options="header"]
 |===
 |Column
