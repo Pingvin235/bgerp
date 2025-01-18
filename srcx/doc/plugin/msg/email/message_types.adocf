@@ -1,0 +1,85 @@
+|[[setup-type-email]] *MessageTypeEmail* (Plugin Email)
+
+Allows reading email boxes, separation the incoming messages other processes,
+there message exchange can be further continued.
+
+image::../../plugin/msg/email/_res/process_message.png[]
+
+|:hardbreaks:
+Configuration pattern:
+----
+messageType.<id>.title=<title>
+messageType.<id>.class=MessageTypeEmail
+messageType.<id>.email=<email>
+messageType.<id>.host=<host>
+messageType.<id>.login=<login>
+messageType.<id>.pswd=<pswd>
+
+messageType.<id>.folderIn=<inFolder>
+# если не указан - CRM_PROCESSED
+#messageType.<id>.folderProcessed=<processedFolder>
+# если не указан - CRM_SKIPPED
+#messageType.<id>.folderSkipped=<skippedFolder>
+# если не указан - CRM_SENT
+#messageType.<id>.folderSent=<sentFolder>
+# если не указан - Trash
+#messageType.<id>.folderTrash=<trashFolder>
+
+# IMAP SSL
+#messageType.<id>.store=imaps
+# порт, если не указано - 143 для IMAP, 993 для IMAP SSL
+#messageType.<id>.port=
+# отладка почтового обмена IMAP и SMTP
+#messageType.<id>.debug=1
+
+# параметры SMTP, добавляются идентично опциям из основной конфигурации после префикса messageType.<id>.
+
+# do not make read all process related messages
+#messageType.<id>.processed.read=0
+
+# JEXL expression for generation signature text
+#messageType.<id>.sign.expression=<signExpression>
+# отключение стандартной подписи, что сообщение отправлено BGERP
+#messageType.<id>.sign.standard=0
+# иной адрес отправителя письма
+messageType.<id>.from=<from>
+# адрес для ответов в письме
+messageType.<id>.replayTo=<replayTo>
+----
+Входящие сообщения считываются с EMail ящика по протоколу IMAP. Сообщения считываются из папки *<inFolder>*.
+Параметры подключения IMAP задаются параметрами *<host>*, *<login>*, *<pswd>*.
+После разбора текста сообщений и вложений сообщение перемещается в *<processedFolder>*, при возникновении ошибок - в *<skippedFolder>*.
+
+*<email>* подставляется в поле отправителя исходящего письма.
+Поля *<from>* и *<replayTo>* используются в случае необходимости в момент отправки подставить в поле "От" (From) иной адрес и "Ответить на" (Replay-To).
+
+*<signExpression>* - <<../extension.adoc#jexl, JEXL>> выражение, определяющее подпись письма при отправке его через данный тип сообщения.
+
+Отправка исходящих сообщений осуществляется через протокол SMTP,
+параметры настраиваются для каждого типа отдельно аналогично <<../setup.adoc#config, основной конфигурации>>.
+
+Additional settings for the message type are documented <<../../plugin/msg/email/index.adoc#setup-message-type, here>>
+
+Simple configuration example with unencrypted IMAP and SMTP.
+----
+messageType.1.title=billing@bitel.ru
+messageType.1.class=MessageTypeEmail
+messageType.1.email=billing@bitel.ru
+messageType.1.host=imap.ufamail.ru
+messageType.1.login=billing@bitel.ru
+messageType.1.pswd=*****
+messageType.1.folderIn=INBOX
+messageType.1.folderProcessed=INBOX.CRM_PROCESSED
+messageType.1.folderSkipped=INBOX.CRM_SKIPPED
+messageType.1.folderSent=INBOX.CRM_SENT
+messageType.1.signExpression=<<END
+    sign = NEW_LINE + user.getTitle() + NEW_LINE + "Служба технической поддержки" + NEW_LINE;
+    sign += "ОАО \"Инет\"" + NEW_LINE + "тел. 2232333" + NEW_LINE + "email. mastea@inet.ru" + NEW_LINE;
+END
+messageType.1.mail.transport.protocol=smtp
+messageType.1.mail.smtp.user=billing@inet.ru
+messageType.1.mail.smtp.host=smtp.ufamail.ru
+messageType.1.mail.smtp.pswd=******
+----
+
+Other samples can be found <<../../plugin/msg/email/index.adoc#setup-message-type-example, here>>

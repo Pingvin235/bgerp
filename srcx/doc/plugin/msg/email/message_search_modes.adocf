@@ -1,0 +1,11 @@
+|:hardbreaks:
+*MessageTypeSearchEmail*
+*Auto*
+Поиск контрагента по Email для типа сообщения Email.
+|:hardbreaks:
+Нет дополнительных параметров.
+Пример:
+----
+messageType.1.search.{@inc:cnt}.title=Customer by EMail
+messageType.1.search.{@cnt}.class=MessageTypeSearchEmail
+----

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<p>
+		<sys>email.sign.standard</sys>
+		<ru>Сообщение подготовлено системой BGERP (https://bgerp.ru).
+Не изменяйте, пожалуйста, тему и не цитируйте данное сообщение в ответе!</ru>
+		<en>The message was prepared by BGERP system (https://bgerp.org).
+Please, do not change response subject and to not citate the message there!</en>
+	</p>
+	<p>
+		<ru>История сообщений по процессу #{}</ru>
+		<en>Messages history for process #{}</en>
+	</p>
+	<p><ru>Историю переписки вы можете посмотреть в приложенном файле History.txt</ru><en>Exchange history you can see in History.txt attachment.</en></p>
+	<p><ru>Вложить историю</ru><en>Attach history</en></p>
+	<p><ru>Переписка с данным адресом</ru><en>Exchange with the address</en></p>
+	<p><ru>Все сообщения</ru><en>All messages</en></p>
+	<p><ru>Карточка процесса: {}</ru><en>Process card: {}</en></p>
+	<p><ru>получено: </ru><en>recieved: </en></p>
+	<p><ru>отправлено: </ru><en>sent: </en></p>
+	<p><ru>TagBox ввод E-Mail в сообщениях</ru><en>TagBox input E-Mail in messages</en></p>
+	<p>
+		<sys>email.autoCreateProcess.notification.text.message.default</sys>
+		<ru>Уважаемый клиент, ваше обращение зарегистрировано!
+Для него назначен исполнитель и в ближайшее возможное время вам будет дан ответ.
+Пожалуйста, при возникновении дополнительных сообщений по данному вопросу отвечайте на это письмо,
+так чтобы в теме письма сохранялся числовой идентификатор обращения.
+Это позволит нам быстрее обработать ваш запрос.
+
+</ru>
+		<en>Dear Customer, your message was registered!
+For it is assigned a responsible person and in the nearest time you will get a response.
+Please, respond to the mail in case of further questions,
+to preseve process ID in subject.
+That allow us quicker proceed your request.
+
+</en>
+	</p>
+	<!-- notifications begin -->
+	<!-- kernel -->
+	<p><en>New message in process</en><ru>Новое сообщение в процессе</ru></p>
+	<p>
+		<sys>email.notification.message</sys>
+		<en>New message in process, where you are an executor.
+
+Message:
+{}
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.</en>
+		<ru>Новое сообщение в процессе, в котором вы числитесь исполнителем.
+
+Сообщение:
+{}
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
+	</p>
+	<p><en>Process executors changed</en><ru>Изменились исполнители процесса</ru></p>
+	<p>
+		<sys>email.notification.executors</sys>
+		<en>Process executors have been changed.
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.</en>
+		<ru>Изменён состав исполнителей процесса.
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
+	</p>
+	<p><en>Process status changed</en><ru>Изменился статус процесса</ru></p>
+	<p>
+		<sys>email.notification.status</sys>
+		<en>Process status has been changed.
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.</en>
+		<ru>Изменён статус процесса.
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
+	</p>
+	<p><en>Incoming message #</en><ru>Входящее сообщение #</ru></p>
+	<!-- invoice -->
+	<p>
+		<sys>email.notification.invoice.paid</sys>
+		<en>Customer: {}
+Period: {}
+Amount: {}
+Created Date: {}
+
+Open process: {}</en>
+		<ru>Контрагент: {}
+Период: {}
+Сумма: {}
+Дата создания: {}
+
+Открыть процесс: {}</ru>
+	</p>
+	<p><en>Paid invoice {}</en><ru>Оплачен счёт {}</ru></p>
+	<!-- agree -->
+	<p><en>Agreement has started</en><ru>Согласование начато</ru></p>
+	<p><sys>agree.notification.start</sys><en>Agreement has started by {}</en><ru>Согласование начато {}</ru></p>
+	<p><en>Agreement in progress</en><ru>Согласование продолжается</ru></p>
+	<p><sys>agree.notification.progress</sys><en>Agreement was perfomed by {}</en><ru>Согласование было выполнено {}</ru></p>
+	<p><en>Agreement was finished</en><ru>Согласование завершено</ru></p>
+	<p><sys>agree.notification.finish</sys><en>Agreement was finished by {}</en><ru>Согласование было завершено {}</ru></p>
+	<!-- notifications end -->
+	<p>
+		<sys>email.recipients.input.hint</sys>
+		<en>Use comma or Enter for address separation.</en>
+		<ru>Используйте запятую или Enter для разделения значений.</ru>
+	</p>
+	<p><en>Recipient (Copy)</en><ru>Получатель (Копия)</ru></p>
+	<p><en>Parameter with ID {} not found or has no 'email' type.</en><ru>Параметр с ID {} не найден или его тип не 'email'.</ru></p>
+	<!--
+		<p><en></en><ru></ru></p>
+		<p><sys></sys><en></en><ru></ru></p>
+	-->
+</data>

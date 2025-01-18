@@ -1,0 +1,3 @@
+When replying on this message, check that 'TO' and 'CC' recipients are correctly filled out.
+When saving the reply without subject a confirmation has to be shown.
+When attachment is mentioned in a message text, a confirmation has to be shown when saving message without it.

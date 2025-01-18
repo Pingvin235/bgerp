@@ -1,0 +1,112 @@
+Received: from mxfront3j.mail.yandex.net (localhost [127.0.0.1])
+	by mxfront3j.mail.yandex.net with LMTP id GDdjGGdMOj-MW4N3pEI
+	for <bill@yyyyy.ru>; Tue, 04 Aug 2020 11:31:22 +0300
+Received: from mx4.xxxxxx.ru (mx4.xxxxxx.ru [84.47.177.119])
+	by mxfront3j.mail.yandex.net (mxfront/Yandex) with SMTP id W3QRm506fK-VJmSjebD;
+	Tue, 04 Aug 2020 11:31:19 +0300
+Return-Path: billing@xxxxxx.ru
+X-Yandex-Front: mxfront3j.mail.yandex.net
+X-Yandex-TimeMark: 1596529879.434
+Authentication-Results: mxfront3j.mail.yandex.net; spf=pass (mxfront3j.mail.yandex.net: domain of xxxxxx.ru designates 84.47.177.119 as permitted sender, rule=[a:mx4.xxxxxx.ru]) smtp.mail=billing@xxxxxx.ru
+X-Yandex-Suid-Status: 1 1130000055344503
+X-Yandex-Spam: 1
+X-Yandex-Fwd: MjE2NTUzNzUwMTg2NjgxNTk4MywxMzg4OTcwNDMwMjIyMzk4NDQwMw==
+Received: from [10.1.3.17] (account enigma@xxxxxx.ru HELO ns-aspid)
+  by xxxxxx.ru (CommuniGate Pro SMTP 6.0.7)
+  with ESMTPA id 6903981 for bill@yyyyy.ru; Tue, 04 Aug 2020 11:31:18 +0300
+From: "=?WINDOWS-1251?Q?=CD=E0=F3=EA=E0-=D1=E2=FF=E7=FC?="
+ <billing@xxxxxx.ru>
+To: bill@yyyyy.ru
+Subject: =?WINDOWS-1251?Q?=CE=CE=CE_=22=D1=F2=E0=ED=F6=E8=FF_?=
+ =?WINDOWS-1251?Q?=C2=E8=F0=F2=F3=E0=EB=FC=ED=E0=FF=22=5F=C1=C8=CB=CB=C8=CD=C3_?=
+ =?WINDOWS-1251?Q?=CE=CE=CE_=22=CD=E0=F3=EA=E0-=D1=E2=FF=E7=FC=22?=
+Date: Tue, 4 Aug 2020 11:31:18 +0300
+MIME-Version: 1.0 (produced by Synapse)
+X-mailer: Synapse - Pascal TCP/IP library by Lukas Gebauer
+Content-type: Multipart/alternate;
+ boundary="D445E5ED_15BF92E2_Synapse_boundary"
+Content-Description: Multipart message
+Message-ID: <auto-000006903981@mx4.xxxxxx.ru>
+X-Yandex-Forward: a6673160fd9c61297ae046730f3c3d8d
+
+--D445E5ED_15BF92E2_Synapse_boundary
+Content-type: text/plain; charset=ISO-8859-5
+Content-Transfer-Encoding: Quoted-printable
+Content-Disposition: inline
+Content-Description: Message text
+
+=B4=DE=D1=E0=EB=D9 =D4=D5=DD=EC!
+
+=B2 =E1=D2=EF=D7=D8 =E1 =D2=DD=D5=D4=E0=D5=DD=D8=D5=DC =D2 =DA=DE=DC=DF=D0=DD=
+=D8=D8 =D0=D2=E2=DE=DC=D0=E2=D8=D7=D8=E0=DE=D2=D0=DD=DD=DE=D9 =E1=D8=E1=E2=D5=
+=DC=EB =DE=D1=E0=D0=D1=DE=E2=DA=D8 =DF=DB=D0=E2=D5=D6=D5=D9,
+=DF=E0=DE=E1=EC=D1=D0 =BA=BE=C0=C0=B5=BA=C2=BD=BE =D7=D0=DF=DE=DB=DD=EF=E2=EC=
+ =DF=DE=DB=D5 _=BD=D0=D7=DD=D0=E7=D5=DD=D8=D5 =DF=DB=D0=E2=D5=D6=D0_ .
+=B4=DB=EF =ED=E2=DE=D3=DE =DD=D5=DE=D1=E5=DE=D4=D8=DC=DE =E3=DA=D0=D7=EB=D2=
+=D0=E2=EC =DA=D0=D6=D4=EB=D9 =DD=DE=DC=D5=E0 =E1=E7=D5=E2=D0 =D8=DB=D8 =DD=DE=
+=DC=D5=E0 =DB=D8=E6=D5=D2=DE=D3=DE =E1=E7=D5=E2=D0 =D2 =DA=D2=D0=D4=E0=D0=E2=
+=DD=EB=E5 =E1=DA=DE=D1=DA=D0=E5.
+=B5=E1=DB=D8 =DF=DE =DA=D0=DA=D8=DC-=DB=D8=D1=DE =DF=E0=D8=E7=D8=DD=D0=DC =DF=
+=DE=E1=E2=D0=D2=D8=E2=EC =DA=D2=D0=D4=E0=D0=E2=DD=EB=D5 =E1=DA=DE=D1=DA=D8 =
+=DD=D5=E2 =D2=DE=D7=DC=DE=D6=DD=DE=E1=E2=D8, =DF=D5=E0=D5=D4 =D8 =DF=DE=E1=DB=
+=D5 =E1=DE=DE=E2=D2=D5=E2=E1=E2=D2=E3=EE=E9=D8=E5 =DD=DE=DC=D5=E0=DE=D2 =D4=
+=DE=DB=D6=D5=DD =DF=E0=D8=E1=E3=E2=E1=E2=D2=DE=D2=D0=E2=EC =DF=E0=DE=D1=D5=
+=DB.
+=BF=E0=D8=DC=D5=E0 =E3=DA=D0=D7=D0=DD=D8=EF =DD=DE=DC=D5=E0=DE=D2 =E1=E7=D5=
+=E2=DE=D2:
+[412/1000502/=B8=BA] , [412/1000502/=C2=BA] , [412/1000502/=B0=BA]
+=BF=E0=D8=DC=D5=E0 =E3=DA=D0=D7=D0=DD=D8=EF =DD=DE=DC=D5=E0=D0 =DB=D8=E6=D5=
+=D2=DE=D3=DE =E1=E7=D5=E2=D0:
+[00502052]
+
+=C1 =E3=D2=D0=D6=D5=DD=D8=D5=DC,
+=DE=E2=D4=D5=DB =D1=D8=DB=DB=D8=DD=D3=D0.
+--D445E5ED_15BF92E2_Synapse_boundary
+Content-type: application/PDF;
+ name="=?WINDOWS-1251?Q?3244659=5FC=F7=E5=F2_=E7=E0_=C8=FE=EB=FC_?=
+ =?WINDOWS-1251?Q?2020.pdf?="
+Content-Transfer-Encoding: Base64
+Content-Disposition: attachment;
+ FileName="=?WINDOWS-1251?Q?3244659=5FC=F7=E5=F2_=E7=E0_=C8=FE=EB=FC_?=
+ =?WINDOWS-1251?Q?2020.pdf?="
+Content-Description: Attached file: 3244659_C��� �� ���� 2020.pdf
+
+JVBERi0xLjUNCjIgMCBvYmoNCjw8IC9GaWx0ZXIgL0ZsYXRlRGVjb2RlIC9MZW5ndGggNjg3
+MzkgL0xlbmd0aDEgNzg2MjYgPj4NCnN0cmVhbQ0KeAGsvAk8VN//P37t+xaFLCMUJbuxM6ls
+qdCmkKmQLVuSJWYsIYQQyl6SShq7ZN9pIXv2sSXZZqwTs/zP6N378/5+f5/v7/v/fh8/XPfe
+c895ndfyfC3nnsGTg1VJTVVOVUFMVVVZTklNTFlBWU5FTUxRRUkOriB2256D1YKD1Y2DVVGM
+IDAgUg0KL0luZm8gMzQgMCBSDQovSUQgWzxhMTNlNDJmYjk0MTcxOGRmOGMwMmExOGFmZTE3
+YWUyYT48YTEzZTQyZmI5NDE3MThkZjhjMDJhMThhZmUxN2FlMmE+XQ0KPj4NCnN0YXJ0eHJl
+Zg0KMjk0OTc0Mw0KJSVFT0YNCg==
+--D445E5ED_15BF92E2_Synapse_boundary
+Content-type: application/PDF;
+ name="=?WINDOWS-1251?Q?3244659=5F=C0=EA=F2_=E7=E0_=C8=FE=EB=FC_?=
+ =?WINDOWS-1251?Q?2020.pdf?="
+Content-Transfer-Encoding: Base64
+Content-Disposition: attachment;
+ FileName="=?WINDOWS-1251?Q?3244659=5F=C0=EA=F2_=E7=E0_=C8=FE=EB=FC_?=
+ =?WINDOWS-1251?Q?2020.pdf?="
+Content-Description: Attached file: 3244659_��� �� ���� 2020.pdf
+
+JVBERi0xLjUNCjIgMCBvYmoNCjw8IC9GaWx0ZXIgL0ZsYXRlRGVjb2RlIC9MZW5ndGggODE5
+MDEgL0xlbmd0aDEgODc5MTUgPj4NCnN0cmVhbQ0KeAHMvHdcE9u6Pzz03gQFpAQBBUV6QoeI
+SpOtFAtSJCogTZqIFCGhCEhvAkpXRFTE0BEpoRcLSO8Qmoi0hBoh5TfR7T773nPObZ/3jxcY
+MDAwMCBuDQp0cmFpbGVyDQo8PA0KL1NpemUgMjQNCi9Sb290IDIzIDAgUg0KL0luZm8gMjIg
+MCBSDQovSUQgWzwzMzlmMWE5ZDU4MjllY2FjZTkxMzhhOWFkN2FiNWJlMT48MzM5ZjFhOWQ1
+ODI5ZWNhY2U5MTM4YTlhZDdhYjViZTE+XQ0KPj4NCnN0YXJ0eHJlZg0KMTY1MzMyMA0KJSVF
+T0YNCg==
+--D445E5ED_15BF92E2_Synapse_boundary
+Content-type: application/PDF;
+ name="=?WINDOWS-1251?Q?3244659=5F=D1=F7=E5=F2-=D4=E0=EA=F2=F3=F0=E0_?=
+ =?WINDOWS-1251?Q?=E7=E0_=C8=FE=EB=FC_2020.pdf?="
+Content-Transfer-Encoding: Base64
+Content-Disposition: attachment;
+ FileName="=?WINDOWS-1251?Q?3244659=5F=D1=F7=E5=F2-=D4=E0=EA=F2=F3=F0=E0_?=
+ =?WINDOWS-1251?Q?=E7=E0_=C8=FE=EB=FC_2020.pdf?="
+Content-Description: Attached file: 3244659_����-������� �� ���� 2020.pdf
+
+JVBERi0xLjUNCjIgMCBvYmoNCjw8IC9GaWx0ZXIgL0ZsYXRlRGVjb2RlIC9MZW5ndGggMTk1
+MTIgL0xlbmd0aDEgNDIwNzcgPj4NCnN0cmVhbQ0KeAHtvQkglVv3P36QlEgDRYOUSho480FC
+MzEyMjc0N2Y0ZmEyYzEyZj48NWZhZTY1NjkyMjdhMzcwZDMxMjI3NDdmNGZhMmMxMmY+XQ0K
+Pj4NCnN0YXJ0eHJlZg0KMTI2OTczMQ0KJSVFT0YNCg==
+--D445E5ED_15BF92E2_Synapse_boundary--

@@ -1,0 +1,3 @@
+<item title="Plugin E-Mail">
+	<item title="Search recipients" action="org.bgerp.plugin.msg.email.action.EMailAction:recipients"/>
+</item>

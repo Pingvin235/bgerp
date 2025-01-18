@@ -1,0 +1,7 @@
+# To test process change notifications:
+- set your E-Mail address in parameters of user Karl Marx;
+- do one of the following process actions: add/edit incoming message, change executors or status.
+
+# To test JEXL status change notification:
+- set your email address in parameters of user Administrator;
+- change the process status.

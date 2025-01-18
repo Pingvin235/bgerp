@@ -1,0 +1,100 @@
+Delivered-To: bgerpp@gmail.com
+Received: by 2002:ac4:b2c3:0:b0:6f2:18cb:602e with SMTP id p3csp98125pid;
+        Thu, 19 Sep 2024 01:21:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRsPv556uoL8Ko5Y+59zvI35olE0569SAK67yqRFVXVIAEekJdLnR3xn+T7DL0wsRC55sC
+X-Received: by 2002:a05:6512:31d2:b0:52f:cf2d:a1a0 with SMTP id 2adb3069b0e04-536a566aa62mr721554e87.26.1726734089985;
+        Thu, 19 Sep 2024 01:21:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726734089; cv=none;
+        d=google.com; s=arc-20240605;
+        b=b4ar+oz8FlTuy+kVJmBjEGDwLEzbHKLgZtRpZT6s2Hs0xOk2qvjJZ3NpZ2ItP9jM1k
+         in5gpAbXpjqFGpVVsIqu+fQ/xk2jmlzNNl87KL9ft6YN3ctia06HpEu+anqkamk30niw
+         wlt37vj+KyNFsxng/QtP//EILNEYnUa5MzouBFw26FHDbG1wYgdDq/j/M63unmMfM6Gl
+         jPJz7tFCDx2KL7HuSu5WJcpd5PXQIGcARtlPjtbmKGrAhDtcfPgzjLeLpyf4x2//jaDl
+         A8WuDe7kL4AQC2vcznoLwPp7FqsZShm6hCEkezgIYKFvHGK5hdHXXdrshCA6Dzd+R+to
+         fSQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:content-language:accept-language:in-reply-to
+         :references:message-id:date:thread-index:thread-topic:subject:to
+         :from;
+        bh=DTqW3lB4BqP9SjgSlKtMONe5ErqP4OQnwF93XEhsHXk=;
+        fh=Mx80sdU6fPeGxnBivj2LRMXZEfbs81+dytYudz4rcgc=;
+        b=fL5DWkAZlJrgS6EjtTX+BsbexGjL0JtFtezvzz78AolUx35elI8odnISk5z4EVyVHs
+         bhZaoHFSoJ21DkVVXLcE0j1AMcdZXN8f7UlbpFSpex8xUMwuJOkb09+R8yCm7TXptf57
+         42xJNdpue1/cCl7QZ8knM2WR3T2oC+E6sLDHPRzNNThZByl1VAHKCCI0yGx6n0ZV8Q1v
+         lOeY2FuUKy7iGTa/rotTAHdT8wUs95lIha4my2u+pQAm2cQBATugHX1R7vZw3otIx46M
+         SxaoDc+/bNn/vxDfRCI6cRo3L/iNUD1/G7tvX6kd34IyWDaI6cUqHnUpiAUtnNdFe8c6
+         pSRw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of support@omicron.online designates 185.221.44.35 as permitted sender) smtp.mailfrom=support@omicron.online
+Return-Path: <support@omicron.online>
+Received: from ex1-omicron.omicron.online (mail.omicron.online. [185.221.44.35])
+        by mx.google.com with ESMTPS id 2adb3069b0e04-536870afee8si3959673e87.502.2024.09.19.01.21.29
+        for <bgerpp@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 19 Sep 2024 01:21:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of support@omicron.online designates 185.221.44.35 as permitted sender) client-ip=185.221.44.35;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of support@omicron.online designates 185.221.44.35 as permitted sender) smtp.mailfrom=support@omicron.online
+Received: from ex1-omicron.omicron.online (185.221.44.35) by
+ ex1-omicron.omicron.online (185.221.44.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.7; Thu, 19 Sep 2024 11:22:47 +0300
+Received: from ex1-omicron.omicron.online ([fe80::ccd8:a8ab:25a1:fe01]) by
+ ex1-omicron.omicron.online ([fe80::ccd8:a8ab:25a1:fe01%7]) with mapi id
+ 15.02.1118.007; Thu, 19 Sep 2024 11:22:47 +0300
+From: support <support@omicron.online>
+To: "bgerpp@gmail.com" <bgerpp@gmail.com>
+Subject: =?koi8-r?B?Rlc6IO/U09XU09TXycUgyc7UxdLOxdTBINMgMjkgwdfH1dPUIM7BIPDMz93B?=
+ =?koi8-r?B?xMvFIOTFzMnNydQgKPDSz9fBysTF0iBPbWljcm9uKQ==?=
+Thread-Topic: =?koi8-r?B?79TT1dTT1NfJxSDJztTF0s7F1MEg0yAyOSDB18fV09QgzsEg8MzP3cHEy8Ug?=
+ =?koi8-r?B?5MXMyc3J1CAo8NLP18HKxMXSIE9taWNyb24p?=
+Thread-Index: Adr9GQgpgMI+JSlVThCo4URInNCSvgOYVcsIsgn7SiCAAAmLA83b+R+AgABEmQCAAABsgIAAAU6AgAABKQCAAAA5AIAAAFKAgAABAoCAAAE1AIAALeGAgAlBQoCAAZsVAIAC5taAgAAYVwCABJJfgIAAKNUAgABR+4CAASKOgIAAA/OAgAABMYCAAAHmgIAAAs8AgAAjGYCAAAO1gIAAAT+AgAAB9gCAAAGGgIAAAHOAgAAA+wCAAABxgIAAAFoAgAAhIwCAAR+ugIAADQeAgAAPtQCAAc749w==
+Date: Thu, 19 Sep 2024 08:22:47 +0000
+Message-ID: <dca89901e4914316ac4aa622cfe70c9c@omicron.online>
+References: <273cda8bdbb844999d5071ba80abe47d@agrokomplex.ru>
+ <41436aec82a347b7a63be23dd5849c8a@agrokomplex.ru>
+ <002401dafd1f$10a5b640$31f122c0$@omicron.online>
+ <3f59f2f554e44e8097056fcc9d7a452e@360pro.online>
+ <9d7a3d233d63489f8518aaaa7203e8eb@360pro.online>
+ <2009e9e5772e467fb71660c0487b40c2@360pro.online>
+ <f0397ef02d0a43fdaf81477018e0efce@360pro.online>
+ <5f3187475ff246d8b49598ff5a7c99ac@360pro.online>
+ <def5892f3862416a8d9e39bcbedd3d52@360pro.online>
+ <3dd4fbff5d1148a2a974600e3d5845aa@360pro.online>
+ <c73cd593e6c84356ac0f09e491824fed@360pro.online>
+ <217008729770450ab0f242582e9a51b2@360pro.online>
+ <1b9df7ccb0074b38942aeba1af8f72ed@360pro.online>
+ <32a931957b2640fa9da5f5bfa3f84e56@360pro.online>
+ <49d7d0b7-aabe-4675-ae22-a6bb09955212@omicron.online>
+ <349a0acc-845c-4920-bfba-11b7566db4b0@360pro.online>
+ <7aeb8ae3-4da9-46e7-8cfb-cfc2253446f4@omicron.online>
+ <88bc939c3020430c8924684773c89957@360pro.online>,<2866ffd3-9878-4bf8-8e4e-054e810cdd5b@360pro.online>,<9841586a6810481ab2c8b3082d6d6a2d@360pro.online>,<24b21a147aff4c37914d134ad3508727@360pro.online>,<fffcc8b0119c4415a92ee95ba622cdbb@360pro.online>,<cc180cbab8a0441fa146e4bc07d7998f@360pro.online>,<89434e8f15f24164af48ffb7a09040c0@360pro.online>,<3fb392a8b6d84b199ef5222939bc0f33@360pro.online>,<6c8fec19c36146988c1b021b0d506d64@360pro.online>,<d892016ca7b647caa08acefee1f4ea86@360pro.online>,<d23939664013432ebf5bedff00b479a1@360pro.online>,<a0cf3f24702340bab1045b2d2672afba@360pro.online>,<5e9d16f1b5b044698d11f002da0ddeba@360pro.online>,<fe66db730fa34dcfabac7e66bfaeb22f@360pro.online>,<ff9999de1fbc42e18499e6ab8c013a52@360pro.online>,<34198f39ef204711ab296ca0fe04f203@360pro.online>,<ab0ef3740a9545d39fde1beed1c53460@360pro.online>,<1e5f58a88b604a67a5042585e84d092d@360pro.online>,<721612d25dec47e49d0066371febfb46@360pro.online>,<537a3d094318446787f79ff460c18f0d@360pro.online>,<34d727270715
+	4b7fa71b16b77f5c4d93@360pro.online>,<08e705a79a7049508a4025bbe5bbac1c@360pro.online>
+In-Reply-To: <08e705a79a7049508a4025bbe5bbac1c@360pro.online>
+Accept-Language: ru-RU, en-US
+Content-Language: ru-RU
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [95.25.121.48]
+Content-Type: multipart/alternative;
+	boundary="_000_dca89901e4914316ac4aa622cfe70c9comicrononline_"
+MIME-Version: 1.0
+
+--_000_dca89901e4914316ac4aa622cfe70c9comicrononline_
+Content-Type: text/plain; charset="koi8-r"
+Content-Transfer-Encoding: quoted-printable
+
+_______________________________
+=EF=D4: =F4=C1=CD=C1=D2=C1 =EB=CF=CC=CF=CD=D9=C3=C5=D7=C1 <t.kolomilceva@36=
+0pro.online>
+=EF=D4=D0=D2=C1=D7=CC=C5=CE=CF: 18 =D3=C5=CE=D4=D1=C2=D2=D1 2024 =C7. 10:45
+=EB=CF=CD=D5: =F7=C9=CB=D4=CF=D2 =ED=CF=D3=CB=C1=CC=C5=CE=CB=CF; =E1=CE=C4=
+=D2=C5=CA =FB=D0=C1=CB=CF=D7; =E4=CD=C9=D4=D2=C9=CA =ED=D5=DB=D4=C5=CE=CB=
+=CF; =E9=D7=C1=CE =E2=C1=C2=C5=CE=CB=CF=D7; =E0=F4=EB; =E9=CC=D8=D1 =F4=D2=
+=CF=CE=C9=CE; =E1=CE=D4=CF=CE =ED=CF=D3=CB=D7=C9=CE; support
+=F4=C5=CD=C1: Re: =EF=D4=D3=D5=D4=D3=D4=D7=C9=C5 =C9=CE=D4=C5=D2=CE=C5=D4=
+=C1 =D3 29 =C1=D7=C7=D5=D3=D4 =CE=C1 =F0=CC=CF=DD=C1=C4=CB=C5 =E4=C5=CC=C9=
+=CD=C9=D4 (=F0=D2=CF=D7=C1=CA=C4=C5=D2 Omicron)
+
+--_000_dca89901e4914316ac4aa622cfe70c9comicrononline_--
