@@ -943,8 +943,8 @@ link:../../../src/org/bgerp/action/MessageAction.java#L243-L243[org.bgerp.action
 <<exception, BGMessageException>> can contain localized message, translated when shown to a user.
 In the following snippet might be seen, how it can be thrown in a plugin's logic.
 
-[snippet, from="if (", to="x);", remove-leading="                    "]
-link:../../../src/org/bgerp/util/mail/Addresses.java#L104-L108[org.bgerp.util.mail.Addresses]
+[snippet, from="if (d", to="String());", remove-leading="                "]
+link:../../../src/org/bgerp/plugin/bil/subscription/dao/SubscriptionDAO.java#L87-L88[org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO]
 
 As there is no way to make localization on the Frontend, phrases may be sent there from the Backend.
 Here are two samples for such cases.

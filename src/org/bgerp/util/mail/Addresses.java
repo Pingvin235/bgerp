@@ -12,8 +12,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.l10n.Localizer;
-import org.bgerp.plugin.msg.email.Plugin;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -105,7 +104,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
                         log.debug("Incorrect prefix: {}", prefix);
                         continue;
                     } else
-                        throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.getLocalization()), "Incorrect prefix: {}", prefix);
+                        throw new BGMessageExceptionWithoutL10n("Incorrect prefix: {}", prefix);
                 }
             }
 
@@ -118,7 +117,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
                 if (silent)
                     log.debug("Incorrect email: {}", token);
                 else
-                    throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.getLocalization()), "Incorrect email: {}", token);
+                    throw new BGMessageExceptionWithoutL10n("Incorrect email: {}", token);
             }
         }
 

@@ -8,6 +8,7 @@ import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.app.l10n.Localization;
 import org.junit.Assert;
 import org.junit.Test;
@@ -75,7 +76,7 @@ public class AddressesTest {
         } catch (BGMessageException e) {
             exception = e;
         }
-        Assert.assertEquals(new BGMessageException("Incorrect email: {}", "ddd"), exception);
+        Assert.assertEquals(new BGMessageExceptionWithoutL10n("Incorrect email: {}", "ddd"), exception);
 
         exception = null;
         try {
@@ -83,7 +84,7 @@ public class AddressesTest {
         } catch (BGMessageException e) {
             exception = e;
         }
-        Assert.assertEquals(new BGMessageException("Incorrect email: {}", "ddd"), exception);
+        Assert.assertEquals(new BGMessageExceptionWithoutL10n("Incorrect email: {}", "ddd"), exception);
 
         exception = null;
         try {
@@ -91,7 +92,7 @@ public class AddressesTest {
         } catch (BGMessageException e) {
             exception = e;
         }
-        Assert.assertEquals(new BGMessageException("Incorrect prefix: {}", "XX"), exception);
+        Assert.assertEquals(new BGMessageExceptionWithoutL10n("Incorrect prefix: {}", "XX"), exception);
 
         exception = null;
         try {
@@ -99,7 +100,7 @@ public class AddressesTest {
         } catch (BGMessageException e) {
             exception = e;
         }
-        Assert.assertEquals(new BGMessageException("Incorrect prefix: {}", "XX"), exception);
+        Assert.assertEquals(new BGMessageExceptionWithoutL10n("Incorrect prefix: {}", "XX"), exception);
     }
 
     @Test
