@@ -1,0 +1,1 @@
+C: Relocation of Custom GIT repositories. https://bgerp.org/version/3.0/doc/kernel/extension.html#custom-git

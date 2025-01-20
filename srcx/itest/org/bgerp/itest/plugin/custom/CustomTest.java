@@ -22,7 +22,7 @@ public class CustomTest {
         if (Utils.parseBoolean(System.getProperty("skip.custom"), true))
             throw new SkipException("Custom test is skipped by default and should be enabled with 'skip.custom' system property set to 'false'");
 
-        new RuntimeRunner("git", "clone", "https://github.com/Pingvin235/bgerp-custom.git", "custom").run();
+        new RuntimeRunner("git", "clone", "https://git.bgerp.org/bgerp/custom/bgerp-custom.git", "custom").run();
     }
 
     @Test(dependsOnMethods = "checkout")
