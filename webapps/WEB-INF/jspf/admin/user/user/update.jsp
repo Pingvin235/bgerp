@@ -76,7 +76,7 @@
 	--%></c:if><%--
 	--%><c:if test="${empty perm['permDisable']}"><%--
 		--%><div style="width: 25%;">
-				<h2>${l.l('Права')}</h2>
+				<h2>${l.l('Permissions')}</h2>
 
 				<c:set var="permissionTreeId" value="${u:uiid()}"/>
 				<ul id="${permissionTreeId}" class="layout-height-rest" style="overflow: auto;">

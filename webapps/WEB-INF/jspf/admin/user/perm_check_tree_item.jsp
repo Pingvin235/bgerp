@@ -7,7 +7,7 @@
 	</c:set>
 
 	<li class="select_node ${selected}">
-		<label class="ml05"><input name="permAction" type="checkbox" ${selected} value="${node.action}"/>${node.title}</label>
+		<label class="ml05"><input name="permAction" type="checkbox" ${selected} value="${node.action}" style="display: none;"/>${node.title}</label>
 
 		<%-- config --%>
 		<c:if test="${not empty node.description}">

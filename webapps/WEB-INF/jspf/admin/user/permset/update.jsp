@@ -40,8 +40,8 @@
 
 	<div class="in-inline-block mt1 mb1">
 		<div style="width: 50%;">
-			<h2>${l.l('Права')}</h2>
-			<div style="width:100%; height: 500px;">
+			<h2>${l.l('Permissions')}</h2>
+			<div style="height: 500px;">
 				<c:set var="permissionTreeId" value="${u:uiid()}"/>
 				<ul id="${permissionTreeId}" class="layout-height-rest" style="overflow: auto;">
 					<c:forEach var="tree" items="${permTrees}">
@@ -51,10 +51,9 @@
 				</ul>
 
 				<script>
-					$( function()
-					{
+					$(function () {
 						$("#${permissionTreeId}").Tree();
-					} );
+					});
 				</script>
 			</div>
 		</div><%--
