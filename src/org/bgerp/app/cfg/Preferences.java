@@ -6,11 +6,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -245,67 +240,5 @@ public class Preferences extends ConfigMap {
     public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGMessageException, SQLException {
         Iterable<String> includes = Config.getIncludes(configDao, new Preferences(config), validate);
         return new Preferences(config, includes, validate);
-    }
-
-    /**
-     * Use {@link #sub(String)}
-     */
-    @Deprecated
-    public Map<String, String> getHashValuesWithPrefix(String prefix) {
-        Map<String, String> result = new HashMap<>();
-
-        for (Entry<String, String> e : entrySet()) {
-            String param_name = e.getKey();
-            if (param_name.startsWith(prefix)) {
-                String param_value = e.getValue();
-                String suffix = param_name.substring(prefix.length(), param_name.length());
-                result.put(suffix, param_value);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Use {@link #subIndexed(String)}
-     */
-    @Deprecated
-    public List<Map<String, String>> parseObjects(String prefix) {
-        Map<String, Map<String, String>> tmpMap = new HashMap<>();
-        Map<String, String> values = getHashValuesWithPrefix(prefix);
-        for (Map.Entry<String, String> value : values.entrySet()) {
-            String id = null;
-            String key = null;
-
-            int pos = value.getKey().indexOf('.');
-            if (pos <= 0) {
-                continue;
-            }
-
-            id = value.getKey().substring(0, pos);
-            key = value.getKey().substring(pos + 1);
-
-            Map<String, String> data = tmpMap.get(id);
-            if (data == null) {
-                data = new HashMap<>();
-                data.put("id", id);
-                tmpMap.put(id, data);
-            }
-
-            data.put(key, value.getValue());
-        }
-
-        List<Map<String, String>> res = new ArrayList<>();
-        res.addAll(tmpMap.values());
-
-        Collections.sort(res, new Comparator<>() {
-            public int compare(Map<String, String> o1, Map<String, String> o2) {
-                Integer id1 = Utils.parseInt(o1.get("id"));
-                Integer id2 = Utils.parseInt(o2.get("id"));
-
-                return id1 - id2;
-            }
-        });
-
-        return res;
     }
 }
