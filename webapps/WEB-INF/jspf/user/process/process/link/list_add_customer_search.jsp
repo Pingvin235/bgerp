@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<p:check action="ru.bgcrm.struts.action.SearchAction:customerSearch">
+<p:check action="/user/search:customerSearch">
 	<c:set var="id" value="${u:uiid()}"/>
 
 	<c:set var="linkObjectItems" scope="request">
