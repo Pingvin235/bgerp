@@ -70,8 +70,8 @@ public class TypeProperties {
         closeStatusIds = Utils.toIntegerSet(configMap.get("close.status", ""));
         statusIds = Utils.toIntegerList(configMap.get("status.ids", ""));
         parameterIds = Utils.toIntegerList(configMap.get("param.ids", ""));
-        allowedGroups = ProcessGroups.from(Utils.parseIdTitleList(configMap.get("allowed.groups"), "0"));
-        groups = ProcessGroups.from(Utils.parseIdTitleList(configMap.get("create.groups"), "0"));
+        allowedGroups = ProcessGroups.of(Utils.parseIdTitleList(configMap.get("allowed.groups"), "0"));
+        groups = ProcessGroups.of(Utils.parseIdTitleList(configMap.get("create.groups"), "0"));
 
         this.config = config;
 

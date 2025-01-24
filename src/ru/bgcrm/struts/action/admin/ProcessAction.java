@@ -368,9 +368,9 @@ public class ProcessAction extends BaseAction {
             properties.setCloseStatusIds(form.getParamValues("closeStatusId"));
             properties.setStatusIds(form.getParamValuesList("status"));
             properties.setParameterIds(form.getParamValuesList("param"));
-            properties.setAllowedGroups(ProcessGroups.from(allowedGroupArr));
+            properties.setAllowedGroups(ProcessGroups.of(allowedGroupArr));
             properties.setConfig(form.getParam("config"));
-            properties.setGroups(ProcessGroups.from(beginGroupArr));
+            properties.setGroups(ProcessGroups.of(beginGroupArr));
 
             // при заполнении всплывающей формы авторизации после редиректа приходит форма без POST параметров
             if (properties.getConfig() == null) {
