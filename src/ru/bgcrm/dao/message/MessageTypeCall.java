@@ -17,7 +17,6 @@ import org.bgerp.model.msg.Message;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -62,11 +61,8 @@ public class MessageTypeCall extends MessageType {
         }
     }
 
-    private final String checkExpressionCallStore;
-
     public MessageTypeCall(Setup setup, int id, ConfigMap config) {
         super(setup, id, config.get("title"), config);
-        checkExpressionCallStore = config.get(Expression.CHECK_EXPRESSION_CONFIG_KEY + "CallStore");
     }
 
     @Override
@@ -136,10 +132,6 @@ public class MessageTypeCall extends MessageType {
 
     public CallRegistration getRegistrationByNumber(String number) {
         return getRegMaps().getFirst().get(number);
-    }
-
-    public String getCheckExpressionCallStore() {
-        return checkExpressionCallStore;
     }
 
     @Override
