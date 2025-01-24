@@ -134,9 +134,12 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
 
         int linkedId = linkedProcess.getId();
 
+        ProcessType linkedType = null;
+        String copyParams = null;
+
         Process process = new Process();
         if (createTypeId > 0) {
-            ProcessType linkedType = getProcessType(linkedProcess.getTypeId());
+            linkedType = getProcessType(linkedProcess.getTypeId());
 
             var itemPair = linkedType.getProperties().getConfigMap()
                 .getConfig(ProcessCreateLinkConfig.class)
@@ -156,43 +159,9 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
 
             processCreate(form, con, process, groupId);
 
-            String copyParams = item.getCopyParams();
-            if (Utils.notBlankString(copyParams)) {
-                if ("*".equals(copyParams) || "all".equals(copyParams)) {
-                    List<Integer> paramIdsBothHave = new ArrayList<>(linkedType.getProperties().getParameterIds());
-                    paramIdsBothHave.retainAll(process.getType().getProperties().getParameterIds());
-                    copyParams = Utils.toString(paramIdsBothHave);
-                }
-
-                ParamValueDAO paramDao = new ParamValueDAO(con);
-                paramDao.copyParams(linkedId, process.getId(), copyParams);
-
-                List<Parameter> parameters = new ArrayList<>();
-
-                for (String token : Utils.toList(copyParams, ParamValueDAO.COPY_PARAMS_SEPARATORS)) {
-                    int pos = token.indexOf(':');
-                    int paramId = Utils.parseInt(pos > 0 ? token.substring(pos + 1) : token);
-                    if (paramId > 0)
-                        parameters.add(ParameterCache.getParameter(paramId));
-                    else
-                        log.error("Incorrect copy param mapping: {}", token);
-                }
-
-                var pairs = paramDao.loadParameters(parameters, process.getId(), true);
-                SingleConnectionSet conSet = new SingleConnectionSet(con);
-
-                for (var pair : pairs) {
-                    Object value = pair.getValue();
-                    if (value != null)
-                        EventProcessor.processEvent(new ParamChangedEvent(form, pair.getParameter(), process.getId(), value), conSet);
-                    else
-                        log.error("Null value for param: {}, process: {}", pair.getParameter().getId(), process.getId());
-                }
-            }
+            copyParams = item.getCopyParams();
 
             String copyLinks = item.getCopyLinks();
-
-            // пока копирование сразу всех привязок
             if (Utils.notBlankString(copyLinks)) {
                 if (copyLinks.equals("1")) {
                     linkDao.copyLinks(linkedId, process.getId(), null, Process.OBJECT_TYPE + "%");
@@ -210,6 +179,39 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         linkDao.addLink(new ProcessLinkProcess(linkedId, linkObjectType, process.getId()));
 
         EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process), new SingleConnectionSet(con));
+
+        if (Utils.notBlankString(copyParams)) {
+            if ("*".equals(copyParams) || "all".equals(copyParams)) {
+                List<Integer> paramIdsBothHave = new ArrayList<>(linkedType.getProperties().getParameterIds());
+                paramIdsBothHave.retainAll(process.getType().getProperties().getParameterIds());
+                copyParams = Utils.toString(paramIdsBothHave);
+            }
+
+            ParamValueDAO paramDao = new ParamValueDAO(con);
+            paramDao.copyParams(linkedId, process.getId(), copyParams);
+
+            List<Parameter> parameters = new ArrayList<>();
+
+            for (String token : Utils.toList(copyParams, ParamValueDAO.COPY_PARAMS_SEPARATORS)) {
+                int pos = token.indexOf(':');
+                int paramId = Utils.parseInt(pos > 0 ? token.substring(pos + 1) : token);
+                if (paramId > 0)
+                    parameters.add(ParameterCache.getParameter(paramId));
+                else
+                    log.error("Incorrect copy param mapping: {}", token);
+            }
+
+            var pairs = paramDao.loadParameters(parameters, process.getId(), true);
+            SingleConnectionSet conSet = new SingleConnectionSet(con);
+
+            for (var pair : pairs) {
+                Object value = pair.getValue();
+                if (value != null)
+                    EventProcessor.processEvent(new ParamChangedEvent(form, pair.getParameter(), process.getId(), value), conSet);
+                else
+                    log.error("Null value for param: {}, process: {}", pair.getParameter().getId(), process.getId());
+            }
+        }
 
         return process;
     }

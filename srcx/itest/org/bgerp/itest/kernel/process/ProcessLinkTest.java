@@ -4,14 +4,17 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.MessageHelper;
+import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.testng.annotations.Test;
@@ -19,6 +22,7 @@ import org.testng.annotations.Test;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.model.customer.Customer;
+import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "processLink", dependsOnGroups = { "processParam", "message" })
@@ -27,6 +31,8 @@ public class ProcessLinkTest {
     private static final String TITLE_LINKED_MADE = TITLE + " Process Linked (Parent) Made";
     private static final String TITLE_LINK_DEPEND = TITLE + " Process Link (Child) Depend";
 
+    private int paramTextId;
+
     private int processTypeId;
     private int processTypeLinkedMadeId;
     private int processTypeLinkDependId;
@@ -34,11 +40,17 @@ public class ProcessLinkTest {
     private Customer customer;
 
     @Test
+    private void param() throws Exception {
+        paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " param to be copied to a created linked process", ProcessTest.posParam += 2, "", "" );
+    }
+
+    @Test
     public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
+        props.setParameterIds(List.of(paramTextId));
 
         var processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props);
         processTypeId = processType.getId();
@@ -85,6 +97,8 @@ public class ProcessLinkTest {
         int processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
         MessageHelper.addHowToTestNoteMessage(processId, this);
         dao.addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, customer.getId(), customer.getTitle()));
+
+        new ParamValueDAO(DbTest.conRoot).updateParamText(processId, paramTextId, "Some Value");
 
         // existing linked processes
         for (int i = 0; i <= 2; i++) {
