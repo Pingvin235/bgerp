@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -108,13 +107,10 @@ public class Preferences extends ConfigMap {
     }
 
     private void loadData(String conf, Map<String, String> data, Iterable<String> includes, boolean validate) throws BGMessageException {
-        final String delim = "\r\n";
-
         MultilineContext context = new MultilineContext();
 
-        StringTokenizer st = new StringTokenizer(Utils.maskNull(conf), delim);
-        while (st.hasMoreTokens())
-            loadDataEntry(context, data, st.nextToken().trim(), validate);
+        for (String line : Utils.maskNull(conf).split("\n"))
+            loadDataEntry(context, data, line.trim(), validate);
 
         if (includes != null)
             for (String include : includes)
@@ -147,7 +143,7 @@ public class Preferences extends ConfigMap {
         }
         // concat multiline
         if (context.endOfLine != null) {
-            context.multiline.append(line + "\n");
+            context.multiline.append(line).append("\n");
             return;
         }
 

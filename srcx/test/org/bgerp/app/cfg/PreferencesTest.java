@@ -54,6 +54,16 @@ public class PreferencesTest {
     }
 
     @Test
+    public void testMultiline() {
+        Preferences prefs = new Preferences("var=<<END\n"
+            + "line1  \n"
+            + "\n"
+            + "line2\n"
+        + "END");
+        Assert.assertEquals("line1\n\nline2\n", prefs.get("var"));
+    }
+
+    @Test
     public void testIncludes() throws Exception {
         String includeFirst = "CONST=1\n"
             + "key+=,{@CONST}";
