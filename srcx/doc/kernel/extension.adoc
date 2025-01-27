@@ -221,7 +221,7 @@ image::_res/custom/git_fork_update.png[width='800']
 [[run-http]]
 === HTTP запросом
 ----
-<server>/admin/run.do?action=runClass&iface=<iface>&class=<className>&j_username=<user>&j_password=<pswd>&param1=value&param2=..
+<server>/admin/run.do?method=runClass&iface=<iface>&class=<className>&j_username=<user>&j_password=<pswd>&param1=value&param2=..
 ----
 
 Где:
