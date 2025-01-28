@@ -34,6 +34,22 @@ URL=https://erp.test.org
 #url.user={@URL}/user
 #url.open={@URL}/open
 
+# email for sent messages
+mail.from.email=bgerp@company.com
+mail.from.name=BGERP
+mail.smtp.host=
+mail.smtp.user=
+mail.smtp.pswd=
+# use smtp SSL
+#mail.transport.protocol=smtps
+# overwrite default port: 25 for SMTP, 465 for SMTP SSL
+#mail.smtp.port=
+# debug SMTP exchange
+#mail.debug=1
+
+# email for alarm messages about system problems [[config-alarm]]
+#alarm.mail=
+
 # disable checking of browser version
 #check.browser=0
 
@@ -89,22 +105,6 @@ processGroupRoles=0:Выполнение
 
 # HTML support in process description and message texts
 #text.html=1
-
-# параметры EMail
-mail.from.email=bgcrm@xxxxxxx
-mail.from.name=BGERP
-mail.smtp.host=
-mail.smtp.user=
-mail.smtp.pswd=
-# SMTP SSL протокол
-#mail.transport.protocol=smtps
-# порт, если не указано - 25 для SMTP, 465 для SMTP SSL
-#mail.smtp.port=
-# отладка почтового обмена SMTP
-#mail.debug=1
-
-# EMail для экстренных уведомлений о проблемах в системе
-#alarm.mail=
 
 # максимальное время выполнения обработчика события в мс. до принудительного прерывания
 event.process.timeout=5000

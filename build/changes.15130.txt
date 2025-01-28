@@ -1,1 +1,0 @@
-A: Group Plan board for configured cities only. https://bgerp.org/version/3.0/doc/plugin/pln/grpl/index.html#setup-board

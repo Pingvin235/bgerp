@@ -24,10 +24,11 @@ IMPORTANT: Change them after the first log in. The user with ID=1 is a special o
 
 image::_res/i0083.png[]
 
-[[element]]
-== Elements
-[[element-button]]
-=== Button
+[[common]]
+== Common
+
+[[common-button]]
+=== Buttons
 Button colors have the following meanings.
 [cols="a,a", options="header"]
 |===
@@ -48,7 +49,7 @@ Button colors have the following meanings.
 |===
 
 [[user]]
-== User interface
+== User
 The interface is <<server, available>> by suffix */user*.
 
 Основные элементы обычного интерфейса пользователя.
@@ -94,7 +95,7 @@ image::_res/i0123.png[]
 
 image::_res/iface_topline.png[]
 
-[[notifications]]
+[[user-notification]]
 === Уведомления
 В правом верхнем углу перед ссылкой на профиль отображаются настроенные для выведения <<process/queue.adoc#iface, счётчики>> процессов.
 Клик по счётчику открывает соответствующую очередь процессов и сохранённый фильтр. Таким образом можно всегда видеть перед глазами важнейшие числа.
@@ -130,8 +131,109 @@ iface.buffer.behavior=2
 
 Включит для всех пользователей редактирование с помощью отдельной кнопки со звёздочкой как поведение по-умолчанию.
 
+[[user-id]]
+=== Entity IDs
+IDs are unique numbers, used for identification entities over the system.
+They are widly used in <<#user-config, configurations>>.
+
+In admin tools the IDs are shown normaly as separated table column.
+
+image::_res/id/param_dir.png[]
+
+For reqular users the are hidden as HTML tooltips, shown only when mouse is over the item.
+
+image::_res/id/type_id_title.png[]
+
+image::_res/id/user_id_title.png[]
+
+[[user-session-log]]
+=== User Session Log
+This tool may is available in *Log* menu and allows collecting session logs, which may be requested by developers.
+
+image::_res/user_session_log.png[width="800"]
+
+Once enabled the tool is collecting logs starting from *DEBUG* level for the current user session only,
+that allows easier observe possible problems.
+
+The log is refreshed any time when it opened back.
+
+[[user-config]]
+=== Конфигурации
+Очень большое количество редко меняющихся настроек поведения системы вынесено в конфигурации.
+Конфигурация - это текстовый блок, состоящих из записей вида: *<ключ>=<значение>*.
+На одной строке может быть только одна такая запись, символ *#* в начале строки означает комментарий.
+
+Конфигурации вводятся либо в текстовых *.properties* - файлах (опции подключения к БД, базовые настройки),
+либо в редакторах конфигурации, сохраняясь в базе данных.
+
+[[user-config-variable]]
+==== Переменные
+В значениях параметров конфигурации возможна подстановка ранее указанных значений с помощью подстановок *{@имя параметра}*. Рассмотрим пример подстановки.
+----
+# определение значения
+howYou=how you
+# использование подстановки
+some.kind.of.config.record=Thats {@howYou} should use macro!
+----
+При такой конфигурации при взятии значения some.kind.of.config.record получаем в результате строку "Thats how you should use macro!".
+Подставляемое значение должно быть обязательно определено ранее подстановки.
+
+[[user-config-counter]]
+==== Счётчики
+После разбора конфигурация используется системой как набор пар ключ - значение, в котором порядок не определён. При необходимости указания порядка в ключе вводятся дополнительные числовые индексы.
+
+Например:
+----
+object.1.id=1
+object.1.title=Title1
+object.2.id=2
+object.2.title=Title2
+----
+
+При большом количестве подобных записей ведение индекса может быть затруднительным, особенно при необходимости изменения номеров записей.
+В этом случе индекс можно вынести в отдельную переменную, увеличивая его с помощью макроса *inc*.
+Далее приведена идентичная конфигурация, индексы в которой выведены в переменную.
+----
+object.{@inc:cnt}.id=1
+object.{@cnt}.title=Title1
+object.{@inc:cnt}.id=2
+object.{@cnt}.title=Title2
+----
+
+[[user-config-concat]]
+==== Склеивание значений
+Помимо присвоения параметр конфигурации можно приклеивать к уже существующему под таким ключём значению. Для этого используется оператор *+=* Например:
+----
+key=1
+key+=,2
+key+=,3
+----
+
+В этом случе под ключом *key* будет храниться строка "1,2,3".
+
+Склеивание помогает разбить длинную строку конфигурации на несколько более читаемых. Например:
+----
+# дата рожд., с.-н. пасп., д.в. пасп., кем выд. пасп, адрес проп., тел. гор, тел. сот, адрес(а) усл., перс. данные
+bgbilling:creator.importParameters=73,74,75,76,77,78,14,12,115
+# ИНН, КПП, ФИО руководителя, полное название, должность рук.-ля, E-Mail(ы)
+bgbilling:creator.importParameters+=,248,249, 252, 428, 429, 15
+----
+
+Также оно полезно при <<setup.adoc#united-user-config, объединении>> нескольких конфигураций, позволяя создать общую объединённую переменную.
+
+[[user-config-multiline]]
+==== Многострочные значения
+Ещё один способ разбития на несколько строк значения конфигурации. Используется, например, в <<extension.adoc#jexl, JEXL>> скриптах.
+----
+value=<<END
+Line1
+Line2
+END
+----
+Значение value будет *Line1Line2*. Переносы строк не участвуют в склеивании. Вместо *END* можно использовать любую строку.
+
 [[mobile]]
-== Mobile interface
+== Mobile
 The interface is <<server, available>> by suffix */usermob*.
 
 В текущей версии мобильный интерфейс пользователя предоставляет доступ к мобильной очереди процессов.
@@ -186,8 +288,8 @@ wizard.step.2.class=SetDescriptionStep
 image::_res/iface_mob_wizard.png[]
 
 [[open]]
-== Open Interface
-The interface is <<server, available>> by suffix */user*.
+== Open
+The interface is <<server, available>> by suffix */open*.
 
 Configuration sample of <<install.adoc#nginx, NGINX>> for accessing it from outside network.
 
@@ -259,98 +361,3 @@ Where:
 === Localization
 For <<../project/index.adoc#l10n, localization>> of the Open Interface add HTTP request parameter *lang=<LANG>*, where *<LANG>* - shortcut of the wanted language.
 
-[[id]]
-== Коды объектов
-Числовые коды объекты, они же *идентификаторы*, необходимы для однозначного определения различных объектов данных в системе.
-Например, параметров, статусов и т.п. Генерируются при создании и не меняются в течении всего срока жизни объекта.
-Поэтому, в отличии от наименований, пригодны для использования в конфигурациях. Код объекта обычно выводится в таблице справочника,
-либо при открытии редактора объекта и сопровождается меткой *ID*. На скриншоте ниже приведены различные объекты и их коды.
-
-image::_res/i0118.png[]
-
-Также в конфигурациях могут потребоваться коды объектов внешних систем, например,
-link:https://bgbilling.ru/v6.1/doc/ch01s08.html[BGBilling] (получение кодов описано в разделе "Горячие клавиши").
-
-[[config]]
-== Конфигурации
-Очень большое количество редко меняющихся настроек поведения системы вынесено в конфигурации.
-Конфигурация - это текстовый блок, состоящих из записей вида: *<ключ>=<значение>*.
-На одной строке может быть только одна такая запись, символ *#* в начале строки означает комментарий.
-
-Конфигурации вводятся либо в текстовых *.properties* - файлах (опции подключения к БД, базовые настройки),
-либо в редакторах конфигурации, сохраняясь в базе данных.
-
-[[config-variable]]
-=== Переменные
-В значениях параметров конфигурации возможна подстановка ранее указанных значений с помощью подстановок *{@имя параметра}*. Рассмотрим пример подстановки.
-----
-# определение значения
-howYou=how you
-# использование подстановки
-some.kind.of.config.record=Thats {@howYou} should use macro!
-----
-При такой конфигурации при взятии значения some.kind.of.config.record получаем в результате строку "Thats how you should use macro!".
-Подставляемое значение должно быть обязательно определено ранее подстановки.
-
-=== Счётчики
-После разбора конфигурация используется системой как набор пар ключ - значение, в котором порядок не определён. При необходимости указания порядка в ключе вводятся дополнительные числовые индексы.
-
-Например:
-----
-object.1.id=1
-object.1.title=Title1
-object.2.id=2
-object.2.title=Title2
-----
-
-При большом количестве подобных записей ведение индекса может быть затруднительным, особенно при необходимости изменения номеров записей.
-В этом случе индекс можно вынести в отдельную переменную, увеличивая его с помощью макроса *inc*.
-Далее приведена идентичная конфигурация, индексы в которой выведены в переменную.
-----
-object.{@inc:cnt}.id=1
-object.{@cnt}.title=Title1
-object.{@inc:cnt}.id=2
-object.{@cnt}.title=Title2
-----
-
-=== Склеивание значений
-Помимо присвоения параметр конфигурации можно приклеивать к уже существующему под таким ключём значению. Для этого используется оператор *+=* Например:
-----
-key=1
-key+=,2
-key+=,3
-----
-
-В этом случе под ключом *key* будет храниться строка "1,2,3".
-
-Склеивание помогает разбить длинную строку конфигурации на несколько более читаемых. Например:
-----
-# дата рожд., с.-н. пасп., д.в. пасп., кем выд. пасп, адрес проп., тел. гор, тел. сот, адрес(а) усл., перс. данные
-bgbilling:creator.importParameters=73,74,75,76,77,78,14,12,115
-# ИНН, КПП, ФИО руководителя, полное название, должность рук.-ля, E-Mail(ы)
-bgbilling:creator.importParameters+=,248,249, 252, 428, 429, 15
-----
-
-Также оно полезно при <<setup.adoc#united-user-config, объединении>> нескольких конфигураций, позволяя создать общую объединённую переменную.
-
-[[config-multiline]]
-=== Многострочные значения
-Ещё один способ разбития на несколько строк значения конфигурации. Используется, например, в <<extension.adoc#jexl, JEXL>> скриптах.
-----
-value=<<END
-Line1
-Line2
-END
-----
-Значение value будет *Line1Line2*. Переносы строк не участвуют в склеивании. Вместо *END* можно использовать любую строку.
-
-[[user-session-log]]
-== User Session Log
-This tool may is available in *Log* menu and allows collecting session logs, which may be requested by developers.
-
-image::_res/user_session_log.png[width="800"]
-
-Once enabled the tool is collecting logs starting from *DEBUG* level for the current user session only,
-that allows easier observe possible problems.
-
-The log is refreshed any time when it opened back.
