@@ -122,7 +122,7 @@ dependencies {
     runtimeOnly 'org.apache.commons:commons-collections4:4.3'
 
     // Asterisk
-    implementation 'org.asteriskjava:asterisk-java:3.37.0'
+    implementation 'org.asteriskjava:asterisk-java:3.41.0'
     // dep 'org.reflections:reflections'
     // dep 'org.javassist:javassist'
 

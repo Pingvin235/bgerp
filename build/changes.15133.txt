@@ -1,0 +1,1 @@
+A: Support new versions of Asterisk. https://bgerp.org/version/3.0/doc/plugin/asterisk

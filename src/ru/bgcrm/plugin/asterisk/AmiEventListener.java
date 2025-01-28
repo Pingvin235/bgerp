@@ -72,19 +72,14 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
     public void onManagerEvent(ManagerEvent e) {
         log.debug("AMI event: {}", e);
 
-        if (!(e instanceof NewStateEvent))
-            return;
-
-        NewStateEvent event = (NewStateEvent) e;
-
-        if (!"Up".equals(event.getChannelStateDesc()))
+        if (!(e instanceof NewStateEvent event) || !"Up".equals(event.getChannelStateDesc()))
             return;
 
         String numberFrom = event.getConnectedLineNum();
         String numberTo = event.getCallerIdNum();
 
         CallRegistration reg = messageType.getRegistrationByNumber(numberTo);
-        // приходят 3 события о вызове, поэтому блокировка по первому путём установки messageForOpenId
+
         if ((reg != null && reg.getMessageForOpen() == null && numberFrom != null)) {
             log.info("Call to registered number: {}, event: {}", reg.getNumber(), event);
 
@@ -92,26 +87,26 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
                 Message message = new Message();
                 message.setDirection(Message.DIRECTION_INCOMING);
                 message.setTypeId(messageType.getId());
-                if (reg != null)
-                    message.setUserId(reg.getUserId());
+                message.setUserId(reg.getUserId());
                 message.setText("");
                 message.setFrom(numberFrom);
                 message.setTo(numberTo);
                 message.setFromTime(new Date());
                 message.setSystemId(event.getUniqueId());
 
-                // по сути там вызывается просто MessageDAO, сделано для единообразия
+                // only for unification, there is MessageDAO called inside
                 messageType.updateMessage(con, DynActionForm.SYSTEM_FORM, message);
 
                 con.commit();
 
                 log.info("Created message: {}", message.getId());
 
-                if (reg != null)
-                    reg.setMessageForOpen(message);
+                // there are might be multiple events for a single call, for preventing multi-processing the first message is set here
+                reg.setMessageForOpen(message);
             } catch (Exception ex) {
                 log.error(ex);
             }
-        }
+        } else
+            log.debug("No registered number found, the call was already processed or there is no FROM number in the event");
     }
 }
