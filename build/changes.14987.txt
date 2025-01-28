@@ -1,1 +1,0 @@
-A: Message Templates. https://bgerp.org/version/3.0/doc/kernel/message/index.html#setup-template

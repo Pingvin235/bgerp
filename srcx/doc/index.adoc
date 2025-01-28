@@ -59,6 +59,7 @@
 * Release Notes
 ** <<changes/0/index.adoc#, Master Release>>
 // changesDoc - don't remove, marker for Gradle task 'changesDoc'
+** <<changes/2501/index.adoc#, 2501>>
 ** <<changes/2409/index.adoc#, 2409>>
 ** <<changes/1393/index.adoc#, 1393 (2403)>>
 ** <<changes/1392/index.adoc#, 1392 (2311)>>

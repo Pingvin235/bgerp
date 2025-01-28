@@ -1,1 +1,0 @@
-A: Cleanup old Backup files. https://bgerp.org/version/3.0/doc/plugin/svc/backup/index.html#setup-scheduler

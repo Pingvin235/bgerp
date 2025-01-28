@@ -1,2 +1,0 @@
-A: Show entity IDs in HTML titles
-A: Filter parameters, process types and statuses, user groups by ID

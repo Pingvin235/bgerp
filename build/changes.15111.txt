@@ -1,1 +1,0 @@
-A: Automatic BGBilling server version detection. https://bgerp.org/version/3.0/doc/plugin/bgbilling/index.html#config-server

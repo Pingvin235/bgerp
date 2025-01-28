@@ -1,1 +1,0 @@
-A: Line counter in User Session Log. https://bgerp.org/version/3.0/doc/kernel/interface.html#user-session-log

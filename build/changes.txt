@@ -1,6 +1,30 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+28.01.2025 14:47:49 2501
+B: [14412] Generated process title. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-title
+C: [14663] Relocation of Custom GIT repositories. https://bgerp.org/version/3.0/doc/kernel/extension.html#custom-git
+A: [14834] Show entity IDs in HTML titles
+A: [14834] Filter parameters, process types and statuses, user groups by ID
+A: [14895] Generated process description. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-description
+A: [14987] Message Templates. https://bgerp.org/version/3.0/doc/kernel/message/index.html#setup-template
+A: [15065] Plugin 'Group Plan'. https://bgerp.org/version/3.0/doc/plugin/pln/grpl/index.html
+A: [15073] Filter by unread process messages
+A: [15098] Cleanup old Backup files. https://bgerp.org/version/3.0/doc/plugin/svc/backup/index.html#setup-scheduler
+C: [15107] Make root MySQL password in Docker container equals to the app's one
+C: [15107] Update in Docker image MySQL to 8.0.40
+C: [15107] Update in Docker image Java to 21.0.5+11
+A: [15108] Functions in BGBilling JEXL API. https://bgerp.org/version/3.0/doc/kernel/process/processing.html#commands-bgbilling
+A: [15110] Restricted areas for processes creation. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-create
+A: [15111] Automatic BGBilling server version detection. https://bgerp.org/version/3.0/doc/plugin/bgbilling/index.html#config-server
+A: [15117] MessageTypeContactSaverPhone saves a calling number to a process parameter. https://bgerp.org/change/0/doc/kernel/message/index.html#setup-type-saver
+A: [15119] Send alarm on email processing error
+A: [15120] Line counter in User Session Log. https://bgerp.org/version/3.0/doc/kernel/interface.html#user-session-log
+B: [15124] Separated action for deletion process messages
+A: [15126] Support of EXPLAIN queries in DBA SQL Tool
+A: [15128] Search customer by text parameters
+A: [15133] Support new versions of Asterisk. https://bgerp.org/version/3.0/doc/plugin/asterisk
+
 03.09.2024 20:40:39 2409
 C: [14637] Renamed HTTP request parameter 'action' to 'method'. https://bgerp.org/version/3.0/doc/project/index.html#action
 C: [14637] Deleted excess 'command' attribute from menu-item tags.

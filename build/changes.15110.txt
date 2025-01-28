@@ -1,1 +1,0 @@
-A: Restricted areas for processes creation. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-create

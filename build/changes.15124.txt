@@ -1,1 +1,0 @@
-B: Separated action for deletion process messages

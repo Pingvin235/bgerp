@@ -1,17 +1,15 @@
-= CHANGES
+= Release Notes
 :toc:
 
-////
-// REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT
 == BREAKING
 
 === Separated action for deletion messages in processes
-Have to be enabled in permissions.
+Has to be enabled in permissions.
 
 image::_res/15124_process_message_delete.png[]
 
 === Generated <<../../kernel/process/index.adoc#setup-type-title, Process Title>>
-The generated process titles have been stored in DB and shown everywhere a process is shown.
+The generated process titles have been stored in database and shown everywhere the process is shown.
 
 The replaced *Process Reference* functionality is no longer supported. The related records have to be found process types configurations by substring *processReference* and deactivated with removal or commenting out.
 
@@ -93,4 +91,3 @@ Support *EXPLAIN* queries in SQL Tool.
 Send <<../../kernel/setup.adoc#config-alarm, alarm>> on email processing error, containing the failing message as an attachment.
 
 image::_res/15119_email_processing_alarm.png[width="800"]
-////

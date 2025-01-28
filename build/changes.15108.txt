@@ -1,1 +1,0 @@
-A: Functions in BGBilling JEXL API. https://bgerp.org/version/3.0/doc/kernel/process/processing.html#commands-bgbilling
