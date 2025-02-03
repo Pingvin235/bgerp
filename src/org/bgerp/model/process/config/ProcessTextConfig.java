@@ -34,6 +34,10 @@ abstract class ProcessTextConfig extends Config {
         return expression.contains(ProcessExpressionObject.KEY + ".") || expression.contains(ProcessExpressionObject.KEY_SHORT + ".");
     }
 
+    public boolean isAnyParamUsed() {
+        return !paramIds.isEmpty();
+    }
+
     public boolean isParamUsed(int paramId) {
         return paramIds.contains(paramId);
     }

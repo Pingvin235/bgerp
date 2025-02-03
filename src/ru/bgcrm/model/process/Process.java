@@ -2,6 +2,7 @@ package ru.bgcrm.model.process;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -15,10 +16,13 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.model.process.config.ProcessTitleConfig;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ru.bgcrm.dao.expression.Expression;
+import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -202,6 +206,15 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     @Override
     public String getTitle() {
         String result = title;
+
+        if (Utils.isBlankString(result)) {
+            var config = getType().getProperties().getConfigMap().getConfig(ProcessTitleConfig.class);
+            if (config != null && config.isProcessUsed() && !config.isAnyParamUsed()) {
+                var context = new HashMap<String, Object>();
+                new ProcessExpressionObject(this).toContext(context);
+                result = new Expression(context).executeGetString(config.getExpression());
+            }
+        }
 
         if (Utils.isBlankString(result))
             result = "#" + id + " " + Utils.escapeXml(description);
