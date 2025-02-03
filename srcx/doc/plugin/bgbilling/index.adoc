@@ -70,10 +70,10 @@ bgbilling:server.<n>.version=<version>
 * *<param_id>* - код текстового параметра договора в биллинге, в котором сохраняется код контрагента, к которому привязан данный договор;
 * *<timezone>* - временная зона сервера, например Europe/Moscow;
 * *<timeout>* - таймаут ожидания ответа сервера биллинга в мс;
-* *<version>* - явно определённая версия сервера биллинга, возможные значения в фрагменте кода далее.
+* *<version>* - явно определённая версия сервера биллинга, возможные значения *префикса версии* во фрагменте кода далее.
 
-[snippet, from="static", to=");"]
-link:../../../../src/ru/bgcrm/plugin/bgbilling/DBInfoManager.java#L23-L23[DBInfoManager.java]
+[snippet, from="static", to="};"]
+link:../../../../src/ru/bgcrm/plugin/bgbilling/DBInfoManager.java#L24-L24[DBInfoManager.java]
 
 Например:
 ----

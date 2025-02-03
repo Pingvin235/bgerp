@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
@@ -20,7 +21,7 @@ public class DBInfoManager {
     private Map<String, DBInfo> dbInfoMap = new HashMap<>();
     private List<DBInfo> dbInfoList = new ArrayList<>();
 
-    static final List<String> SUPPORTED_VERSIONS = List.of("9.2407", "9.2", "8.2", "8.0", "7.2", "7.1", "7.0");
+    static final String[] SUPPORTED_VERSIONS = { "9.2", "8.2", "8.0", "7.2", "7.1", "7.0" };
 
     private DBInfoManager(Setup setup) {
         final String prefix = "bgbilling:server.", prefixOld = "bgbilling.";
@@ -34,14 +35,13 @@ public class DBInfoManager {
                 dbInfo.setVersion(params.get("version", ""));
                 dbInfo.setSetup(setup.subSok(prefix + me.getKey() + ".", prefixOld + me.getKey() + "."));
 
-                if (Utils.notBlankString(dbInfo.getVersion()) && !SUPPORTED_VERSIONS.contains(dbInfo.getVersion())) {
-                    throw new BGException("Unsupported billing version: " + dbInfo.getVersion());
-                }
+                if (Utils.notBlankString(dbInfo.getVersion()) && !StringUtils.startsWithAny(dbInfo.getVersion(), SUPPORTED_VERSIONS))
+                    throw new BGException("Unsupported billing version: {}", dbInfo.getVersion());
 
                 dbInfoMap.put(dbInfo.getId(), dbInfo);
                 dbInfoList.add(dbInfo);
             } catch (Exception e) {
-                log.error(e.getMessage());
+                log.error(e);
             }
         }
     }
@@ -66,7 +66,7 @@ public class DBInfoManager {
     public static DBInfo getDbInfo(String billingId) {
         DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
         if (dbInfo == null) {
-            throw new BGException("Не найден биллинг: " + billingId);
+            throw new BGException("Не найден биллинг: {}", billingId);
         }
         return dbInfo;
     }
