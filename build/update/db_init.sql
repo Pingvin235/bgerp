@@ -135,8 +135,9 @@ delimiter ;
 -- CALL alter_table_if_not_column_exists('table_name', 'column_name', 'CHANGE old_column_name column_name INT NOT NULL');
 
 DROP PROCEDURE IF EXISTS rename_table;
+DROP PROCEDURE IF EXISTS rename_table_if_exists;
 delimiter $$
-CREATE PROCEDURE rename_table(IN name_old CHAR(64), IN name_new CHAR(64))
+CREATE PROCEDURE rename_table_if_exists(IN name_old CHAR(64), IN name_new CHAR(64))
 BEGIN
 	SET @s = CONCAT("SET @cnt_old:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='", name_old, "')");
 	PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
@@ -148,7 +149,7 @@ BEGIN
 	END IF;
 END$$
 delimiter ;
--- CALL rename_table('name_old', 'name_new');
+-- CALL rename_table_if_exists('name_old', 'name_new');
 
 -- #ENDB#;
 
@@ -168,4 +169,4 @@ CREATE TABLE IF NOT EXISTS config_global (
 CALL add_column_if_not_exists('config_global', 'last_modify_dt', 'DATETIME NOT NULL');
 CALL add_column_if_not_exists('config_global', 'last_modify_user_id', 'INT NOT NULL');
 CALL add_column_if_not_exists('config_global', 'parent_id', 'INT NOT NULL AFTER id');
-CALL rename_table('n_config_global', 'config_global');
+CALL rename_table_if_exists('n_config_global', 'config_global');

@@ -288,7 +288,7 @@ CREATE TABLE IF NOT EXISTS message (
 	KEY `from` (`from`),
 	KEY system_id (system_id(5))
 );
-CALL rename_table('n_message', 'message');
+CALL rename_table_if_exists('n_message', 'message');
 CALL add_key_if_not_exists('message', 'from', '(`from`)');
 CALL add_column_if_not_exists('message', 'system_id', 'VARCHAR(100) NOT NULL AFTER id');
 CALL add_key_if_not_exists('message', 'system_id', '(system_id(5))');
@@ -448,7 +448,7 @@ CREATE TABLE IF NOT EXISTS param_list_value (
 	KEY param_id (param_id)
 );
 CALL alter_table_if_not_column_exists('param_list_value', 'title', 'CHANGE value title VARCHAR(250) NOT NULL');
-CALL rename_table('n_param_list_value', 'param_list_value');
+CALL rename_table_if_exists('n_param_list_value', 'param_list_value');
 
 CREATE TABLE IF NOT EXISTS param_listcount (
 	id INT NOT NULL,
@@ -659,7 +659,7 @@ CREATE TABLE IF NOT EXISTS customer_log (
 	`data` TEXT NOT NULL,
 	KEY id (id)
 );
-CALL rename_table('n_customer_log', 'customer_log');
+CALL rename_table_if_exists('n_customer_log', 'customer_log');
 
 CREATE TABLE IF NOT EXISTS news (
 	id INT NOT NULL AUTO_INCREMENT,
@@ -676,7 +676,7 @@ CREATE TABLE IF NOT EXISTS news (
 );
 CALL add_column_if_not_exists('news', 'read_time', 'INT NOT NULL DEFAULT 24');
 CALL add_column_if_not_exists('news', 'groups', 'VARCHAR(250) NOT NULL');
-CALL rename_table('n_news', 'news');
+CALL rename_table_if_exists('n_news', 'news');
 
 CREATE TABLE IF NOT EXISTS news_user (
 	news_id INT NOT NULL,
@@ -714,7 +714,7 @@ CREATE TABLE IF NOT EXISTS properties (
 	value VARCHAR(100) NOT NULL
 );
 
-CALL rename_table('user_group_permission', '_user_group_permission');
+CALL rename_table_if_exists('user_group_permission', '_user_group_permission');
 
 CREATE TABLE IF NOT EXISTS demo_entity (
 	id INT NOT NULL AUTO_INCREMENT,
