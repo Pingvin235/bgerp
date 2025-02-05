@@ -489,7 +489,7 @@ News recipients.
 |===
 
 === param_address
-Параметры типа "address".
+Parameter type *address* values.
 [cols="a,a,50%a", options="header"]
 |===
 |Column
@@ -506,19 +506,19 @@ News recipients.
 
 |n
 |INT
-|
+|sequential number for multiple param values, starting from 1
 
 |house_id
 |INT
-|ID дома
+|house ID, linke to <<_address_house, address_house:id>>
 
 |flat
 |CHAR
-|квартира
+|apartment
 
 |room
 |VARCHAR
-|комната
+|flat
 
 |pod
 |TINYINT
@@ -526,19 +526,16 @@ News recipients.
 
 |floor
 |TINYINT
-|этаж
+|floor
 
 |value
 |VARCHAR
-|тестовая строка с адресом
+|text representation of the adddress
 
 |comment
 |VARCHAR
 |comment
 
-|custom
-|TEXT
-|
 |===
 
 === param_blob

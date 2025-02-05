@@ -358,7 +358,6 @@ CREATE TABLE IF NOT EXISTS param_address (
 	floor TINYINT NOT NULL,
 	`value` VARCHAR(255) NOT NULL,
 	comment VARCHAR(255) NOT NULL,
-	`custom` TEXT,
 	KEY house_id (house_id)
 );
 ALTER TABLE param_address CHANGE flat flat CHAR(10) NOT NULL;
@@ -370,6 +369,7 @@ CALL add_column_if_not_exists('param_address', 'n', 'INT NOT NULL AFTER param_id
 UPDATE param_address SET n=1 WHERE n=0;
 CALL drop_key_if_exists('param_address', 'id_param');
 CALL add_unique_key_if_not_exists('param_address', 'id_param_id_value', '(id, param_id, value)');
+CALL drop_column_if_exists('param_address', 'custom');
 
 CREATE TABLE IF NOT EXISTS param_blob (
 	id INT NOT NULL,

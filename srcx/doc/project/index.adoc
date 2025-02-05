@@ -493,7 +493,7 @@ The cache might be reset using <<../kernel/install.adoc#update-installer, instal
 
 To force re-execution a query, add a whitespace before ending semicolon on the query line.
 [snippet, from="CALL drop_key_if_exists", to=");"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L368-L368[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L367-L367[src/org/bgerp/plugin/kernel/db.sql]
 
 [[cache]]
 ===== Cache

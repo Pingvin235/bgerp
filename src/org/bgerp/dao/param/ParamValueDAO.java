@@ -363,7 +363,6 @@ public class ParamValueDAO extends CommonDAO {
         result.setFloor(rs.getInt(prefix + "floor"));
         result.setValue(rs.getString(prefix + "value"));
         result.setComment(rs.getString(prefix + "comment"));
-        result.setCustom(rs.getString(prefix + "custom"));
 
         if (loadDirs) {
             result.setHouse(AddressDAO.getAddressHouseFromRs(rs, "house.", LOAD_LEVEL_COUNTRY));
@@ -984,7 +983,7 @@ public class ParamValueDAO extends CommonDAO {
                 if (position <= 0) {
                     position = 1;
 
-                    String query = "SELECT MAX(n) + 1 FROM " + Tables.TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
+                    String query = SQL_SELECT + "MAX(n) + 1" + SQL_FROM + Tables.TABLE_PARAM_ADDRESS + SQL_WHERE + "id=? AND param_id=?";
                     PreparedStatement ps = con.prepareStatement(query);
                     ps.setInt(1, id);
                     ps.setInt(2, paramId);
@@ -997,9 +996,9 @@ public class ParamValueDAO extends CommonDAO {
 
                     insertParamAddress(id, paramId, position, value);
                 } else {
-                    String query = "UPDATE " + Tables.TABLE_PARAM_ADDRESS
-                            + " SET value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?"
-                            + " WHERE id=? AND param_id=? AND n=?";
+                    String query = SQL_UPDATE + Tables.TABLE_PARAM_ADDRESS
+                            + SQL_SET + "value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?"
+                            + SQL_WHERE + "id=? AND param_id=? AND n=?";
                     PreparedStatement ps = con.prepareStatement(query);
 
                     ps.setString(index++, value.getValue());
@@ -1009,7 +1008,6 @@ public class ParamValueDAO extends CommonDAO {
                     ps.setInt(index++, value.getPod());
                     ps.setInt(index++, value.getFloor());
                     ps.setString(index++, value.getComment());
-                    ps.setString(index++, value.getCustom());
                     ps.setInt(index++, id);
                     ps.setInt(index++, paramId);
                     ps.setInt(index++, position);
@@ -1044,24 +1042,22 @@ public class ParamValueDAO extends CommonDAO {
     private void insertParamAddress(int id, int paramId, int position, ParameterAddressValue value) throws SQLException {
         int index = 1;
 
-        String query = "INSERT INTO " + Tables.TABLE_PARAM_ADDRESS
-                + " SET id=?, param_id=?, n=?, value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(index++, id);
-        ps.setInt(index++, paramId);
-        ps.setInt(index++, position);
-        ps.setString(index++, value.getValue());
-        ps.setInt(index++, value.getHouseId());
-        ps.setString(index++, value.getFlat());
-        ps.setString(index++, value.getRoom());
-        ps.setInt(index++, value.getPod());
-        ps.setInt(index++, value.getFloor());
-        ps.setString(index++, value.getComment());
-        ps.setString(index++, value.getCustom());
+        String query = SQL_INSERT_INTO + Tables.TABLE_PARAM_ADDRESS
+                + SQL_SET + "id=?, param_id=?, n=?, value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(index++, id);
+            ps.setInt(index++, paramId);
+            ps.setInt(index++, position);
+            ps.setString(index++, value.getValue());
+            ps.setInt(index++, value.getHouseId());
+            ps.setString(index++, value.getFlat());
+            ps.setString(index++, value.getRoom());
+            ps.setInt(index++, value.getPod());
+            ps.setInt(index++, value.getFloor());
+            ps.setString(index++, value.getComment());
 
-        ps.executeUpdate();
-
-        ps.close();
+            ps.executeUpdate();
+        }
     }
 
     private void logParam(int id, int paramId, int userId, String newValue) throws SQLException {
