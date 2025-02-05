@@ -151,6 +151,20 @@ END$$
 delimiter ;
 -- CALL rename_table_if_exists('name_old', 'name_new');
 
+DROP PROCEDURE IF EXISTS drop_table_if_exists;
+delimiter $$
+CREATE PROCEDURE drop_table_if_exists(IN table_name CHAR(64))
+BEGIN
+	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='", table_name, "')");
+	PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+	IF (@cnt = 1) THEN
+		SET @s = CONCAT("RENAME TABLE ", table_name, " TO _", table_name);
+		PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+	END IF;
+END$$
+delimiter ;
+-- CALL drop_table_if_exists('table_name');
+
 -- #ENDB#;
 
 CREATE TABLE IF NOT EXISTS config_global (

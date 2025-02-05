@@ -714,7 +714,7 @@ CREATE TABLE IF NOT EXISTS properties (
 	value VARCHAR(100) NOT NULL
 );
 
-CALL rename_table_if_exists('user_group_permission', '_user_group_permission');
+CALL drop_table_if_exists('user_group_permission');
 
 CREATE TABLE IF NOT EXISTS demo_entity (
 	id INT NOT NULL AUTO_INCREMENT,
