@@ -1,7 +1,3 @@
--- the table is created in update/db_init.sql
-CALL drop_column_if_exists('config_global', 'dt');
-CALL drop_column_if_exists('config_global', 'user_id');
-
 CREATE TABLE IF NOT EXISTS address_country (
 	id INT NOT NULL AUTO_INCREMENT,
 	title VARCHAR(150) NOT NULL,

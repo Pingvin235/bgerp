@@ -180,7 +180,9 @@ CREATE TABLE IF NOT EXISTS config_global (
 	PRIMARY KEY (id)
 );
 
+CALL rename_table_if_exists('n_config_global', 'config_global');
 CALL add_column_if_not_exists('config_global', 'last_modify_dt', 'DATETIME NOT NULL');
 CALL add_column_if_not_exists('config_global', 'last_modify_user_id', 'INT NOT NULL');
 CALL add_column_if_not_exists('config_global', 'parent_id', 'INT NOT NULL AFTER id');
-CALL rename_table_if_exists('n_config_global', 'config_global');
+CALL drop_column_if_exists('config_global', 'dt');
+CALL drop_column_if_exists('config_global', 'user_id');
