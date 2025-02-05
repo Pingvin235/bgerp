@@ -11,7 +11,7 @@ BEGIN
 	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
 	PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 	IF (@cnt > 0) THEN
-		SET @s = CONCAT("ALTER TABLE ", tbl, " DROP COLUMN ", col);
+		SET @s = CONCAT("ALTER TABLE ", tbl, " RENAME COLUMN ", col, " TO _", col);
 		PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 	END IF;
 END$$
