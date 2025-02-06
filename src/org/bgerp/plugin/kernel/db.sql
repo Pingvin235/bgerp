@@ -736,10 +736,10 @@ CREATE TABLE IF NOT EXISTS user_queue (
 
 UPDATE user SET personalization=REPLACE(personalization, "action=queueShow", "method=queueShow");
 
--- DROP (rename with '_' prefix) TABLES, place the tables which have to be deleted later to commented lines after all
+-- DROP (rename with '_' prefix) TABLES, place the tables which have to be deleted later to commented lines after all;
 CALL drop_table_if_exists('user_group_permission');
 
--- DROP (rename with '_' prefix) TABLE COLUMNS, place the columns which have to be deleted later to commented lines after all
+-- DROP (rename with '_' prefix) TABLE COLUMNS, place the columns which have to be deleted later to commented lines after all;
 CALL drop_column_if_exists('message', 'processed');
 
 -- must be the last query;

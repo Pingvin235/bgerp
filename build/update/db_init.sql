@@ -11,7 +11,10 @@ BEGIN
 	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
 	PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 	IF (@cnt > 0) THEN
-		SET @s = CONCAT("ALTER TABLE ", tbl, " RENAME COLUMN ", col, " TO _", col);
+		SET @s = CONCAT("SET @yyyymmdd:=(SELECT DATE_FORMAT(NOW(), '%Y%m%d'))");
+		PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+		SET @s = CONCAT("ALTER TABLE ", tbl, " RENAME COLUMN ", col, " TO _", col, "_", @yyyymmdd);
 		PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 	END IF;
 END$$
@@ -158,7 +161,10 @@ BEGIN
 	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='", table_name, "')");
 	PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 	IF (@cnt = 1) THEN
-		SET @s = CONCAT("RENAME TABLE ", table_name, " TO _", table_name);
+		SET @s = CONCAT("SET @yyyymmdd:=(SELECT DATE_FORMAT(NOW(), '%Y%m%d'))");
+		PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+		SET @s = CONCAT("RENAME TABLE ", table_name, " TO _", table_name, "_", @yyyymmdd);
 		PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 	END IF;
 END$$
