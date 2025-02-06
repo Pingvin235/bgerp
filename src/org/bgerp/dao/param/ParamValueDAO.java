@@ -1901,14 +1901,6 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * @see OldParamSearchDAO#searchObjectByParameterAddress(int, ParameterAddressValue)
-     */
-    @Deprecated
-    public Set<Integer> searchObjectByParameterAddress(int parameterId, ParameterAddressValue parameterAddressValue) throws SQLException {
-        return new org.bgerp.dao.param.OldParamSearchDAO(con).searchObjectByParameterAddress(parameterId, parameterAddressValue);
-    }
-
-    /**
      * @see OldParamSearchDAO#searchObjectByParameterText(int, String)
      */
     @Deprecated
@@ -1922,24 +1914,5 @@ public class ParamValueDAO extends CommonDAO {
     @Deprecated
     public Set<Integer> searchObjectByParameterList(int parameterId, int value) throws Exception {
         return new org.bgerp.dao.param.OldParamSearchDAO(con).searchObjectByParameterList(parameterId, value);
-    }
-
-    /**
-     * @see #getParamAddress(int, int, boolean, String)
-     */
-    @Deprecated
-    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs, String formatName)
-            throws SQLException {
-        log.warndMethod("getParamAddressExt", "getParamAddress");
-        return getParamAddress(id, paramId, loadDirs, formatName);
-    }
-
-    /**
-     * @see #getParamAddress(int, int, boolean)
-     */
-    @Deprecated
-    public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs) throws SQLException {
-        log.warndMethod("getParamAddressExt", "getParamAddress");
-        return getParamAddress(id, paramId, loadDirs);
     }
 }

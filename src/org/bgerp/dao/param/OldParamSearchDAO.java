@@ -18,7 +18,6 @@ import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterSearchedObject;
@@ -131,50 +130,6 @@ public class OldParamSearchDAO extends CommonDAO {
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, parameterId);
-
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            result.add(rs.getInt("object_id"));
-        }
-
-        ps.close();
-
-        return result;
-    }
-
-    /**
-     * Функция поиска объектов по значениям связанного адресного параметра
-     * @param parameterId - ID параметра
-     * @param parameterAddressValue - значение адресного параметра
-     * @return
-     * @throws SQLException
-     */
-    public Set<Integer> searchObjectByParameterAddress(int parameterId, ParameterAddressValue parameterAddressValue) throws SQLException {
-        Set<Integer> result = new HashSet<>();
-
-        StringBuilder query = new StringBuilder();
-        query.append(SQL_SELECT);
-        query.append("address.id AS object_id ");
-        query.append(SQL_FROM);
-        query.append(Tables.TABLE_PARAM_ADDRESS);
-        query.append(" AS address ");
-        query.append(SQL_WHERE);
-        query.append("address.param_id = ? ");
-        query.append("AND address.house_id = ? ");
-        query.append("AND address.flat = ? ");
-        query.append("AND address.room = ? ");
-        query.append("AND address.pod = ? ");
-        query.append("AND address.floor = ? ");
-
-        PreparedStatement ps = con.prepareStatement(query.toString());
-
-        ps.setInt(1, parameterId);
-        ps.setInt(2, parameterAddressValue.getHouseId());
-        ps.setString(3, parameterAddressValue.getFlat());
-        ps.setString(4, parameterAddressValue.getRoom());
-        ps.setInt(5, parameterAddressValue.getPod());
-        ps.setInt(6, parameterAddressValue.getFloor());
 
         ResultSet rs = ps.executeQuery();
 
