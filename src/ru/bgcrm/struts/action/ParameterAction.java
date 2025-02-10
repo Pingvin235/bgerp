@@ -399,7 +399,8 @@ public class ParameterAction extends BaseAction {
                     addressValue.setFlat(form.getParam("flat", ""));
                     addressValue.setRoom(form.getParam("room", ""));
                     addressValue.setPod(Utils.parseInt(form.getParam("pod"), -1));
-                    addressValue.setFloor(Utils.parseInt(form.getParam("floor"), -1));
+                    String floor = form.getParam("floor");
+                    addressValue.setFloor(Utils.notBlankString(floor) ? Integer.parseInt(floor) : null);
                     addressValue.setComment(form.getParam("comment", ""));
                     addressValue.setValue(AddressUtils.buildAddressValue(addressValue, con));
                 }

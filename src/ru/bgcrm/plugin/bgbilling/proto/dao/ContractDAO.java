@@ -1331,7 +1331,7 @@ public class ContractDAO extends BillingDAO {
 
                             request.setAttribute("hid", value.getHouseId());
                             request.setAttribute("flat", value.getFlat());
-                            request.setAttribute("floor", value.getFloor() == -1 ? "" : value.getFloor());
+                            request.setAttribute("floor", value.getFloor() == null ? "" : value.getFloor());
                             request.setAttribute("pod", value.getPod());
                             request.setAttribute("room", value.getRoom());
                             request.setAttribute("comment", value.getComment());

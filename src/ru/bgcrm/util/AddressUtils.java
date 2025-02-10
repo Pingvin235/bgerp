@@ -12,7 +12,7 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.address.AddressItem;
 
 public class AddressUtils {
-    private final static String ADDRESS_FORMAT_DEFAULT = "(${street})(, ${house})(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})( [${comment}])";
+    private final static String ADDRESS_FORMAT_DEFAULT = "(${street})(, ${house})(, ${floor} floor)(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})( [${comment}])";
 
     public static final String buildAddressValue(final ParameterAddressValue value, Connection con) throws SQLException {
         return buildAddressValue(value, con, null);
@@ -58,7 +58,7 @@ public class AddressUtils {
             if ("pod".equals(variable))
                 return value.getPod() > 0 ? String.valueOf(value.getPod()) : "";
             if ("floor".equals(variable))
-                return value.getFloor() > 0 ? String.valueOf(value.getFloor()) : "";
+                return value.getFloor() == null ? "" : String.valueOf(value.getFloor());
             if ("comment".equals(variable))
                 return value.getComment();
             return "";

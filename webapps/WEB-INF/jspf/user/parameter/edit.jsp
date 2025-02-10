@@ -68,11 +68,6 @@
 					<c:set var="pod" value="${address.pod}" />
 				</c:if>
 
-				<c:set var="floor" value="" />
-				<c:if test="${address.floor gt 0}">
-					<c:set var="floor" value="${address.floor}" />
-				</c:if>
-
 				<html:hidden property="position" />
 
 				<input type="hidden" name="streetId" value="${house.addressStreet.id}" />
@@ -132,7 +127,7 @@
 					<tr class="in-pt05 in-pl05">
 						<td><input type="text" name="pod" value="${pod}"
 							placeholder="${l.l("Подъезд")}" title="${l.l("Подъезд")}" style="width: 100%" /></td>
-						<td><input type="text" name="floor" value="${floor}"
+						<td><input type="text" name="floor" value="${address.floor}"
 							placeholder="${l.l("Этаж")}" title="${l.l("Этаж")}"  style="width: 100%" /></td>
 					</tr>
 					<tr class="in-pt05 in-pl05">

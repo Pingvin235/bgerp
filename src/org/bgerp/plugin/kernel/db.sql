@@ -239,14 +239,14 @@ CREATE TABLE IF NOT EXISTS param_address (
 	flat CHAR(10) NOT NULL,
 	room VARCHAR(20) NOT NULL,
 	pod TINYINT NOT NULL,
-	floor TINYINT NOT NULL,
+	floor TINYINT,
 	`value` VARCHAR(255) NOT NULL,
 	comment VARCHAR(255) NOT NULL,
 	KEY house_id (house_id)
 );
 ALTER TABLE param_address CHANGE flat flat CHAR(10) NOT NULL;
 ALTER TABLE param_address MODIFY room VARCHAR(20) NOT NULL;
-ALTER TABLE param_address CHANGE floor floor TINYINT(4) NOT NULL;
+ALTER TABLE param_address CHANGE floor floor TINYINT(4);
 ALTER TABLE param_address CHANGE pod pod TINYINT(4) NOT NULL;
 CALL drop_key_if_exists('param_address', 'PRIMARY');
 CALL add_column_if_not_exists('param_address', 'n', 'INT NOT NULL AFTER param_id');

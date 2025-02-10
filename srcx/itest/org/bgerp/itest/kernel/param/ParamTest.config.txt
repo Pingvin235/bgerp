@@ -1,8 +1,7 @@
-# parameter type "address"
 # address format parameters, available variables: index, сity, area, quarter, street, house, flat, room, pod, floor, comment
-address.format=(${street})(, ${house})(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})
+#address.format=(${street})(, ${house})(, ${floor} floor)(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})
 
-# Russia specific formats
+# russian address formats
 #address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})
 #address.format.fromStreet=(${street})(, д. ${house})(, кв. ${flat})( ${room})(, ${pod} под.)(, ${floor} эт.)( ${comment})
 

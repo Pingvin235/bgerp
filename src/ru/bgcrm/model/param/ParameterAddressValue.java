@@ -17,7 +17,7 @@ public class ParameterAddressValue {
     private String flat = "";
     private String room = "";
     private int pod = -1;
-    private int floor = -1;
+    private Integer floor;
     private String value;
     private String comment = "";
     private String custom;
@@ -65,12 +65,12 @@ public class ParameterAddressValue {
         this.pod = pod;
     }
 
-    public int getFloor() {
+    public Integer getFloor() {
         return floor;
     }
 
-    public void setFloor(int floor) {
-        this.floor = floor;
+    public void setFloor(Integer value) {
+        this.floor = value;
     }
 
     public String getValue() {

@@ -65,7 +65,7 @@ public class ContractDAO extends BillingDAO {
 
         request.setAttribute("hid", address.getHouseId());
         request.setAttribute("flat", address.getFlat());
-        request.setAttribute("floor", address.getFloor() == -1 ? "" : address.getFloor());
+        request.setAttribute("floor", address.getFloor() == null ? "" : address.getFloor());
         request.setAttribute("pod", address.getPod());
         request.setAttribute("room", address.getRoom());
         request.setAttribute("comment", address.getComment());
@@ -147,7 +147,7 @@ public class ContractDAO extends BillingDAO {
 
                             request.setAttribute("hid", value.getHouseId());
                             request.setAttribute("flat", value.getFlat());
-                            request.setAttribute("floor", value.getFloor() == -1 ? "" : value.getFloor());
+                            request.setAttribute("floor", value.getFloor() == null ? "" : value.getFloor());
                             request.setAttribute("pod", value.getPod());
                             request.setAttribute("room", value.getRoom());
                             request.setAttribute("comment", value.getComment());

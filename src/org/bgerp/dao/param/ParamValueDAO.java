@@ -360,7 +360,7 @@ public class ParamValueDAO extends CommonDAO {
         result.setFlat(rs.getString(prefix + "flat"));
         result.setRoom(rs.getString(prefix + "room"));
         result.setPod(rs.getInt(prefix + "pod"));
-        result.setFloor(rs.getInt(prefix + "floor"));
+        result.setFloor((Integer) rs.getObject(prefix + "floor"));
         result.setValue(rs.getString(prefix + "value"));
         result.setComment(rs.getString(prefix + "comment"));
 
@@ -984,15 +984,15 @@ public class ParamValueDAO extends CommonDAO {
                     position = 1;
 
                     String query = SQL_SELECT + "MAX(n) + 1" + SQL_FROM + Tables.TABLE_PARAM_ADDRESS + SQL_WHERE + "id=? AND param_id=?";
-                    PreparedStatement ps = con.prepareStatement(query);
-                    ps.setInt(1, id);
-                    ps.setInt(2, paramId);
+                    try (PreparedStatement ps = con.prepareStatement(query)) {
+                        ps.setInt(1, id);
+                        ps.setInt(2, paramId);
 
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next() && rs.getObject(1) != null) {
-                        position = rs.getInt(1);
+                        ResultSet rs = ps.executeQuery();
+                        if (rs.next() && rs.getObject(1) != null) {
+                            position = rs.getInt(1);
+                        }
                     }
-                    ps.close();
 
                     insertParamAddress(id, paramId, position, value);
                 } else {
@@ -1006,7 +1006,7 @@ public class ParamValueDAO extends CommonDAO {
                     ps.setString(index++, value.getFlat());
                     ps.setString(index++, value.getRoom());
                     ps.setInt(index++, value.getPod());
-                    ps.setInt(index++, value.getFloor());
+                    ps.setObject(index++, value.getFloor());
                     ps.setString(index++, value.getComment());
                     ps.setInt(index++, id);
                     ps.setInt(index++, paramId);
@@ -1053,7 +1053,7 @@ public class ParamValueDAO extends CommonDAO {
             ps.setString(index++, value.getFlat());
             ps.setString(index++, value.getRoom());
             ps.setInt(index++, value.getPod());
-            ps.setInt(index++, value.getFloor());
+            ps.setObject(index++, value.getFloor());
             ps.setString(index++, value.getComment());
 
             ps.executeUpdate();
