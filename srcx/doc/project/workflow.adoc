@@ -352,13 +352,19 @@ CAUTION: Be sure that <<test-integration, Integration tests>> are successfully d
 
 CAUTION: Stop all running IDEs with opened project directory.
 
+Checkout the master branch and merge there possible latest documentation changes:
+[source, bash]
+----
+git checkout master && git merge --squash p15055-documentation-master && git commit -am "p15055 Documentation Master" && git push
+----
+
 Reset the properties files:
 [source, bash]
 ----
 ./gradlew resetProperties
 ----
 
-Set the new stable release version in *build.number* property of `build/update/update.properties` file.
+Set the new stable release version *YYMM* in *build.number* property of `build/update/update.properties` file.
 
 Perform the following:
 [source, bash]
@@ -383,7 +389,13 @@ bash build/docker/bgerp/files.sh && docker build build/docker/bgerp -t bgerp/bge
 Test the created image with in local Docker:
 [source, bash]
 ----
-docker run -d --name bgerp --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
+docker run -d --name bgerp -e MASTER=no --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
+----
+
+Wait until the container is up and running, access it via written in log URL. Remove the container after, if you do not need it:
+[source, bash]
+----
+docker rm -f bgerp
 ----
 
 Build the *bgerp/devd* Docker image:
@@ -411,17 +423,22 @@ Check the release commit and push it:
 git push
 ----
 
-Merge the latest state of the master on <<doc-release, documentation>> branch:
+Replace *<YYMM>* to the release number and create stable code and documentation branches:
 [source, bash]
 ----
-git checkout p11862-documentation && git pull --rebase && git merge master && git push
+git checkout -b stable-<YYMM> && git push --set-upstream origin stable-<YYMM>
+git checkout p11862-documentation && git checkout -b p11862-documentation-<YYMM> && git push --set-upstream origin p11862-documentation-<YYMM>
 ----
 
-Pick documentation changes back to master. *Normally there shouldn't be anyone.*
+Open https://git.bgerp.org/bgerp/bgerp/-/settings/repository#js-protected-branches-settings and allow to push force branches *p11862-documentation* and *p15055-documentation-master*
+Reset the documentation branches:
 [source, bash]
 ----
-git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation."
+git checkout p11862-documentation && git reset --hard master && git push --force
+git checkout p15055-documentation-master && git reset --hard master && git push --force
 ----
+
+Disallow to push force branches *p11862-documentation* and *p15055-documentation-master*
 
 Add news to Web sites about release with a link to the release changes.
 
