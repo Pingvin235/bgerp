@@ -135,8 +135,8 @@ public class ParamValueDAO extends CommonDAO {
         switch (paramType) {
             case ADDRESS -> {
                 query = "INSERT INTO " + Tables.TABLE_PARAM_ADDRESS
-                        + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment, custom) "
-                        + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment, custom " + "FROM "
+                        + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment) "
+                        + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment " + SQL_FROM
                         + Tables.TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
             }
