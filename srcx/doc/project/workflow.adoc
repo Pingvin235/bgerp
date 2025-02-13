@@ -1,5 +1,6 @@
 = Development Workflow
 :toc:
+:toclevels: 4
 
 [[git-lab-git-hub]]
 == GitLab and GitHub
@@ -85,6 +86,10 @@ git checkout p12345-my-change-branch && git pull --rebase && git fetch origin ma
 
 [[change-git-cleanup]]
 ==== Cleanup
+Stale branches should be deleted first on GitLab: https://git.bgerp.org/bgerp/bgerp/-/branches
+
+image::_res/workflow/gitlab_stale_branches.png[]
+
 Clean all links to non-existent/deleted branches.
 [source, bash]
 ----
@@ -120,7 +125,7 @@ link:https://stackoverflow.com/questions/46704572/git-error-encountered-7-files-
 When change is being accepted, 'change' branch is compared with the master.
 So merge the latest state of master to the 'change' branch before passing a change to acceptance.
 
-image::_res/branch_compare.png[]
+image::_res/workflow/branch_compare.png[]
 
 GIT commands to be used for merging change from *pXXXXX-short-change-description* branch to master:
 [source, bash]
@@ -203,11 +208,11 @@ even without changes in `.adoc` files. Something like the following:
 For such cases here is the *fixing algorithm*.
 First, find the failing line in `.adoc` file:
 
-image::_res/snippet_fix_1.png[]
+image::_res/workflow/snippet_fix_1.png[]
 
 After that, using branch comparison, find the new rows and change them in the `.adoc`:
 
-image::_res/snippet_fix_2.png[]
+image::_res/workflow/snippet_fix_2.png[]
 
 Hints:
 [square]
@@ -283,7 +288,7 @@ but you can register additional ones to speed up process.
 The list of runners is available here: https://git.bgerp.org/admin/runners
 There also can be taken registration *token*.
 
-image::_res/gitlab_runner_token.png[width="800"]
+image::_res/workflow/gitlab_runner_token.png[width="800"]
 
 A runner can be also added are here: https://git.bgerp.org/bgerp/bgerp/-/settings/ci_cd under *Runners* section.
 
