@@ -353,7 +353,10 @@ public class ContractParamDAO extends BillingDAO {
             result.setRoom(address.getAttribute("room"));
             result.setComment(address.getAttribute("comment"));
             result.setPod(address.getAttribute("pod"));
-            result.setFloor(address.getAttribute("floor"));
+            String floor = address.getAttribute("floor");
+            // если этаж не указан в биллинге, приходит 0 или -1
+            if (Utils.parseInt(floor) > 0)
+                result.setFloor(floor);
         }
 
         return result;
@@ -464,9 +467,9 @@ public class ContractParamDAO extends BillingDAO {
         if (dbInfo.versionCompare("9.2") >= 0) {
             EntityAttrAddress attrAddress = new EntityAttrAddress(0, paramId);
             attrAddress.setHouseId(address.getHouseId());
-            attrAddress.setPod( Utils.parseInt(address.getPod()));
-            attrAddress.setFloor( Utils.parseInt(address.getFloor()));
-            attrAddress.setFlat( Utils.maskNull(address.getFlat()));
+            attrAddress.setPod(Utils.parseInt(address.getPod()));
+            attrAddress.setFloor(Utils.parseInt(address.getFloor()));
+            attrAddress.setFlat(Utils.maskNull(address.getFlat()));
             attrAddress.setRoom(Utils.maskNull(address.getRoom()));
             attrAddress.setComment(Utils.maskNull(address.getComment()));
 

@@ -8,9 +8,7 @@ import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.Utils;
 
 /**
- * BGBilling address parameter value.
- *
- * TODO: Use after {@link ParameterAddressValue}.
+ * Значение адресного параметра в BGBilling
  */
 public class ParamAddressValue {
     private int cityId;
@@ -147,20 +145,22 @@ public class ParamAddressValue {
      * @throws SQLException
      */
     public ParameterAddressValue toParameterAddressValue(Connection con) throws SQLException {
-        ParameterAddressValue crmItem = new ParameterAddressValue();
+        ParameterAddressValue result = new ParameterAddressValue();
 
-        crmItem.setComment(getComment());
-        crmItem.setFlat(getFlat());
-        crmItem.setFloor(Utils.parseInt(getFloor()));
-        crmItem.setHouseId(getHouseId());
-        crmItem.setPod(Utils.parseInt(getPod()));
-        crmItem.setRoom(getRoom());
-        if (crmItem.getHouseId() != 0) {
-            crmItem.setValue(AddressUtils.buildAddressValue(crmItem, con));
+        result.setComment(getComment());
+        result.setFlat(getFlat());
+        String floor = getFloor();
+        if (Utils.notBlankString(floor))
+            result.setFloor(Utils.parseInt(floor));
+        result.setHouseId(getHouseId());
+        result.setPod(Utils.parseInt(getPod()));
+        result.setRoom(getRoom());
+        if (result.getHouseId() != 0) {
+            result.setValue(AddressUtils.buildAddressValue(result, con));
         } else {
-            crmItem.setValue("");
+            result.setValue("");
         }
 
-        return crmItem;
+        return result;
     }
 }
