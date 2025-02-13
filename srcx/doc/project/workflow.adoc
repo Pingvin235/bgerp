@@ -90,13 +90,22 @@ Stale branches should be deleted first on GitLab: https://git.bgerp.org/bgerp/bg
 
 image::_res/workflow/gitlab_stale_branches.png[]
 
-Clean all links to non-existent/deleted branches.
+Clean all references to non-existent remote branches.
 [source, bash]
 ----
 git remote prune origin
 ----
 
+Cleaning up local Git branches that no longer exist on remote.
+
+WARNING: Be sure, that all needed change branches are pushed
+[source, bash]
+----
+bash git-clean-branches.sh
+----
+
 Clean GIT repo from unreferenced objects after.
+[source, bash]
 ----
 git reflog expire --expire-unreachable=now --all &&
 git gc --prune=now
