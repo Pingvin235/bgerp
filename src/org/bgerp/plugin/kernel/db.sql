@@ -192,6 +192,7 @@ CALL add_key_if_not_exists('message', 'from', '(`from`)');
 CALL add_column_if_not_exists('message', 'system_id', 'VARCHAR(100) NOT NULL AFTER id');
 CALL add_key_if_not_exists('message', 'system_id', '(system_id(5))');
 ALTER TABLE message MODIFY `to` VARCHAR(400) NOT NULL;
+CALL drop_column_if_exists('message', 'processed');
 
 CREATE TABLE IF NOT EXISTS message_tag (
 	message_id INT NOT NULL,
@@ -737,10 +738,23 @@ CREATE TABLE IF NOT EXISTS user_queue (
 UPDATE user SET personalization=REPLACE(personalization, "action=queueShow", "method=queueShow");
 
 -- DROP (rename with '_' prefix) TABLES, place the tables which have to be deleted later to commented lines after all;
+CALL drop_table_if_exists('address_distribution');
+CALL drop_table_if_exists('address_quarter_distribution');
+CALL drop_table_if_exists('analytic_house_capacity');
+CALL drop_table_if_exists('appointment');
+CALL drop_table_if_exists('customer_cache');
+CALL drop_table_if_exists('dynamic_class');
+CALL drop_table_if_exists('dynamic_class_iface');
+CALL drop_table_if_exists('fias_house_interval');
+CALL drop_table_if_exists('fias_street');
+CALL drop_table_if_exists('properties');
 CALL drop_table_if_exists('user_group_permission');
-
--- DROP (rename with '_' prefix) TABLE COLUMNS, place the columns which have to be deleted later to commented lines after all;
-CALL drop_column_if_exists('message', 'processed');
+CALL drop_table_if_exists('sql_patches_history');
+CALL drop_table_if_exists('vacancy');
+CALL drop_table_if_exists('vacancy_user_mark');
+CALL drop_table_if_exists('wizard');
+CALL drop_table_if_exists('wizard_link');
+CALL drop_table_if_exists('wizard_node');
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

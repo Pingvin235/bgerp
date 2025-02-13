@@ -484,7 +484,7 @@ Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
 Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
 [snippet, from="UNIQUE", to="n),", remove-leading="	"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L303-L303[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L304-L304[src/org/bgerp/plugin/kernel/db.sql]
 
 [[plugin-db-cache]]
 ===== Database Queries Cache
@@ -493,7 +493,7 @@ The cache might be reset using <<../kernel/install.adoc#update-installer, instal
 
 To force re-execution a query, add a whitespace before ending semicolon on the query line.
 [snippet, from="CALL drop_key_if_exists", to=");"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L251-L251[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L252-L252[src/org/bgerp/plugin/kernel/db.sql]
 
 [[cache]]
 ===== Cache
@@ -938,7 +938,7 @@ By doing <<action>> in object *l* the localization context is passed, containing
 Localized key string may contain placeholders for some values, marked as *{}*.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
-link:../../../src/org/bgerp/action/MessageAction.java#L243-L243[org.bgerp.action.MessageAction]
+link:../../../src/org/bgerp/action/MessageAction.java#L244-L244[org.bgerp.action.MessageAction]
 
 <<exception, BGMessageException>> can contain localized message, translated when shown to a user.
 In the following snippet might be seen, how it can be thrown in a plugin's logic.

@@ -50,6 +50,7 @@ import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.PermissionActionMethodException;
+import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -72,7 +73,7 @@ public class MessageAction extends BaseAction {
      * Special action for edit and delete not owned messages.
      */
     @Dynamic
-    public static final String ACTION_MODIFY_NOT_OWNED = MessageAction.class.getAnnotation(Action.class).path() + ":modifyNotOwned";
+    public static final String ACTION_MODIFY_NOT_OWNED = ActionServlet.pathId(MessageAction.class, "modifyNotOwned");
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {

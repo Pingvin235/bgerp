@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 import javax.servlet.ServletException;
 
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.BaseAction;
 import org.apache.struts.config.ModuleConfig;
 import org.bgerp.action.base.Actions;
 import org.bgerp.util.Log;
@@ -33,6 +34,16 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
          * @return the action ID is path, not class name
          */
         boolean pathId() default false;
+    }
+
+    /**
+     * Provides action ID for path-identified actions
+     * @param clazz the action class
+     * @param method method, can be {@code null}
+     * @return the action ID, containing action path with semicolon separated method name
+     */
+    public static String pathId(Class<? extends BaseAction> clazz, String method) {
+        return clazz.getAnnotation(Action.class).path() + ":" + method;
     }
 
     /**
