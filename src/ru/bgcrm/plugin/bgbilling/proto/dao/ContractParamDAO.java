@@ -470,9 +470,9 @@ public class ContractParamDAO extends BillingDAO {
             attrAddress.setRoom(Utils.maskNull(address.getRoom()));
             attrAddress.setComment(Utils.maskNull(address.getComment()));
 
-            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterListUpdate");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterAddressUpdate");
             req.setParam("contractId", contractId);
-            req.setParam("entityAttrAddress", attrAddress);
+            req.setParam("parameter", attrAddress);
 
             transferData.postDataReturn(req, user);
         } else {
