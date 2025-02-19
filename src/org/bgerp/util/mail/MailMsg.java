@@ -14,11 +14,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
+import org.bgerp.util.URLTotalEncoder;
 
 import ru.bgcrm.model.FileData;
 
@@ -34,16 +34,49 @@ public class MailMsg {
         return config.get("mail.encoding", StandardCharsets.UTF_8.name());
     }
 
-    public static void setAttachContentTypeHeader(MimeBodyPart part) throws MessagingException {
-        part.setHeader("Content-Type", "charset=\"UTF-8\"; format=\"flowed\"");
-    }
+    /***
+     * Set 'Content-Disposition' header with name for an attached file
+     * @param part email part, containing the attachment
+     * @param filename the file's name
+     * @throws MessagingException
+     */
+    public static void setAttachFileName(MimeBodyPart part, String filename) throws MessagingException {
+        // the only supported charset
+        final String charset = StandardCharsets.UTF_8.toString();
+        String encoded = URLTotalEncoder.encode(filename, StandardCharsets.UTF_8);
 
-    public static void setAttachFileName(MimeBodyPart part, String value, String encoding) throws MessagingException {
-        try {
-            part.setFileName(MimeUtility.encodeWord(value, encoding, null));
-        } catch (UnsupportedEncodingException e) {
-            log.error(e);
+        StringBuilder cd = new StringBuilder(encoded.length() * 2);
+
+        final int maxLineLength = 60;
+        if (encoded.length() <= maxLineLength ) {
+            cd.append("attachment; filename*=").append(charset).append("''").append(encoded);
+        } else {
+            cd.append("attachment;\r\n");
+
+            encoded = charset + "'" + encoded;
+
+            int cnt = 0;
+            while (encoded.length() > maxLineLength) {
+                String encodedPart = encoded.substring(0, maxLineLength);
+
+                cd.append(" filename*").append(cnt).append("*=");
+                // double ' symbol after encoding
+                if (cnt == 0) {
+                    int pos = encodedPart.indexOf("'");
+                    cd.append(encodedPart.substring(0, pos + 1)).append(encodedPart.substring(pos));
+                } else
+                    cd.append(encodedPart);
+
+                cd.append(";").append("\r\n");
+                encoded = encoded.substring(maxLineLength);
+                cnt++;
+            }
+
+            if (encoded.length() > 0)
+                cd.append(" filename*").append(cnt).append("*=").append(encoded);
         }
+
+        part.setHeader("Content-Disposition", cd.toString());
     }
 
     private final String encoding;
@@ -100,9 +133,9 @@ public class MailMsg {
 
             for (var attachment : attachments) {
                 part = new MimeBodyPart();
-                setAttachContentTypeHeader(part);
-                setAttachFileName(part, attachment.getTitle(), encoding);
-                part.setDataHandler(new DataHandler(new ByteArrayDataSource(attachment.getData(), "application/octet-stream; name=" + attachment.getTitle())));
+                setAttachFileName(part, attachment.getTitle());
+                // in "Content-Type" header will be set: "application/octet-stream; name=filename"
+                part.setDataHandler(new DataHandler(new ByteArrayDataSource(attachment.getData(), "application/octet-stream")));
                 mp.addBodyPart(part);
             }
 

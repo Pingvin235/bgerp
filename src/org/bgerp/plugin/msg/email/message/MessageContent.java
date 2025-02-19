@@ -102,9 +102,8 @@ public class MessageContent {
                     File file = fileDao.getFile(attach);
 
                     MimeBodyPart attachPart = new MimeBodyPart();
-                    MailMsg.setAttachContentTypeHeader(attachPart);
                     attachPart.setDataHandler(new DataHandler(new FileDataSource(file)));
-                    MailMsg.setAttachFileName(attachPart, attach.getTitle(), encoding);
+                    MailMsg.setAttachFileName(attachPart, attach.getTitle());
                     multipart.addBodyPart(attachPart);
 
                     log.debug("Attach: {}", attach.getTitle());
