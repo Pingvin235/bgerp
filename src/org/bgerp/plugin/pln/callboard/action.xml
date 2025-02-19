@@ -45,11 +45,10 @@
 		<item title="Редактирование графика дежурств" action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardUpdateShift, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardUpdateShift, ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShift" >
 			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
 		</item>
-		<item title="Обновление фильтров графика дежурств" allowAll="1" action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardUpdateFilters, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardUpdateFilters, ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateFilters"/>
-		<item title="Загрузка табеля" action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGetTabel, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGetTabel, ru.bgcrm.struts.action.admin.WorkAction:callboardGetTabel" >
-		</item>
+		<item title="Загрузка табеля" action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGetTabel, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGetTabel, ru.bgcrm.struts.action.admin.WorkAction:callboardGetTabel"/>
 		<item title="Сортировка пользователей в пределах группы" action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardChangeOrder, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardChangeOrder, ru.bgcrm.struts.action.admin.WorkAction:callboardChangeOrder"/>
 		<item title="Добавление пользователя в другую группу" action="org.bgerp.plugin.pln.callboard.action.WorkAction:userChangeGroup, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:userChangeGroup, ru.bgcrm.struts.action.admin.WorkAction:userChangeGroup"/>
+		<item allowAll="1" action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardUpdateFilters, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardUpdateFilters, ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateFilters"/>
 	</item>
 	<item title="План работ">
 		<item title="Просмотр плана работ" action="org.bgerp.plugin.pln.callboard.action.WorkAction:planGet, ru.bgcrm.struts.action.WorkAction:planGet" >

@@ -15,7 +15,7 @@
 			<b>allowedGroupIds</b> - comma separated IDs of allowed user groups
 		</item>
 		<item title="Delete" action="/user/news:newsDelete, org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete"/>
-		<item action="/user/news:newsGet, org.bgerp.action.NewsAction:newsGet" allowAll="1"/>
+		<item allowAll="1" action="/user/news:newsGet, org.bgerp.action.NewsAction:newsGet"/>
 	</item>
 	<item title="Address">
 		<item title="View" action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address"/>
@@ -77,15 +77,15 @@
 	<item title="Process">
 		<item title="Queue">
 			<item title="Queues" action="ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue, ru.bgcrm.struts.action.ProcessAction:queue"/>
-			<item title="Получение свойств очереди процессов" action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet"/>
-			<item title="Просмотр очереди процессов" action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow"/>
-			<item title="Сохранённые наборы фильтров" allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet"/>
-			<item title="Сохранённые наборы кнопок очередей процессов" allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet"/>
+			<item title="Get Properties" action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet"/>
+			<item title="Show" action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow"/>
 			<item title="Process creation editor" action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree">
 				<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
 			</item>
 			<item title="Run processor" action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke"/>
 			<item title="Run macros" action="ru.bgcrm.struts.action.ProcessAction:processDoCommands"/>
+			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet"/>
+			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet"/>
 		</item>
 		<item title="Create process" action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate"/>
 		<item title="Card">
@@ -131,8 +131,8 @@
 
 		<item title="My processes" action="ru.bgcrm.struts.action.ProcessAction:userProcessList"/>
 		<!-- used by wizard, clarify and cleanup -->
-		<item title="Удаление временного процесса" allowAll="1" action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp"/>
-		<item title="Завершение создания процесса" allowAll="1" action="ru.bgcrm.struts.action.ProcessAction:processFinishCreateTmp"/>
+		<item allowAll="1" action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp"/>
+		<item allowAll="1" action="ru.bgcrm.struts.action.ProcessAction:processFinishCreateTmp"/>
 	</item>
 
 	<item title="Parameters">
@@ -155,8 +155,8 @@
 
 	<item title="File">
 		<item title="Download" action="org.bgerp.action.FileAction:null, ru.bgcrm.struts.action.FileAction:null"/>
-		<item action="org.bgerp.action.FileAction:temporaryUpload" allowAll="1"/>
-		<item action="org.bgerp.action.FileAction:temporaryDelete" allowAll="1"/>
+		<item allowAll="1" action="org.bgerp.action.FileAction:temporaryUpload"/>
+		<item allowAll="1" action="org.bgerp.action.FileAction:temporaryDelete"/>
 	</item>
 
 	<item title="Привязки">
@@ -170,9 +170,9 @@
 	<item title="User">
 		<item title="List of users" action="ru.bgcrm.struts.action.UserAction:userList"/>
 		<item title="Update profile" action="ru.bgcrm.struts.action.ProfileAction:updateSettings"/>
-		<item action="ru.bgcrm.struts.action.ProfileAction:getUserProfile" allowAll="1"/>
-		<item action="ru.bgcrm.struts.action.ProfileAction:settings" allowAll="1"/>
-		<item action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization" allowAll="1"/>
+		<item allowAll="1" action="ru.bgcrm.struts.action.ProfileAction:getUserProfile"/>
+		<item allowAll="1" action="ru.bgcrm.struts.action.ProfileAction:settings"/>
+		<item allowAll="1" action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization"/>
 	</item>
 
 	<item title="Administration">
@@ -355,11 +355,11 @@
 		</item>
 	</item>
 
-	<item action="ru.bgcrm.struts.action.EmptyAction:null" allowAll="1" notLogging="1"/>
-	<item action="ru.bgcrm.struts.action.PoolAction:null" allowAll="1" notLogging="1"/>
-	<item action="ru.bgcrm.struts.action.LockAction:add" allowAll="1" notLogging="1"/>
-	<item action="ru.bgcrm.struts.action.LockAction:free" allowAll="1" notLogging="1"/>
+	<item allowAll="1" action="ru.bgcrm.struts.action.EmptyAction:null" notLogging="1"/>
+	<item allowAll="1" action="ru.bgcrm.struts.action.PoolAction:null" notLogging="1"/>
+	<item allowAll="1" action="ru.bgcrm.struts.action.LockAction:add" notLogging="1"/>
+	<item allowAll="1" action="ru.bgcrm.struts.action.LockAction:free" notLogging="1"/>
 
-	<item action="org.bgerp.action.LoginAction:null" allowAll="1" notLogging="1"/>
-	<item action="org.bgerp.action.LoginAction:logout" allowAll="1" notLogging="1"/>
+	<item allowAll="1" action="org.bgerp.action.LoginAction:null" notLogging="1"/>
+	<item allowAll="1" action="org.bgerp.action.LoginAction:logout" notLogging="1"/>
 </item>
