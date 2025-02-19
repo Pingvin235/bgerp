@@ -1,9 +1,9 @@
 <item title="Плагин Slack">
 	<item title="Configuration">
-		<item action="ru.bgcrm.plugin.slack.action.ConfigAction:null" title="Configuration"/>
-		<item action="ru.bgcrm.plugin.slack.action.ConfigAction:token" title="Get Token"/>
+		<item title="Configuration" action="ru.bgcrm.plugin.slack.action.ConfigAction:null"/>
+		<item title="Get Token" action="ru.bgcrm.plugin.slack.action.ConfigAction:token"/>
 	</item>
 	<item title="Channels">
-		<item action="ru.bgcrm.plugin.slack.action.ChannelAction:addProcessChannelLink, ru.bgcrm.plugin.slack.struts.action.ChannelAction:addProcessChannelLink" title="Link channel to process"/>
+		<item title="Link channel to process" action="ru.bgcrm.plugin.slack.action.ChannelAction:addProcessChannelLink, ru.bgcrm.plugin.slack.struts.action.ChannelAction:addProcessChannelLink"/>
 	</item>
 </item>

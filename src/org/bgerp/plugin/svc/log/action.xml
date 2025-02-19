@@ -1,3 +1,3 @@
 <item title="Plugin Log">
-	<item action="org.bgerp.plugin.svc.log.action.admin.ActionLogAction:null, org.bgerp.plugin.svc.log.action.admin.ActionLogAction:search" title="Action Logs"/>
+	<item title="Action Logs" action="org.bgerp.plugin.svc.log.action.admin.ActionLogAction:null, org.bgerp.plugin.svc.log.action.admin.ActionLogAction:search"/>
 </item>

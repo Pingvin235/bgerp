@@ -1,8 +1,8 @@
 <item title="Plugin Blow">
 	<item title="Board">
-		<item action="org.bgerp.plugin.pln.blow.action.BoardAction:board, ru.bgerp.plugin.blow.action.BoardAction:board, ru.bgerp.plugin.blow.struts.action.BoardAction:board" title="Board list"/>
-		<item action="org.bgerp.plugin.pln.blow.action.BoardAction:show, ru.bgerp.plugin.blow.action.BoardAction:show, ru.bgerp.plugin.blow.struts.action.BoardAction:show" title="View board"/>
-		<item action="org.bgerp.plugin.pln.blow.action.BoardAction:move, ru.bgerp.plugin.blow.action.BoardAction:move, ru.bgerp.plugin.blow.struts.action.BoardAction:move" title="Move"/>
-		<item action="org.bgerp.plugin.pln.blow.action.BoardAction:search, ru.bgerp.plugin.blow.action.BoardAction:search, ru.bgerp.plugin.blow.struts.action.BoardAction:search" title="Search"/>
+		<item title="Board list" action="org.bgerp.plugin.pln.blow.action.BoardAction:board, ru.bgerp.plugin.blow.action.BoardAction:board, ru.bgerp.plugin.blow.struts.action.BoardAction:board"/>
+		<item title="View board" action="org.bgerp.plugin.pln.blow.action.BoardAction:show, ru.bgerp.plugin.blow.action.BoardAction:show, ru.bgerp.plugin.blow.struts.action.BoardAction:show"/>
+		<item title="Move" action="org.bgerp.plugin.pln.blow.action.BoardAction:move, ru.bgerp.plugin.blow.action.BoardAction:move, ru.bgerp.plugin.blow.struts.action.BoardAction:move"/>
+		<item title="Search" action="org.bgerp.plugin.pln.blow.action.BoardAction:search, ru.bgerp.plugin.blow.action.BoardAction:search, ru.bgerp.plugin.blow.struts.action.BoardAction:search"/>
 	</item>
 </item>

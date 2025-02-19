@@ -715,11 +715,11 @@ link:../../../src/org/bgerp/plugin/kernel/action.xml#L345-L355[org/bgerp/plugin/
 
 The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
 
-[snippet, from="<item ac", to="te\"/>", remove-leading="		"]
+[snippet, from="<item tit", to="te\"/>", remove-leading="		"]
 link:../../../src/org/bgerp/plugin/bil/invoice/action.xml#L6-L6[org/bgerp/plugin/bil/invoice/action.xml]
 
 Actions may be hierarchically organized when some parent action is required for accessing children.
-[snippet, from="<item ac", to="em>", remove-leading="	"]
+[snippet, from="<item tit", to="em>", remove-leading="	"]
 link:../../../src/org/bgerp/plugin/svc/backup/action.xml#L2-L7[org/bgerp/plugin/svc/backup/action.xml]
 
 Auxillary actions, which have to be permanently allowed, have to be marked with *allowAll="1"* attribute.

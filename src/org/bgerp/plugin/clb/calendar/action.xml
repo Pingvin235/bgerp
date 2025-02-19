@@ -1,5 +1,5 @@
 <item title="Plugin Calendar">
 	<item title="Balance">
-		<item action="org.bgerp.plugin.calendar.action.ActionBalance:show" title="Show"/>
+		<item title="Show" action="org.bgerp.plugin.calendar.action.ActionBalance:show"/>
 	</item>
 </item>

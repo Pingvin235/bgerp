@@ -1,5 +1,5 @@
 <item title="Plugin GIT">
 	<item title="Process">
-		<item action="org.bgerp.plugin.git.action.GitAction:git" title="GIT commands"/>
+		<item title="GIT commands" action="org.bgerp.plugin.git.action.GitAction:git"/>
 	</item>
 </item>
