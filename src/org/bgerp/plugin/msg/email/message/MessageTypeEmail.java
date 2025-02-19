@@ -487,6 +487,7 @@ public class MessageTypeEmail extends MessageType {
 
             subject = mp.getMessageSubject();
 
+            // test subject
             if (Utils.maskNull(subject).contains("test." + key))
                 throw new Exception("Test alarm exception");
 

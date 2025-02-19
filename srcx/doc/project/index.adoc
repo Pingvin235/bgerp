@@ -120,36 +120,20 @@ BGERP Dev DB is running
 [[run-data-logging]]
 Get configuration and data files from the container:
 ----
-docker exec bgerp-devd cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" > bgerp.properties &&
+docker exec bgerp-devd cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" | bash -c "sed 's/^#title/title/'" > bgerp.properties &&
 docker cp bgerp-devd:/opt/bgerp/lic.data lic.data &&
 docker cp bgerp-devd:/opt/bgerp/log4j.properties log4j.properties &&
 docker cp bgerp-devd:/opt/bgerp/filestorage filestorage
 ----
 
-Add the following values to the end the extracted `bgerp.properties` file:
+NOTE: For accessing the DB instance with console SQL client use the command:
 ----
-# html title of web-app
-title=BGERP DEMO LOCAL
-
-# disable JS pooling sometimes is useful for development
-#pooling.enable=0
-
-# quick license check
-test.license.check.notification=1
-test.license.check.error=1
+docker exec -it bgerp-devd /opt/bgerp/mysql.sh
 ----
-
-The running container has unused Java BGERP Server process with disabled <<../kernel/setup.adoc#scheduler, Scheduler>>.
-If you will need to enable the Scheduler later, add appropriate parameter in `bgerp.properties` file as well.
 
 NOTE: Use the command for removing the created container:
 ----
 docker rm -f bgerp-devd
-----
-
-NOTE: For accessing the DB instance with console SQL client use the command:
-----
-docker exec -it bgerp-devd /opt/bgerp/mysql.sh
 ----
 
 [[run-gradle]]
