@@ -451,7 +451,9 @@ public class Column {
         Object result = null;
 
         String columnValue = getValue();
-        if (columnValue.startsWith("executor")) {
+        if (columnValue.equals("title")) {
+            result = process.getTitle();
+        } else if (columnValue.startsWith("executor")) {
             String[] tokens = columnValue.split(":");
 
             Set<Integer> allowedGroupIds = Collections.emptySet();

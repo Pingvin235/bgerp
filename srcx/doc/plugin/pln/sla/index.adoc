@@ -52,7 +52,7 @@ In the same way be defined as many colors as needed.
 
 [[setup-process-queue]]
 === Process Queue
-*Close Before* and *Update Before* process queue columns can be added to a <<../../../kernel/process/queue.adoc#columns, queue columns configuration>>
+*Close Before* and *Update Before* process queue columns can be added to a <<../../../kernel/process/queue.adoc#column, queue columns configuration>>
 with special values *sla:closeBefore* and *sla:updateBefore* respectively, for example:
 [source]
 ----
