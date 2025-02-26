@@ -105,12 +105,12 @@ public class AppAction extends BaseAction {
     }
 
     public ActionForward restart(DynActionForm form, ConnectionSet conSet) throws Exception {
-        new Scripts().restart(form.getParamBoolean("restartForce"));
+        new Scripts().restart(form.getParamBoolean("force"));
         return json(conSet, form);
     }
 
     public ActionForward update(DynActionForm form, ConnectionSet conSet) throws Exception {
-        new Scripts().backup(false).update(form.getParamBoolean("force")).restart(form.getParamBoolean("restartForce"));
+        new Scripts().backup(false).update(form.getParamBoolean("force"));
         return json(conSet, form);
     }
 
@@ -119,7 +119,7 @@ public class AppAction extends BaseAction {
         if (Utils.isBlankString(changeId) || !NumberUtils.isDigits(changeId))
             throw new BGIllegalArgumentException();
 
-        new Scripts().backup(false).installc(changeId).restart(form.getParamBoolean("restartForce"));
+        new Scripts().backup(false).installc(changeId);
 
         return json(conSet, form);
     }

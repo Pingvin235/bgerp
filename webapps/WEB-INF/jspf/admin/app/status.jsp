@@ -16,7 +16,7 @@
 	</div>
 
 	<p:check action="org.bgerp.action.admin.AppAction:restart">
-		<h2>${l.l('Перезапуск')}</h2>
+		<h2>${l.l('Restart')}</h2>
 		<html:form action="/admin/app">
 			<input type="hidden" name="method" value="restart"/>
 			<input type="hidden" name="confirmText" value="${l.l('Perform restart?')}"/>
@@ -41,7 +41,7 @@
 				</jsp:attribute>
 			</ui:combo-single>
 			<input type="hidden" name="confirmText" value="${l.l('Perform update?')}"/>
-			<%@ include file="run_restart_button.jsp"%>
+			<%@ include file="run_update_restart_button.jsp"%>
 		</html:form>
 	</p:check>
 
@@ -61,13 +61,12 @@
 			<c:choose>
 				<c:when test="${empty error}">
 					<input type="hidden" name="confirmText" value="${l.l('Update on the change?')}"/>
-					<%@ include file="run_restart_button.jsp"%>
+					<%@ include file="run_update_restart_button.jsp"%>
 				</c:when>
 				<c:otherwise>
 					<b>${l.l('Is not allowed because of:')}&nbsp;${error}</b>
 				</c:otherwise>
 			</c:choose>
-
 		</html:form>
 	</p:check>
 

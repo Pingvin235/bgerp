@@ -67,13 +67,13 @@ public class InstallerModuleTest extends InstallerModule {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUseWrongModuleInf() throws IOException {
+    public void testUseWrongModuleInf() throws Exception {
         var zip = getUpdateZip("xxx", Map.of());
         new InstallerModule(null, null, zip);
     }
 
     @Test
-    public void testFilesUpdateLib() throws IOException {
+    public void testFilesUpdateLib() throws Exception {
         var zip = getUpdateZip("update_lib", Map.of(
             "content/lib/ext/lib1.jar", "new",
             "content/lib/ext/lib2.jar", "new"
@@ -113,7 +113,7 @@ public class InstallerModuleTest extends InstallerModule {
     }
 
     @Test
-    public void testFilesUpdate() throws IOException {
+    public void testFilesUpdate() throws Exception {
         var zip = getUpdateZip("update", Map.of(
             "content/webapps/js/sub/file3.js", "new"
         ));

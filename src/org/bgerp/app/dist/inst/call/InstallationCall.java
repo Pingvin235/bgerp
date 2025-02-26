@@ -5,5 +5,5 @@ import java.io.File;
 import org.bgerp.app.cfg.Setup;
 
 public interface InstallationCall {
-    public boolean call(Setup setup, File zip, String param);
+    public void call(Setup setup, File zip, String param) throws Exception;
 }

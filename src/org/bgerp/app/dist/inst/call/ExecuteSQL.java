@@ -36,9 +36,7 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
     private static final String HASH_COLUMN = "query_hash";
 
     @Override
-    public boolean call(Setup setup, File zip, String param) {
-        boolean result = false;
-
+    public void call(Setup setup, File zip, String param) throws Exception {
         try (var fis = new FileInputStream(zip)) {
             Map<String, byte[]> map = ZipUtils.getEntriesFromZip(new ZipInputStream(fis), param);
             if (!map.containsKey(param)) {
@@ -52,14 +50,9 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
                     call(con, query);
 
                     log.info("Executing database update...OK");
-                    result = true;
                 }
             }
-        } catch (Exception ex) {
-            log.error(ex);
         }
-
-        return result;
     }
 
     /**

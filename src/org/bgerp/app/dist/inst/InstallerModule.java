@@ -79,7 +79,7 @@ public class InstallerModule {
         this.cleanedDirs = null;
     }
 
-    public InstallerModule(Setup setup, File targetDir, File zip) {
+    public InstallerModule(Setup setup, File targetDir, File zip) throws Exception {
         this.targetDir = targetDir;
         var mi = getModuleInf(zip);
         if (mi == null || mi.hasErrors())
@@ -92,12 +92,10 @@ public class InstallerModule {
         else
             throw new IllegalArgumentException("Unsupported module: " + mi.getName());
 
-        boolean result = true;
+        executeCalls(mi, setup, zip);
+        log.info("Execute calls => {}", MESSAGE_OK);
 
-        if (result) {
-            executeCalls(mi, setup, zip);
-            log.info("Execute calls => {}", (result ? MESSAGE_OK : MESSAGE_ERROR));
-        }
+        boolean result = true;
         if (result) {
             result = copyFiles(zip, mi);
             log.info("File copy => {}", (result ? MESSAGE_OK : MESSAGE_ERROR));
@@ -175,22 +173,18 @@ public class InstallerModule {
     }
 
     @VisibleForTesting
-    protected void executeCalls(Module mi, Setup setup, File zip) {
+    protected void executeCalls(Module mi, Setup setup, File zip) throws Exception {
         List<String[]> calls = mi.getCalls();
         for (String[] class_param : calls) {
             String callClass = class_param[0];
             String param = class_param[1];
             log.info("Executing call {}; param: {}", callClass, param);
-            boolean result = false;
-            try {
-                String fullClassName = InstallationCall.class.getPackageName() + "." + callClass;
-                InstallationCall call = (InstallationCall) Class.forName(fullClassName.toString()).getDeclaredConstructor().newInstance();
-                call.call(setup, zip, param);
-                result = true;
-            } catch (Exception ex) {
-                log.error(ex);
-            }
-            log.info("Result => {}", result);
+
+            String fullClassName = InstallationCall.class.getPackageName() + "." + callClass;
+            InstallationCall call = (InstallationCall) Class.forName(fullClassName.toString()).getDeclaredConstructor().newInstance();
+            call.call(setup, zip, param);
+
+            log.info("Result => OK");
         }
     }
 

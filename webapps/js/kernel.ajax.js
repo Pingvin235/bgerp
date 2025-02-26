@@ -69,7 +69,7 @@ $$.ajax = new function () {
 		}).done((result) => {
 			requestDone();
 			if (!options.html) {
-				if (checkResponse(result, form))
+				if (checkResponse(result, form, options.failAlert !== false))
 					def.resolve(result);
 				else
 					def.reject();
@@ -363,8 +363,9 @@ $$.ajax = new function () {
 	 * Checks AJAX response
 	 * @param {*} response the response result object
 	 * @param {*} form optional form object, to mark incorrect fields there
+	 * @param {Boolean} failAlert show message dialog when the response status is not 'ok'
 	 */
-	const checkResponse = (response, form) => {
+	const checkResponse = (response, form, failAlert) => {
 		let result = false;
 
 		if (response.status == 'ok') {
@@ -386,7 +387,8 @@ $$.ajax = new function () {
 				}
 			}
 
-			$$.shell.message.show("ERROR", message);
+			if (failAlert)
+				$$.shell.message.show("ERROR", message);
 
 			processClientEvents(response);
 		}

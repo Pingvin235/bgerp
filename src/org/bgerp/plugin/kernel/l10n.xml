@@ -389,10 +389,10 @@
 	<p><ru>Копировать свойства из</ru><en>Copy properties from</en></p>
 	<p><ru>Файлы</ru><en>Files</en></p>
 	<p><ru>Загрузить файл</ru><en>Download file</en></p>
-	<p><ru>Перезапуск</ru><en>Restart</en></p>
+	<p><en>Restart</en><ru>Перезапуск</ru></p>
 	<p><ru>Нормальный</ru><en>Regular</en></p>
 	<p><ru>Принудительный</ru><en>Force</en></p>
-	<p><ru>Выполнен перезапуск, обновите страницу браузера.</ru><en>Restart has been done, refresh the browser site.</en></p>
+	<p><en>Restart has been done, refresh the browser site</en><ru>Выполнен перезапуск, обновите страницу браузера</ru></p>
 	<p><ru>Буфер открытых объектов</ru><en>Buffer of opened objects</en></p>
 	<p><ru>Выделить все / снять выделение</ru><en>Select / deselect all</en></p>
 	<p><ru>Создать и привязать</ru><en>Create and link</en></p>
@@ -675,6 +675,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Filter by ID, title, configuration</en><ru>Фильтр по ID, наименованию, конфигурации</ru></p>
 	<p><en>Template</en><ru>Шаблон</ru></p>
 	<p><en>Load template?</en><ru>Загрузить шаблон?</ru></p>
+	<p><en>Update failed</en><ru>Ошибка обновления</ru></p>
+	<p><en>See details in the latest update.log</en><ru>Детали доступны в последнем update.log</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

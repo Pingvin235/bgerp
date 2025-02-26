@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 
 import com.google.common.collect.Lists;
 
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
+import org.bgerp.app.exception.BGException;
 
 /**
  * Runner of OS commands, writing STDOUT and STDERR outputs
@@ -35,8 +37,8 @@ public class RuntimeRunner {
                 String line = null;
                 while ((line = br.readLine()) != null)
                     log.log(logLevel, line);
-            } catch (IOException ioe) {
-                log.error(ioe);
+            } catch (IOException e) {
+                log.error(e);
             }
         }
     }
@@ -47,11 +49,19 @@ public class RuntimeRunner {
         this.commands = commands;
     }
 
-    public void run() throws Exception {
-        log.info("Running: " + Lists.newArrayList(commands));
+    /**
+     * Executes OS commands
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws BGException if exit code wasn't 0
+     */
+    public void run() throws IOException, InterruptedException {
+        log.info("Running: {}", Lists.newArrayList(commands));
         Process proc = Runtime.getRuntime().exec(commands);
         new StreamGobbler(proc.getErrorStream(), Level.ERROR).start();
         new StreamGobbler(proc.getInputStream(), Level.INFO).start();
-        proc.waitFor();
+        int result = proc.waitFor();
+        if (result != 0)
+            throw new BGException("Process exit code: {}", result);
     }
 }
