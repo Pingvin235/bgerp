@@ -63,7 +63,7 @@ public class DemoDAO extends CommonDAO {
             while (rs.next())
                 result.add(getFromRs(rs));
 
-            setRecordCount(result.getPage(), pq.getPrepared());
+            page.setRecordCount(pq.getPrepared());
         }
     }
 

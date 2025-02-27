@@ -84,7 +84,7 @@ public class ParamLogDAO extends CommonDAO {
                 list.add(getFromRs(rs, offEncryption));
             }
 
-            setRecordCount(page, pq.getPrepared());
+            page.setRecordCount(pq.getPrepared());
 
             return list;
         }

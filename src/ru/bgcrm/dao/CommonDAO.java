@@ -129,12 +129,6 @@ public class CommonDAO {
         return sql.toString();
     }
 
-    protected void setRecordCount(Page page, PreparedStatement ps) throws SQLException {
-        if (page != null) {
-            page.setRecordCount(ps);
-        }
-    }
-
     protected String getPeriodSql(Period period, String fieldName) {
         StringBuilder sql = new StringBuilder();
         if (period != null && fieldName != null) {
@@ -365,5 +359,16 @@ public class CommonDAO {
         ps.setInt(2, id);
         ps.executeUpdate();
         ps.close();
+    }
+
+    /**
+     * @see Page#setRecordCount(Statement)
+     */
+    @Deprecated
+    protected void setRecordCount(Page page, PreparedStatement ps) throws SQLException {
+        log.warndMethod("setRecordCount", "Page.setRecordCount");
+        if (page != null) {
+            page.setRecordCount(ps);
+        }
     }
 }

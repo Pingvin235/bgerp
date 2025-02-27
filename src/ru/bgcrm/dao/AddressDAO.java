@@ -152,7 +152,7 @@ public class AddressDAO extends CommonDAO {
                 result.add(addressCity);
             }
 
-            setRecordCount(page, ps.getPrepared());
+            page.setRecordCount(ps.getPrepared());
 
             ps.close();
         }

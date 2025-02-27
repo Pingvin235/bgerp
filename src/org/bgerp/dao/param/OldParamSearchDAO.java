@@ -248,7 +248,7 @@ public class OldParamSearchDAO extends CommonDAO {
                     list.add(new ParameterSearchedObject<>(extractor.extract(rs), rs.getInt(1), rs.getString(2)));
                 }
 
-                setRecordCount(page, ps);
+                page.setRecordCount(ps);
                 ps.close();
             } catch (SQLException ex) {
                 throw new BGException(ex);

@@ -475,7 +475,7 @@ public class MessageDAO extends CommonDAO {
                 }
             }
 
-            setRecordCount(page, ps.getPrepared());
+            page.setRecordCount(ps.getPrepared());
             ps.close();
         } catch (SQLException ex) {
             throw new BGException(ex);

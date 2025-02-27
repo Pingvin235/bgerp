@@ -366,7 +366,7 @@ public class CustomerDAO extends CommonDAO {
                 list.add(new ParameterSearchedObject<>(getCustomerFromRs(rs, "c."), rs.getInt(1), rs.getString(2)));
             }
 
-            setRecordCount(page, ps.getPrepared());
+            page.setRecordCount(ps.getPrepared());
             ps.close();
         }
     }
@@ -423,7 +423,7 @@ public class CustomerDAO extends CommonDAO {
                     list.add(new ParameterSearchedObject<>(getCustomerFromRs(rs, "c."), rs.getInt(1), rs.getString(2)));
                 }
 
-                setRecordCount(page, ps.getPrepared());
+                page.setRecordCount(ps.getPrepared());
             } catch (SQLException ex) {
                 throw new BGException(ex);
             }

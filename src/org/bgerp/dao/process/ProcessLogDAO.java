@@ -81,7 +81,7 @@ public class ProcessLogDAO extends EntityLogDAO {
                 }
                 list.add(new EntityLogItem(rs.getTimestamp(1), processId, rs.getInt(2), text));
             }
-            setRecordCount(page, pq.getPrepared());
+            page.setRecordCount(pq.getPrepared());
         }
     }
 }

@@ -273,7 +273,7 @@ public class MessageSearchDAO extends MessageDAO {
             }
         }
 
-        setRecordCount(page, pq.getPrepared());
+        page.setRecordCount(pq.getPrepared());
         pq.close();
     }
 }

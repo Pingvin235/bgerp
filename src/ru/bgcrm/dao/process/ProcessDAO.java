@@ -407,7 +407,7 @@ public class ProcessDAO extends CommonDAO {
                 list.add(new ParameterSearchedObject<>(getProcessFromRs(rs), rs.getInt(1), rs.getString(2)));
             }
 
-            setRecordCount(page, ps.getPrepared());
+            page.setRecordCount(ps.getPrepared());
             ps.close();
         }
     }
@@ -443,7 +443,7 @@ public class ProcessDAO extends CommonDAO {
         ResultSet rs = pq.executeQuery();
         while (rs.next())
             list.add(getProcessFromRs(rs, ""));
-        setRecordCount(page, pq.getPrepared());
+        page.setRecordCount(pq.getPrepared());
         pq.close();
     }
 
@@ -506,7 +506,7 @@ public class ProcessDAO extends CommonDAO {
             while (rs.next())
                 list.add(getProcessFromRs(rs, "p."));
 
-            setRecordCount(page, pq.getPrepared());
+            page.setRecordCount(pq.getPrepared());
             pq.close();
         }
     }

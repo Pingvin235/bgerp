@@ -69,7 +69,7 @@ public class ProcessMessageDAO extends ProcessDAO {
                 while (rs.next())
                     list.add(new Pair<>(getProcessFromRs(rs, ""), config.getSearches().get(rs.getInt("type"))));
 
-                setRecordCount(page, pq.getPrepared());
+                page.setRecordCount(pq.getPrepared());
                 pq.close();
             }
         }
