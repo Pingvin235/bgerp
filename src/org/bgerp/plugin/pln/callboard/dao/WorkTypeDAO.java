@@ -53,7 +53,7 @@ public class WorkTypeDAO extends CommonDAO {
                     list.add(getWorkTypeFromRs(rs));
                 }
 
-                page.setRecordCount(foundRows(ps));
+                page.setRecordCount(ps);
                 ps.close();
             } catch (SQLException e) {
                 throw new BGException(e);

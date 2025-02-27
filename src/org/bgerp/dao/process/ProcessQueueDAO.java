@@ -120,7 +120,7 @@ public class ProcessQueueDAO extends ProcessDAO {
         }
 
         if (page != null)
-            page.setRecordCount(foundRows(ps));
+            page.setRecordCount(ps);
 
         ps.close();
 

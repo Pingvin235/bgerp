@@ -56,7 +56,7 @@ public class CustomerLinkDAO extends CommonLinkDAO {
                 list.add(CustomerDAO.getCustomerFromRs(rs, ""));
             }
             if (page != null) {
-                page.setRecordCount(foundRows(ps));
+                page.setRecordCount(ps);
             }
             ps.close();
         } catch (SQLException e) {

@@ -42,7 +42,7 @@ public class StatusDAO extends CommonDAO {
             while (rs.next()) {
                 list.add(getStatusFromRs(rs));
             }
-            page.setRecordCount(foundRows(ps));
+            page.setRecordCount(ps);
             ps.close();
         }
     }

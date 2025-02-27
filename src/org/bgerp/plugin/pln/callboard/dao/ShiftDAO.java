@@ -74,7 +74,7 @@ public class ShiftDAO extends CommonDAO {
                     list.add(getShiftFromRs(rs));
                 }
 
-                page.setRecordCount(foundRows(ps));
+                page.setRecordCount(ps);
                 ps.close();
             } catch (SQLException e) {
                 throw new BGException(e);

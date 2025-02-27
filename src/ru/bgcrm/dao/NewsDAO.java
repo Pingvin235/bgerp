@@ -60,7 +60,7 @@ public class NewsDAO extends CommonDAO {
         }
 
         if (page != null) {
-            page.setRecordCount(foundRows(pq.getPrepared()));
+            page.setRecordCount(pq.getPrepared());
         }
         pq.close();
     }

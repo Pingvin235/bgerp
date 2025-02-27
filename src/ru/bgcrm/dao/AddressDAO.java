@@ -75,7 +75,7 @@ public class AddressDAO extends CommonDAO {
             }
 
             if (page != null) {
-                page.setRecordCount(foundRows(ps.getPrepared()));
+                page.setRecordCount(ps.getPrepared());
             }
 
             ps.close();
@@ -342,7 +342,7 @@ public class AddressDAO extends CommonDAO {
             }
 
             if (page != null) {
-                page.setRecordCount(foundRows(pq.getPrepared()));
+                page.setRecordCount(pq.getPrepared());
             }
 
             pq.close();
@@ -445,7 +445,7 @@ public class AddressDAO extends CommonDAO {
                 result.add(getAddressHouseFromRs(rs, "house.", loadLevel));
             }
             if (page != null) {
-                page.setRecordCount(foundRows(pq.getPrepared()));
+                page.setRecordCount(pq.getPrepared());
             }
             pq.close();
         }

@@ -49,6 +49,21 @@ public class CommonDAO {
     protected final static String SQL_ON_DUP_KEY_UPDATE = " ON DUPLICATE KEY UPDATE ";
     protected final static String SQL_UNION_ALL = " UNION ALL ";
 
+    /**
+     * Selects {@code FOUND_ROWS()} for given statement.
+     * @param st
+     * @return
+     * @throws SQLException
+     */
+    public static int foundRows(Statement st) throws SQLException {
+        int result = -1;
+        ResultSet rs = st.executeQuery("SELECT FOUND_ROWS()");
+        if (rs.next()) {
+            result = rs.getInt(1);
+        }
+        return result;
+    }
+
     protected Connection con;
 
     protected CommonDAO() {}
@@ -70,21 +85,6 @@ public class CommonDAO {
             id = rs.getInt(1);
         }
         return id;
-    }
-
-    /**
-     * Selects {@code FOUND_ROWS()} for given statement.
-     * @param st
-     * @return
-     * @throws SQLException
-     */
-    protected int foundRows(Statement st) throws SQLException {
-        int result = -1;
-        ResultSet rs = st.executeQuery("SELECT FOUND_ROWS()");
-        if (rs.next()) {
-            result = rs.getInt(1);
-        }
-        return result;
     }
 
     /**
@@ -131,7 +131,7 @@ public class CommonDAO {
 
     protected void setRecordCount(Page page, PreparedStatement ps) throws SQLException {
         if (page != null) {
-            page.setRecordCount(foundRows(ps));
+            page.setRecordCount(ps);
         }
     }
 

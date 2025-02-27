@@ -110,7 +110,7 @@ public class ProcessLinkProcessSearchDAO extends ProcessSearchDAO {
             while (rs.next())
                 list.add(new Pair<>(rs.getString(1), ProcessDAO.getProcessFromRs(rs, "p.")));
 
-            page.setRecordCount(foundRows(pq.getPrepared()));
+            page.setRecordCount(pq.getPrepared());
         }
     }
 }

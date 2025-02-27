@@ -428,7 +428,7 @@ public class ParamDAO extends CommonDAO {
                 result.add(getParameterFromRs(rs));
 
             if (page != null)
-                page.setRecordCount(foundRows(pq.getPrepared()));
+                page.setRecordCount(pq.getPrepared());
         }
     }
 

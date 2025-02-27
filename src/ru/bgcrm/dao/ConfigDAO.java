@@ -75,7 +75,7 @@ public class ConfigDAO extends CommonDAO {
                 list.add(getGlobalConfigFromRs(rs));
             }
 
-            page.setRecordCount(foundRows(ps));
+            page.setRecordCount(ps);
             ps.close();
         }
     }

@@ -300,7 +300,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             PreparedStatement ps = pq.getPrepared();
 
             if (page != null) {
-                page.setRecordCount(foundRows(ps));
+                page.setRecordCount(ps);
             }
             pq.close();
         }
@@ -398,7 +398,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         }
 
         if (page != null)
-            page.setRecordCount(foundRows(pq.getPrepared()));
+            page.setRecordCount(pq.getPrepared());
     }
 
     /**

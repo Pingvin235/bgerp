@@ -80,7 +80,7 @@ public class SearchDAO extends CommonDAO {
         ResultSet rs = ps.executeQuery();
         while (rs.next())
             result.getList().add(extractor.apply(rs));
-        result.getPage().setRecordCount(foundRows(ps));
+        result.getPage().setRecordCount(ps);
         ps.close();
     }
 
@@ -106,7 +106,7 @@ public class SearchDAO extends CommonDAO {
             Process p = ProcessDAO.getProcessFromRs(rs, "p.");
             result.getList().add(new Pair<>(m, p));
         }
-        result.getPage().setRecordCount(foundRows(ps));
+        result.getPage().setRecordCount(ps);
         ps.close();
     }
 

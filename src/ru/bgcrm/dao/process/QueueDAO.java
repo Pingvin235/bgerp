@@ -62,7 +62,7 @@ public class QueueDAO extends CommonDAO {
             while (rs.next()) {
                 list.add(getQueueFromRs(rs));
             }
-            page.setRecordCount(foundRows(ps));
+            page.setRecordCount(ps);
             ps.close();
         }
     }

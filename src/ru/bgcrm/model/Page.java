@@ -2,8 +2,12 @@ package ru.bgcrm.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.bgerp.util.Dynamic;
+
+import ru.bgcrm.dao.CommonDAO;
 
 /**
  * Pagination data.
@@ -82,7 +86,7 @@ public class Page {
     }
 
     /**
-     * Sets record count and calculated amount of pages.
+     * Set record count and calculated amount of pages
      * @param recordCount
      * @see {@link ru.bgcrm.dao.CommonDAO#foundRows()}
      */
@@ -96,5 +100,14 @@ public class Page {
                 pageIndex = pageCount;
             }
         }
+    }
+
+    /**
+     * Set record count from found rows in SQL statement
+     * @param st the SQL statement
+     * @throws SQLException
+     */
+    public void setRecordCount(Statement st) throws SQLException {
+        setRecordCount(CommonDAO.foundRows(st));
     }
 }

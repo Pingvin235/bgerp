@@ -165,7 +165,7 @@ public class ActionLogDAO extends PeriodicDAO {
                 list.add(entry);
             }
 
-            page.setRecordCount(foundRows(pq.getPrepared()));
+            page.setRecordCount(pq.getPrepared());
         }
     }
 }

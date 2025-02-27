@@ -81,7 +81,7 @@ public class CustomerParamSearchDAO extends CommonDAO {
                         rs.getInt("param.param_id"),
                         rs.getString("param.value")));
 
-            page.setRecordCount(foundRows(pq.getPrepared()));
+            page.setRecordCount(pq.getPrepared());
         }
     }
 }

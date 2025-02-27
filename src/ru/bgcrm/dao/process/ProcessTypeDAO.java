@@ -72,7 +72,7 @@ public class ProcessTypeDAO extends CommonDAO {
                 while (rs.next())
                     list.add(getTypeFromRs(rs, false));
 
-                page.setRecordCount(foundRows(pq.getPrepared()));
+                page.setRecordCount(pq.getPrepared());
             }
         }
     }
