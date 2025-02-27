@@ -84,8 +84,6 @@
 			<%@ include file="/WEB-INF/jspf/user/process/queue/show_table.jsp"%>
 		</c:when>
 		<c:otherwise>
-			<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
-
 			<table class="data hl">
 				<tr>
 					<td>${l.l('Process')}</td>
@@ -96,7 +94,7 @@
 					<td>${l.l('Роль')}</td>
 				</tr>
 				<c:forEach var="item" items="${frd.list}">
-					<c:set var="process" value="${item.second}" />
+					<c:set var="process" value="${item.first}" />
 					<tr>
 						<td><ui:process-link process="${process}"/></td>
 						<td>${process.type.title}</td>
@@ -104,7 +102,7 @@
 						<td>${process.statusTitle}</td>
 						<td>${tu.format(process.closeTime, 'ymdhms')}</td>
 						<td nowrap="nowrap">
-							<c:set var="linkedObjectType" value="${item.first}" scope="request" />
+							<c:set var="linkedObjectType" value="${item.second}" scope="request" />
 							<c:choose>
 								<c:when test="${linkedObjectType.startsWith('customer' ) }">
 									${customerLinkRoleConfig.modeMap[linkedObjectType]}

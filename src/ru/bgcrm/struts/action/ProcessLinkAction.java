@@ -13,6 +13,8 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.process.Order;
+import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.config.ProcessCreateInConfig;
@@ -30,12 +32,14 @@ import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
+import ru.bgcrm.model.customer.config.ProcessLinkModesConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/process/link")
@@ -45,16 +49,14 @@ public class ProcessLinkAction extends ProcessAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/process/process/link";
 
     // процессы, к которым привязана сущность
-    public ActionForward linkedProcessList(DynActionForm form, Connection con) throws Exception {
-        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con, form);
-
-        restoreRequestParams(con, form, true, true, "open");
+    public ActionForward linkedProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
+        restoreRequestParams(conSet.getConnection(), form, true, true, "open");
 
         String objectType = form.getParam("objectType");
         int id = form.getId();
 
-        Boolean paramOpen = form.getParamBoolean("open", null);
-        Set<Integer> paramProcessTypeId = form.getParamValues("typeId");
+        Boolean open = form.getParamBoolean("open", null);
+        Set<Integer> typeIds = form.getParamValues("typeId");
 
         Queue queue = ProcessQueueCache.getQueue(setup.getInt(objectType + ".processes.queue"));
         if (queue != null) {
@@ -63,17 +65,17 @@ public class ProcessLinkAction extends ProcessAction {
             FilterList filters = queue.getFilterList();
             filters.add(new FilterLinkObject(0, SimpleConfigMap.of(Filter.VALUES, String.valueOf(id)), objectType, FilterLinkObject.WHAT_FILTER_ID));
 
-            if (paramOpen != null) {
-                filters.add(new FilterOpenClose(0, SimpleConfigMap.of(Filter.VALUES, paramOpen ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE)));
+            if (open != null) {
+                filters.add(new FilterOpenClose(0, SimpleConfigMap.of(Filter.VALUES, open ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE)));
             }
 
-            if (!paramProcessTypeId.isEmpty()) {
-                filters.add(new FilterProcessType(0, SimpleConfigMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId))));
+            if (!typeIds.isEmpty()) {
+                filters.add(new FilterProcessType(0, SimpleConfigMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(typeIds))));
             }
 
             Pageable<Object[]> searchResult = new Pageable<>(form);
 
-            new ProcessQueueDAO(con, form).searchProcess(searchResult, null, queue, form);
+            new ProcessQueueDAO(conSet.getConnection(), form).searchProcess(searchResult, null, queue, form);
 
             final List<Object[]> list = searchResult.getList();
 
@@ -82,20 +84,25 @@ public class ProcessLinkAction extends ProcessAction {
             queue.replaceRowsForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
         } else {
-            Pageable<Pair<String, Process>> searchResult = new Pageable<>(form);
-            processLinkDAO.searchLinkedProcessList(searchResult, LikePattern.START.get(objectType), id, null,
-                    paramProcessTypeId, form.getParamValues("statusId"), form.getParam("paramFilter"),
-                    paramOpen);
+            form.setRequestAttribute("customerLinkRoleConfig", setup.getConfig(ProcessLinkModesConfig.class));
+
+            new ProcessLinkSearchDAO(conSet.getConnection(), form)
+                .withLinkObjectTypeLike(LikePattern.START.get(objectType))
+                .withLinkObjectId(id)
+                .withType(typeIds)
+                .withOpen(open)
+                .order(Order.CREATE_DT_DESC)
+                .searchWithLinkObjectTypes(new Pageable<Pair<Process, String>>(form));
         }
 
         // filter type list
-        form.setResponseData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
+        form.setResponseData("typeList", new ProcessLinkDAO(conSet.getSlaveConnection(), form).getLinkedProcessTypeIdList(objectType, id));
 
         // type tree for creation
         var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("linked", objectType, null), form);
         form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
-        return html(con, form, PATH_JSP + "/linked_process_list.jsp");
+        return html(conSet, form, PATH_JSP + "/linked_process_list.jsp");
     }
 
     // создание процесса с привязанной сущностью

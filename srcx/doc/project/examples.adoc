@@ -39,7 +39,7 @@ link:../../../src/org/bgerp/action/MessageAction.java#L529-L536[org.bgerp.action
 
 Saving and restoring a value at once:
 [snippet, from="public A", to=");", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L48-L51[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L52-L53[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[code-personalization-map-ff]]
 === Feature flag for UI
