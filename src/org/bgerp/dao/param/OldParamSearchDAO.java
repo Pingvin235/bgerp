@@ -234,7 +234,7 @@ public class OldParamSearchDAO extends CommonDAO {
             query.append(" GROUP BY c.id ");
             query.append(SQL_ORDER_BY);
             query.append("c.title");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             try {
                 String domainName = StringUtils.substringAfter(email, "@");

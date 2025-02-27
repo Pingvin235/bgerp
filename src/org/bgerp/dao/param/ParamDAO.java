@@ -421,7 +421,7 @@ public class ParamDAO extends CommonDAO {
 
             Page page = result.getPage();
 
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             ResultSet rs = pq.executeQuery();
             while (rs.next())

@@ -86,6 +86,22 @@ public class Page {
     }
 
     /**
+     * Generates page {@code LIMIT offset, rows} query.
+     * @param page page instance.
+     * @return
+     */
+    public String getLimitSql() {
+        StringBuilder sql = new StringBuilder(20);
+        if (getPageSize() > 0 && getPageIndex() != PAGE_INDEX_NO_PAGING) {
+            sql.append(" LIMIT ")
+                .append(getPageFirstRecordNumber())
+                .append(", ")
+                .append(getPageSize());
+        }
+        return sql.toString();
+    }
+
+    /**
      * Set record count and calculated amount of pages
      * @param recordCount
      * @see {@link ru.bgcrm.dao.CommonDAO#foundRows()}

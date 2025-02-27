@@ -66,7 +66,7 @@ public class AddressDAO extends CommonDAO {
             }
 
             ps.addQuery(" ORDER BY title");
-            ps.addQuery(getPageLimit(page));
+            ps.addQuery(page.getLimitSql());
 
             ResultSet rs = ps.executeQuery();
 
@@ -140,7 +140,7 @@ public class AddressDAO extends CommonDAO {
             }
 
             ps.addQuery(" ORDER BY city.title");
-            ps.addQuery(getPageLimit(page));
+            ps.addQuery(page.getLimitSql());
 
             ResultSet rs = ps.executeQuery();
 
@@ -324,7 +324,7 @@ public class AddressDAO extends CommonDAO {
             if (loadCityData)
                 pq.addQuery("city.title, ");
             pq.addQuery("item.title ");
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             ResultSet rs = pq.executeQuery();
 
@@ -438,7 +438,7 @@ public class AddressDAO extends CommonDAO {
             }
 
             pq.addQuery(" ORDER BY house.house, house.frac");
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             ResultSet rs = pq.executeQuery();
             while (rs.next()) {

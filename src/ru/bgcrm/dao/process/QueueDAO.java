@@ -55,7 +55,7 @@ public class QueueDAO extends CommonDAO {
                 query.append(" AND (title LIKE '%" + filter + "%' OR config LIKE '%" + filter + "%')");
             }
             query.append(" ORDER BY title");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             ps = con.prepareStatement(query.toString());
             rs = ps.executeQuery();

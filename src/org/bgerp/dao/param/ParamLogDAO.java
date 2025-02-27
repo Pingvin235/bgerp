@@ -75,7 +75,7 @@ public class ParamLogDAO extends CommonDAO {
             pq.addQuery(" WHERE object_id= ? AND param_id IN ( " + Utils.getObjectIds(params) + " ) ");
             pq.addInt(id);
             pq.addQuery(" ORDER BY dt DESC ");
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             List<ParameterLogItem> list = result.getList();
 

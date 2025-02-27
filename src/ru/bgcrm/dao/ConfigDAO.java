@@ -67,7 +67,7 @@ public class ConfigDAO extends CommonDAO {
             }
             query.append(SQL_ORDER_BY);
             query.append("title");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             PreparedStatement ps = con.prepareStatement(query.toString());
             ResultSet rs = ps.executeQuery();

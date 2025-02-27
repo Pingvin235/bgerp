@@ -50,13 +50,13 @@ public class UserGroupDAO extends CommonDAO {
             }
 
             pq.addQuery(SQL_ORDER_BY + "title");
-            pq.addQuery(getPageLimit(result.getPage()));
+            pq.addQuery(result.getPage().getLimitSql());
 
             ResultSet rs = pq.executeQuery();
             while (rs.next())
                 result.add(getFromRs(rs, true));
 
-            setRecordCount(result.getPage(), pq.getPrepared());
+            result.getPage().setRecordCount(pq.getPrepared());
         }
     }
 

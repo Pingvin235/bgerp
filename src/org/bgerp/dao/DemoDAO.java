@@ -57,7 +57,7 @@ public class DemoDAO extends CommonDAO {
                 pq.addString(pattern).addString(pattern);
             }
             pq.addQuery(SQL_ORDER_BY + "title");
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             var rs = pq.executeQuery();
             while (rs.next())

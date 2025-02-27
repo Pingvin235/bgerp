@@ -290,7 +290,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             addOpenFilter(pq, open);
 
             pq.addQuery(" ORDER BY process.create_dt DESC");
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             ResultSet rs = pq.executeQuery();
             while (rs.next()) {
@@ -388,7 +388,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         pq.addQuery("WHERE link.process_id=? AND link.object_type " + LIKE_PROCESS);
         addOpenFilter(pq, open);
         pq.addQuery("ORDER BY process.create_dt DESC ");
-        pq.addQuery(getPageLimit(page));
+        pq.addQuery(page.getLimitSql());
 
         pq.addInt(processId);
 

@@ -94,7 +94,7 @@ public class StatusChangeDAO extends CommonDAO {
                     query.append(") ");
                 }
                 query.append("ORDER BY status_change.dt DESC");
-                query.append(getPageLimit(page));
+                query.append(page.getLimitSql());
 
                 ps = con.prepareStatement(query.toString());
                 ps.setInt(1, processId);

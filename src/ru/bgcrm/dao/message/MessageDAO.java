@@ -463,7 +463,7 @@ public class MessageDAO extends CommonDAO {
             if (reverseOrder) {
                 ps.addQuery(" DESC");
             }
-            ps.addQuery(getPageLimit(page));
+            ps.addQuery(page.getLimitSql());
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

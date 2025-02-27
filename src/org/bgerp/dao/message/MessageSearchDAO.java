@@ -261,7 +261,7 @@ public class MessageSearchDAO extends MessageDAO {
             }
         }
 
-        pq.addQuery(getPageLimit(page));
+        pq.addQuery(page.getLimitSql());
 
         var rs = pq.executeQuery();
         while (rs.next()) {

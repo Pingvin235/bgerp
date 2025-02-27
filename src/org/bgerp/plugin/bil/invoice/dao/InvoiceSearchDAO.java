@@ -60,7 +60,7 @@ public class InvoiceSearchDAO extends CommonDAO {
                 result.getList().add(InvoiceDAO.getFromRs(rs));
             }
 
-            setRecordCount(result.getPage(), pq.getPrepared());
+            result.getPage().setRecordCount(pq.getPrepared());
         }
     }
 }

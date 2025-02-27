@@ -104,7 +104,7 @@ public class ProcessLinkProcessSearchDAO extends ProcessSearchDAO {
 
             order(pq);
 
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             var rs = pq.executeQuery();
             while (rs.next())

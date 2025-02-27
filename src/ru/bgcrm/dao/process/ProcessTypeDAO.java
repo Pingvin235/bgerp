@@ -66,7 +66,7 @@ public class ProcessTypeDAO extends CommonDAO {
 
                 pq.addQuery(SQL_ORDER_BY);
                 pq.addQuery("title");
-                pq.addQuery(getPageLimit(page));
+                pq.addQuery(page.getLimitSql());
 
                 ResultSet rs = pq.executeQuery();
                 while (rs.next())

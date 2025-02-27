@@ -36,7 +36,7 @@ public class StatusDAO extends CommonDAO {
             query.append(TABLE_PROCESS_STATUS_TITLE);
             query.append(SQL_ORDER_BY);
             query.append("pos, title");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
             ps = con.prepareStatement(query.toString());
             rs = ps.executeQuery();
             while (rs.next()) {

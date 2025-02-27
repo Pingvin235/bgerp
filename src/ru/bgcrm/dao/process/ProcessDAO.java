@@ -400,7 +400,7 @@ public class ProcessDAO extends CommonDAO {
 
             ps.addQuery(SQL_ORDER_BY);
             ps.addQuery("p.create_dt");
-            ps.addQuery(getPageLimit(page));
+            ps.addQuery(page.getLimitSql());
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -438,7 +438,7 @@ public class ProcessDAO extends CommonDAO {
         pq.addQuery(SQL_ORDER_BY);
         pq.addQuery("create_dt DESC");
 
-        pq.addQuery(getPageLimit(page));
+        pq.addQuery(page.getLimitSql());
 
         ResultSet rs = pq.executeQuery();
         while (rs.next())
@@ -500,7 +500,7 @@ public class ProcessDAO extends CommonDAO {
                 pq.addQuery("p.status_dt DESC");
             }
 
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             ResultSet rs = pq.executeQuery();
             while (rs.next())

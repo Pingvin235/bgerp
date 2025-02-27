@@ -72,7 +72,7 @@ public class CustomerParamSearchDAO extends CommonDAO {
 
             pq.addQuery(SQL_ORDER_BY + "c.title");
 
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             var rs = pq.executeQuery();
             while (rs.next())

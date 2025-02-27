@@ -79,7 +79,7 @@ public class CustomerDAO extends CommonDAO {
                 ps.addString(title);
             }
             query.append(" ORDER BY title");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             ps.addQuery(query.toString());
 
@@ -114,7 +114,7 @@ public class CustomerDAO extends CommonDAO {
             query.append("customer.* FROM " + TABLE_CUSTOMER + " AS customer");
             query.append(joinPart);
             query.append(" ORDER BY title");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             ps.addQuery(query.toString());
 
@@ -129,7 +129,7 @@ public class CustomerDAO extends CommonDAO {
         query.append("customer.* FROM " + TABLE_CUSTOMER + " AS customer");
         query.append(joinPart);
         query.append(" ORDER BY title");
-        query.append(getPageLimit(page));
+        query.append(page.getLimitSql());
 
         log.debug(query.toString());
 
@@ -278,7 +278,7 @@ public class CustomerDAO extends CommonDAO {
             }
             query.append(SQL_ORDER_BY);
             query.append("c.title");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setString(1, value);
@@ -359,7 +359,7 @@ public class CustomerDAO extends CommonDAO {
 
             ps.addQuery(SQL_ORDER_BY);
             ps.addQuery("c.title");
-            ps.addQuery(getPageLimit(page));
+            ps.addQuery(page.getLimitSql());
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -415,7 +415,7 @@ public class CustomerDAO extends CommonDAO {
 
             ps.addQuery(SQL_ORDER_BY);
             ps.addQuery("c.title");
-            ps.addQuery(getPageLimit(page));
+            ps.addQuery(page.getLimitSql());
 
             try (ps) {
                 ResultSet rs = ps.executeQuery();
@@ -479,7 +479,7 @@ public class CustomerDAO extends CommonDAO {
             query.append("1=1 ");
 
             query.append(" ORDER BY customer.title ");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery(query.toString());
@@ -522,7 +522,7 @@ public class CustomerDAO extends CommonDAO {
             query.append(joinPart);
 
             query.append(" ORDER BY customer.title ");
-            query.append(getPageLimit(page));
+            query.append(page.getLimitSql());
 
             PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery(query.toString());

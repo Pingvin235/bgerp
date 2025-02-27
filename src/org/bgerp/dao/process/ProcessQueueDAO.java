@@ -93,7 +93,7 @@ public class ProcessQueueDAO extends ProcessDAO {
             query.append(SQL_ORDER_BY);
             query.append(orders);
         }
-        query.append(getPageLimit(page));
+        query.append(page.getLimitSql());
 
         log.debug(query.toString());
 

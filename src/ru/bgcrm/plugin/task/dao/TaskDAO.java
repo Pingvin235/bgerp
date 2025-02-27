@@ -41,7 +41,7 @@ public class TaskDAO extends CommonDAO {
         if (onlyOpen)
             pq.addQuery(" AND executed_dt IS NULL");
 
-        pq.addQuery(getPageLimit(result.getPage()));
+        pq.addQuery(result.getPage().getLimitSql());
 
         ResultSet rs = pq.executeQuery();
         while (rs.next())

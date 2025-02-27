@@ -130,7 +130,7 @@ public class UserDAO extends CommonDAO {
                 result.getList().add(getFromRS(rs, "", true, false));
             }
 
-            setRecordCount(result.getPage(), pq.getPrepared());
+            result.getPage().setRecordCount(pq.getPrepared());
         }
     }
 

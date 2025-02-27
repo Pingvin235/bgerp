@@ -148,7 +148,7 @@ public class ActionLogDAO extends PeriodicDAO {
 
             pq.addQuery(SQL_ORDER_BY).addQuery("time");
 
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             var rs = pq.executeQuery();
             while (rs.next()) {

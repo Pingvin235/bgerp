@@ -117,22 +117,6 @@ public class CommonDAO {
         return result;
     }
 
-    /**
-     * Generates page {@code LIMIT offset, rows} query.
-     * @param page page instance.
-     * @return
-     */
-    protected String getPageLimit(Page page) {
-        StringBuilder sql = new StringBuilder(20);
-        if (page != null && page.getPageSize() > 0 && page.getPageIndex() != Page.PAGE_INDEX_NO_PAGING) {
-            sql.append(" LIMIT ");
-            sql.append(page.getPageFirstRecordNumber());
-            sql.append(", ");
-            sql.append(page.getPageSize());
-        }
-        return sql.toString();
-    }
-
     protected Set<Integer> getIds(String tableName, String linkColumn, String selectColumn, int id) throws SQLException {
         Set<Integer> result = new HashSet<>();
 
@@ -332,9 +316,12 @@ public class CommonDAO {
         ps.close();
     }
 
-    /**
-     * @see Page#setRecordCount(Statement)
-     */
+    @Deprecated
+    protected String getPageLimit(Page page) {
+        log.warndMethod("getPageLimit", "Page.getLimitSql");
+        return page.getLimitSql();
+    }
+
     @Deprecated
     protected void setRecordCount(Page page, PreparedStatement ps) throws SQLException {
         log.warndMethod("setRecordCount", "Page.setRecordCount");

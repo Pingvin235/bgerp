@@ -63,7 +63,7 @@ public class ProcessMessageDAO extends ProcessDAO {
                 pq.addQuery(SQL_GROUP_BY + "id");
                 pq.addQuery(SQL_ORDER_BY + "create_dt" + SQL_DESC);
 
-                pq.addQuery(getPageLimit(page));
+                pq.addQuery(page.getLimitSql());
 
                 ResultSet rs = pq.executeQuery();
                 while (rs.next())

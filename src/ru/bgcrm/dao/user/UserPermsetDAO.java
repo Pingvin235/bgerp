@@ -54,7 +54,7 @@ public class UserPermsetDAO extends UserDAO {
                 pq.addString(filterLike);
             }
             pq.addQuery(" ORDER BY p.title");
-            pq.addQuery(getPageLimit(page));
+            pq.addQuery(page.getLimitSql());
 
             ResultSet rs = pq.executeQuery();
             while (rs.next()) {

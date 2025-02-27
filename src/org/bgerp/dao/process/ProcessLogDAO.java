@@ -55,7 +55,7 @@ public class ProcessLogDAO extends EntityLogDAO {
         pq.addInt(processId);
 
         pq.addQuery(SQL_ORDER_BY + "dt DESC ");
-        pq.addQuery(getPageLimit(page));
+        pq.addQuery(page.getLimitSql());
 
         List<EntityLogItem> list = result.getList();
         try (pq) {

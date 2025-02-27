@@ -66,7 +66,7 @@ public class ShiftDAO extends CommonDAO {
                 query.append(" category=" + category + " ");
                 query.append(SQL_ORDER_BY);
                 query.append("id");
-                query.append(getPageLimit(page));
+                query.append(page.getLimitSql());
                 ps = con.prepareStatement(query.toString());
                 rs = ps.executeQuery();
 

@@ -127,7 +127,7 @@ public class ReportProcessAction extends ReportActionBase {
                         pq.addQuery(SQL_AND + "type_id IN (" + Utils.toString(typeIds) + ")");
                     pq.addQuery(SQL_ORDER_BY);
                     pq.addQuery(mode + "_dt");
-                    pq.addQuery(getPageLimit(form.getPage()));
+                    pq.addQuery(form.getPage().getLimitSql());
 
                     var processTypes = new TreeSet<ProcessType>();
 
@@ -155,7 +155,7 @@ public class ReportProcessAction extends ReportActionBase {
                         .sorted((t1, t2) -> t1.getTitle().compareTo(t2.getTitle()))
                         .collect(Collectors.toList()));
 
-                    setRecordCount(form.getPage(), pq.getPrepared());
+                    form.getPage().setRecordCount(pq.getPrepared());
                 }
             }
         };
