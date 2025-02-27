@@ -63,8 +63,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
     /**
      * Constructor, respecting isolations for methods: {@link #getLinkedProcessList(int, String, boolean, Set)},
-     * {@link #searchLinkedProcessList(Pageable, String, int, String, Set, Set, String, Boolean)},
-     * {@link #searchLinkProcessList(Pageable, int)}, {@link #searchLinkProcessList(Pageable, int, Boolean)}.
+     * {@link #searchLinkedProcessList(Pageable, String, int, String, Set, Set, String, Boolean)}
      * @param con DB connection.
      * @param form form object with a user.
      */
@@ -315,14 +314,6 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         }
     }
 
-    @Deprecated
-    public void searchLinkedProcessList(Pageable<Pair<String, Process>> searchResult,
-            String objectType, int objectId,
-            Set<Integer> typeIds, Set<Integer> statusIds, String paramFilter, Boolean closed)
-            throws Exception {
-        searchLinkedProcessList(searchResult, objectType, objectId, null, typeIds, statusIds, paramFilter, closed);
-    }
-
     /**
      * Process type IDs, linked to object.
      * @param objectType SQL LIKE filter by object type.
@@ -351,55 +342,6 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         return list;
     }
 
-    /**
-     * Calls {@link #searchLinkProcessList(Pageable, int, Boolean)} with open = null.
-     * @param searchResult
-     * @param processId
-     * @throws Exception
-     * @see {@link org.bgerp.dao.process.ProcessLinkProcessSearchDAO}
-     */
-    @Deprecated
-    public void searchLinkProcessList(Pageable<Pair<String, Process>> searchResult, int processId)
-        throws Exception {
-        searchLinkProcessList(searchResult, processId, null);
-    }
-
-    /**
-     * Searches processes linked to the process, sorted by creation time desc.
-     * @param searchResult
-     * @param processId the process.
-     * @param open null or open / close filter.
-     * @throws Exception
-     * @see {@link org.bgerp.dao.process.ProcessLinkProcessSearchDAO}
-     */
-    @Deprecated
-    public void searchLinkProcessList(Pageable<Pair<String, Process>> searchResult, int processId, Boolean open)
-            throws Exception {
-        if (searchResult == null)
-            return;
-
-        Page page = searchResult.getPage();
-        List<Pair<String, Process>> list = searchResult.getList();
-
-        var pq = new PreparedQuery(con);
-        pq.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link ");
-        pq.addQuery("INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id ");
-        pq.addQuery(ProcessDAO.getIsolationJoin(form, "process"));
-        pq.addQuery("WHERE link.process_id=? AND link.object_type " + LIKE_PROCESS);
-        addOpenFilter(pq, open);
-        pq.addQuery("ORDER BY process.create_dt DESC ");
-        pq.addQuery(page.getLimitSql());
-
-        pq.addInt(processId);
-
-        ResultSet rs = pq.executeQuery();
-        while (rs.next()) {
-            list.add(new Pair<>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
-        }
-
-        if (page != null)
-            page.setRecordCount(pq.getPrepared());
-    }
 
     /**
      * Checks cyclic dependencies.
