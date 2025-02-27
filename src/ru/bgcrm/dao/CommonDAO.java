@@ -64,6 +64,10 @@ public class CommonDAO {
         return result;
     }
 
+    protected static interface ObjectExtractor<T> {
+        public T extract(ResultSet rs) throws SQLException;
+    }
+
     protected Connection con;
 
     protected CommonDAO() {}
@@ -127,35 +131,6 @@ public class CommonDAO {
             sql.append(page.getPageSize());
         }
         return sql.toString();
-    }
-
-    protected String getPeriodSql(Period period, String fieldName) {
-        StringBuilder sql = new StringBuilder();
-        if (period != null && fieldName != null) {
-            if (period.getDateFrom() != null) {
-                sql.append(" AND ");
-                sql.append(fieldName);
-                sql.append(" >= ? ");
-            }
-            if (period.getDateTo() != null) {
-                sql.append(" AND ");
-                sql.append(fieldName);
-                sql.append(" <= ? ");
-            }
-        }
-        return sql.toString();
-    }
-
-    protected int setPeriodParamValue(Period period, PreparedStatement ps, int index) throws SQLException {
-        if (period != null && ps != null) {
-            if (period.getDateFrom() != null) {
-                ps.setDate(index++, TimeUtils.convertDateToSqlDate(period.getDateFrom()));
-            }
-            if (period.getDateTo() != null) {
-                ps.setDate(index++, TimeUtils.convertDateToSqlDate(period.getDateTo()));
-            }
-        }
-        return index;
     }
 
     protected Set<Integer> getIds(String tableName, String linkColumn, String selectColumn, int id) throws SQLException {
@@ -244,10 +219,6 @@ public class CommonDAO {
         ps.close();
 
         return result;
-    }
-
-    protected static interface ObjectExtractor<T> {
-        public T extract(ResultSet rs) throws SQLException;
     }
 
     protected <T> T getById(String tableName, int id, ObjectExtractor<T> extractor) throws SQLException {
@@ -370,5 +341,38 @@ public class CommonDAO {
         if (page != null) {
             page.setRecordCount(ps);
         }
+    }
+
+    @Deprecated
+    protected String getPeriodSql(Period period, String fieldName) {
+        log.warndMethod("getPeriodSql", null);
+        StringBuilder sql = new StringBuilder();
+        if (period != null && fieldName != null) {
+            if (period.getDateFrom() != null) {
+                sql.append(" AND ");
+                sql.append(fieldName);
+                sql.append(" >= ? ");
+            }
+            if (period.getDateTo() != null) {
+                sql.append(" AND ");
+                sql.append(fieldName);
+                sql.append(" <= ? ");
+            }
+        }
+        return sql.toString();
+    }
+
+    @Deprecated
+    protected int setPeriodParamValue(Period period, PreparedStatement ps, int index) throws SQLException {
+        log.warndMethod("setPeriodParamValue", null);
+        if (period != null && ps != null) {
+            if (period.getDateFrom() != null) {
+                ps.setDate(index++, TimeUtils.convertDateToSqlDate(period.getDateFrom()));
+            }
+            if (period.getDateTo() != null) {
+                ps.setDate(index++, TimeUtils.convertDateToSqlDate(period.getDateTo()));
+            }
+        }
+        return index;
     }
 }
