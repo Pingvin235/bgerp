@@ -104,7 +104,7 @@ public class ProcessLinkSearchDAO extends SearchDAO {
         try (var pq = new PreparedQuery(con)) {
             var page = result.getPage();
 
-            search(pq, page);
+            query(pq, "p.*", page);
 
             var rs = pq.executeQuery();
             while (rs.next())
@@ -123,7 +123,7 @@ public class ProcessLinkSearchDAO extends SearchDAO {
         try (var pq = new PreparedQuery(con)) {
             var page = result.getPage();
 
-            search(pq, page);
+            query(pq, "p.*, l.object_type", page);
 
             var rs = pq.executeQuery();
             while (rs.next())
@@ -133,8 +133,8 @@ public class ProcessLinkSearchDAO extends SearchDAO {
         }
     }
 
-    private void search(PreparedQuery pq, Page page) {
-        pq.addQuery(SQL_SELECT_COUNT_ROWS + SQL_DISTINCT + "p.*, l.object_type" + SQL_FROM + TABLE_PROCESS + "AS p");
+    private void query(PreparedQuery pq, String select, Page page) {
+        pq.addQuery(SQL_SELECT_COUNT_ROWS + SQL_DISTINCT + select + SQL_FROM + TABLE_PROCESS + "AS p");
         pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK + "AS l ON ");
         pq.addQuery("p.id=l.process_id");
 
