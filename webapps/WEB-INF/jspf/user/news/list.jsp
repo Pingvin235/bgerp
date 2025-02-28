@@ -20,7 +20,7 @@
 		<ui:combo-single hiddenName="read" value="${form.param['read']}" widthTextValue="100px" onSelect="${showCode}">
 			<jsp:attribute name="valuesHtml">
 				<li value="0">${l.l('Unread')}</li>
-				<li value="-1">${l.l('Все')}</li>
+				<li value="-1">${l.l('All')}</li>
 				<li value="1">${l.l('Read')}</li>
 			</jsp:attribute>
 		</ui:combo-single>

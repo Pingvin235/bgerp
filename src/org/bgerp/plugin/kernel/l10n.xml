@@ -29,7 +29,7 @@
 	<p><ru>Профиль</ru><en>Profile</en></p>
 	<p><ru>Циклическая зависимость</ru><en>Cyclic dependency</en></p>
 	<p><ru>Вложение</ru><en>Attach</en></p>
-	<p><ru>Все</ru><en>All</en></p>
+	<p><en>All</en><ru>Всё</ru></p>
 	<p><ru>** Я **</ru><en>** I **</en></p>
 	<p><ru>Выберите исполнителей</ru><en>Choose executors</en></p>
 	<p><ru>Завершить</ru><en>Finish</en></p>
@@ -135,7 +135,6 @@
 	<p><en>Group</en><ru>Группа</ru></p>
 	<p><ru>Дата создания</ru><en>Creation date</en></p>
 	<p><ru>Дата закрытия</ru><en>Сlosing date</en></p>
-	<p><en>Any</en><ru>Любые</ru></p>
 	<p><en>Type</en><ru>Тип</ru></p>
 	<p><en>Open</en><ru>Открытые</ru></p>
 	<p><en>Closed</en><ru>Закрытые</ru></p>

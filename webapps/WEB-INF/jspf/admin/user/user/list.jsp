@@ -27,7 +27,7 @@
 			<li value="${STATUS_ACTIVE}">${l.l('Активные')}</li>
 			<li value="${STATUS_DISABLED}">${l.l('Заблокированные')}</li>
 			<li value="${STATUS_EXTERNAL}">${l.l('Внешние')}</li>
-			<li value="-1">${l.l('Все')}</li>
+			<li value="-1">${l.l('All')}</li>
 		</jsp:attribute>
 	</ui:combo-single>
 

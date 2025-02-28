@@ -18,7 +18,7 @@
 		widthTextValue="15em"
 		onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
-			<li value="0">${l.l('Все')}&nbsp;[${config.unprocessedMessagesCount}]</li>
+			<li value="0">${l.l('All')}&nbsp;[${config.unprocessedMessagesCount}]</li>
 			<c:forEach var="item" items="${typeMap}">
 				<li value="${item.key}">
 					${item.value.title}
@@ -45,7 +45,7 @@
 			prefixText="${l.l('Read')}:" widthTextValue="3em"
 			onSelect="${script}">
 			<jsp:attribute name="valuesHtml">
-				<li value="">${l.l('Any')}</li>
+				<li value="">${l.l('All')}</li>
 				<li value="0">${l.l('No')}</li>
 				<li value="1">${l.l('Yes')}</li>
 			</jsp:attribute>

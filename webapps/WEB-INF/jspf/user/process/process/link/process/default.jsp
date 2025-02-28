@@ -23,7 +23,7 @@
 			<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="$$.ajax.load(this.form, $(this.form).parent())"
 				prefixText="${l.l('Открыт')}:" styleClass="mr05" widthTextValue="5em">
 				<jsp:attribute name="valuesHtml">
-					<li value="">${l.l('Все')}</li>
+					<li value="">${l.l('All')}</li>
 					<li value="true">${l.l('Yes')}</li>
 					<li value="false">${l.l('No')}</li>
 				</jsp:attribute>

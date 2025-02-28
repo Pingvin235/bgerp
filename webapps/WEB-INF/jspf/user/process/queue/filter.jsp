@@ -336,7 +336,7 @@
 
 								<ui:combo-single value="${value}" hiddenName="${hiddenName}" prefixText="${l.l('Closed')}:" widthTextValue="40px" onSelect="${sendCommand}">
 									<jsp:attribute name="valuesHtml">
-										<li value="none">${l.l('Все')}</li>
+										<li value="none">${l.l('All')}</li>
 										<li value="open">${l.l('No')}</li>
 										<li value="close">${l.l('Yes')}</li>
 									</jsp:attribute>

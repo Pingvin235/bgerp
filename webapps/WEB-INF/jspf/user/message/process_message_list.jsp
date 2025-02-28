@@ -32,7 +32,7 @@
 		<c:set var="sendCommand">$$.ajax.load($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>
 
 		<c:set var="valuesHtml">
-			<li value="0">${l.l('Все')}</li>
+			<li value="0">${l.l('All')}</li>
 			<c:if test="${frd.tagIds.contains(u:int(TAG_ATTACH_ID))}">
 				<li value="${TAG_ATTACH_ID}">${l.l('Вложение')}</li>
 			</c:if>
