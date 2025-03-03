@@ -322,7 +322,7 @@
 
 					<c:if test="${filterFromList.type == 'openClose'}">
 						<c:set var="filter" value="${filterFromList}"/>
-						<c:set var="title" value="${l.l('Открыт')}"/>
+						<c:set var="title" value="${l.l('Open')}"/>
 						<c:set var="code">
 							<u:sc>
 								<span class="dontResetOnHideFilter"></span>

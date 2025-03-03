@@ -18,7 +18,7 @@
 			styleClass="mr1"/>
 
 		<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="$$.ajax.load(this.form, $(this.form).parent())"
-			prefixText="${l.l('Открыт')}:" styleClass="mr05" widthTextValue="5em">
+			prefixText="${l.l('Open')}:" styleClass="mr05" widthTextValue="5em">
 			<jsp:attribute name="valuesHtml">
 				<li value="">${l.l('All')}</li>
 				<li value="true">${l.l('Yes')}</li>
