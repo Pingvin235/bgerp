@@ -1,12 +1,12 @@
 package org.bgerp.dao.process;
 
 import java.sql.Connection;
-import java.util.Collection;
 import java.util.Set;
 
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
+import ru.bgcrm.dao.process.Tables;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -22,7 +22,8 @@ abstract class SearchDAO extends CommonDAO {
 
     private Boolean open;
     private Set<Integer> typeIds;
-    private Collection<Integer> statusIds;
+    private Set<Integer> statusIds;
+    private Set<Integer> executorIds;
     private Order order;
 
      /**
@@ -45,8 +46,8 @@ abstract class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Filter by process closing date.
-     * @param value {@code null} - no filter, or process closing date not null.
+     * Filter by process closing date
+     * @param value {@code null} - no filter, or process closing date is not null
      * @return
      */
     protected SearchDAO withOpen(Boolean value) {
@@ -55,22 +56,32 @@ abstract class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Filter by process type ID.
-     * @param value {@code null} or empty - no filter, or set with type IDs.
+     * Filter by process type ID
+     * @param values {@code null} or empty - no filter, or set with type IDs
      * @return
      */
-    protected SearchDAO withType(Set<Integer> value) {
-        this.typeIds = value;
+    protected SearchDAO withType(Set<Integer> values) {
+        this.typeIds = values;
         return this;
     }
 
     /**
-     * Filter by process status ID.
-     * @param values {@code null} or empty - no filter, or set with status IDs.
+     * Filter by process status ID
+     * @param values {@code null} or empty - no filter, or set with status IDs
      * @return
      */
     protected SearchDAO withStatus(Set<Integer> values) {
         this.statusIds = values;
+        return this;
+    }
+
+    /**
+     * Filter by process executors
+     * @param values {@code null} or empty - no filter, or set with executor user IDs
+     * @return
+     */
+    protected SearchDAO withExecutor(Set<Integer> values) {
+        this.executorIds = values;
         return this;
     }
 
@@ -94,25 +105,22 @@ abstract class SearchDAO extends CommonDAO {
     }
 
     protected void filterType(PreparedQuery pq) {
-        if (typeIds != null && !typeIds.isEmpty()) {
-            pq.addQuery(SQL_AND + "p.type_id IN (");
-            pq.addQuery(Utils.toString(typeIds));
-            pq.addQuery(") ");
-        }
+        if (typeIds != null && !typeIds.isEmpty())
+            pq.addQuery(SQL_AND + "p.type_id IN (").addQuery(Utils.toString(typeIds)).addQuery(") ");
     }
 
     protected void filterStatus(PreparedQuery pq) {
-        if (statusIds != null && !statusIds.isEmpty()) {
-            pq.addQuery(SQL_AND + "p.status_id IN (");
-            pq.addQuery(Utils.toString(statusIds));
-            pq.addQuery(") ");
-        }
+        if (statusIds != null && !statusIds.isEmpty())
+            pq.addQuery(SQL_AND + "p.status_id IN (").addQuery(Utils.toString(statusIds)).addQuery(") ");
+    }
+
+    protected void filterExecutor(PreparedQuery pq) {
+        if (executorIds != null && !executorIds.isEmpty())
+            pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_PROCESS_EXECUTOR + "AS pe ON p.id=pe.process_id AND pe.user_id IN (").addQuery(Utils.toString(executorIds)).addQuery(") ");
     }
 
     protected void order(PreparedQuery pq) {
-        if (order != null) {
-            pq.addQuery(SQL_ORDER_BY);
-            pq.addQuery(order.sql("p."));
-        }
+        if (order != null)
+            pq.addQuery(SQL_ORDER_BY).addQuery(order.sql("p."));
     }
 }

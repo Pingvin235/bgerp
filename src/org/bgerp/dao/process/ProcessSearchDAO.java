@@ -63,6 +63,14 @@ public class ProcessSearchDAO extends SearchDAO {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ProcessSearchDAO withExecutor(Set<Integer> values) {
+        return (ProcessSearchDAO) super.withExecutor(values);
+    }
+
+    /**
      * Excluded process IDs
      * @param values the process IDs
      * @return
@@ -101,6 +109,8 @@ public class ProcessSearchDAO extends SearchDAO {
             var list = result.getList();
 
             pq.addQuery(SQL_SELECT_COUNT_ROWS + "p.*" + SQL_FROM + TABLE_PROCESS + "AS p");
+
+            filterExecutor(pq);
 
             pq.addQuery(SQL_WHERE + "1>0 ");
 

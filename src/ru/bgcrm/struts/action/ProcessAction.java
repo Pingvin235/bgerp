@@ -32,6 +32,7 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessCloneDAO;
 import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.dao.process.ProcessMessageDAO;
+import org.bgerp.dao.process.ProcessSearchDAO;
 import org.bgerp.event.base.UserEvent;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
@@ -855,8 +856,10 @@ public class ProcessAction extends BaseAction {
     public ActionForward userProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
         restoreRequestParams(conSet.getConnection(), form, true, true, "open");
 
-        new ProcessDAO(conSet.getSlaveConnection()).searchProcessListForUser(new Pageable<>(form),
-                form.getUserId(), form.getParamBoolean("open", null));
+        new ProcessSearchDAO(conSet.getSlaveConnection(), form)
+            .withOpen(form.getParamBoolean("open", null))
+            .withExecutor(Set.of(form.getUserId()))
+            .search(new Pageable<>(form));
 
         return html(conSet, form, PATH_JSP + "/user_process_list.jsp");
     }

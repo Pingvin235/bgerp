@@ -413,12 +413,9 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Searches processes with user as an executor.
-     * @param searchResult paged result.
-     * @param userId user ID.
-     * @param open if not {@code null} then process opened filter.
-     * @throws SQLException
+     * Use {@link ProcessSearchDAO}
      */
+    @Deprecated
     public void searchProcessListForUser(Pageable<Process> searchResult, int userId, Boolean open) throws SQLException {
         Page page = searchResult.getPage();
         List<Process> list = searchResult.getList();
