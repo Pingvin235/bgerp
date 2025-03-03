@@ -49,7 +49,7 @@ abstract class SearchDAO extends CommonDAO {
      * @param value {@code null} - no filter, or process closing date not null.
      * @return
      */
-    public SearchDAO withOpen(Boolean value) {
+    protected SearchDAO withOpen(Boolean value) {
         this.open = value;
         return this;
     }
@@ -59,7 +59,7 @@ abstract class SearchDAO extends CommonDAO {
      * @param value {@code null} or empty - no filter, or set with type IDs.
      * @return
      */
-    public SearchDAO withType(Set<Integer> value) {
+    protected SearchDAO withType(Set<Integer> value) {
         this.typeIds = value;
         return this;
     }
@@ -69,7 +69,7 @@ abstract class SearchDAO extends CommonDAO {
      * @param value {@code null} or empty - no filter, or set with status IDs.
      * @return
      */
-    public SearchDAO withStatus(Collection<Integer> value) {
+    protected SearchDAO withStatus(Collection<Integer> value) {
         this.statusIds = value;
         return this;
     }
@@ -79,7 +79,7 @@ abstract class SearchDAO extends CommonDAO {
      * @param value enum value.
      * @return
      */
-    public SearchDAO order(Order value) {
+    protected SearchDAO order(Order value) {
         this.order = value;
         return this;
     }
