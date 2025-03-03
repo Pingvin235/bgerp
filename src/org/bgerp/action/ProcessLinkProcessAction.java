@@ -3,6 +3,7 @@ package org.bgerp.action;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -230,8 +231,8 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         new ProcessSearchDAO(conSet.getSlaveConnection(), form)
             .withType(category.getProcessTypeIds())
             .withOpen(form.getParamBoolean("open", null))
-            .withStatus(category.getAddProcessStatusIds())
-            .withExcludeIds(excludeIds)
+            .withStatus(new HashSet<>(category.getAddProcessStatusIds()))
+            .withoutId(excludeIds)
             .withIdOrDescriptionLike(LikePattern.SUB.get(form.getParam("filter")))
             .order(category.getAddProcessStatusIds().isEmpty() ? Order.DESCRIPTION : new Order.StatusesDescription(category.getAddProcessStatusIds()))
             .search(processes);

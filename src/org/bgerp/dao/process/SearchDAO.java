@@ -66,11 +66,11 @@ abstract class SearchDAO extends CommonDAO {
 
     /**
      * Filter by process status ID.
-     * @param value {@code null} or empty - no filter, or set with status IDs.
+     * @param values {@code null} or empty - no filter, or set with status IDs.
      * @return
      */
-    protected SearchDAO withStatus(Collection<Integer> value) {
-        this.statusIds = value;
+    protected SearchDAO withStatus(Set<Integer> values) {
+        this.statusIds = values;
         return this;
     }
 
