@@ -53,7 +53,7 @@
 		</div>
 	</div>
 
-	<div id="content" class="tableIndent"></div>
+	<div id="content"></div>
 
 	<div style="height: 0px; max-height: 0px;">
 		<!-- при размещении меню перед таблицей при его отображении сдвигается кнопка -->

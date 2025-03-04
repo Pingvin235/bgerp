@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <div id="${uiid}">
-	<div class="tableIndent">
+	<div>
 		Созданные договора:
 	</div>
 

@@ -15,7 +15,7 @@
 		</c:when>
 		<c:otherwise>
 			<div class="odd">
-				<div class="tableIndent">Дом не выбран.</div>
+				<div>Дом не выбран.</div>
 			</div>
 		</c:otherwise>
 	</c:choose>

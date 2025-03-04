@@ -4,7 +4,7 @@
 <c:set var="linkedProcessList" value="linkedProcessList-${u:uiid()}" />
 <c:set var="processTypeTree" value="processTypeTree-${u:uiid()}" scope="request" />
 
-<div id="${processTypeTree}" class="tableIndent center1020 editorStopReload" style="display: none;">
+<div id="${processTypeTree}" class="center1020 editorStopReload" style="display: none;">
 	<form action="/user/process/link.do">
 		<input type="hidden" name="method" value="linkedProcessCreate" />
 		<input type="hidden" name="id" value="${form.id}" />
@@ -50,7 +50,7 @@
 		<input type="hidden" name="id" value="${form.id}" />
 		<input type="hidden" name="objectTitle" value="${u.escapeXml( form.param.objectTitle )}" />
 
-		<div class="tableIndent in-mb05-all">
+		<div class="in-mb05-all">
 			<button class="btn-green mr1 icon" type="button"
 					onclick="$('#${processTypeTree}').show(); $('#${linkedProcessList}').hide();"><i class="ti-plus"></i></button>
 

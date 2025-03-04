@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<div id="${uiid}" class="tableIndent">
+<div id="${uiid}">
 	<c:choose>
 		<c:when test="${stepData.filled}">
 			${stepData.step.config['continuedText'] }

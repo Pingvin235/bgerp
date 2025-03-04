@@ -20,13 +20,13 @@
 		</c:otherwise>
 	</c:choose>
 
-	<div id="selected" class="tableIndent" ${displaySelected}>
+	<div id="selected" ${displaySelected}>
 		Контрагент: <a href="#" onclick="${editCommand}">${stepData.customer.title}</a>
 	</div>
 
 	<c:set var="sendFormCommand">$$.ajax.load(this.form, $('#${uiid} #searchResult')).done(() => $('#${uiid} *.searchResult').show())</c:set>
 
-	<div id="select" class="tableIndent" ${displaySelect}>
+	<div id="select" ${displaySelect}>
 		<html:form action="/user/search" onsubmit="return false;">
 			<input type="hidden" name="method" value="customerSearch"/>
 			<input type="hidden" name="searchBy" value="title"/>

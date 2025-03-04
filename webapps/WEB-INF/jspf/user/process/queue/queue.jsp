@@ -55,7 +55,7 @@
 		</td>
 	</table>
 
-	<div id="processQueueFilter" class="tableIndent">
+	<div id="processQueueFilter">
 		<%-- сюда динамически грузится фильтр --%>
 	</div>
 
