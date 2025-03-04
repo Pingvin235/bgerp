@@ -66,6 +66,9 @@
 			<item title="Mark as read" action="/user/message:messageUpdateRead, ru.bgcrm.struts.action.MessageAction:messageUpdateRead"/>
 			<item title="Change Process" action="/user/message:messageUpdateProcess, ru.bgcrm.struts.action.MessageAction:messageUpdateProcess"/>
 			<item title="Change Process to a Copy" action="/user/message:messageUpdateProcessToCopy, ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy"/>
+			<item title="Create" action="/user/message:processMessageCreateEdit, /user/message:template, /user/message:processMessageCreateUpdate">
+				<b>allowedTypeIds</b> - comma separated type IDs<br/>
+			</item>
 			<item title="Edit" action="/user/message:processMessageEdit, /user/message:template, /user/message:processMessageUpdate, /user/message:messageUpdate, ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate">
 				<b>allowedTypeIds</b> - comma separated type IDs<br/>
 			</item>

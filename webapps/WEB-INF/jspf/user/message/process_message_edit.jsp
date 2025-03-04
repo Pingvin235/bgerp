@@ -43,7 +43,7 @@
 					</c:when>
 				</c:choose>
 
-				<c:set var="perm" value="${ctxUser.getPerm('/user/message:processMessageEdit')}"/>
+				<c:set var="perm" value="${ctxUser.getPerm('/user/message:'.concat(form.method))}"/>
 				<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm['allowedTypeIds'])}"/>
 
 				<ui:combo-single
@@ -85,7 +85,7 @@
 	<c:set var="editorJsp" value="${messageType.editorJsp}"/>
 	<c:if test="${not empty editorJsp}">
 		<html:form action="/user/message" styleId="${editorUiid}-${messageType.id}" styleClass="editorStopReload" style="display: none;">
-			<input type="hidden" name="method" value="processMessageUpdate"/>
+			<input type="hidden" name="method" value="${form.method eq 'processMessageCreateEdit' ? 'processMessageCreateUpdate' : 'processMessageUpdate'}"/>
 			<html:hidden property="processId"/>
 			<html:hidden property="id"/>
 			<c:if test="${messageType.checkEmptySubject}">

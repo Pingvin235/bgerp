@@ -491,6 +491,15 @@ public class MessageAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/process_message_list.jsp");
     }
 
+    public ActionForward processMessageCreateEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
+        form.setParam("id", "0");
+        return processMessageEdit(form, conSet);
+    }
+
+    public ActionForward processMessageCreateUpdate(DynActionForm form, Connection con) throws Exception {
+        return processMessageUpdate(form, con);
+    }
+
     public ActionForward processMessageEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageDAO dao = new MessageDAO(conSet.getSlaveConnection());
 

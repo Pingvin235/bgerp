@@ -1,0 +1,1 @@
+A: Separated action for adding a new message in process

@@ -19,40 +19,39 @@
 		<html:hidden property="processId"/>
 		<html:hidden property="linkProcess"/>
 
-		<c:url var="url" value="${form.requestURI}">
-			<c:param name="method" value="processMessageEdit"/>
-			<c:param name="areaId" value="process-message-add"/>
-			<c:param name="processId" value="${form.param.processId}"/>
-			<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
-			<c:param name="returnUrl" value="${form.requestUrl}"/>
-		</c:url>
-		<ui:button type="add" onclick="$$.ajax.load('${url}', $('#${editorContainerUiid}'))"/>
+		<p:check action="/user/message:processMessageCreateEdit">
+			<c:url var="url" value="${form.requestURI}">
+				<c:param name="method" value="processMessageCreateEdit"/>
+				<c:param name="areaId" value="process-message-add"/>
+				<c:param name="processId" value="${form.param.processId}"/>
+				<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
+				<c:param name="returnUrl" value="${form.requestUrl}"/>
+			</c:url>
+			<ui:button type="add" onclick="$$.ajax.load('${url}', $('#${editorContainerUiid}'))" styleClass="mr1" />
+		</p:check>
 
 		<html:hidden property="attach"/>
 		<c:set var="sendCommand">$$.ajax.load($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>
 
-		<c:set var="valuesHtml">
-			<li value="0">${l.l('All')}</li>
-			<c:if test="${frd.tagIds.contains(u:int(TAG_ATTACH_ID))}">
-				<li value="${TAG_ATTACH_ID}">${l.l('Вложение')}</li>
-			</c:if>
-			<c:if test="${frd.tagIds.contains(u:int(TAG_UNREAD_ID))}">
-				<li value="${TAG_UNREAD_ID}">${l.l('Unread')}</li>
-			</c:if>
-			<c:forEach var="item" items="${tagConfig.tagList}">
-				<c:if test="${frd.tagIds.contains(item.id)}">
-					<li value="${item.id}">
-						<span class="process-message-tag" style="background-color: ${item.color};">&nbsp;</span>
-						${item.title}
-					</li>
+		<ui:combo-single hiddenName="tagId" value="${form.param.tagId}" onSelect="${sendCommand}" widthTextValue="10em">
+			<jsp:attribute name="valuesHtml">
+				<li value="0">${l.l('Все')}</li>
+				<c:if test="${frd.tagIds.contains(u:int(TAG_ATTACH_ID))}">
+					<li value="${TAG_ATTACH_ID}">${l.l('Вложение')}</li>
 				</c:if>
-			</c:forEach>
-		</c:set>
-
-		<ui:combo-single
-			hiddenName="tagId" widthTextValue="10em" styleClass="ml1" value="${form.param.tagId}"
-			onSelect="${sendCommand}"
-			valuesHtml="${valuesHtml}"/>
+				<c:if test="${frd.tagIds.contains(u:int(TAG_UNREAD_ID))}">
+					<li value="${TAG_UNREAD_ID}">${l.l('Unread')}</li>
+				</c:if>
+				<c:forEach var="item" items="${tagConfig.tagList}">
+					<c:if test="${frd.tagIds.contains(item.id)}">
+						<li value="${item.id}">
+							<span class="process-message-tag" style="background-color: ${item.color};">&nbsp;</span>
+							${item.title}
+						</li>
+					</c:if>
+				</c:forEach>
+			</jsp:attribute>
+		</ui:combo-single>
 
 		<div style="float: right;">
 			<%-- без этого контейнера в хроме появляется лишний перенос --%>
@@ -297,7 +296,7 @@
 							<c:remove var="answerCommand"/>
 							<c:if test="${message.direction eq 1 and messageType.answerSupport}">
 								<c:url var="answerUrl" value="${form.requestURI}">
-									<c:param name="method" value="processMessageEdit"/>
+									<c:param name="method" value="processMessageCreateEdit"/>
 									<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 									<c:param name="processId" value="${message.processId}"/>
