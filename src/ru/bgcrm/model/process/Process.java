@@ -208,11 +208,14 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
         String result = title;
 
         if (Utils.isBlankString(result)) {
-            var config = getType().getProperties().getConfigMap().getConfig(ProcessTitleConfig.class);
-            if (config != null && config.isProcessUsed() && !config.isAnyParamUsed()) {
-                var context = new HashMap<String, Object>();
-                new ProcessExpressionObject(this).toContext(context);
-                result = new Expression(context).executeGetString(config.getExpression());
+            TypeProperties typeProperties = getType().getProperties();
+            if (typeProperties != null) {
+                var config = typeProperties.getConfigMap().getConfig(ProcessTitleConfig.class);
+                if (config != null && config.isProcessUsed() && !config.isAnyParamUsed()) {
+                    var context = new HashMap<String, Object>();
+                    new ProcessExpressionObject(this).toContext(context);
+                    result = new Expression(context).executeGetString(config.getExpression());
+                }
             }
         }
 
