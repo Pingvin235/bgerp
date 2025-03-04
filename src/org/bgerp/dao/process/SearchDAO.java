@@ -23,7 +23,7 @@ abstract class SearchDAO extends CommonDAO {
     private Boolean open;
     private Set<Integer> typeIds;
     private Set<Integer> statusIds;
-    private Set<Integer> executorIds;
+    protected Set<Integer> executorIds;
     private Order order;
 
      /**

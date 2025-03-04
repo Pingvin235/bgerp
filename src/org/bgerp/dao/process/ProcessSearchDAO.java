@@ -108,7 +108,10 @@ public class ProcessSearchDAO extends SearchDAO {
             var page = result.getPage();
             var list = result.getList();
 
-            pq.addQuery(SQL_SELECT_COUNT_ROWS + "p.*" + SQL_FROM + TABLE_PROCESS + "AS p");
+            pq.addQuery(SQL_SELECT_COUNT_ROWS);
+            if (CollectionUtils.isNotEmpty(executorIds))
+                pq.addQuery(SQL_DISTINCT);
+            pq.addQuery("p.*" + SQL_FROM + TABLE_PROCESS + "AS p");
 
             filterExecutor(pq);
 
