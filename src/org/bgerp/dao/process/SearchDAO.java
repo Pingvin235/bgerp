@@ -3,6 +3,7 @@ package org.bgerp.dao.process;
 import java.sql.Connection;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -17,13 +18,15 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 abstract class SearchDAO extends CommonDAO {
-    /** User request context for isolations. */
+    /** User request context for isolations */
     protected final DynActionForm form;
 
     private Boolean open;
     private Set<Integer> typeIds;
     private Set<Integer> statusIds;
     protected Set<Integer> executorIds;
+    protected Set<Integer> excludeIds;
+    protected String idOrDescriptionLike;
     private Order order;
 
      /**
@@ -86,6 +89,26 @@ abstract class SearchDAO extends CommonDAO {
     }
 
     /**
+     * Excluded process IDs
+     * @param values the process IDs
+     * @return
+     */
+    protected SearchDAO withoutId(Set<Integer> values) {
+        this.excludeIds = values;
+        return this;
+    }
+
+    /**
+     * SQL LIKE expression for id or description.
+     * @param value the LIKE expression.
+     * @return
+     */
+    protected SearchDAO withIdOrDescriptionLike(String value) {
+        this.idOrDescriptionLike = value;
+        return this;
+    }
+
+    /**
      * Selection order.
      * @param value enum value.
      * @return
@@ -117,6 +140,18 @@ abstract class SearchDAO extends CommonDAO {
     protected void filterExecutor(PreparedQuery pq) {
         if (executorIds != null && !executorIds.isEmpty())
             pq.addQuery(SQL_INNER_JOIN + Tables.TABLE_PROCESS_EXECUTOR + "AS pe ON p.id=pe.process_id AND pe.user_id IN (").addQuery(Utils.toString(executorIds)).addQuery(") ");
+    }
+
+    protected void filterId(PreparedQuery pq) {
+        if (CollectionUtils.isNotEmpty(excludeIds))
+            pq.addQuery(SQL_AND + "p.id NOT IN (" + Utils.toString(excludeIds) + ") ");
+    }
+
+    protected void filterIdOrDescriptionLike(PreparedQuery pq) {
+        if (Utils.notBlankString(idOrDescriptionLike)) {
+            pq.addQuery(SQL_AND + "(p.id LIKE ? OR p.description LIKE ?)");
+            pq.addString(idOrDescriptionLike).addString(idOrDescriptionLike);
+        }
     }
 
     protected void order(PreparedQuery pq) {

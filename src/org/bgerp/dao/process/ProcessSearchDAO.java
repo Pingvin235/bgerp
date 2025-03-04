@@ -13,7 +13,6 @@ import org.bgerp.util.sql.PreparedQuery;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Utils;
 
 /**
  * Fluent process search DAO.
@@ -21,9 +20,6 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class ProcessSearchDAO extends SearchDAO {
-    private Set<Integer> excludeIds;
-    private String idOrDescriptionLike;
-
     /**
      * {@inheritDoc}
      */
@@ -71,23 +67,19 @@ public class ProcessSearchDAO extends SearchDAO {
     }
 
     /**
-     * Excluded process IDs
-     * @param values the process IDs
-     * @return
+     * {@inheritDoc}
      */
+    @Override
     public ProcessSearchDAO withoutId(Set<Integer> values) {
-        this.excludeIds = values;
-        return this;
+        return (ProcessSearchDAO) super.withoutId(values);
     }
 
     /**
-     * SQL LIKE expression for id or description.
-     * @param value the LIKE expression.
-     * @return
+     * {@inheritDoc}
      */
+    @Override
     public ProcessSearchDAO withIdOrDescriptionLike(String value) {
-        this.idOrDescriptionLike = value;
-        return this;
+        return (ProcessSearchDAO) super.withIdOrDescriptionLike(value);
     }
 
     /**
@@ -121,13 +113,9 @@ public class ProcessSearchDAO extends SearchDAO {
             filterType(pq);
             filterStatus(pq);
 
-            if (CollectionUtils.isNotEmpty(excludeIds))
-                pq.addQuery(SQL_AND + "p.id NOT IN (" + Utils.toString(excludeIds) + ") ");
+            filterId(pq);
 
-            if (Utils.notBlankString(idOrDescriptionLike)) {
-                pq.addQuery(SQL_AND + "(p.id LIKE ? OR p.description LIKE ?)");
-                pq.addString(idOrDescriptionLike).addString(idOrDescriptionLike);
-            }
+            filterIdOrDescriptionLike(pq);
 
             order(pq);
 
