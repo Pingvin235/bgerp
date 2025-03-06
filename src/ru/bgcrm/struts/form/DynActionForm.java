@@ -209,7 +209,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Use {@link #getRequestPath()}
+     * Use {@link #getRequestURI()}
      */
     @Deprecated
     public String getHttpRequestURI() {
