@@ -41,7 +41,7 @@ import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.param.ParameterValue;
 
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.EntityLogDAO;
@@ -160,7 +160,7 @@ public class ParameterAction extends BaseAction {
 
         boolean offEncryption = form.getPermission().getBoolean("offEncrypt", false);
 
-        List<ParameterValuePair> parameterValuePairList = new ParamValueDAO(conSet.getConnection()).loadParameters(paramList, id, offEncryption);
+        List<ParameterValue> parameterValuePairList = new ParamValueDAO(conSet.getConnection()).loadParameters(paramList, id, offEncryption);
 
         form.setResponseData("list", parameterValuePairList);
     }

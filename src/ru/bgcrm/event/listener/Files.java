@@ -11,7 +11,7 @@ import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.param.ParameterValue;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.FileData;
@@ -41,7 +41,7 @@ public class Files {
             if (paramList.isEmpty())
                 return;
 
-            List<ParameterValuePair> list = new ParamValueDAO(con).loadParameters(paramList, e.getProcessId(), false);
+            List<ParameterValue> list = new ParamValueDAO(con).loadParameters(paramList, e.getProcessId(), false);
             for (var pair : list) {
                 @SuppressWarnings("unchecked")
                 var value = (Map<Integer, FileData>) pair.getValue();

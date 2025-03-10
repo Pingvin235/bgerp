@@ -16,7 +16,7 @@ import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.param.ParameterValue;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
@@ -82,7 +82,7 @@ public class FillParamsStep extends Step {
     }
 
     public static class Data extends StepData<FillParamsStep> {
-        private List<ParameterValuePair> values;
+        private List<ParameterValue> values;
         private int objectId = -1;
 
         public Data(FillParamsStep step, WizardData data) {
@@ -98,14 +98,14 @@ public class FillParamsStep extends Step {
             values = paramValueDao.loadParameters(step.getParamList(), objectId, false);
 
             if (step.getCheckParamIds().isEmpty()) {
-                for (ParameterValuePair pair : values) {
+                for (ParameterValue pair : values) {
                     filled = pair.getValue() != null;
                     if (filled) {
                         break;
                     }
                 }
             } else {
-                for (ParameterValuePair pair : values) {
+                for (ParameterValue pair : values) {
                     if (step.getCheckParamIds().contains(pair.getParameter().getId())) {
                         if (pair.getValue() == null) {
                             filled = false;
@@ -137,10 +137,10 @@ public class FillParamsStep extends Step {
                     }
                 }
 
-                Iterator<ParameterValuePair> iterator = values.iterator();
+                Iterator<ParameterValue> iterator = values.iterator();
 
                 while (iterator.hasNext()) {
-                    ParameterValuePair parameterValuePair = iterator.next();
+                    ParameterValue parameterValuePair = iterator.next();
                     if (hideParamIds.contains(parameterValuePair.getParameter().getId())) {
                         iterator.remove();
                     }
@@ -150,7 +150,7 @@ public class FillParamsStep extends Step {
             return filled;
         }
 
-        public List<ParameterValuePair> getValues() {
+        public List<ParameterValue> getValues() {
             return values;
         }
 

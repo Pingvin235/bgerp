@@ -30,7 +30,7 @@ import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Title;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.param.ParameterValue;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -737,14 +737,14 @@ public class Utils {
             }
 
             List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(object, -1);
-            List<ParameterValuePair> valueList = paramValueDAO.loadParameters(paramList, objectId, false);
+            List<ParameterValue> valueList = paramValueDAO.loadParameters(paramList, objectId, false);
 
-            Map<Integer, ParameterValuePair> valueMap = new HashMap<>();
-            for (ParameterValuePair value : valueList) {
+            Map<Integer, ParameterValue> valueMap = new HashMap<>();
+            for (ParameterValue value : valueList) {
                 valueMap.put(value.getParameter().getId(), value);
             }
             for (Integer parameterId : parameterIdList) {
-                ParameterValuePair parameter = valueMap.get(parameterId);
+                ParameterValue parameter = valueMap.get(parameterId);
                 String value = "";
                 if (parameter != null) {
                     value = parameter.getValueTitle();

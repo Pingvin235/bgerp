@@ -35,7 +35,7 @@
 
 		<ui:combo-single hiddenName="tagId" value="${form.param.tagId}" onSelect="${sendCommand}" widthTextValue="10em">
 			<jsp:attribute name="valuesHtml">
-				<li value="0">${l.l('Все')}</li>
+				<li value="0">${l.l('All')}</li>
 				<c:if test="${frd.tagIds.contains(u:int(TAG_ATTACH_ID))}">
 					<li value="${TAG_ATTACH_ID}">${l.l('Вложение')}</li>
 				</c:if>

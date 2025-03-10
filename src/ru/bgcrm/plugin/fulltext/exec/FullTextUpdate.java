@@ -15,7 +15,7 @@ import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.param.ParameterValue;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.pool.ConnectionPool;
 
@@ -108,9 +108,9 @@ public class FullTextUpdate extends Task {
                         .collect(Collectors.toList());
 
                     if (!paramList.isEmpty()) {
-                        List<ParameterValuePair> paramValues = paramDao.loadParameters(paramList, item.getObjectId(), false);
+                        List<ParameterValue> paramValues = paramDao.loadParameters(paramList, item.getObjectId(), false);
 
-                        for (ParameterValuePair pair : paramValues) {
+                        for (ParameterValue pair : paramValues) {
                             if (pair.getValue() == null) continue;
 
                             switch (Parameter.Type.of(pair.getParameter().getType())) {

@@ -34,7 +34,7 @@ import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.param.ParameterValue;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -930,7 +930,7 @@ public class ParamValueDAO extends CommonDAO {
      * @return
      * @throws SQLException
      */
-    public Map<Integer, ParameterValuePair> parameters(Id object) throws SQLException {
+    public Map<Integer, ParameterValue> parameters(Id object) throws SQLException {
         List<Parameter> parameters = null;
         if (object instanceof Customer) {
             parameters = ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE, ((Customer) object).getParamGroupId());
@@ -1656,11 +1656,11 @@ public class ParamValueDAO extends CommonDAO {
      * @param offEncryption decrypt pseudo encrypted values.
      * @throws SQLException
      */
-    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id, boolean offEncryption) throws SQLException {
+    public List<ParameterValue> loadParameters(List<Parameter> paramList, int id, boolean offEncryption) throws SQLException {
         Map<String, List<Integer>> paramTypeMap = new HashMap<>();
 
-        List<ParameterValuePair> result = new ArrayList<>(paramList.size());
-        Map<Integer, ParameterValuePair> paramMap = new HashMap<>(paramList.size());
+        List<ParameterValue> result = new ArrayList<>(paramList.size());
+        Map<Integer, ParameterValue> paramMap = new HashMap<>(paramList.size());
 
         for (Parameter parameter : paramList) {
             String type = parameter.getType();
@@ -1670,7 +1670,7 @@ public class ParamValueDAO extends CommonDAO {
             }
             ids.add(parameter.getId());
 
-            ParameterValuePair pvp = new ParameterValuePair(parameter);
+            ParameterValue pvp = new ParameterValue(parameter);
             paramMap.put(parameter.getId(), pvp);
 
             result.add(pvp);
@@ -1691,7 +1691,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     @SuppressWarnings("unchecked")
-    private void updateParamValueMap(Map<Integer, ParameterValuePair> paramMap, String type, Collection<Integer> ids,
+    private void updateParamValueMap(Map<Integer, ParameterValue> paramMap, String type, Collection<Integer> ids,
             int objectId, boolean offEncryption) throws SQLException {
         StringBuilder query = new StringBuilder();
 
@@ -1789,7 +1789,7 @@ public class ParamValueDAO extends CommonDAO {
         while (rs.next()) {
             final int paramId = rs.getInt(1);
 
-            ParameterValuePair param = paramMap.get(paramId);
+            ParameterValue param = paramMap.get(paramId);
 
             if (Parameter.TYPE_ADDRESS.equals(type)) {
                 Map<Integer, ParameterAddressValue> values = (Map<Integer, ParameterAddressValue>) param.getValue();
@@ -1881,12 +1881,12 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     @Deprecated
-    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id) throws SQLException {
+    public List<ParameterValue> loadParameters(List<Parameter> paramList, int id) throws SQLException {
         return loadParameters(paramList, id, false);
     }
 
     @Deprecated
-    public void loadParameterValue(ParameterValuePair param, int objectId, boolean offEncription) throws Exception {
+    public void loadParameterValue(ParameterValue param, int objectId, boolean offEncription) throws Exception {
         Parameter parameter = param.getParameter();
         updateParamValueMap(Collections.singletonMap(parameter.getId(), param), parameter.getType(),
                 Collections.singletonList(parameter.getId()), objectId, offEncription);

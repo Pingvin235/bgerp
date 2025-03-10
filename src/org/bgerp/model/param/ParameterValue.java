@@ -3,7 +3,6 @@ package org.bgerp.model.param;
 import static org.bgerp.model.param.Parameter.TYPE_ADDRESS;
 import static org.bgerp.model.param.Parameter.TYPE_DATE;
 import static org.bgerp.model.param.Parameter.TYPE_DATETIME;
-import static org.bgerp.model.param.Parameter.TYPE_EMAIL;
 import static org.bgerp.model.param.Parameter.TYPE_FILE;
 import static org.bgerp.model.param.Parameter.TYPE_LIST;
 import static org.bgerp.model.param.Parameter.TYPE_LISTCOUNT;
@@ -17,7 +16,6 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.model.base.IdTitle;
@@ -29,25 +27,21 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
- * Parameter value.
+ * Parameter value
  *
  * @author Shamil Vakhitov
  */
-public class ParameterValuePair {
-    private Parameter parameter;
+public class ParameterValue {
+    private final Parameter parameter;
     private Object value;
     private String valueTitle;
 
-    public ParameterValuePair(Parameter parameter) {
+    public ParameterValue(Parameter parameter) {
         this.parameter = parameter;
     }
 
     public Parameter getParameter() {
         return parameter;
-    }
-
-    public void setParameter(Parameter parameter) {
-        this.parameter = parameter;
     }
 
     /**
@@ -61,17 +55,36 @@ public class ParameterValuePair {
         this.value = value;
     }
 
-    public void setValueTitle(String valueTitle) {
-        this.valueTitle = valueTitle;
-    }
-
     /**
-     * @return display parameter representation.
+     * @return human-readable parameter value, {@code null} if {@link #value} is {@code null}
      */
+    @SuppressWarnings("unchecked")
     public String getValueTitle() {
         String result = valueTitle;
-        if (result == null) {
-            result = getValueTitle(parameter, value);
+        if (result == null && value != null) {
+            String type = parameter.getType();
+            if (TYPE_ADDRESS.equals(type)) {
+                StringBuilder address = new StringBuilder();
+                for (ParameterAddressValue item : ((Map<Integer, ParameterAddressValue>) value).values()) {
+                    Utils.addSeparated(address, "; ", item.getValue());
+                }
+                result = address.toString();
+            } else if (TYPE_DATE.equals(type)) {
+                result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMD);
+            } else if (TYPE_DATETIME.equals(type)) {
+                result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
+            } /* else if (TYPE_EMAIL.equals(type)) {
+                result = Utils.toString(((TreeMap<String, String>) value).values(), "", "; ");
+            } */ else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type) || TYPE_TREE.equals(type) || TYPE_TREECOUNT.equals(type)) {
+                result = Utils.getObjectTitles((Collection<IdTitle>) value);
+            } else {
+                result = String.valueOf(value);
+                if (TYPE_TEXT.equals(type) && "hideProtocol".equals(parameter.getShowAsLink())) {
+                    int pos = result.indexOf("//");
+                    if (pos > 0)
+                        result = result.substring(pos + 2);
+                }
+            }
         }
         return result;
     }
@@ -104,40 +117,5 @@ public class ParameterValuePair {
         }
 
         return result.toString();
-    }
-
-    @SuppressWarnings("unchecked")
-    public static final String getValueTitle(Parameter parameter, Object value) {
-        String result = null;
-
-        if (value == null) {
-            return result;
-        }
-
-        String type = parameter.getType();
-        if (TYPE_ADDRESS.equals(type)) {
-            StringBuilder address = new StringBuilder();
-            for (ParameterAddressValue item : ((Map<Integer, ParameterAddressValue>) value).values()) {
-                Utils.addSeparated(address, "; ", item.getValue());
-            }
-            result = address.toString();
-        } else if (TYPE_DATE.equals(type)) {
-            result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMD);
-        } else if (TYPE_DATETIME.equals(type)) {
-            result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
-        } else if (TYPE_EMAIL.equals(type)) {
-            result = Utils.toString(((TreeMap<String, String>) value).values(), "", "; ");
-        } else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type) || TYPE_TREE.equals(type) || TYPE_TREECOUNT.equals(type)) {
-            result = Utils.getObjectTitles((Collection<IdTitle>) value);
-        } else {
-            result = value == null ? "" : String.valueOf(value);
-            if (TYPE_TEXT.equals(type) && "hideProtocol".equals(parameter.getShowAsLink())) {
-                int pos = result.indexOf("//");
-                if (pos > 0)
-                    result = result.substring(pos + 2);
-            }
-        }
-
-        return result;
     }
 }

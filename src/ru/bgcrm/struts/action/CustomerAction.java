@@ -13,7 +13,7 @@ import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValuePair;
+import org.bgerp.model.param.ParameterValue;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.CustomerDAO;
@@ -151,8 +151,8 @@ public class CustomerAction extends BaseAction {
         CustomerLinkDAO customerLinkDAO = new CustomerLinkDAO(con);
         List<Parameter> customerParameterList = new ParamDAO(con).getParameterList(Customer.OBJECT_TYPE, 0);
 
-        List<ParameterValuePair> customerParamValues = paramValueDAO.loadParameters(customerParameterList, customerId, true);
-        List<ParameterValuePair> mergingCustomerParamValues = paramValueDAO.loadParameters(customerParameterList, mergingCustomerId, true);
+        List<ParameterValue> customerParamValues = paramValueDAO.loadParameters(customerParameterList, customerId, true);
+        List<ParameterValue> mergingCustomerParamValues = paramValueDAO.loadParameters(customerParameterList, mergingCustomerId, true);
 
         // params copy
         for (Parameter param : customerParameterList) {
@@ -162,14 +162,14 @@ public class CustomerAction extends BaseAction {
 
             int paramId = param.getId();
 
-            for (ParameterValuePair customerPVP : customerParamValues) {
+            for (ParameterValue customerPVP : customerParamValues) {
                 if (customerPVP.getParameter().getId() == paramId) {
                     paramCustomerValue = customerPVP.getValue();
                     break;
                 }
             }
 
-            for (ParameterValuePair mergingCustomerPVP : mergingCustomerParamValues) {
+            for (ParameterValue mergingCustomerPVP : mergingCustomerParamValues) {
                 if (mergingCustomerPVP.getParameter().getId() == paramId) {
                     paramMergingCustomerValue = mergingCustomerPVP.getValue();
                     break;
