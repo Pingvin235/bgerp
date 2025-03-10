@@ -6,13 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.util.Dynamic;
-import org.bgerp.util.Log;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp.model.base.tree.iface.TreeItem<T, C> {
-    private static final Log log = Log.getLog();
-
     private static final String ICON_TAG_HOME = iconTag("ti-home");
     private static final String ICON_TAG_FOLDER = iconTag("ti-folder");
     private static final String ICON_TAG_FILE = iconTag("ti-file");
@@ -52,13 +47,6 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     }
 
     public List<C> getChildren() {
-        return children;
-    }
-
-    @JsonIgnore
-    @Deprecated
-    public List<C> getChilds() {
-        log.warndMethod("getChilds", "getChildren");
         return children;
     }
 

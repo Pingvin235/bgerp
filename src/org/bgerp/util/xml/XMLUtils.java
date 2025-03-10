@@ -357,66 +357,6 @@ public class XMLUtils {
         domSerializer.write(xml, formattedOutput);
     }
 
-    /**
-     * Подготавливает элемент к XML сериализации, заменяет запрещённые символы на \\u{code}.
-     * Используется в местах, где возможно появление недопустимых XML символов.
-     * @param el исходный элемент в теле, названии, дочерних элементах и атрибутах возможны запрещённые символы.
-     */
-    public static void prepareElementToSerialize(Node el) {
-        StringBuilder buf = new StringBuilder(100);
-        int size = 0;
-
-        NamedNodeMap map = el.getAttributes();
-        if (map != null) {
-            size = map.getLength();
-            for (int i = 0; i < size; i++) {
-                Node node = map.item(i);
-                String nodeValue = node.getNodeValue();
-
-                node.setNodeValue(prepareString(buf, nodeValue));
-            }
-        }
-
-        if (el.getNodeValue() != null) {
-            el.setNodeValue(prepareString(buf, el.getNodeValue()));
-        }
-
-        NodeList childs = el.getChildNodes();
-        size = childs.getLength();
-        for (int i = 0; i < size; i++) {
-            Node child = childs.item(i);
-            prepareElementToSerialize(child);
-        }
-    }
-
-    /**
-     * Подготавливает строки к XML сериализации, заменяет запрещённые символы на \\u{code}.
-     * Используется в местах, где возможно появление недопустимых XML символов.
-     * @param buf вспомогательный буфер, в который складывается результат, чтобы не выделять каждый раз заново.
-     * @param nodeValue исходная строка, где возможны запрещённые символы.
-     * @return
-     */
-    public static String prepareString(StringBuilder buf, String nodeValue) {
-        char ch;
-        buf.setLength(0);
-
-        for (int j = 0; j < nodeValue.length(); j++) {
-            ch = nodeValue.charAt(j);
-            int ich = ch;
-
-            //То что считается правильным xml-символом по стандарту
-            if (ich == 0x9 || ich == 0xA || ich == 0xD || (ich >= 0x20 && ich <= 0xD7FF) || (ich >= 0xE000 && ich <= 0xFFFD)
-                    || (ich >= 0x10000 && ich <= 0x10FFFF)) {
-                buf.append(ch);
-            } else {
-                buf.append("\\u");
-                buf.append(ich);
-            }
-        }
-
-        return buf.toString();
-    }
-
     // трансформация
 
     /**
