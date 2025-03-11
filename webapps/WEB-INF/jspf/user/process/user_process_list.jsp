@@ -6,18 +6,10 @@
 <html:form action="/user/process" styleClass="mb05" styleId="${uiid}">
 	<input type="hidden" name="method" value="userProcessList"/>
 
-	<div class="tableIndent in-mb05-all">
-		<ui:date-time
-			paramName="createDate" value="${form.param.createDate}"
-			placeholder="${l.l('Дата создания')}"
-			styleClass="mr1"/>
+	<div class="in-mb05-all">
+		<c:set var="reloadCommand" value="$$.ajax.load(this.form, $(this.form).parent())"/>
 
-		<ui:date-time
-			paramName="closeDate" value="${form.param.closeDate}"
-			placeholder="${l.l('Дата закрытия')}"
-			styleClass="mr1"/>
-
-		<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="$$.ajax.load(this.form, $(this.form).parent())"
+		<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="${reloadCommand}"
 			prefixText="${l.l('Open')}:" styleClass="mr05" widthTextValue="5em">
 			<jsp:attribute name="valuesHtml">
 				<li value="">${l.l('All')}</li>
@@ -26,7 +18,14 @@
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<ui:page-control nextCommand="; $$.ajax.load(this.form, $(this.form).parent());"/>
+		<ui:combo-single hiddenName="typeId" list="${frd.types}" value="${form.param.typeId}" onSelect="${reloadCommand}"
+			showFilter="true" prefixText="${l.l('Type')}:" widthTextValue="20em">
+			<jsp:attribute name="valuesHtml">
+				<li value="">${l.l('All')}</li>
+			</jsp:attribute>
+		</ui:combo-single>
+
+		<ui:page-control nextCommand="; ${reloadCommand}"/>
 	</div>
 </html:form>
 

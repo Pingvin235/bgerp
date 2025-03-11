@@ -56,22 +56,19 @@
 
 			<c:set var="reloadCommand" value="$$.ajax.load($('#${linkedProcessList} > form'), $('#${linkedProcessList}').parent())"/>
 
-			<ui:combo-single hiddenName="typeId" value="${form.param.typeId}" onSelect="${reloadCommand}"
-				prefixText="${l.l('Type')}:" showFilter="true" styleClass="mr1" widthTextValue="200px">
-				<jsp:attribute name="valuesHtml">
-					<li value="">${l.l('All')}</li>
-					<c:forEach var="type" items="${frd.typeList}">
-						<li value="${type}">${ctxProcessTypeMap[type].title}</li>
-					</c:forEach>
-				</jsp:attribute>
-			</ui:combo-single>
-
 			<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="${reloadCommand}"
-				prefixText="${l.l('Открыт')}:" styleClass="mr1" widthTextValue="50px">
+				prefixText="${l.l('Open')}:" styleClass="mr1" widthTextValue="5em">
 				<jsp:attribute name="valuesHtml">
 					<li value="">${l.l('All')}</li>
 					<li value="1">${l.l('Yes')}</li>
 					<li value="0">${l.l('No')}</li>
+				</jsp:attribute>
+			</ui:combo-single>
+
+			<ui:combo-single hiddenName="typeId" list="${frd.types}" value="${form.param.typeId}" onSelect="${reloadCommand}"
+				showFilter="true" prefixText="${l.l('Type')}:" styleClass="mr1" widthTextValue="20em">
+				<jsp:attribute name="valuesHtml">
+					<li value="">${l.l('All')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
 

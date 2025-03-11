@@ -13,6 +13,8 @@ import org.bgerp.model.base.tree.TreeItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ProcessType extends TreeItem<Integer, ProcessType> implements Comparable<ProcessType> {
+    private static final int MIN_TITLE_LENGTH = 15;
+
     private boolean useParentProperties;
     private TypeProperties properties;
 
@@ -23,6 +25,18 @@ public class ProcessType extends TreeItem<Integer, ProcessType> implements Compa
     public ProcessType(int id, String title) {
         this.id = id;
         this.title = title;
+    }
+
+    /**
+     * @return the type's title, prefixed by the parent's one, if shorter than {@link #MIN_TITLE_LENGTH}
+     */
+    public String getTypeTitle() {
+        String result = super.getTitle();
+
+        if (result.length() < MIN_TITLE_LENGTH && parentId != null && parentId > 0)
+            result = ProcessTypeCache.getProcessTypeSafe(parentId).getTitle() + " / " + result;
+
+        return result;
     }
 
     public TypeProperties getProperties() {

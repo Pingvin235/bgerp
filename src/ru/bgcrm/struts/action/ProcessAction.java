@@ -36,6 +36,7 @@ import org.bgerp.dao.process.ProcessSearchDAO;
 import org.bgerp.event.base.UserEvent;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.param.Parameter;
@@ -44,6 +45,8 @@ import org.bgerp.model.process.config.IsolationConfig;
 import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.Log;
+
+import com.google.common.base.Functions;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.message.MessageDAO;
@@ -858,10 +861,33 @@ public class ProcessAction extends BaseAction {
 
         new ProcessSearchDAO(conSet.getSlaveConnection(), form)
             .withOpen(form.getParamBoolean("open", null))
+            .withType(form.getParamValues("typeId"))
             .withExecutor(Set.of(form.getUserId()))
             .search(new Pageable<>(form));
 
+        var processes = new Pageable<Process>().withoutPagination();
+        new ProcessSearchDAO(conSet.getSlaveConnection(), form)
+            .withExecutor(Set.of(form.getUserId()))
+            .search(processes);
+        form.setResponseData("types", processTypes(processes.getList()));
+
         return html(conSet, form, PATH_JSP + "/user_process_list.jsp");
+    }
+
+    /**
+     * List with process types, reverce ordered by usage counts
+     * @param processes
+     */
+    protected List<IdTitle> processTypes(Collection<Process> processes) {
+        return processes.stream()
+            .map(Process::getTypeId)
+            // group type occurrences by ID
+            .collect(Collectors.groupingBy(Functions.identity(), Collectors.counting()))
+            .entrySet().stream()
+            // reverted sort
+            .sorted((me1, me2) -> me2.getValue().compareTo(me1.getValue()))
+            .map(me -> new IdTitle(me.getKey(), ProcessTypeCache.getProcessTypeSafe(me.getKey()).getTypeTitle() + " (" + me.getValue() + ")"))
+            .toList();
     }
 
     public ActionForward processMergeEdit(DynActionForm form, ConnectionSet conSet) throws Exception {

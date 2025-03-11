@@ -48,7 +48,7 @@ public class ProcessLinkAction extends ProcessAction {
 
     private static final String PATH_JSP = PATH_JSP_USER + "/process/process/link";
 
-    // процессы, к которым привязана сущность
+    // processes with a link
     public ActionForward linkedProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
         restoreRequestParams(conSet.getConnection(), form, true, true, "open");
 
@@ -93,10 +93,14 @@ public class ProcessLinkAction extends ProcessAction {
                 .withOpen(open)
                 .order(Order.CREATE_DT_DESC)
                 .searchWithLinkObjectTypes(new Pageable<Pair<Process, String>>(form));
-        }
 
-        // filter type list
-        form.setResponseData("typeList", new ProcessLinkDAO(conSet.getSlaveConnection(), form).getLinkedProcessTypeIdList(objectType, id));
+            var processes = new Pageable<Process>().withoutPagination();
+            new ProcessLinkSearchDAO(conSet.getSlaveConnection(), form)
+                .withLinkObjectTypeLike(LikePattern.START.get(objectType))
+                .withLinkObjectId(id)
+                .search(processes);
+            form.setResponseData("types", processTypes(processes.getList()));
+        }
 
         // type tree for creation
         var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("linked", objectType, null), form);

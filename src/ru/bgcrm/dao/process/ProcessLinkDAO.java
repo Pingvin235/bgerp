@@ -315,35 +315,6 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Process type IDs, linked to object.
-     * @param objectType SQL LIKE filter by object type.
-     * @param objectId object ID.
-     * @return
-     * @throws SQLException
-     */
-    public Set<Integer> getLinkedProcessTypeIdList(String objectType, int objectId) throws SQLException {
-        Set<Integer> list = new TreeSet<>();
-
-        String query =
-            "SELECT DISTINCT process.type_id FROM " + TABLE_PROCESS + " AS process " +
-            "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id  AND link.object_id=? AND link.object_type LIKE ? ";
-
-        query += "ORDER BY process.type_id";
-
-        try (var ps = con.prepareStatement(query)) {
-            ps.setInt(1, objectId);
-            ps.setString(2, objectType);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(Utils.parseInt(rs.getString(1)));
-            }
-        }
-
-        return list;
-    }
-
-
-    /**
      * Checks cyclic dependencies.
      * @param processId
      * @return
@@ -458,6 +429,28 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         }
 
         return result;
+    }
+
+    @Deprecated
+    public Set<Integer> getLinkedProcessTypeIdList(String objectType, int objectId) throws SQLException {
+        Set<Integer> list = new TreeSet<>();
+
+        String query =
+            "SELECT DISTINCT process.type_id FROM " + TABLE_PROCESS + " AS process " +
+            "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id  AND link.object_id=? AND link.object_type LIKE ? ";
+
+        query += "ORDER BY process.type_id";
+
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, objectId);
+            ps.setString(2, objectType);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(Utils.parseInt(rs.getString(1)));
+            }
+        }
+
+        return list;
     }
 
     /**
