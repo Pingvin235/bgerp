@@ -580,19 +580,6 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'list' с наименованиями значений.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @return
-     * @throws SQLException
-     */
-    @Deprecated
-    public List<IdTitle> getParamListWithTitles(int id, int paramId) throws SQLException {
-        List<IdTitleComment> values = getParamListWithTitlesAndComments(id, paramId);
-        return new ArrayList<>(values);
-    }
-
-    /**
      * Selects a parameter value with type 'list' с комментариями значений.
      * @param id object ID.
      * @param paramId param ID.
@@ -617,57 +604,6 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'list' с наименованиями значений и примечаниями.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @return
-     * @throws SQLException
-     */
-    @Deprecated
-    public List<IdTitleComment> getParamListWithTitlesAndComments(int id, int paramId) throws SQLException {
-        List<IdTitleComment> result = new ArrayList<>();
-
-        StringBuilder query = new StringBuilder();
-
-        query.append(SQL_SELECT);
-        query.append(" val.value, dir.title, val.comment ");
-        query.append(SQL_FROM);
-        query.append(Tables.TABLE_PARAM_LIST);
-        query.append(" AS val ");
-        addListParamJoin(query, paramId);
-        query.append(SQL_WHERE);
-        query.append(" val.id=? AND val.param_id=? ");
-
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            result.add(new IdTitleComment(rs.getInt(1), rs.getString(2), rs.getString(3)));
-        }
-        ps.close();
-
-        return result;
-    }
-
-    private void addListParamJoin(StringBuilder query, int paramId) throws SQLException {
-        Parameter param = ParameterCache.getParameter(paramId);
-        String joinTable = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_LIST_VALUE);
-        addListTableJoin(query, joinTable);
-    }
-
-    private void addListTableJoin(StringBuilder query, String tableName) {
-        query.append(SQL_LEFT_JOIN);
-        query.append(tableName);
-        query.append(" AS dir ON ");
-        if (tableName.equals(Tables.TABLE_PARAM_LIST_VALUE)) {
-            query.append(" val.param_id=dir.param_id AND val.value=dir.id ");
-        } else {
-            query.append(" val.value=dir.id ");
-        }
-    }
-
-    /**
      * Selects a parameter value with type 'listcount'.
      * @param id object ID.
      * @param paramId param ID.
@@ -688,44 +624,6 @@ public class ParamValueDAO extends CommonDAO {
         }
 
         return result;
-    }
-
-    /**
-     * Selects a parameter value with type 'listcount' с наименованиями значений.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @return
-     * @throws SQLException
-     */
-    @Deprecated
-    public List<IdTitle> getParamListCountWithTitles(int id, int paramId) throws SQLException {
-        List<IdTitle> result = new ArrayList<>();
-
-        StringBuilder query = new StringBuilder();
-
-        query.append(SQL_SELECT);
-        query.append("val.value, dir.title");
-        query.append(SQL_FROM);
-        query.append(Tables.TABLE_PARAM_LISTCOUNT);
-        query.append("AS val");
-        addListCountParamJoin(query);
-        query.append(SQL_WHERE);
-        query.append("val.id=? AND val.param_id=?");
-
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            result.add(new IdTitle(rs.getInt(1), rs.getString(2)));
-        }
-        ps.close();
-
-        return result;
-    }
-
-    private void addListCountParamJoin(StringBuilder query) throws SQLException {
-        query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_LISTCOUNT_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
     }
 
     /**
@@ -803,41 +701,6 @@ public class ParamValueDAO extends CommonDAO {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             result.add(rs.getString(1));
-        }
-        ps.close();
-
-        return result;
-    }
-
-    /**
-     * Значения параметра объекта типа 'tree' с текстовыми наименованиями.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @return
-     * @throws SQLException
-     */
-    @Deprecated
-    public List<IdStringTitle> getParamTreeWithTitles(int id, int paramId) throws SQLException {
-        List<IdStringTitle> result = new ArrayList<>();
-
-        StringBuilder query = new StringBuilder(200);
-
-        query.append(SQL_SELECT);
-        query.append("val.value, dir.title");
-        query.append(SQL_FROM);
-        query.append(Tables.TABLE_PARAM_TREE);
-        query.append("AS val");
-        addTreeParamJoin(query);
-        query.append(SQL_WHERE);
-        query.append("val.id=? AND val.param_id=?");
-        query.append(SQL_ORDER_BY).append("val.value");
-
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            result.add(new IdStringTitle(rs.getString(1), rs.getString(2)));
         }
         ps.close();
 
@@ -1344,14 +1207,6 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * @see #updateParamFile(int, int, int, FileData)
-     */
-    @Deprecated
-    public void updateParamFile(int id, int paramId, int position, String comment, FileData fileData) throws Exception {
-        updateParamFile(id, paramId, position, fileData);
-    }
-
-    /**
      * Устанавливает значения параметра типа 'list' с пустыми примечениями.
      * @param id object ID.
      * @param paramId param ID.
@@ -1405,12 +1260,6 @@ public class ParamValueDAO extends CommonDAO {
         }
     }
 
-    @Deprecated
-    public void updateParamList(int id, int paramId, Map<Integer, String> values) throws SQLException {
-        log.warndMethod("updateParamList", "updateParamListWithComments");
-        updateParamListWithComments(id, paramId, values);
-    }
-
     /**
      * Sets values for parameter with type 'listcount'.
      * @param id entity ID.
@@ -1455,18 +1304,6 @@ public class ParamValueDAO extends CommonDAO {
             }
             logParam(id, paramId, userId, logRecord.toString());
         }
-    }
-
-    /**
-     * Использовать {@link #updateParamListCount(int, int, Map)}.
-     */
-    @Deprecated
-    public void updateParamListCount(int id, int paramId, Map<Integer, Double> values,
-            Map<Integer, String> valuesComments) throws SQLException {
-        Map<Integer, BigDecimal> valuesFixed = new HashMap<>(values.size());
-        for (Map.Entry<Integer, Double> me : values.entrySet())
-            valuesFixed.put(me.getKey(), new BigDecimal(me.getValue()));
-        updateParamListCount(id, paramId, valuesFixed);
     }
 
     /**
@@ -1591,10 +1428,6 @@ public class ParamValueDAO extends CommonDAO {
         if (history) {
             logParam(id, paramId, userId, Utils.getObjectTitles(getParamTreeWithTitles(id, paramId)));
         }
-    }
-
-    public void updateParamTreeCount(int id, int paramId) throws SQLException {
-        //
     }
 
     /**
@@ -1750,7 +1583,7 @@ public class ParamValueDAO extends CommonDAO {
             rs = ps.executeQuery();
         } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
             query.append(SQL_SELECT + "val.param_id, val.value, val.count, dir.title" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + "AS val ");
-            addListCountParamJoin(query);
+            query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_LISTCOUNT_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
             query.append(SQL_WHERE + "val.id=? AND val.param_id IN (");
             query.append(Utils.toString(ids));
             query.append(")" + SQL_ORDER_BY + "dir.title");
@@ -1870,6 +1703,14 @@ public class ParamValueDAO extends CommonDAO {
         ps.close();
     }
 
+    private void addListTableJoin(StringBuilder query, String tableName) {
+        query.append(SQL_LEFT_JOIN).append(tableName).append(" AS dir ON ");
+        if (tableName.equals(Tables.TABLE_PARAM_LIST_VALUE))
+            query.append(" val.param_id=dir.param_id AND val.value=dir.id ");
+        else
+            query.append(" val.value=dir.id ");
+    }
+
     private void deleteFromParamTable(int id, int paramId, String tableName) throws SQLException {
         String query = SQL_DELETE_FROM + tableName + SQL_WHERE + "id=? AND param_id=?";
         try (var ps = con.prepareStatement(query)) {
@@ -1877,5 +1718,148 @@ public class ParamValueDAO extends CommonDAO {
             ps.setInt(2, paramId);
             ps.executeUpdate();
         }
+    }
+
+    // DEPRECATED
+
+    /**
+     * Selects a parameter value with type 'list' с наименованиями значений.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @return
+     * @throws SQLException
+     */
+    @Deprecated
+    public List<IdTitle> getParamListWithTitles(int id, int paramId) throws SQLException {
+        List<IdTitleComment> values = getParamListWithTitlesAndComments(id, paramId);
+        return new ArrayList<>(values);
+    }
+
+    /**
+     * Selects a parameter value with type 'list' с наименованиями значений и примечаниями.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @return
+     * @throws SQLException
+     */
+    @Deprecated
+    public List<IdTitleComment> getParamListWithTitlesAndComments(int id, int paramId) throws SQLException {
+        List<IdTitleComment> result = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder();
+
+        query.append(SQL_SELECT);
+        query.append(" val.value, dir.title, val.comment ");
+        query.append(SQL_FROM);
+        query.append(Tables.TABLE_PARAM_LIST);
+        query.append(" AS val ");
+        addListTableJoin(query, ParameterCache.getParameter(paramId).getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_LIST_VALUE));
+        query.append(SQL_WHERE);
+        query.append(" val.id=? AND val.param_id=? ");
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(new IdTitleComment(rs.getInt(1), rs.getString(2), rs.getString(3)));
+        }
+        ps.close();
+
+        return result;
+    }
+
+    /**
+     * Selects a parameter value with type 'listcount' с наименованиями значений.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @return
+     * @throws SQLException
+     */
+    @Deprecated
+    public List<IdTitle> getParamListCountWithTitles(int id, int paramId) throws SQLException {
+        List<IdTitle> result = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder();
+
+        query.append(SQL_SELECT);
+        query.append("val.value, dir.title");
+        query.append(SQL_FROM);
+        query.append(Tables.TABLE_PARAM_LISTCOUNT);
+        query.append("AS val");
+        query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_LISTCOUNT_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
+        query.append(SQL_WHERE);
+        query.append("val.id=? AND val.param_id=?");
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(new IdTitle(rs.getInt(1), rs.getString(2)));
+        }
+        ps.close();
+
+        return result;
+    }
+
+    /**
+     * Значения параметра объекта типа 'tree' с текстовыми наименованиями.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @return
+     * @throws SQLException
+     */
+    @Deprecated
+    public List<IdStringTitle> getParamTreeWithTitles(int id, int paramId) throws SQLException {
+        List<IdStringTitle> result = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder(200);
+
+        query.append(SQL_SELECT);
+        query.append("val.value, dir.title");
+        query.append(SQL_FROM);
+        query.append(Tables.TABLE_PARAM_TREE);
+        query.append("AS val");
+        addTreeParamJoin(query);
+        query.append(SQL_WHERE);
+        query.append("val.id=? AND val.param_id=?");
+        query.append(SQL_ORDER_BY).append("val.value");
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(new IdStringTitle(rs.getString(1), rs.getString(2)));
+        }
+        ps.close();
+
+        return result;
+    }
+
+    /**
+     * Use {@link #updateParamFile(int, int, int, FileData)}
+     */
+    @Deprecated
+    public void updateParamFile(int id, int paramId, int position, String comment, FileData fileData) throws Exception {
+        updateParamFile(id, paramId, position, fileData);
+    }
+
+    @Deprecated
+    public void updateParamList(int id, int paramId, Map<Integer, String> values) throws SQLException {
+        log.warndMethod("updateParamList", "updateParamListWithComments");
+        updateParamListWithComments(id, paramId, values);
+    }
+
+    /**
+     * Использовать {@link #updateParamListCount(int, int, Map)}.
+     */
+    @Deprecated
+    public void updateParamListCount(int id, int paramId, Map<Integer, Double> values, Map<Integer, String> valuesComments) throws SQLException {
+        Map<Integer, BigDecimal> valuesFixed = new HashMap<>(values.size());
+        for (Map.Entry<Integer, Double> me : values.entrySet())
+            valuesFixed.put(me.getKey(), new BigDecimal(me.getValue()));
+        updateParamListCount(id, paramId, valuesFixed);
     }
 }
