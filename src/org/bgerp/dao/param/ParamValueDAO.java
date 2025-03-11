@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -945,7 +944,7 @@ public class ParamValueDAO extends CommonDAO {
             throw new IllegalArgumentException("Unsupported object type: " + object);
         }
 
-        return loadParameters(parameters, object.getId())
+        return loadParameters(parameters, object.getId(), false)
             .stream()
             .collect(Collectors.toMap(pv -> pv.getParameter().getId(), pv -> pv));
     }
@@ -1878,41 +1877,5 @@ public class ParamValueDAO extends CommonDAO {
             ps.setInt(2, paramId);
             ps.executeUpdate();
         }
-    }
-
-    @Deprecated
-    public List<ParameterValue> loadParameters(List<Parameter> paramList, int id) throws SQLException {
-        return loadParameters(paramList, id, false);
-    }
-
-    @Deprecated
-    public void loadParameterValue(ParameterValue param, int objectId, boolean offEncription) throws Exception {
-        Parameter parameter = param.getParameter();
-        updateParamValueMap(Collections.singletonMap(parameter.getId(), param), parameter.getType(),
-                Collections.singletonList(parameter.getId()), objectId, offEncription);
-    }
-
-    /**
-     * @see OldParamSearchDAO#searchObjectByParameterPhone(int, ParameterPhoneValue)
-     */
-    @Deprecated
-    public Set<Integer> searchObjectByParameterPhone(int parameterId, ParameterPhoneValue parameterPhoneValue) throws SQLException {
-        return new org.bgerp.dao.param.OldParamSearchDAO(con).searchObjectByParameterPhone(parameterId, parameterPhoneValue);
-    }
-
-    /**
-     * @see OldParamSearchDAO#searchObjectByParameterText(int, String)
-     */
-    @Deprecated
-    public Set<Integer> searchObjectByParameterText(int parameterId, String parameterTextValue) throws SQLException {
-        return new org.bgerp.dao.param.OldParamSearchDAO(con).searchObjectByParameterText(parameterId, parameterTextValue);
-    }
-
-    /**
-     * @see OldParamSearchDAO#searchObjectByParameterList(int, int)
-     */
-    @Deprecated
-    public Set<Integer> searchObjectByParameterList(int parameterId, int value) throws Exception {
-        return new org.bgerp.dao.param.OldParamSearchDAO(con).searchObjectByParameterList(parameterId, value);
     }
 }

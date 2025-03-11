@@ -16,6 +16,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
+import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
@@ -156,7 +157,7 @@ public class MessageTypeChannel extends MessageType {
         try (var con = setup.getDBConnectionFromPool()) {
             PropertiesDAO propDAO = new PropertiesDAO(con);
             MessageDAO messageDAO = new MessageDAO(con);
-            ParamValueDAO paramDAO = new ParamValueDAO(con);
+            OldParamSearchDAO paramDAO = new OldParamSearchDAO(con);
             ProcessLinkDAO linkDAO = new ProcessLinkDAO(con);
 
             // время последнего выбранного сообщения
