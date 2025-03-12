@@ -31,7 +31,12 @@ public class CommonDAO {
     protected final static String SQL_DISTINCT = "DISTINCT ";
     protected final static String SQL_INSERT_IGNORE = "INSERT IGNORE INTO ";
     protected final static String SQL_INSERT_INTO = "INSERT INTO ";
-    protected final static String SQL_VALUES = "VALUES ";
+    protected final static String SQL_VALUES = " VALUES ";
+    protected final static String SQL_VALUES_1 = SQL_VALUES + "(?)";
+    protected final static String SQL_VALUES_2 = SQL_VALUES + "(?, ?)";
+    protected final static String SQL_VALUES_3 = SQL_VALUES + "(?, ?, ?)";
+    protected final static String SQL_VALUES_4 = SQL_VALUES + "(?, ?, ?, ?)";
+    protected final static String SQL_VALUES_5 = SQL_VALUES + "(?, ?, ?, ?, ?)";
     protected final static String SQL_SET = " SET ";
     protected final static String SQL_UPDATE = "UPDATE ";
     protected final static String SQL_DELETE = "DELETE ";

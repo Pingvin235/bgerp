@@ -25,6 +25,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.cache.ParameterCache;
@@ -1047,11 +1048,40 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет/добавляет/удаляет значения параметра типа EMail.
-     * @param id - код сущности в БД.
-     * @param paramId - param ID.
-     * @param position - позиция значения, начинается с 1, 0 - добавить новое значение с позицией MAX+1.
-     * @param value - значение, null - удаление параметра на указанной позиции, если position>0; иначе - удаление всех значений.
+     * Updates values for parameter with type 'email'
+     * @param id object ID
+     * @param paramId param ID
+     * @param values the values, {@code null} or empty - delete values in DB
+     * @throws SQLException
+    */
+    public void updateParamEmail(int id, int paramId, List<ParameterEmailValue> values) throws SQLException {
+        deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_EMAIL);
+
+        if (CollectionUtils.isNotEmpty(values)) {
+            try (var ps = con.prepareStatement(SQL_INSERT_INTO + Tables.TABLE_PARAM_EMAIL + "(id, param_id, n, value, comment)" + SQL_VALUES_5)) {
+                ps.setInt(1, id);
+                ps.setInt(2, paramId);
+
+                int n = 1;
+                for (var value : values) {
+                    ps.setInt(3, n++);
+                    ps.setString(4, value.getValue());
+                    ps.setString(5, value.getComment());
+                    ps.executeUpdate();
+                }
+            }
+        }
+
+        if (history)
+            logParam(id, paramId, userId, ParameterEmailValue.toString(getParamEmail(id, paramId).values()));
+    }
+
+    /**
+     * Updates values for parameter with type 'email'
+     * @param id object ID
+     * @param paramId param ID
+     * @param position values' position, starting from 1, {@code 0} add a new value with position {@code MAX + 1}
+     * @param value the value, {@code null} delete the values from the {@code position} more than 0, delete all values if {@code position} is 0
      * @throws SQLException
      */
     public void updateParamEmail(int id, int paramId, int position, ParameterEmailValue value) throws SQLException {

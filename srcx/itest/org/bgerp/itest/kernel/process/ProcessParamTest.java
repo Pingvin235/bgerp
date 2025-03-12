@@ -313,33 +313,38 @@ public class ProcessParamTest {
         final var emailSecond = new ParameterEmailValue("email2@domain.org", "");
 
         dao.updateParamEmail(processId, paramEmailId, 0, emailFirst);
-        var value = dao.getParamEmail(processId, paramEmailId);
-        Assert.assertEquals(value.size(), 1);
-        Assert.assertEquals(value.get(1), emailFirst);
+        var values = dao.getParamEmail(processId, paramEmailId);
+        Assert.assertEquals(values.size(), 1);
+        Assert.assertEquals(values.get(1), emailFirst);
 
         dao.updateParamEmail(processId, paramEmailId, 0, emailSecond);
-        value = dao.getParamEmail(processId, paramEmailId);
-        Assert.assertEquals(value.size(), 2);
-        Assert.assertEquals(value.get(2), emailSecond);
+        values = dao.getParamEmail(processId, paramEmailId);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values.get(2), emailSecond);
 
         dao.updateParamEmail(processId, paramEmailId, 1, null);
-        value = dao.getParamEmail(processId, paramEmailId);
-        Assert.assertEquals(value.size(), 1);
+        values = dao.getParamEmail(processId, paramEmailId);
+        Assert.assertEquals(values.size(), 1);
 
         dao.updateParamEmail(processId, paramEmailId, -1, null);
-        value = dao.getParamEmail(processId, paramEmailId);
-        Assert.assertEquals(value.size(), 0);
+        values = dao.getParamEmail(processId, paramEmailId);
+        Assert.assertEquals(values.size(), 0);
 
         dao.updateParamEmail(processId, paramEmailId, 0, emailFirst);
 
-         var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramEmailId)), false, new Pageable<>());
-        int cnt = 5;
+        dao.updateParamEmail(processId, paramEmailId, List.of(emailFirst, emailSecond));
+        values = dao.getParamEmail(processId, paramEmailId);
+        Assert.assertEquals(values.size(), 2);
+
+        var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramEmailId)), false, new Pageable<>());
+        int cnt = 6;
         Assert.assertEquals(log.size(), cnt);
         Assert.assertEquals(log.get(--cnt).getText(), "First Person <email1@domain.org>");
         Assert.assertEquals(log.get(--cnt).getText(), "First Person <email1@domain.org>, email2@domain.org");
         Assert.assertEquals(log.get(--cnt).getText(), "email2@domain.org");
         Assert.assertEquals(log.get(--cnt).getText(), "");
         Assert.assertEquals(log.get(--cnt).getText(), "First Person <email1@domain.org>");
+        Assert.assertEquals(log.get(--cnt).getText(), "First Person <email1@domain.org>, email2@domain.org");
     }
 
     private void paramValueFile(int processId) throws Exception {
