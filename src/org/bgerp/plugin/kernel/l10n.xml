@@ -5,7 +5,7 @@
 	<p><ru>Сохранить свойства</ru><en>Save properties</en></p>
 	<p><ru>Пароль</ru><en>Password</en></p>
 	<p><ru>Логин</ru><en>Login</en></p>
-	<p><ru>Имя</ru><en>Name</en></p>
+	<p><en>Name</en><ru>Имя</ru></p>
 	<p><ru>Свойство</ru><en>Property</en></p>
 	<p><ru>Параметр</ru><en>Parameter</en></p>
 	<p><ru>Параметры (сохраняются сразу)</ru><en>Parameters (saved immediately)</en></p>

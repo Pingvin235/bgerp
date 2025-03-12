@@ -17,7 +17,7 @@
 			<td width="100%">${l.l('Value')}</td>
 		</tr>
 		<tr>
-			<td>${l.l('Имя')}</td>
+			<td>${l.l('Name')}</td>
 			<td>
 				<input id="userName" name="userName" type="text" size="30" value="${user.title}"/>
 			</td>
