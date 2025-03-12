@@ -17,7 +17,7 @@ Incoming variables:
 			<tr>
 				<td><input type="text" name="phone" value="${item.phone}" class="w100p"/></td>
 				<td><input type="text" name="comment" value="${item.comment}" class="w100p"/></td>
-				<td><button class="btn-white btn-small icon" onclick="$$.param.phone.delValue(this)"><i class="ti-trash"></i></button></td>
+				<td><button type="button" class="btn-white btn-small icon" onclick="$$.param.phone.delValue(this)"><i class="ti-trash"></i></button></td>
 			</tr>
 		</c:forEach>
 	</table>
