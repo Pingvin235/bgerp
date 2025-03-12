@@ -1,6 +1,5 @@
 package org.bgerp.plugin.svc.log.action.admin;
 
-import java.time.YearMonth;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
@@ -11,6 +10,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.svc.log.Plugin;
 import org.bgerp.plugin.svc.log.dao.ActionLogDAO;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -34,7 +34,7 @@ public class ActionLogAction extends BaseAction {
             throw new BGMessageException("Time from can't be empty.");
 
         Date timeTo = form.getParamDateTime("timeTo");
-        if (timeTo != null && !YearMonth.from(timeFrom.toInstant()).equals(YearMonth.from(timeTo.toInstant())))
+        if (timeTo != null && !TimeConvert.toYearMonth(timeFrom).equals(TimeConvert.toYearMonth(timeTo)))
             throw new BGMessageException("Time to must be in the same month as time from.");
 
         Set<String> actions = form.getParamValuesStr("perm");
