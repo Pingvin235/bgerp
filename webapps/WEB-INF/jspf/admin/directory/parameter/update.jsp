@@ -52,7 +52,7 @@
 			</div>
 		</div><%--
 	--%><div style="width: 50%;">
-			<h2>${l.l('Комментарий')}</h2>
+			<h2>${l.l('Comment')}</h2>
 			<input type="text" name="comment" style="width: 100%" value="${u.escapeXml( parameter.comment )}"/>
 
 			<h2>${l.l('Configuration')}</h2>

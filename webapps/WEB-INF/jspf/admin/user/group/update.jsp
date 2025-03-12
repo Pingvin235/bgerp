@@ -20,7 +20,7 @@
 				<h2>${l.l('Название')}</h2>
 				<input type="text" name="title" style="width: 100%" value="${group.title}"/>
 
-				<h2>${l.l('Комментарий')}</h2>
+				<h2>${l.l('Comment')}</h2>
 				<input type="text" name="comment" style="width: 100%" value="${group.comment}"/>
 
 				<h2>${l.l('Скрытая')}</h2>

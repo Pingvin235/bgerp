@@ -62,7 +62,7 @@
 		<td width="50">${l.l('Подгрупп')}</td>
 		<td width="40%">${l.l('Наборы прав')}</td>
 		<td width="50">${l.l('Скрытая')}</td>
-		<td width="30%">${l.l('Комментарий')}</td>
+		<td width="30%">${l.l('Comment')}</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}">
 		<tr>

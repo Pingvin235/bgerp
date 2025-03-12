@@ -27,7 +27,7 @@
 			</div>
 		</div><%--
 	--%><div style="width: 50%;" class="pl1">
-			<h2>${l.l('Комментарий')}</h2>
+			<h2>${l.l('Comment')}</h2>
 			<textarea name="comment" id="${uiidTo}" style="width: 100%; resize: none;">${permset.comment}</textarea>
 		</div>
 	</div>

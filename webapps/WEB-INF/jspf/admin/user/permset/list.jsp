@@ -24,7 +24,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="30%">${l.l('Title')}</td>
-		<td width="70%">${l.l('Комментарий')}</td>
+		<td width="70%">${l.l('Comment')}</td>
 	</tr>
 	<c:forEach var="permset" items="${frd.list}">
 		<tr>

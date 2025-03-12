@@ -23,7 +23,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td>${l.l('Title')}</td>
-		<td>${l.l('Комментарий')}</td>
+		<td>${l.l('Comment')}</td>
 		<td>${l.l('Subscribers')}</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}">

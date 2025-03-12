@@ -31,7 +31,7 @@
 			<td><input id="userPassword" name="userPassword" type="password" size="30" value="${user.password}"/></td>
 		</tr>
 		<tr>
-			<td>${l.l('Комментарий')}</td>
+			<td>${l.l('Comment')}</td>
 			<td><input id="userDescription" name="userDescription" type="text" size="30" value="${user.description}"/></td>
 		</tr>
 	</table>

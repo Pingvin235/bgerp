@@ -134,6 +134,6 @@ Incoming variables:
 		</c:if>
 
 		<input id="${commentUiid}" type="text" style="width: 100%; ${commentDisplayStyle}" onchange="${changeScript}"
-				value="${currentComment}" placeholder="${l.l('Комментарий')}" class="mt1"/>
+				value="${currentComment}" placeholder="${l.l('Comment')}" class="mt1"/>
 	</c:otherwise>
 </c:choose>

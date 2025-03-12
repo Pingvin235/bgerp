@@ -10,7 +10,7 @@ Incoming variables:
 	<table class="data">
 		<tr>
 			<td width="50%">${l.l('Number')}</td>
-			<td width="50%">${l.l('Комментарий')}</td>
+			<td width="50%">${l.l('Comment')}</td>
 			<td><ui:button type="add" id="${addButtonUiid}" styleClass="btn-small" onclick="$$.param.phone.addValue(this)"/></td>
 		</tr>
 		<c:forEach var="item" items="${data.value.itemList}">

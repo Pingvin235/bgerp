@@ -59,7 +59,7 @@
 		<td>${l.l('Логин')}</td>
 		<td>${l.l('Наборы прав')}</td>
 		<td>${l.l('Groups')}</td>
-		<td>${l.l('Комментарий')}</td>
+		<td>${l.l('Comment')}</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}">
 		<tr>

@@ -12,7 +12,7 @@
 	<table class="data">
 		<tr>
 			<td>${l.l('Status')}</td>
-			<td>${l.l('Комментарий')}</td>
+			<td>${l.l('Comment')}</td>
 			<td>${l.l('Time')}</td>
 			<td>${l.l('User')}</td>
 		</tr>

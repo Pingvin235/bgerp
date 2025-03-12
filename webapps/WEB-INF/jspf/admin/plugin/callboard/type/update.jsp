@@ -43,7 +43,7 @@
 			<div class="hint">Сокращения для табеля через запятую.</div>
 
 
-			<h2>${l.l('Комментарий')}</h2>
+			<h2>${l.l('Comment')}</h2>
 			<html:textarea property="comment" style="width: 100%; resize: none;" value="${workType.comment}"/>
 
 		</div><%--

@@ -27,7 +27,7 @@
 	</ui:combo-single>
 
 	<div class="mt1">
-		${l.l('Комментарий')}
+		${l.l('Comment')}
 		<textarea name="comment" style="width: 100%; resize: vertical;" rows="4"></textarea>
 	</div>
 
