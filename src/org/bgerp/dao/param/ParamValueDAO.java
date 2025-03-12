@@ -449,33 +449,6 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a value for parameter type 'email'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @position param value position.
-     * @return
-     * @throws SQLException
-     */
-    public ParameterEmailValue getParamEmail(int id, int paramId, int position) throws SQLException {
-        ParameterEmailValue emailItem = null;
-
-        String query = "SELECT * FROM " + Tables.TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
-
-        PreparedStatement ps = con.prepareStatement(query.toString());
-        ps.setInt(1, id);
-        ps.setInt(2, paramId);
-        ps.setInt(3, position);
-
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            emailItem = new ParameterEmailValue(rs.getString("value"), rs.getString("comment"));
-        }
-        ps.close();
-
-        return emailItem;
-    }
-
-    /**
      * Selects values for parameter type 'email'.
      * @param id object ID.
      * @param paramId param ID.
@@ -1753,6 +1726,36 @@ public class ParamValueDAO extends CommonDAO {
     // DEPRECATED
 
     /**
+     * Selects a value for parameter type 'email'.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @position param value position.
+     * @return
+     * @throws SQLException
+     */
+    @Deprecated
+    public ParameterEmailValue getParamEmail(int id, int paramId, int position) throws SQLException {
+        log.warndMethod("getParamEmail(int, int, int)", "getParamEmail(int, int)");
+
+        ParameterEmailValue emailItem = null;
+
+        String query = "SELECT * FROM " + Tables.TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ps.setInt(3, position);
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            emailItem = new ParameterEmailValue(rs.getString("value"), rs.getString("comment"));
+        }
+        ps.close();
+
+        return emailItem;
+    }
+
+    /**
      * Selects a parameter value with type 'list' с наименованиями значений.
      * @param id object ID.
      * @param paramId param ID.
@@ -1761,6 +1764,8 @@ public class ParamValueDAO extends CommonDAO {
      */
     @Deprecated
     public List<IdTitle> getParamListWithTitles(int id, int paramId) throws SQLException {
+        log.warnd("getParamListWithTitles", "getParamList");
+
         List<IdTitleComment> values = getParamListWithTitlesAndComments(id, paramId);
         return new ArrayList<>(values);
     }
@@ -1774,6 +1779,8 @@ public class ParamValueDAO extends CommonDAO {
      */
     @Deprecated
     public List<IdTitleComment> getParamListWithTitlesAndComments(int id, int paramId) throws SQLException {
+        log.warnd("getParamListWithTitlesAndComments", "getParamList");
+
         List<IdTitleComment> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder();
@@ -1808,6 +1815,8 @@ public class ParamValueDAO extends CommonDAO {
      */
     @Deprecated
     public List<IdTitle> getParamListCountWithTitles(int id, int paramId) throws SQLException {
+        log.warnd("getParamListCountWithTitles", "getParamListCount");
+
         List<IdTitle> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder();
@@ -1842,6 +1851,8 @@ public class ParamValueDAO extends CommonDAO {
      */
     @Deprecated
     public List<IdStringTitle> getParamTreeWithTitles(int id, int paramId) throws SQLException {
+        log.warnd("getParamTreeWithTitles", "getParamTree");
+
         List<IdStringTitle> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder(200);
