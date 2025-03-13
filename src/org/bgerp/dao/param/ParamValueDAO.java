@@ -961,11 +961,7 @@ public class ParamValueDAO extends CommonDAO {
         } else {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_UPDATE);
-            query.append(tableName);
-            query.append("SET value=?");
-            query.append(SQL_WHERE);
-            query.append("id=? AND param_id=?");
+            query.append(SQL_UPDATE).append(tableName).append("SET value=?").append(SQL_WHERE).append("id=? AND param_id=?");
 
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setObject(1, value);
@@ -976,9 +972,7 @@ public class ParamValueDAO extends CommonDAO {
                 ps.close();
 
                 query.setLength(0);
-                query.append(SQL_INSERT_INTO);
-                query.append(tableName);
-                query.append("(id, param_id, value) VALUES (?,?,?)");
+                query.append(SQL_INSERT_INTO).append(tableName).append("(id, param_id, value)" + SQL_VALUES_3);
 
                 ps = con.prepareStatement(query.toString());
                 ps.setInt(1, id);
@@ -1046,7 +1040,7 @@ public class ParamValueDAO extends CommonDAO {
         }
 
         if (history)
-            logParam(id, paramId, userId, ParameterEmailValue.toString(getParamEmail(id, paramId).values()));
+            logParam(id, paramId, userId, ParameterEmailValue.toString(values));
     }
 
     /**
@@ -1178,7 +1172,7 @@ public class ParamValueDAO extends CommonDAO {
                 ps.close();
             }
 
-            var query = "INSERT INTO " + Tables.TABLE_PARAM_FILE + "(id, param_id, n, value) VALUES (?, ?, ?, ?)";
+            var query = "INSERT INTO " + Tables.TABLE_PARAM_FILE + "(id, param_id, n, value)" + SQL_VALUES_4;
 
             var ps = con.prepareStatement(query);
             ps.setInt(1, id);
@@ -1233,7 +1227,7 @@ public class ParamValueDAO extends CommonDAO {
     public void updateParamListWithComments(int id, int paramId, Map<Integer, String> values) throws SQLException {
         deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LIST);
 
-        try (var ps = con.prepareStatement(SQL_INSERT_INTO + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment)" + SQL_VALUES + "(?, ?, ?, ?)")) {
+        try (var ps = con.prepareStatement(SQL_INSERT_INTO + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment)" + SQL_VALUES_4)) {
             ps.setInt(1, id);
             ps.setInt(2, paramId);
             for (Map.Entry<Integer, String> value : values.entrySet()) {
@@ -1276,7 +1270,7 @@ public class ParamValueDAO extends CommonDAO {
 
         deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_LISTCOUNT);
 
-        try (var ps = con.prepareStatement(SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count) VALUES (?, ?, ?, ?)")) {
+        try (var ps = con.prepareStatement(SQL_INSERT_INTO + Tables.TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count)" + SQL_VALUES_4)) {
             ps.setInt(1, id);
             ps.setInt(2, paramId);
             for (var me : values.entrySet()) {
@@ -1417,7 +1411,7 @@ public class ParamValueDAO extends CommonDAO {
 
         deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_TREE);
 
-        String query = "INSERT INTO " + Tables.TABLE_PARAM_TREE + "(id, param_id, value) VALUES (?,?,?)";
+        String query = SQL_INSERT_INTO + Tables.TABLE_PARAM_TREE + "(id, param_id, value)" + SQL_VALUES_3;
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
@@ -1446,7 +1440,7 @@ public class ParamValueDAO extends CommonDAO {
 
         deleteFromParamTable(id, paramId, Tables.TABLE_PARAM_TREECOUNT);
 
-        String query = SQL_INSERT_INTO + Tables.TABLE_PARAM_TREECOUNT + "(id, param_id, value, count)" + SQL_VALUES + "(?,?,?,?)";
+        String query = SQL_INSERT_INTO + Tables.TABLE_PARAM_TREECOUNT + "(id, param_id, value, count)" + SQL_VALUES_4;
 
         try (var ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
