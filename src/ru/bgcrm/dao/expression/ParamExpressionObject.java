@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import org.bgerp.cache.ParameterCache;
@@ -196,8 +195,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
                     return Utils.maskNull(paramDao.getParamText(objectId, paramId));
                 }
                 case FILE -> {
-                    SortedMap<Integer, FileData> value = paramDao.getParamFile(objectId, paramId);
-                    return Utils.toString(value.keySet());
+                    return Utils.toString(paramDao.getParamFile(objectId, paramId).values().stream().map(FileData::getTitle).toList());
                 }
                 case EMAIL -> {
                     return "type 'email' is not supported yet";
