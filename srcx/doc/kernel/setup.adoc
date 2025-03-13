@@ -510,19 +510,16 @@ image::_res/i0023.png[]
 image::_res/i0025.png[]
 
 [[param-email]]
-=== Параметр типа "email"
-Один или несколько EMail адресов либо только адресов доменов с комментариями.
-В конфигурации параметра могут быть указаны следующие необязательные параметры:
-----
-# несколько EMail в параметре
-multiple=1
-----
+=== Parameter type "email"
+EMail or domain addresses.
 
-Как выглядит в таблице и редактирование.
+Values table.
 
-image::_res/i0055.png[]
+image::_res/setup/param/email_table.png[]
 
-image::_res/i0056.png[]
+Values editor.
+
+image::_res/setup/param/email_editor.png[]
 
 [[param-file]]
 === Параметр типа "file"

@@ -1,3 +1,0 @@
-# https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-email
-# multiple values
-#multiple=1

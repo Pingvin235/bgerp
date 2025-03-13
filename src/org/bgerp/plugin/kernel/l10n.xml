@@ -676,6 +676,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Load template?</en><ru>Загрузить шаблон?</ru></p>
 	<p><en>Update failed</en><ru>Ошибка обновления</ru></p>
 	<p><en>See details in the latest update.log</en><ru>Детали доступны в последнем update.log</ru></p>
+	<p><en>Domain</en><ru>Домен</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

@@ -165,23 +165,7 @@
 			</c:when>
 
 			<c:when test="${parameter.type eq 'email'}">
-				<c:set var="id" value="${form.id}" />
-				<c:set var="parameter" value="${frd.parameter }" />
-				<c:set var="email" value="${frd.email}" />
-
-				<input type="hidden" name="method" value="parameterUpdate" />
-				<html:hidden property="position" />
-
-				<div class="in-table-cell in-pl05">
-					<div><b>EMail:</b></div>
-					<div>
-						<input id="${focusFieldUiid}" type="text" name="value" style="width: 200px;" value="${email.value}"/>
-					</div>
-					<div><b>Ком.:</b></div>
-					<div style="width: 100%;" class="pl05">
-						<input type="text" name="comment" style="width: 100%;" value="${email.comment}"/>
-					</div>
-				</div>
+				<%@ include file="edit/email/editor.jsp"%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'list'}">

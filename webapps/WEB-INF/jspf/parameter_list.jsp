@@ -146,67 +146,6 @@
 						</c:if>
 					</c:when>
 
-					<c:when test="${'email' eq parameter.type}">
-						<c:url var="getUrl" value="/user/parameter.do">
-							<c:param name="method" value="parameterGet"/>
-							<c:param name="id" value="${id}"/>
-							<c:param name="paramId" value="${parameter.id}"/>
-						</c:url>
-
-						<c:forEach var="email" items="${item.value}">
-							<c:set var="position" value="${email.key}"/>
-							<c:set var="value" value="${email.value}"/>
-
-							<c:choose>
-								<c:when test="${not readonly}">
-									<html:form action="/user/parameter" style="display:inline;">
-										<input type="hidden" name="method" value="parameterUpdate"/>
-										<html:hidden property="objectType"/>
-										<input type="hidden" name="id" value="${id}"/>
-										<input type="hidden" name="paramId" value="${parameter.id}"/>
-										<input type="hidden" name="position" value="${position}"/>
-
-										<ui:button type="del" styleClass="btn-small"
-											onclick="$$.ajax.post(this).done(() => { $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()) })"/>
-									</html:form>
-
-									<c:set var="editFormId" value="${u:uiid()}"/>
-									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
-										<input type="hidden" name="method" value="parameterGet"/>
-										<html:hidden property="objectType"/>
-										<input type="hidden" name="id" value="${id}"/>
-										<input type="hidden" name="paramId" value="${parameter.id}"/>
-										<input type="hidden" name="position" value="${position}"/>
-										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
-										<input type="hidden" name="tableId" value="${tableId}"/>
-
-										<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
-											${value}
-										</a>
-									</html:form>
-								</c:when>
-								<c:otherwise>${value}</c:otherwise>
-							</c:choose>
-							<br/>
-						</c:forEach>
-
-						<%-- adding --%>
-						<c:if test="${(multiple or empty item.value) and not readonly}">
-							<html:form action="/user/parameter" style="display: inline;">
-								<input type="hidden" name="method" value="parameterGet"/>
-								<html:hidden property="objectType"/>
-								<input type="hidden" name="id" value="${id}"/>
-								<input type="hidden" name="position" value="-1"/>
-								<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
-								<input type="hidden" name="tableId" value="${tableId}"/>
-								<input type="hidden" name="paramId" value="${parameter.id}"/>
-
-								<ui:button type="add" styleClass="btn-small"
-									onclick="$$.ajax.load(this.form, $('#${editDivId}')).done(() => { ${startEdit} })"/>
-							</html:form>
-						</c:if>
-					</c:when>
-
 					<c:when test="${'file' eq parameter.type}">
 						<c:forEach var="file" items="${item.value}" varStatus="status">
 							<c:set var="value" value="${file.value}"/>
@@ -266,18 +205,22 @@
 					</c:when>
 
 					<%-- editor has to be called --%>
-					<c:when test="${'blob, date, datetime, list, listcount, money, phone, text, tree, treecount'.contains(parameter.type) and empty editorType}">
+					<c:when test="${'blob, date, datetime, email, list, listcount, money, phone, text, tree, treecount'.contains(parameter.type) and empty editorType}">
 						<c:set var="editFormId" value="${u:uiid()}"/>
 						<c:set var="valueTitle" value="${item.valueTitle}"/>
 
-						<c:if test="${'date, datetime'.contains(parameter.type) }">
-							<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
-							<c:set var="valueTitle" value="${tu.format(item.value, type )}"/>
-						</c:if>
-
-						<c:if test="${parameter.type eq 'blob' and not empty valueTitle}">
-							<c:set var="valueTitle" value="<pre>${u.escapeXml(valueTitle)}</pre>"/>
-						</c:if>
+						<c:choose>
+							<c:when test="${parameter.type eq 'blob' and not empty valueTitle}">
+								<c:set var="valueTitle" value="<pre>${u.escapeXml(valueTitle)}</pre>"/>
+							</c:when>
+							<c:when test="${'date, datetime'.contains(parameter.type)}">
+								<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
+								<c:set var="valueTitle" value="${tu.format(item.value, type )}"/>
+							</c:when>
+							<c:when test="${parameter.type eq 'email'}">
+								<c:set var="valueTitle" value="${u.escapeXml(valueTitle)}"/>
+							</c:when>
+						</c:choose>
 
 						<c:set var="showAsLink" value="${not empty parameter.showAsLink and not empty item.value}"/>
 						<c:choose>

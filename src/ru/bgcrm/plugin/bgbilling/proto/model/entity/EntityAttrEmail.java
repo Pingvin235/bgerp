@@ -106,7 +106,8 @@ public class EntityAttrEmail extends EntityAttr {
          * @return
          */
         public String getName() {
-            return name;
+            // из биллинга имя может прийти с кавычками вокруг
+            return Utils.maskNull(name).replace("\"", "");
         }
 
         /**

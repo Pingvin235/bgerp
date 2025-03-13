@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -229,12 +230,7 @@ public class ParameterAction extends BaseAction {
                 }
             }
             case EMAIL -> {
-                ParameterEmailValue emailValue = paramDAO.getParamEmail(id, paramId, form.getParamInt("position", -1));
-
-                if (emailValue != null) {
-                    resp.setData("email", emailValue);
-                    resp.setData("parameter", parameter);
-                }
+                resp.setData("values", paramDAO.getParamEmail(id, paramId).values());
             }
             case FILE -> {
                 //TODO: Сделать поддержку разных типов.
@@ -443,17 +439,16 @@ public class ParameterAction extends BaseAction {
                 paramValueDAO.updateParamDateTime(id, paramId, (Date) paramValue);
             }
             case EMAIL -> {
-                int position = form.getParamInt("position", 0);
-                String value = form.getParam("value", "");
+                var values = new ArrayList<ParameterEmailValue>();
 
-                ParameterEmailValue emailValue = null;
+                Iterator<String> emails = form.getParamValuesListStr("address").iterator();
+                Iterator<String> comments = form.getParamValuesListStr("name").iterator();
+                while (emails.hasNext())
+                    values.add(new ParameterEmailValue(emails.next(), comments.hasNext() ? comments.next() : ""));
 
-                if (Utils.notBlankString(value))
-                    emailValue = new ParameterEmailValue(value, form.getParam("comment", ""));
+                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = emailValue));
-
-                paramValueDAO.updateParamEmail(id, paramId, position, emailValue);
+                paramValueDAO.updateParamEmail(id, paramId, values);
             }
             case FILE -> {
                 FormFile file = form.getFile();

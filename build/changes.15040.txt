@@ -1,0 +1,1 @@
+C: Parameter editor for type 'email' similar with 'phone'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-email

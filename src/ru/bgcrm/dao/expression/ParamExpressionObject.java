@@ -198,7 +198,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
                     return Utils.toString(paramDao.getParamFile(objectId, paramId).values().stream().map(FileData::getTitle).toList());
                 }
                 case EMAIL -> {
-                    return "type 'email' is not supported yet";
+                    return Parameter.Type.emailToString(paramDao.getParamEmail(objectId, paramId).values());
                 }
                 case LIST -> {
                     return Utils.getObjectTitles(param.getListParamValues(), paramDao.getParamList(objectId, paramId));

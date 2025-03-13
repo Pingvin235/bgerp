@@ -3,6 +3,7 @@ package org.bgerp.model.param;
 import static org.bgerp.model.param.Parameter.TYPE_ADDRESS;
 import static org.bgerp.model.param.Parameter.TYPE_DATE;
 import static org.bgerp.model.param.Parameter.TYPE_DATETIME;
+import static org.bgerp.model.param.Parameter.TYPE_EMAIL;
 import static org.bgerp.model.param.Parameter.TYPE_FILE;
 import static org.bgerp.model.param.Parameter.TYPE_LIST;
 import static org.bgerp.model.param.Parameter.TYPE_LISTCOUNT;
@@ -16,6 +17,7 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+import java.util.SortedMap;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.model.base.IdTitle;
@@ -23,6 +25,7 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.param.ParameterAddressValue;
+import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -73,9 +76,9 @@ public class ParameterValue {
                 result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMD);
             } else if (TYPE_DATETIME.equals(type)) {
                 result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
-            } /* else if (TYPE_EMAIL.equals(type)) {
-                result = Utils.toString(((TreeMap<String, String>) value).values(), "", "; ");
-            } */ else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type) || TYPE_TREE.equals(type) || TYPE_TREECOUNT.equals(type)) {
+            } else if (TYPE_EMAIL.equals(type)) {
+                result = Parameter.Type.emailToString(((SortedMap<Integer, ParameterEmailValue>) value).values());
+            } else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type) || TYPE_TREE.equals(type) || TYPE_TREECOUNT.equals(type)) {
                 result = Utils.getObjectTitles((Collection<IdTitle>) value);
             } else {
                 result = String.valueOf(value);

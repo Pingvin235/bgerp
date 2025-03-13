@@ -84,7 +84,7 @@ public class ProcessParamTest {
                 ProcessTest.posParam += 2, "type=ymdhms", "");
 
         paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " type 'email'",
-                ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.email.config.txt"), "");
+                ProcessTest.posParam += 2, "", "");
 
         paramFileId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, TITLE + " type 'file'",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.file.config.txt"), "");

@@ -1641,15 +1641,10 @@ public class ParamValueDAO extends CommonDAO {
             } else if (Parameter.TYPE_DATETIME.equals(type)) {
                 param.setValue(rs.getTimestamp("value"));
             } else if (Parameter.TYPE_EMAIL.equals(type)) {
-                Map<Integer, String> values = (Map<Integer, String>) param.getValue();
+                Map<Integer, ParameterEmailValue> values = (Map<Integer, ParameterEmailValue>) param.getValue();
                 if (values == null)
                     param.setValue(values = new TreeMap<>());
-
-                if (!"".equals(rs.getString("comment"))) {
-                    values.put(rs.getInt("n"), rs.getString("value") + " [" + rs.getString("comment") + "]");
-                } else {
-                    values.put(rs.getInt("n"), rs.getString("value"));
-                }
+                values.put(rs.getInt("n"), new ParameterEmailValue(rs.getString("value"), rs.getString("comment")));
             } else if (Parameter.TYPE_FILE.equals(type)) {
                 Map<String, FileData> values = (Map<String, FileData>) param.getValue();
                 if (values == null)
