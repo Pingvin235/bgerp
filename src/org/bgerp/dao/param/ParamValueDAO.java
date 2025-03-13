@@ -242,7 +242,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Удаляет параметры объекта.
      * @param objectType тип объекта.
-     * @param id object ID.
+     * @param id object ID
      * @throws SQLException
      */
     public void deleteParams(String objectType, int id) throws SQLException {
@@ -376,8 +376,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a value for parameter type 'blob'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
@@ -411,8 +411,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a value for parameter type 'date'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
@@ -422,8 +422,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a value for parameter type 'datetime'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
@@ -450,8 +450,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects values for parameter type 'email'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return key - param value position, value - a value itself.
      * @throws SQLException
      */
@@ -475,8 +475,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a value for parameter type 'file'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @param position position number for multiple values.
      * @return
      * @throws SQLException
@@ -504,8 +504,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects values for parameter type 'file'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return map with key equals value's position.
      * @throws SQLException
      */
@@ -531,7 +531,7 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'list'.
-     * @param id object ID.
+     * @param id object ID
      * @param paramId
      * @return Set с кодами значений.
      * @throws SQLException
@@ -555,8 +555,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'list' с комментариями значений.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return ключ - код значения, значение - комментарий.
      * @throws SQLException
      */
@@ -579,8 +579,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'listcount'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return a map with key equals value IDs and values counts.
      * @throws SQLException
      */
@@ -602,8 +602,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'money'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return the value or {@code null}.
      * @throws SQLException
      */
@@ -613,8 +613,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'phone'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return the value or {@code null}.
      * @throws SQLException
      */
@@ -647,9 +647,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a value of parameter with type 'text'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * Selects a value of parameter type 'text'.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
@@ -659,8 +659,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'tree'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return набор значений.
      * @throws SQLException
      */
@@ -687,8 +687,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects parameter values with type 'treecount'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return map with a key equal to the parameter value ID, and the value - value amount (count).
      * @throws SQLException
      */
@@ -710,7 +710,7 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Проверяет заполненость параметра для объекта с кодом id.
-     * @param id object ID.
+     * @param id object ID
      * @param param параметр.
      * @return
      * @throws Exception
@@ -937,9 +937,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значение параметра типа 'blob'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * Updates value for parameter type 'blob'
+     * @param id object ID
+     * @param paramId param ID
      * @param value значение, null или пустая строка - удалить значение.
      * @throws SQLException
      */
@@ -991,10 +991,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значение параметра типа 'date'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param value значение, null - удаление.
+     * Updates value for parameter type 'date'
+     * @param id object ID
+     * @param paramId param ID
+     * @param value the value, {@code null} - delete
      * @throws SQLException
      */
     public void updateParamDate(int id, int paramId, Date value) throws SQLException {
@@ -1006,10 +1006,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значение параметра типа 'datetime'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param value значение, null - удаление.
+     * Updates value for parameter type 'datetime'
+     * @param id object ID
+     * @param paramId param ID
+     * @param value the value, {@code null} - delete
      * @throws SQLException
      */
     public void updateParamDateTime(int id, int paramId, Date value) throws SQLException {
@@ -1021,7 +1021,7 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Updates values for parameter with type 'email'
+     * Updates values for parameter type 'email'
      * @param id object ID
      * @param paramId param ID
      * @param values the values, {@code null} or empty - delete values in DB
@@ -1050,7 +1050,7 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Updates values for parameter with type 'email'
+     * Updates values for parameter type 'email'
      * @param id object ID
      * @param paramId param ID
      * @param position values' position, starting from 1, {@code 0} add a new value with position {@code MAX + 1}
@@ -1124,11 +1124,11 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Updates parameter with type 'file'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param position position for multiple values, when is 0 - adding with new positions.
-     * @param fileData value for the given position, if {@code null} - removes a value from the position or all values with {@code position} == -1.
+     * Updates values for parameter type 'file'
+     * @param id object ID
+     * @param paramId param ID
+     * @param position position for multiple values, when is 0 - adding with new positions
+     * @param fileData value for the given position, if {@code null} - removes a value from the position or all values with {@code position} == -1
      * @throws Exception
      */
     public void updateParamFile(int id, int paramId, int position, FileData fileData) throws Exception {
@@ -1210,10 +1210,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значения параметра типа 'list' с пустыми примечениями.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param values набор с кодами значений.
+     * Updates values without comments for parameter type 'list'
+     * @param id object ID
+     * @param paramId param ID
+     * @param values the values
      * @throws SQLException
      */
     public void updateParamList(int id, int paramId, Set<Integer> values) throws SQLException {
@@ -1224,10 +1224,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значения параметра типа 'list' с примечаниями.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param values ключ - значение параметра, значение - текстовое примечание.
+     * Updates values with comments for parameter type 'list'
+     * @param id object ID
+     * @param paramId param ID
+     * @param values the values map, keys represent values, values - comments
      * @throws SQLException
      */
     public void updateParamListWithComments(int id, int paramId, Map<Integer, String> values) throws SQLException {
@@ -1264,10 +1264,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Sets values for parameter with type 'listcount'.
-     * @param id entity ID.
-     * @param paramId param ID.
-     * @param values map with key = value ID, and values with possible types: {@link String}, {@link BigDecimal}.
+     * Updates values for parameter type 'listcount'
+     * @param id entity ID
+     * @param paramId param ID
+     * @param values map with key = value ID, and values with possible types: {@link String}, {@link BigDecimal}
      * @throws SQLException
      */
     public void updateParamListCount(int id, int paramId, Map<Integer, ?> values) throws SQLException {
@@ -1310,10 +1310,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Updates parameter with type 'money'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param value the value, when {@code null} - delete.
+     * Updates value for parameter type 'money'
+     * @param id object ID
+     * @param paramId param ID
+     * @param value the value, when {@code null} - delete
      * @throws SQLException
      */
     public void updateParamMoney(int id, int paramId, BigDecimal value) throws SQLException {
@@ -1325,10 +1325,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Updates parameter with type 'money'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param value the value, when {@code null} or a blank string - delete.
+     * Updates value for parameter type 'money'
+     * @param id object ID
+     * @param paramId parm ID.
+     * @param value the value, when {@code null} or a blank string - delete
      * @throws SQLException
      */
     public void updateParamMoney(int id, int paramId, String value) throws SQLException {
@@ -1343,10 +1343,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Sets values for parameter with type 'phone'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param value the values, {@code null} or empty {@code itemList} - delete values.
+     * Updates values for parameter type 'phone'
+     * @param id object ID
+     * @param paramId param ID
+     * @param value the values, {@code null} or empty {@code itemList} - delete values
      * @throws SQLException
      */
     public void updateParamPhone(int id, int paramId, ParameterPhoneValue value) throws SQLException {
@@ -1386,10 +1386,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Sets a value for parameter with type 'text'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param value the value, {@code null} or emtpy string - delete value.
+     * Updates value for parameter type 'text'
+     * @param id object ID
+     * @param paramId param ID
+     * @param value the value, {@code null} or emtpy string - delete value
      * @throws SQLException
      */
     public void updateParamText(int id, int paramId, String value) throws SQLException {
@@ -1405,10 +1405,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Sets values for parameter with type 'tree'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param values the values, {@code null} or empty set - delete values.
+     * Updates values for parameter type 'tree'
+     * @param id object ID
+     * @param paramId param ID
+     * @param values the values, {@code null} or empty set - delete values
      * @throws SQLException
      */
     public void updateParamTree(int id, int paramId, Set<String> values) throws SQLException {
@@ -1434,10 +1434,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Sets values for parameter with type 'treecount'.
-     * @param id object ID.
-     * @param paramId param ID.
-     * @param values the values map (key - treecount value ID, value - 'count'), {@code null} or emtpy map - delete values.
+     * Updates values for parameter type 'treecount'
+     * @param id object ID
+     * @param paramId param ID
+     * @param values the values map (key - treecount value ID, value - 'count'), {@code null} or emtpy map - delete values
      * @throws SQLException
      */
     public void updateParamTreeCount(int id, int paramId, Map<String, BigDecimal> values) throws SQLException {
@@ -1722,8 +1722,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a value for parameter type 'email'.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @position param value position.
      * @return
      * @throws SQLException
@@ -1752,8 +1752,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'list' с наименованиями значений.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
@@ -1767,8 +1767,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'list' с наименованиями значений и примечаниями.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
@@ -1803,8 +1803,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Selects a parameter value with type 'listcount' с наименованиями значений.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
@@ -1839,8 +1839,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Значения параметра объекта типа 'tree' с текстовыми наименованиями.
-     * @param id object ID.
-     * @param paramId param ID.
+     * @param id object ID
+     * @param paramId param ID
      * @return
      * @throws SQLException
      */
