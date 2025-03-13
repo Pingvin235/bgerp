@@ -48,7 +48,7 @@ public class DispatchCommandProcessor extends Task {
 
     @Override
     public String getTitle() {
-        return Plugin.INSTANCE.getLocalizer().l("Dispatch E-Mail Command Processor");
+        return Plugin.INSTANCE.getLocalizer().l("Dispatch Email Command Processor");
     }
 
     @Override

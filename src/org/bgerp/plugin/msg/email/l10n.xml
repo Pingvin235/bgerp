@@ -18,7 +18,7 @@ Please, do not change response subject and to not citate the message there!</en>
 	<p><ru>Карточка процесса: {}</ru><en>Process card: {}</en></p>
 	<p><ru>получено: </ru><en>recieved: </en></p>
 	<p><ru>отправлено: </ru><en>sent: </en></p>
-	<p><ru>TagBox ввод E-Mail в сообщениях</ru><en>TagBox input E-Mail in messages</en></p>
+	<p><ru>TagBox ввод Email в сообщениях</ru><en>TagBox input Email in messages</en></p>
 	<p>
 		<sys>email.autoCreateProcess.notification.text.message.default</sys>
 		<ru>Уважаемый клиент, ваше обращение зарегистрировано!
@@ -48,7 +48,7 @@ Message:
 
 Open process: {}
 
-For quick response answer on the E-Mail with preserved ID in subject.</en>
+For quick response answer on the Email with preserved ID in subject.</en>
 		<ru>Новое сообщение в процессе, в котором вы числитесь исполнителем.
 
 Сообщение:
@@ -65,7 +65,7 @@ For quick response answer on the E-Mail with preserved ID in subject.</en>
 
 Open process: {}
 
-For quick response answer on the E-Mail with preserved ID in subject.</en>
+For quick response answer on the Email with preserved ID in subject.</en>
 		<ru>Изменён состав исполнителей процесса.
 
 Открыть процесс: {}
@@ -79,7 +79,7 @@ For quick response answer on the E-Mail with preserved ID in subject.</en>
 
 Open process: {}
 
-For quick response answer on the E-Mail with preserved ID in subject.</en>
+For quick response answer on the Email with preserved ID in subject.</en>
 		<ru>Изменён статус процесса.
 
 Открыть процесс: {}

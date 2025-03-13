@@ -148,7 +148,7 @@ public class CustomerRuTest {
         paramDao.updateParamFile(customerId, paramStampId, 0, new FileData("stamp.png", ResourceHelper.getResourceBytes(this, "stamp.png")));
         paramDao.updateParamText(customerId, paramInvoiceFooterId, "На основании Договора-оферты от 17.02.2022, расположенному по адресу: https://bgerp.ru/client/");
 
-        // TODO: E-Mail and phones.
+        // TODO: Email and phones.
     }
 
     @Test(dependsOnMethods = "patternTitle")

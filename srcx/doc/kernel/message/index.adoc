@@ -13,9 +13,9 @@ drawio:_res/messages.drawio[]
 В ядре поддерживаются сообщения типа Звонок, Заметки (Комментарии). Дополнительные типы сообщений предоставляются плагинами.
 
 Система сообщений позволяет организовать обмен информации централизованным образом, исключая персональные контакты через отдельные аккаунты
-E-Mail, телефоны и т.п.. Процесс может легко быть передан иному исполнителю и всю информацию по нему доступна всем и всегда.
+Email, телефоны и т.п.. Процесс может легко быть передан иному исполнителю и всю информацию по нему доступна всем и всегда.
 
-Сообщения E-Mail могут быть использованы для коммуникации двух BGERP между собой. В каждой из них сообщения будут привязаны к своему процессу,
+Сообщения Email могут быть использованы для коммуникации двух BGERP между собой. В каждой из них сообщения будут привязаны к своему процессу,
 имеющих собственных исполнителей.
 
 [[setup]]
@@ -257,7 +257,7 @@ Where:
 * *<id>* - unique block's numeric ID, found processes are sorted by the IDs
 * *<color>* - optional HTML color for table rows with found processes
 * *<class>* - search type, one of the following values:
-** *MessagePossibleProcessSearchMessageFrom* - processes with messages from the same *from* address (E-Mail sender or calling number) as the processed message.
+** *MessagePossibleProcessSearchMessageFrom* - processes with messages from the same *from* address (Email sender or calling number) as the processed message.
 ** *MessagePossibleProcessSearchFoundLinks* - processes with the same links as found for the processed message.
 ** *MessagePossibleProcessSearchFoundLinksCustomerAddressCity* - processes with a <<../setup.adoc#param-list, list>> parameter values, matching to city IDs of address parameter of found customers.
 That type requires additional properties set:
@@ -283,8 +283,8 @@ NOTE: If no block is defined then a single ones with class *MessagePossibleProce
 [[usage-queue]]
 === Оснастка "Сообщения"
 Доступна через оснастку *Сообщения*. Основное назначение - первичная обработка сообщений с привязкой к вновь созданным, либо существующим процессам.
-В обработке нуждаются не все сообщения, в данный момент она используется для E-Mail ов и <<#setup-type-call, звонков>>.
-Обработка звонка открывается автоматически, E-Mail ы необходимо открывать в оснастке вручную.
+В обработке нуждаются не все сообщения, в данный момент она используется для Email ов и <<#setup-type-call, звонков>>.
+Обработка звонка открывается автоматически, Email ы необходимо открывать в оснастке вручную.
 
 NOTE: Уведомление о количестве необработанных сообщений выводится в области <<../interface.adoc#user-notification, уведомлений>>.
 
@@ -297,7 +297,7 @@ image::_res/messages.png[width="800"]
 
 image::_res/message_process.png[]
 
-Либо для E-Mail.
+Либо для Email.
 
 image::_res/message_process_email.png[width="800"]
 

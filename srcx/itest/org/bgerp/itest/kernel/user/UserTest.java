@@ -41,7 +41,7 @@ public class UserTest {
 
     @Test
     public void param() throws Exception {
-        paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", posParam += 2, ParamTest.MULTIPLE, "");
+        paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "Email(s)", posParam += 2, ParamTest.MULTIPLE, "");
         paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", posParam += 2, "", "");
         paramExtensionId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, "Extension number", posParam+=2, "", "");
     }

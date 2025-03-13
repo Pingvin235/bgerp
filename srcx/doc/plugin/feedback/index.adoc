@@ -7,7 +7,7 @@ The plugin provides adding messages in <<../../kernel/interface.adoc#open, Open>
 
 [[setup]]
 == Setup
-In <<../../kernel/setup.adoc#config, configuration>> enable plugin and add message <<../../plugin/msg/email/index.adoc#setup, type>> of E-Mail,
+In <<../../kernel/setup.adoc#config, configuration>> enable plugin and add message <<../../plugin/msg/email/index.adoc#setup, type>> of Email,
 which will be used for saved messages.
 
 Example:
@@ -23,8 +23,8 @@ In open interface for opened processes click *Add* button to send a feedback mes
 
 image::_res/add_button.png[width="800"]
 
-Enter subject, your E-Mail and message text in the opened editor.
-The message will be saved as an E-Mail and will be available in process Messages tab for processing.
+Enter subject, your Email and message text in the opened editor.
+The message will be saved as an Email and will be available in process Messages tab for processing.
 
 image::_res/add_editor.png[width="800"]
 

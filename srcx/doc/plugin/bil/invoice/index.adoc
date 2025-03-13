@@ -8,7 +8,7 @@ The plugin provides the following functionality:
 [square]
 * creation process-related invoices with automatically generated number;
 * generation printing form out of them;
-* providing printing form documents to be attached and sent in process message like E-Mail.
+* providing printing form documents to be attached and sent in process message like Email.
 
 NOTE: You can see the plugin enabled and sample configurations in <<../../../kernel/install.adoc#demo, Demo System>>.
 

@@ -50,21 +50,21 @@ public class PaidInvoiceConfig extends Config {
     }
 
     /**
-     * @return E-Mail message type for sending email on paid invoice or {@code null}.
+     * @return Email message type for sending email on paid invoice or {@code null}.
      */
     public MessageTypeEmail getEmailMessageType() {
         return emailMessageType;
     }
 
     /**
-     * @return E-Mail subject.
+     * @return Email subject.
      */
     public String getEmailSubject() {
         return emailSubject;
     }
 
     /**
-     * @return E-Mail text expression.
+     * @return Email text expression.
      */
     public String getEmailTextExpression() {
         return emailTextExpression;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
-	<p><ru>На указанный адрес выслана инструкция</ru><en>The instruction was sent on the E-Mail</en></p>
+	<p><ru>На указанный адрес выслана инструкция</ru><en>The instruction was sent on the Email</en></p>
 	<p><ru>Рассылки</ru><en>Dispatches</en></p>
 	<p><ru>Сообщения рассылок</ru><en>Dispatch messages </en></p>
 	<p><en>Subscribers</en><ru>Подписчиков</ru></p>
-	<p><en>Dispatch E-Mail Command Processor</en><ru>Dispatch обработчик e-mail команд</ru></p>
+	<p><en>Dispatch Email Command Processor</en><ru>Dispatch обработчик e-mail команд</ru></p>
 	<p><en>Dispatch Message Sender</en><ru>Dispatch отправщик сообщений</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>

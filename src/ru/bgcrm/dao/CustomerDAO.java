@@ -234,10 +234,10 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагентов по параметру типа E-Mail.
+     * Выбирает контрагентов по параметру типа Email.
      * @param searchResult
      * @param emailParamIdList
-     * @param email E-Mail, поиск идёт по точному совпадению и совпадению домена
+     * @param email Email, поиск идёт по точному совпадению и совпадению домена
      * @throws SQLException
      */
     public void searchCustomerListByEmail(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> emailParamIdList, String email)

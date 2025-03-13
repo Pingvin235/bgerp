@@ -513,7 +513,7 @@ public class MessageTypeEmail extends MessageType {
             incomingFolder.copyMessages(new javax.mail.Message[] { message }, skippedFolder);
 
             String s = subject;
-            AlarmSender.send(key, 0, "E-Mail processing error", () -> "Subject: " + s, e, () -> {
+            AlarmSender.send(key, 0, "Email processing error", () -> "Subject: " + s, e, () -> {
                 try {
                     var bos = new ByteArrayOutputStream(1000);
                     message.writeTo(bos);
@@ -573,7 +573,7 @@ public class MessageTypeEmail extends MessageType {
 
                 msg.setSubject(getAnswerSubject(quickAnsweredMessage.getSubject()));
 
-                // поиск пользователя по E-Mail
+                // поиск пользователя по Email
                 Pageable<ParameterSearchedObject<User>> searchResult = new Pageable<>();
                 new UserDAO(con).searchUserListByEmail(searchResult, Collections.singletonList(quickAnswerEmailParamId), msg.getFrom());
                 ParameterSearchedObject<User> user = Utils.getFirst(searchResult.getList());

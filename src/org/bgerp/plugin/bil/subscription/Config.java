@@ -47,7 +47,7 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     /** Param type 'list', pointing to the subscription. */
     private final int paramSubscriptionId;
-    /** Contact E-Mail for Subscription. */
+    /** Contact Email for Subscription. */
     private final int paramEmailId;
     /** Param type 'list', subscriptions' limit, e.g. sessions */
     private final int paramLimitId;

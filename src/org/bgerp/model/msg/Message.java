@@ -53,10 +53,10 @@ public class Message extends Id {
     // для звонка - на номер, для EMail - на адрес, для HD - код контрагента в виде строки
     private String to = "";
 
-    // для HD/E-Mail - тема сообщения
+    // для HD/Email - тема сообщения
     private String subject = "";
 
-    // для HD/E-Mail - текст сообщения, для телефона - краткое описание.
+    // для HD/Email - текст сообщения, для телефона - краткое описание.
     private String text = "";
 
     // прикрепленные файлы

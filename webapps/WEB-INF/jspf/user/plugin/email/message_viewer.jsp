@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h2>E-Mail</h2>
+<h2>Email</h2>
 
 <b>${l.l('Тема')}:</b> ${message.subject}<br/>
 <b>${l.l('От')}:</b> <a href="mailto:${message.from}">${message.from}</a><br/>

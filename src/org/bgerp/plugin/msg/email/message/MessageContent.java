@@ -39,7 +39,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
 /**
- * E-Mail content creator.
+ * Email content creator.
  *
  * @author Shamil Vakhitov
  */
@@ -60,7 +60,7 @@ public class MessageContent {
     }
 
     /**
-     * Set E-Mail message content.
+     * Set Email message content.
      * @param message
      * @param msg
      * @throws Exception

@@ -13,7 +13,7 @@
 			<input type="text" name="subject" class="w100p"/>
 		</div><%--
 	--%><div class="pl1" style="width: 50%;">
-			<h2>E-Mail *</h2>
+			<h2>Email *</h2>
 			<input type="text" name="email" class="w100p"/>
 		</div>
 	</div>

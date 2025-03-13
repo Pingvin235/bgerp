@@ -1,11 +1,11 @@
-= Plugin E-Mail
+= Plugin Email
 :toc:
 :toclevels: 4
 
 [[about]]
 == About
-The plugin allows to organize E-Mail exchange in the program.
-Incoming E-Mail messages may be processed via <<../../../kernel/message/index.adoc#usage-queue, Message Queue>>.
+The plugin allows to organize Email exchange in the program.
+Incoming Email messages may be processed via <<../../../kernel/message/index.adoc#usage-queue, Message Queue>>.
 Outgoing E-Mails are edited in processes.
 
 [[setup]]
@@ -29,7 +29,7 @@ Better to keep it there rather than in plugin's include, because message type ID
 
 [[qa]]
 ==== Быстрый ответ
-Полученные по E-Mail уведомления о новых сообщениях процесса могут быть использованы для быстрого ответа на них.
+Полученные по Email уведомления о новых сообщениях процесса могут быть использованы для быстрого ответа на них.
 Для этого в тему уведомлений добавляется маркер *QA:код сообщения*. Быстрый ответ может быть произведён на любой тип сообщения
 и идентичен написанию ответа из интерфейса BGERP. Пользователь идентифицируется по EMail, сохранённому в параметре типа EMail,
 код которого указывается в опции *quickAnswerEmailParamId* типа сообщения.
@@ -44,8 +44,8 @@ messageType.<id>.quickAnswerEmailParamId=21
 ----
 
 [[ac]]
-==== Автосоздание процесса по E-Mail
-Для создания новых процессов из всех полученных E-Mail в конфигурации типа сообщения добавить:
+==== Автосоздание процесса по Email
+Для создания новых процессов из всех полученных Email в конфигурации типа сообщения добавить:
 [source]
 ----
 messageType.<id>.autoCreateProcess.typeId=<typeId>
@@ -131,7 +131,7 @@ messageType.5.mail.smtp.pswd=****
 
 [[setup-process-type-change-notification]]
 ==== Process Change Notifications
-Plugin can send E-Mail notifications about process related updates:
+Plugin can send Email notifications about process related updates:
 [square]
 * changes of process status or executors list;
 * new incoming process messages, notification email subject contains in this case <<#qa, Quick Answer identifier>>;
@@ -169,13 +169,13 @@ Object *email* of class javadoc:org.bgerp.plugin.msg.email.ExpressionObject[] wi
 
 [[usage-process]]
 === Messaging in process
-On the screen below is seen E-Mail editor in process <<../../../kernel/message/index.adoc#usage-process, Messages>> tab.
+On the screen below is seen Email editor in process <<../../../kernel/message/index.adoc#usage-process, Messages>> tab.
 
 image::_res/process_message_editor.png[width="800"]
 
 [[usage-process-search-recipient]]
 ==== Search recipients
-NOTE: The feature has a separated  <<../../../kernel/setup.adoc#user, permission>> *Plugin E-Mail / Search recipients*.
+NOTE: The feature has a separated  <<../../../kernel/setup.adoc#user, permission>> *Plugin Email / Search recipients*.
 
 During message editing recipient addresses might be chooses over parameter values with type *email*.
 
@@ -198,7 +198,7 @@ In drop-down *Attach history* may be chosen the following options:
 
 For both modes for each sent message has attached a file named `History.txt`, containing exchange with:
 [square]
-* used E-Mail address
+* used Email address
 * all message history for second case
 
 For the second mode in message signature also added process link to <<../../../kernel/interface.adoc#open-process, open interface>>, case it is configured.

@@ -23,7 +23,7 @@ import org.bgerp.util.URLTotalEncoder;
 import ru.bgcrm.model.FileData;
 
 /**
- * E-Mail sender
+ * Email sender
  *
  * @author Shamil Vakhitov
  */

@@ -11,7 +11,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.util.Utils;
 
 /**
- * E-Mail configuration. Provides IMAP and SMTP sessions.
+ * Email configuration. Provides IMAP and SMTP sessions.
  *
  * @author Shamil Vakhitov
  */

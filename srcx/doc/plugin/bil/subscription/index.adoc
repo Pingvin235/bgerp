@@ -36,7 +36,7 @@ Has the following <<../../../kernel/setup.adoc#param, parameters>>:
 ==== Subscription
 Contains information about customer's subscription, parameters:
 [square]
-* *E-Mail* - *email* customer with the subscription's customer;
+* *Email* - *email* customer with the subscription's customer;
 * *Subscription* - *list* with values equals to configured <<#setup-config-subscription, subscription's>> IDs;
 * *Limit* - *list* with values of allowed subscription limit, e.g. number of concurrent connections;
 * *Service Cost* - *money* with value of *Consultant'* reward over of product prices;
@@ -77,7 +77,7 @@ Where:
 [square]
 * *<privateSshKeyPath>* - file path with private SSH key, used for signing license files, for example: */home/bitel/.ssh/id_rsa*, the public key has to be introduced in key using App;
 * *<paramProductId>* - ID of <<#setup-process-type-product, Product ID>> parameter;
-* *<paramEmailId>* - ID of <<#setup-process-type-subscription, E-Mail>> parameter;
+* *<paramEmailId>* - ID of <<#setup-process-type-subscription, Email>> parameter;
 * *<paramSubscriptionId>* - ID of <<#setup-process-type-subscription, Subscription>> parameter;
 * *<paramLimitId>* - ID of <<#setup-process-type-subscription, Limit>> parameter;
 * *<paramServiceCostId>* - ID of <<#setup-process-type-subscription, Service Cost>> parameter;
@@ -122,7 +122,7 @@ Where:
 [square]
 * *<dateToExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> expression for calculating a new license *Date To* value, with additional context variables:
 ** *invoice* object of javadoc:org.bgerp.plugin.bil.invoice.model.Invoice[]
-* *<emailMessageTypeId>* - <<../../msg/email/index.adoc#setup-message-type, message type ID>> of type E-Mail which will be used for creation of a notification mail with a new license file, exact ID value may be replaced to *0* that will take the first message type of type E-Mail from server configuration;
+* *<emailMessageTypeId>* - <<../../msg/email/index.adoc#setup-message-type, message type ID>> of type Email which will be used for creation of a notification mail with a new license file, exact ID value may be replaced to *0* that will take the first message type of type Email from server configuration;
 * *<emailSubject>* - the mail's subject;
 * *<emailTextExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> expression for generation the mail's content, with additional context variables:
 ** *invoice* object of javadoc:org.bgerp.plugin.bil.invoice.model.Invoice[]

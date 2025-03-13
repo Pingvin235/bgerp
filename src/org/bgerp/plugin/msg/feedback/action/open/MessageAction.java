@@ -104,7 +104,7 @@ public class MessageAction extends BaseAction {
 
         linkCustomers(conSet, email, processId);
 
-        form.getResponse().setMessage(l.l("Сообщение получено, ждите ответа на указанный E-Mail"));
+        form.getResponse().setMessage(l.l("Сообщение получено, ждите ответа на указанный Email"));
 
         return json(conSet, form);
     }

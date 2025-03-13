@@ -43,7 +43,7 @@ public class CredentialAction extends org.bgerp.action.base.BaseAction {
 
         var emailValue = Utils.getFirst(new ParamValueDAO(conSet.getSlaveConnection()).getParamEmail(userId, emailParam.getId()).values());
         if (emailValue == null || Utils.isBlankString(emailValue.getValue())) {
-            throw new BGMessageException("E-Mail не определён");
+            throw new BGMessageException("Email не определён");
         }
 
         // send mail, use MailMsg

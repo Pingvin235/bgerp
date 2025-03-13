@@ -3,6 +3,6 @@
 - In 'Plugin Invoice' configuration set PARAM_COST_ID equal to parameter's 'Plugin Subscription Subscription Cost' ID.
 - In Invoice tab of the process click Add button and create proposed invoice.
 - Mark the invoice as a payed.
-- FOR EU ONLY: Check if created an E-Mail message with updated license.
+- FOR EU ONLY: Check if created an Email message with updated license.
 - Open menu 'Reports / Subscription Payments' and generate report for the invoice payment month.
 - Check the report's data.

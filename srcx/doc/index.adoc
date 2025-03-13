@@ -39,7 +39,7 @@
 *** <<plugin/pln/grpl/index.adoc#, Group Plan>>
 *** <<plugin/pln/sla/index.adoc#, SLA>>
 ** Messaging
-*** <<plugin/msg/email/index.adoc#, E-Mail>>
+*** <<plugin/msg/email/index.adoc#, Email>>
 *** <<plugin/msg/sms/index.adoc#, SMS>>
 *** <<plugin/slack/index.adoc#, Slack>>
 *** <<plugin/telegram/index.adoc#, Telegram>>

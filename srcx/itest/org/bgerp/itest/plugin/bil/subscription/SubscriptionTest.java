@@ -94,7 +94,7 @@ public class SubscriptionTest {
         paramUserIncomingTaxPercentId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " Incoming Tax Percent", UserTest.posParam += 2, "",
                 "");
 
-        paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " E-Mail", ProcessTest.posParam += 2, "",
+        paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " Email", ProcessTest.posParam += 2, "",
                 "");
         paramSubscriptionId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Subscription", ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "subscription.values.txt"));

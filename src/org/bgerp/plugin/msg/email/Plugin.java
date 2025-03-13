@@ -25,7 +25,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     @Override
     public String getTitle() {
-        return "E-Mail";
+        return "Email";
     }
 
     @Override

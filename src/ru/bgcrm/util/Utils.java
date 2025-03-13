@@ -308,7 +308,7 @@ public class Utils {
     }
 
     /**
-     * Is the string a valid E-Mail address.
+     * Is the string a valid Email address.
      * @param value
      * @return
      */

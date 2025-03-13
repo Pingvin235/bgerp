@@ -3,7 +3,7 @@
 
 <tr>
 	<td nowrap="nowrap">
-		${l.l('TagBox ввод E-Mail в сообщениях')}
+		${l.l('TagBox ввод Email в сообщениях')}
 	</td>
 	<td>
 		<c:set var="key" value="iface.email.message.tag-box.disable"/>

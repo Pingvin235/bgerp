@@ -5,7 +5,7 @@ import org.bgerp.app.exception.BGMessageException;
 import ru.bgcrm.util.Utils;
 
 public class ParameterEmailValue {
-    /** E-Mail value. */
+    /** Email value. */
     private String value;
     /** Name of person. */
     private String comment;
@@ -24,8 +24,8 @@ public class ParameterEmailValue {
 
     /**
      * Setter.
-     * @param value E-Mail value.
-     * @throws BGMessageException when not E-Mail value is being set.
+     * @param value Email value.
+     * @throws BGMessageException when not Email value is being set.
      */
     public void setValue(String value) throws BGMessageException {
         if (!Utils.isValidEmail(value)) {
@@ -35,14 +35,14 @@ public class ParameterEmailValue {
     }
 
     /**
-     * @return E-Mail value.
+     * @return Email value.
      */
     public String getValue() {
         return value;
     }
 
     /**
-     * @return part of E-Mail before {@code @}.
+     * @return part of Email before {@code @}.
      */
     public String getUsername() {
         if (value.indexOf("@") == -1) {
@@ -52,7 +52,7 @@ public class ParameterEmailValue {
     }
 
     /**
-     * @return part of E-Mail after  {@code @}.
+     * @return part of Email after  {@code @}.
      */
     public String getDomain() {
         try {

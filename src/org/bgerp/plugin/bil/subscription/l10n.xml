@@ -18,7 +18,7 @@
 
 			Cтоимость подписки за {} дней составляет: {} рублей.
 
-			Пожалуйста, ответьте на данный E-Mail для начала процесса оформления
+			Пожалуйста, ответьте на данный Email для начала процесса оформления
 			подписки либо для уточнения интересующих вас деталей.
 		</ru>
 		<en>
@@ -29,7 +29,7 @@
 
 			The subscription's cost for % days is: {} EUR.
 
-			Please, respond on the E-Mail for beginning
+			Please, respond on the Email for beginning
 
 		</en>
 	</p>
