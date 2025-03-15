@@ -167,7 +167,7 @@ public class Column {
             } else if ("status_comment".equals(value)) {
                 selectPart.append(alias + ".comment");
             } else {
-                log.error("Incorrect column value macros: " + value);
+                log.error("Incorrect column value macros: {}", value);
                 selectPart.append("'0' ");
             }
         } else if ("priority".equals(value)) {
@@ -387,7 +387,7 @@ public class Column {
         }
         // колонка обрабатывается в JSP - список операций, в конфиге колонок чтобы была возможность ставить nowrap, выравнивание и т.п.
         // TODO: Сюда же можно перенести макросы выбора наименования типа, статуса и т.п., т.к. их можно выбрать из справочников
-        else if (value.startsWith("executors") || value.startsWith("groups") || value.equals("actions")
+        else if (value.equals("title") || value.startsWith("executors") || value.startsWith("groups") || value.equals("actions")
                 || value.startsWith("linkProcessList") || value.startsWith("linkedProcessList") || value.equals("N")) {
             selectPart.append("'0' ");
         }
