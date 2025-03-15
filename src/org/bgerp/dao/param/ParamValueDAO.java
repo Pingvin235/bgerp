@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -679,10 +680,6 @@ public class ParamValueDAO extends CommonDAO {
         ps.close();
 
         return result;
-    }
-
-    private void addTreeParamJoin(StringBuilder query) throws SQLException {
-        query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_TREE_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
     }
 
     /**
@@ -1568,11 +1565,8 @@ public class ParamValueDAO extends CommonDAO {
             query.append(Utils.toString(ids));
             query.append(" )" + SQL_ORDER_BY + "pi.n");
         } else if (Parameter.TYPE_TREE.equals(type)) {
-            query.append(SQL_SELECT + "val.param_id, val.value, dir.title" + SQL_FROM + Tables.TABLE_PARAM_TREE + "AS val ");
-            addTreeParamJoin(query);
-            query.append(SQL_WHERE + "val.id=? AND val.param_id IN (");
-            query.append(Utils.toString(ids));
-            query.append(")" + SQL_ORDER_BY + "val.value");
+            query.append(SQL_SELECT + "param_id, value" + SQL_FROM + Tables.TABLE_PARAM_TREE + SQL_WHERE + "id=? AND param_id IN (")
+                    .append(Utils.toString(ids)).append(")");
         } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
             query.append(SQL_SELECT + "param_id, value, count" + SQL_FROM + Tables.TABLE_PARAM_TREECOUNT + SQL_WHERE + "id=? AND param_id IN (")
                     .append(Utils.toString(ids)).append(")" + SQL_ORDER_BY + "value");
@@ -1648,10 +1642,10 @@ public class ParamValueDAO extends CommonDAO {
                     param.setValue(value = new ParameterPhoneValue());
                 value.addItem(getParamPhoneValueItemFromRs(rs));
             } else if (Parameter.TYPE_TREE.equals(type)) {
-                var values = (List<IdStringTitle>) param.getValue();
+                var values = (Set<String>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new ArrayList<>());
-                values.add(new IdStringTitle(rs.getString("val.value"), rs.getString("dir.title")));
+                    param.setValue(values = new TreeSet<>());
+                values.add(rs.getString("value"));
             } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
                 var values = (Map<String, BigDecimal>) param.getValue();
                 if (values == null)
@@ -1824,7 +1818,7 @@ public class ParamValueDAO extends CommonDAO {
         query.append(SQL_FROM);
         query.append(Tables.TABLE_PARAM_TREE);
         query.append("AS val");
-        addTreeParamJoin(query);
+        query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_TREE_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
         query.append(SQL_WHERE);
         query.append("val.id=? AND val.param_id=?");
         query.append(SQL_ORDER_BY).append("val.value");

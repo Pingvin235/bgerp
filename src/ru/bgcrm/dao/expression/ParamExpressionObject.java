@@ -210,7 +210,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
                     return Utils.format(paramDao.getParamMoney(objectId, paramId));
                 }
                 case TREE -> {
-                    return "type 'tree' is not supported yet";
+                    return Parameter.Type.treeToString(paramId, paramDao.getParamTree(objectId, paramId));
                 }
                 case TREECOUNT -> {
                     return Parameter.Type.treeCountToString(paramId, paramDao.getParamTreeCount(objectId, paramId));

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.ConfigMap;
@@ -67,11 +68,31 @@ public class Parameter extends IdTitleComment {
 
         /**
          * Unified representation 'email' parameter values as a string.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
          * @param values the parameter values
          * @return
          */
         public static String emailToString(Collection<ParameterEmailValue> values) {
             return Utils.toString(values, "", ", ");
+        }
+
+        /**
+         * Unified representation 'tree' parameter values as a string.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * @param paramId the parameter ID
+         * @param values the parameter values
+         * @return
+         */
+        public static String treeToString(int paramId, Set<String> values) {
+            var result = new StringBuilder(100);
+
+            Map<String, String> valuesMap = ParameterCache.getTreeParamValues(paramId);
+            for (var me : valuesMap.entrySet()) {
+                if (values.contains(me.getKey()))
+                    Utils.addCommaSeparated(result, me.getValue());
+            }
+
+            return result.toString();
         }
 
         /**
