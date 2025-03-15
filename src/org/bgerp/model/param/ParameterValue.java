@@ -12,6 +12,7 @@ import static org.bgerp.model.param.Parameter.TYPE_TREE;
 import static org.bgerp.model.param.Parameter.TYPE_TREECOUNT;
 
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.util.Base64;
 import java.util.Collection;
@@ -78,8 +79,10 @@ public class ParameterValue {
                 result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
             } else if (TYPE_EMAIL.equals(type)) {
                 result = Parameter.Type.emailToString(((SortedMap<Integer, ParameterEmailValue>) value).values());
-            } else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type) || TYPE_TREE.equals(type) || TYPE_TREECOUNT.equals(type)) {
+            } else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type) || TYPE_TREE.equals(type)) {
                 result = Utils.getObjectTitles((Collection<IdTitle>) value);
+            } else if (TYPE_TREECOUNT.equals(type)) {
+                result = Parameter.Type.treeCountToString(parameter.getId(), (Map<String, BigDecimal>) value);
             } else {
                 result = String.valueOf(value);
                 if (TYPE_TEXT.equals(type) && "hideProtocol".equals(parameter.getShowAsLink())) {

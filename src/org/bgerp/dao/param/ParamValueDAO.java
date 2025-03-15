@@ -1453,30 +1453,8 @@ public class ParamValueDAO extends CommonDAO {
         }
 
         if (history)
-            logParam(id, paramId, userId, treeCountValuesString(paramId, values));
+            logParam(id, paramId, userId, Parameter.Type.treeCountToString(paramId, values));
     }
-
-    private String treeCountValuesString(int paramId, Map<String, BigDecimal> values) {
-        var result = new StringBuilder(100);
-
-        var valuesMap = ParameterCache.getTreeParamValues(paramId);
-        for (var me : valuesMap.entrySet()) {
-            var value = values.get(me.getKey());
-            if (value == null)
-                continue;
-            Utils.addCommaSeparated(result, treeCountValueString(valuesMap, me.getKey(), value));
-        }
-
-        return result.toString();
-    }
-
-    private String treeCountValueString(Map<String, String> valuesMap, String value, BigDecimal count) {
-        String title = valuesMap.get(value);
-        if (title == null)
-            title = "??? " + value;
-        return title + ": " + count;
-    }
-
 
     /**
      * Loads parameter's values.
@@ -1596,11 +1574,8 @@ public class ParamValueDAO extends CommonDAO {
             query.append(Utils.toString(ids));
             query.append(")" + SQL_ORDER_BY + "val.value");
         } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
-            query.append(SQL_SELECT + "val.param_id, val.value, val.count, dir.title" + SQL_FROM + Tables.TABLE_PARAM_TREECOUNT + "AS val ");
-            query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_TREECOUNT_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
-            query.append(SQL_WHERE + "val.id=? AND val.param_id IN (");
-            query.append(Utils.toString(ids));
-            query.append(")" + SQL_ORDER_BY + "val.value");
+            query.append(SQL_SELECT + "param_id, value, count" + SQL_FROM + Tables.TABLE_PARAM_TREECOUNT + SQL_WHERE + "id=? AND param_id IN (")
+                    .append(Utils.toString(ids)).append(")" + SQL_ORDER_BY + "value");
         } else {
             query.append("SELECT param_id, value FROM param_");
             query.append(type);
@@ -1678,12 +1653,10 @@ public class ParamValueDAO extends CommonDAO {
                     param.setValue(values = new ArrayList<>());
                 values.add(new IdStringTitle(rs.getString("val.value"), rs.getString("dir.title")));
             } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
-                var values = (List<IdStringTitle>) param.getValue();
+                var values = (Map<String, BigDecimal>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new ArrayList<>());
-
-                String value = rs.getString("val.value");
-                values.add(new IdStringTitle(value, treeCountValueString(ParameterCache.getTreeParamValues(paramId), value, rs.getBigDecimal("val.count"))));
+                    param.setValue(values = new TreeMap<String, BigDecimal>());
+                values.put(rs.getString("value"), rs.getBigDecimal("count"));
             } else {
                 if ("encrypted".equals(param.getParameter().getConfigMap().get("encrypt")) && !offEncryption) {
                     param.setValue("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");

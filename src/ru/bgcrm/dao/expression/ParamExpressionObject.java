@@ -213,7 +213,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
                     return "type 'tree' is not supported yet";
                 }
                 case TREECOUNT -> {
-                    return "type 'treecount' is not supported yet";
+                    return Parameter.Type.treeCountToString(paramId, paramDao.getParamTreeCount(objectId, paramId));
                 }
             }
 

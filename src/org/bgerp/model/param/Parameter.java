@@ -1,5 +1,6 @@
 package org.bgerp.model.param;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -64,8 +65,34 @@ public class Parameter extends IdTitleComment {
             return NAME_MAP.get(name);
         }
 
+        /**
+         * Unified representation 'email' parameter values as a string.
+         * @param values the parameter values
+         * @return
+         */
         public static String emailToString(Collection<ParameterEmailValue> values) {
             return Utils.toString(values, "", ", ");
+        }
+
+        /**
+         * Unified representation 'treecount' parameter values as a string.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * @param paramId the parameter ID
+         * @param values the parameter values
+         * @return
+         */
+        public static String treeCountToString(int paramId, Map<String, BigDecimal> values) {
+            var result = new StringBuilder(100);
+
+            Map<String, String> valuesMap = ParameterCache.getTreeParamValues(paramId);
+            for (var me : valuesMap.entrySet()) {
+                BigDecimal value = values.get(me.getKey());
+                if (value == null)
+                    continue;
+                Utils.addCommaSeparated(result, me.getValue() + ": " + value);
+            }
+
+            return result.toString();
         }
 
         private final String name;
