@@ -204,7 +204,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
                     return Utils.getObjectTitles(param.getListParamValues(), paramDao.getParamList(objectId, paramId));
                 }
                 case LISTCOUNT -> {
-                    return "type 'listcount' is not supported yet";
+                    return Parameter.Type.listCountToString(paramId, paramDao.getParamListCount(objectId, paramId));
                 }
                 case MONEY -> {
                     return Utils.format(paramDao.getParamMoney(objectId, paramId));

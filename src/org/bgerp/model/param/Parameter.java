@@ -77,6 +77,25 @@ public class Parameter extends IdTitleComment {
         }
 
         /**
+         * Unified representation 'listcount' parameter values as a string.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * @param paramId the parameter ID
+         * @param values the parameter values
+         * @return
+         */
+        public static String listCountToString(int paramId, Map<Integer, BigDecimal> values) {
+            var result = new StringBuilder(100);
+
+            for (IdTitle value : ParameterCache.getListParamValues(paramId)) {
+                var count = values.get(value.getId());
+                if (count != null)
+                    Utils.addCommaSeparated(result, value.getTitle() + ": " + count);
+            }
+
+            return result.toString();
+        }
+
+        /**
          * Unified representation 'tree' parameter values as a string.
          * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
          * @param paramId the parameter ID
@@ -107,10 +126,10 @@ public class Parameter extends IdTitleComment {
 
             Map<String, String> valuesMap = ParameterCache.getTreeParamValues(paramId);
             for (var me : valuesMap.entrySet()) {
-                BigDecimal value = values.get(me.getKey());
-                if (value == null)
+                BigDecimal count = values.get(me.getKey());
+                if (count == null)
                     continue;
-                Utils.addCommaSeparated(result, me.getValue() + ": " + value);
+                Utils.addCommaSeparated(result, me.getValue() + ": " + count);
             }
 
             return result.toString();

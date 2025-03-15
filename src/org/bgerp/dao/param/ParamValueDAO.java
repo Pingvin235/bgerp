@@ -1554,11 +1554,8 @@ public class ParamValueDAO extends CommonDAO {
             ps = con.prepareStatement(query.toString());
             rs = ps.executeQuery();
         } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
-            query.append(SQL_SELECT + "val.param_id, val.value, val.count, dir.title" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + "AS val ");
-            query.append(SQL_LEFT_JOIN + Tables.TABLE_PARAM_LISTCOUNT_VALUE + "AS dir ON val.param_id=dir.param_id AND val.value=dir.id");
-            query.append(SQL_WHERE + "val.id=? AND val.param_id IN (");
-            query.append(Utils.toString(ids));
-            query.append(")" + SQL_ORDER_BY + "dir.title");
+            query.append(SQL_SELECT + "param_id, value, count" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id IN (")
+                    .append(Utils.toString(ids)).append(")");
         } else if (Parameter.TYPE_PHONE.equals(type)) {
             query.append("SELECT pi.param_id, pi.n, pi.phone, pi.comment " + SQL_FROM + Tables.TABLE_PARAM_PHONE_ITEM
                     + "AS pi WHERE pi.id=? AND pi.param_id IN ( ");
@@ -1627,13 +1624,10 @@ public class ParamValueDAO extends CommonDAO {
 
                 values.add(value);
             } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
-                List<IdTitle> values = (List<IdTitle>) param.getValue();
+                var values = (Map<Integer, BigDecimal>) param.getValue();
                 if (values == null)
-                    param.setValue(values = new ArrayList<>());
-                values.add(new IdTitle(
-                    rs.getInt("val.value"),
-                    rs.getString("dir.title") + ": " + Utils.format(rs.getBigDecimal("val.count"))
-                ));
+                    param.setValue(values = new TreeMap<>());
+                values.put(rs.getInt("value"), rs.getBigDecimal("count"));
             } else if (Parameter.TYPE_MONEY.equals(type)) {
                 param.setValue(rs.getBigDecimal("value"));
             } else if (Parameter.TYPE_PHONE.equals(type)) {

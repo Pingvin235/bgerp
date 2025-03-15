@@ -80,8 +80,10 @@ public class ParameterValue {
                 result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
             } else if (TYPE_EMAIL.equals(type)) {
                 result = Parameter.Type.emailToString(((SortedMap<Integer, ParameterEmailValue>) value).values());
-            } else if (TYPE_LIST.equals(type) || TYPE_LISTCOUNT.equals(type)) {
+            } else if (TYPE_LIST.equals(type)) {
                 result = Utils.getObjectTitles((Collection<IdTitle>) value);
+            } else if (TYPE_LISTCOUNT.equals(type)) {
+                result = Parameter.Type.listCountToString(parameter.getId(), (Map<Integer, BigDecimal>) value);
             } else if (TYPE_TREE.equals(type)) {
                 result = Parameter.Type.treeToString(parameter.getId(), (Set<String>) value);
             } else if (TYPE_TREECOUNT.equals(type)) {

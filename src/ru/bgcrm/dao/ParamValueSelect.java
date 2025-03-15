@@ -125,11 +125,11 @@ public class ParamValueSelect extends CommonDAO {
                     }
                     case LISTCOUNT -> {
                         selectPart
-                                .append("\n( SELECT GROUP_CONCAT( CONCAT(val.title, ': ', CAST(param.count AS CHAR)) SEPARATOR ', ') ")
-                                .append("FROM " + Tables.TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + Tables.TABLE_PARAM_LISTCOUNT_VALUE
-                                        + " AS val ON param.param_id=val.param_id AND param.value=val.id ")
-                                .append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id")
-                                .append(") " + columnValueAlias + " ");
+                                .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, ': ', CAST(param.count AS CHAR)) ORDER BY val.id SEPARATOR ', ') "
+                                        + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + "AS param" + SQL_LEFT_JOIN + Tables.TABLE_PARAM_LISTCOUNT_VALUE
+                                        + "AS val ON param.param_id=val.param_id AND param.value=val.id " + SQL_WHERE + "param.id=")
+                                .append(linkColumn).append(" AND param.param_id=").append(paramId).append(SQL_GROUP_BY + "param.id) ")
+                                .append(columnValueAlias).append(" ");
                     }
                     case TREE -> {
                         selectPart
