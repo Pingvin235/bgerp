@@ -177,7 +177,7 @@ Incoming variables:
 					<c:otherwise>
 						<c:set var="title" value=""/>
 						<c:if test="${0 lt column.titleIfMore and column.titleIfMore lt col.toString().length()}">
-							<c:set var="title">title="${u.escapeXml( col )}"</c:set>
+							<c:set var="title">title="${u.escapeXml(col)}"</c:set>
 							<c:set var="col">${col.substring(0, column.titleIfMore)}...</c:set>
 						</c:if>
 
@@ -204,7 +204,7 @@ Incoming variables:
 								<c:when test="${column.value eq 'descriptionLink'}">
 									<ui:process-link process="${process}" text="${col}"/>
 								</c:when>
-								<c:otherwise>${col}</c:otherwise>
+								<c:otherwise>${u.escapeXml(col)}</c:otherwise>
 							</c:choose>
 						</span>
 					</c:otherwise>

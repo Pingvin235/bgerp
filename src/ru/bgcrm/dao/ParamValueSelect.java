@@ -100,6 +100,12 @@ public class ParamValueSelect extends CommonDAO {
                             }
                         }
                     }
+                    case EMAIL -> {
+                        selectPart.append(
+                                "\n(SELECT GROUP_CONCAT(IF(param.comment != '', CONCAT(param.comment, ' <', param.value, '>'), param.value) SEPARATOR ', ')"
+                                        + SQL_FROM + Tables.TABLE_PARAM_EMAIL + "AS param" + SQL_WHERE + "param.id=")
+                                .append(linkColumn).append(SQL_AND + "param.param_id=").append(paramId).append(SQL_GROUP_BY + "param.id)");
+                    }
                     case LIST -> {
                         String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
                         if (Utils.notBlankString(tableName)) {
