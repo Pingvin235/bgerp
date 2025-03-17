@@ -1497,10 +1497,7 @@ public class ParamValueDAO extends CommonDAO {
     @SuppressWarnings("unchecked")
     private void updateParamValueMap(Map<Integer, ParameterValue> paramMap, String type, Collection<Integer> ids,
             int objectId, boolean offEncryption) throws SQLException {
-        StringBuilder query = new StringBuilder();
-
-        ResultSet rs = null;
-        PreparedStatement ps = null;
+        StringBuilder query = new StringBuilder(1000);
 
         if (Parameter.TYPE_ADDRESS.equals(type)) {
             query.append("SELECT param_id, n, value, house_id FROM param_");
@@ -1520,39 +1517,8 @@ public class ParamValueDAO extends CommonDAO {
             query.append(Utils.toString(ids));
             query.append(" )" + SQL_ORDER_BY + "n");
         } else if (Parameter.TYPE_LIST.equals(type)) {
-            // ключ - имя таблицы справочника, значение - перечень параметров
-            Map<String, Set<Integer>> tableParamsMap = new HashMap<>();
-            for (Integer paramId : ids) {
-                Parameter param = ParameterCache.getParameter(paramId);
-                String tableName = param.getConfigMap().get(LIST_PARAM_USE_DIRECTORY_KEY);
-                if (tableName == null) {
-                    tableName = Tables.TABLE_PARAM_LIST_VALUE;
-                }
-
-                Set<Integer> pids = tableParamsMap.get(tableName);
-                if (pids == null) {
-                    tableParamsMap.put(tableName, pids = new HashSet<>());
-                }
-                pids.add(paramId);
-            }
-
-            final String standartPrefix = "SELECT val.param_id, val.value, dir.title, val.comment FROM " + Tables.TABLE_PARAM_LIST + "AS val ";
-            for (Map.Entry<String, Set<Integer>> me : tableParamsMap.entrySet()) {
-                String tableName = me.getKey();
-                if (query.length() > 0) {
-                    query.append("\nUNION ");
-                }
-
-                query.append(standartPrefix);
-                addListTableJoin(query, tableName);
-                query.append(SQL_WHERE);
-                query.append("val.id=" + objectId + " AND val.param_id IN (");
-                query.append(Utils.toString(me.getValue()));
-                query.append(")");
-            }
-
-            ps = con.prepareStatement(query.toString());
-            rs = ps.executeQuery();
+            query.append(SQL_SELECT + "param_id, value, comment" + SQL_FROM + Tables.TABLE_PARAM_LIST + SQL_WHERE + "id=? AND param_id IN (")
+                    .append(Utils.toString(ids)).append(")");
         } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
             query.append(SQL_SELECT + "param_id, value, count" + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id IN (")
                     .append(Utils.toString(ids)).append(")");
@@ -1575,85 +1541,76 @@ public class ParamValueDAO extends CommonDAO {
             query.append(" )");
         }
 
-        if (ps == null) {
-            ps = con.prepareStatement(query.toString());
+        try (var ps = con.prepareStatement(query.toString())) {
             ps.setInt(1, objectId);
-            rs = ps.executeQuery();
-        }
+            var rs = ps.executeQuery();
 
-        while (rs.next()) {
-            final int paramId = rs.getInt(1);
+            while (rs.next()) {
+                final int paramId = rs.getInt(1);
 
-            ParameterValue param = paramMap.get(paramId);
+                ParameterValue param = paramMap.get(paramId);
 
-            if (Parameter.TYPE_ADDRESS.equals(type)) {
-                Map<Integer, ParameterAddressValue> values = (Map<Integer, ParameterAddressValue>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new TreeMap<>());
+                if (Parameter.TYPE_ADDRESS.equals(type)) {
+                    Map<Integer, ParameterAddressValue> values = (Map<Integer, ParameterAddressValue>) param.getValue();
+                    if (values == null)
+                        param.setValue(values = new TreeMap<>());
 
-                ParameterAddressValue val = new ParameterAddressValue();
-                val.setValue(rs.getString("value"));
-                val.setHouseId(rs.getInt("house_id"));
+                    ParameterAddressValue val = new ParameterAddressValue();
+                    val.setValue(rs.getString("value"));
+                    val.setHouseId(rs.getInt("house_id"));
 
-                values.put(rs.getInt("n"), val);
-            } else if (Parameter.TYPE_DATE.equals(type)) {
-                param.setValue(rs.getDate("value"));
-            } else if (Parameter.TYPE_DATETIME.equals(type)) {
-                param.setValue(rs.getTimestamp("value"));
-            } else if (Parameter.TYPE_EMAIL.equals(type)) {
-                Map<Integer, ParameterEmailValue> values = (Map<Integer, ParameterEmailValue>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new TreeMap<>());
-                values.put(rs.getInt("n"), new ParameterEmailValue(rs.getString("value"), rs.getString("comment")));
-            } else if (Parameter.TYPE_FILE.equals(type)) {
-                Map<String, FileData> values = (Map<String, FileData>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new LinkedHashMap<>());
+                    values.put(rs.getInt("n"), val);
+                } else if (Parameter.TYPE_DATE.equals(type)) {
+                    param.setValue(rs.getDate("value"));
+                } else if (Parameter.TYPE_DATETIME.equals(type)) {
+                    param.setValue(rs.getTimestamp("value"));
+                } else if (Parameter.TYPE_EMAIL.equals(type)) {
+                    Map<Integer, ParameterEmailValue> values = (Map<Integer, ParameterEmailValue>) param.getValue();
+                    if (values == null)
+                        param.setValue(values = new TreeMap<>());
+                    values.put(rs.getInt("n"), new ParameterEmailValue(rs.getString("value"), rs.getString("comment")));
+                } else if (Parameter.TYPE_FILE.equals(type)) {
+                    Map<String, FileData> values = (Map<String, FileData>) param.getValue();
+                    if (values == null)
+                        param.setValue(values = new LinkedHashMap<>());
 
-                values.put(rs.getString("pf.n"), FileDataDAO.getFromRs(rs, "fd."));
-            } else if (Parameter.TYPE_LIST.equals(type)) {
-                List<IdTitle> values = (List<IdTitle>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new ArrayList<>());
-
-                IdTitle value = new IdTitle(rs.getInt("value"), rs.getString("title"));
-
-                String comment = rs.getString("comment");
-                if (Utils.notBlankString(comment))
-                    value.setTitle(value.getTitle() + " [" + comment + "]");
-
-                values.add(value);
-            } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
-                var values = (Map<Integer, BigDecimal>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new TreeMap<>());
-                values.put(rs.getInt("value"), rs.getBigDecimal("count"));
-            } else if (Parameter.TYPE_MONEY.equals(type)) {
-                param.setValue(rs.getBigDecimal("value"));
-            } else if (Parameter.TYPE_PHONE.equals(type)) {
-                ParameterPhoneValue value = (ParameterPhoneValue)param.getValue();
-                if (value == null)
-                    param.setValue(value = new ParameterPhoneValue());
-                value.addItem(getParamPhoneValueItemFromRs(rs));
-            } else if (Parameter.TYPE_TREE.equals(type)) {
-                var values = (Set<String>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new TreeSet<>());
-                values.add(rs.getString("value"));
-            } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
-                var values = (Map<String, BigDecimal>) param.getValue();
-                if (values == null)
-                    param.setValue(values = new TreeMap<String, BigDecimal>());
-                values.put(rs.getString("value"), rs.getBigDecimal("count"));
-            } else {
-                if ("encrypted".equals(param.getParameter().getConfigMap().get("encrypt")) && !offEncryption) {
-                    param.setValue("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");
+                    values.put(rs.getString("pf.n"), FileDataDAO.getFromRs(rs, "fd."));
+                } else if (Parameter.TYPE_LIST.equals(type)) {
+                    var values = (Map<Integer, String>) param.getValue();
+                    if (values == null)
+                        param.setValue(values = new TreeMap<>());
+                    values.put(rs.getInt("value"), rs.getString("comment"));
+                } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
+                    var values = (Map<Integer, BigDecimal>) param.getValue();
+                    if (values == null)
+                        param.setValue(values = new TreeMap<>());
+                    values.put(rs.getInt("value"), rs.getBigDecimal("count"));
+                } else if (Parameter.TYPE_MONEY.equals(type)) {
+                    param.setValue(rs.getBigDecimal("value"));
+                } else if (Parameter.TYPE_PHONE.equals(type)) {
+                    ParameterPhoneValue value = (ParameterPhoneValue)param.getValue();
+                    if (value == null)
+                        param.setValue(value = new ParameterPhoneValue());
+                    value.addItem(getParamPhoneValueItemFromRs(rs));
+                } else if (Parameter.TYPE_TREE.equals(type)) {
+                    var values = (Set<String>) param.getValue();
+                    if (values == null)
+                        param.setValue(values = new TreeSet<>());
+                    values.add(rs.getString("value"));
+                } else if (Parameter.TYPE_TREECOUNT.equals(type)) {
+                    var values = (Map<String, BigDecimal>) param.getValue();
+                    if (values == null)
+                        param.setValue(values = new TreeMap<String, BigDecimal>());
+                    values.put(rs.getString("value"), rs.getBigDecimal("count"));
                 } else {
-                    param.setValue(rs.getString(2));
+                    if ("encrypted".equals(param.getParameter().getConfigMap().get("encrypt")) && !offEncryption) {
+                        param.setValue("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");
+                    } else {
+                        param.setValue(rs.getString(2));
+                    }
                 }
             }
         }
-        ps.close();
     }
 
     private void addListTableJoin(StringBuilder query, String tableName) {

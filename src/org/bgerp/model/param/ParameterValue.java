@@ -15,14 +15,12 @@ import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
 import org.apache.commons.io.IOUtils;
-import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.FileData;
@@ -81,7 +79,7 @@ public class ParameterValue {
             } else if (TYPE_EMAIL.equals(type)) {
                 result = Parameter.Type.emailToString(((SortedMap<Integer, ParameterEmailValue>) value).values());
             } else if (TYPE_LIST.equals(type)) {
-                result = Utils.getObjectTitles((Collection<IdTitle>) value);
+                result = Parameter.Type.listToString(parameter.getId(), (Map<Integer, String>) value);
             } else if (TYPE_LISTCOUNT.equals(type)) {
                 result = Parameter.Type.listCountToString(parameter.getId(), (Map<Integer, BigDecimal>) value);
             } else if (TYPE_TREE.equals(type)) {

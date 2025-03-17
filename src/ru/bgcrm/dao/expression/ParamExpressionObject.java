@@ -201,7 +201,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
                     return Parameter.Type.emailToString(paramDao.getParamEmail(objectId, paramId).values());
                 }
                 case LIST -> {
-                    return Utils.getObjectTitles(param.getListParamValues(), paramDao.getParamList(objectId, paramId));
+                    return Parameter.Type.listToString(paramId, paramDao.getParamListWithComments(objectId, paramId));
                 }
                 case LISTCOUNT -> {
                     return Parameter.Type.listCountToString(paramId, paramDao.getParamListCount(objectId, paramId));

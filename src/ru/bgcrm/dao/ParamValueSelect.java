@@ -107,25 +107,20 @@ public class ParamValueSelect extends CommonDAO {
                                 .append(linkColumn).append(SQL_AND + "param.param_id=").append(paramId).append(SQL_GROUP_BY + "param.id)");
                     }
                     case LIST -> {
-                        String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
-                        if (Utils.notBlankString(tableName)) {
-                            selectPart
-                                    .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment, CONCAT(' [', param.comment, ']'), '')) SEPARATOR ', ') ")
-                                    .append("FROM " + Tables.TABLE_PARAM_LIST + " AS param LEFT JOIN " + tableName + " AS val ON param.value=val.id ")
-                                    .append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id")
-                                    .append(") " + columnValueAlias + " ");
-                        } else {
-                            selectPart
-                                    .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment != '', CONCAT(' [', param.comment, ']'), '')) SEPARATOR ', ') ")
-                                    .append("FROM " + Tables.TABLE_PARAM_LIST + " AS param LEFT JOIN " + Tables.TABLE_PARAM_LIST_VALUE
-                                            + " AS val ON param.param_id=val.param_id AND param.value=val.id ")
-                                    .append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id")
-                                    .append(") " + columnValueAlias + " ");
-                        }
+                        String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY, Tables.TABLE_PARAM_LIST_VALUE);
+                        selectPart.append(
+                                "\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment != '', CONCAT(' [', param.comment, ']'), '')) SEPARATOR ', ') "
+                                        + SQL_FROM + Tables.TABLE_PARAM_LIST + " AS param" + SQL_LEFT_JOIN)
+                                .append(tableName).append(" AS val ON param.value=val.id");
+                        if (Tables.TABLE_PARAM_LIST_VALUE.equals(tableName))
+                            selectPart.append(" AND val.param_id=").append(paramId);
+
+                        selectPart.append(SQL_WHERE + "param.id=").append(linkColumn).append(" AND param.param_id=").append(paramId)
+                                .append(SQL_GROUP_BY + "param.id) ").append(columnValueAlias).append(" ");
                     }
                     case LISTCOUNT -> {
                         selectPart
-                                .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, ': ', CAST(param.count AS CHAR)) ORDER BY val.id SEPARATOR ', ') "
+                                .append("\n(SELECT GROUP_CONCAT(CONCAT(val.title, ': ', CAST(param.count AS CHAR)) SEPARATOR ', ') "
                                         + SQL_FROM + Tables.TABLE_PARAM_LISTCOUNT + "AS param" + SQL_LEFT_JOIN + Tables.TABLE_PARAM_LISTCOUNT_VALUE
                                         + "AS val ON param.param_id=val.param_id AND param.value=val.id " + SQL_WHERE + "param.id=")
                                 .append(linkColumn).append(" AND param.param_id=").append(paramId).append(SQL_GROUP_BY + "param.id) ")

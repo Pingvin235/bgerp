@@ -76,6 +76,25 @@ public class Parameter extends IdTitleComment {
             return Utils.toString(values, "", ", ");
         }
 
+         /**
+         * Unified representation 'list' parameter values as a string.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * @param paramId the parameter ID
+         * @param values the parameter values with comments
+         * @return
+         */
+        public static String listToString(int paramId, Map<Integer, String> values) {
+            var result = new StringBuilder(100);
+
+            for (IdTitle value : ParameterCache.getListParamValues(paramId)) {
+                var comment = values.get(value.getId());
+                if (comment != null)
+                    Utils.addCommaSeparated(result, comment.isEmpty() ? value.getTitle() : value.getTitle() + " [" + comment + "]");
+            }
+
+            return result.toString();
+        }
+
         /**
          * Unified representation 'listcount' parameter values as a string.
          * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
