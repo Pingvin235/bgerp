@@ -7,7 +7,7 @@ import ru.bgcrm.model.process.Process;
  * Link another object to a process.
  */
 public class ProcessLink extends CommonObjectLink {
-    public ProcessLink(int processId, String linkObjectType, int linkedObjectId, String linkObjectTitle) {
-        super(Process.OBJECT_TYPE, processId, linkObjectType, linkedObjectId, linkObjectTitle);
+    public ProcessLink(int processId, String linkObjectType, int linkObjectId, String linkObjectTitle) {
+        super(Process.OBJECT_TYPE, processId, linkObjectType, linkObjectId, linkObjectTitle);
     }
 }
