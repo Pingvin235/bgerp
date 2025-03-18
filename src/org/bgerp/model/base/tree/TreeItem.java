@@ -7,6 +7,13 @@ import java.util.Set;
 
 import org.bgerp.util.Dynamic;
 
+/**
+ * Generic tree node item
+ * @param <T> type of node ID
+ * @param <C> inherited subtype of node
+ *
+ * @author Shamil Vakhitov
+ */
 public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp.model.base.tree.iface.TreeItem<T, C> {
     private static final String ICON_TAG_HOME = iconTag("ti-home");
     private static final String ICON_TAG_FOLDER = iconTag("ti-folder");
@@ -111,15 +118,6 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
         return ids;
     }
 
-    protected boolean isInSet(Set<T> ids) {
-        if (ids.contains(this.getId()))
-            return true;
-        for (var child : children)
-            if (child.isInSet(ids))
-                return true;
-        return false;
-    }
-
     /**
      * @return set with the node ID and all child IDs from all levels.
      */
@@ -147,6 +145,14 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
         return ICON_TAG_FILE;
     }
 
+    /**
+     * @return style attribute for text span.
+     */
+    @Dynamic
+    public String getTextStyle() {
+        return null;
+    }
+
     protected abstract boolean isRootNode();
 
     protected boolean isRootNodeWithIntegerId(Integer id, Integer parentId) {
@@ -154,10 +160,16 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     }
 
     /**
-     * @return style attribute for text span.
+     * Checks is ID set contains the item's ID or ID of any child of it
+     * @param ids the IDs
+     * @return
      */
-    @Dynamic
-    public String getTextStyle() {
-        return null;
+    protected boolean isInSet(Set<T> ids) {
+        if (ids.contains(this.getId()))
+            return true;
+        for (var child : children)
+            if (child.isInSet(ids))
+                return true;
+        return false;
     }
 }
