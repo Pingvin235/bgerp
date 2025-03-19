@@ -17,7 +17,10 @@
 cd ${0%${0##*/}}.
 
 FILE=bgerp.properties
-MYSQL=/usr/bin/mysql
+MYSQL=/usr/bin/mariadb
+if [ ! -f $MYSQL ]; then
+    MYSQL=/usr/bin/mysql
+fi
 
 PWD=`grep db.pswd $FILE | cut -d'=' -f2`
 USER=`grep db.user $FILE | cut -d'=' -f2`

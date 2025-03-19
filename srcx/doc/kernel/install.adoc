@@ -118,35 +118,31 @@ sudo bash bgerp_deploy.sh test.bgerp.org 9001
 === Linux
 Installation on a Linux server.
 
-[[mysql]]
-==== MySQL
-The *Original* MySQL DB Server version *8.0* or newer has to be used for installation.
+[[mariadb]]
+==== MariaDB
+MariaDB Server version *10.5*  or newer is preferred for installation.
+The original MySQL DB Server version *8.0* or newer also may be used.
 
-Different forks of MySQL (Maria, Percona) do not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
+Both support <<../plugin/fulltext/index.adoc#, fulltext>> index.
 Below is the test query you can use to verify compatibility:
 [snippet, from="CREATE", to=");"]
 link:../../../src/ru/bgcrm/plugin/fulltext/db.sql#L1-L9[src/ru/bgcrm/plugin/fulltext/db.sql]
 
-You can use the <<mysql_migration.adoc#, instruction>> for converting existing MySQL-like DB to the supported version.
+You can use the <<mysql_migration.adoc#, Instruction>> for migration of your existing DB to the recommended server version.
 
 [[mysql-install]]
 ===== Install
 [square]
-* link:https://www.linuxcapable.com/how-to-install-mysql-on-rocky-linux[MySQL 8 on Rocky Linux 8 or 9]
-* link:https://hub.docker.com/_/mysql[MySQL in Docker] - in case MySQL is already installed on a target server but runs a different version.
+* link:https://mariadb.org/download[MariaDB Server]
+* link:https://hub.docker.com/_/mariadb[MariaDB in Docker] - in case of simultaneous operation of two DBMS (e.g. during migration)
 
-Once installed, check the mandatory options below in *[mysqld]* section in *my.cnf* file:
+Once installed, check the mandatory options below in *[mariadbd]* section in DBMS configuration file (`/etc/my.cnf.d/mariadb-server.cnf` or `/etc/mysql/mariadb.conf.d/50-server.cnf` for Docker version):
 ----
-[mysqld]
+[mariadbd]
 sql-mode=
 innodb_file_per_table=1
 ----
 IMPORTANT: *sql-mode* must be set exactly to an empty string, as shown in the example above. Add this line if sql-mode option is not defined. In case this string is still missing, DB creation script will take care of correcting and adding it.
-
-Optionally you can disable *mysqlx* protocol:
-----
-mysqlx=OFF
-----
 
 And restrict access to database server from different hosts, if you don't need that:
 ----

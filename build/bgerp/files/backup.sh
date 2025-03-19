@@ -6,9 +6,17 @@ cd ${0%${0##*/}}.
 DATE=/bin/date
 ZIP=/usr/bin/zip
 UNZIP=/usr/bin/unzip
-MYSQLDUMP=/usr/bin/mysqldump
-MYSQL=/usr/bin/mysql
 PV=/usr/bin/pv
+
+MYSQLDUMP=/usr/bin/mariadb-dump
+if [ ! -f $MYSQLDUMP ]; then
+    MYSQLDUMP=/usr/bin/mysqldump
+fi
+
+MYSQL=/usr/bin/mariadb
+if [ ! -f $MYSQL ]; then
+    MYSQL=/usr/bin/mysql
+fi
 
 # parse database access from bgerp.properties
 FILE=bgerp.properties
