@@ -151,6 +151,7 @@ public class ProcessLinkSearchDAO extends SearchDAO {
 
         pq.addQuery(SQL_WHERE + "1>0 ");
         filterOpen(pq);
+        filterType(pq);
 
         order(pq);
 
