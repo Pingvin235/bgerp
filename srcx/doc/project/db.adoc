@@ -296,7 +296,7 @@ File data.
 |VARCHAR
 |file name
 
-|time
+|dt
 |DATETIME
 |upload time
 
