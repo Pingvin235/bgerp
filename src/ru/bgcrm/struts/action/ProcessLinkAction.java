@@ -130,7 +130,8 @@ public class ProcessLinkAction extends ProcessAction {
 
         new ParamValueDAO(con).copyParams(id, process.getId(), config.getCopyParams());
 
-        if (config.openCreated(objectType))
+        if (config.openCreated(objectType)
+                || (type.getProperties().getWizard() != null && type.getProperties().getWizard().getCreateStepList().size() > 0))
             form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
 
         return json(con, form);

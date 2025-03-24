@@ -81,7 +81,7 @@ public class TypeProperties {
                 this.wizard = wizard;
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 
