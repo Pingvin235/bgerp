@@ -41,7 +41,7 @@ public class PublishChange extends PublishBase {
             log.info("Copy changes");
 
             var content = IOUtils.toString(new FileInputStream(changesFile), StandardCharsets.UTF_8)
-                .replace("version/" + version + "/doc", "change/" + changeId + "/doc");
+                .replace("change/0/doc", "change/" + changeId + "/doc");
 
             changesName = targetDistrDir + "/../changes.txt";
             IOUtils.write(content, new FileOutputStream(changesName), StandardCharsets.UTF_8);

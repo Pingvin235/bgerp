@@ -380,7 +380,7 @@ apply from: "build/build.gradle"
 task changesFile(type: JavaExec, dependsOn: 'compileToolJava', description: 'Concatenates build/changes.*.txt files to build/changes.txt') {
     classpath =  sourceSets.tool.runtimeClasspath
     mainClass = 'org.bgerp.tool.ChangesFile'
-    args "${->getBuild()}", 'build/changes.txt'
+    args version, "${->getBuild()}", 'build/changes.txt'
 }
 
 task changesRss(type: JavaExec, dependsOn: 'compileToolJava', description: 'Generates build/changes.rss out of build/changes.txt') {

@@ -1,1 +1,1 @@
-A: Process title column in queue. https://bgerp.org/version/3.0/doc/kernel/process/queue.html#column
+A: Process title column in queue. https://bgerp.org/change/0/doc/kernel/process/queue.html#column

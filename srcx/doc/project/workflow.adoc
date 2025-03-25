@@ -334,7 +334,7 @@ NOTE: This task is automatically run by <<test-and-publish-change, CI>>.
 Build and publish on https://bgerp.org/change update package with a <<change, change>>.
 
 All the updates packages are copies to Web directory: `https://bgerp.org/change/PROCESS_ID`
-The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/version/VERSION_NUMBER/doc`
+The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/change/0/doc`
 are automatically replaced to the `https://bgerp.org/change/PROCESS_ID/doc`.
 
 Users have a capability to <<../kernel/install.adoc#update-installer-ui, update>> to the change using a *PROCESS_ID* as an identifier.

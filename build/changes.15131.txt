@@ -1,1 +1,1 @@
-A: Support MariaDB SQL server. https://bgerp.org/version/3.0/doc/kernel/install.html#mariadb
+A: Support MariaDB SQL server. https://bgerp.org/change/0/doc/kernel/install.html#mariadb
