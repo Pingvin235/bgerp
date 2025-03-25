@@ -1,0 +1,6 @@
+wizard.createStep.{@inc:cnt}.title=Process Parameters
+wizard.createStep.{@cnt}.class=FillParamsStep
+wizard.createStep.{@cnt}.parameterIds={@PARAM_ADDRESS_ID}
+
+wizard.createStep.{@inc:cnt}.title=Description
+wizard.createStep.{@cnt}.class=SetDescriptionStep

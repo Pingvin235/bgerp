@@ -1,0 +1,7 @@
+filter.{@inc:cnt}.type=openClose
+filter.{@cnt}.defaultValue=open
+
+column.1.title=ID
+column.1.value=id
+column.3.title=Title
+column.3.value=title

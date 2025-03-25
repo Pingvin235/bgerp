@@ -6,6 +6,8 @@
 После определения типа процесса мастер поочерёдно выполнения указанных в конфигурации шагов.
 После выполнения всех шагов процесс создаётся окончательно и доступен для работы.
 
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process type title is *Kernel Process Wizard*.
+
 Шаги мастера настраиваются в конфигурации типа процесса в виде одной или нескольких инструкций вида:
 ----
 wizard.createStep.<id>.title=<title>
@@ -45,19 +47,9 @@ ContinueStep
 * *continueText* - текст подтверждения прохождения шага.
 
 |
-FillContractParamsStep
-
-image::_res/proc_wiz_fp.png[]
-|
-Параметры процесса.
-[square]
-* *parameterIds* - обязательный, коды параметров через запятую;
-* *checkParamIds* - через запятую коды параметров обязательные для заполнения, если не указано - должен быть заполнен хотя бы один.
-
-|
 LinkCustomerStep
 
-image::_res/proc_wiz_clink.png[]
+image::_res/wizard/step_clink.png[]
 |
 Привязка существующего либо создание и привязка нового контрагента к создаваемому процессу.
 В случае отмены мастера контрагент останется в БД.
@@ -65,23 +57,34 @@ image::_res/proc_wiz_clink.png[]
 * *paramGroupId* - группа параметров создаваемого контрагента.
 
 |
+FillParamsStep
+
+// image::_res/wizard/step_fill_params.png[]
+|
+Fill process parameters
+[square]
+* *parameterIds* - comma separated parameter IDs;
+* *checkParamIds* - optional comma separated parameter IDs, mandatory to be filled; by default at least one param filled out is enougth;
+* *object* - optional *linkedCustomer* to fill out linked coustomer parameters.
+
+|
 SetDescriptionStep
 
-image::_res/proc_wiz_descr.png[]
+image::_res/wizard/step_descr.png[]
 |
 Установка описания в создаваемый процесс.
 
 |
 SetExecutorsStep
 
-image::_res/proc_wiz_se.png[]
+image::_res/wizard/step_se.png[]
 |
 Установка исполнителей процесса.
 
 |
 SetStatusStep
 
-image::_res/proc_wiz_st.png[]
+image::_res/wizard/step_st.png[]
 |
 Изменение статуса процесса.
 
@@ -121,7 +124,7 @@ wizard.createStep.{@inc:cnt}.class=SetExecutorsStep
 
 И снимок экрана с заполненным мастером.
 
-image::_res/proc_wiz_screen.png[]
+image::_res/wizard/step_screen.png[]
 
 Если сессия пользователя была аварийно прервана до окончания заполнения мастера - при следующей авторизации карточка недосозданного процесса всплывёт в интерфейсе снова.
 
