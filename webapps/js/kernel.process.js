@@ -116,24 +116,6 @@ function openProcess(id) {
 	$$.process.open(id);
 }
 
-function openProcessTypeTreeNode(el, nodeId) {
-	$(el.parentNode).find("#" + nodeId + "_childs").toggle();
-}
-
-function processTypeTreeNodeSelected(el, nodeId) {
-	var parent = el.parentNode;
-	while (parent.tagName != 'FORM') {
-		parent = parent.parentNode;
-	}
-	$(parent).find("input[name='typeId']").attr("value", nodeId);
-
-	$(parent).find("span").css("font-weight", "").css("color", "");
-	$(el).css("font-weight", "bold").css("color", "blue");
-
-	$$.ajax.load("/user/process.do?method=processCreateGroups&typeId=" + nodeId,
-			$(el).closest("#typeTree").parent().find("#groupSelect"));
-}
-
 function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues, additionalLinksForAdd) {
 	var objects = [];
 

@@ -63,6 +63,7 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.process.link.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.process.queue.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.process.queue.filter.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.process.type.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.search.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.table.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.timer.js')}"></script>
