@@ -130,22 +130,22 @@ public class ProcessTypeDAO extends CommonDAO {
     /**
      * Возвращает список всех типов процессов с сортировкой по наименованию.
      * @return
-     * @throws Exception
+     * @throws SQLException
      */
-    public List<ProcessType> getFullProcessTypeList() throws Exception {
+    public List<ProcessType> getFullProcessTypeList() throws SQLException {
         List<ProcessType> result = new ArrayList<>();
 
         Map<Integer, ProcessType> typeMap = new HashMap<>();
 
         //TODO: Может сделать сортировку по parent_id, title, тогда бы можно было за один проход загружать всё.
-        PreparedStatement ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " ORDER BY title");
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            ProcessType type = getTypeFromRs(rs, true);
-            typeMap.put(type.getId(), type);
-            result.add(type);
+        try (var ps = con.prepareStatement(SQL_SELECT_ALL_FROM + TABLE_PROCESS_TYPE + SQL_ORDER_BY + "title")) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProcessType type = getTypeFromRs(rs, true);
+                typeMap.put(type.getId(), type);
+                result.add(type);
+            }
         }
-        ps.close();
 
         for (ProcessType type : result) {
             if (type.isUseParentProperties()) {
@@ -333,63 +333,6 @@ public class ProcessTypeDAO extends CommonDAO {
         return result;
     }
 
-    /**
-     * Выбирает дерево типов процессов из базы, возвращая его корневой элемент.
-     * Возможно получение этих же данных из кэша {@link ProcessTypeCache#getTypeTreeRoot()}.
-     * @return
-     */
-    public ProcessType getTypeTreeRoot() {
-        try {
-            ProcessType result = new ProcessType();
-            result.setId(0);
-
-            Map<Integer, List<ProcessType>> byParentMap = new HashMap<>();
-
-            StringBuilder query = new StringBuilder();
-            query.append(SQL_SELECT);
-            query.append("*");
-            query.append(SQL_FROM);
-            query.append(TABLE_PROCESS_TYPE);
-            query.append(SQL_ORDER_BY);
-            query.append("title");
-
-            // раскладываем по предкам
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ProcessType type = getTypeFromRs(rs, true);
-
-                List<ProcessType> childList = byParentMap.get(type.getParentId());
-                if (childList == null) {
-                    childList = new ArrayList<>();
-                    byParentMap.put(type.getParentId(), childList);
-                }
-                childList.add(type);
-            }
-
-            ps.close();
-
-            addTreeItems(result, byParentMap);
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
-        }
-    }
-
-    private void addTreeItems(ProcessType parent, Map<Integer, List<ProcessType>> byParentMap) {
-        List<ProcessType> subTypeList = byParentMap.get(parent.getId());
-        if (subTypeList != null) {
-            for (ProcessType child : subTypeList) {
-                ProcessType childItem = new ProcessType();
-                childItem.setId(child.getId());
-                childItem.setTitle(child.getTitle());
-                parent.addChild(childItem);
-
-                addTreeItems(childItem, byParentMap);
-            }
-        }
-    }
 
     private ProcessType getTypeFromRs(ResultSet rs, boolean loadFull) throws SQLException {
         ProcessType type = new ProcessType();

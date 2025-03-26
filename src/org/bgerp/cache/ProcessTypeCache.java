@@ -83,7 +83,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     public static ProcessType getTypeTreeRoot() {
-        return HOLDER.getInstance().tree;
+        return HOLDER.getInstance().typeTreeRoot;
     }
 
     public static List<Status> getStatusList() {
@@ -127,7 +127,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     private List<ProcessType> typeList;
     private Map<Integer, ProcessType> typeMap;
 
-    private ProcessType tree;
+    private ProcessType typeTreeRoot;
     private List<Status> statusList;
     private Map<Integer, Status> statusMap;
 
@@ -148,7 +148,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
                 result.typeMap.put(type.getId(), type);
             }
 
-            result.tree = typeDAO.getTypeTreeRoot();
+            result.typeTreeRoot = getTypeTreeRoot(result.typeList);
 
             result.statusList = new StatusDAO(con).getStatusList();
             result.statusMap = new HashMap<>();
@@ -162,6 +162,15 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         EventProcessor.subscribe((conSet, e) -> {
             ProcessTypeCache.flush(null);
         }, SetupChangedEvent.class);
+
+        return result;
+    }
+
+    private ProcessType getTypeTreeRoot(List<ProcessType> types) {
+        ProcessType result = new ProcessType();
+        result.setId(0);
+
+        result.setChildren(types.stream().filter(type -> type.getParentId() <= 0).toList());
 
         return result;
     }
