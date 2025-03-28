@@ -113,10 +113,17 @@ cmd do && cmd undo
 		<ui:ip paramName="ip"/>
 	</div>
 
-	<div>
-		<b>Dot separated decimal</b><br/>
-		<input type="text" onkeydown="return isNumberKey(event)" size="10"/>
-		<span class="hint">Hint with some additional info regarding the input</span>
+	<div class="in-table-cell">
+		<div>
+			<b>Dot separated decimal</b><br/>
+			<input type="text" onkeydown="return isNumberKey(event)" size="10"/>
+			<span class="hint">Dot-separated decimal values, e.g. money</span>
+		</div>
+		<div class="pl1">
+			<b>&lt;ui:input-decimal digits=0&gt;</b><br/>
+			<ui:input-decimal size="20" digits="0"/>
+			<span class="hint">Only numbers can be inserted</span>
+		</div>
 	</div>
 
 	<div class="in-table-cell">
