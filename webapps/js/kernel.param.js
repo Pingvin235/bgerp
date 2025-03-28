@@ -94,15 +94,14 @@ $$.param = new function () {
 		 * @param {HTMLButtonElement} button add button that was clicked.
 		 */
 		const addValue = (button) => {
-			const $tr = $(
-				"<tr>" +
-					"<td><input type='text' name='phone' class='w100p'/></td>" +
-					"<td><input type='text' name='comment' class='w100p'/></td>" +
-					"<td><button type='button' class='btn-white btn-small icon' onclick='$$.param.phone.delValue(this)'><i class='ti-trash'></i></button></td>" +
-				"</tr>"
-			);
-			$(button).closest('table').find('tr:last').after($tr);
-			$tr.find("input[name='phone']").focus();
+			$$.ajax
+				.post(
+					"/user/parameter.do?method=parameterPhoneAddValue", { html: true }
+				).done(result => {
+					const $tr = $(result);
+					$(button).closest('table').find('tr:last').after($tr);
+					$tr.find("input[name='phone']").focus();
+				})
 		}
 		/**
 		 * Deletes a value in phone parameter editor.

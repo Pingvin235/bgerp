@@ -587,6 +587,10 @@ public class ParameterAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/edit/listcount/value_row.jsp");
     }
 
+    public ActionForward parameterPhoneAddValue(DynActionForm form, ConnectionSet conSet) {
+        return html(conSet, form, PATH_JSP + "/edit/phone/value_row.jsp");
+    }
+
     public ActionForward parameterTreeCountAddValue(DynActionForm form, ConnectionSet conSet) {
         return html(conSet, form, PATH_JSP + "/edit/treecount/value_row.jsp");
     }

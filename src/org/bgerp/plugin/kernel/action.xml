@@ -90,7 +90,7 @@
 			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet"/>
 			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet"/>
 		</item>
-		<item title="Create process" action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate"/>
+		<item title="Create" action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate"/>
 		<item title="Card">
 			<item title="View" action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process"/>
 
@@ -146,7 +146,7 @@
 			<b>offEncrypt</b> - 1, если разрешено просматривать зашифрованные значения<br/>
 		</item>
 		<item action="ru.bgcrm.struts.action.ParameterAction:parameterUpdate, ru.bgcrm.struts.action.ParameterAction:parameterGet,
-			ru.bgcrm.struts.action.ParameterAction:parameterListCountAddValue, ru.bgcrm.struts.action.ParameterAction:parameterTreeCountAddValue"
+			ru.bgcrm.struts.action.ParameterAction:parameterListCountAddValue, ru.bgcrm.struts.action.ParameterAction:parameterPhoneAddValue, ru.bgcrm.struts.action.ParameterAction:parameterTreeCountAddValue"
 			title="Edit">
 			<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
 			<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для изменения<br/>
