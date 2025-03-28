@@ -441,15 +441,29 @@ function processClientEvents(event) {
 
 /**
  * Validates text inputs for entering numeric values only, possible with decimal separator.
- * Should be added to 'onkeydown' input.
- * @param {*} event
- * @return is input change allowed.
+ * @param {Event} event 'onkeydown' or another event with 'key' property of 'text' input
+ * @param {Number} digits amount of digits after dot, if not defined than 2
+ * @return {Boolean} is input change allowed
  */
-function isNumberKey(event) {
-	const input = event.target;
-	return event.altKey || event.ctrlKey || event.shiftKey ||
-		['Backspace', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key) ||
-		!isNaN(input.value + event.key);
+function isNumberKey(event, digits) {
+	if (digits === undefined)
+		digits = 2;
+
+	if (event.ctrlKey || ['Backspace', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Delete'].includes(event.key))
+		return true;
+
+	const target = event.target;
+	const value = target.value;
+
+	const valueCandidate = value.substring(0, target.selectionStart) + event.key + value.substring(target.selectionEnd);
+
+	let result = !isNaN(valueCandidate);
+	if (result && digits > 0) {
+		const pos = valueCandidate.indexOf('.');
+		result = pos < 0 || valueCandidate.length - pos - 2 < digits;
+	}
+
+	return result;
 }
 
 function updateLastModify( object, $uiid )
