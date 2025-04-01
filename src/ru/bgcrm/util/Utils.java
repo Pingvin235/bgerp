@@ -26,7 +26,6 @@ import org.apache.taglibs.standard.functions.Functions;
 import org.bgerp.app.servlet.jsp.UtilFunction;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
-import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Title;
 import org.bgerp.model.param.Parameter;
@@ -514,39 +513,39 @@ public class Utils {
     }
 
     /**
-     * Возвращает коды объектов из коллекции через запятую.
-     * @param list
+     * Comma separated object IDs
+     * @param values the objects
      * @return
      */
-    public static final <T extends Id> String getObjectIds(Collection<T> list) {
-        return getObjectIds(list, null);
+    public static final <T extends org.bgerp.model.base.iface.Id<Integer>> String getObjectIds(Collection<T> values) {
+        return getObjectIds(values, null);
     }
 
     /**
-     * Возвращает коды объектов из коллекции через запятую с указанным началом строки.
-     * @param list
-     * @param startValues начало строки.
+     * Comma separated object IDs
+     * @param values the objects
+     * @param startValues beginning of the resulting string
      * @return
      */
-    public static final <T extends Id> String getObjectIds(Collection<T> list, String startValues) {
-        return getObjectIds(list, startValues, DEFAULT_DELIM);
+    public static final <T extends org.bgerp.model.base.iface.Id<Integer>> String getObjectIds(Collection<T> values, String startValues) {
+        return getObjectIds(values, startValues, DEFAULT_DELIM);
     }
 
     /**
-     * Возвращает коды объектов из коллекции с указанием разделителя и начала строки.
-     * @param list
-     * @param startValues начало строки.
-     * @param delim разделитель кодов.
+     * Separated object IDs
+     * @param values the objects
+     * @param startValues beginning of the resulting string
+     * @param delim the separator
      * @return
      */
-    public static <T extends Id> String getObjectIds(Collection<T> list, String startValues, String delim) {
+    public static <T extends org.bgerp.model.base.iface.Id<Integer>> String getObjectIds(Collection<T> values, String startValues, String delim) {
         StringBuilder result = new StringBuilder();
         if (notEmptyString(startValues)) {
             result.append(startValues);
         }
 
-        if (list != null) {
-            for (T object : list) {
+        if (values != null) {
+            for (T object : values) {
                 if (result.length() != 0) {
                     result.append(delim);
                 }
