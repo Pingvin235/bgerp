@@ -217,9 +217,9 @@ executorRestriction.<n>.maxCount=<maxCount>
 
 [[setup-type-create]]
 ==== Creation
-NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process description is *Kernel Process Create In*.
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process type named *Kernel Process Create In*.
 
-Ro restricting areas where the process type can be created, add:
+To restricting areas where the process type can be created, add:
 ----
 create.in.areas=<areas>
 ----
@@ -228,33 +228,26 @@ Where *<areas>* is comma-separated list of areas, where process can be created:
 [square]
 * *message* - message processing;
 * *queue* - process queues;
-* *linked* - *Processes* tab for an object like customer.
+* *customer* - *Processes* tab for a customer.
 
-Empty key value denies process creation for all areas, for the last area *linked* can be additionally configured:
-----
-# * (default) - allow creation as linked in any object
-#create.in.objectTypes=<типы объектов через запятую>
-create.in.copyParams=перечень пар <с параметра>:<на параметр>, разделённых точкой с запятой
-#
-# open the created process
-#create.in.<тип объекта>.openCreated=1
-----
-
-Разрешает создание процесса с привязанным данным объектом во вкладке Процессы объекта (ниже на скриншоте).
-Копирование параметров поддерживается только для объектов, использующих стандартную систему параметров системы.
-Типы объектов ядра:
-[square]
-* *customer* - customer
-
-Типы объектов плагинов:
+Plugin areas:
 [square]
 * <<../../plugin/bgbilling/index.adoc#process-type-config, BGBilling>> *contract:<BILLING_ID>*
 
-Or you can use *pass:[*]* for any object type.
+Or you can use *pass:[*]* for any area. Empty key value denies process creation for all areas, but doesn't influence on <<#setup-type-related-process-create-and-link, Create and Link>> configurations.
 
-Пример. Возможность создания процесса с привязкой контрагента, копированием параметра с кодами 1 и 5 в контрагента в параметры процесса с кодами 3 и 6 соответственно:
+Additional configuration:
 ----
-create.in.objectTypes=customer
+# copy parameters
+#create.in.copyParams=semicolon separated pairs <paramFromId>:<paramToId>
+
+# make the process type in the tree by default
+#create.in.<area>.selected=1
+----
+
+Example of allowance process creation as customer-linked, with copying customer parameters 1 and 5 to process params 3 and 6 respectively.
+----
+create.in.areas=customer
 create.in.copyParams=1:3;5:6
 ----
 

@@ -18,9 +18,9 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessQueueCache;
-import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.ProcessCreateType;
 
 import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
@@ -59,16 +59,14 @@ public class ProcessQueueAction extends ProcessAction {
         return html(conSet, form, PATH_JSP + "/queue/queue.jsp");
     }
 
-    // возвращает дерево типов для создания процесса
+    // process types tree for process creation
     public ActionForward typeTree(DynActionForm form, Connection con) throws Exception {
         int queueId = Utils.parseInt(form.getParam("queueId"));
         Queue queue = ProcessQueueCache.getQueue(queueId, form.getUser());
 
-        // очередь разрешена пользователю
-        if (queue != null) {
-            var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("queue", null, queue.getProcessTypeIds()), form);
-            form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
-        }
+        // the queue allowed for the user
+        if (queue != null)
+            form.setRequestAttribute("typeTreeRoot", ProcessCreateType.treeRoot(form, "queue", queue.getProcessTypeIds()));
 
         return html(con, form, PATH_JSP + "/tree/process_type_tree.jsp");
     }
@@ -234,8 +232,7 @@ public class ProcessQueueAction extends ProcessAction {
 
             form.setResponseData("queue", queue);
 
-            var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("queue", null, queue.getProcessTypeIds()), form);
-            form.setResponseData("typeList", typeList);
+            form.setResponseData("typeList", processCreateTypes(form, "queue", queue.getProcessTypeIds()));
 
             Preferences personalizationMap = user.getPersonalizationMap();
             String persConfigBefore = personalizationMap.getDataString();

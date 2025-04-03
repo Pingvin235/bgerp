@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.model.base.IdTitle;
-import org.bgerp.model.process.config.ProcessCreateInConfig;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
@@ -68,22 +66,12 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return Utils.maskNull(getProcessType(id), new ProcessType(id, IdTitle.unknown(id)));
     }
 
-    public static List<ProcessType> getTypeList(String area, String objectType, Set<Integer> ids) {
-        List<ProcessType> typeList = HOLDER.getInstance().typeList;
-        List<ProcessType> result = new ArrayList<>(typeList.size());
-
-        for (ProcessType type : typeList) {
-            ProcessCreateInConfig config = type.getProperties().getConfigMap().getConfig(ProcessCreateInConfig.class);
-            if (config.check(area, objectType) &&
-               (ids == null || ids.contains(type.getId())))
-                result.add(type);
-        }
-
-        return result;
-    }
-
     public static ProcessType getTypeTreeRoot() {
         return HOLDER.getInstance().typeTreeRoot;
+    }
+
+    public static List<ProcessType> getTypeList() {
+        return HOLDER.getInstance().typeList;
     }
 
     public static List<Status> getStatusList() {

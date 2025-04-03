@@ -6,10 +6,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.SimpleConfigMap;
-import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
+import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.ProcessGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -19,7 +19,6 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
-import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
@@ -130,16 +129,14 @@ public class ProcessIsolationTest {
         user.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
         new UserDAO(DbTest.conRoot).updateUser(user);
 
-        var typeList = ProcessTypeCache.getTypeList("queue", null,
+        var typeList = ProcessAction.processCreateTypes(new DynActionForm(user), "queue",
                 Set.of(ProcessTest.processTypeTestGroupId, processTypeId, processTypeSpecialId, processType1Id, processType11Id, processType2Id));
-        typeList = ProcessAction.processTypeIsolationFilter(typeList, new DynActionForm(user));
-        var ids = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
+        var ids = typeList.stream().map(ProcessCreateType::getId).collect(Collectors.toSet());
         Assert.assertEquals(ids, Set.of(ProcessTest.processTypeTestGroupId, processTypeId, processType1Id, processType11Id));
 
         user.setConfig("");
-        typeList = ProcessTypeCache.getTypeList("queue", null, Set.of(processTypeId, processTypeSpecialId, processType2Id));
-        typeList = ProcessAction.processTypeIsolationFilter(typeList, new DynActionForm(user));
-        ids = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
+        typeList = ProcessAction.processCreateTypes(new DynActionForm(user), "queue", Set.of(processTypeId, processTypeSpecialId, processType2Id));
+        ids = typeList.stream().map(ProcessCreateType::getId).collect(Collectors.toSet());
         Assert.assertEquals(ids, Set.of(processTypeId, processTypeSpecialId, processType2Id));
     }
 

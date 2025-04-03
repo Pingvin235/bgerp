@@ -23,7 +23,6 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
@@ -31,6 +30,7 @@ import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.msg.config.TagConfig;
 import org.bgerp.model.msg.config.TemplateConfig;
+import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.sql.LikePattern;
@@ -106,8 +106,7 @@ public class MessageAction extends BaseAction {
 
             linksSearch(form, conSet);
 
-            var typeList = ProcessAction.processTypeIsolationFilter(ProcessTypeCache.getTypeList("message", null, null), form);
-            form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
+            form.setRequestAttribute("typeTreeRoot", ProcessCreateType.treeRoot(form, "message", null));
         }
 
         form.setResponseData("message", message);

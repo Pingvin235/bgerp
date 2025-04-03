@@ -11,13 +11,12 @@ import org.bgerp.action.ProcessLinkProcessAction;
 import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ProcessQueueCache;
-import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
-import org.bgerp.model.process.config.ProcessCreateInConfig;
+import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
 import org.bgerp.model.process.queue.filter.FilterList;
@@ -34,7 +33,6 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.config.ProcessLinkModesConfig;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -103,8 +101,7 @@ public class ProcessLinkAction extends ProcessAction {
         }
 
         // type tree for creation
-        var typeList = processTypeIsolationFilter(ProcessTypeCache.getTypeList("linked", objectType, null), form);
-        form.setRequestAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
+        form.setRequestAttribute("typeTreeRoot", ProcessCreateType.treeRoot(form, objectType, null));
 
         return html(conSet, form, PATH_JSP + "/linked_process_list.jsp");
     }
@@ -114,6 +111,7 @@ public class ProcessLinkAction extends ProcessAction {
         String objectType = form.getParam("objectType");
         int id = form.getId();
         String objectTitle = form.getParam("objectTitle");
+        int typeId = form.getParamInt("typeId");
 
         Process process = ProcessAction.processCreateAndGet(form, con);
 
@@ -125,13 +123,12 @@ public class ProcessLinkAction extends ProcessAction {
 
         EventProcessor.processEvent(new LinkAddedEvent(form, link), new SingleConnectionSet(con));
 
-        ProcessType type = ProcessTypeCache.getProcessTypeOrThrow(form.getParamInt("typeId", 0));
-        ProcessCreateInConfig config = type.getProperties().getConfigMap().getConfig(ProcessCreateInConfig.class);
+        ProcessCreateType type = processCreateTypes(form, objectType, null).stream()
+                .filter(t -> t.getId() == typeId).findAny().orElseThrow();
 
-        new ParamValueDAO(con).copyParams(id, process.getId(), config.getCopyParams());
+        new ParamValueDAO(con).copyParams(id, process.getId(), type.getCopyParams());
 
-        if (config.openCreated(objectType)
-                || (type.getProperties().getWizard() != null && type.getProperties().getWizard().getCreateStepList().size() > 0))
+        if (type.openCreated() || (type.getType().getProperties().getWizard() != null && type.getType().getProperties().getWizard().getCreateStepList().size() > 0))
             form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
 
         return json(con, form);

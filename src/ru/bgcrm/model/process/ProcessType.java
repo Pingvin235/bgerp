@@ -1,11 +1,8 @@
 package ru.bgcrm.model.process;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.base.tree.TreeItem;
@@ -80,34 +77,6 @@ public class ProcessType extends TreeItem<Integer, ProcessType> implements Compa
                 result.addAll(childItem.getSelectedChildIds(typeSet));
             }
         }
-
-        return result;
-    }
-
-    public ProcessType sub(Collection<ProcessType> typeList) {
-        var typeSet = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
-        return sub(typeSet);
-    }
-
-    /**
-     * Recursive copy of the tree with selected nodes with paths nodes to them
-     * @param typeIds each node is chosen, when presented in the set or any child is there
-     * @return
-     */
-    public ProcessType sub(Set<Integer> typeIds) {
-        if (typeIds == null) return this;
-
-        var result = new ProcessType();
-        result.setId(id);
-        result.setTitle(title);
-
-        var children = new ArrayList<ProcessType>(this.children.size());
-        for (var child : this.children) {
-            if (child.isInSet(typeIds))
-                children.add(child.sub(typeIds));
-        }
-
-        result.setChildren(children);
 
         return result;
     }

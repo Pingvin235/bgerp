@@ -1,11 +1,11 @@
 // "use strict";
 
 $$.process.type = new function () {
-    function selectedNode(el, nodeId) {
+    const selectedNode = (el, nodeId) => {
         $(el.parentNode).find("#" + nodeId + "_childs").toggle();
     }
 
-    function selectedLeaf(el, nodeId) {
+    const selectedLeaf = (el, nodeId) => {
         let parent = el.parentNode;
         while (parent.tagName != 'FORM') {
             parent = parent.parentNode;
@@ -19,7 +19,17 @@ $$.process.type = new function () {
                 $(el).closest("#typeTree").parent().find("#groupSelect"));
     }
 
+    const select = (uiid) => {
+        const $uiid = $(document.getElementById(uiid));
+        const $selectedLeaf = $uiid.find('.treeItemSelected');
+        if ($selectedLeaf.length) {
+            $selectedLeaf.click();
+        } else
+            $uiid.find('span.treeNode').first().click();
+    }
+
     // public functions
     this.selectedNode = selectedNode;
     this.selectedLeaf = selectedLeaf;
+    this.select = select;
 }

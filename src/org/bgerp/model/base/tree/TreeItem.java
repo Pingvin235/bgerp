@@ -164,11 +164,11 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
      * @param ids the IDs
      * @return
      */
-    protected boolean isInSet(Set<T> ids) {
+    public boolean isInPathTo(Set<T> ids) {
         if (ids.contains(this.getId()))
             return true;
         for (var child : children)
-            if (child.isInSet(ids))
+            if (child.isInPathTo(ids))
                 return true;
         return false;
     }

@@ -40,6 +40,7 @@ import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.model.process.config.IsolationConfig;
 import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
@@ -118,27 +119,37 @@ public class ProcessAction extends BaseAction {
     }
 
     /**
-     * Cleans not allowed process types out of full list
-     * @param typeList initial full list, will be changed
-     * @param form current request info with user and permission
-     * @return modified {@param typeList}
+     * List of process types, allowed for creation, filtered by 'create.in' configuration and process isolation
+     * @param form current request form user and permission
+     * @param area creation area
+     * @param ids optional additional restricting process IDs
+     * @return list of process types
      */
-    public static List<ProcessType> processTypeIsolationFilter(List<ProcessType> typeList, DynActionForm form) {
+    public static List<ProcessCreateType> processCreateTypes(DynActionForm form, String area, Set<Integer> ids) {
+        List<ProcessType> types = ProcessTypeCache.getTypeList();
+        List<ProcessCreateType> result = new ArrayList<>(types.size());
+
+        for (ProcessType type : types) {
+            var createType = new ProcessCreateType(type, area);
+            if (createType.check() && (ids == null || ids.contains(type.getId())))
+                result.add(createType);
+        }
+
         var user = form.getUser();
         var isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
 
         // when process isolation for the user is 'group' or explicitly set by action
         if (isolation == IsolationProcess.GROUP || form.getPermission().getBoolean("onlyPermittedTypes")) {
-            Iterator<ProcessType> iterator = typeList.iterator();
+            var iterator = result.iterator();
             while (iterator.hasNext()) {
                 var type = iterator.next();
-                if (!isolationCheck(type, user)) {
+                if (!isolationCheck(type.getType(), user)) {
                     iterator.remove();
                 }
             }
         }
 
-        return typeList;
+        return result;
     }
 
     /**

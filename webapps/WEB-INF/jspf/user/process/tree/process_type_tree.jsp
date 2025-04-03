@@ -19,7 +19,7 @@
 <c:remove var="afterSelectCommand"/>
 
 <script>
-$(function() {
-	$('#${uiid} span.treeNode').first().click();
+$(function () {
+	$$.process.type.select('${uiid}');
 })
 </script>
