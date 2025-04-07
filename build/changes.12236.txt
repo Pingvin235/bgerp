@@ -1,0 +1,1 @@
+C: Increase size of image preview
