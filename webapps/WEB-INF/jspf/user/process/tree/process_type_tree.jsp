@@ -16,8 +16,6 @@
 	</c:forEach>
 </div>
 
-<c:remove var="afterSelectCommand"/>
-
 <script>
 $(function () {
 	$$.process.type.select('${uiid}');

@@ -4,7 +4,7 @@
 <div style="padding-left: ${level eq 0 ? 0 : 15}px; width: 100%;">
 	<c:choose>
 		<c:when test="${not empty node.children}">
-			<span id="${node.id}_title" class="treeNode ${node.selectedClass}" onclick="$$.process.type.selectedNode(this, ${node.id});">
+			<span id="${node.id}_title" class="treeNode ${node.getClass().simpleName eq 'ProcessCreateType' ? node.selectedClass : ''}" onclick="$$.process.type.selectedNode(this, ${node.id});">
 				<img border="0" src="/img/folder.gif" alt="Node"/>&nbsp;${node.title}
 			</span>
 			<div id="${node.id}_childs" style="display: none;">
@@ -17,7 +17,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<span id="${node.id}_title" class="${node.selectedClass}" onclick="$$.process.type.selectedLeaf(this, ${node.id});">
+			<span id="${node.id}_title" class="${node.getClass().simpleName eq 'ProcessCreateType' ? node.selectedClass : ''}" onclick="$$.process.type.selectedLeaf(this, ${node.id});">
 				<img border="0" style="cursor: pointer;" src="/img/page.png" alt="Type"/>&nbsp;${node.title}
 			</span>
 		</c:otherwise>

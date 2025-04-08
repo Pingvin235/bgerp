@@ -28,8 +28,23 @@ $$.process.type = new function () {
             $uiid.find('span.treeNode').first().click();
     }
 
+    const selectEdit = (uiid, typeId) => {
+        const $selectedTitle = $(document.getElementById(uiid)).find('#' + typeId + '_title');
+        const $parents = $selectedTitle.parents();
+
+        let i = 0;
+        let $span = $();
+        do {
+            $span = $($parents[i]).find(' > span');
+            $span.click();
+            i += 2;
+        }
+        while ($span.length > 0)
+    }
+
     // public functions
     this.selectedNode = selectedNode;
     this.selectedLeaf = selectedLeaf;
     this.select = select;
+    this.selectEdit = selectEdit;
 }
