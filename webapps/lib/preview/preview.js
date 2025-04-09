@@ -40,12 +40,16 @@
 				(text.endsWith(".jpg") || text.endsWith(".jpeg") || text.endsWith(".gif") || text.endsWith(".png"))) {
 				$a.hover(
 					function (e) {
-						const $preview = $("<div id='preview'><img style='max-width: 100%; max-height: 100%;' src='" + this.href + "' alt='Preview'/></div>");
-						$("body").append($preview);
-						$preview.find('img').on('load', () => {
+						let $preview = $("#preview");
+						if ($preview.length == 0) {
+							$preview = $("<div id='preview'><img style='max-width: 100%; max-height: 100%;' src='" + this.href + "' alt='Preview'/></div>");
+							$("body").append($preview);
+							$preview.find('img').on('load', () => {
+								position($preview, e);
+								$preview.fadeIn();
+							});
+						} else
 							position($preview, e);
-							$preview.fadeIn();
-						});
 					},
 					() => {
 						$("#preview").remove();
