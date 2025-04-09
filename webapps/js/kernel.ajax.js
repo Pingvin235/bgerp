@@ -509,9 +509,9 @@ $$.ajax = new function () {
 			const sendNextFile = (file) => {
 				if (file)
 					fileSend(form, file)
-						.done((response) => {
-							if (response.data && response.data.file)
-								uploadedFiles.push(response.data.file);
+						.done((result) => {
+							if (result.data && result.data.file)
+								uploadedFiles.push(result.data.file);
 						})
 						.always(() => sendNextFile(files.shift()));
 				else
@@ -545,8 +545,8 @@ $$.ajax = new function () {
 			contentType: false // tell jQuery not to set contentType
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			error(url, jqXHR, textStatus, errorThrown);
-		}).done((data) => {
-			checkResponse(data, form);
+		}).done((result) => {
+			checkResponse(result, form, true);
 		});
 	};
 
