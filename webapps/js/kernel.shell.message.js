@@ -5,7 +5,7 @@ $$.shell.message = new function () {
 	const debug = $$.debug("shell.message");
 
 	const $dialog = () => {
-		return $("#messageDialog");
+		return $("#message-dialog");
 	}
 
 	/**
@@ -20,12 +20,12 @@ $$.shell.message = new function () {
 	/**
 	 * Shows HTML message dialog.
 	 * @param {*} title title.
-	 * @param {*} message HTML message, '\n' replaced automatically to '<br/>'
+	 * @param {*} message HTML message
 	 */
 	const show = (title, message) => {
 		const $dlg = $dialog();
 		if (!$dlg.dialog("isOpen")) {
-			$("#messageDialogMessage").html(message.replace(/\\n/g, "<br/>"));
+			$("#message-dialog-message").html(message);
 			$dlg.dialog("option", "title", title);
 
 			$dlg.dialog("open");

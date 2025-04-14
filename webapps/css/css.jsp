@@ -248,6 +248,10 @@ div, span {
 	vertical-align: middle;
 }
 
+#message-dialog-message {
+	white-space: pre-wrap;
+}
+
 <%@ include file="kernel/style.process.css.jsp"%>
 
 <plugin:include endpoint="css.jsp"/>

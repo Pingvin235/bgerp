@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<div id="messageDialog" title="${l.l('Сообщение об ошибке')}">
-	<div id="messageDialogMessage">
+<div id="message-dialog" title="${l.l('Сообщение об ошибке')}">
+	<div id="message-dialog-message">
 
 	</div>
 </div>
