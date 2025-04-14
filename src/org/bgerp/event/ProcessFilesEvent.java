@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bgerp.event.base.UserEvent;
 import org.bgerp.model.base.IdStringTitle;
+import org.bgerp.model.file.FileData;
 
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**

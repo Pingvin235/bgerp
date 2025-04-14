@@ -21,9 +21,9 @@ import java.util.Set;
 import java.util.SortedMap;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.dao.FileDataDAO;
+import org.bgerp.model.file.FileData;
 
-import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.util.TimeUtils;

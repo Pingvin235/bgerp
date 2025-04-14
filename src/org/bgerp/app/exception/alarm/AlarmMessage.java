@@ -5,7 +5,7 @@ import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
 
-import ru.bgcrm.model.FileData;
+import org.bgerp.model.file.FileData;
 
 /**
  * Alarm sent to a configured email

@@ -11,11 +11,11 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.ParamTest;
+import org.bgerp.model.file.FileData;
 import org.bgerp.model.param.Parameter;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.CustomerDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.util.Utils;
 

@@ -22,8 +22,10 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.dao.FileDataDAO;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.file.FileData;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.TagConfig;
 import org.bgerp.model.process.config.IsolationConfig;
@@ -32,9 +34,7 @@ import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

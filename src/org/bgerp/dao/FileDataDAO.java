@@ -1,4 +1,4 @@
-package ru.bgcrm.dao;
+package org.bgerp.dao;
 
 import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
 
@@ -18,11 +18,12 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.model.file.FileData;
 import org.bgerp.model.file.FileStat;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.model.FileData;
+import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.util.Utils;
 
 /**

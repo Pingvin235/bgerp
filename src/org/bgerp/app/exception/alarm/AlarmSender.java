@@ -11,11 +11,11 @@ import java.util.function.Supplier;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.model.file.FileData;
 import org.bgerp.util.Log;
 import org.bgerp.util.mail.MailMsg;
 
 import ru.bgcrm.event.SetupChangedEvent;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

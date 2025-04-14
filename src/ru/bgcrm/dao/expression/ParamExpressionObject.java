@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.file.FileData;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.util.TimeUtils;

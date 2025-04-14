@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.bgerp.model.base.Id;
-
-import ru.bgcrm.model.FileData;
+import org.bgerp.model.file.FileData;
 
 public class HdMessage extends Id {
     /** Message.DIRECTION_INCOMING либо Message.DIRECTION_OUTGOING **/

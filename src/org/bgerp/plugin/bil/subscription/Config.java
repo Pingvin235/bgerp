@@ -17,16 +17,16 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.cache.ParameterCache;
+import org.bgerp.dao.FileDataDAO;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.model.file.FileData;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.subscription.model.Subscription;
 import org.bgerp.plugin.bil.subscription.model.SubscriptionLicense;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
-import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.event.ParamChangedEvent;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

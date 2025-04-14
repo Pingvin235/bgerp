@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.Id;
+import org.bgerp.model.file.FileData;
 
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.process.Process;
 
 /**

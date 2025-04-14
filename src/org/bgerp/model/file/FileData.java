@@ -1,4 +1,4 @@
-package ru.bgcrm.model;
+package org.bgerp.model.file;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -8,12 +8,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.bgerp.dao.FileDataDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.util.Utils;
 
 /**

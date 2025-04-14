@@ -17,10 +17,9 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.model.file.FileData;
 import org.bgerp.util.Log;
 import org.bgerp.util.URLTotalEncoder;
-
-import ru.bgcrm.model.FileData;
 
 /**
  * Email sender

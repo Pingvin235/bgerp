@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.cache.ParameterCache;
+import org.bgerp.dao.FileDataDAO;
 import org.bgerp.dao.param.ParamLogDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
@@ -24,13 +25,12 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.AddressTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.file.FileData;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.TimeConvert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;

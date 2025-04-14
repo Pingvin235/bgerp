@@ -18,6 +18,8 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.cache.UserCache;
+import org.bgerp.dao.FileDataDAO;
+import org.bgerp.model.file.FileData;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.msg.config.TagConfig;
@@ -28,11 +30,9 @@ import org.bgerp.util.mail.MailMsg;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.dao.FileDataDAO;
 import org.bgerp.itest.kernel.db.DbTest;
+import org.bgerp.model.file.FileData;
 import org.testng.Assert;
 
-import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.model.FileData;
-
 public class FileHelper {
-    
+
     public static FileData addFile(File file) throws Exception {
         var con = DbTest.conRoot;
         var dao = new FileDataDAO(con);

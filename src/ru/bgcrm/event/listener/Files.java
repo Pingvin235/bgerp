@@ -10,11 +10,11 @@ import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.event.ProcessFilesEvent;
+import org.bgerp.model.file.FileData;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValue;
 
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**

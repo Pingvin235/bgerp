@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.dao.FileDataDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.file.FileData;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.plugin.document.model.Document;
 
 public class DocumentDAO extends CommonDAO {

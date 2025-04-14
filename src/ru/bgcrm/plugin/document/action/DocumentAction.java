@@ -21,11 +21,11 @@ import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.dao.FileDataDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.file.FileData;
 
-import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.plugin.document.Config;
