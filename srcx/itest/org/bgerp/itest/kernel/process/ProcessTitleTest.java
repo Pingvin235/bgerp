@@ -26,6 +26,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 @Test(groups = "processTitle", dependsOnGroups = { "process", "processParam", "message" })
 public class ProcessTitleTest {
     private static final String TITLE = "Kernel Process Title";
+    private static final String DESCRIPTION =  TITLE + " with special chars: <> \" '";
 
     private int paramListId;
     private int processTypeId;
@@ -51,13 +52,13 @@ public class ProcessTitleTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        int processId = ProcessHelper.addProcess(processTypeId, TITLE).getId();
+        int processId = ProcessHelper.addProcess(processTypeId, DESCRIPTION).getId();
 
         var processDao = new ProcessDAO(DbTest.conRoot);
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
         var process = processDao.getProcess(processId);
-        Assert.assertEquals(process.getTitle(), "LIST VALUE: ; DESCRIPTION: " + TITLE);
+        Assert.assertEquals(process.getTitle(), "LIST VALUE: ; DESCRIPTION: " + DESCRIPTION);
 
         Set<Integer> value = Set.of(2);
         paramDao.updateParamList(processId, paramListId, value);
@@ -68,7 +69,7 @@ public class ProcessTitleTest {
         Assert.assertEquals(form.getResponse().getEventList().size(), 1);
 
         process = processDao.getProcess(processId);
-        Assert.assertEquals(process.getTitle(), "LIST VALUE: Value2; DESCRIPTION: " + TITLE);
+        Assert.assertEquals(process.getTitle(), "LIST VALUE: Value2; DESCRIPTION: " + DESCRIPTION);
 
         MessageHelper.addHowToTestNoteMessage(processId, this);
     }

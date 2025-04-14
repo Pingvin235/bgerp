@@ -220,7 +220,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
         }
 
         if (Utils.isBlankString(result))
-            result = "#" + id + " " + Utils.escapeXml(description);
+            result = "#" + id + " " + description;
 
         return result;
     }

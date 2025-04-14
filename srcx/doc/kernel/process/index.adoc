@@ -119,7 +119,7 @@ title.expression=p.getId() + " " + p.getTypeTitle() + " " + pp.val(3)
 
 Another one, with title including process link customer's title.
 ----
-title.expression="Subscription " + p.getId() + " " + u.escapeXml(u.maskNull(pl.linkTitle("customer")))
+title.expression="Subscription " + p.getId() + " " + u.maskNull(pl.linkTitle("customer"))
 ----
 
 [[setup-type-description]]

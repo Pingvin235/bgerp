@@ -2,10 +2,10 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <u:sc>
-	<c:set var="title" value="${process.title}"/>
+	<c:set var="title" value="${u.escapeXml(process.title)}"/>
 
-	<%-- если описание не содержит HTML разметки - оборачиваем его в <span class='title'> --%>
-	<c:if test="${not title.contains( '<' ) }">
+	<%-- if there is no HTML markup in the title - wrap around in <span class='title'> --%>
+	<c:if test="${not title.contains('<')}">
 		<c:set var="title">
 			<span class='title' id='process_title_${process.id}'>
 				<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProcessAction$Config')}"/>
