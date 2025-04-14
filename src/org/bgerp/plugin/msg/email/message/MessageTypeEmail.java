@@ -38,7 +38,6 @@ import org.bgerp.model.file.tmp.SessionTemporaryFiles;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.plugin.msg.email.MessageParser;
-import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.util.Log;
 import org.bgerp.util.mail.Addresses;
@@ -293,7 +292,9 @@ public class MessageTypeEmail extends MessageType {
             var mp = new MessageParser(messages[index]);
 
             result = extractMessage(mp, true);
-            addAttaches(mp, result);
+
+            for (FileData attach : mp.getAttachContent())
+                result.addAttach(attach);
         }
 
         return result;
@@ -329,14 +330,6 @@ public class MessageTypeEmail extends MessageType {
             incomingFolder.copyMessages(list.toArray(new javax.mail.Message[0]), trashFolder);
 
             incomingCache.delete(messageIds);
-        }
-    }
-
-    private void addAttaches(MessageParser mp, Message msg) throws Exception {
-        for (MessageAttach attach : mp.getAttachContent()) {
-            FileData file = new FileData();
-            file.setTitle(attach.title());
-            msg.addAttach(file);
         }
     }
 
@@ -494,13 +487,9 @@ public class MessageTypeEmail extends MessageType {
             Message msg = extractMessage(mp, true);
 
             FileDataDAO fileDao = new FileDataDAO(con);
-            for (MessageAttach attach : mp.getAttachContent()) {
-                FileData file = new FileData();
-                file.setTitle(attach.title());
-
+            for (FileData file : mp.getAttachContent()) {
                 OutputStream out = fileDao.add(file);
-                IOUtils.copy(attach.inputStream(), out);
-
+                IOUtils.write(file.getData(), out);
                 msg.addAttach(file);
             }
 

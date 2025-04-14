@@ -19,8 +19,6 @@ import javax.mail.internet.MailDateFormat;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import com.sun.mail.imap.IMAPMessage;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.codec.DecodeMonitor;
 import org.apache.james.mime4j.codec.DecoderUtil;
@@ -30,12 +28,15 @@ import org.apache.james.mime4j.dom.Multipart;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
 import org.apache.james.mime4j.message.DefaultMessageWriter;
 import org.apache.james.mime4j.stream.MimeConfig;
+import org.bgerp.model.file.FileData;
 import org.bgerp.util.Log;
 import org.bgerp.util.mail.MailConfig;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
+
+import com.sun.mail.imap.IMAPMessage;
 
 import ru.bgcrm.util.Utils;
 
@@ -262,10 +263,8 @@ public class MessageParser {
         return textContent;
     }
 
-    public static record MessageAttach(String title, InputStream inputStream) {}
-
-    public List<MessageAttach> getAttachContent() throws Exception {
-        ArrayList<MessageAttach> attachContent = new ArrayList<>();
+    public List<FileData> getAttachContent() throws Exception {
+        ArrayList<FileData> attachContent = new ArrayList<>();
 
         // lazy initialization of mimi4j
         if (mime4j == null) {
@@ -288,8 +287,7 @@ public class MessageParser {
                     log.debug("Skip");
                     continue;
                 }
-                var attachData = new MessageAttach(part.getFilename(), new ByteArrayInputStream(getContent(part.getBody())));
-                attachContent.add(attachData);
+                attachContent.add(new FileData(part.getFilename(), getContent(part.getBody())));
             }
         }
 

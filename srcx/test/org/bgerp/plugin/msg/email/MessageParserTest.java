@@ -7,7 +7,7 @@ import org.apache.james.mime4j.dom.MessageBuilder;
 import org.apache.james.mime4j.dom.Multipart;
 import org.apache.james.mime4j.message.BodyPart;
 import org.apache.james.mime4j.message.DefaultMessageBuilder;
-import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
+import org.bgerp.model.file.FileData;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,10 +43,10 @@ public class MessageParserTest {
     @Test
     public void testMessageParse3() throws Exception {
         MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail3.eml"));
-        List<MessageAttach> attaches = mp.getAttachContent();
+        List<FileData> attaches = mp.getAttachContent();
         Assert.assertEquals(1, attaches.size());
-        MessageAttach attach = attaches.get(0);
-        Assert.assertEquals("Счёт №71 от 20 июля на сумму 41 500 р.pdf", attach.title());
+        FileData attach = attaches.get(0);
+        Assert.assertEquals("Счёт №71 от 20 июля на сумму 41 500 р.pdf", attach.getTitle());
     }
 
     @Test
@@ -54,10 +54,10 @@ public class MessageParserTest {
         MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail4.eml"));
         Assert.assertEquals("ООО \"Станция Виртуальная\"_БИЛЛИНГ ООО \"Наука-Связь\"", mp.getMessageSubject());
         Assert.assertTrue(mp.getTextContent().contains("КОРРЕКТНО заполнять поле _Назначение платежа_"));
-        List<MessageAttach> attaches = mp.getAttachContent();
+        List<FileData> attaches = mp.getAttachContent();
         Assert.assertEquals(3, attaches.size());
-        MessageAttach attach = attaches.get(0);
-        Assert.assertEquals("3244659_Cчет за Июль 2020.pdf", attach.title());
+        FileData attach = attaches.get(0);
+        Assert.assertEquals("3244659_Cчет за Июль 2020.pdf", attach.getTitle());
     }
 
     @Test
@@ -71,9 +71,9 @@ public class MessageParserTest {
     public void testMessageParse5() throws Exception {
         MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail5.eml"));
         Assert.assertEquals("Счет для ООО \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" от ООО \"Цифровые системы\"", mp.getMessageSubject());
-        List<MessageAttach> attaches = mp.getAttachContent();
+        List<FileData> attaches = mp.getAttachContent();
         Assert.assertEquals(1, attaches.size());
-        Assert.assertEquals("УПД ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" 01-05-21.pdf", attaches.get(0).title());
+        Assert.assertEquals("УПД ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" 01-05-21.pdf", attaches.get(0).getTitle());
     }
 
     @Test
@@ -89,18 +89,18 @@ public class MessageParserTest {
     @Test
     public void testMessageParse6() throws Exception {
         MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail6.eml"));
-        List<MessageAttach> attaches = mp.getAttachContent();
+        List<FileData> attaches = mp.getAttachContent();
         Assert.assertEquals(5, attaches.size());
-        Assert.assertEquals("900400880488_awecrfq234er.pdf", attaches.get(2).title());
-        Assert.assertEquals("900600880183_qwefcqaweqqf2e.pdf", attaches.get(3).title());
-        Assert.assertEquals("Ростелеком.xlsx", attaches.get(4).title());
+        Assert.assertEquals("900400880488_awecrfq234er.pdf", attaches.get(2).getTitle());
+        Assert.assertEquals("900600880183_qwefcqaweqqf2e.pdf", attaches.get(3).getTitle());
+        Assert.assertEquals("Ростелеком.xlsx", attaches.get(4).getTitle());
     }
 
     @Test
     public void testMessageParse7() throws Exception {
         MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail7.eml"));
         // MaxLineLimitException has been thrown with MimeConfig.DEFAULT in MessageParser
-        List<MessageAttach> attaches = mp.getAttachContent();
+        List<FileData> attaches = mp.getAttachContent();
         Assert.assertEquals(0, attaches.size());
     }
 }
