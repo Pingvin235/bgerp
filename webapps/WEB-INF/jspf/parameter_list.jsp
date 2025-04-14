@@ -166,12 +166,7 @@
 									</html:form>
 								</c:if>
 
-								<c:url var="url" value="/user/file.do">
-									<c:param name="id" value="${value.id}" />
-									<c:param name="title" value="${value.title}" />
-									<c:param name="secret" value="${value.secret}" />
-								</c:url>
-								<a href="${url}" ${args} target="_blank" class="preview">${value.title}</a>
+								<ui:file-link file="${value}"/>
 							</div>
 						</c:forEach>
 						<script>

@@ -5,16 +5,10 @@
 <div class="upload-list in-mb05-all">
 	<%-- already stored attachments --%>
 	<c:forEach var="item" items="${message.attachList}">
-		<c:url var="url" value="/user/file.do">
-			<c:param name="id" value="${item.id}"/>
-			<c:param name="title" value="${item.title}"/>
-			<c:param name="secret" value="${item.secret}"/>
-		</c:url>
-
 		<div>
 			<input type="hidden" name="fileId" value="${item.id}"/>
 			<ui:button styleClass="btn-small mr05" type="del" onclick="$(this.parentNode).remove()"/>
-			<a href="${url}">${item.title}</a>
+			<ui:file-link file="${item}"/>
 		</div>
 	</c:forEach>
 

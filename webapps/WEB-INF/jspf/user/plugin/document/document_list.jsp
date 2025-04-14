@@ -95,11 +95,6 @@
 		<td width="30">&#160;</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}" >
-		<c:url var="url" value="/user/file.do">
-			<c:param name="id" value="${item.fileData.id}"/>
-			<c:param name="title" value="${item.fileData.title}"/>
-			<c:param name="secret" value="${item.fileData.secret}"/>
-		</c:url>
 		<c:url var="deleteUrl" value="${form.requestURI}">
 			<c:param name="method" value="deleteDocument"/>
 			<c:param name="id" value="${item.id}"/>
@@ -113,7 +108,7 @@
 
 		<tr>
 			<td>${item.id}</td>
-			<td><a href="${url}" class="preview" target="_blank">${item.fileData.title}</a></td>
+			<td><ui:file-link file="${item.fileData}"/></td>
 			<td>${tu.format(item.fileData.time, 'ymdhms')}</td>
 			<td>
 				<ui:button type="del" styleClass="btn-small" onclick="
