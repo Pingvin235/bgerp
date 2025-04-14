@@ -1,9 +1,11 @@
 package ru.bgcrm.plugin.fulltext.exec;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.Setup;
@@ -11,8 +13,6 @@ import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
-import org.bgerp.model.base.IdStringTitle;
-import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValue;
@@ -53,6 +53,7 @@ public class FullTextUpdate extends Task {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
         Config config = Setup.getSetup().getConfig(Config.class);
 
@@ -114,25 +115,21 @@ public class FullTextUpdate extends Task {
                             if (pair.getValue() == null) continue;
 
                             switch (Parameter.Type.of(pair.getParameter().getType())) {
-                                case TEXT:
-                                case BLOB:
-                                case MONEY: {
-                                    text.append(String.valueOf(pair.getValue()));
-                                    text.append('\n');
-                                    break;
+                                case ADDRESS -> {
+                                    var valueMap = (Map<Integer, ParameterAddressValue>) pair.getValue();
+                                    for (ParameterAddressValue value : valueMap.values())
+                                        text.append(value.getValue()).append('\n');
                                 }
-                                case DATE: {
-                                    text.append(TimeUtils.format((Date) pair.getValue(), TimeUtils.FORMAT_TYPE_YMD));
-                                    text.append('\n');
-                                    break;
+                                case BLOB, MONEY, TEXT -> {
+                                    text.append(String.valueOf(pair.getValue())).append('\n');
                                 }
-                                case DATETIME: {
-                                    text.append(TimeUtils.format((Date) pair.getValue(), TimeUtils.FORMAT_TYPE_YMDHM));
-                                    text.append('\n');
-                                    break;
+                                case DATE -> {
+                                    text.append(TimeUtils.format((Date) pair.getValue(), TimeUtils.FORMAT_TYPE_YMD)).append('\n');
                                 }
-                                case EMAIL: {
-                                    @SuppressWarnings("unchecked")
+                                case DATETIME -> {
+                                    text.append(TimeUtils.format((Date) pair.getValue(), TimeUtils.FORMAT_TYPE_YMDHM)).append('\n');
+                                }
+                                case EMAIL -> {
                                     var valueMap = (Map<Integer, String>) pair.getValue();
                                     for (String email : valueMap.values()) {
                                         // a comment - in square braces
@@ -141,53 +138,26 @@ public class FullTextUpdate extends Task {
                                     }
                                     break;
                                 }
-                                case FILE: {
+                                case FILE -> {
                                     // TODO: Handle a file value. pair.getValue();
-                                    break;
                                 }
-                                case LIST:
-                                case LISTCOUNT: {
-                                    @SuppressWarnings("unchecked")
-                                    var values = (List<IdTitle>) pair.getValue();
-                                    for (IdTitle value : values) {
-                                        if (value == null || value.getTitle() == null)
-                                            continue;
-                                        // a value goes after ':', a comment - in square braces
-                                        text.append(value.getTitle().replace(':', ' '));
-                                        text.append('\n');
-                                    }
-                                    break;
+                                case LIST -> {
+                                    text.append(Parameter.Type.listToString(pair.getParameter().getId(), (Map<Integer, String>) pair.getValue())).append("\n");
                                 }
-                                case TREE: {
-                                    @SuppressWarnings("unchecked")
-                                    var values = (List<IdStringTitle>) pair.getValue();
-                                    for (IdStringTitle value : values) {
-                                        if (value == null || value.getTitle() == null)
-                                            continue;
-                                        // a value goes after ':', a comment - in square braces
-                                        text.append(value.getTitle().replace(':', ' '));
-                                        text.append('\n');
-                                    }
-                                    break;
+                                case LISTCOUNT -> {
+                                    text.append(Parameter.Type.listCountToString(pair.getParameter().getId(), (Map<Integer, BigDecimal>) pair.getValue())).append("\n");
                                 }
-                                case ADDRESS: {
-                                    @SuppressWarnings("unchecked")
-                                    var valueMap = (Map<Integer, ParameterAddressValue>) pair.getValue();
-                                    for (ParameterAddressValue value : valueMap.values()) {
-                                        text.append(value.getValue());
-                                        text.append('\n');
-                                    }
-                                    break;
-                                }
-                                case PHONE: {
+                                case PHONE -> {
                                     var value = (ParameterPhoneValue) pair.getValue();
                                     for (ParameterPhoneValueItem valueItem : value.getItemList()) {
-                                        text.append(valueItem.getPhone());
-                                        text.append(' ');
-                                        text.append(valueItem.getComment());
-                                        text.append('\n');
+                                        text.append(valueItem.getPhone()).append(' ').append(valueItem.getComment()).append('\n');
                                     }
-                                    break;
+                                }
+                                case TREE -> {
+                                    text.append(Parameter.Type.treeToString(pair.getParameter().getId(), (Set<String>) pair.getValue())).append("\n");
+                                }
+                                case TREECOUNT -> {
+                                    text.append(Parameter.Type.treeCountToString(pair.getParameter().getId(), (Map<String, BigDecimal>) pair.getValue())).append("\n");
                                 }
                             }
                         }
