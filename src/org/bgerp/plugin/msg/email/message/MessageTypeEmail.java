@@ -262,7 +262,7 @@ public class MessageTypeEmail extends MessageType {
 
     /**
      * Takes an IMAP message by ID.
-     * @param messageId Message-ID header.
+     * @param messageId message ID string, like 'indexDDD'
      * @param tryRelist try to re-list messages cache if not found.
      * @return
      * @throws IllegalArgumentException {@code tryRelist} is {@code false} and no message found.

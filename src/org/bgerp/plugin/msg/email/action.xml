@@ -1,3 +1,4 @@
 <item title="Plugin Email">
-	<item title="Search recipients" action="org.bgerp.plugin.msg.email.action.EMailAction:recipients"/>
+	<item title="Search Recipients" action="/user/plugin/email/email:recipients, org.bgerp.plugin.msg.email.action.EMailAction:recipients"/>
+	<item title="Get Attach" action="/user/plugin/email/email:getAttach"/>
 </item>

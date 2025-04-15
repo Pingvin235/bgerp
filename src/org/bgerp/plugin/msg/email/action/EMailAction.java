@@ -1,5 +1,6 @@
 package org.bgerp.plugin.msg.email.action;
 
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
@@ -9,8 +10,11 @@ import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
+import org.bgerp.model.file.FileData;
+import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.plugin.msg.email.config.RecipientsConfig;
 import org.bgerp.plugin.msg.email.dao.EMailDAO;
+import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
@@ -21,7 +25,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/email/email")
+@Action(path = "/user/plugin/email/email", pathId = true)
 public class EMailAction extends BaseAction {
     public ActionForward recipients(DynActionForm form, ConnectionSet conSet) throws Exception {
         int processId = form.getParamInt("processId", Utils::isPositive);
@@ -74,4 +78,20 @@ public class EMailAction extends BaseAction {
         return json(conSet, form);
     }
 
+    public ActionForward getAttach(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var messageType = (MessageTypeEmail) setup.getConfig(MessageTypeConfig.class).getTypeMap().get(form.getParamInt("typeId", Utils::isPositive));
+        var message = messageType.newMessageGet(conSet, form.getParam("messageId", Utils::notEmptyString));
+        String title = form.getParam("title", Utils::notEmptyString);
+
+        FileData file = message.getAttachList().stream().filter(f -> f.getTitle().equals(title)).findAny().orElseThrow();
+
+        var response = form.getHttpResponse();
+        Utils.setFileNameHeaders(response, title);
+
+        OutputStream out = response.getOutputStream();
+        out.write(file.getData());
+        out.flush();
+
+        return null;
+    }
 }

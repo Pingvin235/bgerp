@@ -9,7 +9,7 @@
 		</div>
 		<div class="pl1 w100p">
 			<c:choose>
-				<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.msg.email.action.EMailAction:recipients') and
+				<c:when test="${ctxUser.checkPerm('/user/plugin/email/email:recipients') and
 					ctxUser.personalizationMap.get('iface.email.message.tag-box.disable') ne '1'}">
 
 					<c:set var="to" value="${not empty message ? message.to : ''}"/>

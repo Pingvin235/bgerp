@@ -344,7 +344,6 @@
 	<p><en>Set a new process</en><ru>Установить новый процесс</ru></p>
 	<p><ru>Привязать</ru><en>Link</en></p>
 	<p><ru>Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.</ru><en>Provide the code to bind the process. Code "0" - to decouple the message from the process.</en></p>
-	<p><ru>Вложения (можно загрузить только после привязки процесса)</ru><en>Attachments (can only be downloaded after linking the process)</en></p>
 	<p><ru>С номера</ru><en>From number</en></p>
 	<p><ru>На номер</ru><en>To the number</en></p>
 	<p><ru>Время начала</ru><en>Start time</en></p>
