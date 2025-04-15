@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
 import org.bgerp.app.exception.BGException;
-import org.bgerp.model.file.FileInfo;
+import org.bgerp.model.file.tmp.FileInfo;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Utils;

@@ -26,8 +26,8 @@ import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.model.Pageable;
-import org.bgerp.model.file.FileInfo;
-import org.bgerp.model.file.SessionTemporaryFiles;
+import org.bgerp.model.file.tmp.FileInfo;
+import org.bgerp.model.file.tmp.SessionTemporaryFiles;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
@@ -530,11 +530,11 @@ public class MessageTypeHelpDesk extends MessageType {
         Map<Integer, FileInfo> tmpFiles = SessionTemporaryFiles.getFiles(form, "tmpFileId");
         for (FileInfo fileInfo : tmpFiles.values()) {
             ByteArrayOutputStream out = new ByteArrayOutputStream(1000000);
-            IOUtils.copy(fileInfo.inputStream, out);
-            out.close();
-            fileInfo.inputStream.close();
+            try (var inputStream = fileInfo.getInputStream()) {
+                IOUtils.copy(inputStream, out);
+            }
 
-            hdDao.putAttach(msg.getId(), fileInfo.title, out.toByteArray());
+            hdDao.putAttach(msg.getId(), fileInfo.getTitle(), out.toByteArray());
         }
 
         // вложение выбираются из хелпдеска

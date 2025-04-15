@@ -16,8 +16,8 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.model.base.IdTitle;
-import org.bgerp.model.file.FileInfo;
-import org.bgerp.model.file.SessionTemporaryFiles;
+import org.bgerp.model.file.tmp.FileInfo;
+import org.bgerp.model.file.tmp.SessionTemporaryFiles;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
@@ -272,13 +272,14 @@ public abstract class MessageType extends IdTitle {
         for (FileInfo fileInfo : tmpFiles.values()) {
             FileData file = new FileData();
 
-            file.setTitle(fileInfo.title);
+            file.setTitle(fileInfo.getTitle());
 
             OutputStream out = fileDao.add(file);
 
-            IOUtils.copy(fileInfo.inputStream, out);
+            try (var inputStream = fileInfo.getInputStream()) {
+                IOUtils.copy(inputStream, out);
+            }
             out.close();
-            fileInfo.inputStream.close();
 
             message.addAttach(file);
         }
