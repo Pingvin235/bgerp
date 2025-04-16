@@ -6,14 +6,19 @@ import java.util.Set;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Dynamic;
 
+import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.util.Utils;
 
-// параметры фильтра в очереди
-public class Filter {
+/**
+ * Process queue filter
+ *
+ * @author Shamil Vakhitov
+ */
+public class Filter extends CommonDAO {
     public static final String VALUES = "values";
     public static final String ON_EMPTY_VALUES = "onEmptyValues";
 
-    private final ConfigMap configMap;
+    protected final ConfigMap configMap;
 
     private final int id;
     // произвольное наименование фильтра

@@ -552,14 +552,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                         }
                     }
                 } else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)) {
-                    String tableAlias = "param_dx_" + paramId;
-
-                    if (!joinPart.toString().contains(tableAlias)) {
-                        joinPart.append(" LEFT JOIN param_" + paramType);
-                        joinPart.append(" AS " + tableAlias + " ON " + tableAlias + ".id=process.id AND " + tableAlias
-                                + ".param_id=" + paramId);
-                    }
-                    addDateTimeFilter(form, wherePart, "dateTimeParam" + paramId, String.valueOf(paramId), filter);
+                    filter.addDateTimeParamFilter(form, joinPart, paramType);
                 } else if (Parameter.TYPE_LIST.equals(paramType) || Parameter.TYPE_LISTCOUNT.equals(paramType)) {
                     String values = getValues(form, filter, "param" + paramId + "value");
 
@@ -783,37 +776,7 @@ public class ProcessQueueDAO extends ProcessDAO {
         return values;
     }
 
-    public void addDateTimeFilter(DynActionForm form, StringBuilder wherePart, String paramPrefix, String paramId, FilterParam filter) {
-        boolean orEmpty = filter.getConfigMap().getBoolean("orEmpty", false);
-
-        Date dateFrom = TimeUtils.parse(form.getParam(paramPrefix + "From"), TimeUtils.FORMAT_TYPE_YMD);
-        Date dateTo = TimeUtils.parse(form.getParam(paramPrefix + "To"), TimeUtils.FORMAT_TYPE_YMD);
-
-        if (filter.getConfigMap().get("valueFrom", "").equals("curdate"))
-            dateFrom = new Date();
-        if (filter.getConfigMap().get("valueTo", "").equals("curdate"))
-            dateTo = new Date();
-
-        String tableAlias = "param_" + paramId;
-
-        if (orEmpty) {
-            wherePart.append(" AND (  " + tableAlias + ".param_id" + " IS NULL OR ( 1>0 ");
-        }
-
-        if (dateFrom != null) {
-            wherePart.append(" AND " + tableAlias + ".value" + ">=" + TimeUtils.formatSqlDate(dateFrom));
-        }
-        if (dateTo != null) {
-            wherePart.append(
-                    " AND " + tableAlias + ".value" + "<" + TimeUtils.formatSqlDate(TimeUtils.getNextDay(dateTo)));
-        }
-
-        if (orEmpty) {
-            wherePart.append(" ) ) ");
-        }
-    }
-
-    public void addDateFilter(DynActionForm form, StringBuilder wherePart, String paramPrefix, String column) {
+    private void addDateFilter(DynActionForm form, StringBuilder wherePart, String paramPrefix, String column) {
         Date dateFrom = TimeUtils.parse(form.getParam(paramPrefix + "From"), TimeUtils.FORMAT_TYPE_YMD);
         Date dateTo = TimeUtils.parse(form.getParam(paramPrefix + "To"), TimeUtils.FORMAT_TYPE_YMD);
         if (dateFrom != null) {
