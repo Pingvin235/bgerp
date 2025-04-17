@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.FileDataDAO;
@@ -1123,6 +1124,7 @@ public class ParamValueDAO extends CommonDAO {
      * @throws Exception
      */
     public void updateParamFile(int id, int paramId, int position, FileData fileData) throws Exception {
+        // deletion
         if (fileData == null) {
             Map<Integer, FileData> currentValue = null;
             if (position == -1)
@@ -1155,29 +1157,38 @@ public class ParamValueDAO extends CommonDAO {
             }
 
             if (position == 0) {
-                var query = "SELECT MAX(n) + 1 FROM " + Tables.TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
-                var ps = con.prepareStatement(query);
-                ps.setInt(1, id);
-                ps.setInt(2, paramId);
+                var query = SQL_SELECT + "p.n, f.title" + SQL_FROM + Tables.TABLE_PARAM_FILE + "AS p" +
+                    SQL_INNER_JOIN + ru.bgcrm.dao.Tables.TABLE_FILE_DATA + "AS f ON p.value=f.id" +
+                    SQL_WHERE + "p.id=? AND p.param_id=?";
+                try (var ps = con.prepareStatement(query)) {
+                    ps.setInt(1, id);
+                    ps.setInt(2, paramId);
 
-                var rs = ps.executeQuery();
-                if (rs.next() && rs.getObject(1) != null) {
-                    position = rs.getInt(1);
-                } else {
-                    position = 1;
+                    int posMax = 0;
+
+                    var rs = ps.executeQuery();
+                    while (rs.next()) {
+                        int pos = rs.getInt("n");
+                        if (pos > posMax)
+                            posMax = pos;
+
+                        String title = rs.getString("title");
+                        if (title.equals(fileData.getTitle()))
+                            throw new BGMessageException("File '{}' was already uploaded", title);
+                    }
+
+                    position = posMax + 1;
                 }
-                ps.close();
             }
 
-            var query = "INSERT INTO " + Tables.TABLE_PARAM_FILE + "(id, param_id, n, value)" + SQL_VALUES_4;
-
-            var ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ps.setInt(3, position);
-            ps.setInt(4, fileData.getId());
-            ps.executeUpdate();
-            ps.close();
+            var query = SQL_INSERT_INTO + Tables.TABLE_PARAM_FILE + "(id, param_id, n, value)" + SQL_VALUES_4;
+            try (var ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                ps.setInt(2, paramId);
+                ps.setInt(3, position);
+                ps.setInt(4, fileData.getId());
+                ps.executeUpdate();
+            }
         }
 
         if (history) {
