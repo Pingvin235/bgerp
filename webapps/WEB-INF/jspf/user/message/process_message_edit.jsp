@@ -88,6 +88,7 @@
 			<input type="hidden" name="method" value="${form.method eq 'processMessageCreateEdit' ? 'processMessageCreateUpdate' : 'processMessageUpdate'}"/>
 			<html:hidden property="processId"/>
 			<html:hidden property="id"/>
+			<input type="hidden" name="areaId" value="process-message-add"/>
 			<c:if test="${messageType.checkEmptySubject}">
 				<input type="hidden" name="checkEmptySubject" value="1"/>
 			</c:if>

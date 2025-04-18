@@ -491,18 +491,20 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward processMessageCreateEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.setParam("id", "0");
+        restoreRequestParams(conSet.getConnection(), form, true, false, "messageTypeAdd");
         return processMessageEdit(form, conSet);
     }
 
     public ActionForward processMessageCreateUpdate(DynActionForm form, Connection con) throws Exception {
+        // preserving message type for choosing in next usage of editor
+        form.setParam("messageTypeAdd", String.valueOf(getType(form.getParamInt("typeId")).getId()));
+        restoreRequestParams(con, form, false, true, "messageTypeAdd");
+
         return processMessageUpdate(form, con);
     }
 
     public ActionForward processMessageEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageDAO dao = new MessageDAO(conSet.getSlaveConnection());
-
-        restoreRequestParams(conSet.getConnection(), form, true, false, "messageTypeAdd");
 
         Message message = null;
 
@@ -536,12 +538,6 @@ public class MessageAction extends BaseAction {
 
     public ActionForward processMessageUpdate(DynActionForm form, Connection con) throws Exception {
         var type = getType(form.getParamInt("typeId"));
-
-        // preserving message type for choosing in next usage of editor
-        if (form.getId() <= 0) {
-            form.setParam("messageTypeAdd", String.valueOf(type.getId()));
-            restoreRequestParams(con, form, false, true, "messageTypeAdd");
-        }
 
         Message message = new Message();
         if (form.getId() > 0)
