@@ -429,7 +429,7 @@
 		<en>House with a given number wasn't found or there are many of them. Choose a house in the drop-down list!</en>
 		<ru>Не удалось найти дом с таким номером, либо таких домов несколько. Выберите дом из всплывающей подсказки!</ru>
 	</p>
-	<p><ru>дом</ru><en>house</en></p>
+	<p><en>house</en><ru>дом</ru></p>
 	<p><ru>Добавить дом</ru><en>Add house</en></p>
 	<p><ru>Не указана улица</ru><en>Street undefined</en></p>
 	<p><ru>Введите номер дома</ru><en>Input house number</en></p>

@@ -120,7 +120,7 @@
 									<c:param name="hideLeftPanel" value="1"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 								</c:url>
-								<div style="display: inline;">[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('дом')}</a>]</div>
+								<div style="display: inline;">[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('house')}</a>]</div>
 							</p:check>
 						</c:forEach>
 
