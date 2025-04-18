@@ -52,9 +52,9 @@
 			<item title="Possible Processes" action="ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList"/>
 			<item title="Create a Process" action="/user/message:processCreate, ru.bgcrm.struts.action.MessageAction:processCreate"/>
 			<item title="Call">
-				<item title="Occupy number" action="ru.bgcrm.struts.action.MessageCallAction:numberRegister"/>
-				<item title="Release number" action="ru.bgcrm.struts.action.MessageCallAction:numberFree"/>
-				<item title="Test call" action="ru.bgcrm.struts.action.MessageCallAction:testCall"/>
+				<item title="Occupy number" action="/user/message/call:numberRegister, ru.bgcrm.struts.action.MessageCallAction:numberRegister"/>
+				<item title="Release number" action="/user/message/call:numberFree, ru.bgcrm.struts.action.MessageCallAction:numberFree"/>
+				<item title="Test call" action="/user/message/call:testCall, ru.bgcrm.struts.action.MessageCallAction:testCall"/>
 			</item>
 			<item title="Delete" action="/user/message:messageDelete, ru.bgcrm.struts.action.MessageAction:messageDelete"/>
 		</item>

@@ -677,6 +677,9 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>See details in the latest update.log</en><ru>Детали доступны в последнем update.log</ru></p>
 	<p><en>Domain</en><ru>Домен</ru></p>
 	<p><en>File '{}' was already uploaded</en><ru>Файл '{}' уже был загружен</ru></p>
+	<p><en>The number is occupied</en><ru>Этот номер занят</ru></p>
+	<p><en>Number {} occupied by user {}</en><ru>Номер {} занят пользователем {}</ru></p>
+	<p><en>The user doesn't occupy a number</en><ru>Пользователь не занимает номер</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

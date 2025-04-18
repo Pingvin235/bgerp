@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.sql.Connection;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/messageCall")
+@Action(path = "/user/message/call", pathId = true)
 public class MessageCallAction extends BaseAction {
 
     public ActionForward numberRegister(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -46,8 +46,8 @@ public class MessageCallAction extends BaseAction {
                 news.setUserId(User.USER_SYSTEM_ID);
                 news.setPopup(true);
                 news.setLifeTime(1);
-                news.setTitle("Ваш номер занят");
-                news.setDescription("Пользователь " + form.getUser().getTitle() + " занял ваш номер " + number);
+                news.setTitle(l.l("The number is occupied"));
+                news.setDescription(l.l("Number {} occupied by user {}", number, form.getUser().getTitle()));
 
                 new NewsDAO(conSet.getConnection()).updateNewsUsers(news, Collections.singleton(reg.getUserId()));
 
@@ -71,7 +71,7 @@ public class MessageCallAction extends BaseAction {
 
         var reg = type.getRegistrationByUser(form.getUserId());
         if (reg == null)
-            throw new BGException("Пользователь не занимает номер.");
+            throw new BGException(l.l("The user doesn't occupy a number"));
 
         var message = new Message();
         message.setDirection(Message.DIRECTION_INCOMING);
