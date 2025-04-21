@@ -12,6 +12,7 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
+import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.model.param.Parameter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -34,7 +35,7 @@ public class ProcessTitleTest {
     @Test
     public void param() throws Exception {
         paramListId = ParamHelper.addParam(ru.bgcrm.model.process.Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " param 'list'",
-                ProcessTest.posParam += 2, "", ResourceHelper.getResource(this, "param.list.values.txt"));
+                ProcessTest.posParam += 2, "", ParamTest.LIST_VALUES_123);
     }
 
     @Test(dependsOnMethods = "param")
