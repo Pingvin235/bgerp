@@ -23,9 +23,9 @@
 	</div>
 </c:if>
 
-<table id="${tableId}" class="data">
+<table id="${tableId}" class="hdata">
 	<c:if test="${showTr}">
-		<tr>
+		<tr class="header">
 			<td>${l.l('Название')}</td>
 			<td width="100%">${l.l('Value')}</td>
 		</tr>
