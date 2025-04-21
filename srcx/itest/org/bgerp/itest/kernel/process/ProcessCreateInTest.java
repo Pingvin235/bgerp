@@ -24,7 +24,7 @@ public class ProcessCreateInTest {
 
     @Test
     public void param() throws Exception {
-        paramTextAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE, ProcessTest.posParam += 2, "", "");
+        paramTextAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE, ProcessTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")

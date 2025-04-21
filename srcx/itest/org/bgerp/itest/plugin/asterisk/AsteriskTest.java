@@ -22,7 +22,7 @@ public class AsteriskTest {
 
     @Test
     public void param() throws Exception {
-        paramExtensionId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Extension number", UserTest.posParam += 2, "", "");
+        paramExtensionId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Extension number", UserTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")

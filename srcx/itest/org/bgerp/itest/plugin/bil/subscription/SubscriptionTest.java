@@ -111,7 +111,7 @@ public class SubscriptionTest {
         paramLicFileId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, TITLE + " Subscription License File",
                 ProcessTest.posParam += 2, ParamTest.READONLY, "");
 
-        paramProductId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Product ID", ProcessTest.posParam += 2, "", "");
+        paramProductId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Product ID", ProcessTest.posParam += 2);
         paramPriceRubId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LISTCOUNT, TITLE + " Product Price RUB", ProcessTest.posParam += 2,
                 "", ResourceHelper.getResource(this, "limit.values.txt"));
         paramPriceEurId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LISTCOUNT, TITLE + " Product Price EUR", ProcessTest.posParam += 2,

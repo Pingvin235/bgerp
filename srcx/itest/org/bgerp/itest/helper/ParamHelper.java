@@ -16,6 +16,10 @@ import ru.bgcrm.model.param.Pattern;
 
 public class ParamHelper {
 
+    public static int addParam(String object, String type, String title, int pos) throws SQLException {
+        return addParam(object, type, title, pos, "", "");
+    }
+
     public static int addParam(String object, String type, String title, int pos, String config, String valuesConfig) throws SQLException {
         return addParam(new Parameter()
             .withObjectType(object)

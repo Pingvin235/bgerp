@@ -35,8 +35,7 @@ public class GitTest {
 
     @Test
     public void param() throws Exception {
-        paramBranchId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Branch",
-                ProcessTest.posParam += 2, "", "");
+        paramBranchId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Branch", ProcessTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")

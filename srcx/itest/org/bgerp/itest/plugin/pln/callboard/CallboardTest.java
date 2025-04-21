@@ -66,7 +66,7 @@ public class CallboardTest {
 
     @Test
     public void param() throws Exception {
-        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Address", ProcessTest.posParam += 2, "", "");
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Address", ProcessTest.posParam += 2);
         paramServicesId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Services", ProcessTest.posParam += 2, ParamTest.MULTIPLE, "1=Интернет\n2=КТВ");
         paramConnectionTimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Connection Time", ProcessTest.posParam += 2, "type=ymdhm", "");
     }

@@ -55,8 +55,8 @@ public class InvoiceTest {
 
     @Test
     public void param() throws Exception {
-        paramContractDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Contract date", ProcessTest.posParam += 2, "", "");
-        paramCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, "Cost", ProcessTest.posParam += 2, "", "");
+        paramContractDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Contract date", ProcessTest.posParam += 2);
+        paramCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, "Cost", ProcessTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")

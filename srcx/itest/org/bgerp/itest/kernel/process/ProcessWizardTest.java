@@ -25,8 +25,7 @@ public class ProcessWizardTest {
 
     @Test
     public void param() throws Exception {
-        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'",
-                ProcessTest.posParam += 2, "", "");
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'", ProcessTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")

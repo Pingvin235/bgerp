@@ -71,20 +71,16 @@ public class ProcessParamTest {
 
     @Test
     public void param() throws Exception {
-        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'",
-                ProcessTest.posParam += 2, "", "");
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'", ProcessTest.posParam += 2);
 
-        paramBlobId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_BLOB, TITLE + " type 'blob'",
-                ProcessTest.posParam += 2, "", "");
+        paramBlobId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_BLOB, TITLE + " type 'blob'", ProcessTest.posParam += 2);
 
-        paramDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " type 'date'",
-                ProcessTest.posParam += 2, "", "");
+        paramDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " type 'date'", ProcessTest.posParam += 2);
 
-        paramDateTimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " type 'datetime'",
-                ProcessTest.posParam += 2, "type=ymdhms", "");
+        paramDateTimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " type 'datetime'", ProcessTest.posParam += 2,
+                "type=ymdhms", "");
 
-        paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " type 'email'",
-                ProcessTest.posParam += 2, "", "");
+        paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " type 'email'", ProcessTest.posParam += 2);
 
         paramFileId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, TITLE + " type 'file'",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.file.config.txt"), "");
@@ -104,8 +100,7 @@ public class ProcessParamTest {
                 ResourceHelper.getResource(this, "param.listcount.config.txt"),
                 ResourceHelper.getResource(this, "param.listcount.values.txt"));
 
-        paramMoneyId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " type 'money'",
-                ProcessTest.posParam += 2, "", "");
+        paramMoneyId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " type 'money'", ProcessTest.posParam += 2);
 
         paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text'",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.config.txt"), "");
@@ -116,14 +111,14 @@ public class ProcessParamTest {
         paramTextShowAsLinkId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' show as link",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.show.as.link.config.txt"), "");
 
-        paramTextLongId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' with very long long long long long long long long long long long long long long long title",
-                ProcessTest.posParam += 2, "", "");
+        paramTextLongId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT,
+                TITLE + " type 'text' with very long long long long long long long long long long long long long long long title",
+                ProcessTest.posParam += 2);
 
         paramTextCommentId = ParamHelper.addParam(new Parameter().withObjectType(Process.OBJECT_TYPE).withOrder(ProcessTest.posParam += 2).withType(Parameter.TYPE_TEXT)
                 .withTitle(TITLE + " type 'text' with comment").withComment("Parameter's comment with \" and <> symbols")).getId();
 
-        paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " type 'phone'",
-                ProcessTest.posParam += 2, "", "");
+        paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " type 'phone'", ProcessTest.posParam += 2);
 
         paramTreeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TREE, TITLE + " type 'tree'",
                 ProcessTest.posParam += 2,
@@ -136,7 +131,7 @@ public class ProcessParamTest {
                 ResourceHelper.getResource(this, "param.treecount.values.txt"));
 
         paramConditionallyShownId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " shown only in 'Open' status",
-                ProcessTest.posParam += 2, "", "");
+                ProcessTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")

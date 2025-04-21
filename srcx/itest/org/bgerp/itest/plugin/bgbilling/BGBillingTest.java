@@ -49,14 +49,14 @@ public class BGBillingTest {
 
     @Test
     public void param() throws Exception {
-        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Адрес", ProcessTest.posParam += 2, "", "");
-        paramAddressTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Адрес (текст)", ProcessTest.posParam += 2, "", "");
-        paramDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " Дата", ProcessTest.posParam += 2, "", "");
-        paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " Телефон", ProcessTest.posParam += 2, "", "");
-        paramPhoneTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Телефон (текст)", ProcessTest.posParam += 2, "", "");
-        paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Текст", ProcessTest.posParam += 2, "", "");
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Адрес", ProcessTest.posParam += 2);
+        paramAddressTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Адрес (текст)", ProcessTest.posParam += 2);
+        paramDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " Дата", ProcessTest.posParam += 2);
+        paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " Телефон", ProcessTest.posParam += 2);
+        paramPhoneTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Телефон (текст)", ProcessTest.posParam += 2);
+        paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Текст", ProcessTest.posParam += 2);
 
-        paramHdCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE_HD + " Стоимость", ProcessTest.posParam += 2, "", "");
+        paramHdCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE_HD + " Стоимость", ProcessTest.posParam += 2);
         paramHdStatusId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " Статус", ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "param.hd.status.values.txt"));
         paramHdAutoCloseId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " Автозакрытие", ProcessTest.posParam += 2, "",

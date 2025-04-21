@@ -32,12 +32,9 @@ public class ProcessQueueColumnTest {
 
     @Test
     public void param() throws Exception {
-        paramMoneyAmountId =  ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " money amount",
-            ProcessTest.posParam += 2, "", "");
-        paramBlobLargeTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_BLOB, TITLE + " long text",
-            ProcessTest.posParam += 2, "", "");
-        paramTextIntId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " text with int",
-            ProcessTest.posParam += 2, "", "");
+        paramMoneyAmountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " money amount", ProcessTest.posParam += 2);
+        paramBlobLargeTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_BLOB, TITLE + " long text", ProcessTest.posParam += 2);
+        paramTextIntId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " text with int", ProcessTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")
