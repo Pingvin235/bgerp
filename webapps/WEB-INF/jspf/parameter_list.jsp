@@ -33,23 +33,6 @@
 	<c:forEach var="item" items="${list}">
 		<c:set var="parameter" value="${item.parameter}"/>
 
-		<%-- start of wizard-specific logic 1 --%>
-		<%-- списковый параметр выбором в виде радиокнопок --%>
-		<c:set var="editorTypeParameterName">param.${parameter.id}.editor</c:set>
-		<c:set var="editorType">${paramsConfig[editorTypeParameterName]}</c:set>
-
-		<c:set var="radioSelect" value="${(parameter.type eq 'list') and (editorType eq 'radio')}"/>
-
-		<c:if test="${radioSelect}">
-			<c:set var="radioSelectNotChoosed">не опр.</c:set>
-
-			<c:set var="paramName">param.${parameter.id}.editorRadioNotChoosedText</c:set>
-			<c:if test="${not empty paramsConfig[paramName] }">
-				<c:set var="radioSelectNotChoosed" value="${paramsConfig[paramName]}"/>
-			</c:if>
-		</c:if>
-		<%-- end of wizard-specific logic 1 --%>
-
 		<%-- TODO: Check permission for parameter update. --%>
 		<c:set var="readonly" value="${parameter.readonly or form.param.readOnly eq '1'}"/>
 
@@ -248,111 +231,11 @@
 							</c:otherwise>
 						</c:choose>
 					</c:when>
-
-					<%-- start of wizard-specific logic 2 --%>
-					<%-- on-place editor --%>
-					<c:otherwise>
-						<c:set var="editFormId" value="${u:uiid()}"/>
-
-						<c:if test="${parameter.configMap['encrypt'] eq 'encrypted'}">
-							<c:set var="confirmEncryptedParam" value="if( !confirm( 'Вы действительно хотите записать значение \n'+ this.value + '\n в параметр \n'+'${parameter.title}' ) ) { return false; }"/>
-						</c:if>
-
-						<c:choose>
-							<c:when test="${parameter.configMap['onErrorChangeParamsReload'] eq '1'}">
-								<c:set var="saveCommand">${confirmEncryptedParam} $$.ajax.post($('#${editFormId}')).done(() => $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()))</c:set>
-							</c:when>
-							<c:otherwise>
-								<c:set var="saveCommand">${confirmEncryptedParam} $$.ajax.post($('#${editFormId}')).done(() => $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent())); return true;</c:set>
-							</c:otherwise>
-						</c:choose>
-
-						<c:set var="saveOn" value="${u.maskEmpty(parameter.configMap.saveOn, 'editor')}"/>
-						<%-- для параметров типа date, datetime --%>
-						<c:set var="editable" value="${parameter.configMap.editable}"/>
-
-						<c:set var="onBlur" value=""/>
-						<c:set var="onEnter" value=""/>
-						<c:choose>
-							<c:when test="${saveOn eq 'focusLost'}">
-								<c:set var="onBlur">onBlur="if( $(this).attr( 'changed' ) == '1' ){ ${saveCommand} }"</c:set>
-							</c:when>
-							<c:when test="${saveOn eq 'enter'}">
-								<c:set var="onEnter">onkeypress=" if( enterPressed( event ) ){ ${saveCommand} }" </c:set>
-							</c:when>
-							<c:when test="${saveOn eq 'editor'}">
-
-							</c:when>
-						</c:choose>
-
-						<html:form action="/user/parameter" styleId="${editFormId}" style="width: 100%; text-align: left;" onsubmit="return false;">
-							<input type="hidden" name="id" value="${id}"/>
-							<html:hidden property="method" value="parameterUpdate"/>
-							<html:hidden property="paramId" value="${parameter.id}"/>
-
-							<%-- для параметров date, datetime --%>
-							<c:set var="selector">#${editFormId} input[name='value']</c:set>
-
-							<c:set var="changeAttrs">
-								${onEnter}
-								onchange="$(this).attr( 'changed', '1')" ${onBlur}
-							</c:set>
-
-							<c:choose>
-								<%-- Выбор редактора спискового типа параметра --%>
-								<c:when test="${parameter.type eq 'list'}">
-									<c:choose>
-										<%-- radio button редактор --%>
-										<c:when test="${radioSelect}">
-											<input type="radio" name="value" value="-1" ${u:checkedFromBool( empty item.value )} onclick="${saveCommand}"/>
-											${radioSelectNotChoosed}
-											<c:forEach var="valueItem" items="${parameter.listParamValues}">
-												<c:if test="${valueItem.title.startsWith('@')==false}">
-													<input type="radio" name="value" value="${valueItem.id}" ${u:checkedFromCollection( item.value, valueItem )} onclick="${saveCommand}"/>
-													${valueItem.title}
-												</c:if>
-											</c:forEach>
-										</c:when>
-
-										<%-- select редактор --%>
-										<c:when test="${editorType eq 'select'}">
-											<c:set var="editorEmptyTextParameterName">param.${parameter.id}.editorEmptyText</c:set>
-											<c:set var="editorEmptyText">${paramsConfig[editorEmptyTextParameterName]}</c:set>
-
-											<c:if test="${empty editorEmptyText}">
-												<c:set var="editorEmptyText">Выберите значение</c:set>
-											</c:if>
-
-											<select name="value" style="width: 100%; margin: 0px;" onchange="${saveCommand}">
-												<option value="-1">${editorEmptyText}</option>
-
-												<c:forEach var="valueItem" items="${parameter.listParamValues}">
-													<c:set var="isSelected" value=""/>
-													<c:if test="${not empty u:checkedFromCollection( item.value, valueItem )}">
-														<c:set var="isSelected" value="selected"/>
-													</c:if>
-													<c:if test="${not valueItem.title.startsWith('@' )}">
-														<option value="${valueItem.id}" ${isSelected}>${valueItem.title}</option>
-													</c:if>
-												</c:forEach>
-											</select>
-										</c:when>
-									</c:choose>
-								</c:when>
-							</c:choose>
-						</html:form>
-						<c:if test="${parameter.type eq 'blob' and not readonly}">
-							<div style="width: 100%; text-align: right;">
-								<input type="button" value="${l.l('Save')}" onclick="${saveCommand}"/>
-							</div>
-						</c:if>
-					</c:otherwise>
-					<%-- end of wizard-specific logic 2 --%>
 				</c:choose>
 			</td>
 		</tr>
 		<tr style="display: none;">
-			<%-- сюда динамически загружается редактор --%>
+			<%-- here is loaded editor --%>
 			<td colspan="2" id="${editDivId}"></td>
 		</tr>
 	</c:forEach>
