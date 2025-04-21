@@ -8,6 +8,7 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
+import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.ProcessGroups;
@@ -21,11 +22,14 @@ public class ProcessWizardTest {
     private static final String TITLE = "Kernel Process Wizard";
 
     private int paramAddressId;
+    private int paramListId;
+
     private int processTypeId;
 
     @Test
     public void param() throws Exception {
         paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'", ProcessTest.posParam += 2);
+        paramListId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " type 'list'", ProcessTest.posParam += 2, "", ParamTest.LIST_VALUES_123);
     }
 
     @Test(dependsOnMethods = "param")
@@ -35,10 +39,11 @@ public class ProcessWizardTest {
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setGroups(new ProcessGroups(UserTest.groupAdminsId));
-        props.setParameterIds(List.of(paramAddressId));
+        props.setParameterIds(List.of(paramAddressId, paramListId));
         props.setConfig(
             ConfigHelper.generateConstants(
-                "PARAM_ADDRESS_ID", paramAddressId
+                "PARAM_ADDRESS_ID", paramAddressId,
+                "PARAM_LIST_ID", paramListId
             ) + ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
