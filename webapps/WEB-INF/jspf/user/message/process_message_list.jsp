@@ -64,7 +64,7 @@
 	<div id="${editorContainerUiid}"></div>
 </ui:when>
 
-<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.model.msg.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('MessageTypeConfig')}"/>
 
 <c:set var="messagesUiid" value="${u:uiid()}"/>
 <div class="mt1" id='${messagesUiid}'>

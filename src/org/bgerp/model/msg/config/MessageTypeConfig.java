@@ -23,6 +23,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@org.bgerp.app.cfg.bean.annotation.Bean
 public class MessageTypeConfig extends Config {
     private static final Log log = Log.getLog();
 

@@ -4,7 +4,7 @@
 <c:set var="message" value="${frd.message}" scope="request"/>
 <c:set var="form" value="${form}"/>
 
-<c:set var="messageType" value="${ctxSetup.getConfig('org.bgerp.model.msg.config.MessageTypeConfig').typeMap[message.typeId]}" scope="request"/>
+<c:set var="messageType" value="${ctxSetup.getConfig('MessageTypeConfig').typeMap[message.typeId]}" scope="request"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
