@@ -30,7 +30,7 @@
 							<input type="hidden" name="method" value="numberRegister"/>
 							<input type="hidden" name="typeId" value="${type.id}"/>
 
-							<input type="text" name="number" placeholder="${type.title}, номер" class="" value="${type.getUserOfferedNumber(ctxUser.id)}"/>
+							<input type="text" name="number" placeholder="${type.title}, ${l.l('number')}" class="" value="${type.getUserOfferedNumber(ctxUser.id)}"/>
 
 							<c:set var="code">
 								$$.ajax
