@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +23,6 @@ import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import org.bgerp.util.Log;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import ru.bgcrm.util.Utils;
 
@@ -47,15 +45,11 @@ public abstract class Plugin {
     protected static final String PATH_JSP_OPEN_PLUGIN = BaseAction.PATH_JSP_OPEN + "/plugin";
 
     private final String id;
-    /** Old way of plugin definition. XML document storing at most only endpoints. */
-    @Deprecated
-    private final Document document;
     private final Map<String, List<String>> endpoints;
     private final Localization localization;
 
     protected Plugin(String id) {
         this.id = id;
-        this.document = getXml("plugin.xml", XMLUtils.newDocument());
         this.endpoints = loadEndpoints();
         this.localization = Localization.getLocalization(this);
     }
@@ -93,14 +87,6 @@ public abstract class Plugin {
     }
 
     /**
-     * Plugin's XML document from 'plugin.xml'.
-     * @return parsed document object from or empty document if there is no such file.
-     */
-    public Document getDocument() {
-        return document;
-    }
-
-    /**
      * XML document from the plugin's package.
      * @param name
      * @param defaultValue
@@ -112,18 +98,11 @@ public abstract class Plugin {
     }
 
     /**
-     * Default implementation, loads endpoints from the XML {@link #document}.
-     * Deprecated way, for backward compatibility only.
+     * Plugin endpoints
      * @return
      */
     protected Map<String, List<String>> loadEndpoints() {
-        Map<String, List<String>> endpoints = new HashMap<>(20);
-        if (this.document != null) {
-            for (Element endpoint : XMLUtils.selectElements(document, "/plugin/endpoint")) {
-                endpoints.put(endpoint.getAttribute("id"), Collections.singletonList(endpoint.getAttribute("file")));
-            }
-        }
-        return Collections.unmodifiableMap(endpoints);
+        return Map.of();
     }
 
     /**
