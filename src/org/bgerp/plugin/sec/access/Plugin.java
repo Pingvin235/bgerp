@@ -16,7 +16,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    protected Map<String, List<String>> loadEndpoints() {
+    protected Map<String, List<String>> endpoints() {
        return Map.of(
             Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
             "admin.user.action.jsp", List.of(PATH_JSP_ADMIN + "/user_action.jsp")

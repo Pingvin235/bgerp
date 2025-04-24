@@ -29,7 +29,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    protected Map<String, List<String>> loadEndpoints() {
+    protected Map<String, List<String>> endpoints() {
         return Map.of(
             ENDPOINT_MESSAGE_VIEWER, List.of(ENDPOINT_MESSAGE_VIEWER),
             ENDPOINT_MESSAGE_HEADER, List.of(ENDPOINT_MESSAGE_HEADER),

@@ -76,7 +76,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    protected Map<String, List<String>> loadEndpoints() {
+    protected Map<String, List<String>> endpoints() {
         return Map.ofEntries(
             entry(Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID), Plugin.PATH_JS + "/pl." + ID + ".inet.js")),
             entry(Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID))),

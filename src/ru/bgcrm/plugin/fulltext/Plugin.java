@@ -32,7 +32,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    protected Map<String, List<String>> loadEndpoints() {
+    protected Map<String, List<String>> endpoints() {
         return Map.of(
             "user.search.jsp", List.of(PATH_JSP_USER + "/search.jsp"),
             "user.process.linkForAddCustom.jsp", List.of(PATH_JSP_USER + "/process_link_for_add_custom_list.jsp")

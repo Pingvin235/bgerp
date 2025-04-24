@@ -14,7 +14,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    protected Map<String, List<String>> loadEndpoints() {
+    protected Map<String, List<String>> endpoints() {
         return Map.of("open.process.message.add.jsp", List.of(PATH_JSP_OPEN + "/message_add.jsp"));
     }
 }

@@ -50,7 +50,7 @@ public abstract class Plugin {
 
     protected Plugin(String id) {
         this.id = id;
-        this.endpoints = loadEndpoints();
+        this.endpoints = endpoints();
         this.localization = Localization.getLocalization(this);
     }
 
@@ -101,7 +101,7 @@ public abstract class Plugin {
      * Plugin endpoints
      * @return
      */
-    protected Map<String, List<String>> loadEndpoints() {
+    protected Map<String, List<String>> endpoints() {
         return Map.of();
     }
 
@@ -216,5 +216,10 @@ public abstract class Plugin {
      */
     public Cleaner getCleaner() {
         return null;
+    }
+
+    @Deprecated
+    protected Map<String, List<String>> loadEndpoints() {
+        return endpoints();
     }
 }
