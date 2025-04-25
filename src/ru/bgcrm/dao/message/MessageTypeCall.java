@@ -26,15 +26,20 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class MessageTypeCall extends MessageType {
     private static final Log log = Log.getLog();
 
-    // статические поля с данными регистрации, т.к. MessageTypeCall перезагружается при правке конфигурации
-    private static final Map<Integer, Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>>> registedMap = new HashMap<>();
+    /** Registered numbers. Static field because of reload the message type on configuration change. */
+    private static final Map<Integer, Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>>> REGISTER = new HashMap<>();
 
     public static class CallRegistration {
-        private int userId;
-        private String number;
+        private final int userId;
+        private final String number;
 
         private Date lastPooling;
         private Message messageForOpen;
+
+        private CallRegistration(int userId, String number) {
+            this.userId = userId;
+            this.number = number;
+        }
 
         public int getUserId() {
             return userId;
@@ -90,9 +95,9 @@ public class MessageTypeCall extends MessageType {
     }
 
     private Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> getRegMaps() {
-        Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> result = registedMap.get(id);
+        Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> result = REGISTER.get(id);
         if (result == null) {
-            registedMap.put(id, result = new Pair<>());
+            REGISTER.put(id, result = new Pair<>());
             result.setFirst(new HashMap<>());
             result.setSecond(new HashMap<>());
         }
@@ -106,9 +111,7 @@ public class MessageTypeCall extends MessageType {
         if (reg != null) {
             reg.lastPooling = new Date();
         } else {
-            reg = new CallRegistration();
-            reg.userId = userId;
-            reg.number = number;
+            reg = new CallRegistration(userId, number);
             reg.lastPooling = new Date();
 
             regMaps.getFirst().put(number, reg);
