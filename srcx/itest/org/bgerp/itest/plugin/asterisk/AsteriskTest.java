@@ -36,7 +36,7 @@ public class AsteriskTest {
         ConfigHelper.addIncludedConfig(TITLE,
             ResourceHelper.getResource(this, "config.prefix.txt") +
             ConfigHelper.generateConstants(
-                "CALL_MESSAGE_TYPE_ID", MessageTest.CALL_MESSAGE_TYPE_ID,
+                "CALL_MESSAGE_TYPE_ID", MessageTest.messageTypeCall.getId(),
                 "USER_NUMBER_PARAM_ID", paramExtensionId
             ) + ResourceHelper.getResource(this, "config.txt"));
     }

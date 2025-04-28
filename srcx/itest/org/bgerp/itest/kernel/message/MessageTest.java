@@ -36,11 +36,6 @@ import ru.bgcrm.model.customer.Customer;
 public class MessageTest {
     private static final String TITLE = "Kernel Message";
 
-    // defined in config.messages
-    public static final int CALL_MESSAGE_TYPE_ID = 50;
-
-    public static volatile int configId;
-
     // TODO: Logically the message type has to be added by EMailTest.
     public static volatile MessageTypeEmail messageTypeEmailDemo;
     public static volatile MessageTypeNote messageTypeNote;
@@ -52,8 +47,6 @@ public class MessageTest {
     public static volatile Tag tagOpen;
 
     private int processTypeId;
-    private int process1Id;
-    private int process2Id;
 
     @Test
     public void config() throws Exception {
@@ -61,7 +54,7 @@ public class MessageTest {
                 "PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId,
                 "PARAM_CUSTOMER_PHONE_ID", CustomerTest.paramPhoneId
             ) + ResourceHelper.getResource(this, "config.txt");
-        configId = ConfigHelper.addIncludedConfig(TITLE, config);
+        ConfigHelper.addIncludedConfig(TITLE, config);
 
         var messageTypeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
         Assert.assertNotNull(messageTypeEmailDemo = (MessageTypeEmail) messageTypeConfig.getTypeMap().get(1));
@@ -75,7 +68,7 @@ public class MessageTest {
         Assert.assertNotNull(tagOpen = tagsConfig.getTagMap().get(4));
     }
 
-    @Test
+    @Test(dependsOnMethods = "config")
     public void processType() throws Exception {
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, null).getId();
     }
@@ -87,63 +80,58 @@ public class MessageTest {
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
-    @Test(dependsOnMethods = { "user", "config", "processType" })
-    public void process() throws Exception {
-        process1Id = ProcessHelper.addProcess(processTypeId, TITLE + " Many Messages, Large Messages, Tags, Patterns").getId();
-        process2Id = ProcessHelper.addProcess(processTypeId, TITLE + " Unread").getId();
-    }
+    @Test(dependsOnMethods = "processType")
+    public void messageNoteManyLargeTagPattern() throws Exception {
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Many Messages, Large Messages, Tags, Patterns").getId();
 
-    @Test(dependsOnMethods = "process")
-    public void process1Message() throws Exception {
+        new ProcessLinkDAO(DbTest.conRoot).addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, CustomerTest.customerPersonIvan.getId(),
+                CustomerTest.customerPersonIvan.getTitle()));
+
         int i = 0;
 
         for ( ; i < 100; i++)
-            MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i), "Test message " + i, "Test message " + i + " text");
+            MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i), "Test message " + i, "Test message " + i + " text");
 
-        MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Full width", "THE MESSAGE MUST BE SHOWN ON FULL-WIDTH SCREEN by hideLeftAreaOnScroll JS function");
+        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Full width", "THE MESSAGE MUST BE SHOWN ON FULL-WIDTH SCREEN by hideLeftAreaOnScroll JS function");
 
-        MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Large text", ResourceHelper.getResource(this, "log.txt"));
+        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Large text", ResourceHelper.getResource(this, "log.txt"));
 
-        MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Long text line break",
+        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Long text line break",
             "The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. " +
             "The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. \n" +
             "Use 'Toggle line breaks' menu item to change it and enable scrolling.");
 
         var dao = new MessageDAO(DbTest.conRoot);
 
-        var m = MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "One Tag", "The message must contain a single tag.");
+        var m = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "One Tag", "The message must contain a single tag.");
         dao.updateMessageTags(m.getId(), Set.of(MessageTest.tagAccess.getId()), false);
 
-        m = MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Two Tags", "The message must be pinned on the first place and contain two tags.");
+        m = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Two Tags", "The message must be pinned on the first place and contain two tags.");
         dao.updateMessageTags(m.getId(), Set.of(TagConfig.Tag.TAG_PIN_ID, MessageTest.tagSpecification.getId(), MessageTest.tagTodo.getId()), false);
 
-        m = MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Attachment", "The message must contain an attachment with preview.");
+        m = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Attachment", "The message must contain an attachment with preview.");
         m.addAttach(FileHelper.addFile(new File("srcx/doc/_res/image.png")));
         dao.updateMessage(m);
     }
 
-    @Test(dependsOnMethods = "process")
-    public void process2Message() throws Exception {
+    @Test(dependsOnMethods = "processType")
+    public void messageNoteUnread() throws Exception {
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Unread").getId();
+
+        new ProcessLinkDAO(DbTest.conRoot).addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, CustomerTest.customerOrgNs.getId(), CustomerTest.customerOrgNs.getTitle()));
+
         var m = new Message()
             .withTypeId(MessageTest.messageTypeNote.getId())
             .withDirection(Message.DIRECTION_INCOMING)
-            .withProcessId(process2Id)
+            .withProcessId(processId)
             .withFromTime(Date.from(Instant.now()))
             .withUserId(UserTest.USER_ADMIN_ID)
             .withSubject("Unread message").withText("Unread message text");
         new MessageDAO(DbTest.conRoot).updateMessage(m);
     }
 
-    @Test(dependsOnMethods = "process")
-    public void customer() throws Exception {
-        var dao = new ProcessLinkDAO(DbTest.conRoot);
-        dao.addLink(new ProcessLink(process1Id, Customer.OBJECT_TYPE, CustomerTest.customerPersonIvan.getId(),
-                CustomerTest.customerPersonIvan.getTitle()));
-        dao.addLink(new ProcessLink(process2Id, Customer.OBJECT_TYPE, CustomerTest.customerOrgNs.getId(), CustomerTest.customerOrgNs.getTitle()));
-    }
-
-    @Test(dependsOnMethods =  "config")
-    public void message() throws Exception {
+    @Test(dependsOnMethods =  "processType")
+    public void messageCall() throws Exception {
         MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100",
                 TITLE + " Unprocessed message from Ivan", "");
     }
