@@ -7,6 +7,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.dao.CommonDAO;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -104,5 +105,22 @@ public class Filter extends CommonDAO {
 
     public String getWidth() {
         return width;
+    }
+
+    /**
+     * Takes comma separated list of values from request, taking on account {@link Filter#getValues()} and {@link Filter#getOnEmptyValues()}.
+     * @param form
+     * @param paramName HTTP request parameter.
+     * @return
+     */
+    public String getValues(DynActionForm form, String paramName) {
+        String result = Utils.toString(form.getParamValues(paramName));
+        if (Utils.isBlankString(result) && !onEmptyValues.isEmpty()) {
+            result = Utils.toString(onEmptyValues);
+        }
+        if (!result.isEmpty()) {
+            result = Utils.toString(values);
+        }
+        return result;
     }
 }
