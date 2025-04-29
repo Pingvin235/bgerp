@@ -340,48 +340,8 @@ public class ProcessQueueDAO extends ProcessDAO {
                         .append(Utils.toString(userIds))
                         .append(") ");
                 }
-            } else if (f instanceof FilterGrEx) {
-                FilterGrEx filter = (FilterGrEx) f;
-
-                String groupIds = Utils.toString(form.getParamValues("group" + filter.getRoleId()));
-                if (Utils.isBlankString(groupIds) && filter.getOnEmptyValues().size() > 0) {
-                    groupIds = Utils.toString(filter.getOnEmptyValues());
-                }
-
-                if (Utils.notBlankString(groupIds)) {
-                    String tableAlias = "pg_" + filter.getRoleId();
-
-                    joinPart.append(SQL_INNER_JOIN);
-                    joinPart.append(Tables.TABLE_PROCESS_GROUP);
-                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " + tableAlias + ".group_id IN(");
-                    joinPart.append(groupIds);
-                    joinPart.append(") AND " + tableAlias + ".role_id=" + filter.getRoleId());
-                }
-
-                String executorIds = Utils.toString(form.getParamValuesStr("executor" + filter.getRoleId()))
-                        .replace("current", String.valueOf(form.getUserId()));
-
-                if (Utils.notBlankString(executorIds)) {
-                    String tableAlias = "pe_" + filter.getRoleId();
-                    boolean empty = executorIds.contains("empty");
-
-                    if (empty)
-                        joinPart.append(SQL_LEFT_JOIN);
-                    else
-                        joinPart.append(SQL_INNER_JOIN);
-
-                    joinPart.append(Tables.TABLE_PROCESS_EXECUTOR);
-                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " +
-                                    tableAlias + ".role_id=" + filter.getRoleId());
-
-                    if (empty)
-                        wherePart.append(" AND " + tableAlias + ".user_id IS NULL ");
-                    else {
-                        joinPart.append(" AND " + tableAlias + ".user_id IN(");
-                        joinPart.append(executorIds);
-                        joinPart.append(") ");
-                    }
-                }
+            } else if (f instanceof FilterGrEx filter) {
+                filter.apply(form, params);
             } else if (f instanceof FilterProcessType) {
                 Filter filter = f;
 

@@ -24,6 +24,7 @@ public class FilterParam extends Filter {
         return parameter;
     }
 
+    @Override
     public void apply(DynActionForm form, QueueSelectParams params) {
         StringBuilder joinPart = params.joinPart;
         StringBuilder wherePart = params.wherePart;

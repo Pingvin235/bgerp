@@ -7,6 +7,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.dao.CommonDAO;
+import ru.bgcrm.dao.process.QueueSelectParams;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -122,5 +123,9 @@ public class Filter extends CommonDAO {
             result = Utils.toString(values);
         }
         return result;
+    }
+
+    public void apply(DynActionForm form, QueueSelectParams params) {
+        throw new UnsupportedOperationException();
     }
 }
