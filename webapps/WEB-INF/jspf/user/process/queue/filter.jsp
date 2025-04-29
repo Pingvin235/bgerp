@@ -537,7 +537,7 @@
 						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
-					<c:if test="${filterFromList.getClass().getSimpleName() eq 'FilterParam'}">
+					<c:if test="${filterFromList.getClass().simpleName eq 'FilterParam'}">
 						<%@ include file="filter/type/param.jsp"%>
 					</c:if>
 
@@ -557,7 +557,7 @@
 						<%@ include file="filter/executor.jsp"%>
 					</c:if>
 
-					<c:if test="${filterFromList.getClass().getSimpleName() eq 'FilterLinkObject'}">
+					<c:if test="${filterFromList.getClass().simpleName eq 'FilterLinkObject'}">
 						<c:set var="filter" value="${filterFromList}"/>
 						<c:set var="title" value="${not empty filterFromList.title ? filterFromList.title : 'Код привязки'}"/>
 
