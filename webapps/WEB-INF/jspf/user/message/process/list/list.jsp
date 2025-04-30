@@ -148,7 +148,7 @@
 								</div>
 								<div class="mt05">
 									<c:choose>
-										<c:when test="${message.direction eq 1}">
+										<c:when test="${message.incoming}">
 											${l.l('Принят')}: ${tu.format(message.fromTime, 'ymdhm')} (<a href="mailto:${u.escapeXml(message.from)}">${u.escapeXml(message.from)}</a>) => ${u.escapeXml(message.to)}
 											<nobr>
 												${l.l('Обработано')}: ${tu.format(message.toTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
@@ -157,7 +157,7 @@
 										<c:otherwise>
 											${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 											<nobr>
-												${l.l('Отправлено')}: ${tu.format(message.toTime, 'ymdhm')} (<a href="mailto:${u.escapeXml(message.to)}">${u.escapeXml(message.to)}</a>)
+												${l.l('Отправлено')}: ${tu.format(message.toTime, 'ymdhm')} (${u.escapeXml(message.to)}">${u.escapeXml(message.to)}</a>)
 											</nobr>
 										</c:otherwise>
 									</c:choose>
@@ -294,7 +294,7 @@
 							</li>
 
 							<c:remove var="answerCommand"/>
-							<c:if test="${message.direction eq 1 and messageType.answerSupport}">
+							<c:if test="${message.incoming and messageType.answerSupport}">
 								<c:url var="answerUrl" value="${form.requestURI}">
 									<c:param name="method" value="processMessageCreateEdit"/>
 									<c:param name="returnChildUiid" value="${editorContainerUiid}"/>

@@ -8,7 +8,7 @@
 	</div>
 	<div class="mt05">
 		<c:choose>
-			<c:when test="${message.direction eq 1}">
+			<c:when test="${message.incoming}">
 				${l.l('Отправлено')}: ${tu.format(message.fromTime, 'ymdhm')} (<a href="mailto:${u.escapeXml( message.from )}">${u.escapeXml(message.from)}</a>) => ${u.escapeXml(message.to)}
 				<nobr>
 					${l.l('Обработано')}: ${tu.format(message.toTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
