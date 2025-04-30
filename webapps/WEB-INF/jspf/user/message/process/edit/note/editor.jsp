@@ -7,7 +7,7 @@
 			<h2>${l.l('Type')}</h2>
 			<%-- here will be placed type selection --%>
 		</div>
-		<%@ include file="/WEB-INF/jspf/user/message/process_message_edit_tags.jsp"%>
+		<%@ include file="/WEB-INF/jspf/user/message/process/edit/tags.jsp"%>
 	</div>
 
 	<%@ include file="/WEB-INF/jspf/user/message/process_message_edit_text.jsp"%>

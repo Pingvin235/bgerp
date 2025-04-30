@@ -69,7 +69,7 @@
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
-			<%@ include file="process_message_edit_tags.jsp"%>
+			<%@ include file="process/edit/tags.jsp"%>
 		</div>
 		<%@ include file="process_message_edit_text.jsp"%>
 		<div>
