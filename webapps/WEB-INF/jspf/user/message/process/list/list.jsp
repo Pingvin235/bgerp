@@ -377,7 +377,7 @@
 					<td style="border-top: none; display: block;">
 						${l.l('Вложения')}:
 						<c:if test="${typeNote}">
-							<%@ include file="../../process_message_attachments.jsp"%>
+							<%@ include file="attachments.jsp"%>
 						</c:if>
 						<plugin:include endpoint="user.process.message.attachments.jsp"/>
 					</td>

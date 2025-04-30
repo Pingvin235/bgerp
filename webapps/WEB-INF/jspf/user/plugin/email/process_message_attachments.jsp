@@ -2,5 +2,5 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:if test="${messageType.getClass().name.endsWith('MessageTypeEmail')}">
-	<%@ include file="/WEB-INF/jspf/user/message/process_message_attachments.jsp"%>
+	<%@ include file="/WEB-INF/jspf/user/message/process/list/attachments.jsp"%>
 </c:if>
