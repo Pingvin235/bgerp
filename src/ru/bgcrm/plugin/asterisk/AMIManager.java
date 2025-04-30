@@ -64,7 +64,7 @@ public class AMIManager {
                     continue;
                 }
 
-                Class<?> listenerClass = Bean.getClass(config.get("listenerClass", "ru.bgcrm.plugin.asterisk.AmiEventListener"));
+                Class<?> listenerClass = Bean.getClass(config.get("listenerClass", AmiEventListener.class.getName()));
                 try {
                     AmiEventListener listener = (AmiEventListener) listenerClass.getConstructor(MessageTypeCall.class, ConfigMap.class)
                             .newInstance((MessageTypeCall) messageType, config);
