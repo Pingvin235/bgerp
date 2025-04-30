@@ -144,21 +144,17 @@
 						<c:when test="${typeCall}">
 							<div style="width: 100%;">
 								<div>
-									#${message.id}&nbsp;${l.l('Звонок')} "${messageType.title}"
+									<%@ include file="/WEB-INF/jspf/user/message/direction.jsp"%>
+									#${message.id}&nbsp;${messageType.title}
 								</div>
 								<div class="mt05">
+									${tu.format(message.fromTime, 'ymdhm')}&nbsp;
 									<c:choose>
 										<c:when test="${message.incoming}">
-											${l.l('Принят')}: ${tu.format(message.fromTime, 'ymdhm')} (<a href="mailto:${u.escapeXml(message.from)}">${u.escapeXml(message.from)}</a>) => ${u.escapeXml(message.to)}
-											<nobr>
-												${l.l('Обработано')}: ${tu.format(message.toTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
-											</nobr>
+											${u.escapeXml(message.from)} => ${u.escapeXml(message.to)} (<ui:user-link id="${message.userId}"/>)
 										</c:when>
 										<c:otherwise>
-											${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
-											<nobr>
-												${l.l('Отправлено')}: ${tu.format(message.toTime, 'ymdhm')} (${u.escapeXml(message.to)}">${u.escapeXml(message.to)}</a>)
-											</nobr>
+											${u.escapeXml(message.from)} (<ui:user-link id="${message.userId}"/>) => ${u.escapeXml(message.to)}
 										</c:otherwise>
 									</c:choose>
 								</div>

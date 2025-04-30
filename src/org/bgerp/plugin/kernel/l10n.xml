@@ -681,6 +681,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Number {} occupied by user {}</en><ru>Номер {} занят пользователем {}</ru></p>
 	<p><en>The user doesn't occupy a number</en><ru>Пользователь не занимает номер</ru></p>
 	<p><en>number</en><ru>номер</ru></p>
+	<p><sys>call.in</sys><en>Incoming</en><ru>Входящий</ru></p>
+	<p><sys>call.out</sys><en>Outgoing</en><ru>Исходящий</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
