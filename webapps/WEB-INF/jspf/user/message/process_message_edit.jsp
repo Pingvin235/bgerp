@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ include file="process_message_edit_upload.jsp"%>
+<%@ include file="process/edit/upload.jsp"%>
 
 <c:set var="message" scope="request" value="${frd.message}"/>
 <c:set var="config" value="${ctxSetup.getConfig('MessageTypeConfig')}"/>
@@ -73,7 +73,7 @@
 		</div>
 		<%@ include file="process_message_edit_text.jsp"%>
 		<div>
-			<%@ include file="process_message_edit_upload_list.jsp"%>
+			<%@ include file="process/edit/upload_list.jsp"%>
 		</div>
 	</div>
 
