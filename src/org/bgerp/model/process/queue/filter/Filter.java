@@ -115,13 +115,13 @@ public class Filter extends CommonDAO {
      * @return
      */
     public String getValues(DynActionForm form, String paramName) {
+        if (!values.isEmpty())
+            return Utils.toString(values);
+
         String result = Utils.toString(form.getParamValues(paramName));
-        if (Utils.isBlankString(result) && !onEmptyValues.isEmpty()) {
+        if (Utils.isBlankString(result) && !onEmptyValues.isEmpty())
             result = Utils.toString(onEmptyValues);
-        }
-        if (!result.isEmpty()) {
-            result = Utils.toString(values);
-        }
+
         return result;
     }
 

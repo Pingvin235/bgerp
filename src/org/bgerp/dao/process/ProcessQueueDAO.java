@@ -263,7 +263,7 @@ public class ProcessQueueDAO extends ProcessDAO {
         FilterList filterList = queue.getFilterList();
 
         for (Filter f : filterList.getFilterList()) {
-            String type = f.getType();
+            final String type = f.getType();
 
             if ("groups".equals(type)) {
                 Filter filter = f;
