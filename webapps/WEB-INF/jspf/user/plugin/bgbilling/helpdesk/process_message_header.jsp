@@ -5,7 +5,7 @@
 
 <div style="width: 100%;">
 	<div>
-		<%@ include file="/WEB-INF/jspf/user/message/message_direction.jsp"%>
+		<%@ include file="/WEB-INF/jspf/user/message/direction.jsp"%>
 		#${message.id} HelpDesk ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title} (${message.systemId})
 	</div>
 	<div class="mt05">

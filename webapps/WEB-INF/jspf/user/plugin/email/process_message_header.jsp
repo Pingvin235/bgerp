@@ -3,7 +3,7 @@
 
 <div style="width: 100%;">
 	<div>
-		<%@ include file="/WEB-INF/jspf/user/message/message_direction.jsp"%>
+		<%@ include file="/WEB-INF/jspf/user/message/direction.jsp"%>
 		#${message.id}&nbsp;${messageType.title} | ${message.subject}
 	</div>
 	<div class="mt05">
