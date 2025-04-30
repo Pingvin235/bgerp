@@ -30,14 +30,23 @@ Develop own <<custom, Custom>> plugins using Java, JSP and full-featured IDE.
 == Configuration
 [[jexl]]
 === JEXL
-JEXL - язык коротких выражений.
+JEXL - short expression's language.
 
 Используется для написания в конфигурации макросов условных выражений, гибкого вычисления небольших строк.
 Помимо операторов, описание которых доступно по ссылке в конце раздела, язык поддерживает обращение к функциям Java - объектов,
 переданных на вход обработчика в зависимости от условий.
 
-При необходимости выражения могут быть <<interface.adoc#user-config-multiline, многострочными>>, при этом результат (если он есть) возвращается оператором *return*.
-Пример многострочного скрипта для <<process/processing.adoc#, простого обработчика событий процесса>>:
+Cheat Sheets:
+[square]
+* operator *[]* - creates List, *{}* - Set;
+* function *new* - creates object of class, the name of it passed as the first parameter;
+* operators for checking presence values in collections: *=~* , *!~*;
+* expression can be <<interface.adoc#user-config-multiline, multiline>>, the result if exists, passed with operator *return*.
+
+References:
+[square]
+* http://commons.apache.org/jexl/reference/syntax.html#Functions
+* https://commons.apache.org/proper/commons-jexl/apidocs/org/apache/commons/jexl3/package-summary.html
 
 [[jexl-standard-context]]
 In JEXL processor always passed the variables:
@@ -59,7 +68,7 @@ Variables for process handling:
 * *up* or *userParam* - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры текущего пользователя;
 * *p* or *process* - объект of class javadoc:ru.bgcrm.model.process.Process[] - изменяющийся процесс;
 * *pp* or *processParam*  - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - параметры изменяющегося процесса;
-* *processLink* - object of class javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[] - привязки изменяющегося процесса;
+* *pl* or *processLink* - object of class javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[] - привязки изменяющегося процесса;
 * *conSet* - object of class javadoc:ru.bgcrm.util.sql.ConnectionSet[] - соединения к БД;
 * *form* - object of class javadoc:ru.bgcrm.struts.form.DynActionForm[] - данные по запросу к серверу;
 * все переменные контекста из javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[];
