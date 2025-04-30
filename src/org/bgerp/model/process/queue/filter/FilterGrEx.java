@@ -42,18 +42,13 @@ public class FilterGrEx extends Filter {
             groupIds = Utils.toString(getOnEmptyValues());
         }
 
-        if (Utils.notBlankString(groupIds)) {
-            String tableAlias = "pg_" + roleId;
+        String pgTableAlias = "pg_" + roleId;
 
-            joinPart.append(SQL_INNER_JOIN);
-            joinPart.append(Tables.TABLE_PROCESS_GROUP);
-            joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " + tableAlias + ".group_id IN(");
-            joinPart.append(groupIds);
-            joinPart.append(") AND " + tableAlias + ".role_id=" + roleId);
-        }
+        if (Utils.notBlankString(groupIds))
+            joinPart.append(SQL_INNER_JOIN + Tables.TABLE_PROCESS_GROUP + "AS " + pgTableAlias + " ON process.id=" + pgTableAlias + ".process_id AND "
+                    + pgTableAlias + ".group_id IN(").append(groupIds).append(") AND " + pgTableAlias + ".role_id=" + roleId);
 
-        String executorIds = Utils.toString(form.getParamValuesStr("executor" + roleId))
-                .replace("current", String.valueOf(form.getUserId()));
+        String executorIds = Utils.toString(form.getParamValuesStr("executor" + roleId)).replace("current", String.valueOf(form.getUserId()));
 
         if (Utils.notBlankString(executorIds)) {
             String tableAlias = "pe_" + roleId;
@@ -64,9 +59,11 @@ public class FilterGrEx extends Filter {
             else
                 joinPart.append(SQL_INNER_JOIN);
 
-            joinPart.append(Tables.TABLE_PROCESS_EXECUTOR);
-            joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " +
-                            tableAlias + ".role_id=" + roleId);
+            joinPart.append(Tables.TABLE_PROCESS_EXECUTOR + "AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " + tableAlias
+                    + ".role_id=" + roleId);
+
+            if (Utils.notBlankString(groupIds))
+                joinPart.append(" AND " + pgTableAlias + ".group_id=" + tableAlias + ".group_id");
 
             if (empty)
                 wherePart.append(" AND " + tableAlias + ".user_id IS NULL ");
