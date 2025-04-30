@@ -487,7 +487,7 @@ public class MessageAction extends BaseAction {
         Set<Integer> tagIds = messageTagMap.values().stream().flatMap(mt -> mt.stream()).collect(Collectors.toSet());
         form.setResponseData("tagIds", tagIds);
 
-        return html(conSet, form, PATH_JSP + "/process_message_list.jsp");
+        return html(conSet, form, PATH_JSP + "/process/list/list.jsp");
     }
 
     public ActionForward processMessageCreateEdit(DynActionForm form, ConnectionSet conSet) throws Exception {

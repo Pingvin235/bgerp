@@ -821,7 +821,7 @@ link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webap
 
 For combining permission check with other checks use function <<jsp-request-params, ctxUser.checkPerm>>, pointing to javadoc:ru.bgcrm.model.user.User[].
 [snippet, from="<c:if", to=">", remove-leading="								"]
-link:../../../webapps/WEB-INF/jspf/user/message/process_message_list.jsp#L253-L253[webapps/WEB-INF/jspf/user/message/process_message_list.jsp]
+link:../../../webapps/WEB-INF/jspf/user/message/process/list/list.jsp#L253-L253[webapps/WEB-INF/jspf/user/message/process/list/list.jsp]
 
 [[jsp-tags-top-line]]
 ====== shell:title and shell:state

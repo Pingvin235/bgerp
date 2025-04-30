@@ -204,7 +204,7 @@
 							$$.ui.comboSingleInit($('#${targetProcessUiid}'));
 						</c:set>
 
-						<%@ include file="process_message_list_editor_buttons.jsp"%>
+						<%@ include file="editor_buttons.jsp"%>
 					</html:form>
 
 					<c:set var="tagFormUiid" value="${u:uiid()}"/>
@@ -216,7 +216,7 @@
 
 						<c:set var="command">$$.ajax.post(this).done(() => { $$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent()) });</c:set>
 
-						<%@ include file="process_message_list_editor_buttons.jsp"%>
+						<%@ include file="editor_buttons.jsp"%>
 					</html:form>
 
 					<c:url var="readUrl" value="${form.requestURI}">
@@ -377,7 +377,7 @@
 					<td style="border-top: none; display: block;">
 						${l.l('Вложения')}:
 						<c:if test="${typeNote}">
-							<%@ include file="process_message_attachments.jsp"%>
+							<%@ include file="../../process_message_attachments.jsp"%>
 						</c:if>
 						<plugin:include endpoint="user.process.message.attachments.jsp"/>
 					</td>

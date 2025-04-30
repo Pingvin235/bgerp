@@ -3,4 +3,4 @@
 
 <%-- required for recognition of messages, belong to the process --%>
 ${form.setParam('processId', form.id.toString())}
-<%@ include file="/WEB-INF/jspf/user/message/process_message_list.jsp"%>
+<%@ include file="/WEB-INF/jspf/user/message/process/list/list.jsp"%>
