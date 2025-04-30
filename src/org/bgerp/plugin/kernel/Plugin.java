@@ -35,7 +35,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "kernel";
     public static final Plugin INSTANCE = new Plugin();
 
-    public static final String ENDPOINT_MESSAGE_EDITOR = BaseAction.PATH_JSP_USER + "/message/note/process_message_editor.jsp";
+    public static final String ENDPOINT_MESSAGE_EDITOR = BaseAction.PATH_JSP_USER + "/message/process/edit/note/editor.jsp";
 
     private Plugin() {
         super(ID);
