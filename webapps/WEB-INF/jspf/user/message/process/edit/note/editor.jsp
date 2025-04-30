@@ -10,7 +10,7 @@
 		<%@ include file="/WEB-INF/jspf/user/message/process/edit/tags.jsp"%>
 	</div>
 
-	<%@ include file="/WEB-INF/jspf/user/message/process_message_edit_text.jsp"%>
+	<%@ include file="/WEB-INF/jspf/user/message/process/edit/text.jsp"%>
 	<div>
 		<%@ include file="/WEB-INF/jspf/user/message/process/edit/upload_list.jsp"%>
 	</div>

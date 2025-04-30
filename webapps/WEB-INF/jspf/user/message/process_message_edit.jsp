@@ -71,7 +71,7 @@
 			</div>
 			<%@ include file="process/edit/tags.jsp"%>
 		</div>
-		<%@ include file="process_message_edit_text.jsp"%>
+		<%@ include file="process/edit/text.jsp"%>
 		<div>
 			<%@ include file="process/edit/upload_list.jsp"%>
 		</div>
