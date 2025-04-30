@@ -15,5 +15,5 @@
 		<%@ include file="/WEB-INF/jspf/user/message/process_message_edit_upload_list.jsp"%>
 	</div>
 
-	<%@ include file="/WEB-INF/jspf/user/message/process_message_edit_ok_cancel.jsp"%>
+	<%@ include file="/WEB-INF/jspf/user/message/process/edit/ok_cancel.jsp"%>
 </div>

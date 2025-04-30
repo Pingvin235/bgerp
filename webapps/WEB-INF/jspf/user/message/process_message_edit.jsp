@@ -77,7 +77,7 @@
 		</div>
 	</div>
 
-	<%@ include file="process_message_edit_ok_cancel.jsp"%>
+	<%@ include file="process/edit/ok_cancel.jsp"%>
 </html:form>
 
 <%-- preparation editor forms --%>
