@@ -533,7 +533,7 @@ public class MessageAction extends BaseAction {
         form.setRequestAttribute("files", event.getFiles());
         form.setRequestAttribute("announcedFiles", event.getAnnouncedFiles());
 
-        return html(conSet, form, PATH_JSP + "/process_message_edit.jsp");
+        return html(conSet, form, PATH_JSP + "/process/edit/editor.jsp");
     }
 
     public ActionForward processMessageUpdate(DynActionForm form, Connection con) throws Exception {

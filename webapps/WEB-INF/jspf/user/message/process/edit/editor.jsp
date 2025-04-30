@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ include file="process/edit/upload.jsp"%>
+<%@ include file="upload.jsp"%>
 
 <c:set var="message" scope="request" value="${frd.message}"/>
 <c:set var="config" value="${ctxSetup.getConfig('MessageTypeConfig')}"/>
@@ -69,15 +69,15 @@
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
-			<%@ include file="process/edit/tags.jsp"%>
+			<%@ include file="tags.jsp"%>
 		</div>
-		<%@ include file="process/edit/text.jsp"%>
+		<%@ include file="text.jsp"%>
 		<div>
-			<%@ include file="process/edit/upload_list.jsp"%>
+			<%@ include file="upload_list.jsp"%>
 		</div>
 	</div>
 
-	<%@ include file="process/edit/ok_cancel.jsp"%>
+	<%@ include file="ok_cancel.jsp"%>
 </html:form>
 
 <%-- preparation editor forms --%>
