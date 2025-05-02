@@ -14,9 +14,11 @@ import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 
@@ -62,20 +64,28 @@ public class ProcessQueueColumnTest {
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        var dao = new ParamValueDAO(DbTest.conRoot);
+        var pDao = new ProcessDAO(DbTest.conRoot);
+        var plDao = new ProcessLinkDAO(DbTest.conRoot);
+        var pvDao = new ParamValueDAO(DbTest.conRoot);
 
-        var processFirst = ProcessHelper.addProcess(processTypeId, TITLE);
-        processFirst.setCloseTime(Date.from(Instant.now().minusSeconds(100)));
-        new ProcessDAO(DbTest.conRoot).updateProcess(processFirst);
-        dao.updateParamMoney(processFirst.getId(), paramMoneyAmountId, "3.44");
-        dao.updateParamBlob(processFirst.getId(), paramBlobLargeTextId, ResourceHelper.getResource(this, "param.blob.large.text.value.1.txt"));
-        dao.updateParamText(processFirst.getId(), paramTextIntId, "100500");
+        var process = ProcessHelper.addProcess(processTypeId, TITLE + " Closed First");
+        process.setCloseTime(Date.from(Instant.now().minusSeconds(100)));
+        pDao.updateProcess(process);
+        pvDao.updateParamMoney(process.getId(), paramMoneyAmountId, "3.44");
+        pvDao.updateParamBlob(process.getId(), paramBlobLargeTextId, ResourceHelper.getResource(this, "param.blob.large.text.value.1.txt"));
+        pvDao.updateParamText(process.getId(), paramTextIntId, "100500");
 
-        var processSecond = ProcessHelper.addProcess(processTypeId, TITLE);
-        processSecond.setCloseTime(new Date());
-        new ProcessDAO(DbTest.conRoot).updateProcess(processSecond);
-        dao.updateParamMoney(processSecond.getId(), paramMoneyAmountId, "4.0");
-        dao.updateParamBlob(processSecond.getId(), paramBlobLargeTextId, ResourceHelper.getResource(this, "param.blob.large.text.value.2.txt"));
-        dao.updateParamText(processSecond.getId(), paramTextIntId, "101");
+        process = ProcessHelper.addProcess(processTypeId, TITLE + " Closed Second With Links");
+        process.setCloseTime(new Date());
+        pDao.updateProcess(process);
+        pvDao.updateParamMoney(process.getId(), paramMoneyAmountId, "4.0");
+        pvDao.updateParamBlob(process.getId(), paramBlobLargeTextId, ResourceHelper.getResource(this, "param.blob.large.text.value.2.txt"));
+        pvDao.updateParamText(process.getId(), paramTextIntId, "101");
+
+        var pLinked = ProcessHelper.addProcess(processTypeId, TITLE + " Linked");
+        plDao.addLink(new ProcessLinkProcess.Link(pLinked.getId(), process.getId()));
+
+        var pLink = ProcessHelper.addProcess(processTypeId, TITLE + " Link");
+        plDao.addLink(new ProcessLinkProcess.Link(process.getId(), pLink.getId()));
     }
 }

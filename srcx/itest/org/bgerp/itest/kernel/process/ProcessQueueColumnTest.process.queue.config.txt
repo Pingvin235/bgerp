@@ -3,12 +3,10 @@ column.1.value=id
 column.3.title=Description cutIfMore 10
 column.3.value=description
 column.3.cutIfMore=10
-column.5.title=Money Amount + SUM
-column.5.value=param:{@PARAM_MONEY_AMOUNT_ID}
-column.5.aggregate=SUM
-column.7.title=Money Amount + AVG
-column.7.value=param:{@PARAM_MONEY_AMOUNT_ID}
-column.7.aggregate=AVG
+column.5.title=Title
+column.5.value=title
+column.7.title=Type
+column.7.value=type_title
 column.9.title=Multiline Text
 column.9.value=param:{@PARAM_BLOB_LARGE_TEXT_ID}
 column.9.formatToHtml=1
@@ -22,8 +20,18 @@ column.15.value=close_dt:value
 column.17.title=Text convert=int
 column.17.value=param:{@PARAM_TEXT_INT_ID}
 column.17.convert=int
+column.19.title=Money Amount + SUM
+column.19.value=param:{@PARAM_MONEY_AMOUNT_ID}
+column.19.aggregate=SUM
+column.21.title=Money Amount + AVG
+column.21.value=param:{@PARAM_MONEY_AMOUNT_ID}
+column.21.aggregate=AVG
+column.23.title=linkProcessList
+column.23.value=linkProcessList
+column.25.title=linkedProcessList
+column.25.value=linkedProcessList
 
-media.html.columns=1,3,5,7,9,11,13,17
+#media.html.columns=
 
 sort.mode.1.columnId=15
 sort.mode.1.title=1 Closing Time
