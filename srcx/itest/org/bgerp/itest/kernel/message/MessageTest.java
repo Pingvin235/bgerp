@@ -82,7 +82,7 @@ public class MessageTest {
 
     @Test(dependsOnMethods = "processType")
     public void messageNoteManyLargeTagPattern() throws Exception {
-        int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Many Messages, Large Messages, Tags, Patterns").getId();
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Note (Large Notes, Tags, Patterns)").getId();
 
         new ProcessLinkDAO(DbTest.conRoot).addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, CustomerTest.customerPersonIvan.getId(),
                 CustomerTest.customerPersonIvan.getTitle()));
@@ -116,23 +116,27 @@ public class MessageTest {
 
     @Test(dependsOnMethods = "processType")
     public void messageNoteUnread() throws Exception {
-        int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Unread").getId();
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Note Unread").getId();
 
         new ProcessLinkDAO(DbTest.conRoot).addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, CustomerTest.customerOrgNs.getId(), CustomerTest.customerOrgNs.getTitle()));
 
-        var m = new Message()
-            .withTypeId(MessageTest.messageTypeNote.getId())
-            .withDirection(Message.DIRECTION_INCOMING)
-            .withProcessId(processId)
-            .withFromTime(Date.from(Instant.now()))
-            .withUserId(UserTest.USER_ADMIN_ID)
-            .withSubject("Unread message").withText("Unread message text");
+        // to make the message unread unlike MessageHelper.addNoteMessage does
+        var m = new Message().withTypeId(MessageTest.messageTypeNote.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(processId)
+                .withFromTime(Date.from(Instant.now())).withUserId(UserTest.USER_ADMIN_ID).withSubject("Unread Note")
+                .withText("Unread Note text");
         new MessageDAO(DbTest.conRoot).updateMessage(m);
     }
 
     @Test(dependsOnMethods =  "processType")
     public void messageCall() throws Exception {
-        MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100",
-                TITLE + " Unprocessed message from Ivan", "");
+        MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100", "", "");
+
+        int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Call").getId();
+
+        MessageHelper.addCallMessage(processId, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100", "", "");
+
+        var m = new Message().withTypeId(MessageTest.messageTypeCall.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(processId)
+                .withFromTime(new Date()).withUserId(UserTest.USER_ADMIN_ID).withTo(CustomerTest.CUSTOMER_PERS_IVAN_PHONE);
+        new MessageDAO(DbTest.conRoot).updateMessage(m);
     }
 }
