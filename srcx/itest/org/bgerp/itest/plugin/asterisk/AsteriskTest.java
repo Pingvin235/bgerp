@@ -18,17 +18,17 @@ public class AsteriskTest {
     private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
-    private int paramExtensionId;
+    private int paramUserNumberId;
 
     @Test
     public void param() throws Exception {
-        paramExtensionId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Extension number", UserTest.posParam += 2);
+        paramUserNumberId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " User Number", UserTest.posParam += 2);
     }
 
     @Test(dependsOnMethods = "param")
     public void user() throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot);
-        dao.updateParamText(UserTest.USER_ADMIN_ID, paramExtensionId, "101");
+        dao.updateParamText(UserTest.USER_ADMIN_ID, paramUserNumberId, "101");
     }
 
     @Test(dependsOnMethods = "param")
@@ -37,7 +37,7 @@ public class AsteriskTest {
             ResourceHelper.getResource(this, "config.prefix.txt") +
             ConfigHelper.generateConstants(
                 "CALL_MESSAGE_TYPE_ID", MessageTest.messageTypeCall.getId(),
-                "USER_NUMBER_PARAM_ID", paramExtensionId
+                "USER_NUMBER_PARAM_ID", paramUserNumberId
             ) + ResourceHelper.getResource(this, "config.txt"));
     }
 }
