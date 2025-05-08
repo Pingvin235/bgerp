@@ -136,7 +136,7 @@ public class MessageTest {
         MessageHelper.addCallMessage(processId, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100", "", "");
 
         var m = new Message().withTypeId(MessageTest.messageTypeCall.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(processId)
-                .withFromTime(new Date()).withUserId(UserTest.USER_ADMIN_ID).withTo(CustomerTest.CUSTOMER_PERS_IVAN_PHONE);
+                .withFrom("100").withFromTime(Date.from(Instant.now().plus(Duration.ofMinutes(1)))).withUserId(UserTest.USER_ADMIN_ID).withTo(CustomerTest.CUSTOMER_PERS_IVAN_PHONE);
         new MessageDAO(DbTest.conRoot).updateMessage(m);
     }
 }
