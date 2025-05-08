@@ -1,0 +1,1 @@
+A: Outgoing calls. https://bgerp.org/change/0/doc/plugin/asterisk/index.html#usage-outgoing

@@ -11,10 +11,10 @@ public class Endpoint {
     public static final String CSS = "css.jsp";
 
     public static final String USER_MENU_ITEMS = "user.menu.items.jsp";
-    public static final String USER_PROCESS_MENU_ITEMS = "user.process.menu.items.jsp";
     public static final String USER_ADMIN_MENU_ITEMS = "user.admin.menu.items.jsp";
+    public static final String USER_PROCESS_MENU_ITEMS = "user.process.menu.items.jsp";
     public static final String USER_PROCESS_TABS = "user.process.tabs.jsp";
-    // public static final String USER_PROCESS_QUEUE_CELL = "user.process.queue.cell.jsp";
+    public static final String USER_PARAM_MENU_ITEMS = "user.param.menu.items.jsp";
 
     public static final String OPEN_JSP = "open.jsp";
 

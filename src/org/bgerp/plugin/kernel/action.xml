@@ -54,7 +54,7 @@
 			<item title="Call">
 				<item title="Occupy number" action="/user/message/call:numberRegister, ru.bgcrm.struts.action.MessageCallAction:numberRegister"/>
 				<item title="Release number" action="/user/message/call:numberFree, ru.bgcrm.struts.action.MessageCallAction:numberFree"/>
-				<item title="Test call" action="/user/message/call:testCall, ru.bgcrm.struts.action.MessageCallAction:testCall"/>
+				<item title="Test incoming call" action="/user/message/call:testCall, ru.bgcrm.struts.action.MessageCallAction:testCall"/>
 			</item>
 			<item title="Delete" action="/user/message:messageDelete, ru.bgcrm.struts.action.MessageAction:messageDelete"/>
 		</item>
@@ -69,6 +69,7 @@
 			<item title="Create" action="/user/message:processMessageCreateEdit, /user/message:template, /user/message:processMessageCreateUpdate">
 				<b>allowedTypeIds</b> - comma separated type IDs<br/>
 			</item>
+			<item title="Outgoing call" action="/user/message/call:outCall"/>
 			<item title="Edit" action="/user/message:processMessageEdit, /user/message:template, /user/message:processMessageUpdate, /user/message:messageUpdate, ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate">
 				<b>allowedTypeIds</b> - comma separated type IDs<br/>
 			</item>

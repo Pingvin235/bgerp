@@ -108,9 +108,9 @@ title.expression=<jexl>
 
 Where *<jexl>* contains <<../extension.adoc#jexl, JEXL>> expression with the following variables in context:
 [square]
-* *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[] - the process;
-* *pp* or *processParam* - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - process parameters;
-* *pl* or *processLink* - object of class javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[] - process links.
+* *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[], the process;
+* *pp* or *processParam* - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[], process parameters;
+* *pl* or *processLink* - object of class javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[], process links.
 
 Example with title generation out of process ID, type title and parameter with ID = 3 value.
 ----
@@ -133,9 +133,9 @@ description.expression=<jexl>
 
 Where *<jexl>* contains <<../extension.adoc#jexl, JEXL>> expression with the following variables in context:
 [square]
-* *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[] - the process;
-* *pp* or *processParam*  - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[] - process parameters;
-* *pl* or *processLink* - object of class javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[] - process links.
+* *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[], the process;
+* *pp* or *processParam*  - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[], process parameters;
+* *pl* or *processLink* - object of class javadoc:ru.bgcrm.dao.expression.ProcessLinkExpressionObject[], process links.
 
 Example with title generation out of process ID, type title and parameter with ID = 3 value.
 ----

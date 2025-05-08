@@ -140,7 +140,7 @@ public class MessagePossibleProcessTest {
     public void message() throws Exception {
         // unprocessed message, used to search related processes
         MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, CUSTOMER_PHONE_NUMBER, "100",
-                TITLE + " Unprocessed message", "");
+                TITLE + " unprocessed message", "");
 
         // message with same from address
         MessageHelper.addCallMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ZERO, CUSTOMER_PHONE_NUMBER, "100",

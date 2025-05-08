@@ -129,7 +129,7 @@ public class MessageTest {
 
     @Test(dependsOnMethods =  "processType")
     public void messageCall() throws Exception {
-        MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100", "", "");
+        MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, CustomerTest.CUSTOMER_PERS_IVAN_PHONE, "100", TITLE + " unprocessed call", "");
 
         int processId = ProcessHelper.addProcess(processTypeId, TITLE + " Call").getId();
 

@@ -1,5 +1,6 @@
 = Plugin Asterisk
 :toc:
+:toclevels: 4
 
 [[about]]
 == About
@@ -11,13 +12,22 @@ as operators of a call-center and <<#usage, process>> incoming calls.
 [[setup]]
 == Setup
 
-[[setup-asterisk]]
-=== Asterisk
+[[setup-pbx]]
+=== PBX
+
+[[setup-pbx-freepbx]]
+==== FreePBX
+FreePBX is an web-based shell for Asterisk PBX, allowing to configure it using UI.
+
+// TODO
+
+[[setup-pbx-asterisk]]
+==== Asterisk
 Asterisk configuration files are typically located in `/etc/asterisk` directory.
 The instruction below was produced for version *21.5.0*.
 
-[[setup-asterisk-cli]]
-==== CLI
+[[setup-pbx-asterisk-cli]]
+===== CLI
 To apply any changes run the CLI:
 [source, bash]
 ----
@@ -39,8 +49,10 @@ Use the command to obtain help:
 asterisk*CLI> help
 ----
 
-[[setup-asterisk-endpoint]]
-==== SIP Endpoints
+// not tested yet!
+////
+[[setup-pbx-asterisk-endpoint]]
+===== SIP Endpoints
 SIP endpoints are defined in `pjsip.conf` file. Here is the sample of minimal configuration for number *100*
 
 ----
@@ -62,8 +74,8 @@ max_contacts=2
 
 After adding endpoints it should be possible register <<#setup-client, SIP clients>>.
 
-[[setup-asterisk-out]]
-==== SIP Trunks
+[[setup-pbx-asterisk-out]]
+===== SIP Trunks
 SIP trunks are used for receiving on calls to an external phone number and making outgoing calls from it.
 They are configured in `pjsip_wizard.conf` file.
 Here is the sample of adding such a connection to server *sip.bgerp.org*
@@ -84,8 +96,8 @@ endpoint/direct_media = no
 identify/match = sip.bgerp.org
 ----
 
-[[setup-asterisk-dialplan]]
-=== Dialplan
+[[setup-pbx-asterisk-dialplan]]
+==== Dialplan
 A Dialplan configuration made in `extensions.conf` file defines processing rules for calls.
 
 ----
@@ -111,9 +123,10 @@ exten => _1XX,1,Dial(PJSIP/${EXTEN})
 exten => s,1,Dial(PJSIP/100&PJSIP/101)
 same  => n,HangUp()
 ----
+////
 
-[[setup-asterisk-ami]]
-==== AMI
+[[setup-pbx-asterisk-ami]]
+===== AMI
 In file `manager.conf` define AMI settings for connection from the <<#setup-plugin, Plugin>> side.
 
 ----
@@ -131,6 +144,12 @@ permit=127.0.0.1/255.255.255.0
 read = call
 writetimeout = 5000
 ----
+
+[[setup-pbx-asterisk-debug]]
+===== Debug
+Use *sngrep* utility to capture SIP traffic.
+
+image::_res/sngrep.png[width="800"]
 
 [[setup-client]]
 === SIP Clients
@@ -168,7 +187,7 @@ asterisk:amiManager.{@cnt}.pswd=<amiSecret>
 Where:
 [square]
 * *<typeId>* - ID of <<../../kernel/message/index.adoc#setup-type-call, message type Call>>, used for persisting calls into the system;
-* *<host>* - host where <<#setup-asterisk-ami, Asterisk with AMI>> is running;
+* *<host>* - host where <<#setup-pbx-asterisk-ami, Asterisk with AMI>> is running;
 * *<amiSecret>* - AMI password;
 * *<version>* - version string, may be: 'Asterisk 13.0', 'Asterisk 16.0', see: https://github.com/asterisk-java/asterisk-java/blob/master/src/main/java/org/asteriskjava/AsteriskVersion.java;
 * *<listenerClass>* - custom listener Java class, extending javadoc:ru.bgcrm.plugin.asterisk.AmiEventListener[]
@@ -181,29 +200,43 @@ asterisk:amiManager.{@cnt}.login=crm
 asterisk:amiManager.{@cnt}.pswd=234567
 ----
 
-[[usage]]
-== Usage
-After occupation by a user his number, all the *accepted* calls there must be registered as messages and opened for <<../../kernel/message/index.adoc#usage-queue, processing>>.
+[[setup-plugin-outgoing]]
+==== Outgoing Calls
+Calling number for <<#usage-outgoing, Outgoing Calls>> can be adapted using <<../../kernel/extension.adoc#jexl, JEXL>> expression, assigned for <<../../kernel/message/index.adoc#setup-type-call, message type Call>> with *expressionOutNumberPreprocess* key. To the JEXL context passed the following variables:
+[square]
+* *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[], the process;
+* *pp* or *processParam* - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[], process parameters;
+* *value* - object of class javadoc:ru.bgcrm.model.param.ParameterPhoneValue[], phone values.
 
-image::_res/i0108.png[]
+Sample of such a script, appending calling prefixes depends on some list process parameter value.
 
-////
-[[demo]]
-== Demo
-To work with the <<../../kernel/install.adoc#demo, Demo System>> you need to install the sip client https://www.linphone.org
+----
+messageType.50.expressionOutNumberPreprocess=<<END
+    prefix = null;
 
-After installation - scan QR code, and click download and apply:
+    operator = pp.listValueIds(68);
+    if (1 =~ operator)
+        prefix = "084";
+    else if (2 =~ operator)
+        prefix = "056";
 
-image::_res/QR-code_sip_deo.svg[150px, 150px]
+    if (prefix) {
+        prefix = prefix + "7";
 
-The QR code contains the link:_res/client_demo_sip_provisioning.xml[link].
-////
+        log.debug("prefix: " + prefix + "; value: " + value);
 
-[[debug]]
-== Debug
+        for (item : value.getItemList()) {
+            phone = item.getPhone();
+            if (phone.length() == 11)
+                item.setPhone(prefix + phone.substring(1));
+        }
+    }
+END
+----
 
-[[debug-plugin]]
-=== Plugin
+
+[[setup-plugin-debug]]
+==== Debug
 Incoming API events are written down to `log/bgerp.debug.log` file.
 The plugin catches *NewStateEvent* like this:
 ----
@@ -218,8 +251,52 @@ Output of *asterisk-java* can be enabled in <<../../kernel/extension.adoc#log4j,
 log4j.logger.org.asteriskjava=DEBUG, filed
 ----
 
-[[debug-asterisk]]
-=== Asterisk
-Use *sngrep* utility to capture SIP traffic.
+[[usage]]
+== Usage
 
-image::_res/sngrep.png[width='800']
+[[usage-occupy]]
+=== Number Occupation
+In <<../../kernel/message/index.adoc#usage-queue, Messages>> tool user can occupy an internal SIP number, used by him for connection to Asterisk.
+The offered number can be <<../../kernel/message/index.adoc#setup-type-call, configured>> and even automatically occupied on user login.
+
+image::_res/number_occupy.png[width="800"]
+
+If the wanted number is already used by someone else, the confirmation dialog has shown.
+
+image::_res/number_occupy_confirm.png[]
+
+For the user, whose number was taken, sent an information news about.
+
+image::_res/number_occupied_news.png[]
+
+Successfully occupied number does look so. The *Release* button should be used for releasing the number.
+
+image::_res/number_occupied.png[]
+
+[[usage-incoming]]
+=== Process Incoming
+After <<#usage-occupy, occupation>> a number by a user, all the accepted calls there must be registered as messages and opened for <<../../kernel/message/index.adoc#usage-queue, processing>>.
+
+image::_res/incoming_processing.png[width="800"]
+
+To simulate such an incoming call from an arbitrary number, can be used *Test* button.
+
+image::_res/incoming_call_test.png[]
+
+NOTE: The test area can be hidden by disabling *Test incoming call* action in user permissions.
+
+[[usage-outgoing]]
+=== Outgoing Calls
+On hover mouse pointer over param *phone* values the plugin shows popup menu for making outgoing calls.
+
+image::_res/outgoing_call_popup.png[width="800"]
+
+NOTE: The popup menu isn't shown if parameters were edited after opening process, for this case <<../../kernel/interface.adoc#user-top-line, refresh>> the process card.
+
+The calls itself are passed to OS application with *tel:* link.
+
+image::_res/outgoing_call_app.png[]
+
+If the current user's number is <<#usage-occupy, occupied>>, once a call being responded, it appears in the *Message* tab of the process.
+
+image::_res/outgoing_call.png[]

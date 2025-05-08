@@ -40,9 +40,21 @@ $$.param = new function () {
 		}, 0);
 	}
 
+	const menuInit = (aId, ulId) => {
+		const $a = $(document.getElementById(aId));
+		const $ul = $(document.getElementById(ulId));
+
+		$a.hover(
+			(e) => {
+				$$.ui.menuInit($a, $ul, 'left', true);
+			}
+		);
+	}
+
 	// public functions
 	this.dirChanged = dirChanged;
 	this.editorTypeChanged = editorTypeChanged;
+	this.menuInit = menuInit;
 
 	const addValueCount = ($table, errors, action, multiple) => {
 		const form = $table.closest("form")[0];

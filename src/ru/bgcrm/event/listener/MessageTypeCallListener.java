@@ -1,19 +1,18 @@
 package ru.bgcrm.event.listener;
 
-import java.util.Date;
-
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
+import org.bgerp.dao.message.call.CallRegistration;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
-import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.MessageOpenEvent;
+import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
@@ -54,10 +53,12 @@ public class MessageTypeCallListener implements EventListener<Event> {
 
             CallRegistration reg = ((MessageTypeCall) type).getRegistrationByUser(event.getUser().getId());
             if (reg != null) {
-                reg.setLastPooling(new Date());
                 var message = reg.getMessageForOpen();
                 if (message != null) {
-                    event.getForm().getResponse().addEvent(new MessageOpenEvent(message));
+                    if (message.getProcessId() > 0)
+                        event.getForm().getResponse().addEvent(new ProcessOpenEvent(message.getProcessId()));
+                    else
+                        event.getForm().getResponse().addEvent(new MessageOpenEvent(message));
                     reg.setMessageForOpen(null);
                 }
             }

@@ -1,5 +1,7 @@
 package ru.bgcrm.plugin.asterisk;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 
 import org.asteriskjava.manager.ManagerConnection;
@@ -10,11 +12,11 @@ import org.asteriskjava.manager.event.ManagerEvent;
 import org.asteriskjava.manager.event.NewStateEvent;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.message.call.CallRegistration;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageTypeCall;
-import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class AmiEventListener extends Thread implements ManagerEventListener {
@@ -75,31 +77,39 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
         if (!(e instanceof NewStateEvent event) || !"Up".equals(event.getChannelStateDesc()))
             return;
 
-        String numberFrom = event.getConnectedLineNum();
-        String numberTo = event.getCallerIdNum();
+        String numberTheir = event.getConnectedLineNum();
+        String numberOur = event.getCallerIdNum();
 
-        CallRegistration reg = messageType.getRegistrationByNumber(numberTo);
+        CallRegistration reg = messageType.getRegistrationByNumber(numberOur);
 
-        if ((reg != null && reg.getMessageForOpen() == null && numberFrom != null)) {
-            log.info("Call to registered number: {}, event: {}", reg.getNumber(), event);
+        if ((reg != null && reg.getMessageForOpen() == null && numberTheir != null)) {
+            log.info("Call of registered number: {}, event: {}", reg.getNumber(), event);
 
             try (var con = Setup.getSetup().getDBConnectionFromPool()) {
                 Message message = new Message();
-                message.setDirection(Message.DIRECTION_INCOMING);
                 message.setTypeId(messageType.getId());
                 message.setUserId(reg.getUserId());
                 message.setText("");
-                message.setFrom(numberFrom);
-                message.setTo(numberTo);
                 message.setFromTime(new Date());
                 message.setSystemId(event.getUniqueId());
 
-                // only for unification, there is MessageDAO called inside
-                messageType.updateMessage(con, DynActionForm.SYSTEM_FORM, message);
+                var outCall = reg.getOutCall();
+                if (outCall != null && outCall.isValid()) {
+                    message.setDirection(Message.DIRECTION_OUTGOING);
+                    message.setFrom(numberOur);
+                    message.setTo(numberTheir);
+                    if (outCall.getProcessId() > 0)
+                        message.setProcessId(outCall.getProcessId());
+                    reg.setOutCall(null);
+                } else {
+                    message.setDirection(Message.DIRECTION_INCOMING);
+                    message.setFrom(numberTheir);
+                    message.setTo(numberOur);
+                }
 
-                con.commit();
+                updateMessage(con, message);
 
-                log.info("Created message: {}", message.getId());
+                log.info("Created {} message: {}", message.isIncoming() ? "IN" : "OUT", message.getId());
 
                 // there are might be multiple events for a single call, for preventing multi-processing the first message is set here
                 reg.setMessageForOpen(message);
@@ -108,5 +118,12 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
             }
         } else
             log.debug("No registered number found, the call was already processed or there is no FROM number in the event");
+    }
+
+    private void updateMessage(Connection con, Message message) throws SQLException {
+        // only for unification, there is MessageDAO called inside
+        messageType.updateMessage(con, DynActionForm.SYSTEM_FORM, message);
+
+        con.commit();
     }
 }

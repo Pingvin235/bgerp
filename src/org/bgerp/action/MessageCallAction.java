@@ -8,14 +8,15 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
+import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
+import org.bgerp.dao.message.call.CallRegistration;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.message.MessageTypeCall;
-import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -67,12 +68,23 @@ public class MessageCallAction extends BaseAction {
         return json(conSet, form);
     }
 
+    public ActionForward outCall(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var type = getCallMessageType(form);
+
+        int processId = form.getParamInt("processId");
+        String number = form.getParam("number", Utils::notBlankString);
+
+        var reg = type.getRegistrationByUser(form.getUserId());
+        if (reg != null)
+            reg.outCall(number, processId);
+
+        return json(conSet, form);
+    }
+
     public ActionForward testCall(DynActionForm form, Connection con) throws Exception {
         var type = getCallMessageType(form);
 
-        var reg = type.getRegistrationByUser(form.getUserId());
-        if (reg == null)
-            throw new BGException(l.l("The user doesn't occupy a number"));
+        var reg = getRegistrationOrThrow(form, type);
 
         var message = new Message();
         message.setDirection(Message.DIRECTION_INCOMING);
@@ -89,6 +101,13 @@ public class MessageCallAction extends BaseAction {
         reg.setMessageForOpen(message);
 
         return json(con, form);
+    }
+
+    private CallRegistration getRegistrationOrThrow(DynActionForm form, MessageTypeCall type) throws BGMessageException {
+        var reg = type.getRegistrationByUser(form.getUserId());
+        if (reg == null)
+            throw new BGMessageException(l.l("The user doesn't occupy a number"));
+        return reg;
     }
 
     private MessageTypeCall getCallMessageType(DynActionForm form) {

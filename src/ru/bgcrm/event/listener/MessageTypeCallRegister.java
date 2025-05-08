@@ -7,12 +7,12 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.dao.message.call.CallRegistration;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageTypeCall;
-import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.event.RunClassRequestEvent;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;

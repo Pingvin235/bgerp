@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:forEach var="type" items="${config.typeMap.values()}">
-	<c:if test="${type.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeCall'}">
+	<c:if test="${type.getClass().simpleName eq 'MessageTypeCall'}">
 		<u:sc>
 			<c:set var="reg" value="${type.getRegistrationByUser(form.userId)}"/>
 
@@ -10,7 +10,7 @@
 			<div class="mb1" id="${uiid}">
 				<c:choose>
 					<c:when test="${not empty reg}">
-						<span class="tt">${type.title} номер <b>${reg.number}</b></span>
+						<span class="tt">${type.title}&nbsp;${l.l('number')}&nbsp;<b>${reg.number}</b></span>
 						<c:set var="url" value="/user/message/call.do?typeId=${type.id}&method=numberFree"/>
 						<button
 							type="button" class="btn-grey ml1"

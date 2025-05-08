@@ -183,7 +183,7 @@
 					</c:when>
 
 					<%-- editor has to be called --%>
-					<c:when test="${'blob, date, datetime, email, list, listcount, money, phone, text, tree, treecount'.contains(parameter.type) and empty editorType}">
+					<c:when test="${'blob, date, datetime, email, list, listcount, money, phone, text, tree, treecount'.contains(parameter.type)}">
 						<c:set var="editFormId" value="${u:uiid()}"/>
 						<c:set var="valueTitle" value="${item.valueTitle}"/>
 
@@ -200,7 +200,7 @@
 							</c:when>
 						</c:choose>
 
-						<c:set var="showAsLink" value="${not empty parameter.showAsLink and not empty item.value}"/>
+						<c:set var="showAsLink" value="${parameter.type eq 'text' and not empty parameter.showAsLink and not empty item.value}"/>
 						<c:choose>
 							<c:when test="${readonly}">
 								<c:if test="${showAsLink}"><a target="_blank" href="${item.value}"></c:if>
@@ -210,24 +210,40 @@
 							<c:otherwise>
 								<html:form action="/user/parameter" styleId="1"><input type="hidden" value="1"/></html:form>
 
-								<html:form action="/user/parameter" styleId="${editFormId}">
-									<html:hidden property="objectType"/>
-									<input type="hidden" name="id" value="${id}"/>
-									<input type="hidden" name="method" value="parameterGet"/>
-									<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
-									<input type="hidden" name="tableId" value="${tableId}"/>
-									<input type="hidden" name="paramId" value="${parameter.id}"/>
+								<u:sc>
+									<c:set var="paramLinkUiid" value="${u:uiid()}"/>
 
-									<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
-										<c:choose>
-											<c:when test="${empty valueTitle}">${l.l('undefined')}</c:when>
-											<c:otherwise>${valueTitle}</c:otherwise>
-										</c:choose>
-										<c:if test="${showAsLink}">
-											[<a target="_blank" href="${item.value}">${l.l('link.open')}</a>]
-										</c:if>
-									</a>
-								</html:form>
+									<html:form action="/user/parameter" styleId="${editFormId}">
+										<html:hidden property="objectType"/>
+										<input type="hidden" name="id" value="${id}"/>
+										<input type="hidden" name="method" value="parameterGet"/>
+										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
+										<input type="hidden" name="tableId" value="${tableId}"/>
+										<input type="hidden" name="paramId" value="${parameter.id}"/>
+
+										<a id="${paramLinkUiid}" href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
+											<c:choose>
+												<c:when test="${empty valueTitle}">${l.l('undefined')}</c:when>
+												<c:otherwise>${valueTitle}</c:otherwise>
+											</c:choose>
+											<c:if test="${showAsLink}">
+												[<a target="_blank" href="${item.value}">${l.l('link.open')}</a>]
+											</c:if>
+										</a>
+									</html:form>
+
+									<c:set var="paramValue" value="${item}" scope="request"/>
+									<c:set var="menuItems">
+										<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_PARAM_MENU_ITEMS%>"/>
+									</c:set>
+
+									<c:if test="${not empty menuItems}">
+										<c:set var="uiid" value="${u:uiid()}"/>
+										<ui:popup-menu id="${uiid}">${menuItems}</ui:popup-menu>
+
+										<script>$$.param.menuInit('${paramLinkUiid}', '${uiid}');</script>
+									</c:if>
+								</u:sc>
 							</c:otherwise>
 						</c:choose>
 					</c:when>
