@@ -34,12 +34,13 @@ public class MessageCallAction extends BaseAction {
             throw new BGIllegalArgumentException();
         }
 
-        CallRegistration reg = type.getRegistrationByNumber(number);
+        final CallRegistration reg = type.getRegistrationByNumber(number);
 
-        boolean check = form.getParamBoolean("check", true);
-        if (check && reg != null) {
-            User user = UserCache.getUser(reg.getUserId());
-            form.setResponseData("regUser", new IdTitle(user.getId(), user.getTitle()));
+        if (form.getParamBoolean("check", true)) {
+            if (reg != null) {
+                User user = UserCache.getUser(reg.getUserId());
+                form.setResponseData("regUser", new IdTitle(user.getId(), user.getTitle()));
+            }
         } else {
             if (reg != null) {
                 News news = new News();
