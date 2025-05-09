@@ -128,6 +128,7 @@
 
 		<c:when test="${type eq 'money'}">
 			<c:set var="code">
+				<span>${title}</span>
 				<input type="checkbox" name="param${filter.parameter.id}empty"/>
 				<span>${l.l('Undefined')}&nbsp;${l.l('or')}</span>
 				<input type="text" name="param${filter.parameter.id}From" size="3" onkeydown="return isNumberKey(event)" placeholder="${l.l('range.from')}"/>
