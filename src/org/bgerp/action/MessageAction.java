@@ -306,47 +306,43 @@ public class MessageAction extends BaseAction {
                 .order(reverseOrder ? MessageSearchDAO.Order.FROM_TIME_DESC : MessageSearchDAO.Order.FROM_TIME)
                 .search(new Pageable<>(form));
         } else {
-            // when external system isn't available, an empty table of messages should be however shown
-            try {
-                var executors = Executors.newFixedThreadPool(typeId <= 0 ? typeMap.size() : 1);
+            var executors = Executors.newFixedThreadPool(typeId <= 0 ? typeMap.size() : 1);
 
-                List<Message> result = Collections.synchronizedList(new ArrayList<>(1000));
+            List<Message> result = Collections.synchronizedList(new ArrayList<>(1000));
 
-                for (final MessageType type : typeMap.values()) {
-                    if (typeId > 0 && typeId != type.getId())
-                        continue;
+            for (final MessageType type : typeMap.values()) {
+                if (typeId > 0 && typeId != type.getId())
+                    continue;
 
-                    executors.execute(() -> {
-                        try {
-                            result.addAll(type.newMessageList(conSet));
-                        } catch (Exception e) {
-                            log.error(e);
-                        }
-                    });
-                }
-
-                executors.shutdown();
-
-                if (!executors.awaitTermination(2, TimeUnit.MINUTES))
-                    log.error("Timeout waiting threads");
-
-                Collections.sort(result, (Message o1, Message o2) -> {
-                    if (reverseOrder) {
-                        Message tmp = o1;
-                        o1 = o2;
-                        o2 = tmp;
+                executors.execute(() -> {
+                    // when the external system isn't available, an empty table of messages should be however shown
+                    try {
+                        result.addAll(type.newMessageList(conSet));
+                    } catch (Exception e) {
+                        log.error(e);
                     }
-                    return o1.getFromTime() == null ? -1 : o1.getFromTime().compareTo(o2.getFromTime());
                 });
-
-                form.setResponseData("list", result);
-
-                Preferences prefs = new Preferences();
-                prefs.put(UNPROCESSED_MESSAGES_PERSONAL_KEY, String.valueOf(config.getUnprocessedMessagesCount()));
-                new UserDAO(conSet.getConnection()).updatePersonalization(form.getUser(), prefs);
-            } catch (Exception e) {
-                log.error(e);
             }
+
+            executors.shutdown();
+
+            if (!executors.awaitTermination(2, TimeUnit.MINUTES))
+                log.error("Timeout waiting threads");
+
+            Collections.sort(result, (Message o1, Message o2) -> {
+                if (reverseOrder) {
+                    Message tmp = o1;
+                    o1 = o2;
+                    o2 = tmp;
+                }
+                return o1.getFromTime() == null ? -1 : o1.getFromTime().compareTo(o2.getFromTime());
+            });
+
+            form.setResponseData("list", result);
+
+            Preferences prefs = new Preferences();
+            prefs.put(UNPROCESSED_MESSAGES_PERSONAL_KEY, String.valueOf(config.getUnprocessedMessagesCount()));
+            new UserDAO(conSet.getConnection()).updatePersonalization(form.getUser(), prefs);
         }
 
         form.setRequestAttribute("typeMap", typeMap);
