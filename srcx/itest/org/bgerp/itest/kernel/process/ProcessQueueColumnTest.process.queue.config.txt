@@ -26,10 +26,6 @@ column.19.aggregate=SUM
 column.21.title=Money Amount + AVG
 column.21.value=param:{@PARAM_MONEY_AMOUNT_ID}
 column.21.aggregate=AVG
-column.23.title=linkProcessList
-column.23.value=linkProcessList
-column.25.title=linkedProcessList
-column.25.value=linkedProcessList
 
 #media.html.columns=
 
