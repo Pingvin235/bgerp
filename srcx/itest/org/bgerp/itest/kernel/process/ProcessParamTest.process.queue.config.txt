@@ -1,11 +1,19 @@
-filter.{@inc:cnt}.title=Param type 'address'
-filter.{@cnt}.type=param:{@PARAM_ADDRESS_ID}
-filter.{@inc:cnt}.title=Param type 'list'
-filter.{@cnt}.type=param:{@PARAM_LIST_ID}
-filter.{@inc:cnt}.title=Param type 'date'
-filter.{@cnt}.type=param:{@PARAM_DATE_ID}
-filter.{@inc:cnt}.title=Param type 'datetime'
-filter.{@cnt}.type=param:{@PARAM_DATETIME_ID}
+filter.{@inc:cnt}.type=param:{@PARAM_ADDRESS_ID}
+#filter.{@cnt}.title=Param type 'address'
+filter.{@inc:cnt}.type=param:{@PARAM_BLOB_ID}
+#filter.{@cnt}.title=Param type 'blob'
+filter.{@inc:cnt}.type=param:{@PARAM_DATE_ID}
+#filter.{@cnt}.title=Param type 'date'
+filter.{@inc:cnt}.type=param:{@PARAM_DATETIME_ID}
+#filter.{@cnt}.title=Param type 'datetime'
+filter.{@inc:cnt}.type=param:{@PARAM_LIST_ID}
+#filter.{@cnt}.title=Param type 'list'
+filter.{@inc:cnt}.type=param:{@PARAM_LISTCOUNT_ID}
+#filter.{@cnt}.title=Param type 'listcount'
+filter.{@inc:cnt}.type=param:{@PARAM_MONEY_ID}
+#filter.{@cnt}.title=Param type 'money'
+filter.{@inc:cnt}.type=param:{@PARAM_TEXT_ID}
+#filter.{@cnt}.title=Param type 'text'
 
 column.1.title=ID
 column.1.value=id
