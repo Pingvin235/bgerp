@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -452,22 +451,4 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
         return list;
     }
-
-    /**
-     * Use:
-     * Utils.getFirst(getLinkProcessList(Utils.getFirst(linkedProcessList).getId(), Process.LINK_TYPE_DEPEND,
-     *           false, Collections.singleton(linkTypeId)))
-     */
-    @Deprecated
-    public Process getProcessLinkedForSame(int processId, int linkedTypeId, int linkTypeId) throws Exception {
-        List<Process> linkedProcessList = getLinkedProcessList(processId, Process.LINK_TYPE_DEPEND, false,
-                Collections.singleton(linkedTypeId));
-        if (linkedProcessList.size() != 1) {
-            throw new BGException("Процесс " + processId + " привязан более чем к одному.");
-        }
-
-        return Utils.getFirst(getLinkProcessList(Utils.getFirst(linkedProcessList).getId(), Process.LINK_TYPE_DEPEND,
-                false, Collections.singleton(linkTypeId)));
-    }
-
 }

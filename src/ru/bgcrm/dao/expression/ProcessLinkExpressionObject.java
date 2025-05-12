@@ -55,10 +55,4 @@ public class ProcessLinkExpressionObject implements ExpressionObject {
         }
         return null;
     }
-
-    @Deprecated
-    public int getStatusProcessLinkedForSame(int linkedTypeId, int linkTypeId) throws Exception {
-        Process linkedProcess = linkDao.getProcessLinkedForSame(processId, linkedTypeId, linkTypeId);
-        return linkedProcess != null ? linkedProcess.getStatusId() : -1;
-    }
 }
