@@ -1,0 +1,19 @@
+column.1.title=Process
+column.1.value=title
+column.3.title=Execution Group
+column.3.value=groups:0
+column.5.title=Executors
+column.5.value=executors:*:0
+column.7.title=Follow Group
+column.7.value=groups:1
+column.9.title=Followers
+column.9.value=executors:*:1
+
+filter.{@inc:cnt}.type=grex
+filter.{@cnt}.roleId=0
+filter.{@cnt}.groups.availableValues={@GROUP_1_ID}, {@GROUP_2_ID}
+filter.{@cnt}.title=Executor
+filter.{@inc:cnt}.type=grex
+filter.{@cnt}.roleId=1
+filter.{@cnt}.title=Follower
+filter.{@cnt}.groups.availableValues={@GROUP_1_ID}, {@GROUP_2_ID}
