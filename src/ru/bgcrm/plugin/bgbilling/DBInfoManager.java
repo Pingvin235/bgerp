@@ -21,7 +21,7 @@ public class DBInfoManager {
     private Map<String, DBInfo> dbInfoMap = new HashMap<>();
     private List<DBInfo> dbInfoList = new ArrayList<>();
 
-    static final String[] SUPPORTED_VERSIONS = { "9.2", "8.2", "8.0", "7.2", "7.1", "7.0" };
+    static final String[] SUPPORTED_VERSIONS = { "10.2", "9.2", "8.2", "8.0", "7.2", "7.1", "7.0" };
 
     private DBInfoManager(Setup setup) {
         final String prefix = "bgbilling:server.", prefixOld = "bgbilling.";
