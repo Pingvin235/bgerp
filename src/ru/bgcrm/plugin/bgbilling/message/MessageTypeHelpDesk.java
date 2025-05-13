@@ -206,27 +206,23 @@ public class MessageTypeHelpDesk extends MessageType {
             DynActionForm form = new DynActionForm(user);
             HelpDeskDAO hdDao = new HelpDeskDAO(user, dbInfo);
 
-            if (dbInfo.versionCompare("7.2") >= 0) {
-                Pageable<Pair<HdTopic, List<HdMessage>>> result = new Pageable<>();
-                result.getPage().setPageIndex(1);
-                result.getPage().setPageSize(pageSize);
+            Pageable<Pair<HdTopic, List<HdMessage>>> result = new Pageable<>();
+            result.getPage().setPageIndex(1);
+            result.getPage().setPageSize(pageSize);
 
-                log.info("topicId: {}", topicId);
+            log.info("topicId: {}", topicId);
 
-                hdDao.searchTopicsWithMessages(result, topicId);
+            hdDao.searchTopicsWithMessages(result, topicId);
 
-                for (Pair<HdTopic, List<HdMessage>> pair : result.getList()) {
-                    HdTopic topic = pair.getFirst();
+            for (Pair<HdTopic, List<HdMessage>> pair : result.getList()) {
+                HdTopic topic = pair.getFirst();
 
-                    Process process = processTopic(con, openHdProcessTopicIds, processType, objectType, form, hdDao, topic);
+                Process process = processTopic(con, openHdProcessTopicIds, processType, objectType, form, hdDao, topic);
 
-                    updateProcessFromTopic(con, processType, process, topic, pair.getSecond());
+                updateProcessFromTopic(con, processType, process, topic, pair.getSecond());
 
-                    con.commit();
-                }
-            } else
-                throw new IllegalStateException("Unsupported BGBilling version");
-
+                con.commit();
+            }
 
             // оставшиеся процессы привязаны к уже закрытым темам хелпдеска - нужно их закрыть
             for (Integer processId : openHdProcessTopicIds.keySet()) {

@@ -142,34 +142,37 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public void searchTopicsWithMessages(Pageable<Pair<HdTopic, List<HdMessage>>> result, int topicId) {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("GetTopics");
-        req.setAttribute("onlynew", 0);
-        req.setAttribute("closed", 0);
-        req.setAttribute("pageSize", 200000);
-        if (topicId > 0)
-            req.setAttribute("tid", topicId);
+        if (dbInfo.versionCompare("7.2") >= 0) {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("GetTopics");
+            req.setAttribute("onlynew", 0);
+            req.setAttribute("closed", 0);
+            req.setAttribute("pageSize", 200000);
+            if (topicId > 0)
+                req.setAttribute("tid", topicId);
 
-        Document doc = transferData.postData(req, user);
-        for (Element topicEl : XMLUtils.selectElements(doc, "/data//topic")) {
-            HdTopic topic = new HdTopic();
-            topic.setId(Utils.parseInt(topicEl.getAttribute("id")));
-            topic.setTitle(topicEl.getAttribute("subject"));
-            topic.setStatusId(Utils.parseInt(topicEl.getAttribute("statusId")));
-            topic.setCost(Utils.parseBigDecimal(topicEl.getAttribute("cost")));
-            topic.setUserId(Utils.parseInt(topicEl.getAttribute("userId")));
-            topic.setContractId(Utils.parseInt(topicEl.getAttribute("cid")));
-            topic.setContractTitle(topicEl.getAttribute("contract"));
-            topic.setLastMessageTime(TimeUtils.parse(topicEl.getAttribute("lastmessage"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
-            topic.setContact(topicEl.getAttribute("comm"));
+            Document doc = transferData.postData(req, user);
+            for (Element topicEl : XMLUtils.selectElements(doc, "/data//topic")) {
+                HdTopic topic = new HdTopic();
+                topic.setId(Utils.parseInt(topicEl.getAttribute("id")));
+                topic.setTitle(topicEl.getAttribute("subject"));
+                topic.setStatusId(Utils.parseInt(topicEl.getAttribute("statusId")));
+                topic.setCost(Utils.parseBigDecimal(topicEl.getAttribute("cost")));
+                topic.setUserId(Utils.parseInt(topicEl.getAttribute("userId")));
+                topic.setContractId(Utils.parseInt(topicEl.getAttribute("cid")));
+                topic.setContractTitle(topicEl.getAttribute("contract"));
+                topic.setLastMessageTime(TimeUtils.parse(topicEl.getAttribute("lastmessage"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
+                topic.setContact(topicEl.getAttribute("comm"));
 
-            List<HdMessage> messages = new ArrayList<>();
-            for (Element messageEl : XMLUtils.selectElements(topicEl, "message"))
-                messages.add(parseHdMessage(messageEl));
+                List<HdMessage> messages = new ArrayList<>();
+                for (Element messageEl : XMLUtils.selectElements(topicEl, "message"))
+                    messages.add(parseHdMessage(messageEl));
 
-            result.getList().add(new Pair<>(topic, messages));
-        }
+                result.getList().add(new Pair<>(topic, messages));
+            }
+        } else
+            throw new IllegalStateException("Unsupported BGBilling version");
     }
 
     public void markMessageRead(int messageId) {
