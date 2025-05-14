@@ -4,6 +4,7 @@ filter.{@inc:cnt}.type=linkedCustomer:title
 filter.{@inc:cnt}.type=description
 filter.{@inc:cnt}.type=linkObject
 filter.{@inc:cnt}.title=Тема HelpDesk
+filter.{@cnt}.type=linkObject
 filter.{@cnt}.objectType=bgbilling-helpdesk:{@BILLING_ID}
 filter.{@cnt}.whatFilter=id
 
