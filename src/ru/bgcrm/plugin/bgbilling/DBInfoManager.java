@@ -41,7 +41,7 @@ public class DBInfoManager {
                 dbInfoMap.put(dbInfo.getId(), dbInfo);
                 dbInfoList.add(dbInfo);
             } catch (Exception e) {
-                log.error(e);
+                log.error(Log.format("Parsing server: {}", me.getKey()), e);
             }
         }
     }
