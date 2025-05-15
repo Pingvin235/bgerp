@@ -6,7 +6,7 @@
 /.idea
 
 /custom
-/_custom
+/_custom*
 /filestorage
 /tmp
 /bgcrm*.properties
