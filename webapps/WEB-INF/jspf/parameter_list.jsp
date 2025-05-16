@@ -6,6 +6,7 @@
 </c:if>
 
 <c:set var="showTr">${empty onlyData}</c:set>
+<%-- parameter IDs are hidden in Open interface --%>
 <c:set var="showId" value="${form.param.showId ne '0'}"/>
 
 <c:url var="paramLogUrl" value="/user/parameter.do">
@@ -53,8 +54,8 @@
 
 		<c:set var="startEdit">{  $('#${viewDivId}').hide(); $('#${editDivId}').parent().show(); }; return false;</c:set>
 
-		<tr ${hide} id="${viewDivId}" title="${showId ? ui.idAndComment(parameter) : ""}" style="${style}">
-			<td width="50%">${parameter.title}</td>
+		<tr ${hide} id="${viewDivId}" style="${style}">
+			<td width="50%" title="${showId ? ui.idAndComment(parameter) : ""}">${parameter.title}</td>
 			<td width="50%">
 				<c:choose>
 					<c:when test="${'address' eq parameter.type}">
