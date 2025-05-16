@@ -27,9 +27,11 @@
 		</item>
 
 		<item title="Параметры">
-			<item title="Просмотр списка параметров" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterList"/>
+			<item title="Просмотр списка параметров" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterList">
+				<b>parameterIds</b> - ID параметров через запятую, разрешенных для отображения<br/>
+			</item>
 			<item title="Изменение параметра" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterGet">
-				<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
+				<b>parameterIds</b> - ID параметров через запятую, разрешенных для изменения<br/>
 			</item>
 			<item title="Изменение групппы параметров" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterGroupUpdate"/>
 		</item>

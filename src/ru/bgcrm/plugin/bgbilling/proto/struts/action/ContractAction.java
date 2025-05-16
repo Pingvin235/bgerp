@@ -135,36 +135,21 @@ public class ContractAction extends BaseAction {
         return Arrays.stream(vals).map(i -> Utils.parseInt(i, -1)).collect(Collectors.toSet());
     }
 
-    private List<ContractParameter> filterParameterList(List<ContractParameter> contractParameterList,
-            Set<Integer> requiredParameterIds) {
-        if (requiredParameterIds.isEmpty()) {
-            return contractParameterList;
-        }
-
-        List<ContractParameter> filteredContractParameterList = new ArrayList<>();
-
-        for (ContractParameter contractParameter : contractParameterList) {
-            if (requiredParameterIds.contains(contractParameter.getParamId())) {
-                filteredContractParameterList.add(contractParameter);
-            }
-        }
-
-        return filteredContractParameterList;
-    }
-
     public ActionForward parameterList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
-        Set<Integer> requiredParameterIds = Utils.toIntegerSet(form.getParam("requiredParameterIds", ""));
 
         ContractParamDAO paramDAO = new ContractParamDAO(form.getUser(), billingId);
 
-        Pair<ParamList, List<ContractParameter>> parameterListWithDir = paramDAO.getParameterListWithDir(contractId,
-                true, form.getParamBoolean("onlyFromGroup", false));
+        Pair<ParamList, List<ContractParameter>> parameterListWithDir = paramDAO.getParameterListWithDir(contractId, true,
+                form.getParamBoolean("onlyFromGroup", false));
+
+        Set<Integer> allowedParamIds = Utils.toIntegerSet(form.getPermission().get("parameterIds"));
+        if (!allowedParamIds.isEmpty())
+            parameterListWithDir.getSecond().removeIf(cp -> !allowedParamIds.contains(cp.getParamId()));
 
         form.setResponseData("group", parameterListWithDir.getFirst());
-        form.setResponseData("contractParameterList",
-                filterParameterList(parameterListWithDir.getSecond(), requiredParameterIds));
+        form.setResponseData("contractParameterList", parameterListWithDir.getSecond());
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/parameter_list.jsp");
     }
@@ -224,8 +209,7 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/contract/parameter_editor.jsp");
     }
 
-    public ActionForward parameterUpdate(DynActionForm form, ConnectionSet conSet)
-            throws BGMessageException {
+    public ActionForward parameterUpdate(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int paramBillingId = form.getParamInt("paramId");
