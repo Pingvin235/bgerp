@@ -92,7 +92,7 @@ git config core.ignorecase true
 
 [[checkout-reader]]
 ==== Read-only access
-For only readers, including <<../kernel/extension.adoc#custom, custom>> developers.
+For only readers, including <<../kernel/extension.adoc#custom, Custom>> developers.
 
 ----
 git clone https://github.com/Pingvin235/bgerp BGERP

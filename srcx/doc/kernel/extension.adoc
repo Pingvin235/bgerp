@@ -27,7 +27,7 @@ Develop own <<custom, Custom>> plugins using Java, JSP and full-featured IDE.
 Переданный код постоянно находится "под присмотром", учитывается при изменениях продукта, равно как и используемые библиотеки.
 
 [[config]]
-== Configuration
+== Config
 [[jexl]]
 === JEXL
 JEXL - short expression's language.
@@ -139,7 +139,7 @@ Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugi
 That code has equal possibilities as the native application's, can use API and connected libraries.
 After compilation *Administration / Custom* this code is persisted to `lib/app/custom.jar`.
 
-image::_res/custom.png[width="800"]
+image::_res/custom/custom.png[width="800"]
 
 Custom Java classes are dynamically reloaded after each successfull compilation.
 For that all the Custom Java sources must be located in *org.bgerp.plugin.custom* package or its subpackages.
@@ -150,6 +150,16 @@ Subdirectory `custom/webapps` is searched *before* `webapps` from root directory
 and should be used for placing custom JSP and JS files. Both types are applied immediately after change.
 
 CAUTION: Each file from the original `webapps` may be "replaced" for Web server. That can brake built-in functionality.
+
+For comfortable development and reducing mistakes is strongly recommended editing your Custom in full-futured <<../project/index.adoc#ide, IDE>>.
+<<../project/index.adoc#checkout, Check>> the BGERP project out of GIT repository and make `custom` directory inside.
+
+image::_res/custom/project.png[width="800"]
+
+After modification the changed files have to be copied to `custom` directory of the running server.
+For version control of a Custom, can be used <<#custom-git, GIT>> system.
+
+NOTE: Not currently used custom directories in project can be renamed with underscore prefix, like `_custom_atel` on the screen above
 
 [[custom-l10n]]
 === Localization
@@ -165,7 +175,7 @@ as JAR files in `lib/ext` are overwritten during libraries update.
 === GIT
 Storing custom sources in a GIT repository allows you to track all made changes and always have backup copy of your work.
 
-drawio:_res/custom.drawio[]
+drawio:_res/custom/git.drawio[]
 
 [[custom-git-repo]]
 ==== Repository
@@ -176,7 +186,7 @@ Please, contact your Consultant for getting such ones.
 
 [[custom-git-workflow]]
 ==== Workflow
-Content of the directory may be stored using GIT and developed in full-featured <<../project/index.adoc#ide, IDE>>.
+Content of the `custom` directory may be stored using GIT and developed in full-featured <<../project/index.adoc#ide, IDE>>.
 
 The `custom` directory is ignored in the root directory of the <<../project/index.adoc#checkout-reader, project>>,
 and has to be checked out independently, e.g.:

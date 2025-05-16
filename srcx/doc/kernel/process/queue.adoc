@@ -590,11 +590,12 @@ param:<paramId>
 * *notMode* - *1*, если необходимо искать процессы без привязки.
 
 |linkObject
-|Привязка процесса, в отличие от linkedObject - код объекта вводится пользователем
-|Параметр *whatFilter* может принимать значения:
+|Привязка процесса, в отличие от linkedObject, значения для фильтра вводится пользователем
+|Обязательные параметры:
 [square]
-* *id* - код привязанного объекта;
-* *title* - наименование.
+* *title* - filter's title;
+* *objectType* - type of linked objects;
+* *whatFilter* - what to filter:  *id* - ID of linked object, *title* - its title.
 
 Пример фильтра по коду темы HelpDesk:
 ----
@@ -602,14 +603,6 @@ filter.{@inc:cnt}.type=linkObject
 filter.{@cnt}.objectType=bgbilling-helpdesk:bitel
 filter.{@cnt}.whatFilter=id
 filter.{@cnt}.title=Тема HelpDesk
-----
-
-Пример фильтра по наименованию устройства.
-----
-filter.{@inc:cnt}.type=linkObject
-filter.{@cnt}.objectType=bgbilling-device:bitel
-filter.{@cnt}.whatFilter=title
-filter.{@cnt}.title=Устройство
 ----
 
 |groups
