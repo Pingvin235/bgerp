@@ -29,6 +29,7 @@ import org.bgerp.cache.UserCache;
 import org.bgerp.cache.UserGroupRoleCache;
 import org.bgerp.dao.message.process.MessagePossibleProcessSearch;
 import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessCloneDAO;
 import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.dao.process.ProcessMessageDAO;
@@ -874,6 +875,7 @@ public class ProcessAction extends BaseAction {
             .withOpen(form.getParamBoolean("open", null))
             .withType(form.getParamValues("typeId"))
             .withExecutor(Set.of(form.getUserId()))
+            .order(Order.CREATE_DT_DESC)
             .search(new Pageable<>(form));
 
         var processes = new Pageable<Process>().withoutPagination();
