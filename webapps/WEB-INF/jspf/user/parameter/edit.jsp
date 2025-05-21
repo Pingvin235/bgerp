@@ -133,7 +133,7 @@
 					<tr class="in-pt05 in-pl05">
 						<td colspan="2">
 							<input type="text" name="comment" value="${address.comment}"
-								placeholder="${l.l("Комментарий")}" title="${l.l("Комментарий")}" style="width: 100%" />
+								placeholder="${l.l('Comment')}" title="${l.l('Comment')}" style="width: 100%" />
 						</td>
 					</tr>
 				</table>
