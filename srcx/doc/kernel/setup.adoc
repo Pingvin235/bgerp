@@ -120,6 +120,9 @@ event.process.timeout=5000
 # maximal size of uploaded file in MB, default is 3
 #file.upload.max.size.mb=3
 
+# [[config-update-url]] <<install.adoc#update-url, update url>>, default is https://bgerp.org
+#update.url=https://bghelp.ru/bgerp
+
 # remove log/access logs older than days, default is 60
 #log.access.max.days=60
 

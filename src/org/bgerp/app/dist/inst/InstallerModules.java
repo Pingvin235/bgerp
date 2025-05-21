@@ -28,7 +28,7 @@ import ru.bgcrm.util.Utils;
 public class InstallerModules {
     private static final Log log = Log.getLog();
 
-    private static final String VERSION_URL = Utils.getSystemProperty("version.url", App.URL + "/version");
+    private static final String VERSION_URL = App.UPDATE_URL + "/version";
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     /** App version for 'update' module. */

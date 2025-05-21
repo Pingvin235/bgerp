@@ -10,8 +10,8 @@ Minimal system requirements for running a server with BGERP + MySQL are as follo
 * CPU core equal to Intel x86 500MHz;  1GHz recommended;
 * 512MB RAM; 1GB recommended.
 
-Мы рекомендуем вам установку в Docker контейнер, как наиболее простой способ запустить систему для изучения.
-В дальнейшем данные могут быть перенесены на Linux сервер для полноценной эксплуатации.
+We recommend that you install in a Docker container as the easiest way to get the system up and running for study.
+The data can be migrated after to Linux server(s) for regular operation under production load.
 
 [[method-docker]]
 === Docker
@@ -317,17 +317,22 @@ crontab -e
 
 [[update]]
 == Update
+
+[[update-url]]
+=== URL
+If access to the default update server https://bgerp.org is restricted, it is possible to change the URL via <<setup.adoc#config-update-url, configuration>>.
+
 [[update-version]]
 === Version
-Система версионирования продукта описана на нашем link:https://bgerp.org/product/#cd[веб-сайте].
-Следуя данному руководству, вы установите его актуальный *Stable Release*.
-При последующей эксплуатации рекомендуется обновляться только при выпуске очередного подобного релиза, о чём приложение информирует уведомлением в интерфейсе.
-Однако в момент первоначального запуска системы предпочтительно использовать *Master Release* для получения наиболее свежей функциональности.
+The product versioning system is described on our link:https://bgerp.org/product/#cd[website].
+By following this guide you will install its current *Stable Release*.
+For subsequent use, it is recommended to update only when the next such release is published, which the application informs you about by a notification in the interface.
+However, it is preferable to use the *Master Release* at the time of initial system startup to get the latest functionality.
 
 IMPORTANT: Prior to updating, make sure to examine link:https://bgerp.org/ru/#install[Release Notes], as these may contain important information or update instructions.
 
 [[update-installer-ui]]
-=== Interface
+=== UI
 You can use <<setup.adoc#status, Admin / Application / Status>> tool to retrieve application's current version and the list of available releases.
 All operations are implicitly using <<update-installer, console utility>> described below.
 
@@ -340,7 +345,7 @@ The following <<update-installer, command>> is executed:
 ./backup.sh && ./installer.sh update(f) && ./erp_restart.sh
 ----
 
-*Update on change* section - updates to a <<../project/workflow.adoc#build-change, Change>> package identified by *CHANGE_ID*.
+*Update on change* section - updates to a <<../project/workflow.adoc#build-change, Changes>>, identified by numeric *CHANGE_ID*. The *Master Version* is also available here, as the zero-change.
 The following  <<update-installer, command>> is executed:
 [source, sh]
 ----
@@ -356,25 +361,25 @@ Executing *Update* after *Update on change* operation will bring application ser
 === Console
 [CAUTION]
 ====
-Перед установкой обновления всегда делайте резервную копию программы при помощи скрипта *backup.sh*
+Before installing an update, always make a backup copy of the program using the `backup.sh` script.
 [square]
-* При указании параметра *db* скрипт создаст резервную копию БД, данные для подключения к серверу MySQL берутся из файла *bgerp.properties*
-* Резервные копии сохраняются в папке *backup* в файлах с форматом имени *год-месяц-дата-время(.db).zip*, наличие подстроки *db* означает, что в архиве есть дамп БД
+* If the *db* parameter is specified, the script will create a backup copy of the database, the data for connecting to the MySQL server is taken from the `bgerp.properties` file.
+* Backups are saved in the `backup` folder in files with the name format *year-month-date-time(.db).zip*, the presence of the *db* substring means that there is a database dump in the archive.
 ====
 
-Для обновления вызовите команду:
+To update, invoke the command:
 [source, sh]
 ----
 ./installer.sh update
 ----
 
-Для обновления системы на иную версию (не 3.0) вызовите команду:
+To upgrade the system to a different *major* version, like *3.0*, invoke the command:
 [source, sh]
 ----
 ./installer.sh update <version>
 ----
 
-например:
+For example:
 [source, sh]
 ----
 ./installer.sh update 3.0
@@ -444,6 +449,6 @@ To inform about maintanence beginnging and cancelling popup <<news.adoc#, news>>
 == Demo System
 The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest <<update-version, Master Release>>
 of software and resets to initial state every 3rd hour.
-Поскольку в системе приведены примеры всего функционала продукта, она может использоваться для изучения программы с проверкой конфигураций.
-В случае длительных экспериментов для избежания потери сделанных изменений мы рекомендуем вам использовать <<method-docker, Docker Container>>.
-Более подробное описание *Demo System* доступно в <<../project/workflow.adoc#accept, Workflow>>.
+Since the system provides examples of the whole product functionality, it can be used to study the program with checking configurations.
+In case of long-term experiments we recommend you to use <<method-docker, Docker Container>> to avoid losing the changes made.
+A more detailed description of the *Demo System* is available in <<../project/workflow.adoc#accept, Workflow>>.
