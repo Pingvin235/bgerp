@@ -1,1 +1,1 @@
-A: Show attachments in message processing
+A: Available attachments in message processing

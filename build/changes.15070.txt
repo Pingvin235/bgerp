@@ -1,1 +1,1 @@
-A: Do not copy files and restart after failed SQL update
+A: Safe app update
