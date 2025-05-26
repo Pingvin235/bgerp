@@ -201,5 +201,5 @@ For both modes for each sent message has attached a file named `History.txt`, co
 * used Email address
 * all message history for second case
 
-For the second mode in message signature also added process link to <<../../../kernel/interface.adoc#open-process, open interface>>, case it is configured.
+For the second mode in message signature also added process link to <<../../../kernel/iface.adoc#open-process, open interface>>, case it is configured.
 

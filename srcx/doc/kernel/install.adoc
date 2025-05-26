@@ -33,7 +33,7 @@ Use the following command to remove container:
 docker rm -f bgerp
 ----
 
-The running container is available via <<interface.adoc#, web-interface>>. Use <<nginx, NGINX>> for restricting access from an outside network.
+The running container is available via <<iface.adoc#, web-interface>>. Use <<nginx, NGINX>> for restricting access from an outside network.
 
 [[method-docker-volumes-inside]]
 ==== Data volumes Inside the Container (Win and *NIX)
@@ -236,7 +236,7 @@ Step 8. Use *erp_start.sh/erp_stop.sh* for application start and termination.
 *erp_status.sh* will show the current status of the application.
 Upon starting, check *log/bgerp.log* and *log/bgerp.out* for errors.
 
-Once running, application will be available via <<interface.adoc#, Web-interface>>.
+Once running, application will be available via <<iface.adoc#, web-interface>>.
 
 [[method-linux-systemd]]
 ==== SystemD
@@ -249,12 +249,12 @@ systemctl enable bgerp
 
 [[nginx]]
 ==== NGINX
-Typically the application is running in Intranet, access to restricted <<interface.adoc#, interfaces>> from outside as well as SSL may be organized using link:http://nginx.org/en/docs[NGINX].
+Typically the application is running in Intranet, access to restricted <<iface.adoc#, interfaces>> from outside as well as SSL may be organized using link:http://nginx.org/en/docs[NGINX].
 
 [[nginx-example]]
 ===== Example
 The application is runnuning on internal host *erp.int.bitel.ru*.
-Outside on host *erp.bitel.ru* is available only <<interface.adoc#open, open interface>> http://erp.bitel.ru/open
+Outside on host *erp.bitel.ru* is available only <<iface.adoc#open, open interface>> http://erp.bitel.ru/open
 The configuration may be typically placed in file `/etc/nginx/conf.d/erp.bitel.ru`
 ----
 server {
@@ -439,11 +439,11 @@ The replaced file instead of real overwriting just renamed with *.bak.<TimeInSec
 The tool *Admin / Application / Maintainence* allows to prevent data loss of working users during application restarts,
 required for <<update, updates>> and other procedures.
 
-image::_res/install/maintanence.png[width="800"]
+image::_res/install/maintenance.png[width="800"]
 
-When the maintanence mode is started, none of users, except the started one is able to log in the system.
+When the maintenance mode is started, none of users, except the started one is able to log in the system.
 For all the already logged in users logging in blocked after a some time, used for storing intermediate work results.
-To inform about maintanence beginnging and cancelling popup <<news.adoc#, news>> are sent.
+To inform about maintenance begin and stop a popup <<tool.adoc#news, news>> has been sent.
 
 [[demo]]
 == Demo System

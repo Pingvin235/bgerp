@@ -381,7 +381,7 @@ NOTE: Only child related processes can be created in a this way.
 === Process Card
 Process card shows in UI process properties and parameters. In the top left area there is a <<setup-type-title, configurable process title>>, click to it causes reload of the card.
 Clicking to the cross right of the title closes the card.
-When a process wasn't closed, but you moved away it to a different UI place, the process title will stay in <<../interface.adoc#user-object, buffer>> that allows you quickly going back to it.
+When a process wasn't closed, but you moved away it to a different UI place, the process title will stay in <<../iface.adoc#user-shell-buffer, buffer>> that allows you quickly going back to it.
 
 image::_res/card.png[width="800"]
 
@@ -484,7 +484,7 @@ After pressing the *1* button, the Link existing process editor is opened.
 image::_res/related/add_existing.png[]
 
 There are suggested to be linked already existing processes, matching to the selected category and not related there yet.
-Prior to horizintal black line are shown processes opened in <<../interface.adoc#user-object, buffer>>.
+Prior to horizintal black line are shown processes opened in <<../iface.adoc#user-shell-buffer, buffer>>.
 Needed processes can be quickly filtered out by description of ID, checked and linked by pressing *OK* button.
 
 IMPORTANT: Is is not allowed to make cyclic relations with type *Link* or *Made*. On attempt to do that you get the *Cyclic dependency* error.

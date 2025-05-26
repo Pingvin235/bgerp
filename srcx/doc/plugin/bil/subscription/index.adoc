@@ -134,7 +134,7 @@ link:../../../../itest/org/bgerp/itest/plugin/bil/subscription/SubscriptionTest.
 
 [[setup-price-calculator]]
 === Price Calculator
-The price calculator is implemented as an <<../../../kernel/interface.adoc#open-process-queue, open process queue>> with <<../../../kernel/process/queue.adoc#processor-open, processor>>.
+The price calculator is implemented as an <<../../../kernel/iface.adoc#open-process-queue, open process queue>> with <<../../../kernel/process/queue.adoc#processor-open, processor>>.
 The queue has to be assigned to <<#setup-process-type-product, Product>> process type, and have following processor in configuration:
 [source]
 ----

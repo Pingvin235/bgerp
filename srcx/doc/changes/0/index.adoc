@@ -1,4 +1,4 @@
-= CHANGES
+= Release Notes
 :toc:
 
 == BREAKING
@@ -16,7 +16,7 @@ Data from existing installations should be <<../../kernel/mysql_migration.adoc#,
 === Safe update
 Do not copy files and perform restart if SQL update failed.
 
-image::_res/15070_failed_update_message.png[width='800']
+image::_res/15070_failed_update_message.png[width="800"]
 
 Using <<../../kernel/install.adoc#update-url, mirror>> update server in case of restrictions.
 
@@ -49,7 +49,7 @@ image::_res/15144_process_message_create_action.png[]
 image::_res/15142_process_title_queue_column.png[]
 
 === <<../../plugin/asterisk/index.adoc#usage-outgoing, Outgoing Calls>> (Asterisk)
-image::_res/14536_outgoing_call.png[width='800']
+image::_res/14536_outgoing_call.png[width="800"]
 
 === <<../../plugin/svc/dba/index.adoc#usage-db, DB structure cleanup>> (DBA)
 Unused DB tables and columns are being renamed during update.
@@ -86,4 +86,4 @@ image::_res/15040_email_edit_new.png[]
 === Increased size of image preview
 image::_res/12236_preview_before.png[]
 
-image::_res/12236_preview_new.png[width='800']
+image::_res/12236_preview_new.png[width="800"]

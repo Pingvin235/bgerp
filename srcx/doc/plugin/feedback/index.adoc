@@ -3,7 +3,7 @@
 
 [[about]]
 == About
-The plugin provides adding messages in <<../../kernel/interface.adoc#open, Open>> interface.
+The plugin provides adding messages in <<../../kernel/iface.adoc#open, Open>> interface.
 
 [[setup]]
 == Setup

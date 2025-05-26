@@ -393,7 +393,7 @@ rowConfig.1.expressionRow=<configRow>
 * *colX* - HTML со значением столбца с кодом X.
 
 Пример настройки отображения заголовка таблицы и строк с помощью JEXL
-(выражения можно более коротко оформить с помощью <<../interface.adoc#user-config-multiline, многострочных значений переменных>> конфигураций с JEXL выражениями):
+(выражения можно более коротко оформить с помощью <<../iface.adoc#user-config-multiline, многострочных значений переменных>> конфигураций с JEXL выражениями):
 
 ----
 column.1.title=ID
@@ -870,7 +870,7 @@ processor.6.doExpression=deleteGroups(process.getGroupIds())
 
 [[processor-open]]
 ==== Open Interface
-For <<../interface.adoc#open, open>> interface definition of processor is easier, example:
+For <<../iface.adoc#open, open>> interface definition of processor is easier, example:
 ----
 processor.{@inc:cnt}.iface=open
 processor.{@cnt}.page=/WEB-INF/jspf/open/plugin/custom.bitel/calculate_processor.jsp
@@ -942,7 +942,7 @@ image::_res/queue_saved_filters.png[]
 Для корректировки сохранённого фильтра следует извлечь его в полный посредством *Ещё - Фильтр - Извлечь в полный*,
 после чего скорректировать и сохранить, удалив впоследствии старый фильтр. Таким же образом можно оценить, какие параметры у сохранённого фильтра.
 
-Действия *Ещё - Фильтр - Счётчик на панель* / *Фильтр - Счётчик убрать с панели* позволяют выделить число <<../interface.adoc#, счётчика>> на панель задач BGERP
+Действия *Ещё - Фильтр - Счётчик на панель* / *Фильтр - Счётчик убрать с панели* позволяют выделить число <<../iface.adoc#, счётчика>> на панель задач BGERP
 с определённым цветом и всегда иметь актуальную информацию о важных количественных параметрах процессов.
 На снимке экрана выше процессы фильтра *Нет исполнителя* вынесены на панель с красным цветом.
 

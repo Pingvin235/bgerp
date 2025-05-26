@@ -1,161 +1,175 @@
 = Interface
 :toc:
+:toclevels: 5
 
-The program has the following types of Web-interface:
+The program has the following types of web-interface:
 [square]
-* <<user, *user*>> - is the main one, for normal PC with mouse and keyboard;
-* <<mobile, *mobile*>> - restricted version for for mobile devices;
-* <<open, *open*>> - for accessing from outside to open services without authentication.
+* <<user, *User*>> - is the main one, for normal PC with large screen, mouse and keyboard;
+* <<mobile, *Mobile*>> - restricted version for for mobile devices;
+* <<open, *Open*>> - for accessing from outside to open services without authentication.
 
 [[server]]
 For calling of the running system use URL: http://<host>:<port> where:
 [square]
-* *<host>* - IP address of the server;
+* *<host>* - host name or IP address of the server;
 * *<port>* - port, by default is *9088*.
 
-On the opened page may be chosen <<user, user>> or <<mobile, mobile>> interfaces.
+On the opened page may be chosen <<user, User>> or <<mobile, Mobile>> interfaces.
 
-image::_res/iface_login.png[width="600"]
+image::_res/iface/choice.png[width="800"]
 
-Configuration process has to be started from *user* interface.
+Configuration process has to be started from <<user, User>> interface.
+
+[[user]]
+== User
+The interface is <<server, available>> by suffix */user*. This is the main application's UI.
 After creation database has only one superuser *admin* with password *admin*.
 
 IMPORTANT: Change them after the first log in. The user with ID=1 is a special one, <<setup.adoc#user, permissions>> are ignored for him.
 
-image::_res/i0083.png[]
+[[user-shell]]
+=== Shell
 
-[[common]]
-== Common
+[[user-shell-menu]]
+==== Menu
+The green button in the top-left corner opens drop-down *Menu* for running <<user-content-tool, tools>>,
+allowed for the current <<setup.adoc#user, user>>.
 
-[[common-button]]
-=== Buttons
+image::_res/iface/user/menu.png[width="800"]
+
+[[user-shell-toolbar]]
+==== Toolbar
+Each running <<user-content-tool, tool>> has a button on toolbar, the active tool marked with blue background.
+Placing mouse pointer over a toolbar button <<user-element-tip, shows>> full menu path to the related tool, *Processes / Process Queues* on the screen.
+
+image::_res/iface/user/toolbar_news_queue.png[width="800"]
+
+No needed tools can be closed by click to grey crosses on right toolbar buttons, or by right-click popup menu on active tool button.
+
+image::_res/iface/user/toolbar_active_rc_menu.png[]
+
+[[user-shell-notification]]
+==== Notifications
+Right to the toolbar can be displayed one or multiple user-configured <<process/queue.adoc#iface, process counters>>,
+showing quantity interesting processes, *70* for the screen. After is placed number of notifications, blinking in case of changing it.
+In the drop-down menu, opened after mouse click on notification counter, presented separated parts of the number, occurred in different tools.
+Click to the menu item opens the mentioned tool with unread news or messages.
+
+image::_res/iface/user/notifications.png[]
+
+[[user-shell-account]]
+==== Account
+In the top right corner has shown the name of the current user.
+Click on it opens drop-down menu with options for see own profile, processes or terminate the session.
+
+image::_res/iface/user/account.png[]
+
+[[user-shell-topline]]
+==== Topline
+Shows the title from the active object or tool, click on that refreshes the active content area.
+
+NOTE: The prefix *+++O+++* points to <<open, open>> link of the active content.
+
+In center of the topline, right from the title, placed so-named *State* area, there can be the related documentation link with *?* char.
+
+image::_res/iface/user/topline_config.png[]
+
+Or string representing the current state of active content.
+
+image::_res/iface/user/topline_config_editor.png[width="800"]
+
+There is also may be placed some controls of the active tool.
+
+image::_res/iface/user/topline_queue.png[width="800"]
+
+[[user-shell-buffer]]
+==== Buffer
+The Buffer contains list of inactive <<user-content-object, objects>>, previously being opened and not explicitly closed by switching activity to another object or tool.
+The size of the buffer is limited, last placed object placed on the top, others are shifted down, closing the oldest if the limit size has been reached.
+
+image::_res/iface/user/buffer.png[]
+
+Objects in buffer are used for quickly re-open them or object selection in some operations, like link creation.
+
+image::_res/iface/user/buffer_process_link_add.png[]
+
+No more needed objects in buffer may be closed by click on grey crosses at right area.
+
+[[user-content]]
+=== Content
+
+[[user-content-tool]]
+==== Tool
+A Tool acts like an application inside the application and allows perform different data manipulation.
+Each tool can be opened only once inside a browser window, re-opening just makes it active.
+Beside of <<user-shell-menu, menu>>, switching active tool may be performed by click on an inactive <<user-shell-toolbar, toolbar>> button, or using *Back* and *Forward* browser navigation commands.
+The last option is possible, because any tool has an unique location URL, e.g.: */user/search*, */user/news*, */user/process/queue*
+
+image::_res/iface/user/tool_search_and_other.png[width="800"]
+
+[[user-content-object]]
+==== Object
+An Object represents a set of related data: <<process/index.adoc#, process>>, <<customer.adoc#, customer>>, user profile or some another from a plugin.
+Unlike tools, many objects of *the same type* can be opened in same time, their ID ends the object's browser URL after *#* char.
+
+image::_res/iface/user/object.png[width="800"]
+
+In active content area can be placed only one tool, or an object, like on the screen above. Inactivated objects placed it <<user-shell-buffer, buffer>>.
+
+[[user-element]]
+=== Element
+
+[[user-element-button]]
+==== Button
 Button colors have the following meanings.
 [cols="a,a", options="header"]
 |===
 |Button view
 |Functionality
 
-|image::_res/i0124.png[]
+|image::_res/iface/user/button_add.png[]
 |Greens call an editor for adding new entity.
 
-|image::_res/i0125.png[]
+|image::_res/iface/user/button_send.png[]
 |Browns send request to server.
 
-|image::_res/i0127.png[]
-|Progress indicator.
+|image::_res/iface/user/button_send_progress.png[]
+|Shown progress indicator during server processing.
 
-|image::_res/i0126.png[]
+|image::_res/iface/user/button_white.png[]
 |Whites do all other actions.
 |===
 
-[[user]]
-== User
-The interface is <<server, available>> by suffix */user*.
+[[user-element-tip]]
+==== Tooltip
+When hovering mouse pointer on some interface elements, additional information is shown.
+As example on <<user-shell-toolbar, toolbar>> buttons displayed a full menu path,
+for object <<user-shell-buffer, buffer>> shown just a short hint.
 
-Основные элементы обычного интерфейса пользователя.
+image::_res/iface/user/tip_buffer.png[]
 
-image::_res/i0082.png[]
+For input fields there might be the logic's details.
 
-[square]
-* *1* - кнопка вызова меню;
-* *2* - панель запущенных оснасток;
-* *3* - буфер открытых объектов;
-* *4* - пример запущенной оснастки.
+image::_res/iface/user/tip_input.png[]
 
-Меню иерархическое, позволяет запускать оснастки и выполнять различные действия в системе.
-Пункты меню могут быть скрыты, если соответствующие права запрещены <<setup.adoc#user, пользователю>>.
+In many cases these tips contain entity IDs.
 
-image::_res/i0120.png[]
-
-// Перевод: Tool
-[[user-tool]]
-=== Оснастка
-Приложение для манипулирования данными
-Оснастка может быть запущена только в одном экземпляре, похожа на программу в операционной системе.
-
-[[user-object]]
-=== Объект
-Блок данных, например процессы. Все в объекты закрываемые результате перехода на другие объекты либо оснастки помещаются
-в буфер на первую позицию (поведение по-умолчанию, но может быть изменено). Ёмкость буфера ограничена, при его переполнении нижние объекты удаляются.
-Явно закрытые крестом объекты в буфер не попадают. Для обновления карточки открытого объекта необходимо кликнуть мышью по наименованию объекта.
-
-Назначение буфера сходно с буфером обмена операционной системы: на находящиеся в нём объекты можно ссылаться в различных редакторах.
-Кроме того, буфер позволяет осуществить быстрый переход на объекты, с которыми пользователь работал последнее время.
-
-=== Всплывающие подсказки
-При наведении и удержании мыши на некоторых элементах интерфейса отображается всплывающая подсказка, предоставляющая дополнительные сведения.
-
-image::_res/i0123.png[]
-
-// Перевод: Top line, Header line?
-[[user-top-line]]
-=== Строка заголовка
-Отображает название текущей открытой оснастки либо объекта. Может содержать ссылку на раздел документации с симоволом вопроса.
-Клик по названию в строке заголовка обновляет открытый объект или вкладку.
-
-image::_res/iface_topline.png[]
-
-[[user-notification]]
-=== Уведомления
-В правом верхнем углу перед ссылкой на профиль отображаются настроенные для выведения <<process/queue.adoc#iface, счётчики>> процессов.
-Клик по счётчику открывает соответствующую очередь процессов и сохранённый фильтр. Таким образом можно всегда видеть перед глазами важнейшие числа.
-
-Далее отображается суммарное число необработанных сообщений и непрочитанных новостей. При изменении их количества число начинает мигать.
-Клик по пункту выпадающего меню переводит соответсвенно в оснастку новостей либо сообщений.
-
-image::_res/iface_notifications.png[]
-
-=== Профиль
-В правом верхнем углу отображается имя текущего пользователя. При нажатии на него открывается меню, ведущее в профиль.
-
-image::_res/i0121.png[]
-
-В профиле пользователь имеет возможность изменить логин с паролем, <<setup.adoc#param, параметры>> своего аккаунта. В нижней части редактора - специфичные для данного
-пользователя нюансы поведения интерфейса, которые можно изменить.
-
-Значения по-умолчанию опций интерфейса доступны для изменения в конфигурации.
-Для этого в с помощью инспектора кода (FireBug, встроенное средство браузера, либо просмотр исходного кода фрагмента) узнать имя hidden поля параметра и значений.
-Например, для свойства "Порядок объектов в буфере" это будет:
-[source, html]
-----
-<input name="iface_buffer_behavior" value="2" type="hidden">
-...
-<li selected="selected" value="1">Подсветка строки / клик</li>
-<li value="0">Кнопка со звёздочкой</li>
-----
-
-Заменой нижнего подчёркивания на точки получается имя значения по-умолчанию данной опции для конфигурации. В данном случае, установка:
-----
-iface.buffer.behavior=2
-----
-
-Включит для всех пользователей редактирование с помощью отдельной кнопки со звёздочкой как поведение по-умолчанию.
-
-[[user-id]]
-=== Entity IDs
+[[user-element-tip-id]]
+===== Entity IDs
 IDs are unique numbers, used for identification entities over the system.
-They are widly used in <<#user-config, configurations>>.
+They are widely used in <<#user-config, configurations>>.
 
-In admin tools the IDs are shown normaly as separated table column.
+In admin tools the IDs are shown normally as separated table column.
 
 image::_res/id/param_dir.png[]
 
-For reqular users the are hidden as HTML tooltips, shown only when mouse is over the item.
+For regular users the are hidden as HTML tooltips, shown only when mouse is over the item.
 
 image::_res/id/type_id_title.png[]
 
 image::_res/id/user_id_title.png[]
 
-[[user-session-log]]
-=== User Session Log
-This tool may is available in *Log* menu and allows collecting session logs, which may be requested by developers.
-
-image::_res/user_session_log.png[width="800"]
-
-Once enabled the tool is collecting logs starting from *DEBUG* level for the current user session only,
-that allows easier observe possible problems.
-
-The log is refreshed any time when it opened back.
+// TODO: Blur on data output
 
 [[user-config]]
 === Конфигурации
@@ -233,7 +247,7 @@ END
 Значение value будет *Line1Line2*. Переносы строк не участвуют в склеивании. Вместо *END* можно использовать любую строку.
 
 [[mobile]]
-== Mobile
+== Мобильный
 The interface is <<server, available>> by suffix */usermob*.
 
 В текущей версии мобильный интерфейс пользователя предоставляет доступ к мобильной очереди процессов.
@@ -243,7 +257,7 @@ The interface is <<server, available>> by suffix */usermob*.
 * значения колонок со ссылками (открытие контрагент, пользователя) отображаются простым текстом, как при выводе очереди на печать;
 * нет постраничного деления, предполагается, что фильтр ограничивает весь необходимый набор процессов для исполнителя.
 
-image::_res/iface_mob.png[]
+image::_res/iface/mob/iface.png[]
 
 Для того, чтобы очередь процессов была считалась мобильной, в конфигурации её должно быть указано:
 ----
@@ -273,7 +287,7 @@ createAllowedProcessList=72:Подключение;74:Подключение1
 
 В данном примере 72 и 74 - коды процессов, для каждого создаваемого типа будет отображена своя кнопка.
 
-image::_res/iface_mob_create.png[]
+image::_res/iface/mob/create.png[]
 
 Открытие процесса происходит нажатием в любое место строки таблицы. При открытии процессе также вызывается мастер. Но не создания а редактирования.
 Пример открытого процесса со следующей конфигурацией мастера:
@@ -285,7 +299,7 @@ wizard.step.2.title=Описание
 wizard.step.2.class=SetDescriptionStep
 ----
 
-image::_res/iface_mob_wizard.png[]
+image::_res/iface/mob/wizard.png[]
 
 [[open]]
 == Open
@@ -309,7 +323,7 @@ It is recommended to make separated included configuration for configuring open 
 ----
 
 [[open-user]]
-=== User profile
+=== User Profile
 For enabling showing user specific information by URL *<OPEN_URL>/profile/<USER_ID>*:
 [arabic]
 . create user <<setup.adoc#param, parameter>> with type *list* and value *1=Yes*, ID of that is *<ENABLE_PARAM_ID>*;

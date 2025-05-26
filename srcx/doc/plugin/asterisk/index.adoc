@@ -291,7 +291,7 @@ On hover mouse pointer over param *phone* values the plugin shows popup menu for
 
 image::_res/outgoing_call_popup.png[width="800"]
 
-NOTE: The popup menu isn't shown if parameters were edited after opening process, for this case <<../../kernel/interface.adoc#user-top-line, refresh>> the process card.
+NOTE: The popup menu isn't shown if parameters were edited after opening process, for this case <<../../kernel/iface.adoc#user-shell-topline, refresh>> the process card.
 
 The calls itself are passed to OS application with *tel:* link.
 

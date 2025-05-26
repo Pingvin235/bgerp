@@ -15,7 +15,7 @@ Make sure the plugin is enabled in <<../../../kernel/setup.adoc#config, configur
 
 [[usage]]
 == Usage
-Open URL `/open/party` in <<../../../kernel/interface.adoc#open, Open>> interface.
+Open URL `/open/party` in <<../../../kernel/iface.adoc#open, Open>> interface.
 
 image::_res/party_create.png[]
 

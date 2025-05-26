@@ -40,7 +40,7 @@ A message can be created as not ready for sending first.
 
 image::_res/message_edit.png[width="800"]
 
-Управление подпиской производится клиентами через <<../../kernel/interface.adoc#open, открытый интерфейс>> системы,
+Управление подпиской производится клиентами через <<../../kernel/iface.adoc#open, открытый интерфейс>> системы,
 адрес оканчивается на *../open/dispatch*.
 
 image::_res/dispatch_open.png[width="800"]

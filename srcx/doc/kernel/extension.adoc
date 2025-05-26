@@ -41,7 +41,7 @@ Cheat Sheets:
 * operator *[]* - creates List, *{}* - Set;
 * function *new* - creates object of class, the name of it passed as the first parameter;
 * operators for checking presence values in collections: *=~* , *!~*;
-* expression can be <<interface.adoc#user-config-multiline, multiline>>, the result if exists, passed with operator *return*.
+* expression can be <<iface.adoc#user-config-multiline, multiline>>, the result if exists, passed with operator *return*.
 
 References:
 [square]
@@ -120,7 +120,7 @@ Samples, how to enable loggers wanted package or classes to *log/bgerp.all.log* 
 
 В конфигурационном файле возможно изменять формат информации в файле, фильтр по классам и другие параметры логирования.
 
-To observe only the logs of the current user session, use <<interface.adoc#user-session-log, User Session Log>>.
+To observe only the logs of the current user session, use <<tool.adoc#session-log, User Session Log>>.
 
 Ссылки:
 [square]

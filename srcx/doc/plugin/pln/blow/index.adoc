@@ -43,7 +43,7 @@ Where:
 * *<queueId>* - primary data <<#setup-queue, process queue>> ID;
 * *<groupIds>* - comma-separated process execution groups IDs, by default all groups are taken;
 * *<roleIds>* - comma-separated process execution <<../../../kernel/process/index.adoc#usage-card-executor, roles>> IDs, by default only role *0* is taken;
-* *<openUrl>* - board name for publishing on <<../../../kernel/interface.adoc#open, open interface>> with URL  *../open/blow/<openUrl>*.
+* *<openUrl>* - board name for publishing on <<../../../kernel/iface.adoc#open, open interface>> with URL  *../open/blow/<openUrl>*.
 
 *<expressionCell>* contains <<../../../kernel/extension.adoc#jexl, JEXL>> expression for evaluating of cell text.
 In the expression context beside default variables and *process* are passed queue column values as variables *colX*, where *X* is a column ID.

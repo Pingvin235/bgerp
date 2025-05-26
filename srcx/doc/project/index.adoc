@@ -389,7 +389,7 @@ Date plus time, second precision.
 
 [[arch]]
 == Architecture
-BGERP is a standalone Java application with a dynamic Web-interface.
+BGERP is a standalone Java application with a dynamic web-interface.
 When developing, you can <<run, launch>> it directly from IDE.
 
 Figure below illustrates a request processing pipeline:
@@ -510,7 +510,7 @@ File containing script: link:../../../webapps/js/pl.blow.js[webapps/js/pl.blow.j
 
 [[plugin-ui-menu]]
 ===== Menu items
-Menu item in <<../kernel/interface.adoc#user, user>> interface.
+Menu item in <<../kernel/iface.adoc#user, user>> interface.
 
 Extension points definition within <<plugin-class, Plugin class>>:
 [snippet, from="Endpoint.USER_PROCESS_MENU", to=",", remove-leading="            "]
@@ -522,12 +522,12 @@ Adding a menu item using JSP tag: link:../../../webapps/WEB-INF/jspf/user/plugin
 ==== Action
 Plugin <<action, actions>> classes, if used, have to be declared in *PLUGIN_PACKAGE.action* package.
 
-`action.xml` with <<action-permission, permission tree>> for <<../kernel/interface.adoc#user, user>> interface actions has to be located in *PLUGIN_PACKAGE*.
+`action.xml` with <<action-permission, permission tree>> for <<../kernel/iface.adoc#user, user>> interface actions has to be located in *PLUGIN_PACKAGE*.
 
 JSP templates:
 [square]
-* <<../kernel/interface.adoc#user, user>> interface in `webapps/WEB-INF/jspf/user/plugin/<PLUGIN_ID>` or `webapps/WEB-INF/jspf/admin/plugin/<PLUGIN_ID>`
-* <<../kernel/interface.adoc#open, open>> interface in `webapps/WEB-INF/jspf/open/plugin/<PLUGIN_ID>`
+* <<../kernel/iface.adoc#user, user>> interface in `webapps/WEB-INF/jspf/user/plugin/<PLUGIN_ID>` or `webapps/WEB-INF/jspf/admin/plugin/<PLUGIN_ID>`
+* <<../kernel/iface.adoc#open, open>> interface in `webapps/WEB-INF/jspf/open/plugin/<PLUGIN_ID>`
 
 [[plugin-l10n]]
 ==== Localization
@@ -545,7 +545,7 @@ The project is using Apache Struts framework in a very own and customized way:
 
 [[mvc-iface]]
 ==== Interfaces
-There are three user <<../kernel/interface.adoc#, interfaces>> exist in the program.
+There are three user <<../kernel/iface.adoc#, interfaces>> exist in the program.
 
 The following table shows rules for path and packages of <<action, actions>> and <<jsp, JSP>> templates.
 Shortcuts there mean:
@@ -663,7 +663,7 @@ link:../../../src/ru/bgcrm/plugin/dispatch/action/DispatchAction.java#L48-L54[ru
 <<plugin, Plugin's>> action classes have to be placed into `PLUGIN_PACKAGE.action` package, class name should end with *Action*.
 Previously Action classes have been located within `struts.action` packages - this approach is considered obsolete.
 
-*user* <<../kernel/interface.adoc#user, interface>> actions are divided into /user and /admin
+*user* <<../kernel/iface.adoc#user, interface>> actions are divided into /user and /admin
 This separation will be used in future for distinguishing administrative calls.
 
 *usermob* и *open* interfaces have their own actions - in this case package names and URL have to contain *usermob* и *open*, respectively.
@@ -690,7 +690,7 @@ It is recommended to use identical names for both method and forward JSP files.
 
 [[action-permission]]
 ===== Permissions check
-All action methods for <<../kernel/interface.adoc#user, user>> interface have to be defined within `PLUGIN_PACKAGE/action.xml` files.
+All action methods for <<../kernel/iface.adoc#user, user>> interface have to be defined within `PLUGIN_PACKAGE/action.xml` files.
 Examples:
 [square]
 * link:../../../src/org/bgerp/plugin/kernel/action.xml[org/bgerp/plugin/kernel/action.xml] - for <<plugin-kernel, Kernel>> plugin
@@ -825,7 +825,7 @@ link:../../../webapps/WEB-INF/jspf/user/message/process/list/list.jsp#L249-L249[
 
 [[jsp-tags-top-line]]
 ====== shell:title and shell:state
-Set the left area and the right areas of <<../kernel/interface.adoc#user-top-line, top line>> in user interface.
+Set the left area and the right areas of <<../kernel/iface.adoc#user-shell-topline, top line>> in user interface.
 Tag shell:state may create a documentation help link.
 [snippet, from="<shell:t", to=">"]
 link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L38-L39[webapps/WEB-INF/jspf/admin/config/list.jsp]

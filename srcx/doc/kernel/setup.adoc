@@ -65,7 +65,7 @@ address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})
 # substring search mode for <<#param-address, street search>> [[config-street-search-mode]]
 #address.street.search.mode=substring
 
-# шаблон описания контрагента для [[config-search]] <<search.adoc#, поиска>>
+# шаблон описания контрагента для [[config-search]] <<tool.adoc#search, поиска>>
 # в нём можно указать параметры контрагента подстановками вида (param:<code>); например: (${param:73} г.р.)(, ${param:12})
 #customer.reference.pattern=
 
@@ -793,7 +793,7 @@ In menu *Administration / Execution / Run* can be executed any Java class, imple
 
 image::_res/run_class.png[]
 
-When *Wait of execution is done* is selected to Yes, execution logs can be obtained from enabled <<interface.adoc#user-session-log, User Session Log>>.
+When *Wait of execution is done* is selected to Yes, execution logs can be obtained from enabled <<tool.adoc#session-log, User Session Log>>.
 
 [[scheduler]]
 === Scheduler
@@ -833,7 +833,7 @@ image::_res/scheduler.png[width="800"]
 Scheduler is controlled by <<#config-scheduler, config option>>.
 
 In the right column table placed buttons, allowing to run a scheduled tasks at any moment of time.
-If a toggle selected, task is running in an request thread, allowing to follow <<interface.adoc#user-session-log, logs>>.
+If a toggle selected, task is running in an request thread, allowing to follow <<tool.adoc#session-log, logs>>.
 
 [[address]]
 == Адреса

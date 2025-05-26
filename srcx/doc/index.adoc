@@ -4,17 +4,17 @@
 * Kernel
 ** <<kernel/install.adoc#, Install>>
 *** <<kernel/mysql_migration.adoc#, Migration DB Server to MariaDB>>
-** <<kernel/interface.adoc#, Interface>>
+** <<kernel/iface.adoc#, Interface>>
 ** <<kernel/setup.adoc#, Setup>>
-** <<kernel/search.adoc#, Search>>
-** <<kernel/news.adoc#, News>>
-** <<kernel/customer.adoc#, Контрагент>>
-** <<kernel/process/index.adoc#, Process>>
-*** <<kernel/process/queue.adoc#, Очередь>>
-*** <<kernel/process/processing.adoc#, Default Change Listener>>
-**** <<kernel/process/processing_samples.adoc#, Examples>>
-*** <<kernel/process/wizard.adoc#, Мастер>>
-** <<kernel/message/index.adoc#, Messages>>
+** <<kernel/tool.adoc#, Tool>>
+** Object
+*** <<kernel/customer.adoc#, Контрагент>>
+*** <<kernel/process/index.adoc#, Process>>
+**** <<kernel/process/queue.adoc#, Очередь>>
+**** <<kernel/process/processing.adoc#, Default Change Listener>>
+***** <<kernel/process/processing_samples.adoc#, Examples>>
+**** <<kernel/process/wizard.adoc#, Мастер>>
+** <<kernel/message/index.adoc#, Message>>
 ** <<kernel/extension.adoc#, Extension>>
 * Plugins
 ** <<plugin/asterisk/index.adoc#, Asterisk>>
@@ -57,7 +57,7 @@
 // ** <<ext/service_desk.adoc#, Service Desk>>
 // ** <<ext/blow_jira.adoc#, Blow JIRA>>
 * Release Notes
-** <<changes/0/index.adoc#, Master Release>>
+** <<changes/0/index.adoc#, Master>>
 // changesDoc - don't remove, marker for Gradle task 'changesDoc'
 ** <<changes/2501/index.adoc#, 2501>>
 ** <<changes/2409/index.adoc#, 2409>>
