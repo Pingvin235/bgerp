@@ -1,1 +1,0 @@
-C: Unified parameter editor and view for type 'email'. https://bgerp.org/change/0/doc/kernel/setup.html#param-email

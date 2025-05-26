@@ -1,2 +1,0 @@
-A: Process type creation configuration. https://bgerp.org/change/0/doc/kernel/process/index.html#setup-type-create
-A: Delete non-digit characters when inserting parameter 'phone' values

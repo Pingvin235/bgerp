@@ -1,0 +1,89 @@
+= Release Notes
+:toc:
+
+== BREAKING
+
+=== Process type creation configuration
+Was simplified and <<../../kernel/process/index.adoc#setup-type-create, supports>> now definition of link:_res/15138_default_process_creation_type.png[default selected] for creation process type.
+Old process type creation configurations, containing *create.in.objectTypes* should be rewritten to *create.in.areas*
+
+== FEATURES
+
+=== <<../../kernel/install.adoc#mariadb, MariaDB>>
+The SQL server is supported for running the app and recommended to use instead of MySQL.
+Data from existing installations should be <<../../kernel/mysql_migration.adoc#, migrated>> to MariaDB.
+
+=== Safe update
+Do not copy files and perform restart if SQL update failed.
+
+image::_res/15070_failed_update_message.png[width="800"]
+
+Using <<../../kernel/install.adoc#update-url, mirror>> update server in case of restrictions.
+
+=== Zero and negative address floor values
+For definition of ceilers and underground floors.
+
+image::_res/15132_negative_address_floor_str.png[]
+
+image::_res/15132_negative_address_floor.png[]
+
+=== Cleanup non-digit chars from phones
+Prevent all non-digit chars to be stored when editing parameter *phone* values.
+
+=== Process type filter in 'My Processes'
+image::_res/15140_filter_my_processes.png[]
+
+Unified filters for linked processes.
+
+image::_res/15140_filter_linked_processes.png[]
+
+=== Check duplicates over uploaded files
+image::_res/15149_upload_duplicates_check.png[]
+
+image::_res/15150_check_param_file_duplicates.png[]
+
+=== Separated action for adding a new message in process
+image::_res/15144_process_message_create_action.png[]
+
+=== Process title column in queue
+image::_res/15142_process_title_queue_column.png[]
+
+=== <<../../plugin/asterisk/index.adoc#usage-outgoing, Outgoing Calls>> (Asterisk)
+image::_res/14536_outgoing_call.png[width="800"]
+
+=== <<../../plugin/svc/dba/index.adoc#usage-db, DB structure cleanup>> (DBA)
+Unused DB tables and columns are being renamed during update.
+That causes clear errors for Custom code, still using those.
+As an emergency solution the failing structure entities can be renamed back,
+but later should be completely deleted using the DBA plugin.
+
+image::_res/15084_month_tables.png[]
+
+image::_res/15084_unused_columns.png[]
+
+image::_res/15084_unused_tables.png[]
+
+=== Available attachments in message processing (EMail)
+image::_res/15139_email_attach_before.png[]
+
+image::_res/15139_email_attach_new.png[]
+
+== IMPROVED
+
+=== Unified parameter editor and view for type <<../../kernel/setup.adoc#param-email, email>>
+Before:
+
+image::_res/15040_email_view_before.png[]
+
+image::_res/15040_email_edit_before.png[]
+
+New:
+
+image::_res/15040_email_view_new.png[]
+
+image::_res/15040_email_edit_new.png[]
+
+=== Increased size of image preview
+image::_res/12236_preview_before.png[]
+
+image::_res/12236_preview_new.png[width="800"]

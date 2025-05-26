@@ -1,6 +1,25 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+26.05.2025 15:43:19 2505
+C: [12236] Increase size of image preview
+A: [14536] Outgoing calls. https://bgerp.org/version/3.0/doc/plugin/asterisk/index.html#usage-outgoing
+C: [15040] Unified parameter editor and view for type 'email'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-email
+A: [15070] Safe app update
+C: [15084] DB structure cleanup. https://bgerp.org/version/3.0/doc/plugin/svc/dba/index.html#usage-db
+A: [15131] Support MariaDB SQL server. https://bgerp.org/version/3.0/doc/kernel/install.html#mariadb
+A: [15132] Zero and negative address floor values
+A: [15138] Process type creation configuration. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-create
+A: [15138] Delete non-digit characters when inserting parameter 'phone' values
+A: [15139] Available attachments in message processing
+A: [15140] Process type filter in 'My Processes'
+A: [15142] Process title column in queue. https://bgerp.org/version/3.0/doc/kernel/process/queue.html#column
+A: [15144] Separated action for adding a new message in process
+C: [15148] Process Wizard documentation improvements, itest. https://bgerp.org/version/3.0/doc/kernel/process/wizard.html
+A: [15149] Check duplicates in uploaded files
+A: [15150] Check title duplicates for uploaded files
+A: [15161] Configurable app update URL. https://bgerp.org/version/3.0/doc/kernel/install.html#update-url
+
 28.01.2025 14:47:49 2501
 B: [14412] Generated process title. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-title
 C: [14663] Relocation of Custom GIT repositories. https://bgerp.org/version/3.0/doc/kernel/extension.html#custom-git

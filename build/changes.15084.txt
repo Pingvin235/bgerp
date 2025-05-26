@@ -1,1 +1,0 @@
-C: DB structure cleanup. https://bgerp.org/change/0/doc/plugin/svc/dba/index.html#usage-db
