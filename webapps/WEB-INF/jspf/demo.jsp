@@ -133,7 +133,7 @@ cmd do && cmd undo
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:input-text showOutButton='false'&gt;</b><br/>
-			<ui:input-text name="text" showOutButton='false'/>
+			<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)" showOutButton='false'/>
 		</div>
 	</div>
 </div>
