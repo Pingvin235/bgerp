@@ -26,3 +26,4 @@
 </p:check>
 
 <shell:title text="${l.l('Run')}"/>
+<shell:state help="kernel/setup.html#run"/>

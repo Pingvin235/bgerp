@@ -12,7 +12,7 @@
 </div>
 
 <shell:title text="Log (${u.countLines(frd.log)})"/>
-<shell:state help="kernel/extension.html#user-session-log" moveSelector="#${uiid} > form"/>
+<shell:state help="kernel/tool.html#session-log" moveSelector="#${uiid} > form"/>
 
 <script>
 	$(function () {
