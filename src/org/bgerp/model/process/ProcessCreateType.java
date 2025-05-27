@@ -96,7 +96,7 @@ public class ProcessCreateType extends TreeItem<Integer, ProcessCreateType>  {
 
         for (var childType : type.getChildren()) {
             var child = new ProcessCreateType(childType, area);
-            if (ids.isEmpty() || childType.isInPathTo(ids))
+            if (childType.isInPathTo(ids))
                 children.add(child.children(ids));
         }
 
