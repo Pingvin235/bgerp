@@ -21,6 +21,7 @@ import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessCreateType;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
@@ -46,6 +47,8 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/process/queue")
 public class ProcessQueueAction extends ProcessAction {
+    private static final Log log = Log.getLog();
+
     private static final String PATH_JSP = PATH_JSP_USER + "/process";
 
     // выбранные в полном фильтре фильтры

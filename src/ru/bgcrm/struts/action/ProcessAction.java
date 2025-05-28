@@ -82,6 +82,8 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/process")
 public class ProcessAction extends BaseAction {
+    private static final Log log = Log.getLog();
+
     private static final String PATH_JSP = PATH_JSP_USER + "/process";
 
     @Override
@@ -136,11 +138,13 @@ public class ProcessAction extends BaseAction {
                 result.add(createType);
         }
 
+        log.debug("processCreateTypes area: {}, ids: {}, result: {}", area, ids, result);
+
         var user = form.getUser();
         var isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
 
         // when process isolation for the user is 'group' or explicitly set by action
-        if (isolation == IsolationProcess.GROUP || form.getPermission().getBoolean("onlyPermittedTypes")) {
+        if (isolation.getType() == IsolationProcess.Type.GROUP || form.getPermission().getBoolean("onlyPermittedTypes")) {
             var iterator = result.iterator();
             while (iterator.hasNext()) {
                 var type = iterator.next();
@@ -148,6 +152,8 @@ public class ProcessAction extends BaseAction {
                     iterator.remove();
                 }
             }
+
+            log.debug("after isolation: {}, result: {}", isolation, result);
         }
 
         return result;

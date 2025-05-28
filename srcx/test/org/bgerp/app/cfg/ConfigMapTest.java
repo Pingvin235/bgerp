@@ -24,7 +24,7 @@ public class ConfigMapTest {
         var config = SimpleConfigMap.of("isolation.process", "executor");
         IsolationConfig isolation = config.getConfig(IsolationConfig.class);
         assertNotNull(isolation);
-        assertEquals(IsolationConfig.IsolationProcess.EXECUTOR, isolation.getIsolationProcess());
+        assertEquals(IsolationConfig.IsolationProcess.Type.EXECUTOR, isolation.getIsolationProcess().getType());
     }
 
     private static class TestConfigCache extends Config {

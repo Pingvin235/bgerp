@@ -113,10 +113,10 @@ public class ProcessDAO extends CommonDAO {
         User user = form.getUser();
 
         IsolationProcess isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
-        if (isolation == IsolationProcess.EXECUTOR)
+        if (isolation.getType() == IsolationProcess.Type.EXECUTOR)
             return " INNER JOIN " + TABLE_PROCESS_EXECUTOR
                     + " AS isol_e ON " + tableProcess + ".id=isol_e.process_id AND isol_e.user_id=" + user.getId() + " ";
-        if (isolation == IsolationProcess.GROUP) {
+        if (isolation.getType() == IsolationProcess.Type.GROUP) {
             var result = " INNER JOIN " + TABLE_PROCESS_GROUP + " AS isol_pg ON " + tableProcess + ".id=isol_pg.process_id "
                     + "INNER JOIN " + TABLE_USER_GROUP
                     + " AS isol_ur ON isol_ur.group_id=isol_pg.group_id AND isol_ur.user_id=" + user.getId()

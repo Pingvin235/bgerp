@@ -32,6 +32,7 @@ public class ProcessCreateType extends TreeItem<Integer, ProcessCreateType>  {
     public static ProcessCreateType treeRoot(DynActionForm form, String area, Set<Integer> ids) {
         var types = ProcessAction.processCreateTypes(form, area, ids);
         Set<Integer> typeIds = types.stream().map(ProcessCreateType::getId).collect(Collectors.toSet());
+        log.debug("treeRoot area: {}, ids: {}, typeIds: {}", area, ids, typeIds);
         return new ProcessCreateType(ProcessTypeCache.getTypeTreeRoot(), area).children(typeIds);
     }
 
@@ -45,7 +46,6 @@ public class ProcessCreateType extends TreeItem<Integer, ProcessCreateType>  {
         this.type = type;
         this.area = area;
         this.config = type.getProperties() == null ? null : type.getProperties().getConfigMap().getConfig(ProcessCreateInConfig.class);
-        log.debug("init ID: {}, area: {}", type.getId(), area);
     }
 
     public ProcessType getType() {
@@ -79,6 +79,11 @@ public class ProcessCreateType extends TreeItem<Integer, ProcessCreateType>  {
 
     public boolean openCreated() {
         return config.openCreated(area);
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(type.getId());
     }
 
     @Override
