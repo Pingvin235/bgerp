@@ -78,7 +78,7 @@ Where:
 Configuration example, using JSP from the default custom GIT.
 ----
 report:report.{@inc:cnt}.title=Example JSP Report
-report:report.{@cnt}.jspFile=/WEB-INF/jspf/user/plugin/report/jsp/example.jsp
+report:report.{@cnt}.jspFile=/WEB-INF/plugin/report/example.jsp
 ----
 
 [[jsp-usage]]
@@ -112,4 +112,4 @@ Here are the typical replacement patterns for making them running again.
 |$$.ajax.load(this, $(this.form).parent())
 |===
 
-You can find actual samples of JSP reports link:https://git.bgerp.org/bgerp/custom/bgerp-custom/-/tree/master/webapps/WEB-INF/jspf/user/plugin/report/jsp[here]
+You can find actual samples of JSP reports link:https://git.bgerp.org/bgerp/custom/bgerp-custom/-/tree/master/webapps/WEB-INF/plugin/report[here]
