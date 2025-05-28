@@ -1,5 +1,5 @@
 
 report:report.{@inc:cnt}.title=Example JSP Report
-report:report.{@cnt}.jspFile=/WEB-INF/jspf/user/plugin/custom.demo/report/jsp/example.jsp
+report:report.{@cnt}.jspFile=/WEB-INF/jspf/user/plugin/report/jsp/example.jsp
 report:report.{@inc:cnt}.title=Пример JSP Отчёта BGBilling
-report:report.{@cnt}.jspFile=/WEB-INF/jspf/user/plugin/custom.demo/report/jsp/example_bgbilling.jsp
+report:report.{@cnt}.jspFile=/WEB-INF/jspf/user/plugin/report/jsp/example_bgbilling.jsp
