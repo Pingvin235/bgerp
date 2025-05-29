@@ -158,10 +158,6 @@ Incoming variables:
 						</c:forEach>
 					</c:when>
 
-					<c:when test="${column.value.startsWith('status')}">
-						${col.replace('; ','</br>')}
-					</c:when>
-
 					<c:when test="${column.value.startsWith('linkProcessList') or column.value.startsWith('linkedProcessList')}">
 						<div style="display: table">
 							<c:forEach var="lp" items="${col}">
