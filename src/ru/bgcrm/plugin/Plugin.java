@@ -102,6 +102,19 @@ public abstract class Plugin {
      * @return
      */
     protected Map<String, List<String>> endpoints() {
+        var outdated = loadEndpoints();
+        if (!outdated.isEmpty()) {
+            log.warnd("Deprecated method 'loadEndpoints' declared in {}. Rename it to 'endpoints'.", this.getClass().getName());
+            return outdated;
+        }
+        return Map.of();
+    }
+
+    /**
+     * Outdated version of {@link #endpoints()} method, should no more be inherited in plugins.
+     */
+    @Deprecated
+    protected Map<String, List<String>> loadEndpoints() {
         return Map.of();
     }
 
@@ -216,10 +229,5 @@ public abstract class Plugin {
      */
     public Cleaner getCleaner() {
         return null;
-    }
-
-    @Deprecated
-    protected Map<String, List<String>> loadEndpoints() {
-        return endpoints();
     }
 }
