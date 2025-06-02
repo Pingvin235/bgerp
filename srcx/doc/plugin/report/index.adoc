@@ -81,6 +81,8 @@ report:report.{@inc:cnt}.title=Example JSP Report
 report:report.{@cnt}.jspFile=/WEB-INF/plugin/report/example.jsp
 ----
 
+You can find samples of JSP reports link:https://git.bgerp.org/bgerp/custom/bgerp-custom/-/tree/master/webapps/WEB-INF/plugin/report[here]
+
 [[jsp-usage]]
 === Usage
 All the JSP reports are shown in a single tool running by *Reports / JSP Reports* menu item.
@@ -102,14 +104,23 @@ Here are the typical replacement patterns for making them running again.
 |OLD
 |NEW
 
+|openUrlToParent( formUrl( this.form ), $(this.form) )
+|$$.ajax.load(this, $(this.form).parent())
+
 |u:parseDate
 |tu.parse
 
+|u:formatDate
+|tu.format
+
+|fn:substringAfter
+|su.substringAfter
+
+|u:getFirst
+|u.getFirst
+
 |u:toString
 |u.toString
-
-|openUrlToParent( formUrl( this.form ), $(this.form) )
-|$$.ajax.load(this, $(this.form).parent())
 |===
 
-You can find actual samples of JSP reports link:https://git.bgerp.org/bgerp/custom/bgerp-custom/-/tree/master/webapps/WEB-INF/plugin/report[here]
+This migration mainly comes down to replacing calls of no more supported JSP functions to method calls of objects, similar like for <<../../kernel/extension.adoc#jexl-standard-context, Standard JEXL Context>>.
