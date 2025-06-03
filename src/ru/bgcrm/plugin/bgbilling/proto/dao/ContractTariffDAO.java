@@ -293,8 +293,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param dateTo по дату
      * @param comment комментарий
      */
-    public void updateContractTariffPlan(int contractId, int id, int tpid, int position, String dateFrom, String dateTo, String comment)
-            {
+    public void updateContractTariffPlan(int contractId, int id, int tpid, int position, String dateFrom, String dateTo, String comment) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             ContractTariff contractTariff = new ContractTariff();
             contractTariff.setContractId(contractId);
@@ -331,20 +330,21 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param id код записи с тарифным планом
      */
     public void deleteContractTariffPlan(int contractId, int id) {
-        Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
-        request.setAction("DeleteContractTariffPlan");
-        request.setContractId(contractId);
-        request.setAttribute("id", id);
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractTariffService", "contractTariffDelete");
+            req.setParamContractId(contractId);
+            req.setParam("id", id);
+            transferData.postData(req, user);
+        } else {
+            Request request = new Request();
+            request.setModule(CONTRACT_MODULE_ID);
+            request.setAction("DeleteContractTariffPlan");
+            request.setContractId(contractId);
+            request.setAttribute("id", id);
 
-        transferData.postData(request, user);
+            transferData.postData(request, user);
+        }
     }
-
-    @Deprecated
-    public List<ContractTariffGroup> contractActiveTariffGroup(int contractId) {
-        return contractTariffGroupList(contractId, true);
-    }
-
 
     /**
      * Возвращает список всех групп тарифов на договоре.
