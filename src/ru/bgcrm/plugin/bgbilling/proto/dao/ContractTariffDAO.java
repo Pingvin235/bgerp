@@ -206,7 +206,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
                     RequestJsonRpc req = new RequestJsonRpc(TARIFF_SERVICE_MODULE_ID, "TariffService", "tariffPlanGet");
                     req.setParam("id", tariffPlanId);
                     IdTitle plan = jsonMapper.convertValue(transferData.postDataReturn(req, user), IdTitle.class);
-                    return plan.getTitle() != null ? plan.getTitle() : "??? [" + tariffPlanId + "]";
+                    return plan != null && plan.getTitle() != null ? plan.getTitle() : "??? [" + tariffPlanId + "]";
                 } catch (BGException e) {
                     log.error(e);
                     return e.getMessage() + ":" + tariffPlanId;
