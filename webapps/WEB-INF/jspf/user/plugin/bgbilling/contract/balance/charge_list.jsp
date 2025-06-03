@@ -26,25 +26,24 @@
 	</tr>
 	<c:forEach var="charge" items="${frd.list}">
 		<tr>
-			<c:url var="url" value="/user/plugin/bgbilling/proto/balance.do">
-				<c:param name="method" value="balanceEditor"/>
-				<c:param name="item" value="contractCharge" />
-				<c:param name="billingId" value="${form.param.billingId}" />
-				<c:param name="contractId" value="${form.param.contractId}" />
-				<c:param name="id" value="${charge.getId()}"/>
-				<c:param name="returnUrl" value="${form.requestUrl}" />
-			</c:url>
-			<c:set var="editCommand" value="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
-
-			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/balance.do">
-				<c:param name="method" value="deleteCharge"/>
-				<c:param name="billingId" value="${form.param.billingId}" />
-				<c:param name="contractId" value="${form.param.contractId}" />
-				<c:param name="chargeId" value="${charge.getId()}"/>
-			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}',$('#${uiid}').parent())"/>
 			<td nowrap="nowrap">
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+				<c:url var="url" value="${form.requestURI}">
+					<c:param name="method" value="balanceEditor"/>
+					<c:param name="item" value="contractCharge" />
+					<c:param name="billingId" value="${form.param.billingId}" />
+					<c:param name="contractId" value="${form.param.contractId}" />
+					<c:param name="id" value="${charge.id}"/>
+					<c:param name="returnUrl" value="${form.requestUrl}" />
+				</c:url>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
+
+				<c:url var="url" value="${form.requestURI}">
+					<c:param name="method" value="deleteCharge"/>
+					<c:param name="billingId" value="${form.param.billingId}" />
+					<c:param name="contractId" value="${form.param.contractId}" />
+					<c:param name="chargeId" value="${charge.id}"/>
+				</c:url>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 			</td>
 			<td>${tu.format( charge.date, 'ymd' )}</td>
 			<td>${charge.sum}</td>

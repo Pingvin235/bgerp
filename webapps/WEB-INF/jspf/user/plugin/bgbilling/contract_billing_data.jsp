@@ -81,7 +81,7 @@
 					<%@ include file="contract/tree_item.jsp"%>
 				</u:sc>
 
-				<c:url var="urlBalancePeriod" value="balance.do?method=balance">
+				<c:url var="urlBalancePeriod" value="balance.do">
 					<c:if test="${not empty contract.balanceDate}">
 						<c:param name="dateFrom" value="${tu.format(contract.balanceDate, 'dd.MM.yyyy')}"/>
 						<c:param name="dateTo" value="${tu.format(tu.getEndMonth(contract.balanceDate), 'dd.MM.yyyy')}"/>
