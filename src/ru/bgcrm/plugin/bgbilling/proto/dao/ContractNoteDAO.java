@@ -3,7 +3,6 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
@@ -15,8 +14,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
+import ru.bgcrm.plugin.bgbilling.proto.dao.directory.UserInfoDirectory;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractNote;
-import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -35,12 +34,8 @@ public class ContractNoteDAO extends ContractDAO {
             List<ContractNote> result = readJsonValue(res.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractNote.class));
 
             if (!result.isEmpty()) {
-                Map<Integer, UserInfo> userMap = new DirectoryDAO(user, dbInfo).getUsersInfo();
-                for (ContractNote note : result) {
-                    var user = userMap.get(note.getUserId());
-                    if (user != null)
-                        note.setUser(user.getName());
-                }
+                UserInfoDirectory directory = dbInfo.directory(UserInfoDirectory.class);
+                result.forEach(note -> note.setUser(directory.get(user, note.getUserId()).getName()));
             }
 
             return result;

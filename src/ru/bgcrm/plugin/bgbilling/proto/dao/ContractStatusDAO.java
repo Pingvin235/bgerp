@@ -18,7 +18,7 @@ import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
-import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
+import ru.bgcrm.plugin.bgbilling.proto.dao.directory.UserInfoDirectory;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatusLogItem;
 import ru.bgcrm.util.TimeUtils;
@@ -84,12 +84,8 @@ public class ContractStatusDAO extends BillingDAO {
             req.setParam("page", new Page());
             JsonNode ret = transferData.postDataReturn(req, user);
             List<ContractStatusLogItem> result = readJsonValue(ret.findValue("list").traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractStatusLogItem.class));
-            Map<Integer, UserInfo> userMap = new DirectoryDAO(user, dbInfo).getUsersInfo();
-            result.forEach(item -> {
-                item.setStatus(statusTitleMap.getOrDefault(Utils.parseInt(item.getStatus()), "??? " + item.getStatus()));
-                var user = userMap.get(item.getUserId());
-                item.setUser(user != null ? user.getName() : "??? " + item.getUserId());
-            });
+            UserInfoDirectory directory = dbInfo.directory(UserInfoDirectory.class);
+            result.forEach(item -> item.setUser(directory.get(user, item.getUserId()).getName()));
             // reverse sort by IDs
             result.sort((item1, item2) -> item2.getId() - item1.getId());
             return result;

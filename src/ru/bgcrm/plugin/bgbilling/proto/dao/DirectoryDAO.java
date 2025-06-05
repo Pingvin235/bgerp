@@ -2,10 +2,7 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdTitleTreeItem;
@@ -143,6 +140,11 @@ public class DirectoryDAO extends BillingDAO {
         return contractPaymentTypes;
     }
 
+    public List<IdTitle> paymentTypeList() {
+        var req = new RequestJsonRpc(BalanceDAO.CONTRACT_BALANCE_MODULE, "PaymentService", "paymentTypeList");
+        return readJsonValue(transferData.postDataReturn(req, user).traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+    }
+
     public IdTitleTreeItem getContractChargeTypes(Set<Integer> allowedTypeIds) {
         IdTitleTreeItem contractChargeTypes = new IdTitleTreeItem();
         contractChargeTypes.setTitle("Все типы");
@@ -272,16 +274,18 @@ public class DirectoryDAO extends BillingDAO {
         return moduleList;
     }
 
-    public Map<Integer, UserInfo> getUsersInfo() {
+    public List<UserInfo> getUserInfoList() {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService", "userInfoList");
         JsonNode res = transferData.postDataReturn(req, user);
-        List<UserInfo> userList = readJsonValue(res.traverse(), jsonTypeFactory.constructCollectionType(List.class, UserInfo.class));
-        return userList.stream().collect(Collectors.toMap(i -> {
-            if (i.getId() == -1 && !i.getName().equals("Пользователь")) {
-                // надо кудато деть эту гадость
-                return -1 * i.getId() * i.getName().codePointAt(0);
-            }
-            return i.getId();
-        }, Function.identity()));
+        List<UserInfo> result = readJsonValue(res.traverse(), jsonTypeFactory.constructCollectionType(List.class, UserInfo.class));
+        // пользователь "customer" имеет конфликтующий ID=-1 с пользователем "Пользователь"
+        return result.stream().filter(user -> !"customer".equals(user.getName())).toList();
+    }
+
+    public long getDirectoryVersion(String directoryItemClass, int moduleId) {
+        var req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.directory.api", "DirectoryService", "getVersion");
+        req.setParam("directoryItemClass", directoryItemClass);
+        req.setParam("moduleId", moduleId);
+        return transferData.postDataReturn(req, user).longValue();
     }
 }

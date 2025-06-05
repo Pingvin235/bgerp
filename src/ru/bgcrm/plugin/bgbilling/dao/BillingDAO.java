@@ -132,7 +132,7 @@ public class BillingDAO {
         try {
             return jsonMapper.readValue(p, valueType);
         } catch (Exception e) {
-            throw new BGException(e.getMessage(), e);
+            throw new BGException(e);
         }
     }
 }

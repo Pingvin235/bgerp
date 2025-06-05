@@ -5,14 +5,19 @@ import java.util.Date;
 
 import org.bgerp.model.base.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ContractPayment extends Id {
     private boolean editable;
+    private int contractId;
     private String contract;
     private Date date;
     private BigDecimal sum;
+    private int typeId;
     private String type;
     private String comment;
     private Date lastChangeTime;
+    private int userId;
     private String user;
 
     public Date getDate() {
@@ -39,12 +44,21 @@ public class ContractPayment extends Id {
         this.comment = comment;
     }
 
+    @JsonProperty("timeChange")
     public Date getLastChangeTime() {
         return lastChangeTime;
     }
 
     public void setLastChangeTime(Date lastChangeTime) {
         this.lastChangeTime = lastChangeTime;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUser() {
@@ -55,12 +69,28 @@ public class ContractPayment extends Id {
         this.user = user;
     }
 
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
+
     public String getType() {
         return type;
     }
 
-    public void setType(String chargeType) {
-        this.type = chargeType;
+    public void setType(String value) {
+        this.type = value;
+    }
+
+    public int getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
     }
 
     public String getContract() {

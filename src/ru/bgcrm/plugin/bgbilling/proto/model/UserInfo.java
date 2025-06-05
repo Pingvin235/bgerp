@@ -1,15 +1,16 @@
 package ru.bgcrm.plugin.bgbilling.proto.model;
 
-public class UserInfo  {
-    private int id;
+import org.bgerp.model.base.Id;
+
+public class UserInfo extends Id {
     private String name;
 
-    public int getId() {
-        return id;
+    public UserInfo() {
     }
 
-    public void setId(int id) {
+    public UserInfo(int id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     public String getName() {

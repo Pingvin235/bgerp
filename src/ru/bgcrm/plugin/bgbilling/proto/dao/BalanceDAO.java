@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
@@ -17,6 +18,9 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.directory.ChargeTypeDirectory;
+import ru.bgcrm.plugin.bgbilling.proto.dao.directory.PaymentTypeDirectory;
+import ru.bgcrm.plugin.bgbilling.proto.dao.directory.UserInfoDirectory;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractAccount;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractBalanceDetail;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractBalanceGeneral;
@@ -26,8 +30,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class BalanceDAO extends BillingDAO {
-    private static final String CONTRACT_MODULE_ID = "contract";
-    public static final String BGBILLING_KERNEL_CONTRACT_BALANCE_9 = "ru.bitel.bgbilling.kernel.contract.balance";
+    public static final String CONTRACT_BALANCE_MODULE = "ru.bitel.bgbilling.kernel.contract.balance";
 
     public BalanceDAO(User user, String billingId) {
         super(user, billingId);
@@ -37,32 +40,44 @@ public class BalanceDAO extends BillingDAO {
             List<ContractPayment> subPaymentList) {
 
         if (dbInfo.versionCompare("9.2") >= 0) {
+            var directoryType = dbInfo.directory(PaymentTypeDirectory.class);
+            var directoryUser = dbInfo.directory(UserInfoDirectory.class);
+
+            Consumer<ContractPayment> directoryConsumer = payment -> {
+                payment.setType(directoryType.get(user, payment.getTypeId()).getTitle());
+                payment.setUser(directoryUser.get(user, payment.getUserId()).getName());
+            };
+
             BigDecimal summa = BigDecimal.ZERO;
             if (paymentList != null) {
-                RequestJsonRpc req = new RequestJsonRpc(BGBILLING_KERNEL_CONTRACT_BALANCE_9, "PaymentService", "paymentList");
+                RequestJsonRpc req = new RequestJsonRpc(CONTRACT_BALANCE_MODULE, "PaymentService", "paymentList");
                 req.setParam("contractId", contractId);
                 req.setParam("period", new Period(dateFrom, dateTo));
                 req.setParam("members", 1);
                 JsonNode ret = transferData.postDataReturn(req, user);
                 paymentList.addAll(
                         readJsonValue(ret.get("list").traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractPayment.class)));
+                paymentList.forEach(directoryConsumer);
+
                 summa = summa.add(jsonMapper.convertValue(ret.get("sum"), BigDecimal.class));
             }
             if (subPaymentList != null) {
-                RequestJsonRpc req = new RequestJsonRpc(BGBILLING_KERNEL_CONTRACT_BALANCE_9, "PaymentService", "paymentList");
+                RequestJsonRpc req = new RequestJsonRpc(CONTRACT_BALANCE_MODULE, "PaymentService", "paymentList");
                 req.setParam("contractId", contractId);
                 req.setParam("period", new Period(dateFrom, dateTo));
                 req.setParam("members", 3);
                 JsonNode ret = transferData.postDataReturn(req, user);
                 subPaymentList.addAll(
                         readJsonValue(ret.get("list").traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractPayment.class)));
+                subPaymentList.forEach(directoryConsumer);
+
                 summa = summa.add(jsonMapper.convertValue(ret.get("sum"), BigDecimal.class));
             }
             return summa;
         } else {
             BigDecimal summa = BigDecimal.ZERO;
             Request request = new Request();
-            request.setModule(CONTRACT_MODULE_ID);
+            request.setModule("contract");
             request.setAction("ContractPayments");
             request.setContractId(String.valueOf(contractId));
             request.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
@@ -107,9 +122,17 @@ public class BalanceDAO extends BillingDAO {
     public BigDecimal getContractChargeList(int contractId, Date dateFrom, Date dateTo, List<ContractCharge> chargeList,
             List<ContractCharge> subChargeList) {
         if (dbInfo.versionCompare("9.2") >= 0) {
+            var directoryType = dbInfo.directory(ChargeTypeDirectory.class);
+            var directoryUser = dbInfo.directory(UserInfoDirectory.class);
+
+            Consumer<ContractPayment> directoryConsumer = charge -> {
+                charge.setType(directoryType.get(user, charge.getTypeId()).getTitle());
+                charge.setUser(directoryUser.get(user, charge.getUserId()).getName());
+            };
+
             BigDecimal summa = BigDecimal.ZERO;
             if (chargeList != null) {
-                RequestJsonRpc req = new RequestJsonRpc(BGBILLING_KERNEL_CONTRACT_BALANCE_9, "ChargeService", "chargeList");
+                RequestJsonRpc req = new RequestJsonRpc(CONTRACT_BALANCE_MODULE, "ChargeService", "chargeList");
                 req.setParam("contractId", contractId);
                 req.setParam("type", 0);
                 req.setParam("period", new Period(dateFrom, dateTo));
@@ -117,10 +140,11 @@ public class BalanceDAO extends BillingDAO {
                 JsonNode ret = transferData.postDataReturn(req, user);
                 chargeList
                         .addAll(readJsonValue(ret.get("list").traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractCharge.class)));
+                chargeList.forEach(directoryConsumer);
                 summa = summa.add(jsonMapper.convertValue(ret.get("sum"), BigDecimal.class));
             }
             if (subChargeList != null) {
-                RequestJsonRpc req = new RequestJsonRpc(BGBILLING_KERNEL_CONTRACT_BALANCE_9, "ChargeService", "chargeList");
+                RequestJsonRpc req = new RequestJsonRpc(CONTRACT_BALANCE_MODULE, "ChargeService", "chargeList");
                 req.setParam("contractId", contractId);
                 req.setParam("type", 0);
                 req.setParam("period", new Period(dateFrom, dateTo));
@@ -128,12 +152,13 @@ public class BalanceDAO extends BillingDAO {
                 JsonNode ret = transferData.postDataReturn(req, user);
                 subChargeList
                         .addAll(readJsonValue(ret.get("list").traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractCharge.class)));
+                subChargeList.forEach(directoryConsumer);
                 summa = summa.add(jsonMapper.convertValue(ret.get("sum"), BigDecimal.class));
             }
             return summa;
         } else {
             Request request = new Request();
-            request.setModule(CONTRACT_MODULE_ID);
+            request.setModule("contract");
             request.setAction("ContractCharges");
             request.setContractId(String.valueOf(contractId));
             request.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
@@ -177,7 +202,7 @@ public class BalanceDAO extends BillingDAO {
     public BigDecimal getContractAccountList(int contractId, Date dateFrom, Date dateTo, List<ContractAccount> accountList,
             List<ContractAccount> subAccountList) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("ContractAccounts");
         request.setContractId(String.valueOf(contractId));
         request.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
@@ -216,7 +241,7 @@ public class BalanceDAO extends BillingDAO {
 
     public BigDecimal[] getContractBalanceList(int contractId, Date dateFrom, Date dateTo, List<ContractBalanceGeneral> list) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("ContractBalanceGeneral");
         request.setContractId(String.valueOf(contractId));
         request.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
@@ -247,7 +272,7 @@ public class BalanceDAO extends BillingDAO {
 
     public BigDecimal getContractBalanceDetailList(int contractId, Date dateFrom, Date dateTo, List<ContractBalanceDetail> list) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("ContractBalanceDetail");
         request.setContractId(String.valueOf(contractId));
         request.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
@@ -270,13 +295,9 @@ public class BalanceDAO extends BillingDAO {
         return Utils.parseBigDecimal(XMLUtils.selectText(doc, "/data/table/@summa"));
     }
 
-    public int addContractPayment(int contractId, BigDecimal summa, Date date, int typeId, String comment) {
-        return updateContractPayment(0, contractId, summa, date, typeId, comment);
-    }
-
     public int updateContractPayment(int id, int contractId, BigDecimal summa, Date date, int typeId, String comment) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("UpdateContractPayment");
         request.setContractId(String.valueOf(contractId));
         request.setAttribute("date", TimeUtils.format(date, TimeUtils.PATTERN_DDMMYYYY));
@@ -294,33 +315,45 @@ public class BalanceDAO extends BillingDAO {
         return Utils.parseInt(XMLUtils.getElement(doc, "data").getAttribute("id"));
     }
 
-    public int addContractCharge(int contractId, BigDecimal summa, Date date, int typeId, String comment) {
-        return updateContractCharge(0, contractId, summa, date, typeId, comment);
-    }
-
     public int updateContractCharge(int id, int contractId, BigDecimal summa, Date date, int typeId, String comment) {
-        Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
-        request.setAction("UpdateContractCharge");
-        request.setContractId(String.valueOf(contractId));
-        request.setAttribute("date", TimeUtils.format(date, TimeUtils.PATTERN_DDMMYYYY));
-        request.setAttribute("pt", typeId);
-        request.setAttribute("summa", summa);
-        request.setAttribute("comment", comment);
-        if (id == 0) {
-            request.setAttribute("id", "new");
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(CONTRACT_BALANCE_MODULE, "ChargeService", "chargeUpdate");
+
+            var charge = new ContractCharge();
+            charge.setId(id);
+            charge.setContractId(contractId);
+            charge.setSum(summa);
+            charge.setDate(date);
+            charge.setTypeId(typeId);
+            charge.setComment(comment);
+
+            req.setParam("charge", charge);
+
+            return transferData.postDataReturn(req, user).asInt();
         } else {
-            request.setAttribute("id", id);
+            Request request = new Request();
+            request.setModule("contract");
+            request.setAction("UpdateContractCharge");
+            request.setContractId(String.valueOf(contractId));
+            request.setAttribute("date", TimeUtils.format(date, TimeUtils.PATTERN_DDMMYYYY));
+            request.setAttribute("pt", typeId);
+            request.setAttribute("summa", summa);
+            request.setAttribute("comment", comment);
+            if (id == 0) {
+                request.setAttribute("id", "new");
+            } else {
+                request.setAttribute("id", id);
+            }
+
+            Document doc = transferData.postData(request, user);
+
+            return Utils.parseInt(XMLUtils.getElement(doc, "data").getAttribute("id"));
         }
-
-        Document doc = transferData.postData(request, user);
-
-        return Utils.parseInt(XMLUtils.getElement(doc, "data").getAttribute("id"));
     }
 
     public ContractPayment getContractPayment(int paymentId) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("ContractPayment");
         request.setAttribute("id", paymentId);
 
@@ -346,7 +379,7 @@ public class BalanceDAO extends BillingDAO {
 
     public ContractCharge getContractCharge(int chargeId) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("ContractCharge");
         request.setAttribute("id", chargeId);
 
@@ -373,7 +406,7 @@ public class BalanceDAO extends BillingDAO {
 
     public void deleteContractCharge(int chargeId, int contractId) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("DeleteContractCharge");
         request.setAttribute("id", chargeId);
         request.setContractId(contractId);
@@ -383,7 +416,7 @@ public class BalanceDAO extends BillingDAO {
 
     public void deleteContractPayment(int paymentId, int contractId) {
         Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
+        request.setModule("contract");
         request.setAction("DeleteContractPayment");
         request.setAttribute("id", paymentId);
         request.setContractId(contractId);

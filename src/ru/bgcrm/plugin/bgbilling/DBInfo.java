@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
@@ -15,6 +16,7 @@ import org.bgerp.cache.UserCache;
 import org.bgerp.util.sql.pool.ConnectionPool;
 
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.plugin.bgbilling.proto.dao.directory.Directory;
 
 /**
  * Данные для подсоединения к биллингу.
@@ -31,6 +33,7 @@ public class DBInfo {
 
     private Map<Integer, Integer> billingUserIdCrmUserIdMap = new HashMap<>();
     private ConfigMap guiConfigValues;
+    private final Map<String, Directory<?>> directories = new ConcurrentHashMap<>();
 
     public DBInfo(String id) {
         this.id = id;
@@ -133,5 +136,19 @@ public class DBInfo {
     public int getCrmUserId(int billingUserId) {
         Integer value = billingUserIdCrmUserIdMap.get(billingUserId);
         return value != null ? value : -1;
+    }
+
+    @SuppressWarnings("unchecked")
+    public </* T extends Id,  */D extends Directory<?>> D directory(Class<D> clazz) {
+        // not used yet
+        final int moduleId = 0;
+        final String key = clazz.getName() + ":" + moduleId;
+        return (D) directories.computeIfAbsent(key, unused -> {
+            try {
+                return clazz.getDeclaredConstructor(DBInfo.class, int.class).newInstance(this, moduleId);
+            } catch (Exception e) {
+                throw new BGException(e);
+            }
+        });
     }
 }
