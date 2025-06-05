@@ -45,20 +45,20 @@ All the following GIT commands have to be executed in the project's directory.
 
 [[change-git-create]]
 ==== Creation a change branch
-[source, bash]
+[source, sh]
 ----
 git checkout master && git pull origin master && git checkout -b p12345-my-change-branch
 ----
 
 [[change-git-commit]]
 ==== Commit and push changes
-[source, bash]
+[source, sh]
 ----
 git checkout p12345-my-change-branch && git add . && git commit -am "My changes" && git push
 ----
 
 At the first push for a branch you will be asked to set an upstream branch using the command.
-[source, bash]
+[source, sh]
 ----
 git push --set-upstream origin p12345-my-change-branch
 ----
@@ -66,20 +66,20 @@ git push --set-upstream origin p12345-my-change-branch
 [[change-git-state]]
 ==== Show current workdirs' state
 For showing the current state of GIT working directory use:
-[source, bash]
+[source, sh]
 ----
 git status
 ----
 
 Displays text-rendered GIT graph:
-[source, bash]
+[source, sh]
 ----
 git log --oneline --decorate --all --graph
 ----
 
 [[change-git-update]]
 ==== Update a change branch
-[source, bash]
+[source, sh]
 ----
 git checkout p12345-my-change-branch && git pull --rebase && git fetch origin master:master && git merge master
 ----
@@ -91,7 +91,7 @@ Stale branches should be deleted first on GitLab: https://git.bgerp.org/bgerp/bg
 image::_res/workflow/gitlab_stale_branches.png[]
 
 Clean all references to non-existent remote branches.
-[source, bash]
+[source, sh]
 ----
 git remote prune origin
 ----
@@ -99,20 +99,20 @@ git remote prune origin
 Cleaning up local Git branches that no longer exist on remote.
 
 WARNING: Be sure, that all needed change branches are pushed
-[source, bash]
+[source, sh]
 ----
 bash git-clean-branches.sh
 ----
 
 Clean GIT repo from unreferenced objects after.
-[source, bash]
+[source, sh]
 ----
 git reflog expire --expire-unreachable=now --all &&
 git gc --prune=now
 ----
 
 Clean unneeded link:https://git-lfs.github.com/[GIT LFS] files.
-[source, bash]
+[source, sh]
 ----
 git lfs prune
 ----
@@ -122,7 +122,7 @@ git lfs prune
 Error: *Encountered 7 file(s) that should have been pointers, but weren't*
 
 Fixing commands:
-[source, bash]
+[source, sh]
 ----
 git rm --cached -r . && git reset --hard
 ----
@@ -137,7 +137,7 @@ So merge the latest state of master to the 'change' branch before passing a chan
 image::_res/workflow/branch_compare.png[]
 
 GIT commands to be used for merging change from *pXXXXX-short-change-description* branch to master:
-[source, bash]
+[source, sh]
 ----
 git checkout pXXXXX-short-change-description && git pull
 git commit --allow-empty -m "MERGED" && git push
@@ -146,19 +146,19 @@ git merge --squash pXXXXX-short-change-description
 ----
 
 Commit with current GIT user.
-[source, bash]
+[source, sh]
 ----
 git commit -am "pXXXXX Some change description."
 ----
 
 Or for preserving the author in GitHub. Mapping internal to external mails is available in file `.gitlab-ci-publish-author.sh`
-[source, bash]
+[source, sh]
 ----
 git commit -am "pXXXXX Some change description." --author="Developer Name <internal@gitlab.email>"
 ----
 
 And finally, push.
-[source, bash]
+[source, sh]
 ----
 git push
 ----
@@ -321,7 +321,7 @@ NOTE: Here and below all commands are shown for WSL environment, *NIX will not n
 
 [[build-doc]]
 === Documentation
-[source, bash]
+[source, sh]
 ----
 bash -c "./gradlew clean doc"
 ----
@@ -352,7 +352,7 @@ Before you publish a change update, make sure that `ssh cdn@bgerp.org` and `ssh 
 Script `files.sh` uses *rename* command, it must be installed.
 
 When pushing Docker images from a system first you would need to perform login:
-[source, bash]
+[source, sh]
 ----
 docker login --username bgerp
 ----
@@ -367,13 +367,13 @@ CAUTION: Be sure that <<test-integration, Integration tests>> are successfully d
 CAUTION: Stop all running IDEs with opened project directory.
 
 Checkout the master branch and merge there possible latest documentation changes:
-[source, bash]
+[source, sh]
 ----
 git checkout master && git merge --squash p15055-documentation-master && git commit -am "p15055 Documentation Master" && git push
 ----
 
 Reset the properties files:
-[source, bash]
+[source, sh]
 ----
 ./gradlew resetProperties
 ----
@@ -381,7 +381,7 @@ Reset the properties files:
 Set the new stable release version *YYMM* in *build.number* property of `build/update/update.properties` file.
 
 Perform the following:
-[source, bash]
+[source, sh]
 ----
 ./gradlew clean updateLibProperties buildUpdateLib updateProperties buildUpdate buildDist
 ----
@@ -389,56 +389,56 @@ Perform the following:
 NOTE: *buildUpdateLib* and *updateLibProperties* tasks check existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
 
 Build the *bgerp/base* Docker Image, which should be rebuilt in case of updating MySQL or Java versions in it:
-[source, bash]
+[source, sh]
 ----
 bash build/docker/base/files.sh && docker build build/docker/base -t bgerp/base
 ----
 
 Build the *bgerp/bgerp* Docker image:
-[source, bash]
+[source, sh]
 ----
 bash build/docker/bgerp/files.sh && docker build build/docker/bgerp -t bgerp/bgerp
 ----
 
 Test the created image with in local Docker:
-[source, bash]
+[source, sh]
 ----
 docker run -d --name bgerp -e MASTER=no --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
 ----
 
 Wait until the container is up and running, access it via written in log URL. Remove the container after, if you do not need it:
-[source, bash]
+[source, sh]
 ----
 docker rm -f bgerp
 ----
 
 Build the *bgerp/devd* Docker image:
-[source, bash]
+[source, sh]
 ----
 docker build build/docker/devd -t bgerp/devd
 ----
 
 Then apply file changes and commit them:
-[source, bash]
+[source, sh]
 ----
 ./gradlew changesFile changesRss changesDoc publishCommit
 ----
 
 Copy the built artifacts to the server and check the results on https://bgerp.org and https://hub.docker.com/r/bgerp/bgerp/tags
-[source, bash]
+[source, sh]
 ----
 bash -c "./gradlew publishRelease"
 docker push bgerp/base && docker push bgerp/bgerp && docker push bgerp/devd
 ----
 
 Check the release commit and push it:
-[source, bash]
+[source, sh]
 ----
 git push
 ----
 
 Replace *<YYMM>* to the release number and create stable code and documentation branches:
-[source, bash]
+[source, sh]
 ----
 git checkout -b stable-<YYMM> && git push --set-upstream origin stable-<YYMM>
 git checkout p11862-documentation && git checkout -b p11862-documentation-<YYMM> && git push --set-upstream origin p11862-documentation-<YYMM>
@@ -446,7 +446,7 @@ git checkout p11862-documentation && git checkout -b p11862-documentation-<YYMM>
 
 Open https://git.bgerp.org/bgerp/bgerp/-/settings/repository#js-protected-branches-settings and allow to push force branches *p11862-documentation* and *p15055-documentation-master*
 Reset the documentation branches:
-[source, bash]
+[source, sh]
 ----
 git checkout p11862-documentation && git reset --hard master && git push --force
 git checkout p15055-documentation-master && git reset --hard master && git push --force
@@ -465,7 +465,7 @@ Replace *<YYMM>* to your current stable release ending number.
 
 CAUTION: Stop all running IDEs with opened project directory.
 
-[source, bash]
+[source, sh]
 ----
 git checkout stable-<YYMM>
 
@@ -487,7 +487,7 @@ JUnit framework is used (`srcx/test` directory)
 Used to test specific algorithms, test do not depend on each other and do not work with DB.
 
 Test are launched locally using the following command:
-[source, bash]
+[source, sh]
 ----
 bash -c "./gradlew clean test"
 ----
@@ -499,7 +499,7 @@ TestNG framework is used (`srcx/itest` directory)
 Integration test performs initialization an empty DB and filling after it with configuration.
 Tests form a dependencies graph which defined order and execution parallelism.
 
-[source, bash]
+[source, sh]
 ----
 ./gradlew itest
 ----

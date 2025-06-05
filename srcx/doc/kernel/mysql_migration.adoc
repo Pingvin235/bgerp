@@ -16,13 +16,13 @@ For this you need:
 Then, after successfully migrating to this MariaDB in Docker you may link:https://mariadb.com/kb/en/binary-packages/[install] MariaDB on host instead MySQL and migrate to it.
 
 To view the MariaDB-in-container logs:
-[source, bash]
+[source, sh]
 ----
 docker logs mariadb
 ----
 
 To view the container status:
-[source, bash]
+[source, sh]
 ----
 docker ps
 ----

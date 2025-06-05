@@ -1,5 +1,6 @@
 = Extension
 :toc:
+:toclevels: 5
 
 NOTE: This chapter may be skipped at first time of using the system.
 
@@ -180,18 +181,51 @@ drawio:_res/custom/git.drawio[]
 [[custom-git-repo]]
 ==== Repository
 In order to store your custom code you have to create a GIT repository and add there permissions of developers, who do you trust.
-Fork our Custom GIT Base repo https://git.bgerp.org/bgerp/custom/bgerp-custom for that.
-We also offer for our Subscribers free hosting of their Custom GIT on our GitLab server.
-Please, contact your Consultant for getting such ones.
+We offer for our Subscribers free hosting of their Custom GIT on our GitLab server.
+Please, contact your Consultant for creating your GitLab accounts and making such a fork of https://git.bgerp.org/bgerp/custom/bgerp-custom
+
+image::_res/custom/git_fork_create.png[width="800"]
+
+image::_res/custom/git_fork_create_options.png[width="800"]
 
 [[custom-git-workflow]]
 ==== Workflow
-Content of the `custom` directory may be stored using GIT and developed in full-featured <<../project/index.adoc#ide, IDE>>.
+Use *bgerp-custom-<YOUR_COMPANY_NAME>* instead of *bgerp-custom-company*.
 
-The `custom` directory is ignored in the root directory of the <<../project/index.adoc#checkout-reader, project>>,
-and has to be checked out independently, e.g.:
+[[custom-git-workflow-app]]
+===== App
+You have to upload your *Public* key link:https://git.bgerp.org/-/user_settings/ssh_keys[here].
+Typically you can find the Linux user's SSH key in link:https://docs.gitlab.com/user/ssh/#see-if-you-have-an-existing-ssh-key-pair[file] `~/.ssh/id_(rsa|ed25519|ecdsa).pub`
+Case there is none exists yet, link:https://docs.gitlab.com/user/ssh/#generate-an-ssh-key-pair[generate] it.
+
+The *SSH* GIT URL, allowing to use key authentication in console can be taken from GitLab UI.
+
+image::_res/custom/git_url_ssh.png[width="800"]
+
+Here is the example of clone command with *SSH* GIT URL has to be run in application directory.
+[source, sh]
 ----
-git clone https://git.bgerp.org/bgerp/custom/bgerp-custom-company.git custom
+git clone ssh://git@git.bgerp.org:822/bgerp/custom/bgerp-custom-company.git /opt/bgerp/custom
+----
+
+NOTE: If you already have content in your `bgerp/custom` directory, move it to some different name first, for example `bgerp/_custom_bak`
+
+Once you did changes, for instance, copied there the existent content from `_custom_bak`, run the commands for pushing them to your GIT repo.
+[source, sh]
+----
+git add . &&  git commit -m "My changes in App Custom" && git push
+----
+
+[[custom-git-workflow-ide]]
+===== IDE
+Content of the `custom` directory may be stored using GIT and developed in full-featured IDE.
+First you have to check the BGERP project out <<../project/index.adoc#checkout-reader, from GitHub>>.
+After make it recognized and compiled in one of supported <<../project/index.adoc#ide, IDE>>.
+
+The `custom` directory has to be checked out *inside* of the project directory independently.
+[source, sh]
+----
+git clone https://git.bgerp.org/bgerp/custom/bgerp-custom-company.git BGEPR/custom
 ----
 
 The *HTTPS* GIT URL can be taken from GitLab UI.
@@ -199,28 +233,19 @@ The *HTTPS* GIT URL can be taken from GitLab UI.
 image::_res/custom/git_url_https.png[width="800"]
 
 Once you did changes, run the commands for pushing them in `custom` directory.
+[source, sh]
 ----
-git pull --rebase && git add . &&  git commit -m "My changes" && git push
-----
-
-The same clone command but with *SSH* GIT URL has to be run in application directory, e.g.
-----
-git clone ssh://git@git.bgerp.org:822/bgerp/custom/bgerp-custom-company.git /opt/bgerp/custom
+git add . &&  git commit -m "My changes in IDE Custom" && git push
 ----
 
-The *SSH* GIT URL, allowing to use key authentication in console can be also taken from GitLab UI.
-
-image::_res/custom/git_url_ssh.png[width="800"]
-
-You have to  upload your *Public* key link:https://git.bgerp.org/-/user_settings/ssh_keys[here].
-
-For checking out changes out of *CUSTOM GIT* may be used approach with *DETACHED HEAD*:
+After pull the changes in `custom` directory of app.
+[source, sh]
 ----
-git fetch && git checkout origin/master
+git pull --rebase
 ----
 
-With *CUSTOM GIT* also can be used the same <<../project/workflow.adoc#change, GIT workflow>>
-as for the main project's code. Any change has to be placed in a separated branch.
+The easiest workflow, described above, uses only a singe *master* branch. But you can also use the same <<../project/workflow.adoc#change, GIT workflow>>
+as for the main project's code. Any change there is placed to a separated branch.
 
 [[custom-git-update-fork]]
 ==== Update Fork
@@ -259,7 +284,7 @@ image::_res/custom/git_fork_update.png[width="800"]
 [[run-cmd]]
 === Из командной строки
 Для запуска любого класса, статического или динамического в контексте сервера BGERP вызовите:
-[source, bash]
+[source, sh]
 ----
 ./erp.sh "runclass <class_name>"
 ----

@@ -1,6 +1,6 @@
 = Plugin Asterisk
 :toc:
-:toclevels: 4
+:toclevels: 5
 
 [[about]]
 == About
@@ -19,6 +19,22 @@ as operators of a call-center and <<#usage, process>> incoming calls.
 ==== FreePBX
 FreePBX is an web-based shell for Asterisk PBX, allowing to configure it using UI.
 
+[[setup-pbx-freepbx-install]]
+===== Install
+FreePBX 17 can be link:https://sangomakb.atlassian.net/wiki/spaces/FP/pages/230326391/FreePBX+17+Installation[installed] on a dedicated Debian 12 system:
+[source, sh]
+----
+cd /tmp
+wget https://github.com/FreePBX/sng_freepbx_debian_install/raw/master/sng_freepbx_debian_install.sh  -O /tmp/sng_freepbx_debian_install.sh
+bash /tmp/sng_freepbx_debian_install.sh
+----
+
+NOTE: The process takes ~ 20 minutes for 2 CPU VPS with 4 GB RAM
+
+After the script has done, reach the server via HTTP and finish setup there.
+
+image::_res/freepbx/setup.png[width="800"]
+
 // TODO
 
 [[setup-pbx-asterisk]]
@@ -29,7 +45,7 @@ The instruction below was produced for version *21.5.0*.
 [[setup-pbx-asterisk-cli]]
 ===== CLI
 To apply any changes run the CLI:
-[source, bash]
+[source, sh]
 ----
 asterisk -RvvvvvvvvvvT
 ----
