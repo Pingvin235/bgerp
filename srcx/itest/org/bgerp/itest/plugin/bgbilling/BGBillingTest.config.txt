@@ -8,7 +8,7 @@ bgbilling:server.{@cnt}.customerIdParam=8
 # запущенный локально BGBilling сервер
 #bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
 # явно заданная версия для случая запуска из исходных кодов
-#bgbilling:server.{@cnt}.version=9.2501
+#bgbilling:server.{@cnt}.version=10.2
 #bgbilling:server.{@cnt}.customerIdParam=63
 
 # общий логин с паролем по-умолчанию для обращения к биллингу
