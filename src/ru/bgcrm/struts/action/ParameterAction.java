@@ -401,13 +401,13 @@ public class ParameterAction extends BaseAction {
                     addressValue.setValue(AddressUtils.buildAddressValue(addressValue, con));
                 }
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
+                paramChangingProcess(con, form, parameter, id, paramValue = addressValue);
 
                 paramValueDAO.updateParamAddress(id, paramId, position, addressValue);
             }
             case BLOB -> {
                 paramValue = form.getParam("value");
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramChangingProcess(con, form, parameter, id, paramValue);
                 paramValueDAO.updateParamBlob(id, paramId, (String) paramValue);
             }
             case DATE -> {
@@ -420,7 +420,7 @@ public class ParameterAction extends BaseAction {
                     throw new BGMessageException("Неверный формат.");
                 }
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramChangingProcess(con, form, parameter, id, paramValue);
 
                 paramValueDAO.updateParamDate(id, paramId, (Date) paramValue);
             }
@@ -434,7 +434,7 @@ public class ParameterAction extends BaseAction {
                     throw new BGMessageException("Неверный формат.");
                 }
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramChangingProcess(con, form, parameter, id, paramValue);
 
                 paramValueDAO.updateParamDateTime(id, paramId, (Date) paramValue);
             }
@@ -446,7 +446,7 @@ public class ParameterAction extends BaseAction {
                 while (emails.hasNext())
                     values.add(new ParameterEmailValue(emails.next(), comments.hasNext() ? comments.next() : ""));
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
+                paramChangingProcess(con, form, parameter, id, paramValue = values);
 
                 paramValueDAO.updateParamEmail(id, paramId, values);
             }
@@ -471,7 +471,7 @@ public class ParameterAction extends BaseAction {
                     }
                 }
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
+                paramChangingProcess(con, form, parameter, id, paramValue = fileData);
 
                 paramValueDAO.updateParamFile(id, paramId, position, fileData);
             }
@@ -495,7 +495,7 @@ public class ParameterAction extends BaseAction {
                     values.put(val, comment);
                 }
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
+                paramChangingProcess(con, form, parameter, id, paramValue = values);
 
                 paramValueDAO.updateParamListWithComments(id, paramId, values);
             }
@@ -520,13 +520,13 @@ public class ParameterAction extends BaseAction {
                     }
                 }
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
+                paramChangingProcess(con, form, parameter, id, paramValue = values);
 
                 paramValueDAO.updateParamListCount(id, paramId, values);
             }
             case MONEY -> {
                 paramValue = Utils.parseBigDecimal(form.getParam("value"));
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramChangingProcess(con, form, parameter, id, paramValue);
                 paramValueDAO.updateParamMoney(id, paramId, (BigDecimal) paramValue);
             }
             case PHONE -> {
@@ -537,13 +537,13 @@ public class ParameterAction extends BaseAction {
                 while (phones.hasNext())
                     phoneValue.addItem(new ParameterPhoneValueItem(phones.next(), comments.hasNext() ? comments.next() : ""));
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
+                paramChangingProcess(con, form, parameter, id, paramValue = phoneValue);
 
                 paramValueDAO.updateParamPhone(id, paramId, phoneValue);
             }
             case TEXT -> {
                 paramValue = form.getParam("value");
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
+                paramChangingProcess(con, form, parameter, id, paramValue);
                 paramValueDAO.updateParamText(id, paramId, (String) paramValue);
             }
             case TREE -> {
@@ -551,7 +551,7 @@ public class ParameterAction extends BaseAction {
                 // TODO: Попробовать убрать, проверить.
                 values.removeAll(Arrays.asList("0", "-1"));
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
+                paramChangingProcess(con, form, parameter, id, paramValue = values);
 
                 paramValueDAO.updateParamTree(id, paramId, values);
             }
@@ -571,7 +571,7 @@ public class ParameterAction extends BaseAction {
                     values.put(itemId, itemCount);
                 }
 
-                paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
+                paramChangingProcess(con, form, parameter, id, paramValue = values);
 
                 paramValueDAO.updateParamTreeCount(id, paramId, values);
             }
@@ -595,7 +595,7 @@ public class ParameterAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/edit/treecount/value_row.jsp");
     }
 
-    private void paramChangingProcess(Connection con, ParamChangingEvent event) throws Exception {
-        EventProcessor.processEvent(event, new SingleConnectionSet(con));
+    private void paramChangingProcess(Connection con, DynActionForm form, Parameter parameter, int objectId, Object value) throws Exception {
+        EventProcessor.processEvent(new ParamChangingEvent(form, parameter, objectId, value), new SingleConnectionSet(con));
     }
 }
