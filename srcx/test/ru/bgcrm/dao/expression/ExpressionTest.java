@@ -14,7 +14,7 @@ import org.apache.commons.jexl3.JexlException;
 import org.junit.Test;
 
 public class ExpressionTest {
-    public static class LibraryMain {
+    public static class ExpressionObjectFirst {
         public void test1(String param1) {
             System.out.println("test1 is called");
         }
@@ -22,25 +22,25 @@ public class ExpressionTest {
         public void test1(String param1, String param2) {
             System.out.println("test1 ext is called");
         }
+
+        private static Map<String, Object> contextWithDefaultObject() {
+            var result = new HashMap<String, Object>();
+            result.put(null, new ExpressionObjectFirst());
+            return result;
+        }
     }
 
     @Test
     public void testSeveralFunctions() {
-        Map<String, Object> ctx = new HashMap<>();
-        ctx.put(null, new LibraryMain());
-
-        Expression exp = new Expression(ctx);
+        Expression exp = new Expression(ExpressionObjectFirst.contextWithDefaultObject());
         exp.execute("test1('ddd'); test1('ddd', 'mmm');");
     }
 
     @Test
     public void testMissingMethod() {
-        Map<String, Object> ctx = new HashMap<>();
-        ctx.put(null, new LibraryMain());
-
         boolean thrown = false;
 
-        Expression exp = new Expression(ctx);
+        Expression exp = new Expression(ExpressionObjectFirst.contextWithDefaultObject());
         try {
             exp.execute("test4('ddd');");
         } catch (JexlException.Method e) {
@@ -52,12 +52,9 @@ public class ExpressionTest {
 
     @Test
     public void testWrongSignature() {
-        Map<String, Object> ctx = new HashMap<>();
-        ctx.put(null, new LibraryMain());
-
         boolean thrown = false;
 
-        Expression exp = new Expression(ctx);
+        Expression exp = new Expression(ExpressionObjectFirst.contextWithDefaultObject());
         try {
             exp.execute("test2(11111, \"TEST\");");
         } catch (JexlException.Method e) {
@@ -67,7 +64,7 @@ public class ExpressionTest {
         assertTrue(thrown);
     }
 
-    public static class TestExpression {
+    public static class ExpressionObjectSecond {
         private String value;
 
         public void setValue(String value) {
@@ -81,10 +78,7 @@ public class ExpressionTest {
 
     @Test
     public void testBooleanExpression() {
-        Map<String, Object> ctx = new HashMap<>();
-        ctx.put("t", new TestExpression());
-
-        Expression exp = new Expression(ctx);
+        Expression exp = new Expression(Map.of("t", new ExpressionObjectSecond()));
         assertTrue(exp.executeCheck("1 =~ t.getIds()"));
         assertFalse(exp.executeCheck("7 =~ t.getIds()"));
         assertEquals("testValue",
@@ -93,33 +87,23 @@ public class ExpressionTest {
 
     @Test
     public void testReturningValues() {
-        Map<String, Object> ctx = new HashMap<>();
-        final TestExpression testExpr = new TestExpression();
-        ctx.put("t", testExpr);
+        final ExpressionObjectSecond obj = new ExpressionObjectSecond();
 
-        Expression exp = new Expression(ctx);
+        Expression exp = new Expression(Map.of("t", obj));
         exp.execute("if (!cu.isEmpty(t.getIds())){t.setValue('testValue')};");
 
-        assertEquals("testValue", testExpr.value);
+        assertEquals("testValue", obj.value);
     }
 
     @Test
     public void testExpressionV3() {
-        Map<String, Object> ctx = new HashMap<>();
-        final TestExpression testExpr = new TestExpression();
-        ctx.put("t", testExpr);
-
-        Expression exp = new Expression(ctx);
+        Expression exp = new Expression(Map.of("t", new ExpressionObjectSecond()));
         assertEquals(true, exp.execute("return !empty(cu.intersection({1,2}, t.getIds()))"));
     }
 
     @Test
     public void testExpressionAsScript() {
-        Map<String, Object> ctx = new HashMap<>();
-        final TestExpression testExpr = new TestExpression();
-        ctx.put("t", testExpr);
-
-        Expression exp = new Expression(ctx);
+        Expression exp = new Expression(Map.of("t", new ExpressionObjectSecond()));
         assertEquals("ab", exp.executeGetString("'a'.concat('b')"));
     }
 
@@ -131,11 +115,8 @@ public class ExpressionTest {
 
     @Test
     public void testIfExpr() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("numberFrom", "13333333333");
-
         String expr = "if (numberFrom.length() == 11) { numberFrom = numberFrom.substring(1) }; return numberFrom;";
-        String processed = new Expression(map).executeGetString(expr);
+        String processed = new Expression(Map.of("numberFrom", "13333333333")).executeGetString(expr);
         assertEquals("3333333333", processed);
     }
 
@@ -150,11 +131,9 @@ public class ExpressionTest {
 
     @Test
     public void testConcatenationNull() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("a", "t");
         String expr = "b = null;" +
                 "return a + b;";
-        String value = new Expression(map).executeGetString(expr);
+        String value = new Expression(Map.of("a", "t")).executeGetString(expr);
         assertEquals("t", value);
     }
 
