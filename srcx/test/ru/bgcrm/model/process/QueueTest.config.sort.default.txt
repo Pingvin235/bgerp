@@ -5,10 +5,11 @@ column.3.value=descriptionLink
 column.4.title=Col2
 column.4.value=descriptionLink
 
-sort.combo.count=2
-sort.combo.1.default=2
-sort.combo.2.default=1
 sort.mode.1.columnId=3
 sort.mode.1.title=Col1
 sort.mode.2.columnId=4
 sort.mode.2.title=Col3
+
+sort.combo.count=2
+sort.combo.1.default=2
+sort.combo.2.default=1

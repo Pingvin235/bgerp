@@ -32,12 +32,12 @@ column.21.aggregate=AVG
 sort.mode.1.columnId=15
 sort.mode.1.title=1 Closing Time
 sort.mode.2.columnId=15
-sort.mode.2.title=2 Closing Time DESC
+sort.mode.2.title=2 Closing Time desc
 sort.mode.2.desc=1
 sort.mode.3.columnId=17
 sort.mode.3.title=3 Text convert=int
 sort.mode.4.columnId=17
-sort.mode.4.title=4 Text convert=int DESC
+sort.mode.4.title=4 Text convert=int desc
 sort.mode.4.desc=1
 
 sort.combo.count=2

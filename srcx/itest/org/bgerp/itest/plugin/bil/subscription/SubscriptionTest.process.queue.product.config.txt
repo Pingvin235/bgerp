@@ -16,10 +16,10 @@ column.9.value=param:{@PARAM_PRICE_RUB_ID}
 column.11.title=EUR
 column.11.value=param:{@PARAM_PRICE_EUR_ID}
 
+sort.mode.1.columnId=3
+sort.mode.1.title=Name (HIDDEN)
 sort.combo.count=1
 sort.combo.1.value=1
-sort.mode.1.columnId=3
-sort.mode.1.title=Name
 
 media.html.columns=1,3,5,7,9,11
 media.html.open.columns=1,4,7,9,11

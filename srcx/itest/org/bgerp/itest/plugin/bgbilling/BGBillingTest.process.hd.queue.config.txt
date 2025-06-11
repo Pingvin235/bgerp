@@ -39,9 +39,6 @@ column.16.value=messageInLastDt:nf
 column.20.title=Создан
 column.20.value=create_dt
 
-sort.combo.count=2
-sort.combo.1.default=3
-sort.combo.2.default=2
 sort.mode.1.columnId=12
 sort.mode.1.title=Непр. сообщ обр.
 sort.mode.1.desc=true
@@ -54,6 +51,7 @@ sort.mode.3.desc=true
 sort.mode.4.columnId=2
 sort.mode.4.title=Приоритет обр.
 sort.mode.4.desc=true
+
 sort.combo.count=2
 sort.combo.1.default=3
 sort.combo.2.default=2

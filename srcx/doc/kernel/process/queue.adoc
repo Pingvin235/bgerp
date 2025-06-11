@@ -17,7 +17,7 @@ image::_res/i0031.png[]
 В конфигурации очереди процессов определяются колонки с выводимыми данными, доступные фильтры и прочие параметры.
 При выборе родительского типа процесса в разрешённых типах все вновь появившиеся типы процессов-потомки также будут отображены в очереди без необходимости её пересохранения.
 
-[[column]]
+[[setup-column]]
 === Колонки
 Одна или несколько записей вида:
 ----
@@ -675,60 +675,44 @@ filter.{@cnt}.title=Тема HelpDesk
 
 |===
 
-[[sort]]
-=== Сортировка
-Конфигурация количества последовательных сортировок (выпадающих списков с режимами сортировки).
+[[setup-sort]]
+=== Sort
+Sort modes have been defined using multiple configuration blocks:
 ----
-sort.combo.count=<count>
-----
-Где:
-[square]
-* *<count>* - количество последовательных сортировок.
-
-Пример:
-----
-sort.combo.count=3
-----
-
-Для каждого выпадающего списка возможно определение значния по-умолчанию:
-----
-sort.combo.<combo_id>.default=<defaultValue>
-----
-Где:
-[square]
-* *<combo_id>* - порядковый номер выпадающего списка начиная с 1;
-* *<defaultValue>* - выбранное по-умолчанию значение в выпадающем списке начиная с 1.
-
-Либо жёстко определить значение (используется в основном для мобильного интерфейса):
-----
-sort.combo.<combo_id>.value=<value>
-----
-Где:
-[square]
-* *<combo_id>* - порядковый номер выпадающего списка начиная с 1;
-* *<value>* - выбранное значение в выпадающем списке начиная с 1.
-
-Конфигурация режимов сортировок (значения для выпадающих списков), одна или несколько записей вида:
-----
-sort.mode.<id>.columnId=<col_id>
+sort.mode.<id>.columnId=<colId>
 sort.mode.<id>.title=<title>
-# обратный режим сортировки 1 - обратный, 0 - прямой
-sort.mode.<id>.desc=1
+# desceniding
+#sort.mode.<id>.desc=1
 ----
-Где:
-[square]
-* *<id>* - уникальный числовой идентификатор режима сортировки;
-* *<col_id>* - числовой идентификатор колонки, по которой производится сортировка, либо "0" - случайный режим сортировки;
-* *<title>* - название режима сортировки.
 
-Пример. Режимы сортировки по типу процесса, выводимому в колонке 1 и режим обратной соротировке по id процесса.
+Where:
+[square]
+* *<id>* - unique numeric mode's ID, starting from 1;
+* *<colId>* - the <<setup-column, column>> ID, used in the mode;
+* *<title>* - mode's title for the combobox item;
+
+Amount of sort comboboxes with modes, are configured in this way:
 ----
-sort.mode.1.columnId=1
-sort.mode.1.title=Тип
-sort.mode.2.column.id=2
-sort.mode.2.title=Создан обр.
-sort.mode.2.desc=1
+sort.combo.count=<amount>
 ----
+
+For each of the comboboxes can be set a default selected mode:
+----
+sort.combo.<comboId>.default=<defaultModeId>
+----
+
+Or the fixed one, used as example in <<../iface.adoc#mobile, Mobile>> interface:
+----
+sort.combo.<comboId>.value=<fixedModeId>
+----
+
+Here is the sample of sort configuration:
+[snippet, from="sort.mode.1", to="default=2"]
+link:../../../itest/org/bgerp/itest/kernel/process/ProcessTest.process.queue.config.txt#L46-L57[Configuration of Kernel Process queue]
+
+And how does it like in UI. By default sorting is first performed by descending priority and after by decending creation time.
+
+image::_res/queue/sort.png[width="800"]
 
 [[action]]
 === Actions
