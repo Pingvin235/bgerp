@@ -162,7 +162,7 @@ C: [14562] Run all searches in message processing. https://bgerp.org/version/3.0
 C: [14562] JS cleanup.
 C: [14700] Localization for month names.
 A: [14718] Scheduler status page, improved configuration: day of month, month. https://bgerp.org/version/3.0/doc/kernel/setup.html#scheduler
-A: [14718] Dynamically loaded Custom classes. https://bgerp.org/version/3.0/doc/kernel/extension.html#custom-usage
+A: [14718] Dynamically loaded Custom classes. https://bgerp.org/version/3.0/doc/kernel/extension.html#custom-src-java
 F: [14718] GitLab CI publish changes.txt.
 C: [14773] Replace JSP fn: function calls to Java methods.
 C: [14775] Using ui:combo-check in filter/group.jsp and filter/executor.jsp.

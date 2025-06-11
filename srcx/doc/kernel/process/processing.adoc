@@ -25,7 +25,7 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 * *<n>* - ordered int rule's number;
 * *<events>* - обрабатываемые правилом события через точку с запятой, если параметр не указывается - то обрабатываются все события связанные с данным типом процесса;
 * *<eventsExclude>* - исключаемые из обработки правилом события через точку с запятой, если параметр не указывается - то никакие событие не исключаются;
-* *<className>* - <<../extension.adoc#custom-usage, Custom>> class implementing javadoc:org.bgerp.app.event.iface.EventListener[] and performing all the logic;
+* *<className>* - <<../extension.adoc#custom-src-java, Custom>> class implementing javadoc:org.bgerp.app.event.iface.EventListener[] and performing all the logic;
 * *<ifExpression>* - <<#jexl, JEXL>> выражение проверки условия при котором отрабатывают команды макроса;
 * *<checkExpression>* - <<#jexl, JEXL>> выражение проверки условия при невыполнении которого генерируется ошибка *<checkErrorMessage>*, используется только с checkErrorMessage;
 * *<checkErrorMessage>* - текст ошибки, сообщаемой при невыполнении условия *<checkExpression>*;

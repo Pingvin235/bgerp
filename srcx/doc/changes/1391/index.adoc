@@ -3,7 +3,7 @@
 
 IMPORTANT: <<../../kernel/install.adoc#update-installer-ui, Install>> the update two times, as the installer behaves wrongly prior to 1390 version. Once make a normal update and after force.
 
-== Dynamic <<../../kernel/extension.adoc#custom-usage, Custom>>
+== Dynamic <<../../kernel/extension.adoc#custom-src-java, Custom>>
 Custom Java code can be updated and applied on-the-fly without application's restart.
 
 image::../../kernel/_res/custom.png[width="800"]

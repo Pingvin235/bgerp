@@ -131,27 +131,32 @@ To observe only the logs of the current user session, use <<tool.adoc#session-lo
 == Custom
 Custom application code has to be placed `custom` directory in the project root.
 
-[[custom-usage]]
-=== Usage
+[[custom-src]]
+=== Source
+[[custom-src-java]]
+==== Java
 Inside `custom/src` placed regular Java code, including plugins <<../project/index.adoc#plugin, plugins>>.
 *PLUGIN_ID* for those has to be prefixed by *custom.*, e.g. *custom.bitel*.
-Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugin/custom/<some-name>* .
+Respectively plugin Java classes have to be stored under paths: `custom/src/org/bgerp/plugin/custom/<PLUGIN_ID_AFTER_DOT>`, e.g. `custom/src/org/bgerp/plugin/custom/bitel`.
 
 That code has equal possibilities as the native application's, can use API and connected libraries.
-After compilation *Administration / Custom* this code is persisted to `lib/app/custom.jar`.
+After compilation *Administration / Custom* the bytecode is persisted to `lib/app/custom.jar`.
 
 image::_res/custom/custom.png[width="800"]
 
-Custom Java classes are dynamically reloaded after each successfull compilation.
-For that all the Custom Java sources must be located in *org.bgerp.plugin.custom* package or its subpackages.
+The custom plugins can named without *custom.* prefix and their Java code may be placed to other then *org.bgerp.plugin.custom* packages,
+but in this case the custmo classes are not dynamically reloaded after each successfull compilation.
+They are taken together with built-in Java classes only during the app's startup, so there is a *Restart* button in *Custom* tool available for that.
 
-NOTE: Although there is a *Restart* button available after successful compilation, it is not required.
-
+[[custom-src-webapp]]
+==== WebApp
 Subdirectory `custom/webapps` is searched *before* `webapps` from root directory
 and should be used for placing custom JSP and JS files. Both types are applied immediately after change.
 
 CAUTION: Each file from the original `webapps` may be "replaced" for Web server. That can brake built-in functionality.
 
+[[custom-src-ide]]
+==== IDE
 For comfortable development and reducing mistakes is strongly recommended editing your Custom in full-futured <<../project/index.adoc#ide, IDE>>.
 <<../project/index.adoc#checkout, Check>> the BGERP project out of GIT repository and make `custom` directory inside.
 
@@ -227,6 +232,8 @@ The `custom` directory has to be checked out *inside* of the project directory i
 ----
 git clone https://git.bgerp.org/bgerp/custom/bgerp-custom-company.git BGEPR/custom
 ----
+
+image::_res/custom/ide.png[width="800"]
 
 The *HTTPS* GIT URL can be taken from GitLab UI.
 

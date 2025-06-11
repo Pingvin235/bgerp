@@ -172,134 +172,126 @@ image::_res/id/user_id_title.png[]
 // TODO: Blur on data output
 
 [[user-config]]
-=== Конфигурации
-Очень большое количество редко меняющихся настроек поведения системы вынесено в конфигурации.
-Конфигурация - это текстовый блок, состоящих из записей вида: *<ключ>=<значение>*.
-На одной строке может быть только одна такая запись, символ *#* в начале строки означает комментарий.
+=== Configuration
+A large number of rarely changing system behavior settings are placed in configurations.
+A configuration is a text block consisting of entries in the format: *<key>=<value>*; any key must be used only once.
+Each line may contain only one such entry; a *#* character at the beginning of a line indicates a comment of the line.
+After any modification in configuration, editor becomes the red border.
 
-Конфигурации вводятся либо в текстовых *.properties* - файлах (опции подключения к БД, базовые настройки),
-либо в редакторах конфигурации, сохраняясь в базе данных.
+image::_res/iface/user/config.png[]
+
+[[user-config-multiline]]
+==== Multiline
+In configuration values can be stored multiline values, the way is actively used in <<extension.adoc#jexl, JEXL>> expressions.
+----
+key=<<END
+Value Line 1
+#Value Line 2
+Value Line 3
+END
+----
+
+The value will be: *Value Line 1Value Line 3*, line brakes are excluded. Instead of *END* any other string can be used.
 
 [[user-config-variable]]
-==== Переменные
-В значениях параметров конфигурации возможна подстановка ранее указанных значений с помощью подстановок *{@имя параметра}*. Рассмотрим пример подстановки.
-----
-# определение значения
-howYou=how you
-# использование подстановки
-some.kind.of.config.record=Thats {@howYou} should use macro!
-----
-При такой конфигурации при взятии значения some.kind.of.config.record получаем в результате строку "Thats how you should use macro!".
-Подставляемое значение должно быть обязательно определено ранее подстановки.
+==== Variable
+In configuration lines, it is possible to substitute previously specified values using macros *{@<key>}*.
+
+image::_res/iface/user/config/var.png[width="800"]
+
+The existence of used variables is being validated during configurations' save.
+
+image::_res/iface/user/config/var_valid.png[width="800"]
+
+NOTE: The visibility scope of any variable is restricted by its configuration, no matter of used <<user-config-include, includes>>.
 
 [[user-config-counter]]
-==== Счётчики
-После разбора конфигурация используется системой как набор пар ключ - значение, в котором порядок не определён. При необходимости указания порядка в ключе вводятся дополнительные числовые индексы.
+==== Counter
+After parsing, a configuration is used by the system as a set of key-value pairs in which the order is not defined.
+If it is necessary to specify the order, additional numeric indexes are added to the keys.
+----
+key.1.id=1
+key.1.title=Title1
+key.2.id=2
+key.2.title=Title2
+----
 
-Например:
+When there are many such entries, maintaining the index can become difficult, especially when the entry numbers need to be changed.
+In this case, the index can be extracted into a separate variable and incremented using the *inc* macro.
+Below is an identical configuration where the indexes are extracted into a variable:
 ----
-object.1.id=1
-object.1.title=Title1
-object.2.id=2
-object.2.title=Title2
+key.{@inc:cnt}.id=1
+key.{@cnt}.title=Title1
+key.{@inc:cnt}.id=2
+key.{@cnt}.title=Title2
 ----
 
-При большом количестве подобных записей ведение индекса может быть затруднительным, особенно при необходимости изменения номеров записей.
-В этом случе индекс можно вынести в отдельную переменную, увеличивая его с помощью макроса *inc*.
-Далее приведена идентичная конфигурация, индексы в которой выведены в переменную.
-----
-object.{@inc:cnt}.id=1
-object.{@cnt}.title=Title1
-object.{@inc:cnt}.id=2
-object.{@cnt}.title=Title2
-----
+[[user-config-include]]
+==== Include
+Repeated parts of large configurations they can be extracted to includes. For that can be used any <<setup.adoc#, Server Configuration>> with separated ID. The main and active server configuration is normally broken down with many includes of different subsystems and plugins.
+
+image::_res/setup/config_includes.png[width="800"]
+
+Except that, a separated server configuration can be user like a library in any other configuration,
+using instruction *include.<ID>=1*
+
+image::_res/iface/user/config/include.png[width="800"]
+
+image::_res/iface/user/config/include_usage.png[width="800"]
+
+Note, how in the include was defined initial value of <<user-config-counter, counter>> variable *cnt*.
+Using a unique ID of the included configuration multiplied by 100 ensures the uniqueness of key values in any location.
 
 [[user-config-concat]]
-==== Склеивание значений
-Помимо присвоения параметр конфигурации можно приклеивать к уже существующему под таким ключём значению. Для этого используется оператор *+=* Например:
+==== Concatenation
+Except of simple assignment, a key value can be appended to the existing:
 ----
 key=1
 key+=,2
 key+=,3
 ----
 
-В этом случе под ключом *key* будет храниться строка "1,2,3".
+In this case the value for *key* will be *1,2,3*.
+Together with <<user-config-include, includes>> the approach is used for appending to existing key values.
+If the keys' value is missing, it will be created on a first concatenation.
 
-Склеивание помогает разбить длинную строку конфигурации на несколько более читаемых. Например:
-----
-# дата рожд., с.-н. пасп., д.в. пасп., кем выд. пасп, адрес проп., тел. гор, тел. сот, адрес(а) усл., перс. данные
-bgbilling:creator.importParameters=73,74,75,76,77,78,14,12,115
-# ИНН, КПП, ФИО руководителя, полное название, должность рук.-ля, Email(ы)
-bgbilling:creator.importParameters+=,248,249, 252, 428, 429, 15
-----
+image::_res/iface/user/config/concat_1.png[width="800"]
 
-Также оно полезно при <<setup.adoc#united-user-config, объединении>> нескольких конфигураций, позволяя создать общую объединённую переменную.
+image::_res/iface/user/config/concat_2.png[width="800"]
 
-[[user-config-multiline]]
-==== Многострочные значения
-Ещё один способ разбития на несколько строк значения конфигурации. Используется, например, в <<extension.adoc#jexl, JEXL>> скриптах.
-----
-value=<<END
-Line1
-Line2
-END
-----
-Значение value будет *Line1Line2*. Переносы строк не участвуют в склеивании. Вместо *END* можно использовать любую строку.
+The both of configurations are included to the main ones and extend the same keys' value.
+
+image::_res/iface/user/config/concat_include.png[]
 
 [[mobile]]
-== Мобильный
+== Mobile
 The interface is <<server, available>> by suffix */usermob*.
 
-В текущей версии мобильный интерфейс пользователя предоставляет доступ к мобильной очереди процессов.
-В отличие от обычной она сильно ограничена функциональностью:
+The interface provides access to <<process/queue.adoc#, process queues>> with limited functionality:
 [square]
-* фильтрация и сортировка жёстко заданы;
-* значения колонок со ссылками (открытие контрагент, пользователя) отображаются простым текстом, как при выводе очереди на печать;
-* нет постраничного деления, предполагается, что фильтр ограничивает весь необходимый набор процессов для исполнителя.
+* Filtering and sorting are strictly predefined;
+* Values in columns containing links (such as to a contractor or user) are displayed as plain text, similar to how they appear when printing the queue;
+* There is no pagination — it is assumed that the filter limits the full required set of processes for executors.
 
-image::_res/iface/mob/iface.png[]
+image::_res/iface/mob/iface.png[width="800"]
 
-Для того, чтобы очередь процессов была считалась мобильной, в конфигурации её должно быть указано:
+To consider the process queue as mobile, the following must be specified in its configuration:
 ----
 showIn=usermob
 ----
 
-Для всех фильтров должны быть определены жёстко значения, например:
-----
-filter.{@inc:cnt}.type=openClose
-filter.{@cnt}.values=open
-filter.{@inc:cnt}.type=executors
-filter.{@cnt}.values=current
+NOTE: You can see the feature enabled and sample configurations in <<install.adoc#demo, Demo System>>,
+the link:https://demo.bgerp.org/user/process/queue[process queue] title there is *Kernel Usermob Interface Process Wizard*.
 
-sort.combo.count=3
-sort.mode.2.column.id=2
-sort.mode.2.title=Создан обр.
-sort.mode.2.desc=1
-sort.mode.3.column.id=6
-sort.mode.3.title=Статус
-----
+Here is the configuration of the process queue from Demo:
+[snippet, from="showIn=usermob", to="Create Process"]
+link:../../itest/org/bgerp/itest/kernel/iface/usermob/UsermobIfaceTest.process.queue.config.txt[Kernel Usermob Interface Process Wizard queue configuration]
 
-Создание процесса в очереди возможно только <<process/wizard.adoc#, мастером>>, для всех разрешённые к созданию типы процессов должны быть указаны
-в переменной конфигурации очереди createAllowedProcessList примерно следующим образом:
-----
-createAllowedProcessList=72:Подключение;74:Подключение1
-----
-
-В данном примере 72 и 74 - коды процессов, для каждого создаваемого типа будет отображена своя кнопка.
-
-image::_res/iface/mob/create.png[]
-
-Открытие процесса происходит нажатием в любое место строки таблицы. При открытии процессе также вызывается мастер. Но не создания а редактирования.
-Пример открытого процесса со следующей конфигурацией мастера:
-----
-wizard.step.1.title=Статус
-wizard.step.1.class=SetStatusStep
-
-wizard.step.2.title=Описание
-wizard.step.2.class=SetDescriptionStep
-----
+Opening processes in mobile queues performed via click on a table row, process editor implemented using <<process/wizard.adoc#, Wizard>>.
 
 image::_res/iface/mob/wizard.png[]
+
+Process creation has been done via wizard as well, each process type allowed for creation has to be defined as semicolon-separated pairs *<PROCESS_TYPE_ID1>:<TITLE1>;<PROCESS_TYPE_ID2>:<TITLE2>* in queue configuration with key *createAllowedProcessList*.
 
 [[open]]
 == Open
