@@ -5,10 +5,9 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.servlet.jsp.GetJsp;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.dao.expression.Expression;
 
 public abstract class Step extends IdTitle implements GetJsp {
     private static final Log log = Log.getLog();

@@ -7,7 +7,7 @@ import org.bgerp.app.cfg.Setup;
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
 
-public class ExpressionObject implements ru.bgcrm.dao.expression.ExpressionObject {
+public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObject {
     ExpressionObject() {}
 
     @Override

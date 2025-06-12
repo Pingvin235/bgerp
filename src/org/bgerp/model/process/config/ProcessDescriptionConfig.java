@@ -1,8 +1,7 @@
 package org.bgerp.model.process.config;
 
 import org.bgerp.app.cfg.ConfigMap;
-
-import ru.bgcrm.dao.expression.Expression;
+import org.bgerp.dao.expression.Expression;
 
 public class ProcessDescriptionConfig extends ProcessTextConfig {
     private static final String KEY = "description." + Expression.EXPRESSION_CONFIG_KEY;

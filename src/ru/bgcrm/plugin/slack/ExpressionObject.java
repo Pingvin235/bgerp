@@ -23,7 +23,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
-public class ExpressionObject implements ru.bgcrm.dao.expression.ExpressionObject {
+public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObject {
     @Override
     public void toContext(Map<String, Object> context) {
         context.put(Plugin.ID, this);

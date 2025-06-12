@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.util.Set;
 
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.dao.expression.Expression.ContextInitEvent;
 import org.bgerp.plugin.sec.secret.dao.Tables;
 
-import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 import ru.bgcrm.plugin.Table;
 import ru.bgcrm.plugin.Table.Type;
 

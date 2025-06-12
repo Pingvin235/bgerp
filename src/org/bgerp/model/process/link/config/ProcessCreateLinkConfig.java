@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.expression.Expression;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;

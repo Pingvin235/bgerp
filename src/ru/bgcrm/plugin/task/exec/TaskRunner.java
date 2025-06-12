@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.annotation.Bean;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.task.Config;

@@ -144,7 +144,7 @@ Depending on enabled plugins passed the following variables:
 [CAUTION]
 ====
 Более гибким и рекомендуемым способом выполнения команд является использование JEXL выражений с помощью *doExpression*. Обратите внимание на <<samples, примеры>>.
-Значительная часть команд ядра может быть заменена вызовами функций из javadoc:ru.bgcrm.dao.expression.ProcessChangeExpressionObject[].
+Значительная часть команд ядра может быть заменена вызовами функций из javadoc:org.bgerp.dao.expression.ProcessChangeExpressionObject[].
 ====
 
 В *<commands>* указывается макрос обработки процесса, состоящий из команд, разделённых точкой с запятой.
@@ -169,7 +169,7 @@ Depending on enabled plugins passed the following variables:
 ==== setStatus:<statusId>
 Установить статус процесса, код которого указан в *<statusId>*.
 
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeExpressionObject[].
+CAUTION: Устарел, использовать javadoc:org.bgerp.dao.expression.ProcessChangeExpressionObject[].
 
 ==== refreshCurrentQueue
 Перейти в текущую открытую очередь процессов и обновить её. Команда на браузер пользователя.

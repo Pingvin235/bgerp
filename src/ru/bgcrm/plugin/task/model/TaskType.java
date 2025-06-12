@@ -1,9 +1,8 @@
 package ru.bgcrm.plugin.task.model;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.model.base.IdStringTitle;
-
-import ru.bgcrm.dao.expression.Expression;
 
 public class TaskType extends IdStringTitle {
 

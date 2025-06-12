@@ -1,4 +1,4 @@
-package ru.bgcrm.dao.expression;
+package org.bgerp.dao.expression;
 
 import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.MapContext;

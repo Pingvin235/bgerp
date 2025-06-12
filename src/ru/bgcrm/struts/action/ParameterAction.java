@@ -37,6 +37,7 @@ import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.FileDataDAO;
 import org.bgerp.dao.customer.CustomerLogDAO;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.dao.param.ParamLogDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLogDAO;
@@ -48,7 +49,6 @@ import org.bgerp.model.param.ParameterValue;
 
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.EntityLogDAO;
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.DateChangingEvent;
 import ru.bgcrm.event.ParamChangedEvent;

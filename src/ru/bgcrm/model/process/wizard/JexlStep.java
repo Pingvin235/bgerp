@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.bean.annotation.Bean;
+import org.bgerp.dao.expression.Expression;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.process.wizard.base.Step;
 import ru.bgcrm.model.process.wizard.base.StepData;
 import ru.bgcrm.model.process.wizard.base.WizardData;

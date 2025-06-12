@@ -16,10 +16,10 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.event.base.UserEvent;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.ParamChangingEvent;

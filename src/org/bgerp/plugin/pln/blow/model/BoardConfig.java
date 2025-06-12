@@ -11,10 +11,10 @@ import java.util.Set;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessQueueCache;
+import org.bgerp.dao.expression.Expression;
+import org.bgerp.dao.expression.ProcessExpressionObject;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;

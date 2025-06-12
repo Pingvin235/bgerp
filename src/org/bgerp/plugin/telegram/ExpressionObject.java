@@ -15,7 +15,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
-public class ExpressionObject implements ru.bgcrm.dao.expression.ExpressionObject {
+public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObject {
     private static final Log log = Log.getLog();
 
     private static final Set<Character> SPECIAL_CHARACTERS_MD = Set.of('(', ')');

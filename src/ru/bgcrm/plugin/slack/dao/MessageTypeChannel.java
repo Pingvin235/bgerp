@@ -16,6 +16,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
@@ -27,7 +28,6 @@ import org.bgerp.util.Log;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.dao.PropertiesDAO;
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessLinkDAO;

@@ -25,9 +25,9 @@ import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.cache.UserGroupRoleCache;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.util.sql.pool.ConnectionPool;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;

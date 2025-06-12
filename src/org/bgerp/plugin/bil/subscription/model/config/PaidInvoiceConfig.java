@@ -3,10 +3,10 @@ package org.bgerp.plugin.bil.subscription.model.config;
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.util.Utils;
 
 /**

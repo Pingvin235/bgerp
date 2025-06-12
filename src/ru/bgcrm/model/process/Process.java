@@ -14,6 +14,8 @@ import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
+import org.bgerp.dao.expression.Expression;
+import org.bgerp.dao.expression.ProcessExpressionObject;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.model.process.config.ProcessTitleConfig;
@@ -21,8 +23,6 @@ import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;

@@ -221,7 +221,7 @@ asterisk:amiManager.{@cnt}.pswd=234567
 Calling number for <<#usage-outgoing, Outgoing Calls>> can be adapted using <<../../kernel/extension.adoc#jexl, JEXL>> expression, assigned for <<../../kernel/message/index.adoc#setup-type-call, message type Call>> with *expressionOutNumberPreprocess* key. To the JEXL context passed the following variables:
 [square]
 * *p* or *process* - object of class javadoc:ru.bgcrm.model.process.Process[], the process;
-* *pp* or *processParam* - object of class javadoc:ru.bgcrm.dao.expression.ParamExpressionObject[], process parameters;
+* *pp* or *processParam* - object of class javadoc:org.bgerp.dao.expression.ParamExpressionObject[], process parameters;
 * *value* - object of class javadoc:ru.bgcrm.model.param.ParameterPhoneValue[], phone values.
 
 Sample of such a script, appending calling prefixes depends on some list process parameter value.

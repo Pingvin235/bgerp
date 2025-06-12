@@ -1,4 +1,4 @@
-package ru.bgcrm.dao.expression;
+package org.bgerp.dao.expression;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -110,7 +110,7 @@ public class ExpressionTest {
     @Test
     public void testNewCall() {
         Expression exp = new Expression(Map.of());
-        assertEquals("value44", exp.executeGetString("new('ru.bgcrm.dao.expression.ExpressionTestClass', 'value44').getValue()"));
+        assertEquals("value44", exp.executeGetString("new('org.bgerp.dao.expression.ExpressionTestClass', 'value44').getValue()"));
     }
 
     @Test

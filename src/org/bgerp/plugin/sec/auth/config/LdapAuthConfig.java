@@ -17,11 +17,11 @@ import com.google.common.annotations.VisibleForTesting;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.plugin.sec.auth.AuthResult;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 

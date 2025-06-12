@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.dao.expression.Expression.ContextInitEvent;
 import org.bgerp.util.Dynamic;
 
-import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.event.user.UserChangedEvent;
 import ru.bgcrm.plugin.Endpoint;

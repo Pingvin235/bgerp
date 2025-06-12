@@ -3,8 +3,7 @@ package org.bgerp.plugin.msg.sms;
 import java.sql.Connection;
 
 import org.bgerp.app.event.EventProcessor;
-
-import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
+import org.bgerp.dao.expression.Expression.ContextInitEvent;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "sms";

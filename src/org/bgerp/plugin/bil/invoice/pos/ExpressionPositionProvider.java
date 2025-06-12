@@ -3,10 +3,10 @@ package org.bgerp.plugin.bil.invoice.pos;
 import java.util.Map;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.util.sql.ConnectionSet;
 

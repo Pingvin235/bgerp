@@ -8,12 +8,12 @@ import java.util.Map;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.dao.expression.Expression;
+import org.bgerp.dao.expression.ProcessLinkExpressionObject;
+import org.bgerp.dao.expression.ProcessParamExpressionObject;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.pln.callboard.model.work.ShiftData;
 
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ProcessLinkExpressionObject;
-import ru.bgcrm.dao.expression.ProcessParamExpressionObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.Utils;
 

@@ -6,10 +6,10 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.expression.CalledParamIdsExpressionObject;
+import org.bgerp.dao.expression.Expression;
+import org.bgerp.dao.expression.ProcessExpressionObject;
 
-import ru.bgcrm.dao.expression.CalledParamIdsExpressionObject;
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.util.Utils;
 
 abstract class ProcessTextConfig extends Config {

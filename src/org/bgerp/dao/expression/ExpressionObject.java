@@ -1,4 +1,4 @@
-package ru.bgcrm.dao.expression;
+package org.bgerp.dao.expression;
 
 import java.util.Map;
 

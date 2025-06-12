@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.expression.Expression;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.util.Utils;
 
 public class RowExpressionConfig extends Config {

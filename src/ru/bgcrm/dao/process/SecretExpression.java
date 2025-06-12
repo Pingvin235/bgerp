@@ -2,7 +2,8 @@ package ru.bgcrm.dao.process;
 
 import java.util.Map;
 
-import ru.bgcrm.dao.expression.Expression;
+import org.bgerp.dao.expression.Expression;
+
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

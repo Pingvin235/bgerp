@@ -5,14 +5,14 @@ import java.util.HashMap;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.dao.expression.Expression;
+import org.bgerp.dao.expression.ProcessExpressionObject;
+import org.bgerp.dao.expression.ProcessLinkExpressionObject;
+import org.bgerp.dao.expression.ProcessParamExpressionObject;
 import org.bgerp.model.process.config.ProcessDescriptionConfig;
 import org.bgerp.model.process.config.ProcessTitleConfig;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ProcessExpressionObject;
-import ru.bgcrm.dao.expression.ProcessLinkExpressionObject;
-import ru.bgcrm.dao.expression.ProcessParamExpressionObject;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.process.ProcessChangedEvent;

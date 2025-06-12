@@ -8,12 +8,12 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.bean.annotation.Bean;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CustomerDAO;
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.struts.form.DynActionForm;

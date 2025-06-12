@@ -11,14 +11,14 @@ import org.bgerp.app.event.iface.Event;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.UserCache;
 import org.bgerp.cache.UserNewsCache;
+import org.bgerp.dao.expression.Expression;
+import org.bgerp.dao.expression.UserExpressionObject;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.event.client.NewsInfoEvent;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 import org.bgerp.util.mail.MailMsg;
 
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.UserExpressionObject;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.task.Plugin;

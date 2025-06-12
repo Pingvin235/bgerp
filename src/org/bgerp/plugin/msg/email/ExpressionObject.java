@@ -12,13 +12,13 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.cache.ParameterCache;
+import org.bgerp.dao.expression.Expression;
+import org.bgerp.dao.expression.ExpressionContextAccessingObject;
+import org.bgerp.dao.expression.ProcessExpressionObject;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.mail.MailMsg;
 
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
-import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

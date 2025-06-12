@@ -2,8 +2,7 @@ package ru.bgcrm.plugin.mobile;
 
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
-
-import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
+import org.bgerp.dao.expression.Expression.ContextInitEvent;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "mobile";

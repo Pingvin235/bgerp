@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.dao.expression.ExpressionContextAccessingObject;
+import org.bgerp.dao.expression.ProcessExpressionObject;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
-import ru.bgcrm.dao.expression.ProcessExpressionObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.mobile.dao.MobileDAO;

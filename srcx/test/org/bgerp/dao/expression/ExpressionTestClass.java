@@ -1,4 +1,4 @@
-package ru.bgcrm.dao.expression;
+package org.bgerp.dao.expression;
 
 public class ExpressionTestClass {
     private String param;
