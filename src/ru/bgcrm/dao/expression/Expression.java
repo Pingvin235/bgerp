@@ -11,7 +11,7 @@ import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JexlException;
-import org.apache.commons.jexl3.MapContext;
+import org.apache.commons.jexl3.introspection.JexlPermissions;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.Event;
@@ -50,36 +50,7 @@ public class Expression {
 
     private JexlEngine jexl;
 
-    /**
-     * Extended JEXL context, providing creation of static class contexts by full name.
-     * <pre>
-     *  var = org.bgerp.SomeClass;
-     *  var.someStaticMethod();
-     * </pre>
-     */
-    private JexlContext context = new MapContext() {
-        @Override
-        public boolean has(String name) {
-            try {
-                return super.has(name) || Class.forName(name) != null;
-            } catch (ClassNotFoundException xnf) {
-                return false;
-            }
-        }
-
-        @Override
-        public Object get(String name) {
-            try {
-                Object found = super.get(name);
-                if (found == null && !super.has(name)) {
-                    found = Class.forName(name);
-                }
-                return found;
-            } catch (ClassNotFoundException xnf) {
-                return null;
-            }
-        }
-    };
+    private JexlContext context = new Context();
 
     public static final class ContextInitEvent implements Event {
         private final Map<String, Object> context;
@@ -94,24 +65,20 @@ public class Expression {
     }
 
     public Expression(Map<String, Object> context) {
+        this(context, false);
+    }
+
+    public Expression(Map<String, Object> context, boolean safe) {
         // TreeMap would be better here, but doesn't support null keys
         context = new HashMap<>(context);
 
-        try {
-            EventProcessor.processEvent(new ContextInitEvent(context), null);
-        } catch (Exception e) {
-            log.error(e);
-        }
-
-        JexlBuilder jexlBuilder = new JexlBuilder()
-                // only null namespace is needed here, it provides possibility to call methods without any prefix
-                // calling methods from other namespaces like namespace:method has been deprecated
-                .namespaces(context)
-                // throw exceptions on missing methods
-                .strict(true)
-                // but ignore calling methods of null variables
-                .arithmetic(new JexlArithmetic(false));
-        jexl = jexlBuilder.create();
+        jexl = new JexlBuilder()
+            // throw exceptions on missing methods signatures
+            .strict(true)
+            .safe(safe)
+            .arithmetic(new JexlArithmetic(false))
+            .permissions(JexlPermissions.UNRESTRICTED)
+            .create();
 
         setExpressionContextUtils(context);
 
@@ -120,10 +87,14 @@ public class Expression {
         context.put("NEW_LINE", "\n");
         context.put("NEW_LINE2", "\n\n");
 
+        try {
+            EventProcessor.processEvent(new ContextInitEvent(context), (ConnectionSet) context.get(ConnectionSet.KEY));
+        } catch (Exception e) {
+            log.error(e);
+        }
+
         // all vars except the null one are set to the JEXL context
-        context.entrySet().stream()
-            .filter(me -> me.getKey() != null)
-            .forEach(me -> this.context.set(me.getKey(), me.getValue()));
+        context.entrySet().stream().forEach(me -> this.context.set(me.getKey(), me.getValue()));
     }
 
     public static void setExpressionContextUtils(Map<String, Object> contextVars) {

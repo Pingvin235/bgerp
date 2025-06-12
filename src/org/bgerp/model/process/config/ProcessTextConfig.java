@@ -48,7 +48,7 @@ abstract class ProcessTextConfig extends Config {
         Map<String, Object> context = new HashMap<>();
         pp.toContext(context);
 
-        new Expression(context).executeGetString(expression);
+        new Expression(context, true).executeGetString(expression);
 
         return pp.getParamIds();
     }

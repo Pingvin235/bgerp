@@ -14,7 +14,7 @@ import org.apache.commons.jexl3.JexlException;
 import org.junit.Test;
 
 public class ExpressionTest {
-    public static class ExpressionObjectFirst {
+    public static class ExpressionObjectTopNamespace {
         public void test1(String param1) {
             System.out.println("test1 is called");
         }
@@ -23,16 +23,16 @@ public class ExpressionTest {
             System.out.println("test1 ext is called");
         }
 
-        private static Map<String, Object> contextWithDefaultObject() {
+        private static Map<String, Object> toContext() {
             var result = new HashMap<String, Object>();
-            result.put(null, new ExpressionObjectFirst());
+            result.put(null, new ExpressionObjectTopNamespace());
             return result;
         }
     }
 
     @Test
     public void testSeveralFunctions() {
-        Expression exp = new Expression(ExpressionObjectFirst.contextWithDefaultObject());
+        Expression exp = new Expression(ExpressionObjectTopNamespace.toContext());
         exp.execute("test1('ddd'); test1('ddd', 'mmm');");
     }
 
@@ -40,7 +40,7 @@ public class ExpressionTest {
     public void testMissingMethod() {
         boolean thrown = false;
 
-        Expression exp = new Expression(ExpressionObjectFirst.contextWithDefaultObject());
+        Expression exp = new Expression(ExpressionObjectTopNamespace.toContext());
         try {
             exp.execute("test4('ddd');");
         } catch (JexlException.Method e) {
@@ -54,7 +54,7 @@ public class ExpressionTest {
     public void testWrongSignature() {
         boolean thrown = false;
 
-        Expression exp = new Expression(ExpressionObjectFirst.contextWithDefaultObject());
+        Expression exp = new Expression(ExpressionObjectTopNamespace.toContext());
         try {
             exp.execute("test2(11111, \"TEST\");");
         } catch (JexlException.Method e) {
@@ -64,7 +64,7 @@ public class ExpressionTest {
         assertTrue(thrown);
     }
 
-    public static class ExpressionObjectSecond {
+    public static class ExpressionObject {
         private String value;
 
         public void setValue(String value) {
@@ -78,7 +78,7 @@ public class ExpressionTest {
 
     @Test
     public void testBooleanExpression() {
-        Expression exp = new Expression(Map.of("t", new ExpressionObjectSecond()));
+        Expression exp = new Expression(Map.of("t", new ExpressionObject()));
         assertTrue(exp.executeCheck("1 =~ t.getIds()"));
         assertFalse(exp.executeCheck("7 =~ t.getIds()"));
         assertEquals("testValue",
@@ -86,8 +86,8 @@ public class ExpressionTest {
     }
 
     @Test
-    public void testReturningValues() {
-        final ExpressionObjectSecond obj = new ExpressionObjectSecond();
+    public void testChangeValue() {
+        final ExpressionObject obj = new ExpressionObject();
 
         Expression exp = new Expression(Map.of("t", obj));
         exp.execute("if (!cu.isEmpty(t.getIds())){t.setValue('testValue')};");
@@ -96,14 +96,14 @@ public class ExpressionTest {
     }
 
     @Test
-    public void testExpressionV3() {
-        Expression exp = new Expression(Map.of("t", new ExpressionObjectSecond()));
+    public void testStringUtils() {
+        Expression exp = new Expression(Map.of("t", new ExpressionObject()));
         assertEquals(true, exp.execute("return !empty(cu.intersection({1,2}, t.getIds()))"));
     }
 
     @Test
-    public void testExpressionAsScript() {
-        Expression exp = new Expression(Map.of("t", new ExpressionObjectSecond()));
+    public void testGetStringWithoutReturn() {
+        Expression exp = new Expression(Map.of("t", new ExpressionObject()));
         assertEquals("ab", exp.executeGetString("'a'.concat('b')"));
     }
 
@@ -138,11 +138,40 @@ public class ExpressionTest {
     }
 
     @Test
-    public void testMethodOfNullCall() {
-        String expr = "p.value()";
+    public void testMethodCallOfNullObject() {
         Map<String, Object> context = new HashMap<>();
         context.put("p", null);
-        String value = new Expression(context).executeGetString(expr);
+
+        String expr = "p.value()";
+
+        String value = new Expression(context, true).executeGetString(expr);
         assertNull(value);
+
+        boolean thrown = false;
+        try {
+            new Expression(context).execute(expr);
+        } catch (JexlException.Variable e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void testCallOfMissingMethod() {
+        boolean thrown = false;
+        try {
+            new Expression(Map.of("t", new ExpressionObject())).execute("t.doSomething('arg');");
+        } catch (JexlException.Method e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+
+        thrown = false;
+        try {
+            new Expression(Map.of("t", new ExpressionObject())).execute("t.getSomething();");
+        } catch (JexlException.Method e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
     }
 }
