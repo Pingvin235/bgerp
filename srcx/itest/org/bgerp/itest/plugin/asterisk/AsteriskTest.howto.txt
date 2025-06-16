@@ -1,5 +1,9 @@
-The plugin's functionality is available after enabling its configuration and restart of the app
+# Incoming Calls (access to AMI on sip.bgerp.org is permitted only for demo.bgerp.org)
+- Register your SIP client on host sip.bgerp.org with login 333 and password 553365
+- Open 'Messages' tool, occupy the number 333 there
+- Make a call to number +73472588586, accept in your SIP client
+- The call must be open to processing in Messages
 
-# Outgoing calls
+# Outgoing Calls
 - When placing the mouse pointer over 'Plugin Asterisk phone' parameter value, calling link should be shown in popup menu
 - If the current user occupy a number in 'Messages' tool, then the started outgoing call should be shown here on 'Messages' tab

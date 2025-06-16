@@ -1,8 +1,7 @@
 messageType.{@CALL_MESSAGE_TYPE_ID}.offerNumberFromParamId={@USER_NUMBER_PARAM_ID}
 
-asterisk:amiManager.1.messageTypeId={@CALL_MESSAGE_TYPE_ID}
-asterisk:amiManager.1.host=127.0.0.1
-asterisk:amiManager.1.port=5038
-asterisk:amiManager.1.login=crm
-asterisk:amiManager.1.pswd=55555
-asterisk:amiManager.1.version=Asterisk 18.0
+asterisk:amiManager.{@inc:cnt}.messageTypeId={@CALL_MESSAGE_TYPE_ID}
+asterisk:amiManager.{@cnt}.host=sip.bgerp.org
+asterisk:amiManager.{@cnt}.port=5038
+asterisk:amiManager.{@cnt}.login=bgerp
+asterisk:amiManager.{@cnt}.pswd=BgErPdEmO

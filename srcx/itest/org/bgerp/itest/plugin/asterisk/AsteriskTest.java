@@ -43,13 +43,12 @@ public class AsteriskTest {
     @Test(dependsOnMethods = "param")
     public void user() throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot);
-        dao.updateParamText(UserTest.USER_ADMIN_ID, paramUserNumberId, "101");
+        dao.updateParamText(UserTest.USER_ADMIN_ID, paramUserNumberId, "333");
     }
 
     @Test(dependsOnMethods = "param")
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(TITLE,
-            ResourceHelper.getResource(this, "config.prefix.txt") +
+        ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "CALL_MESSAGE_TYPE_ID", MessageTest.messageTypeCall.getId(),
                 "USER_NUMBER_PARAM_ID", paramUserNumberId
