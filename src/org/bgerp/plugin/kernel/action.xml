@@ -1,35 +1,36 @@
 <item title="Kernel">
 	<item title="Search">
 		<item title="Search" action="/user/search:null, ru.bgcrm.struts.action.SearchAction:null">
-			<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
+			<b>allowedForms</b> - comma-separated allowed search forms, for kernel: customer, process<br/>
 			<b>defaultForm</b> - default search form
 		</item>
 		<item title="Customer" action="/user/search:customerSearch, /user/search:customerSearchProcessLink, ru.bgcrm.struts.action.SearchAction:customerSearch"/>
 		<item title="Process" action="/user/search:processSearch, ru.bgcrm.struts.action.SearchAction:processSearch"/>
 	</item>
-	<item title="News">
-		<item title="View" action="/user/news:newsList, org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList" />
-		<item title="Mark as read" action="/user/news:newsSetRead, org.bgerp.action.NewsAction:newsSetRead, ru.bgcrm.struts.action.NewsAction:newsSetRead" />
-		<item title="Mark all as read" action="/user/news:newsSetAllRead, org.bgerp.action.NewsAction:newsSetAllRead, ru.bgcrm.struts.action.NewsAction:newsSetAllRead" />
+	<item title="News" action="/user/news:newsList, org.bgerp.action.NewsAction:newsList, ru.bgcrm.struts.action.NewsAction:newsList">
+		<item title="Mark as read" action="/user/news:newsSetRead, org.bgerp.action.NewsAction:newsSetRead, ru.bgcrm.struts.action.NewsAction:newsSetRead"/>
+		<item title="Mark all as read" action="/user/news:newsSetAllRead, org.bgerp.action.NewsAction:newsSetAllRead, ru.bgcrm.struts.action.NewsAction:newsSetAllRead"/>
 		<item title="Edit" action="/user/news:newsEdit, /user/news:newsUpdate, org.bgerp.action.NewsAction:newsEdit, org.bgerp.action.NewsAction:newsUpdate, ru.bgcrm.struts.action.NewsAction:newsEdit, ru.bgcrm.struts.action.NewsAction:newsUpdate">
-			<b>allowedGroupIds</b> - comma separated IDs of allowed user groups
+			<b>allowedGroupIds</b> - comma-separated IDs of allowed user groups
 		</item>
 		<item title="Delete" action="/user/news:newsDelete, org.bgerp.action.NewsAction:newsDelete, ru.bgcrm.struts.action.NewsAction:newsDelete"/>
 		<item allowAll="1" action="/user/news:newsGet, org.bgerp.action.NewsAction:newsGet"/>
 	</item>
 	<item title="Address">
-		<item title="View" action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address"/>
-		<item title="Просмотр дома" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet"/>
-		<item title="Поиск по улицам" action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch">
-			<b>cityIds</b> - годы городов через запятую, в которых разрешён поиск улиц
+		<item title="Addresses" action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address">
+			<item title="Edit" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate, ru.bgcrm.struts.action.DirectoryAddressAction:addressGet">
+				<b>cityIds</b> - comma-separated allowed city IDs
+			</item>
+			<item title="Delete" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete">
+				<b>cityIds</b> - comma-separated allowed city IDs
+			</item>
 		</item>
-		<item title="Изменение записи справочника" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
-			<b>cityIds</b> - годы городов через запятую, разрешенных для редактирования
+		<item title="Search">
+			<item title="Street" action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch">
+				<b>cityIds</b> - comma-separated allowed city IDs
+			</item>
+			<item title="House" action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch"/>
 		</item>
-		<item title="Удаление записи справочника" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete">
-			<b>cityIds</b> - годы городов через запятую, разрешенных для просмотра
-		</item>
-		<item title="Поиск домов в улице" action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch"/>
 	</item>
 	<item title="Customer">
 		<item title="Открытие контрагента для изменения" action="ru.bgcrm.struts.action.CustomerAction:customerGet"/>
@@ -46,7 +47,7 @@
 	<item title="Message">
 		<item title="Queue">
 			<item title="List" action="/user/message:messageList, ru.bgcrm.struts.action.MessageAction:messageList">
-				<b>allowedTypeIds</b> - comma separated type IDs<br/>
+				<b>allowedTypeIds</b> - comma-separated type IDs<br/>
 			</item>
 			<item title="View" action="/user/message:null, ru.bgcrm.struts.action.MessageAction:null, ru.bgcrm.struts.action.MessageAction:newMessageLoad"/>
 			<item title="Possible Processes" action="ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList"/>
@@ -60,18 +61,18 @@
 		</item>
 		<item title="Process">
 			<item title="List" action="/user/message:processMessageList, ru.bgcrm.struts.action.MessageAction:processMessageList">
-				<b>allowedTypeIds</b> - comma separated type IDs<br/>
+				<b>allowedTypeIds</b> - comma-separated type IDs<br/>
 			</item>
 			<item title="Pin and Tag" action="/user/message:messageUpdateTags, /user/message:messageToggleTags, ru.bgcrm.struts.action.MessageAction:messageUpdateTags, ru.bgcrm.struts.action.MessageAction:messageToggleTags"/>
 			<item title="Mark as read" action="/user/message:messageUpdateRead, ru.bgcrm.struts.action.MessageAction:messageUpdateRead"/>
 			<item title="Change Process" action="/user/message:messageUpdateProcess, ru.bgcrm.struts.action.MessageAction:messageUpdateProcess"/>
 			<item title="Change Process to a Copy" action="/user/message:messageUpdateProcessToCopy, ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy"/>
 			<item title="Create" action="/user/message:processMessageCreateEdit, /user/message:template, /user/message:processMessageCreateUpdate">
-				<b>allowedTypeIds</b> - comma separated type IDs<br/>
+				<b>allowedTypeIds</b> - comma-separated type IDs<br/>
 			</item>
 			<item title="Outgoing call" action="/user/message/call:outCall"/>
 			<item title="Edit" action="/user/message:processMessageEdit, /user/message:template, /user/message:processMessageUpdate, /user/message:messageUpdate, ru.bgcrm.struts.action.MessageAction:processMessageEdit, ru.bgcrm.struts.action.MessageAction:messageUpdate">
-				<b>allowedTypeIds</b> - comma separated type IDs<br/>
+				<b>allowedTypeIds</b> - comma-separated type IDs<br/>
 			</item>
 			<item title="Delete" action="/user/message:processMessageDelete"/>
 			<item title="Edit or Delete not owned" action="/user/message:modifyNotOwned, org.bgerp.action.MessageAction:modifyNotOwned"/>
@@ -226,11 +227,11 @@
 
 		<item title="Config">
 			<item title="List" action="ru.bgcrm.struts.action.admin.ConfigAction:list">
-				<b>allowedConfigIds</b> - comma separated allowed configuration IDs<br/>
+				<b>allowedConfigIds</b> - comma-separated allowed configuration IDs<br/>
 			</item>
 			<item title="Delete" action="ru.bgcrm.struts.action.admin.ConfigAction:delete"/>
 			<item title="Edit" action="ru.bgcrm.struts.action.admin.ConfigAction:get, ru.bgcrm.struts.action.admin.ConfigAction:update">
-				<b>allowedConfigIds</b> - comma separated allowed configuration IDs<br/>
+				<b>allowedConfigIds</b> - comma-separated allowed configuration IDs<br/>
 				<b>activeAllow</b> - 0, deny to set in active<br/>
 			</item>
 			<item title="Add included" action="ru.bgcrm.struts.action.admin.ConfigAction:addIncluded"/>
@@ -284,20 +285,20 @@
 			</item>
 			<item title="Queue">
 				<item title="List" action="ru.bgcrm.struts.action.admin.ProcessAction:queueList">
-					<b>allowedQueueIds</b> - comma separated queue IDs
+					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
 				<item title="Edit" action="ru.bgcrm.struts.action.admin.ProcessAction:queueGet, ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate">
-					<b>allowedQueueIds</b> - comma separated queue IDs
+					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
 				<item title="Duplicate" action="ru.bgcrm.struts.action.admin.ProcessAction:queueDuplicate"/>
 				<item title="Delete" action="ru.bgcrm.struts.action.admin.ProcessAction:queueDelete">
-					<b>allowedQueueIds</b> - comma separated queue IDs
+					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
 				<item title="Просмотр свойств очереди" action="ru.bgcrm.struts.action.admin.ProcessAction:properties">
-					<b>allowedQueueIds</b> - comma separated queue IDs
+					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
 				<item title="Изменение свойств очереди" action="ru.bgcrm.struts.action.admin.ProcessAction:propertiesUpdate">
-					<b>allowedQueueIds</b> - comma separated queue IDs
+					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
 			</item>
 		</item>
