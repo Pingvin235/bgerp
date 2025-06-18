@@ -5,7 +5,7 @@
 	<c:set var="result" value="${frd.list}"/>
 	<c:set var="billingId" value="${form.param.billingId}"/>
 
-	<html:form action="/user/plugin/bgbilling/proto/contract.do" method="GET" styleId="searchForm-bgbilling-searchContract" styleClass="searchForm">
+	<html:form action="${form.requestURI}">
 		<html:hidden property="method" value="searchContract"/>
 		<html:hidden property="billingId"/>
 		<html:hidden property="searchBy"/>

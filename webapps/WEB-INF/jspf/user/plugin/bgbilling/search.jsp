@@ -10,20 +10,20 @@
 	<c:otherwise>
 		<script>
 			$(function() {
-				addAddressSearch( "#searchForm-bgbilling-searchContract" );
+				addAddressSearch("#searchForm-bgbilling-searchContract");
 			})
 		</script>
 
-		<html:form action="/user/plugin/bgbilling/proto/contract.do"
-			styleId="searchForm-bgbilling-searchContract" styleClass="searchForm in-mb1 mt1 in-w100p">
+		<html:form action="/user/plugin/bgbilling/proto/contract.do" styleId="searchForm-bgbilling-searchContract" styleClass="searchForm in-mb1 mt1 in-w100p">
 			<html:hidden property="method" value="searchContract"/>
 			<html:hidden property="searchBy"/>
 
+			<c:set var="billingIds" value="${u.toSet(ctxUser.getPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract').get('billingIds'))}"/>
+
 			<ui:combo-single hiddenName="billingId" prefixText="Биллинг:" onSelect="$('#paramIdsDiv').html('')">
 				<jsp:attribute name="valuesHtml">
-					<c:set var="cityIds" value="${u.toIntegerSet(ctxUser.configMap['cityIds'])}"/>
 					<c:forEach items="${plugin.dbInfoManager.dbInfoList}" var="db">
-						<c:if test="${empty cityIds or empty db.setup['cityId'] or cityIds.contains(u:int(db.setup['cityId']))}">
+						<c:if test="${empty billingIds or billingIds.contains(db.id)}">
 							<li value="${db.id}">${db.title}</li>
 						</c:if>
 					</c:forEach>
