@@ -64,7 +64,7 @@ public class GitTest {
     public void process() throws Exception {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
-        var process = ProcessHelper.addProcess(processTypeId, TITLE + " Task");
+        var process = ProcessHelper.addProcess(processTypeId, TITLE);
         ProcessHelper.addGroup(process, UserTest.groupAdminsId);
         ProcessHelper.addExecutor(process, UserTest.groupAdminsId, UserTest.USER_ADMIN_ID);
 
