@@ -10,7 +10,6 @@ import org.apache.commons.jexl3.JexlArithmetic;
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
-import org.apache.commons.jexl3.JexlException;
 import org.apache.commons.jexl3.introspection.JexlPermissions;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.event.EventProcessor;
@@ -107,25 +106,17 @@ public class Expression {
     }
 
     public boolean executeCheck(String expression) {
-        return (Boolean) jexl.createScript(expression).execute(context);
+        return (Boolean) execute(expression);
     }
 
     public String executeGetString(String expression) {
-        return (String) jexl.createScript(expression).execute(context);
+        return (String) execute(expression);
     }
 
     public Object execute(String expression) {
         log.debug("Executing script: {}", expression);
 
-        try {
-            return jexl.createScript(expression).execute(context);
-        } catch (JexlException e) {
-            int lineNumber = Utils.parseInt(StringUtils.substringBetween(e.getMessage(), "@", ":"));
-            String[] lines = expression.split("\\n");
-            if (lineNumber > 0 && lineNumber <= lines.length)
-                log.error("INCORRECT SCRIPT LINE: " + lines[lineNumber - 1]);
-            throw e;
-        }
+        return jexl.createScript(expression).execute(context);
     }
 
     /**
