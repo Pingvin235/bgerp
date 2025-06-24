@@ -577,8 +577,7 @@ public class ParameterAction extends BaseAction {
             }
         }
 
-        ParamChangedEvent changedEvent = new ParamChangedEvent(form, parameter, id, paramValue);
-        EventProcessor.processEvent(changedEvent, new SingleConnectionSet(con));
+        EventProcessor.processEvent(new ParamChangedEvent(form, parameter, id, paramValue), new SingleConnectionSet(con));
 
         return json(con, form);
     }

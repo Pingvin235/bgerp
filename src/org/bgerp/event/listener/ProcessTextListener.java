@@ -34,44 +34,36 @@ public class ProcessTextListener {
         EventProcessor.subscribe((e, conSet) -> paramChanged(e, conSet), ParamChangedEvent.class);
     }
 
-    private void processChanged(ProcessChangedEvent e, ConnectionSet conSet) {
+    private void processChanged(ProcessChangedEvent e, ConnectionSet conSet) throws SQLException {
         var process = e.getProcess();
 
-        try {
-            ConfigMap configMap = process.getType().getProperties().getConfigMap();
+        ConfigMap configMap = process.getType().getProperties().getConfigMap();
 
-            var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
-            if (titleConfig != null && titleConfig.isProcessUsed())
-                updateProcessTitle(e.getForm(), conSet, process, titleConfig.getExpression());
+        var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
+        if (titleConfig != null && titleConfig.isProcessUsed())
+            updateProcessTitle(e.getForm(), conSet, process, titleConfig.getExpression());
 
-            var descriptionConfig  = configMap.getConfig(ProcessDescriptionConfig.class);
-            if (descriptionConfig != null && descriptionConfig.isProcessUsed())
-                updateProcessDescription(e.getForm(), conSet, process, descriptionConfig.getExpression());
-        } catch (SQLException ex) {
-            log.error(ex);
-        }
+        var descriptionConfig  = configMap.getConfig(ProcessDescriptionConfig.class);
+        if (descriptionConfig != null && descriptionConfig.isProcessUsed())
+            updateProcessDescription(e.getForm(), conSet, process, descriptionConfig.getExpression());
     }
 
-    private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) {
+    private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws Exception {
         // the listener can preliminary scan all process types to store param IDs, used for title and description generation, and use that IDs in the condition
         if (!Process.OBJECT_TYPE.equals(e.getParameter().getObjectType()))
             return;
 
-        try {
-            var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(e.getObjectId());
-            ConfigMap configMap = process.getType().getProperties().getConfigMap();
-            Integer paramId = e.getParameter().getId();
+        var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(e.getObjectId());
+        ConfigMap configMap = process.getType().getProperties().getConfigMap();
+        Integer paramId = e.getParameter().getId();
 
-            var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
-            if (titleConfig != null && titleConfig.isParamUsed(paramId))
-                updateProcessTitle(e.getForm(), conSet, process, titleConfig.getExpression());
+        var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
+        if (titleConfig != null && titleConfig.isParamUsed(paramId))
+            updateProcessTitle(e.getForm(), conSet, process, titleConfig.getExpression());
 
-            var descriptionConfig = configMap.getConfig(ProcessDescriptionConfig.class);
-            if (descriptionConfig != null && descriptionConfig.isParamUsed(paramId))
-                updateProcessDescription(e.getForm(), conSet, process, descriptionConfig.getExpression());
-        } catch (Exception ex) {
-            log.error(ex);
-        }
+        var descriptionConfig = configMap.getConfig(ProcessDescriptionConfig.class);
+        if (descriptionConfig != null && descriptionConfig.isParamUsed(paramId))
+            updateProcessDescription(e.getForm(), conSet, process, descriptionConfig.getExpression());
     }
 
     private void updateProcessTitle(DynActionForm form, ConnectionSet conSet, Process process, String expression) throws SQLException {
