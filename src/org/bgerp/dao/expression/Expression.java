@@ -12,6 +12,7 @@ import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.introspection.JexlPermissions;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.event.base.UserEvent;
@@ -64,7 +65,8 @@ public class Expression {
     }
 
     public Expression(Map<String, Object> context) {
-        this(context, false);
+        // the key 'jexl.default.safe' isn't documented, needed for an emergency case during library updates and has will be removed later
+        this(context, Setup.getSetup().getBoolean("jexl.default.safe"));
     }
 
     public Expression(Map<String, Object> context, boolean safe) {

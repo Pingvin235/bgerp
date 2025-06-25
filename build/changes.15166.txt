@@ -1,1 +1,2 @@
 A: JEXL library update. Check incorrect method calls.
+A: Configuration key 'jexl.default.safe'
