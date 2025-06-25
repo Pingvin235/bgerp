@@ -110,7 +110,8 @@ public class ParameterAction extends BaseAction {
     protected void parameterListInternal(DynActionForm form, ConnectionSet conSet) throws Exception {
         int id = form.getId();
         String objectType = form.getParam("objectType");
-        int parameterGroupId = form.getParamInt("parameterGroup", -1); // doesn't work with 0!!
+        // doesn't work with 0!!
+        int parameterGroupId = form.getParamInt("parameterGroup", -1);
         List<Integer> pids = form.getParamValuesList("paramId");
 
         List<Parameter> paramList = null;
@@ -139,6 +140,9 @@ public class ParameterAction extends BaseAction {
                     hideParamIds.add(entry.getKey());
                 }
             }
+
+            // used in plugin/asterisk/param_menu_items.jsp
+            form.setRequestAttribute("process", process);
         }
 
         Set<Integer> restrictedParamIds = Utils.toIntegerSet(form.getPermission().get("restrictedParameterIds"));
