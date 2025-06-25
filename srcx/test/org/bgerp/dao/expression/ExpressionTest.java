@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.apache.commons.jexl3.JexlException;
 import org.junit.Test;
+import ru.bgcrm.model.process.Process;
 
 public class ExpressionTest {
     public static class ExpressionObjectTopNamespace {
@@ -44,7 +45,7 @@ public class ExpressionTest {
         try {
             exp.execute("test4('ddd');");
         } catch (JexlException.Method e) {
-            thrown = true;
+            thrown = e.getMessage().endsWith("unsolvable function/method 'test4(String)'");
         }
 
         assertTrue(thrown);
@@ -58,7 +59,7 @@ public class ExpressionTest {
         try {
             exp.execute("test2(11111, \"TEST\");");
         } catch (JexlException.Method e) {
-            thrown = true;
+            thrown = e.getMessage().endsWith("unsolvable function/method 'test2(Short, String)'");
         }
 
         assertTrue(thrown);
@@ -151,7 +152,21 @@ public class ExpressionTest {
         try {
             new Expression(context).execute(expr);
         } catch (JexlException.Variable e) {
-            thrown = true;
+            thrown = e.getMessage().endsWith("variable 'p' is null");
+        }
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void testMethodCallOfReturnedNullObject() {
+        Map<String, Object> context = new HashMap<>();
+        context.put("p", new Process());
+
+        boolean thrown = false;
+        try {
+            new Expression(context).execute("p.getCloseTime().getTime()");
+        } catch (JexlException.Property e) {
+            thrown = e.getMessage().endsWith("undefined property '.getCloseTime'");
         }
         assertTrue(thrown);
     }
@@ -162,7 +177,7 @@ public class ExpressionTest {
         try {
             new Expression(Map.of("t", new ExpressionObject())).execute("t.doSomething('arg');");
         } catch (JexlException.Method e) {
-            thrown = true;
+            thrown = e.getMessage().endsWith("unsolvable function/method 'doSomething(String)'");
         }
         assertTrue(thrown);
 
@@ -170,7 +185,7 @@ public class ExpressionTest {
         try {
             new Expression(Map.of("t", new ExpressionObject())).execute("t.getSomething();");
         } catch (JexlException.Method e) {
-            thrown = true;
+            thrown = e.getMessage().endsWith("unsolvable function/method 'getSomething'");
         }
         assertTrue(thrown);
     }
