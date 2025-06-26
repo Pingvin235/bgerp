@@ -1,5 +1,5 @@
 if [ ! -d "/var/lib/mysql/mysql" ]; then
-    echo "MySQL data directory init"
+    echo "MariaDB data directory init"
 
     # temporary up
     docker_wait_mysql_up
@@ -18,8 +18,8 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo -e "\nscheduler.start=0" >> /opt/bgerp/bgerp.properties
 
     echo "Creating BGERP user and init database"
-    mysql --default-character-set=utf8 -uroot -p$MYSQL_ROOT_PASSWORD < /opt/bgerp/db_create.sql
-    mysql --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < /opt/bgerp/db_init.sql
+    mariadb --default-character-set=utf8 -uroot -p$MYSQL_ROOT_PASSWORD < /opt/bgerp/db_create.sql
+    mariadb --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < /opt/bgerp/db_init.sql
 
     if [ "$MASTER" != "no" ]; then
         echo "Installing Master release"
@@ -33,7 +33,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     if [ "$DEMO" != "no" ]; then
         echo "Applying DEMO database"
         wget https://demo.bgerp.org/bgerp.sql -O $TMP_DIR/bgerp.sql
-        mysql --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < $TMP_DIR/bgerp.sql
+        mariadb --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < $TMP_DIR/bgerp.sql
 
         echo "Applying DEMO filestorage"
         wget https://demo.bgerp.org/filestorage.zip -O $TMP_DIR/filestorage.zip

@@ -21,7 +21,7 @@ docker_wait_bgerp_up () {
 
 # $MYSQL_ROOT_PASSWORD will be used there in case of missing DB
 # kick off the upstream command
-/usr/local/bin/docker-entrypoint.sh mysqld &
+/usr/local/bin/docker-entrypoint.sh mariadbd &
 
 source docker-bgerp-data.sh
 

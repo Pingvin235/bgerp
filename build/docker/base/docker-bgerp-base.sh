@@ -7,10 +7,10 @@ source docker-bgerp-mysql.sh
 
 # $MYSQL_ROOT_PASSWORD will be used there in case of missing DB
 # kick off the upstream command
-/usr/local/bin/docker-entrypoint.sh mysqld &
+/usr/local/bin/docker-entrypoint.sh mariadbd &
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
-    echo "MySQL data directory init"
+    echo "MariaDB data directory init"
 
     # temporary up
     docker_wait_mysql_up
@@ -29,7 +29,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     mv -v /tmp/bgerp/bgerp.properties .
 
     echo "Creating BGERP user and init database"
-    mysql --default-character-set=utf8 -uroot -p$MYSQL_ROOT_PASSWORD < /tmp/bgerp/db_create.sql
+    mariadb --default-character-set=utf8 -uroot -p$MYSQL_ROOT_PASSWORD < /tmp/bgerp/db_create.sql
 else
     # normal up
     docker_wait_mysql_up

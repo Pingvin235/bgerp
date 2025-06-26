@@ -1,5 +1,5 @@
-# https://github.com/docker-library/mysql/blob/090eb25ac69bca920fc5320484bc35aac92a8143/8.0/Dockerfile.debian
-FROM mysql:8.0.40-debian
+# https://github.com/MariaDB/mariadb-docker/blob/a272347802e1764dd8c0e15ba2b2abfeeadb3bb6/11.4/Dockerfile
+FROM mariadb:11.4.7-noble
 
 # mysql
 #======
@@ -10,17 +10,18 @@ RUN apt-get update --allow-insecure-repositories && apt-get install -y pwgen
 RUN mkdir /var/log/mysql; chown mysql:mysql /var/log/mysql
 
 # my.cnf parameters: empty sql-mode, logs
-RUN sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf; \
-	sed -i '/\[mysqld\]/a log_error=/var/log/mysql/mysql_error.log ' /etc/mysql/my.cnf; \
-	sed -i '/\[mysqld\]/a general_log_file=/var/log/mysql/mysql.log ' /etc/mysql/my.cnf; \
-	sed -i '/\[mysqld\]/a general_log=0 ' /etc/mysql/my.cnf; \
-	sed -i '/\[mysqld\]/a slow_query_log_file=/var/log/mysql/mysql_slow.log ' /etc/mysql/my.cnf; \
-	sed -i '/\[mysqld\]/a slow_query_log=1 ' /etc/mysql/my.cnf;
+RUN sed -i '/\[mariadbd\]/a sql-mode= ' /etc/mysql/mariadb.conf.d/50-server.cnf; \
+	sed -i '/\[mariadbd\]/a log_error=/var/log/mysql/mysql_error.log ' /etc/mysql/mariadb.conf.d/50-server.cnf; \
+	sed -i '/\[mariadbd\]/a general_log_file=/var/log/mysql/mysql.log ' /etc/mysql/mariadb.conf.d/50-server.cnf; \
+	sed -i '/\[mariadbd\]/a general_log=0 ' /etc/mysql/mariadb.conf.d/50-server.cnf; \
+	sed -i '/\[mariadbd\]/a slow_query_log_file=/var/log/mysql/mysql_slow.log ' /etc/mysql/mariadb.conf.d/50-server.cnf; \
+	sed -i '/\[mariadbd\]/a slow_query_log=1 ' /etc/mysql/mariadb.conf.d/50-server.cnf; \
+  sed -i '/\[mariadbd\]/a innodb_use_native_aio=OFF ' /etc/mysql/mariadb.conf.d/50-server.cnf;
 
 # avoids errors with 'apt-get update' running after
-RUN rm /etc/apt/sources.list.d/mysql.list
+RUN rm /etc/apt/sources.list.d/mariadb.list
 
-# java, taken from: https://github.com/adoptium/containers/blob/main/21/jdk/ubuntu/jammy/Dockerfile
+# java, taken from: https://github.com/adoptium/containers/blob/main/21/jdk/ubuntu/noble/Dockerfile
 #================================================================================================================
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH=$JAVA_HOME/bin:$PATH
@@ -54,26 +55,30 @@ RUN set -eux; \
     locale-gen en_US.UTF-8; \
     rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_VERSION=jdk-21.0.5+11
+ENV JAVA_VERSION=jdk-21.0.7+6
 
 RUN set -eux; \
     ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in \
        amd64) \
-         ESUM='3c654d98404c073b8a7e66bffb27f4ae3e7ede47d13284c132d40a83144bfd8c'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jdk_x64_linux_hotspot_21.0.5_11.tar.gz'; \
+         ESUM='974d3acef0b7193f541acb61b76e81670890551366625d4f6ca01b91ac152ce0'; \
+         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_x64_linux_hotspot_21.0.7_6.tar.gz'; \
          ;; \
        arm64) \
-         ESUM='6482639ed9fd22aa2e704cc366848b1b3e1586d2bf1213869c43e80bca58fe5c'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.5_11.tar.gz'; \
+         ESUM='31dba70ba928c78c20d62049ac000f79f7a7ab11f9d9c11e703f52d60aa64f93'; \
+         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.7_6.tar.gz'; \
          ;; \
        ppc64el) \
-         ESUM='3c6f4c358facfb6c19d90faf02bfe0fc7512d6b0e80ac18146bbd7e0d01deeef'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.5_11.tar.gz'; \
+         ESUM='2ddc0dc14b07d9e853875aac7f84c23826fff18b9cea618c93efe0bcc8f419c2'; \
+         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.7_6.tar.gz'; \
+         ;; \
+       riscv64) \
+         ESUM='d75f33ee7f9e5532bce263db83443ffed7d9bae7ff3ed41e48d137808adfe513'; \
+         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_riscv64_linux_hotspot_21.0.7_6.tar.gz'; \
          ;; \
        s390x) \
-         ESUM='51a7ca42cc2e8cb5f3e7a326c28912ee84ff0791a1ca66650a8c53af07510a7c'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jdk_s390x_linux_hotspot_21.0.5_11.tar.gz'; \
+         ESUM='216edbccab2d677639c90d2cb09dfa39c257788a62b8b83d879528c447b9ad33'; \
+         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_s390x_linux_hotspot_21.0.7_6.tar.gz'; \
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
@@ -86,7 +91,7 @@ RUN set -eux; \
     # gpg: key 843C48A565F8F04B: "Adoptium GPG Key (DEB/RPM Signing Key) <temurin-dev@eclipse.org>" imported
     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B; \
     gpg --batch --verify /tmp/openjdk.tar.gz.sig /tmp/openjdk.tar.gz; \
-    rm -r "${GNUPGHOME}" /tmp/openjdk.tar.gz.sig; \
+    rm -rf "${GNUPGHOME}" /tmp/openjdk.tar.gz.sig; \
     echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p "$JAVA_HOME"; \
     tar --extract \

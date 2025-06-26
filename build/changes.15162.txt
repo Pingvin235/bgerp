@@ -1,0 +1,1 @@
+B: Docker image 'bgerp/base': MySQL 8.0 to MariaDB 11.4.7, OpenJDK to 21.0.7+6
