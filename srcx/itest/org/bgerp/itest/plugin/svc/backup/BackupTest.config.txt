@@ -1,3 +1,4 @@
+
 # backup of app code only
 scheduler.task.backup.class=Backup
 scheduler.task.backup.hours=9,18
