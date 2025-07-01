@@ -14,9 +14,9 @@ url.open=/open
 mail.from.email=demo@bgerp.org
 mail.from.name={@title}
 mail.transport.protocol=smtps
-mail.smtp.host=smtp.yandex.com
+mail.smtp.host=smtppro.zoho.eu
 mail.smtp.user=demo@bgerp.org
-mail.smtp.pswd=bgdemo
+mail.smtp.pswd=fafTc?r2
 # debug smtp exchange
 #mail.debug=1
 
