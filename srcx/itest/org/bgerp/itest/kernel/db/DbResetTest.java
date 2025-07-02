@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collections;
 import java.util.Set;
 
@@ -46,22 +45,6 @@ public class DbResetTest {
         con.createStatement().executeUpdate("CREATE DATABASE " + DBNAME);
     }
 
-    private static ExecuteSQL sqlCall = new ExecuteSQL() {
-        @Override
-        protected Set<String> getQueryHashes(Connection con) throws SQLException {
-            return Collections.emptySet();
-        }
-
-        @Override
-        protected void doQuery(Statement st, String query, boolean useCache, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
-            try {
-                log.debug("Executing: {}", query);
-                st.executeUpdate(query);
-            } catch (SQLException ex) {
-                throw new SQLException("QUERY: " + query, ex);
-            }
-        }
-    };
 
     @Test(dependsOnMethods = "cleanUp")
     public void createDb() throws Exception {
@@ -70,6 +53,18 @@ public class DbResetTest {
         log.info("Creating database content..");
 
         var con = DbTest.conRoot;
+
+        // do not handle with executed queries, because there is no current database selected for that
+        var sqlCall = new ExecuteSQL() {
+            @Override
+            protected Set<String> getQueryHashes(Connection con) throws SQLException {
+                return Collections.emptySet();
+            }
+
+            @Override
+            protected void addHashes(Connection con, Set<String> hashes) throws SQLException {
+            }
+        };
 
         con.setAutoCommit(false);
         sqlCall.call(con, "USE " + DBNAME + ";\n" + IOUtils.toString(new FileInputStream("build/update/db_init.sql"), StandardCharsets.UTF_8));

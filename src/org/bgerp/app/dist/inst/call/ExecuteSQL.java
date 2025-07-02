@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
@@ -104,7 +105,7 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
 
                 blockQuery = null;
                 continue;
-            } else if (query.startsWith("--")) {
+            } else if (query.startsWith("--") && Utils.isBlankString(query = StringUtils.substringAfter(query, "\n"))) {
                 continue;
             }
 
@@ -130,7 +131,6 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
      * @param newHashes set there added hash of executed {@code query} if it wasn't presented in {@code hashes}.
      * @throws SQLException
      */
-    @VisibleForTesting
     protected void doQuery(Statement st, String query, boolean useHash, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
         String hash = Utils.getDigest(query);
         if (useHash && existingHashes.contains(hash))
@@ -160,7 +160,6 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
      * @return set with hashes.
      * @throws SQLException
      */
-    @VisibleForTesting
     protected Set<String> getQueryHashes(Connection con) throws SQLException {
         Set<String> result = new TreeSet<>();
 
@@ -175,7 +174,7 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
             return result;
         }
 
-        String query = "SELECT " + HASH_COLUMN + " FROM " + TABLE_DB_UPDATE;
+        String query = SQL_SELECT + HASH_COLUMN + SQL_FROM + TABLE_DB_UPDATE;
         try (var ps = con.prepareStatement(query)) {
             var rs = ps.executeQuery();
             while (rs.next()) {
@@ -192,11 +191,12 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
      * @param hashes set with hashes.
      * @throws SQLException
      */
-    private void addHashes(Connection con, Set<String> hashes) throws SQLException {
+    @VisibleForTesting
+    protected void addHashes(Connection con, Set<String> hashes) throws SQLException {
         if (hashes.isEmpty())
             return;
 
-        var sql = "INSERT INTO " + TABLE_DB_UPDATE + "(" + HASH_COLUMN + ") VALUES (?)";
+        var sql = SQL_INSERT_INTO + TABLE_DB_UPDATE + "(" + HASH_COLUMN + ") VALUES (?)";
         try (var ps = con.prepareStatement(sql)) {
             for (var hash : hashes) {
                 ps.setString(1, hash);
@@ -205,12 +205,10 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
         }
     }
 
-    public static void clearHashes() {
+    public static void clearHashes() throws SQLException {
         try (var con = Setup.getSetup().getDBConnectionFromPool()) {
-            con.createStatement().executeUpdate("DELETE FROM " + TABLE_DB_UPDATE);
+            con.createStatement().executeUpdate(SQL_DELETE_FROM + TABLE_DB_UPDATE);
             con.commit();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
 }
