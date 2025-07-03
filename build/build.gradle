@@ -36,10 +36,6 @@ task buildUpdate(type: Zip, dependsOn: 'buildAppJar', description: 'Builds distr
         include('module.properties')
     }
     into('content') {
-        from(distDir) {
-            // TODO: Check if needed in update.
-            include('scripts/**')
-        }
         from("$distDir/files") {
             exclude('bgerp.properties')
             exclude('setenv.sh')

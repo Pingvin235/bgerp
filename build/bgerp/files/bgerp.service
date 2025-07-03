@@ -1,6 +1,6 @@
 [Unit]
 Description=BGERP
-After=network.target mysql.service
+After=network.target mariadb.service
 
 [Service]
 Type=forking
