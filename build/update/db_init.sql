@@ -1,14 +1,13 @@
--- if sql-mode is set to empty string in my.cnf
+-- #BLOCK# sql-mode is set to empty string in my.cnf;
 CREATE TABLE IF NOT EXISTS _check_db_access(a INT, `check_sql-mode` VARCHAR(10) NOT NULL);
 INSERT INTO _check_db_access(a) VALUES (42);
 DROP TABLE _check_db_access;
+-- #ENDB#;
 
--- fulltext is supported
-CREATE TABLE IF NOT EXISTS _check_fulltext (
-	data TEXT NOT NULL,
-	FULLTEXT (data) /*!50700 WITH PARSER ngram */
-);
+-- #BLOCK# fulltext is supported;
+CREATE TABLE IF NOT EXISTS _check_fulltext (data TEXT NOT NULL, FULLTEXT (data) /*!50700 WITH PARSER ngram */);
 DROP TABLE _check_fulltext;
+-- #ENDB#;
 
 -- #BLOCK#NO_HASH#;
 DROP PROCEDURE IF EXISTS drop_column_if_exists;
