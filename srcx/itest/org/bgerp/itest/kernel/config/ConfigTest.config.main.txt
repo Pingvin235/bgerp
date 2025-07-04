@@ -1,16 +1,14 @@
 
-# system language
-lang=en
+# system language, supported: ru, en
+#lang=en
 
-# HTML title !!!
+# browser window title !!!
 title=BGERP DEMO
 
-# root URL !!!
+# application interface URL !!!
 URL=https://demo.bgerp.org
-url.user={@URL}/user
-url.open=/open
 
-# email sending options smtp !!!
+# email smtp settings !!!
 mail.from.email=demo@bgerp.org
 mail.from.name={@title}
 mail.transport.protocol=smtps
@@ -23,26 +21,8 @@ mail.smtp.pswd=fafTc?r2
 # app's alarms comma separated emails !!!
 #alarm.mail=demo@bgerp.org
 
-# password check rules
-user.password.chars=1234567890qwertyupasdfghjkzxcvbnmiloQWERTYUIOPASDFGHJKLZXCVBNM
-user.password.length.min=5
-user.password.length.max=10
-
-# custom process priorities
-#process.priority.0.color=yellow
-#process.priority.1.color=#00FF00
-#process.priority.2.color=#F00
-
-# check user permissions, 1 - enable
-user.permission.check=0
+# check user permissions
+#user.permission.check=1
 
 # group roles in processes, semicolon separated pairs <id>:<title>
 processGroupRoles=0:Execution;1:Follow
-
-# comma separated list of Java normal or dynamic classes implementing java.lang.Runnable, running on server start
-#runOnStart=
-# comma separated list of Java normal or dynamic classes, instantiated on server start, recompilation of dynamic code re-creates them again
-#createOnStart=
-
-# disable all plugins by default
-plugin.enable.default=0
