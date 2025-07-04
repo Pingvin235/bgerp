@@ -53,7 +53,7 @@ public class LoginStat {
     private LoginStat() {
         try {
             EventListener<SetupChangedEvent> changeListener = (e, conSet) -> {
-                sessionTimeout = Setup.getSetup().getSokLong(0L, "user.session.timeout", "sessionTimeout") * 1000L;
+                sessionTimeout = Setup.getSetup().getSokLong(300, "user.session.timeout", "sessionTimeout") * 1000L;
                 log.debug("sessionTimeout: {}", sessionTimeout);
             };
 
