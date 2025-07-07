@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
@@ -18,6 +20,8 @@ import ru.bgcrm.model.process.ProcessExecutor;
  * @author Shamil Vakhitov
  */
 public class Item {
+    private static final Log log = Log.getLog();
+
     private final Board board;
     private final Process process;
     /** Column values from a process queue. */
@@ -61,14 +65,6 @@ public class Item {
 
     public Item getParent() {
         return parent;
-    }
-
-    public int getPriority() {
-        if (process == null)
-            return 0;
-        if (process.getPriority() > 0)
-            return process.getPriority();
-        return 0;
     }
 
     public List<Item> getChildren() {
@@ -134,4 +130,14 @@ public class Item {
         return executorIds;
     }
 
+    @Deprecated
+    public int getPriority() {
+        log.warndMethod("getPriority", null);
+
+        if (process == null)
+            return 0;
+        if (process.getPriority() > 0)
+            return process.getPriority();
+        return 0;
+    }
 }

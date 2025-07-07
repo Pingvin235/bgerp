@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.cache.ProcessTypeCache;
@@ -18,6 +19,7 @@ import org.bgerp.dao.expression.Expression;
 import org.bgerp.dao.expression.ProcessExpressionObject;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.model.process.config.ProcessPriorityConfig;
 import org.bgerp.model.process.config.ProcessTitleConfig;
 import org.bgerp.util.Log;
 
@@ -201,6 +203,16 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    /**
+     * Provides configured priority color
+     *
+     * @return HTML color string or {@code null}
+     */
+    public String getPriorityColor() {
+        var config = Setup.getSetup().getConfig(ProcessPriorityConfig.class);
+        return config.getPriorityColors().get(priority);
     }
 
     @Override

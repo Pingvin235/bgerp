@@ -2,11 +2,8 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <u:sc>
-	<c:set var="priority" value="${process.priority}"/>
-	<%@ include file="/WEB-INF/jspf/process_color.jsp"%>
-
 	<c:set var="uiid" value="${u:uiid()}"/>
-	<div style="background-color: ${color}; padding-bottom: 0;" class="box">
+	<div style="background-color: ${process.priorityColor}; padding-bottom: 0;" class="box">
 		<div id="${uiid}" class="pb05">
 			<ui:when type="user">
 				<c:set var="cloneAllowed" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processClone')}"/>

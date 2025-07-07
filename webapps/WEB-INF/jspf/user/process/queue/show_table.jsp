@@ -63,19 +63,18 @@ Incoming variables:
 
 		<c:set target="${rowData}" property="urgColor" value="${''}"/>
 
+		<c:set target="${rowData}" property="process" value="${row[0][0]}"/>
+		<c:set target="${rowData}" property="linkedProcess" value="${row[0][1]}"/>
+
 		<c:forEach begin="1" var="col" items="${row}" varStatus="status">
 			<c:set var="column" value="${columnList[status.index - 1].column}"/>
 
 			<c:if test="${column.value eq 'priority'}">
-				<c:set var="priority" value="${col}"/>
-				<%@ include file="/WEB-INF/jspf/process_color.jsp"%>
+				<c:set var="color" value="${rowData.process.priorityColor}"/>
 				<c:set var="bgcolor" value="bgcolor='${color}'"/>
 				<c:set target="${rowData}" property="urgColor" value="${color}"/>
 			</c:if>
 		</c:forEach>
-
-		<c:set target="${rowData}" property="process" value="${row[0][0]}"/>
-		<c:set target="${rowData}" property="linkedProcess" value="${row[0][1]}"/>
 
 		<%-- decoding html column values --%>
 		<c:forEach begin="1" var="col" items="${row}" varStatus="status">

@@ -44,6 +44,7 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.model.process.config.IsolationConfig;
+import org.bgerp.model.process.config.ProcessPriorityConfig;
 import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.Log;
@@ -427,6 +428,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processPriorityEdit(DynActionForm form, ConnectionSet conSet) {
+        form.setRequestAttribute("config", setup.getConfig(ProcessPriorityConfig.class));
         return html(conSet, form, PATH_JSP + "/process/editor_priority.jsp");
     }
 
