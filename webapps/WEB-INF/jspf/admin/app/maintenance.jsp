@@ -3,10 +3,10 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 <div id="${uiid}" class="center1020">
-	<p:check action="org.bgerp.action.admin.AppAction:maintenanceStart">
+	<p:check action="/admin/app:maintenanceStart">
 		<form action="${form.requestURI}">
 			<c:set var="maintenance" value="${frd.maintenance}"/>
-			<h2>${l.l('Maintenance')}</h2>
+			<h1>${l.l('Maintenance')}</h1>
 			<c:set var="command">$$.ajax.post(this).done(() => $$.ajax.load('${form.requestUrl}', $(document.getElementById('${uiid}').parentElement)))</c:set>
 			<c:choose>
 				<c:when test="${empty maintenance}">
@@ -45,7 +45,7 @@
 
 	<c:set var="logged" value="${frd.logged}"/>
 
-	<h2>${l.l('Logged in users')} [${logged.size()}]</h2>
+	<h1>${l.l('Logged in users')} [${logged.size()}]</h1>
 	<table class="data hl">
 		<tr>
 			<td>${l.l('User')}</td>
@@ -68,4 +68,4 @@
 </div>
 
 <shell:title text="${l.l('Maintenance')}"/>
-<shell:state/>
+<shell:state help="kernel/install.html#app-maintenance"/>

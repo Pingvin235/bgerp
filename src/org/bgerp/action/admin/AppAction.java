@@ -33,7 +33,7 @@ import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path="/admin/app")
+@Action(path="/admin/app", pathId = true)
 public class AppAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/app";
 

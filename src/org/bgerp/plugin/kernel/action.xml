@@ -322,28 +322,28 @@
 		</item>
 
 		<item title="App">
-			<item title="Status" action="org.bgerp.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null, ru.bgcrm.struts.action.admin.AppAction:status"/>
-			<item title="Restart" action="org.bgerp.action.admin.AppAction:restart, ru.bgcrm.struts.action.admin.AppAction:restart"/>
-			<item title="Update" action="org.bgerp.action.admin.AppAction:update, ru.bgcrm.struts.action.AppAction:update"/>
-			<item title="Update on Change" action="org.bgerp.action.admin.AppAction:updateToChange, ru.bgcrm.struts.action.admin.AppAction:updateToChange"/>
-			<item title="Maintanence" action="org.bgerp.action.admin.AppAction:maintenance, org.bgerp.action.admin.AppAction:userLoggedList, ru.bgcrm.struts.action.admin.AppAction:userLoggedList">
-				<item title="Start and Cancel" action="org.bgerp.action.admin.AppAction:maintenanceStart, org.bgerp.action.admin.AppAction:maintenanceCancel"/>
+			<item title="Status" action="/admin/app:status, org.bgerp.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null, ru.bgcrm.struts.action.admin.AppAction:status"/>
+			<item title="Restart" action="/admin/app:restart, org.bgerp.action.admin.AppAction:restart, ru.bgcrm.struts.action.admin.AppAction:restart"/>
+			<item title="Update" action="/admin/app:update, org.bgerp.action.admin.AppAction:update, ru.bgcrm.struts.action.AppAction:update"/>
+			<item title="Update on Change" action="/admin/app:updateToChange, org.bgerp.action.admin.AppAction:updateToChange, ru.bgcrm.struts.action.admin.AppAction:updateToChange"/>
+			<item title="Maintanence" action="/admin/app:maintenance, org.bgerp.action.admin.AppAction:maintenance, org.bgerp.action.admin.AppAction:userLoggedList, ru.bgcrm.struts.action.admin.AppAction:userLoggedList">
+				<item title="Start and Cancel" action="/admin/app:maintenanceStart, org.bgerp.action.admin.AppAction:maintenanceStart, org.bgerp.action.admin.AppAction:maintenanceCancel"/>
 			</item>
 			<item title="App logs">
-				<item title="Download" action="org.bgerp.action.admin.AppAction:downloadLogApp"/>
-				<item title="Delete" action="org.bgerp.action.admin.AppAction:deleteLogApp"/>
+				<item title="Download" action="/admin/app:downloadLogApp, org.bgerp.action.admin.AppAction:downloadLogApp"/>
+				<item title="Delete" action="/admin/app:deleteLogApp, org.bgerp.action.admin.AppAction:deleteLogApp"/>
 			</item>
 			<item title="Access logs">
-				<item title="Download" action="org.bgerp.action.admin.AppAction:downloadLogAccess"/>
-				<item title="Delete" action="org.bgerp.action.admin.AppAction:deleteLogAccess"/>
+				<item title="Download" action="/admin/app:downloadLogAccess, org.bgerp.action.admin.AppAction:downloadLogAccess"/>
+				<item title="Delete" action="/admin/app:deleteLogAccess, org.bgerp.action.admin.AppAction:deleteLogAccess"/>
 			</item>
 			<item title="Update logs">
-				<item title="Download" action="org.bgerp.action.admin.AppAction:downloadLogUpdate"/>
-				<item title="Delete" action="org.bgerp.action.admin.AppAction:deleteLogUpdate"/>
+				<item title="Download" action="/admin/app:downloadLogUpdate, org.bgerp.action.admin.AppAction:downloadLogUpdate"/>
+				<item title="Delete" action="/admin/app:deleteLogUpdate, org.bgerp.action.admin.AppAction:deleteLogUpdate"/>
 			</item>
 			<item title="Update packages">
-				<item title="Download" action="org.bgerp.action.admin.AppAction:downloadUpdateZip"/>
-				<item title="Delete" action="org.bgerp.action.admin.AppAction:deleteUpdateZip"/>
+				<item title="Download" action="/admin/app:downloadUpdateZip, org.bgerp.action.admin.AppAction:downloadUpdateZip"/>
+				<item title="Delete" action="/admin/app:deleteUpdateZip, org.bgerp.action.admin.AppAction:deleteUpdateZip"/>
 			</item>
 		</item>
 	</item>

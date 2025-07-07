@@ -22,14 +22,15 @@ public class PermissionNodeTest {
         Assert.assertEquals("Kernel / Administration / App / Status", p.getTitlePath());
 
         Assert.assertEquals(
-                List.of("org.bgerp.action.admin.AppAction:status",
+                List.of("/admin/app:status",
+                        "org.bgerp.action.admin.AppAction:status",
                         "ru.bgcrm.struts.action.admin.StateAction:null",
                         "ru.bgcrm.struts.action.admin.AppAction:status"),
                 p.getActions());
         Assert.assertEquals(p, node.findPermissionNode("ru.bgcrm.struts.action.admin.StateAction:null"));
         Assert.assertFalse(p.isAllowAll());
         Assert.assertFalse(p.isNotLogging());
-        Assert.assertEquals("org.bgerp.action.admin.AppAction:status", p.getAction());
+        Assert.assertEquals("/admin/app:status", p.getAction());
 
         p = node.findPermissionNode("ru.bgcrm.struts.action.PoolAction:null");
         Assert.assertNotNull(p);

@@ -30,10 +30,10 @@
 
 <ui:menu-group title="${l.l('Администрирование')}" icon="ti-settings">
 	<ui:menu-group title="${l.l('Приложение')}" icon="ti-package">
-		<ui:menu-item title="${l.l('Status')}" href="admin/app/status" action="org.bgerp.action.admin.AppAction:status" />
+		<ui:menu-item title="${l.l('Status')}" href="admin/app/status" action="/admin/app:status" />
 
 		<ui:menu-item title="${l.l('Maintenance')}" href="admin/app/maintenance"
-			action="org.bgerp.action.admin.AppAction:maintenance" />
+			action="/admin/app:maintenance" />
 	</ui:menu-group>
 
 	<ui:menu-item title="${l.l('License')}" href="admin/license" icon="ti-money" action="/admin/license:null" />

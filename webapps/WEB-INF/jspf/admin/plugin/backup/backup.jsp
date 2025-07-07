@@ -16,7 +16,7 @@
 		});"/>
 </form>
 
-<h2>${l.l('Файлы')}</h2>
+<h2>${l.l('Files')}</h2>
 
 <c:set var="files" value="<%=org.bgerp.plugin.svc.backup.action.admin.BackupAction.FILE_BACKUP%>"/>
 
