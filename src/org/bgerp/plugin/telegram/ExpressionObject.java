@@ -20,7 +20,34 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
 
     private static final Set<Character> SPECIAL_CHARACTERS_MD = Set.of('(', ')');
 
-    ExpressionObject() {}
+    /**
+     * Escapes Markdown characters from {@link #SPECIAL_CHARACTERS_MD}.
+     *
+     * @param text
+     * @return
+     */
+    public static String escapeMarkdown(String text) {
+        StringBuilder result = new StringBuilder(text.length());
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (SPECIAL_CHARACTERS_MD.contains(c))
+                result.append("\\");
+            result.append(c);
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Public constructor, can be used in Custom
+     */
+    public ExpressionObject() {}
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        context.put(Plugin.ID, this);
+    }
 
     /**
      * Send message in a chat.
@@ -122,29 +149,5 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
         } catch (Exception ex) {
             log.error("Error send message in telegram", ex);
         }
-    }
-
-    /**
-     * Escapes Markdown characters from {@link #SPECIAL_CHARACTERS_MD}.
-     *
-     * @param text
-     * @return
-     */
-    public static String escapeMarkdown(String text) {
-        StringBuilder result = new StringBuilder(text.length());
-
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            if (SPECIAL_CHARACTERS_MD.contains(c))
-                result.append("\\");
-            result.append(c);
-        }
-
-        return result.toString();
-    }
-
-    @Override
-    public void toContext(Map<String, Object> context) {
-        context.put(Plugin.ID, this);
     }
 }
