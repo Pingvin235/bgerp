@@ -303,11 +303,10 @@
 			</item>
 		</item>
 
-		<item title="Custom">
-			<item title="View" action="org.bgerp.action.admin.CustomAction:null"/>
-			<item title="Compilation of Java sources" action="org.bgerp.action.admin.CustomAction:compile"/>
-			<item title="Download custom file" action="org.bgerp.action.admin.CustomAction:downloadCustom"/>
-			<item title="Delete custom.jar" action="org.bgerp.action.admin.CustomAction:deleteCustomJar"/>
+		<item title="Custom" action="/admin/custom:null, org.bgerp.action.admin.CustomAction:null">
+			<item title="Compilation of Java sources" action="/admin/custom:compile, org.bgerp.action.admin.CustomAction:compile"/>
+			<item title="Download custom file" action="/admin/custom:downloadCustom, org.bgerp.action.admin.CustomAction:downloadCustom"/>
+			<item title="Delete custom.jar" action="/admin/custom:deleteCustomJar, org.bgerp.action.admin.CustomAction:deleteCustomJar"/>
 		</item>
 
 		<item title="Execution">

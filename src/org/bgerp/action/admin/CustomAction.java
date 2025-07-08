@@ -11,7 +11,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/custom")
+@Action(path = "/admin/custom", pathId = true)
 public class CustomAction extends BaseAction {
     public static final String PATH_JSP = PATH_JSP_ADMIN + "/custom";
 

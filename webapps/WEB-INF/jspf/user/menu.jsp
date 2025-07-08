@@ -67,7 +67,7 @@
 	</ui:menu-group>
 
 
-	<ui:menu-item title="Custom" href="admin/custom" icon="ti-hummer" action="org.bgerp.action.admin.CustomAction:null" />
+	<ui:menu-item title="Custom" href="admin/custom" icon="ti-hummer" action="/admin/custom:null" />
 
 	<ui:menu-group title="${l.l('Execution')}" icon="ti-pulse">
 		<ui:menu-item title="${l.l('Run')}" href="admin/run" icon="ti-rocket" action="org.bgerp.action.admin.RunAction:null" />
