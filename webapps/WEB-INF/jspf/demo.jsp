@@ -4,11 +4,15 @@
 <h1>Text</h1>
 
 <div>
-	<div>Normal Text</div>
+	<div>Normal text</div>
 
-	<p>Paragraph Text</p>
+	<p>Paragraph text</p>
 
-	<div class="tt">Title Text</div>
+	<div class="tt">Title text</div>
+
+	<div class="error">Error text</div>
+
+	<div class="hint">hint text, normally placed under controls</div>
 </div>
 
 <h1>Headers</h1>

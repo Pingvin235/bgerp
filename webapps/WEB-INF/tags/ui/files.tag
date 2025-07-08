@@ -13,7 +13,7 @@
 		<td width="50%">${l.l('Modification time')}</td>
 		<td>${l.l('Size')}</td>
 		<c:if test="${deletionEnabled}">
-			<td witdh="1em;"></td>
+			<td></td>
 		</c:if>
 	</tr>
 	<c:forEach var="file" items="${files.list()}" varStatus="status">

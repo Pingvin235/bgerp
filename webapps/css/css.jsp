@@ -102,8 +102,12 @@ body > #content p {
 
 /* Title Text */
 .tt {
-	color: #353535;
+	color: var(--h2-color);
 	font-size: 1.1em;
+}
+
+.error {
+	color: var(--error-color) !important;
 }
 
 .bold {

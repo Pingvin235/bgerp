@@ -6,6 +6,8 @@
 	--h2-color: #353535;
 	--p-color: #505050;
 	--separator-border-color: #e7e7e7;
+	/* colors from https://getbootstrap.com/docs/4.0/components/alerts/ are too pale */
+	--error-color: red;
 	--hint-color: #707070;
 	/* tables */
 	--table-border-color: #cadee9;

@@ -8,7 +8,7 @@
 
 <c:if test="${not empty error}">
 	<c:set var="stateUiid" value="${u:uiid()}"/>
-	<h1 class="state" id="${stateUiid}" style="color: red;">${error}</h1>
+	<h1 class="state error" id="${stateUiid}">${error}</h1>
 	<c:set var="moveSelector" value="#${stateUiid}"/>
 </c:if>
 
