@@ -310,13 +310,11 @@
 		</item>
 
 		<item title="Execution">
-			<item title="Run">
-				<item title="View" action="org.bgerp.action.admin.RunAction:null"/>
-				<item title="Running Java class" action="org.bgerp.action.admin.RunAction:runClass, ru.bgcrm.struts.action.admin.DynamicAction:runDynamicClass"/>
+			<item title="Run" action="/admin/run:null, org.bgerp.action.admin.RunAction:null">
+				<item title="Running Java class" action="/admin/run:runClass, org.bgerp.action.admin.RunAction:runClass, ru.bgcrm.struts.action.admin.DynamicAction:runDynamicClass"/>
 			</item>
-			<item title="Scheduler">
-				<item title="View" action="org.bgerp.action.admin.RunAction:scheduler"/>
-				<item title="Run Task" action="org.bgerp.action.admin.RunAction:schedulerRun"/>
+			<item title="Scheduler" action="/admin/run:scheduler, org.bgerp.action.admin.RunAction:scheduler">
+				<item title="Run Task" action="/admin/run:schedulerRun, org.bgerp.action.admin.RunAction:schedulerRun"/>
 			</item>
 		</item>
 

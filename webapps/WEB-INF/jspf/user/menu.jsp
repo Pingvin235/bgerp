@@ -70,10 +70,10 @@
 	<ui:menu-item title="Custom" href="admin/custom" icon="ti-hummer" action="/admin/custom:null" />
 
 	<ui:menu-group title="${l.l('Execution')}" icon="ti-pulse">
-		<ui:menu-item title="${l.l('Run')}" href="admin/run" icon="ti-rocket" action="org.bgerp.action.admin.RunAction:null" />
+		<ui:menu-item title="${l.l('Run')}" href="admin/run" icon="ti-rocket" action="/admin/run:null" />
 
 		<ui:menu-item title="${l.l('Scheduler')}" href="admin/scheduler" icon="ti-alarm-clock"
-			action="org.bgerp.action.admin.RunAction:scheduler" />
+			action="/admin/run:scheduler" />
 	</ui:menu-group>
 
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_ADMIN_MENU_ITEMS%>"/>

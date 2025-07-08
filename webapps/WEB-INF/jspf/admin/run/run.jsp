@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<p:check action="org.bgerp.action.admin.RunAction:runClass">
+<p:check action="/admin/run:runClass">
 	<c:set var="runFormUiid" value="${u:uiid()}"/>
 	<html:form action="/admin/run" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">
 		<input type="hidden" name="method" value="runClass"/>

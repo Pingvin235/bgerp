@@ -45,7 +45,7 @@
 					<c:choose>
 						<c:when test="${not empty item.notRunnableState}"><b>${l.l(item.notRunnableState)}</b></c:when>
 						<c:otherwise>
-							<p:check action="org.bgerp.action.admin.RunAction:schedulerRun">
+							<p:check action="/admin/run:schedulerRun">
 								<form action="/admin/run.do">
 									<input type="hidden" name="method" value="schedulerRun"/>
 									<input type="hidden" name="id" value="${item.id}"/>
