@@ -477,84 +477,58 @@ function updateLastModify( object, $uiid )
 	}
 }
 
-function getSelected ()
-{
-	var t = '';
-	if( window.getSelection )
-	{
-		t = window.getSelection();
-	}
-	else if( document.getSelection )
-	{
-		t = document.getSelection();
-	}
-	else if( document.selection )
-	{
-		t = document.selection.createRange().text;
-	}
-	return t;
-}
+// выполнение действия по нажатию, при этом не обрабатывается выделение текста + ряд проверок по буферу и т.п.
+$$.doOnClick = ($selector, filter, callback) => {
+	const getSelected = () => {
+		if (window.getSelection)
+			return window.getSelection();
+		else if (document.getSelection)
+			return document.getSelection();
+		else if (document.selection)
+			return document.selection.createRange().text;
 
-// выполнение действия по нажатию, при этом не обрабатывается выделение текста +
-// ряд проверок по буферу и т.п.
-function doOnClick( $selector, filter, callback )
-{
+		return '';
+	}
+
 	// запоминание выделенного текста, т.к. на onclick он будет уже пуст
-	var dontOpenProcess = false;
+	let dontOpenProcess = false;
 
 	// нажатие с открытым буфером либо выделенным текстом
-	$selector.on( 'mousedown', filter, function( event )
-	{
+	$selector.on('mousedown', filter, function (event) {
 		dontOpenProcess = getSelected().toString() || $("#objectBuffer > ul.drop").is(":visible");
 	});
 
-	var timerHolder = {};
+	const timerHolder = {};
 
-	$selector.on( 'click', filter, function( event )
-	{
-		if( event.target.nodeName == 'A' ||
+	$selector.on('click', filter, function (event) {
+		if (event.target.nodeName == 'A' ||
 			event.target.nodeName == 'BUTTON' ||
 			event.target.nodeName == 'INPUT' ||
 			// если клик очищал выделение либо убирал буфер
 			dontOpenProcess ||
 			// при клике (отпускании мыши выделен текст либо открыт буфер)
 			getSelected().toString() ||
-			$("#objectBuffer > ul.drop").is(":visible") )
-		{
+			$("#objectBuffer > ul.drop").is(":visible")) {
 			return;
 		}
 
-		var $clicked = $(this);
+		const $clicked = $(this);
 
-		window.clearTimeout( timerHolder.timer );
+		window.clearTimeout(timerHolder.timer);
 
-		timerHolder.timer = window.setTimeout( function()
-		{
-			$$.debug( 'doOnClick', "open" );
+		timerHolder.timer = window.setTimeout(function () {
+			$$.debug('doOnClick', "open");
+			callback($clicked);
+		}, 300);
 
-			callback( $clicked );
-		}, 300 );
-
-		$$.debug( 'doOnClick', "start timeout", timerHolder.timer, event );
+		$$.debug('doOnClick', "start timeout", timerHolder.timer, event);
 	})
 
 	// двойной клик используется для выделения текста
-	$selector.on( 'dblclick', filter, function( event )
-	{
-		$$.debug( 'doOnClick', "clear timeout", timerHolder.timer );
-
-		window.clearTimeout( timerHolder.timer );
+	$selector.on('dblclick', filter, function (event) {
+		$$.debug('doOnClick', "clear timeout", timerHolder.timer);
+		window.clearTimeout(timerHolder.timer);
 	})
-}
-
-// проверка видимости элемента после скроллинга
-$$.isElementInView = function (element, offset) {
-	var pageTop = $(window).scrollTop();
-	var pageBottom = pageTop + $(window).height();
-	var elementTop = $(element).offset().top;
-	var elementBottom = elementTop + $(element).height() + offset;
-
-	return (elementTop <= pageBottom) && (elementBottom >= pageTop);
 }
 
 $(document).delegate('textarea.tabsupport', 'keydown', function(e) {

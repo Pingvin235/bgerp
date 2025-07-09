@@ -26,7 +26,7 @@
 
 			$$.ui.tableRowHl($dataTable);
 
-			doOnClick($dataTable, 'tr:gt(0)', ($clickedRow) => {
+			$$.doOnClick($dataTable, 'tr:gt(0)', ($clickedRow) => {
 				const processId = $clickedRow.attr('openProcessId');
 				if (processId) {
 					window.open("/open/process/" + processId);

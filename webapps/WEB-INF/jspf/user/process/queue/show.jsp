@@ -45,7 +45,7 @@
 			}
 		};
 
-		doOnClick($dataTable, 'tr:gt(0)', callback);
+		$$.doOnClick($dataTable, 'tr:gt(0)', callback);
 	});
 </script>
 

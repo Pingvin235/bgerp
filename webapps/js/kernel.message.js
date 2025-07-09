@@ -52,7 +52,7 @@ $$.message = new function() {
 				alert('Not found attribute openUrl!');
 			}
 		};
-		doOnClick($dataTable, 'tr:gt(0)', callback);
+		$$.doOnClick($dataTable, 'tr:gt(0)', callback);
 
 		if (selectedId)
 			$$.table.select($dataTable, $('#' + selectedId), 'init');

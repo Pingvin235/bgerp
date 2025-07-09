@@ -11,7 +11,7 @@
 	</c:set>
 
 	<script>
-		doOnClick($('#${uiid} #show'), '', () => { ${editCommand} });
+		$$.doOnClick($('#${uiid} #show'), '', () => { ${editCommand} });
 	</script>
 	<c:set var="editStyle">cursor: pointer;</c:set>
 

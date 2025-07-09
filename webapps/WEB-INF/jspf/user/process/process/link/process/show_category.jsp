@@ -77,6 +77,6 @@
 			if (openUrl)
 				$$.ajax.load(openUrl, $table.parent());
 		};
-		doOnClick($table, 'tr:gt(0)', callback);
+		$$.doOnClick($table, 'tr:gt(0)', callback);
 	})
 </script>
