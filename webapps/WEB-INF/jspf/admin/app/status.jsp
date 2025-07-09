@@ -2,12 +2,12 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div class="center1020">
-	<h1>${l.l('Status')}</h1>
+	<h2>${l.l('Status')}</h2>
 	<pre>${frd.statusApp}</pre>
 
 	<c:set var="traceUiid" value="${u:uiid()}"/>
 
-	<h1>${l.l('DB')} <span class="normal"> [<a href="#" onclick="$('#${traceUiid}').toggle(); $(this).toggleClass('bold'); return false;">trace</a>]</span></h1>
+	<h2>${l.l('DB')} <span class="normal"> [<a href="#" onclick="$('#${traceUiid}').toggle(); $(this).toggleClass('bold'); return false;">trace</a>]</span></h2>
 	<pre>${frd.statusDb}</pre>
 
 	<div id="${traceUiid}" style="display: none;">
@@ -16,7 +16,7 @@
 	</div>
 
 	<p:check action="/admin/app:restart">
-		<h1>${l.l('Restart')}</h1>
+		<h2>${l.l('Restart')}</h2>
 		<html:form action="/admin/app">
 			<input type="hidden" name="method" value="restart"/>
 			<input type="hidden" name="confirmText" value="${l.l('Perform restart?')}"/>
@@ -24,7 +24,7 @@
 		</html:form>
 	</p:check>
 
-	<h1>${l.l('Logs')}</h1>
+	<h2>${l.l('Logs')}</h2>
 
 	<c:set var="uiid" value="${u:uiid()}"/>
 	<div id="${uiid}">
@@ -43,7 +43,7 @@
 	<div class="in-table-cell">
 		<p:check action="/admin/app:update">
 			<div class="pr1">
-				<h1>${l.l('Update')}</h1>
+				<h2>${l.l('Update')}</h2>
 				<html:form action="/admin/app">
 					<input type="hidden" name="method" value="update"/>
 					<ui:combo-single hiddenName="force" widthTextValue="3em" prefixText="${l.l('Force')}:" styleClass="mr05">
@@ -62,7 +62,7 @@
 
 		<p:check action="/admin/app:updateToChange">
 			<div>
-				<h1>${l.l('Update on change')}</h1>
+				<h2>${l.l('Update on change')}</h2>
 				<html:form action="/admin/app">
 					<input type="hidden" name="method" value="updateToChange"/>
 					<ui:combo-single hiddenName="changeId" widthTextValue="18em" prefixText="ID:" styleClass="mr05">

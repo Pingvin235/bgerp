@@ -18,9 +18,15 @@
 <h1>Headers</h1>
 
 <div>
-	<h1>Header Level 1 <span class="normal">[<a href="#">action</a>]</span></h1>
+	<div>
+		<h1>Header Level 1 <span class="normal">[<a href="#">action</a>]</span></h1>
+		<div class="hint">Used first inside editors</div>
+	</div>
 
-	<h2>Header Level 2 <span class="normal">[<a href="#">action</a>]</span></h2>
+	<div>
+		<h2>Header Level 2 <span class="normal">[<a href="#">action</a>]</span></h2>
+		<div class="hint">Used first inside tools</div>
+	</div>
 
 	<div>
 		<b>Header Level 3 bold Text <span class="normal">[<a href="#">action</a>]</span></b>

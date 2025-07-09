@@ -6,7 +6,7 @@
 	<p:check action="/admin/app:maintenanceStart">
 		<form action="${form.requestURI}">
 			<c:set var="maintenance" value="${frd.maintenance}"/>
-			<h1>${l.l('Maintenance')}</h1>
+			<h2>${l.l('Maintenance')}</h2>
 			<c:set var="command">$$.ajax.post(this).done(() => $$.ajax.load('${form.requestUrl}', $(document.getElementById('${uiid}').parentElement)))</c:set>
 			<c:choose>
 				<c:when test="${empty maintenance}">
@@ -45,7 +45,7 @@
 
 	<c:set var="logged" value="${frd.logged}"/>
 
-	<h1>${l.l('Logged in users')} [${logged.size()}]</h1>
+	<h2>${l.l('Logged in users')} [${logged.size()}]</h2>
 	<table class="data hl">
 		<tr>
 			<td>${l.l('User')}</td>
