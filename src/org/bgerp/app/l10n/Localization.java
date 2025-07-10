@@ -80,7 +80,7 @@ public class Localization {
                 if (phraseMap == null) {
                     phraseMap = new HashMap<>(4);
                     if (translations.containsKey(value))
-                        log.warn("Duplicated key: {} in {}", value, this);
+                        log.warn("Duplicated key: '{}' in '{}' l10n.xml", value, this);
                     translations.put(value, phraseMap);
                 }
                 phraseMap.put(lang.getNodeName(), value);
