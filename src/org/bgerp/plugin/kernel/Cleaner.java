@@ -1,6 +1,7 @@
 package org.bgerp.plugin.kernel;
 
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
+import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE_TAG;
 import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
@@ -38,6 +39,10 @@ public class Cleaner extends org.bgerp.dao.Cleaner {
         paramValueForMissingObject(Customer.OBJECT_TYPE, TABLE_CUSTOMER);
         paramValueForMissingObject(User.OBJECT_TYPE, TABLE_USER);
         paramValueForMissingObject(AddressHouse.OBJECT_TYPE, Tables.TABLE_ADDRESS_HOUSE);
+
+        // missing file_data for param_file
+        inconsistencyCleanupQueries.add(SQL_DELETE + "pf" + SQL_FROM + Tables.TABLE_PARAM_FILE + "AS pf" + SQL_LEFT_JOIN + TABLE_FILE_DATA
+                + "AS fd ON pf.value=fd.id" + SQL_WHERE + "fd.id IS NULL");
     }
 
     private void paramValueForMissingPref(String table) {
