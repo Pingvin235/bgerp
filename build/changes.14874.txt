@@ -1,0 +1,2 @@
+A: param_file cleanup refs to missing file_data
+A: Highlight logs with error messages. https://bgerp.org/change/0/doc/kernel/install.html#app-status-error

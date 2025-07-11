@@ -313,7 +313,7 @@
 	<p><ru>Принят</ru><en>Accepted</en></p>
 	<p><en>Update</en><ru>Обновление</ru></p>
 	<p><en>Force</en><ru>Принудительно</ru></p>
-	<p><en>Update on change</en><ru>Обновление на изменение</ru></p>
+	<p><en>Update on Change</en><ru>Обновление на изменение</ru></p>
 	<p><en>File</en><ru>Файл</ru></p>
 	<p><en>Size</en><ru>Размер</ru></p>
 	<p><ru>Выберите улицу</ru><en>Choose a street</en></p>
@@ -377,7 +377,6 @@
 	<p><ru>Добавить</ru><en>Add</en></p>
 	<p><ru>Выберите процессы!</ru><en>Select processes!</en></p>
 	<p><ru>Статусы</ru><en>Statuses</en></p>
-	<p><en>Update</en><ru>Обновить</ru></p>
 	<p><ru>Сессии пользователей</ru><en>Sessions of users</en></p>
 	<p><en>Modification time</en><ru>Время изменения</ru></p>
 	<p><en>Logs</en><ru>Логи</ru></p>
@@ -494,7 +493,6 @@
 	<p><en>Mark as read</en><ru>Отметить прочитанным</ru></p>
 	<p><en>Mark as unread</en><ru>Отметить непрочитанным</ru></p>
 	<p><en>Search string must be {} and more symbols length.</en><ru>Строка поиска должна быть {} и более симоволов длинной.</ru></p>
-	<p><en>Modification time</en><ru>Время изменения</ru></p>
 	<p><en>Extend right process card area on scroll down</en><ru>Расширять правую часть карточки процесса при промотке вниз</ru></p>
 	<p><en>set</en><ru>уст.</ru></p>
 	<p><en>License Check Error</en><ru>Ошибка проверки лицензии</ru></p>

@@ -5,7 +5,6 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -70,6 +69,14 @@ public class Files {
     }
 
     /**
+     * File download permission action for checking it using ctxUser.checkPerm().
+     * @return
+    */
+    public String getDownloadPermissionAction() {
+        return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("download");
+    }
+
+    /**
      * File download URL, e.g.: '/admin/app.do?method=downloadLogUpdate'.
      * A {@code name} param has to be added at the end.
      * @return
@@ -80,12 +87,22 @@ public class Files {
             DynActionForm.PARAM_ACTION_METHOD + "=" + getActionMethod("download");
     }
 
+    public String getHighlightPermissionAction() {
+        return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("highlight");
+    }
+
+    public String getHighlightURL() {
+        return
+            Actions.getByClass(actionClass).getPath() + ".do?" +
+            DynActionForm.PARAM_ACTION_METHOD + "=" + getActionMethod("highlight");
+    }
+
     /**
-     * File download permission action for checking it using ctxUser.checkPerm().
+     * File deletion permission action for checking it using ctxUser.checkPerm().
      * @return
     */
-    public String getDownloadPermissionAction() {
-        return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("download");
+    public String getDeletePermissionAction() {
+        return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("delete");
     }
 
     /**
@@ -99,20 +116,12 @@ public class Files {
             DynActionForm.PARAM_ACTION_METHOD + "=" + getActionMethod("delete");
     }
 
-    /**
-     * File deletion permission action for checking it using ctxUser.checkPerm().
-     * @return
-    */
-    public String getDeletePermissionAction() {
-        return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("delete");
-    }
-
     private String getActionMethod(String prefix) {
         return prefix + id.substring(0, 1).toUpperCase() + id.substring(1);
     }
 
     /**
-     * List of files matching {@link #wildcard} sorted in reversed order by modification time.
+     * List of files matching {@link #wildcard} sorted accordingly {@link Options#getOrder()}
      * @return
      */
     public List<File> list() {
@@ -129,22 +138,12 @@ public class Files {
     }
 
     /**
-     * Input stream to a file.
-     * @param path
-     * @return
-     * @throws FileNotFoundException
-     */
-    private InputStream getInputStream(String path) throws FileNotFoundException {
-        return new FileInputStream(new File(basedir.toFile(), path));
-    }
-
-    /**
-     * Send a file content to output stream.
-     * @param form
+     * Sends a file content to response output stream
+     * @param form request form with file name in param {@code name}
      * @throws BGIllegalArgumentException
      * @throws IOException
      * @throws FileNotFoundException
-     * @return always 'null'.
+     * @return always {@code null}
      */
     public ActionForward download(DynActionForm form) throws BGIllegalArgumentException, IOException, FileNotFoundException {
         var name = form.getParam("name", Utils::notBlankString);
@@ -152,17 +151,42 @@ public class Files {
         var response = form.getHttpResponse();
         Utils.setFileNameHeaders(response, name);
 
-        IOUtils.copy(getInputStream(name), response.getOutputStream());
+        IOUtils.copy(new FileInputStream(new File(basedir.toFile(), name)), response.getOutputStream());
 
         return null;
     }
 
     /**
-     * Delete file(s).
-     * @param form form with 'name' parameter values, containing file name.
+     * Set a file highlight classes to a response
+     * @param form the request form with the file name in param {@code name}
+     * @return
+     * @throws BGIllegalArgumentException
+     * @throws FileNotFoundException
+     * @return the {@code form}
      */
-    public void delete(DynActionForm form) {
+    public DynActionForm highlight(DynActionForm form) throws BGIllegalArgumentException, FileNotFoundException {
+        var name = form.getParam("name", Utils::notBlankString);
+
+        var file = new File(basedir.toFile(), name);
+        var highlighter = options.highlighter(file);
+        if (highlighter != null) {
+            String className = highlighter.highlight(file);
+            if (Utils.notBlankString(className))
+                form.setResponseData("classes", List.of(className));
+        }
+
+        return form;
+    }
+
+    /**
+     * Delete file(s)
+     * @param form form with {@code name} parameter values, containing the file name(s)
+     * @return the {@code form}
+     */
+    public DynActionForm delete(DynActionForm form) {
         for (String name : form.getParamValuesStr("name"))
             FileUtils.deleteQuietly(new File(basedir.toFile(), name));
+
+        return form;
     }
 }

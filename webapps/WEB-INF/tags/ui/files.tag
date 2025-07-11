@@ -36,7 +36,18 @@
 						</c:choose>
 					</c:set>
 					${a}
-					${file.name}
+					<c:set var="highlighter" value="${files.options.highlighter(file)}"/>
+					<c:choose>
+						<c:when test="${empty highlighter}">${file.name}</c:when>
+						<c:otherwise>
+							<c:url var="url" value="${files.highlightURL}">
+								<c:param name="name">${file.name}</c:param>
+							</c:url>
+							<c:set var="uiid" value="${u:uiid()}"/>
+							<span id="${uiid}">${file.name}</span>
+							<script>$$.hlFile('${uiid}', '${url}')</script>
+						</c:otherwise>
+					</c:choose>
 					<c:if test="${not empty a}"></a></c:if>
 				</td>
 				<td>${tu.format(tu.convertLongToTimestamp(file.lastModified()), 'ymdhms')}</td>

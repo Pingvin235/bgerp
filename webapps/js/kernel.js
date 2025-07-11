@@ -531,6 +531,19 @@ $$.doOnClick = ($selector, filter, callback) => {
 	})
 }
 
+/**
+ * Highlights file
+ * @param {*} id
+ * @param {*} url
+ */
+$$.hlFile = (id, url) => {
+	$$.ajax.post(url).done((result) => {
+		const classes = result.data.classes;
+		if (classes)
+			document.getElementById(id).classList.add(classes);
+	})
+}
+
 $(document).delegate('textarea.tabsupport', 'keydown', function(e) {
 	  var keyCode = e.keyCode || e.which;
 

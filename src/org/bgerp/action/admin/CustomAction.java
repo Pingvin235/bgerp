@@ -33,8 +33,7 @@ public class CustomAction extends BaseAction {
     }
 
     public ActionForward deleteCustomJar(DynActionForm form, ConnectionSet conSet) throws Exception {
-        CUSTOM_JAR.delete(form);
-        return json(conSet, form);
+        return json(conSet, CUSTOM_JAR.delete(form));
     }
 
     public ActionForward compile(DynActionForm form, ConnectionSet conSet) throws Exception {

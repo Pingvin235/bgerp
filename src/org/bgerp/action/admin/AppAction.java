@@ -17,6 +17,7 @@ import org.bgerp.app.dist.inst.InstallerChanges.Change;
 import org.bgerp.app.dist.inst.VersionCheck;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.servlet.file.Files;
+import org.bgerp.app.servlet.file.Highlighter;
 import org.bgerp.app.servlet.file.Options;
 import org.bgerp.app.servlet.file.Order;
 import org.bgerp.app.servlet.user.LoginStat;
@@ -39,13 +40,13 @@ public class AppAction extends BaseAction {
 
     @Dynamic
     public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log",
-            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.NORMAL_FS), "*bgerp*", "*mail*");
+            new Options().withDownloadEnabled().withHighlighter(Highlighter.LOG_WARN).withDeletionEnabled().withOrder(Order.NORMAL_FS), "*bgerp*", "*mail*");
     @Dynamic
     public static final Files LOG_ACCESS = new Files(AppAction.class, "logAccess", AccessLogValve.DIR,
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "*");
     @Dynamic
     public static final Files LOG_UPDATE = new Files(AppAction.class, "logUpdate", "log",
-            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "update_*");
+            new Options().withDownloadEnabled().withHighlighter(Highlighter.LOG_UPDATE_EXCEPTION).withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "update_*");
     @Dynamic
     public static final Files UPDATE_ZIP = new Files(AppAction.class, "updateZip", Utils.getTmpDir(),
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "update_*.zip");
@@ -72,9 +73,12 @@ public class AppAction extends BaseAction {
         return LOG_APP.download(form);
     }
 
+    public ActionForward highlightLogApp(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return json(conSet, LOG_APP.highlight(form));
+    }
+
     public ActionForward deleteLogApp(DynActionForm form, ConnectionSet conSet) throws Exception {
-        LOG_APP.delete(form);
-        return json(conSet, form);
+        return json(conSet, LOG_APP.delete(form));
     }
 
     public ActionForward downloadLogAccess(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -82,17 +86,19 @@ public class AppAction extends BaseAction {
     }
 
     public ActionForward deleteLogAccess(DynActionForm form, ConnectionSet conSet) throws Exception {
-    	LOG_ACCESS.delete(form);
-        return json(conSet, form);
+        return json(conSet, LOG_ACCESS.delete(form));
     }
 
     public ActionForward downloadLogUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
         return LOG_UPDATE.download(form);
     }
 
+    public ActionForward highlightLogUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return json(conSet, LOG_UPDATE.highlight(form));
+    }
+
     public ActionForward deleteLogUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
-        LOG_UPDATE.delete(form);
-        return json(conSet, form);
+        return json(conSet, LOG_UPDATE.delete(form));
     }
 
     public ActionForward downloadUpdateZip(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -100,8 +106,7 @@ public class AppAction extends BaseAction {
     }
 
     public ActionForward deleteUpdateZip(DynActionForm form, ConnectionSet conSet) throws Exception {
-        UPDATE_ZIP.delete(form);
-        return json(conSet, form);
+        return json(conSet, UPDATE_ZIP.delete(form));
     }
 
     public ActionForward restart(DynActionForm form, ConnectionSet conSet) throws Exception {

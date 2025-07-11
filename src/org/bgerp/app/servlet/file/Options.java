@@ -1,5 +1,9 @@
 package org.bgerp.app.servlet.file;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Files fluent options.
  *
@@ -9,19 +13,25 @@ public class Options {
     private Order order;
     private boolean deletionEnabled;
     private boolean downloadEnabled;
+    private final List<Highlighter> highlighters = new ArrayList<>();
 
     public Options withOrder(Order value) {
-        this.order = value;
+        order = value;
         return this;
     }
 
     public Options withDownloadEnabled() {
-        this.downloadEnabled = true;
+        downloadEnabled = true;
         return this;
     }
 
     public Options withDeletionEnabled() {
-        this.deletionEnabled = true;
+        deletionEnabled = true;
+        return this;
+    }
+
+    public Options withHighlighter(Highlighter... highlighter) {
+        highlighters.addAll(List.of(highlighter));
         return this;
     }
 
@@ -35,5 +45,14 @@ public class Options {
 
     public boolean isDeletionEnabled() {
         return deletionEnabled;
+    }
+
+    /**
+     * Finds highlighter for a file
+     * @param file the file
+     * @return
+     */
+    public Highlighter highlighter(File file) {
+        return highlighters.stream().filter(hl -> hl.match(file)).findFirst().orElse(null);
     }
 }

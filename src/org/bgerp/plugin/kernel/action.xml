@@ -328,6 +328,7 @@
 			</item>
 			<item title="App logs">
 				<item title="Download" action="/admin/app:downloadLogApp, org.bgerp.action.admin.AppAction:downloadLogApp"/>
+				<item title="Highlight" action="/admin/app:highlightLogApp"/>
 				<item title="Delete" action="/admin/app:deleteLogApp, org.bgerp.action.admin.AppAction:deleteLogApp"/>
 			</item>
 			<item title="Access logs">
@@ -336,6 +337,7 @@
 			</item>
 			<item title="Update logs">
 				<item title="Download" action="/admin/app:downloadLogUpdate, org.bgerp.action.admin.AppAction:downloadLogUpdate"/>
+				<item title="Highlight" action="/admin/app:highlightLogUpdate"/>
 				<item title="Delete" action="/admin/app:deleteLogUpdate, org.bgerp.action.admin.AppAction:deleteLogUpdate"/>
 			</item>
 			<item title="Update packages">

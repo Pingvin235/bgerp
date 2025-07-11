@@ -42,7 +42,6 @@ public class BackupAction extends BaseAction {
     }
 
     public ActionForward deleteFileBackup(DynActionForm form, ConnectionSet conSet) throws Exception {
-        FILE_BACKUP.delete(form);
-        return json(conSet, form);
+        return json(conSet, FILE_BACKUP.delete(form));
     }
 }

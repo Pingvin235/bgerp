@@ -62,7 +62,7 @@
 
 		<p:check action="/admin/app:updateToChange">
 			<div>
-				<h2>${l.l('Update on change')}</h2>
+				<h2>${l.l('Update on Change')}</h2>
 				<html:form action="/admin/app">
 					<input type="hidden" name="method" value="updateToChange"/>
 					<ui:combo-single hiddenName="changeId" widthTextValue="18em" prefixText="ID:" styleClass="mr05">
