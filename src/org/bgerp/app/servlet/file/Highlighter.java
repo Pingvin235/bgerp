@@ -7,7 +7,12 @@ import java.util.Scanner;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
-public abstract class Highlighter {
+/**
+ * File name highlighter using CSS class
+ *
+ * @author Shamil Vakhitov
+ */
+public class Highlighter {
     public static Highlighter LOG_WARN = new Highlighter("*.warn.log") {
         @Override
         protected boolean hasError(String line) {
@@ -25,10 +30,19 @@ public abstract class Highlighter {
 
     private final FileFilter fileFilter;
 
+    /**
+     * Constructor
+     * @param wildcard wildcard for matched files
+     */
     private Highlighter(String wildcard) {
         this.fileFilter = new WildcardFileFilter(wildcard);
     }
 
+    /**
+     * Does a file name match to the highlighter
+     * @param file the file name
+     * @return
+     */
     public boolean match(File file) {
         return fileFilter.accept(file);
     }
@@ -50,5 +64,12 @@ public abstract class Highlighter {
         return null;
     }
 
-    protected abstract boolean hasError(String line);
+    /**
+     * Detect errors in a file line
+     * @param line the line
+     * @return
+     */
+    protected boolean hasError(String line) {
+        return false;
+    }
 }
