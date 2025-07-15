@@ -2,29 +2,23 @@ package ru.bgcrm.plugin.bgbilling.proto.model;
 
 import java.util.Date;
 
-public class UserTime
-{
-	private String user;
-	private Date time;
-	
-	public String getUser()
-	{
-		return user;
-	}
+public class UserTime {
+    private String user;
+    private Date time;
 
-	public void setUser( String user )
-	{
-		this.user = user;
-	}
+    public String getUser() {
+        return user;
+    }
 
-	public Date getTime()
-	{
-		return time;
-	}
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-	public void setTime( Date time )
-	{
-		this.time = time;
-	}
+    public Date getTime() {
+        return time;
+    }
 
+    public void setTime(Date time) {
+        this.time = time;
+    }
 }
