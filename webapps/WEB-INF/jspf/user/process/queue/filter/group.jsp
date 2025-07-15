@@ -18,6 +18,7 @@
 		</c:if>
 
 		<c:set var="savedExecutors" value="${u.toString( savedParamsFilters.getParamValuesListStr(executorParamName) )}"/>
+		<c:set var="updateExecutors" value="updateExecutors($('#${groupListId}'), $('#${executorListId}'), '${groupParamName}', '${executorParamName}' , '${savedExecutors}');"/>
 
 		<ui:combo-check id="${groupListId}"
 			paramName="${groupParamName}"
@@ -27,7 +28,9 @@
 			showFilter="1"
 			prefixText="${empty filter.title ? l.l('Groups') : filter.title}:"
 			widthTextValue="10em"
-			onChange="updateExecutors($('#${groupListId}'), $('#${executorListId}'), '${groupParamName}', '${executorParamName}' , '${savedExecutors}');"/>
+			onChange="${updateExecutors}"/>
+
+		<script>${updateExecutors}</script>
 	</u:sc>
 </c:set>
 
