@@ -277,6 +277,7 @@
 	<p><ru>Фильтр - счетчик убрать с панели</ru><en>Filter - delete counter from panel</en></p>
 	<p><ru>Фильтр - сохранённые</ru><en>Filter - saved</en></p>
 	<p><ru>Фильтр - сохранить</ru><en>Filter - save</en></p>
+	<p><en>Reset the full filter?</en><ru>Сбросить полный фильтр?</ru></p>
 	<p><ru>Фильтр - сброс</ru><en>Filter - reset</en></p>
 	<p><ru>Фильтр не выбран</ru><en>Filter - not selected</en></p>
 	<p><ru>Удалить сохранённый фильтр</ru><en>Delete saved filter</en></p>

@@ -107,7 +107,7 @@
 		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$$.process.queue.changed(1);">${l.l('Фильтр - сохранённые')}</a></li>
 		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$('#${saveFilterFormUiid}').css('display','');">${l.l('Фильтр - сохранить')}</a></li>
 		<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}>
-			<a onclick="if( !confirm( 'Сбросить полный фильтр?' ) ){ return; }
+			<a onclick="if( !confirm( '${l.l('Reset the full filter?')}' ) ){ return; }
 				$$.ajax.post('/user/process/queue.do?method=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
 					$('#processQueueFilter > div#${queue.id}').remove();
 					$$.process.queue.changed(0);
