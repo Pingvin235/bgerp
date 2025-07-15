@@ -73,8 +73,6 @@ public class MessageTypeHelpDesk extends MessageType {
     private final int costParamId;
     // списковый параметр со статусом
     private final int statusParamId;
-    // списковый параметр - признак вхождения в пакет
-    private final int packageParamId;
     // списковый параметр - признак автозакрытия
     private final int autoCloseParamId;
     // в какой статус закрывать процесс, если тема HD закрылась
@@ -115,7 +113,6 @@ public class MessageTypeHelpDesk extends MessageType {
         closeStatusId = config.getInt("closeStatusId", 0);
         openStatusId = config.getInt("openStatusId", 0);
         autoCloseParamId = config.getInt("autoCloseParamId", 0);
-        packageParamId = config.getInt("packageParamId", 0);
         pageSize = config.getInt("pageSize", 100000);
         newMessageEvent = config.getBoolean("newMessageEvent", false);
         markMessagesReadStatusIds = Utils.toIntegerSet(config.get("markMessagesReadStatusIds", ""));
@@ -149,10 +146,6 @@ public class MessageTypeHelpDesk extends MessageType {
 
     public int getCloseStatusId() {
         return closeStatusId;
-    }
-
-    public int getPackageParamId() {
-        return packageParamId;
     }
 
     public int getAutoCloseParamId() {
@@ -321,17 +314,6 @@ public class MessageTypeHelpDesk extends MessageType {
         return process;
     }
 
-    // protected boolean isTopicClosed(HelpDeskDAO hdDao, int topicId) {
-    //     Pageable<HdTopic> result2 = new Pageable<HdTopic>();
-    //     result2.getPage().setPageIndex(1);
-    //     result2.getPage().setPageSize(pageSize);
-    //     hdDao.seachTopicList(result2, null, true, false, topicId);
-    //     //getTopicMessageListgetTopicMessageList
-    //     HdTopic topic2 = Utils.getFirst(result2.getList());
-    //     //если тема закрыта, то список должен вернуться пустым
-    //     return topic2 != null;
-    // }
-
     private HdTopic updateProcessFromTopic(Connection con, ProcessType processType, Process process, HdTopic topic, List<HdMessage> hdMessages)
             throws Exception {
         DBInfo dbInfo = getDbInfo();
@@ -394,10 +376,6 @@ public class MessageTypeHelpDesk extends MessageType {
 
         // автозакрытие
         paramDao.updateParamList(process.getId(), autoCloseParamId, topic.isAutoClose() ? on : empty);
-
-        // входит в пакет
-        if (packageParamId > 0)
-            paramDao.updateParamList(process.getId(), packageParamId, topic.isInPackage() ? on : empty);
 
         // стоимость
         paramDao.updateParamText(process.getId(), costParamId, Utils.format(topic.getCost()));

@@ -12,7 +12,6 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.cache.UserCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
@@ -87,8 +86,6 @@ public class HelpDeskListener {
             throw new BGException("Не найден топик HelpDesk с кодом: " + topicId);
         }
 
-        String mode = hdDao.getContractMode(topic.getContractId());
-
         // статус (категория)
         if (paramId == mt.getStatusParamId()) {
             hdDao.setTopicStatus(topic.getContractId(), topicId, Utils.getFirst((Set<Integer>) e.getValue()));
@@ -99,18 +96,7 @@ public class HelpDeskListener {
         }
         // стоимость
         else if (paramId == mt.getCostParamId()) {
-            if (HelpDeskDAO.MODE_PACKAGE.equals(mode)) {
-                throw new BGMessageExceptionWithoutL10n("Режим HelpDesk договора пакетный.");
-            }
-            hdDao.setTopicCost(topic.getContractId(), topicId,
-                    Utils.parseBigDecimal((String) e.getValue(), BigDecimal.ZERO));
-        }
-        // вхождение в пакет
-        else if (paramId == mt.getPackageParamId()) {
-            if (HelpDeskDAO.MODE_ON.equals(mode)) {
-                throw new BGMessageExceptionWithoutL10n("Режим HelpDesk договора обычный.");
-            }
-            hdDao.setTopicPackageState(topic.getContractId(), topicId, ((Set<Integer>) e.getValue()).size() > 0);
+            hdDao.setTopicCost(topic.getContractId(), topicId, Utils.parseBigDecimal((String) e.getValue(), BigDecimal.ZERO));
         }
     }
 

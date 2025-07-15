@@ -16,7 +16,6 @@ public class HdTopic extends IdTitle {
     private BigDecimal cost;
     private int statusId;
     private String contact;
-    private boolean inPackage;
     private boolean autoClose;
 
     public int getContractId() {
@@ -97,14 +96,6 @@ public class HdTopic extends IdTitle {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    public boolean isInPackage() {
-        return inPackage;
-    }
-
-    public void setInPackage(boolean inPackage) {
-        this.inPackage = inPackage;
     }
 
     public boolean isAutoClose() {

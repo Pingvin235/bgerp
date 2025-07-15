@@ -32,10 +32,6 @@ import ru.bgcrm.util.Utils;
 public class HelpDeskDAO extends BillingDAO {
     private static final String MODULE = "ru.bitel.bgbilling.plugins.helpdesk";
 
-    public static final String MODE_OFF = "off";
-    public static final String MODE_ON = "on";
-    public static final String MODE_PACKAGE = "package";
-
     public HelpDeskDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
@@ -63,7 +59,6 @@ public class HelpDeskDAO extends BillingDAO {
             topic.setStatusId(Utils.parseInt(topicEl.getAttribute("status")));
             topic.setCost(Utils.parseBigDecimal(topicEl.getAttribute("cost")));
             topic.setAutoClose(Utils.parseBoolean(topicEl.getAttribute("autoclose")));
-            topic.setInPackage(Utils.parseInt(topicEl.getAttribute("packageId")) > 0);
 
             List<HdMessage> list = new ArrayList<>();
             for (Element rowEl : XMLUtils.selectElements(doc, "/data/table/data/row"))
@@ -308,19 +303,6 @@ public class HelpDeskDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    /*http://billing:8081/executer?id=3353&module=ru.bitel.bgbilling.plugins.helpdesk&action=SetTopicPackageState&BGBillingSecret=S2Wu0TsiHS2iT7GdN7VGbZ1a&cid=448&include=true&
-    [ length = 186 ] xml = <?xml version="1.0" encoding="windows-1251"?><data errcode="3623339397" secret="2230A92B18D6EDE54B664D5777DBD3FD" status="error">Нет не использованных обращений в активных пакетах</data>*/
-    public void setTopicPackageState(int contractId, int topicId, boolean inPackage) {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("SetTopicPackageState");
-        req.setContractId(contractId);
-        req.setAttribute("id", topicId);
-        req.setAttribute("include", String.valueOf(inPackage));
-
-        transferData.postData(req, user);
-    }
-
     public byte[] getAttach(int contractId, int id) throws Exception {
         byte[] result = null;
 
@@ -375,26 +357,6 @@ public class HelpDeskDAO extends BillingDAO {
             req.setAttribute("comment", "");
 
             transferData.postData(req, user);
-        }
-    }
-
-    public String getContractMode(int contractId) {
-        if (dbInfo.versionCompare("8.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskParamService", "getContractCurrentMode");
-            req.setParamContractId(contractId);
-
-            return transferData.postDataReturn(req, user).asText();
-        } else {
-            /*http://192.168.169.25:9000/bgbilling/executer?module=ru.bitel.bgbilling.plugins.helpdesk&action=GetContractMode&BGBillingSecret=MVBn75Q8zFhwf8ryL2cWqhd1&cid=18335&
-            [ length = 258 ] xml = <?xml version="1.0" encoding="windows-1251"?>
-            <data secret="CC099C25B609B96EB1DEF8E46D81EE79" status="ok"><modes current="on"><item id="off" title="выключен"/><item id="on" title="включен обычный"/><item id="package" title="включен пакетный"/></modes></data>*/
-            Request req = new Request();
-            req.setModule(MODULE);
-            req.setAction("GetContractMode");
-            req.setContractId(contractId);
-
-            Document doc = transferData.postData(req, user);
-            return XMLUtils.selectText(doc, "/data/modes/@current");
         }
     }
 }
