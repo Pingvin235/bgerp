@@ -358,6 +358,8 @@ public class MessageTypeEmail extends MessageType {
             var imapStore = mailConfig.getImapStore();
             var imapSentFolder = imapStore.getFolder(folderSent);) {
 
+            checkFolders(imapSentFolder);
+
             var messageDAO = new MessageDAO(con);
 
             transport.connect();
