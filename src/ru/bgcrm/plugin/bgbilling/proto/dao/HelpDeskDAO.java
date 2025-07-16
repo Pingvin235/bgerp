@@ -89,11 +89,7 @@ public class HelpDeskDAO extends BillingDAO {
         Request req = new Request();
         req.setModule(MODULE);
         req.setAction("UpdateMessage");
-        if (msg.getId() > 0) {
-            req.setAttribute("id", msg.getId());
-        } else {
-            req.setAttribute("id", "new");
-        }
+        req.setAttribute("id", msg.getId() > 0 ? msg.getId() : (dbInfo.versionCompare("10") > 0 ? 0 : "new"));
         req.setAttribute("topicId", topicId);
         req.setAttribute("body", msg.getText());
 
