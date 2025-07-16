@@ -143,10 +143,6 @@ public abstract class MessageType extends IdTitle {
         return text;
     }
 
-    public boolean isAttachmentSupport() {
-        return true;
-    }
-
     /**
      * Can a message be edited
      * @param message the message, {@code null} for adding a message of the type
@@ -157,6 +153,13 @@ public abstract class MessageType extends IdTitle {
     }
 
     public boolean isRemovable(Message message) {
+        return false;
+    }
+
+    /**
+     * @return possibility to mark message as read/unread using kernel logic
+     */
+    public boolean isReadable() {
         return false;
     }
 
@@ -190,13 +193,6 @@ public abstract class MessageType extends IdTitle {
      */
     public String getMessageDescription(String lang, Message message) {
         return "";
-    }
-
-    /**
-     * @return possibility to mark message as read/unread using kernel logic.
-     */
-    public boolean isReadable() {
-        return true;
     }
 
     /**

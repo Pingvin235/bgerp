@@ -1,6 +1,6 @@
 bgbilling:processShowLinkedContractsInfo=memo
 
-# коды параметров договора в DEMO биллинге
+# коды параметров договора в Демо биллинге
 PARAM_BILLING_FIO=2
 PARAM_BILLING_ADDR=12
 PARAM_BILLING_BIRTHDAY=10

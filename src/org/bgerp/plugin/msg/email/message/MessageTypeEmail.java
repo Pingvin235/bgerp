@@ -163,10 +163,6 @@ public class MessageTypeEmail extends MessageType {
         return subject;
     }
 
-    @Override
-    public boolean isAttachmentSupport() {
-        return true;
-    }
 
     @Override
     public boolean isEditable(Message message) {
@@ -176,6 +172,10 @@ public class MessageTypeEmail extends MessageType {
     @Override
     public boolean isRemovable(Message message) {
         return true;
+    }
+
+    public boolean isReadable() {
+        return false;
     }
 
     @Override

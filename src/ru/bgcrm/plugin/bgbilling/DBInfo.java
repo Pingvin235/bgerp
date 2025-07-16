@@ -5,45 +5,60 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.UserCache;
 import org.bgerp.util.sql.pool.ConnectionPool;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.directory.Directory;
+import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 
 /**
  * Данные для подсоединения к биллингу.
  */
 public class DBInfo {
-    private String id;
-    private String url;
-    private URL serverUrl;
-    private String title;
+    private final ConfigMap setup;
+    private final String id;
+    private final String url;
+    private final URL serverUrl;
+    private final String title;
     private String version;
-    private ConfigMap setup;
-    private Set<String> pluginSet;
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
-    private Map<Integer, Integer> billingUserIdCrmUserIdMap = new HashMap<>();
+    private final BiMap<Integer, Integer> billingUserIdUserIdBiMap = HashBiMap.create(100);
+
+    private Set<String> pluginSet;
     private ConfigMap guiConfigValues;
+
     private final Map<String, Directory<?>> directories = new ConcurrentHashMap<>();
 
-    public DBInfo(String id) {
-        this.id = id;
-
-        for (User user : UserCache.getUserMap().values()) {
-            int billingUserId = user.getConfigMap().getInt("bgbilling:userId." + id, 0);
-            if (billingUserId > 0) {
-                billingUserIdCrmUserIdMap.put(billingUserId, user.getId());
-            }
+    public DBInfo(ConfigMap config) {
+        this.id = config.get("id");
+        this.setup = config;
+        this.url = config.get("url");
+        try {
+            serverUrl = new URI(url).toURL();
+        } catch (MalformedURLException | URISyntaxException ex) {
+            throw new BGException(ex);
         }
+        title = config.get("title");
+        version = config.get("version", "");
+
+        this.connectionPool = new ConnectionPool("bgbilling-" + getId(), config);
+    }
+
+    public ConfigMap getSetup() {
+        return setup;
     }
 
     public String getId() {
@@ -58,42 +73,20 @@ public class DBInfo {
         return serverUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-        try {
-            serverUrl = new URI(url).toURL();
-        } catch (MalformedURLException | URISyntaxException ex) {
-            throw new BGException(ex);
-        }
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setVersion(String value) {
+        version = value;
     }
 
     public int versionCompare(String withVersion) {
         return new BigDecimal(this.version).compareTo(new BigDecimal(withVersion));
-    }
-
-    public ConfigMap getSetup() {
-        return setup;
-    }
-
-    public void setSetup(ConfigMap setup) {
-        this.setup = setup;
-        this.connectionPool = new ConnectionPool("bgbilling-" + getId(), setup);
     }
 
     public ConnectionPool getConnectionPool() {
@@ -129,17 +122,38 @@ public class DBInfo {
         return setup.get("copyParamMapping");
     }
 
-    public int getBillingUserId(User user) {
-        return user.getConfigMap().getInt("bgbilling:userId." + id, -1);
+    public DBInfo loadUsers(User requestUser) {
+        if (billingUserIdUserIdBiMap.isEmpty()) {
+            synchronized (billingUserIdUserIdBiMap) {
+                Map<String, Integer> billingLoginUserId = new DirectoryDAO(requestUser, this).getUserList().stream()
+                        .collect(Collectors.toMap(UserInfo::getLogin, UserInfo::getId));
+
+                for (User user : UserCache.getUserMap().values()) {
+                    Integer billingUserId = user.getConfigMap().getInt("bgbilling:userId." + id, 0);
+                    if (billingUserId > 0) {
+                        billingUserIdUserIdBiMap.put(billingUserId, user.getId());
+                    } else {
+                        billingUserId = billingLoginUserId.get(user.getLogin());
+                        if (billingUserId != null)
+                            billingUserIdUserIdBiMap.put(billingUserId, user.getId());
+                    }
+                }
+            }
+        }
+        return this;
     }
 
-    public int getCrmUserId(int billingUserId) {
-        Integer value = billingUserIdCrmUserIdMap.get(billingUserId);
+    public int getBillingUserId(int userId) {
+        return billingUserIdUserIdBiMap.inverse().get(userId);
+    }
+
+    public int getUserId(int billingUserId) {
+        Integer value = billingUserIdUserIdBiMap.get(billingUserId);
         return value != null ? value : -1;
     }
 
     @SuppressWarnings("unchecked")
-    public </* T extends Id,  */D extends Directory<?>> D directory(Class<D> clazz) {
+    public <D extends Directory<?>> D directory(Class<D> clazz) {
         // not used yet
         final int moduleId = 0;
         final String key = clazz.getName() + ":" + moduleId;

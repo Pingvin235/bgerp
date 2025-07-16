@@ -58,17 +58,17 @@ public class MessageTypeNote extends MessageType {
     }
 
     @Override
-    public boolean isAttachmentSupport() {
-        return true;
-    }
-
-    @Override
     public boolean isEditable(Message message) {
         return true;
     }
 
     @Override
     public boolean isRemovable(Message message) {
+        return true;
+    }
+
+    @Override
+    public boolean isReadable() {
         return true;
     }
 

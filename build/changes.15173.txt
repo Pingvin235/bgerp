@@ -1,0 +1,2 @@
+C: BGBilling HelpDesk config simplification. https://bgerp.org/change/0/doc/plugin/bgbilling/index.html#setup-helpdesk
+A: BGBilling HelpDesk login-based user mapping. https://bgerp.org/change/15173/doc/plugin/bgbilling/index.html#setup-user

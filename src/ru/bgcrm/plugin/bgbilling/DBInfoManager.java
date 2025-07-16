@@ -27,13 +27,9 @@ public class DBInfoManager {
         final String prefix = "bgbilling:server.", prefixOld = "bgbilling.";
 
         for (Map.Entry<Integer, ConfigMap> me : setup.subSokIndexed(prefix, prefixOld).entrySet()) {
-            ConfigMap params = me.getValue();
+            ConfigMap config = me.getValue();
             try {
-                DBInfo dbInfo = new DBInfo(params.get("id"));
-                dbInfo.setUrl(params.get("url"));
-                dbInfo.setTitle(params.get("title"));
-                dbInfo.setVersion(params.get("version", ""));
-                dbInfo.setSetup(setup.subSok(prefix + me.getKey() + ".", prefixOld + me.getKey() + "."));
+                DBInfo dbInfo = new DBInfo(config);
 
                 if (Utils.notBlankString(dbInfo.getVersion()) && !StringUtils.startsWithAny(dbInfo.getVersion(), SUPPORTED_VERSIONS))
                     throw new BGException("Unsupported billing version: {}", dbInfo.getVersion());

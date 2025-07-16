@@ -41,9 +41,11 @@ public class BGBillingTest {
     private int paramPhoneTextId;
     private int paramTextId;
 
-    private int paramHdCostId;
     private int paramHdStatusId;
+    private int paramHdCostId;
     private int paramHdAutoCloseId;
+
+    private int userHdGroupId;
 
     private int processHdTypeId;
 
@@ -56,14 +58,20 @@ public class BGBillingTest {
         paramPhoneTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Телефон (текст)", ProcessTest.posParam += 2);
         paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Текст", ProcessTest.posParam += 2);
 
-        paramHdCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE_HD + " Стоимость", ProcessTest.posParam += 2);
         paramHdStatusId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " Статус", ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "param.hd.status.values.txt"));
+        paramHdCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE_HD + " Стоимость", ProcessTest.posParam += 2);
         paramHdAutoCloseId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE_HD + " Автозакрытие", ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "param.hd.autoclose.values.txt"));
     }
 
-    @Test(dependsOnMethods = "param")
+    @Test
+    public void group() throws Exception {
+        userHdGroupId = UserHelper.addGroup(TITLE_HD, 0, "");
+        UserHelper.addUserGroups(UserTest.USER_ADMIN_ID, userHdGroupId);
+    }
+
+    @Test(dependsOnMethods = { "param", "group" })
     public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
@@ -88,8 +96,8 @@ public class BGBillingTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatusId(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setParameterIds(List.of(paramHdCostId, paramHdStatusId, paramHdAutoCloseId));
-        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));
+        props.setParameterIds(List.of(paramHdStatusId, paramHdCostId, paramHdAutoCloseId));
+        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(userHdGroupId), 0));
 
         processHdTypeId = ProcessHelper.addType(TITLE_HD, ProcessTest.processTypeTestGroupId, props).getId();
     }
@@ -104,9 +112,10 @@ public class BGBillingTest {
 
         queueId = ProcessHelper.addQueue(TITLE_HD,
                 ConfigHelper.generateConstants(
+                    "GROUP_ID", userHdGroupId,
                     "BILLING_ID", BILLING_ID,
-                    "PARAM_HD_COST_ID", paramHdCostId,
-                    "PARAM_HD_STATUS_ID", paramHdStatusId
+                    "PARAM_HD_STATUS_ID", paramHdStatusId,
+                    "PARAM_HD_COST_ID", paramHdCostId
                 ) + ResourceHelper.getResource(this, "process.hd.queue.config.txt"),
                 Set.of(processHdTypeId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
@@ -117,14 +126,13 @@ public class BGBillingTest {
         ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "BILLING_ID", BILLING_ID,
+                "PARAM_RU_INN", CustomerRuTest.paramInnId,
                 "PROCESS_HD_TYPE_ID", processHdTypeId,
-                "PARAM_HD_COST_ID", paramHdCostId,
                 "PARAM_HD_STATUS_ID", paramHdStatusId,
+                "PARAM_HD_COST_ID", paramHdCostId,
                 "PARAM_HD_AUTO_CLOSE_ID", paramHdAutoCloseId,
                 "PROCESS_HD_OPEN_STATUS_ID", ProcessTest.statusOpenId,
-                "PROCESS_HD_CLOSE_STATUS_ID", ProcessTest.statusDoneId,
-                "PROCESS_HD_READ_STATUS_IDS", "",
-                "PARAM_RU_INN", CustomerRuTest.paramInnId
+                "PROCESS_HD_CLOSE_STATUS_ID", ProcessTest.statusDoneId
             ) + ResourceHelper.getResource(this, "config.txt"));
     }
 

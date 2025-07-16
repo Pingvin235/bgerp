@@ -64,34 +64,37 @@ public class MessageTypeHelpDesk extends MessageType {
     private static final Log log = Log.getLog();
 
     private final String billingId;
-    // импорт одного топика, для отладки
-    private final int topicId;
 
     private final User user;
     private final int processTypeId;
+
+    // в какой статус переводить процесс, если тема HD открылась
+    private final int openStatusId;
+    // в какой статус переводить процесс, если тема HD закрылась
+    private final int closeStatusId;
+    // при переходе в эти статусы помечать все сообщения прочитанными
+    private final Set<Integer> markMessagesReadStatusIds;
+
     // текстовый параметр со стоимостью
     private final int costParamId;
     // списковый параметр со статусом
     private final int statusParamId;
     // списковый параметр - признак автозакрытия
     private final int autoCloseParamId;
-    // в какой статус закрывать процесс, если тема HD закрылась
-    private final int closeStatusId;
-    // в какой статус закрывать процесс, если тема HD открылась
-    private final int openStatusId;
+
+    // количество выбираемых тем
+    private final int pageSize;
+    // импорт одного топика, для отладки
+    private final int topicId;
+
     // первое сообщение добавлять в описание процесса
     private final boolean addFirstMessageInDescription;
     // событие о новых сообщениях
     private final boolean newMessageEvent;
-    // при переходе в эти статусы помечать все сообщения прочитанными
-    private final Set<Integer> markMessagesReadStatusIds;
-    // количество выбираемых тем
-    private final int pageSize;
 
     public MessageTypeHelpDesk(Setup setup, int id, ConfigMap config) {
         super(setup, id, config.get("title"), config);
         this.billingId = config.get("billingId");
-        this.topicId = config.getInt("topicId");
 
         String userName = config.get("user", "");
         String userPassword = config.get("pswd", "");
@@ -108,20 +111,19 @@ public class MessageTypeHelpDesk extends MessageType {
             throw new BGException("processTypeId not defined");
         }
 
-        costParamId = config.getInt("costParamId", 0);
-        statusParamId = config.getInt("statusParamId", 0);
-        closeStatusId = config.getInt("closeStatusId", 0);
         openStatusId = config.getInt("openStatusId", 0);
-        autoCloseParamId = config.getInt("autoCloseParamId", 0);
-        pageSize = config.getInt("pageSize", 100000);
-        newMessageEvent = config.getBoolean("newMessageEvent", false);
+        closeStatusId = config.getInt("closeStatusId", 0);
         markMessagesReadStatusIds = Utils.toIntegerSet(config.get("markMessagesReadStatusIds", ""));
-        addFirstMessageInDescription = config.getBoolean("addFirstMessageInDescription", false);
-    }
 
-    @Override
-    public String getHeaderJsp() {
-        return Plugin.ENDPOINT_MESSAGE_HEADER;
+        statusParamId = config.getInt("statusParamId", 0);
+        costParamId = config.getInt("costParamId", 0);
+        autoCloseParamId = config.getInt("autoCloseParamId", 0);
+
+        pageSize = config.getInt("pageSize", 100000);
+        topicId = config.getInt("topicId");
+
+        addFirstMessageInDescription = config.getBoolean("addFirstMessageInDescription", false);
+        newMessageEvent = config.getBoolean("newMessageEvent", false);
     }
 
     public User getUser() {
@@ -132,28 +134,20 @@ public class MessageTypeHelpDesk extends MessageType {
         return billingId;
     }
 
-    public int getProcessTypeId() {
-        return processTypeId;
-    }
-
-    public int getCostParamId() {
-        return costParamId;
+    public Set<Integer> getMarkMessagesReadStatusIds() {
+        return markMessagesReadStatusIds;
     }
 
     public int getStatusParamId() {
         return statusParamId;
     }
 
-    public int getCloseStatusId() {
-        return closeStatusId;
+    public int getCostParamId() {
+        return costParamId;
     }
 
     public int getAutoCloseParamId() {
         return autoCloseParamId;
-    }
-
-    public Set<Integer> getMarkMessagesReadStatusIds() {
-        return markMessagesReadStatusIds;
     }
 
     public DBInfo getDbInfo() {
@@ -162,6 +156,48 @@ public class MessageTypeHelpDesk extends MessageType {
 
     public String getObjectType() {
         return "bgbilling-helpdesk:" + billingId;
+    }
+
+    @Override
+    public boolean isAnswerSupport() {
+        return true;
+    }
+
+    @Override
+    public Message getAnswerMessage(Message original) {
+        var result = new Message();
+        result.setTypeId(original.getTypeId());
+        result.setProcessId(original.getProcessId());
+
+        var subject = Utils.maskNull(original.getSubject());
+        subject = subject.startsWith("Re:") ? subject : "Re: " + subject;
+        result.setSubject(subject);
+
+        var text = original.getText();
+        text = ">" + text
+            .replace("\r", "")
+            .replace("\n", "\n>");
+        result.setText(text);
+
+        result.setTo(original.getFrom());
+
+        return result;
+    }
+
+    @Override
+    public boolean isEditable(Message message) {
+        // новое либо исходящее но не прочитанное ещё сообщение
+        return message == null || (message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null);
+    }
+
+    @Override
+    public String getHeaderJsp() {
+        return Plugin.ENDPOINT_HD_MESSAGE_HEADER;
+    }
+
+    @Override
+    public String getEditorJsp() {
+        return Plugin.ENDPOINT_HD_MESSAGE_EDITOR;
     }
 
     @Override
@@ -316,7 +352,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
     private HdTopic updateProcessFromTopic(Connection con, ProcessType processType, Process process, HdTopic topic, List<HdMessage> hdMessages)
             throws Exception {
-        DBInfo dbInfo = getDbInfo();
+        DBInfo dbInfo = getDbInfo().loadUsers(user);
 
         ProcessDAO processDao = new ProcessDAO(con);
         MessageDAO messageDao = new MessageDAO(con);
@@ -349,10 +385,10 @@ public class MessageTypeHelpDesk extends MessageType {
 
         // соотнесение исполнителей
         if (topic.getUserId() > 0) {
-            int crmUserId = dbInfo.getCrmUserId(topic.getUserId());
+            int crmUserId = dbInfo.getUserId(topic.getUserId());
             if (crmUserId > 0) {
                 ProcessGroup group = process.getGroups().stream()
-                    .filter(pg -> pg.getGroupId() == 0)
+                    .filter(pg -> pg.getRoleId() == 0)
                     .findFirst().orElse(null);
                 if (group == null) {
                     log.warn("Not found process group with role=0 for process: {}", process.getId());
@@ -367,18 +403,17 @@ public class MessageTypeHelpDesk extends MessageType {
         } else
             processDao.updateProcessExecutors(Set.of(), process.getId());
 
-        // статус - ошибка, херашибка и т.п.
-        if (topic.getStatusId() > 0)
+        // статус HelpDesk   - ошибка, консультация
+        if (statusParamId > 0 && topic.getStatusId() > 0)
             paramDao.updateParamList(process.getId(), statusParamId, Collections.singleton(topic.getStatusId()));
 
-        Set<Integer> on = Collections.singleton(1);
-        Set<Integer> empty = Collections.emptySet();
+        // стоимость
+        if (costParamId > 0)
+            paramDao.updateParamText(process.getId(), costParamId, Utils.format(topic.getCost()));
 
         // автозакрытие
-        paramDao.updateParamList(process.getId(), autoCloseParamId, topic.isAutoClose() ? on : empty);
-
-        // стоимость
-        paramDao.updateParamText(process.getId(), costParamId, Utils.format(topic.getCost()));
+        if (autoCloseParamId > 0)
+            paramDao.updateParamList(process.getId(), autoCloseParamId, topic.isAutoClose() ? Set.of(1) : null);
 
         boolean firstMessageAddInDescription = addFirstMessageInDescription && messageMap.size() == 0;
 
@@ -394,7 +429,7 @@ public class MessageTypeHelpDesk extends MessageType {
                 message.setDirection(topicMessage.getDirection());
 
                 if (message.getDirection() == Message.DIRECTION_OUTGOING) {
-                    int crmUserId = dbInfo.getCrmUserId(topicMessage.getUserIdFrom());
+                    int crmUserId = dbInfo.getUserId(topicMessage.getUserIdFrom());
                     if (crmUserId > 0)
                         message.setUserId(crmUserId);
                 }
@@ -430,7 +465,7 @@ public class MessageTypeHelpDesk extends MessageType {
             if (topicMessage.getTimeTo() != null && message.getToTime() == null) {
                 message.setToTime(topicMessage.getTimeTo());
                 if (message.getDirection() == Message.DIRECTION_INCOMING) {
-                    int crmUserId = dbInfo.getCrmUserId(topicMessage.getUserIdTo());
+                    int crmUserId = dbInfo.getUserId(topicMessage.getUserIdTo());
                     if (crmUserId > 0)
                         message.setUserId(crmUserId);
                 }
@@ -438,43 +473,6 @@ public class MessageTypeHelpDesk extends MessageType {
             }
         }
         return topic;
-    }
-
-    @Override
-    public boolean isAnswerSupport() {
-        return true;
-    }
-
-    @Override
-    public Message getAnswerMessage(Message original) {
-        var result = new Message();
-        result.setTypeId(original.getTypeId());
-        result.setProcessId(original.getProcessId());
-
-        var subject = Utils.maskNull(original.getSubject());
-        subject = subject.startsWith("Re:") ? subject : "Re: " + subject;
-        result.setSubject(subject);
-
-        var text = original.getText();
-        text = ">" + text
-            .replace("\r", "")
-            .replace("\n", "\n>");
-        result.setText(text);
-
-        result.setTo(original.getFrom());
-
-        return result;
-    }
-
-    @Override
-    public boolean isEditable(Message message) {
-        // новое либо исходящее но не прочитанное ещё сообщение
-        return message == null || (message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null);
-    }
-
-    @Override
-    public boolean isReadable() {
-        return false;
     }
 
     @Override
@@ -519,6 +517,7 @@ public class MessageTypeHelpDesk extends MessageType {
             message.addAttach(attach);
         }
 
+        message.setSubject("");
         message.setFrom("");
         message.setTo("");
 

@@ -26,7 +26,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
 
-    public static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/helpdesk/process_message_header.jsp";
+    public static final String ENDPOINT_HD_MESSAGE_HEADER = PATH_JSP_USER + "/helpdesk/process_message_header.jsp";
+    public static final String ENDPOINT_HD_MESSAGE_EDITOR = PATH_JSP_USER + "/helpdesk/process_message_editor.jsp";
 
     private Plugin() {
         super(ID);
@@ -88,9 +89,10 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             entry("user.process.linkForAdd.list.jsp", List.of(PATH_JSP_USER + "/process_link_for_add_list.jsp")),
             entry("user.process.linkForAddCustom.jsp", List.of(PATH_JSP_USER + "/process_link_for_add_custom_list.jsp")),
             entry("js.init", List.of(PATH_JSP_USER + "/js_init.jsp")),
-            entry("user.process.message.attachments.jsp", List.of(PATH_JSP_USER + "/helpdesk/process_message_attachments.jsp")),
             entry("user.message.search.result.jsp", List.of(PATH_JSP_USER + "/message_search_result.jsp")),
-            entry(ENDPOINT_MESSAGE_HEADER, List.of(ENDPOINT_MESSAGE_HEADER))
+            entry(ENDPOINT_HD_MESSAGE_HEADER, List.of(ENDPOINT_HD_MESSAGE_HEADER)),
+            entry("user.process.message.attachments.jsp", List.of(PATH_JSP_USER + "/helpdesk/process_message_attachments.jsp")),
+            entry(ENDPOINT_HD_MESSAGE_EDITOR, List.of(ENDPOINT_HD_MESSAGE_EDITOR))
         );
     }
 }

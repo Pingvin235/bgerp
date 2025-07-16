@@ -100,11 +100,6 @@ public class MessageTypeChannel extends MessageType {
     }
 
     @Override
-    public boolean isAttachmentSupport() {
-        return false;
-    }
-
-    @Override
     public String getHeaderJsp() {
         // "user.process.message.header.jsp", List.of(PATH_JSP_USER + "/process_link_list.jsp")
         return Plugin.ENDPOINT_MESSAGE_HEADER;

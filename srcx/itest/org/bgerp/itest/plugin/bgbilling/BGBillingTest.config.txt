@@ -11,46 +11,31 @@ bgbilling:server.{@cnt}.customerIdParam=8
 #bgbilling:server.{@cnt}.version=10.2
 #bgbilling:server.{@cnt}.customerIdParam=63
 
-# общий логин с паролем по-умолчанию для обращения к биллингу
-# поместить в конфигурацию пользователя
-# - для каждого биллинга с id == billingId
-#bgbilling:login.<billingId>=admin
-#bgbilling:password.<billingId>=admin
-# - для всех настроенных в плагине серверов биллинга
-#bgbilling:login=admin
-#bgbilling:password=admin
-
 bgbilling:contractType.1.title=Contract Pattern ID 17
 bgbilling:contractType.1.billing={@BILLING_ID}
 bgbilling:contractType.1.patternId=17
 bgbilling:contractType.1.tariffList=133:Tariff ID 133,134:Tariff ID 134
-#bgbilling:contractType.1.tariffPosition=2
 
-# HelpDesk Message Type
-messageType.200.title=HD
-messageType.200.billingId={@BILLING_ID}
-messageType.200.class=MessageTypeHelpDesk
-messageType.200.user=admin
-messageType.200.pswd=admin
-messageType.200.processTypeId={@PROCESS_HD_TYPE_ID}
-messageType.200.costParamId={@PARAM_HD_COST_ID}
-messageType.200.statusParamId={@PARAM_HD_STATUS_ID}
-messageType.200.autoCloseParamId={@PARAM_HD_AUTO_CLOSE_ID}
-messageType.200.openStatusId={@PROCESS_HD_OPEN_STATUS_ID}
-messageType.200.closeStatusId={@PROCESS_HD_CLOSE_STATUS_ID}
-messageType.200.pageSize=100000
-messageType.200.newMessageEvent=0
-messageType.200.markMessagesReadStatusIds={@PROCESS_HD_READ_STATUS_IDS}
-# set a single HD topic ID for testing time
-#messageType.200.topicId=
-
-# импорт контрагентов для внутренней тестовой БД BiTel
-# ИНН
+# импорт контрагентов из договоров Демо биллинга
 #bgbilling:creator.confirmParameters={@PARAM_RU_INN}
 #bgbilling:creator.importParameters={@PARAM_RU_INN}
-
 #bgbilling:creator.server.{@inc:cnt}.billingId={@BILLING_ID}
 #bgbilling:creator.server.{@cnt}.user=admin
 #bgbilling:creator.server.{@cnt}.pswd=admin
 #bgbilling:creator.server.{@cnt}.paramMapping=41:{@PARAM_RU_INN}
 #bgbilling:creator.server.{@cnt}.pageSize=10
+
+messageType.200.title=BGBilling HelpDesk
+messageType.200.billingId={@BILLING_ID}
+messageType.200.class=MessageTypeHelpDesk
+messageType.200.user=admin
+messageType.200.pswd=admin
+messageType.200.processTypeId={@PROCESS_HD_TYPE_ID}
+messageType.200.openStatusId={@PROCESS_HD_OPEN_STATUS_ID}
+messageType.200.closeStatusId={@PROCESS_HD_CLOSE_STATUS_ID}
+messageType.200.statusParamId={@PARAM_HD_STATUS_ID}
+# раскоментировать при использовании данных параметров
+#messageType.200.costParamId={@PARAM_HD_COST_ID}
+#messageType.200.autoCloseParamId={@PARAM_HD_AUTO_CLOSE_ID}
+# ID HelpDesk топика для быстрого тестирования импорта
+#messageType.200.topicId=

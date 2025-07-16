@@ -274,6 +274,18 @@ public class DirectoryDAO extends BillingDAO {
         return moduleList;
     }
 
+    /**
+     * @return пользователи с полем {@code login}
+     */
+    public List<UserInfo> getUserList() {
+        RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService", "listUsers");
+        JsonNode res = transferData.postDataReturn(req, user);
+        return readJsonValue(res.traverse(), jsonTypeFactory.constructCollectionType(List.class, UserInfo.class));
+    }
+
+    /**
+     * @return пользователи с полем {@code name}
+     */
     public List<UserInfo> getUserInfoList() {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService", "userInfoList");
         JsonNode res = transferData.postDataReturn(req, user);

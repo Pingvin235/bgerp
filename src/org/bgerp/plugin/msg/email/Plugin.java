@@ -32,8 +32,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         return Map.of(
             ENDPOINT_MESSAGE_VIEWER, List.of(ENDPOINT_MESSAGE_VIEWER),
             ENDPOINT_MESSAGE_HEADER, List.of(ENDPOINT_MESSAGE_HEADER),
-            ENDPOINT_MESSAGE_EDITOR, List.of(ENDPOINT_MESSAGE_EDITOR),
             "user.process.message.attachments.jsp", List.of(PATH_JSP_USER + "/process_message_attachments.jsp"),
+            ENDPOINT_MESSAGE_EDITOR, List.of(ENDPOINT_MESSAGE_EDITOR),
             "user.profile.options.jsp", List.of(PATH_JSP_USER + "/profile_options.jsp")
         );
     }

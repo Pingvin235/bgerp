@@ -71,15 +71,8 @@
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
-			<%@ include file="tags.jsp"%>
-		</div>
-		<%@ include file="text.jsp"%>
-		<div>
-			<%@ include file="upload_list.jsp"%>
 		</div>
 	</div>
-
-	<%@ include file="ok_cancel.jsp"%>
 </html:form>
 
 <%-- preparation editor forms --%>

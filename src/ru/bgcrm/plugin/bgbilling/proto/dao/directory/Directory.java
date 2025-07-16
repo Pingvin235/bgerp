@@ -39,6 +39,11 @@ public abstract class Directory <T extends Id> {
         return values.computeIfAbsent(id, this::missingValue);
     }
 
+    public Map<Integer, T> getValues(User user) {
+        loadIfNeeded(user);
+        return values;
+    }
+
     private void loadIfNeeded(User user) {
         if (lastLoadVersion.get() > 0 && (System.currentTimeMillis() - lastLoadTime.get() < 10000L))
             return;

@@ -9,10 +9,10 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
+import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
@@ -39,19 +39,8 @@ import ru.bgcrm.util.sql.ConnectionSet;
  */
 public class HelpDeskListener {
     public HelpDeskListener() {
-        EventProcessor.subscribe(new EventListener<>() {
-            @Override
-            public void notify(ProcessChangingEvent e, ConnectionSet connectionSet) throws Exception {
-                processChanged(e, connectionSet);
-            }
-        }, ProcessChangingEvent.class);
-
-        EventProcessor.subscribe(new EventListener<>() {
-            @Override
-            public void notify(ParamChangedEvent e, ConnectionSet connectionSet) throws BGMessageException {
-                paramChanged(e, connectionSet);
-            }
-        }, ParamChangedEvent.class);
+        EventProcessor.subscribe(this::processChanged, ProcessChangingEvent.class);
+        EventProcessor.subscribe(this::paramChanged, ParamChangedEvent.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -90,13 +79,13 @@ public class HelpDeskListener {
         if (paramId == mt.getStatusParamId()) {
             hdDao.setTopicStatus(topic.getContractId(), topicId, Utils.getFirst((Set<Integer>) e.getValue()));
         }
-        // автозакрытие
-        else if (paramId == mt.getAutoCloseParamId()) {
-            hdDao.setTopicAutoClose(topic.getContractId(), topicId, ((Set<Integer>) e.getValue()).size() > 0);
-        }
         // стоимость
         else if (paramId == mt.getCostParamId()) {
             hdDao.setTopicCost(topic.getContractId(), topicId, Utils.parseBigDecimal((String) e.getValue(), BigDecimal.ZERO));
+        }
+        // автозакрытие
+        else if (paramId == mt.getAutoCloseParamId()) {
+            hdDao.setTopicAutoClose(topic.getContractId(), topicId, ((Set<Integer>) e.getValue()).size() > 0);
         }
     }
 
@@ -105,8 +94,7 @@ public class HelpDeskListener {
         if (e.isOpening() || e.isClosing()) {
             Pair<MessageTypeHelpDesk, Integer> pair = getTypeAndTopic(conSet.getConnection(), e.getProcess().getId());
             if (pair != null) {
-                new HelpDeskDAO(e.getUser(), pair.getFirst().getDbInfo()).setTopicState(pair.getSecond(),
-                        e.isClosing());
+                new HelpDeskDAO(e.getUser(), pair.getFirst().getDbInfo()).setTopicState(pair.getSecond(), e.isClosing());
             }
         }
         // изменение исполнителей - установка в HelpDesk
@@ -132,10 +120,9 @@ public class HelpDeskListener {
                 } else if (user.getId() == e.getUser().getId()) {
                     hdDao.setTopicExecutorMe(pair.getSecond());
                 } else {
-                    int billingUserId = pair.getFirst().getDbInfo().getBillingUserId(user);
+                    int billingUserId = pair.getFirst().getDbInfo().loadUsers(e.getUser()).getBillingUserId(user.getId());
                     if (billingUserId <= 0) {
-                        throw new BGException(
-                                "Исполнителю " + user.getTitle() + " не сопоставлен пользователь биллинга.");
+                        throw new BGException("Исполнителю " + user.getTitle() + " не сопоставлен пользователь биллинга.");
                     }
                     hdDao.setTopicExecutor(pair.getSecond(), billingUserId);
                 }
@@ -148,11 +135,15 @@ public class HelpDeskListener {
             if (pair != null) {
                 MessageTypeHelpDesk mt = pair.getFirst();
                 if (mt.getMarkMessagesReadStatusIds().contains(e.getStatusChange().getStatusId())) {
-                    MessageDAO messageDao = new MessageDAO(conSet.getConnection());
-
                     Pageable<Message> searchResult = new Pageable<>();
-                    messageDao.searchMessageList(searchResult, e.getProcess().getId(), mt.getId(),
-                            Message.DIRECTION_INCOMING, null, null, null, null, null);
+
+                    new MessageSearchDAO(conSet.getConnection())
+                        .withTypeId(mt.getId())
+                        .withDirection(Message.DIRECTION_INCOMING)
+                        .withProcessIds(Set.of(e.getProcess().getId()))
+                        .search(searchResult);
+
+                    MessageDAO messageDao = new MessageDAO(conSet.getConnection());
 
                     HelpDeskDAO hdDao = new HelpDeskDAO(e.getUser(), mt.getDbInfo());
                     for (Message msg : searchResult.getList()) {

@@ -1,32 +1,35 @@
 filter.{@inc:cnt}.type=openClose
 filter.{@cnt}.defaultValue=open
+filter.{@inc:cnt}.type=groups
+filter.{@cnt}.defaultValues={@GROUP_ID}
+filter.{@cnt}.show=0
+filter.{@inc:cnt}.type=executors
+filter.{@cnt}.showEmptyExecutor=1
 filter.{@inc:cnt}.type=linkedCustomer:title
 filter.{@inc:cnt}.type=description
-filter.{@inc:cnt}.type=linkObject
-filter.{@inc:cnt}.title=Тема HelpDesk
+filter.{@inc:cnt}.title=ID топика HelpDesk
 filter.{@cnt}.type=linkObject
 filter.{@cnt}.objectType=bgbilling-helpdesk:{@BILLING_ID}
 filter.{@cnt}.whatFilter=id
 
-column.1.title=ID
-column.1.value=id
-column.2.title=Приор.
-column.2.value=priority
+column.1.title=Приор.
+column.1.value=priority
 column.3.title=Договор
 column.3.value=linkObject:contract
-column.4.title=Описание
-column.4.value=descriptionLink
+column.4.title=Процесс
+column.4.value=title
 column.4.titleIfMore=100
 column.5.title=Статус
 column.5.value=status_title
 column.6.title=Исполнители
 column.6.value=executors
 column.6.titleIfMore=15
-column.7.title=HD Стоимость
-column.7.value=param:{@PARAM_HD_COST_ID}
-column.8.title=HD Статус
-column.8.value=param:{@PARAM_HD_STATUS_ID}
-column.9.title=HD ID
+column.7.title=Статус топика HelpDesk
+column.7.value=param:{@PARAM_HD_STATUS_ID}
+# раскомментировать при использовании данного параметра и добавить в media.html.columns
+#column.8.title=Стоимость топика HelpDesk
+#column.8.value=param:{@PARAM_HD_COST_ID}
+column.9.title=ID топика HelpDesk
 column.9.value=linkedObject:bgbilling-helpdesk:id
 column.10.title=Сообщ.
 column.10.value=messageInCount
@@ -39,6 +42,8 @@ column.16.value=messageInLastDt:nf
 column.20.title=Создан
 column.20.value=create_dt
 
+media.html.columns=9,20,3,4,5,6,7,10,12,14
+
 sort.mode.1.columnId=12
 sort.mode.1.title=Непр. сообщ обр.
 sort.mode.1.desc=true
@@ -48,7 +53,7 @@ sort.mode.2.desc=true
 sort.mode.3.columnId=16
 sort.mode.3.title=Посл.сообщ. обр.
 sort.mode.3.desc=true
-sort.mode.4.columnId=2
+sort.mode.4.columnId=1
 sort.mode.4.title=Приоритет обр.
 sort.mode.4.desc=true
 
