@@ -147,6 +147,11 @@ public abstract class MessageType extends IdTitle {
         return true;
     }
 
+    /**
+     * Can a message be edited
+     * @param message the message, {@code null} for adding a message of the type
+     * @return
+     */
     public boolean isEditable(Message message) {
         return false;
     }

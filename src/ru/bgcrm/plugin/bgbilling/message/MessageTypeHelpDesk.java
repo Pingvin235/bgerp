@@ -468,8 +468,8 @@ public class MessageTypeHelpDesk extends MessageType {
 
     @Override
     public boolean isEditable(Message message) {
-        // исходящее но не прочитанное ещё сообщение
-        return message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null;
+        // новое либо исходящее но не прочитанное ещё сообщение
+        return message == null || (message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null);
     }
 
     @Override

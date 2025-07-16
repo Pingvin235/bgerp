@@ -170,7 +170,7 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public boolean isEditable(Message message) {
-        return message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null;
+        return message == null || (message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null);
     }
 
     @Override

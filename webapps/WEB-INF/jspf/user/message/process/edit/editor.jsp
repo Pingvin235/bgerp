@@ -53,17 +53,19 @@
 						<c:forEach var="item" items="${config.typeMap}">
 							<c:if test="${empty allowedTypeIds or allowedTypeIds.contains(item.key)}">
 								<c:set var="messageType" value="${item.value}"/>
-								<c:choose>
-									<%-- special editor --%>
-									<c:when test="${not empty messageType.editorJsp}">
-										<li value="${item.key}" editor="${messageType.id}">${item.value.title}</li>
-									</c:when>
-									<%--  or default ones
-										TODO: figure out, for what message type is it needed --%>
-									<c:otherwise>
-										<li value="${item.key}">${item.value.title}</li>
-									</c:otherwise>
-								</c:choose>
+								<c:if test="${messageType.isEditable(null)}">
+									<c:choose>
+										<%-- special editor --%>
+										<c:when test="${not empty messageType.editorJsp}">
+											<li value="${item.key}" editor="${messageType.id}">${item.value.title}</li>
+										</c:when>
+										<%--  or default ones
+											TODO: figure out, for what message type is it needed --%>
+										<c:otherwise>
+											<li value="${item.key}">${item.value.title}</li>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
 							</c:if>
 						</c:forEach>
 					</jsp:attribute>
