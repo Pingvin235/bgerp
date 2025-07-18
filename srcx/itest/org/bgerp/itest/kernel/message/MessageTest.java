@@ -22,7 +22,6 @@ import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.msg.config.TagConfig;
 import org.bgerp.model.msg.config.TagConfig.Tag;
 import org.bgerp.model.process.link.ProcessLink;
-import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -36,8 +35,6 @@ import ru.bgcrm.model.customer.Customer;
 public class MessageTest {
     private static final String TITLE = "Kernel Message";
 
-    // TODO: Logically the message type has to be added by EMailTest.
-    public static volatile MessageTypeEmail messageTypeEmailDemo;
     public static volatile MessageTypeNote messageTypeNote;
     public static volatile MessageTypeCall messageTypeCall;
 
@@ -51,13 +48,11 @@ public class MessageTest {
     @Test
     public void config() throws Exception {
         var config = ConfigHelper.generateConstants(
-                "PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId,
                 "PARAM_CUSTOMER_PHONE_ID", CustomerTest.paramPhoneId
             ) + ResourceHelper.getResource(this, "config.txt");
         ConfigHelper.addIncludedConfig(TITLE, config);
 
         var messageTypeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
-        Assert.assertNotNull(messageTypeEmailDemo = (MessageTypeEmail) messageTypeConfig.getTypeMap().get(1));
         Assert.assertNotNull(messageTypeNote = (MessageTypeNote) messageTypeConfig.getTypeMap().get(100));
         Assert.assertNotNull(messageTypeCall = (MessageTypeCall) messageTypeConfig.getTypeMap().get(50));
 

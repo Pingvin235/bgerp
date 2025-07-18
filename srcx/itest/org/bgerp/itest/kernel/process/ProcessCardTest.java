@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.model.process.TypeProperties;
 
-@Test(groups = "processCard", dependsOnGroups = { "user", "process" })
+@Test(groups = "processCard", dependsOnGroups = { "user", "process", "message" })
 public class ProcessCardTest {
     private static final String TITLE = "Kernel Process Card";
 

@@ -1,3 +1,27 @@
+SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7(347)29248xx" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
+
+messageType.1.title=demo@bgerp.org
+messageType.1.class=MessageTypeEmail
+messageType.1.store=imaps
+messageType.1.email=demo@bgerp.org
+messageType.1.host=imappro.zoho.eu
+messageType.1.login=demo@bgerp.org
+messageType.1.pswd=fafTc?r2
+messageType.1.folderIn=INBOX
+messageType.1.folderProcessed=CRM_PROCESSED
+messageType.1.folderSkipped=CRM_SKIPPED
+messageType.1.folderSent=CRM_SENT
+messageType.1.mail.transport.protocol=smtps
+messageType.1.mail.smtp.user=demo@bgerp.org
+messageType.1.mail.smtp.host=smtppro.zoho.eu
+messageType.1.mail.smtp.pswd=fafTc?r2
+messageType.1.sign.expression={@SIGN_TEXT}
+messageType.1.search.{@inc:cnt}.title=By EMail
+messageType.1.search.{@cnt}.class=MessageTypeSearchEmail
+messageType.1.search.{@inc:cnt}.title=Customer by Title
+messageType.1.search.{@cnt}.class=MessageTypeSearchCustomerByTitle
+messageType.1.saver.class=MessageTypeContactSaverEmail
+messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 
 # areas to search recipient's e-mails in message editor, other possible values: users
 #email:recipients.search.area=process,executors,process_customers
