@@ -1,14 +1,11 @@
-PSWD=fafTc?r2
-
 SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7 (347) 258-85-86" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
 
 messageType.1.title=demo@bgerp.org
 messageType.1.class=MessageTypeEmail
 messageType.1.email=demo@bgerp.org
 messageType.1.host=imappro.zoho.eu
-messageType.1.pswd={@PSWD}
+messageType.1.pswd=fafTc?r2
 messageType.1.mail.smtp.host=smtppro.zoho.eu
-messageType.1.mail.smtp.pswd={@PSWD}
 messageType.1.sign.expression={@SIGN_TEXT}
 messageType.1.search.{@inc:cnt}.title=By EMail
 messageType.1.search.{@cnt}.class=MessageTypeSearchEmail

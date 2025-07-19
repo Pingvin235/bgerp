@@ -7,15 +7,51 @@ import javax.mail.Session;
 import javax.mail.Store;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.util.Utils;
 
 /**
- * Email configuration. Provides IMAP and SMTP sessions.
+ * Email configuration for IMAP and SMTP sessions
  *
  * @author Shamil Vakhitov
  */
 public class MailConfig {
+    /**
+     * @return default set of IMAP session properties.
+     */
+    public static Properties getImapSessionStaticProperties() {
+        Properties props = new Properties();
+
+        props.setProperty("mail.imap.timeout", "7000");
+        props.setProperty("mail.imap.partialfetch", "false");
+        props.setProperty("mail.imaps.timeout", "7000");
+        props.setProperty("mail.imaps.partialfetch", "false");
+        // https://javaee.github.io/javamail/docs/api/index.html?javax/mail/internet/package-summary.html
+        props.setProperty("mail.mime.allowutf8", "true");
+
+        return props;
+    }
+
+    private static class Authenticator extends javax.mail.Authenticator {
+        private PasswordAuthentication authentication;
+
+        public Authenticator(String user, String password) {
+            authentication = new PasswordAuthentication(user, password);
+        }
+
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return authentication;
+        }
+    }
+
+    private static final String getOptionFromConfigs(ConfigMap paramMap, ConfigMap defaultParamMap, String paramName, String defaultValue) {
+        return paramMap.get(paramName, defaultParamMap != null ? defaultParamMap.get(paramName, defaultValue) : defaultValue);
+    }
+
+    // end of static
+
     private final ConfigMap configMap;
     private final String host;
     private final String email;
@@ -48,22 +84,6 @@ public class MailConfig {
         return Utils.notBlankString(email) && Utils.notBlankString(login) && Utils.notBlankString(pswd);
     }
 
-    /**
-     * @return default set of IMAP session properties.
-     */
-    public static Properties getImapSessionStaticProperties() {
-        Properties props = new Properties();
-
-        props.setProperty("mail.imap.timeout", "7000");
-        props.setProperty("mail.imap.partialfetch", "false");
-        props.setProperty("mail.imaps.timeout", "7000");
-        props.setProperty("mail.imaps.partialfetch", "false");
-        // https://javaee.github.io/javamail/docs/api/index.html?javax/mail/internet/package-summary.html
-        props.setProperty("mail.mime.allowutf8", "true");
-
-        return props;
-    }
-
     public Session getImapSession() throws Exception {
         Properties props = getImapSessionStaticProperties();
 
@@ -90,12 +110,11 @@ public class MailConfig {
     }
 
     public Session getSmtpSession(ConfigMap defaultParamMap) {
-        Session session = null;
-
         String user = getOptionFromConfigs(configMap, defaultParamMap, "mail.smtp.user", email);
-        String pswd = getOptionFromConfigs(configMap, defaultParamMap, "mail.smtp.pswd", null);
+        String pswd = getOptionFromConfigs(configMap, defaultParamMap, "mail.smtp.pswd", this.pswd);
 
-        //TODO: Проверка user, pswd на заполненность.
+        if (Utils.isBlankString(user) || Utils.isBlankString(pswd))
+            throw new BGException("SMTP user or password is not defined");
 
         final String proto = configMap.get("mail.transport.protocol", "smtps");
 
@@ -110,39 +129,14 @@ public class MailConfig {
         props.put("mail." + proto + ".timeout", "10000");
         props.put("mail." + proto + ".connectiontimeout", "10000");
 
-        // параметры для SSL
-        //props.putAll( paramMap.sub( "mail.properties." ) );
-
         if ("smtps".equals(proto)) {
             props.put("mail.smtps.ssl.trust", "*");
         }
 
-        Authenticator authenticator = null;
-        if (Utils.notBlankString(user) && Utils.notBlankString(pswd)) {
-            authenticator = new Authenticator(user, pswd);
-            props.setProperty("mail." + proto + ".auth", "true");
-            props.setProperty("mail." + proto + ".submitter", authenticator.getPasswordAuthentication().getUserName());
-        }
+        Authenticator authenticator = new Authenticator(user, pswd);
+        props.setProperty("mail." + proto + ".auth", "true");
+        props.setProperty("mail." + proto + ".submitter", authenticator.getPasswordAuthentication().getUserName());
 
-        session = Session.getInstance(props, authenticator);
-
-        return session;
-    }
-
-    private static final String getOptionFromConfigs(ConfigMap paramMap, ConfigMap defaultParamMap, String paramName, String defaultValue) {
-        return paramMap.get(paramName, defaultParamMap != null ? defaultParamMap.get(paramName, defaultValue) : defaultValue);
-    }
-
-    private static class Authenticator extends javax.mail.Authenticator {
-        private PasswordAuthentication authentication;
-
-        public Authenticator(String user, String password) {
-            authentication = new PasswordAuthentication(user, password);
-        }
-
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-            return authentication;
-        }
+        return Session.getInstance(props, authenticator);
     }
 }
