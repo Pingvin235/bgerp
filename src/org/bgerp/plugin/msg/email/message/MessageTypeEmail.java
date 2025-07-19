@@ -104,7 +104,7 @@ public class MessageTypeEmail extends MessageType {
 
         replayTo = config.get("replayTo");
 
-        folderIncoming = config.get("folderIn");
+        folderIncoming = config.get("folderIn", "INBOX");
         folderProcessed = config.get("folderProcessed", "CRM_PROCESSED");
         folderSkipped = config.get("folderSkipped", "CRM_SKIPPED");
         folderSent = config.get("folderSent", "CRM_SENT");
@@ -122,9 +122,8 @@ public class MessageTypeEmail extends MessageType {
 
         messageBuilder = new MessageContent(setup, encoding, config);
 
-        if (!mailConfig.check() || Utils.isBlankString(folderIncoming) ) {
+        if (!mailConfig.check())
             throw new BGException("Incorrect message type, email: " + mailConfig.getEmail());
-        }
     }
 
     public String getEmail() {

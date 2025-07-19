@@ -30,9 +30,9 @@ public class MailConfig {
         host = config.get("host");
         email = config.get("email");
         from = config.get("from", email);
-        store = config.get("store", "imap");
+        store = config.get("store", "imaps");
         port = config.getInt("port", 0);
-        login = config.get("login");
+        login = config.get("login", email);
         pswd = config.get("pswd");
     }
 
@@ -70,7 +70,6 @@ public class MailConfig {
         // IMAP SSL
         if ("imaps".equals(store)) {
             props.setProperty("mail.imap.ssl.enable", "true");
-            //props.setProperty("mail.imap.ssl.checkserveridentity", "false");
             props.setProperty("mail.imaps.ssl.trust", "*");
         }
 
@@ -93,12 +92,12 @@ public class MailConfig {
     public Session getSmtpSession(ConfigMap defaultParamMap) {
         Session session = null;
 
-        String user = getOptionFromConfigs(configMap, defaultParamMap, "mail.smtp.user", null);
+        String user = getOptionFromConfigs(configMap, defaultParamMap, "mail.smtp.user", email);
         String pswd = getOptionFromConfigs(configMap, defaultParamMap, "mail.smtp.pswd", null);
 
         //TODO: Проверка user, pswd на заполненность.
 
-        final String proto = configMap.get("mail.transport.protocol", "smtp");
+        final String proto = configMap.get("mail.transport.protocol", "smtps");
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", proto);

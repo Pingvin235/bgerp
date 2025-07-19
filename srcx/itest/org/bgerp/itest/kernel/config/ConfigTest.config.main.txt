@@ -11,9 +11,8 @@ URL=https://demo.bgerp.org
 # email smtp settings !!!
 mail.from.email=demo@bgerp.org
 mail.from.name={@title}
-mail.transport.protocol=smtps
 mail.smtp.host=smtppro.zoho.eu
-mail.smtp.user=demo@bgerp.org
+mail.smtp.user={@mail.from.email}
 mail.smtp.pswd=fafTc?r2
 # debug smtp exchange
 #mail.debug=1
@@ -27,4 +26,4 @@ mail.smtp.pswd=fafTc?r2
 # group roles in processes, semicolon separated pairs <id>:<title>
 processGroupRoles=0:Execution;1:Follow
 
-process.priority.3.description=Some description, when the priority has to be used
+process.priority.3.description=Sample of process priority description

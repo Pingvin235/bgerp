@@ -1,20 +1,14 @@
-SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7(347)29248xx" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
+PSWD=fafTc?r2
+
+SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7 (347) 258-85-86" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
 
 messageType.1.title=demo@bgerp.org
 messageType.1.class=MessageTypeEmail
-messageType.1.store=imaps
 messageType.1.email=demo@bgerp.org
 messageType.1.host=imappro.zoho.eu
-messageType.1.login=demo@bgerp.org
-messageType.1.pswd=fafTc?r2
-messageType.1.folderIn=INBOX
-messageType.1.folderProcessed=CRM_PROCESSED
-messageType.1.folderSkipped=CRM_SKIPPED
-messageType.1.folderSent=CRM_SENT
-messageType.1.mail.transport.protocol=smtps
-messageType.1.mail.smtp.user=demo@bgerp.org
+messageType.1.pswd={@PSWD}
 messageType.1.mail.smtp.host=smtppro.zoho.eu
-messageType.1.mail.smtp.pswd=fafTc?r2
+messageType.1.mail.smtp.pswd={@PSWD}
 messageType.1.sign.expression={@SIGN_TEXT}
 messageType.1.search.{@inc:cnt}.title=By EMail
 messageType.1.search.{@cnt}.class=MessageTypeSearchEmail
