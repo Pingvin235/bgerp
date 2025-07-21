@@ -3,7 +3,7 @@
 
 <%@ include file="balance_form.jsp"%>
 
-<table class="data">
+<table class="data hl">
 	<tr>
 		<td>Дата</td>
 		<td>Сумма</td>

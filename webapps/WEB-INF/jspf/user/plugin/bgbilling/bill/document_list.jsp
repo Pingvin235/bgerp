@@ -44,7 +44,7 @@
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
 </c:url>
 
-<table class="mt1 data" style="width: 100%;">
+<table class="mt1 data hl">
 	<c:choose>
 		<c:when test="${form.param.mode eq 'bill'}">
 			<tr>

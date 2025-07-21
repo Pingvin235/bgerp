@@ -28,8 +28,8 @@
 	</html:form>
 </div>
 
-<table class="data mt1" style="width:100%;">
-	<tr class="header">
+<table class="data hl">
+	<tr>
 		<td>Время</td>
 		<td>Пользователь</td>
 		<td>Лимит</td>
@@ -50,8 +50,8 @@
 
 <h2>Задания на автоматическую смену лимита</h2>
 
-<table class="data">
-	<tr class="header">
+<table class="data hl">
+	<tr>
 		<td></td>
 		<td>Дата</td>
 		<td>Статус</td>

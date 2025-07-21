@@ -16,7 +16,7 @@
 	<ui:page-control nextCommand="${nextCommand}" />
 </form>
 
-<table class="data mt1" width="100%">
+<table class="data mt1 hl">
 	<tr>
 		<td width="30"></td>
 		<td>Время</td>

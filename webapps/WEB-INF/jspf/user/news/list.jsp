@@ -31,7 +31,7 @@
 	</html:form>
 
 	<c:forEach var="item" items="${frd.list}">
-		<table class="data mb1" style="width: 100%;">
+		<table class="data mb1">
 			<tr>
 				<td>
 					<span class="tt">

@@ -37,7 +37,7 @@
 	</c:if>
 
 	<c:if test="${not empty frd.contractParameterList}">
-		<table class="hdata" width="100%">
+		<table class="hdata hl">
 			<c:if test="${empty onlyData}">
 				<tr class="header">
 					<td width="30">ID</td>

@@ -16,7 +16,7 @@
 
 <button class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 
-<table class="data" id="${uiid}">
+<table class="data hl" id="${uiid}">
 	<tr>
 		<td></td>
 		<td>Услуга</td>

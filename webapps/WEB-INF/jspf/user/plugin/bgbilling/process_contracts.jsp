@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<table class="data">
+<table class="data hl">
 	<tr>
 		<td>Биллинг</td>
 		<td>ID</td>

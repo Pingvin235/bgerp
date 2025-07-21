@@ -3,7 +3,7 @@
 
 <%@ include file="balance_form.jsp"%>
 
-<table class="data">
+<table class="data hl">
 	<tr>
 		<td>Дата</td>
 		<td width="100%">Услуга</td>
@@ -20,7 +20,7 @@
 
 <c:set var="subList" value="${frd.subList}"/>
 <c:if test="${not empty subList}">
-	<table class="data">
+	<table class="data hl">
 		<tr>
 			<td>Договор</td>
 			<td>Дата</td>

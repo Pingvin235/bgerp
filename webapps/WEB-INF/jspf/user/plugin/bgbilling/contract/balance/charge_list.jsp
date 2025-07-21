@@ -12,9 +12,9 @@
 	<c:param name="item" value="contractCharge" />
 	<c:param name="returnUrl" value="${form.requestUrl}" />
 </c:url>
-<button class="btn-green" title="Добавить расход" type="button" onclick="$$.ajax.load('${createUrl}', $('#${uiid}').parent())">+</button>
+<ui:button type="add" title="Добавить расход" onclick="$$.ajax.load('${createUrl}', $('#${uiid}').parent())" />
 
-<table class="data mt1" width="100%" id="${uiid}">
+<table class="data mt1 hl" id="${uiid}">
 	<tr>
 		<td></td>
 		<td>Дата</td>

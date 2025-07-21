@@ -3,7 +3,7 @@
 
 <%@ include file="balance_form.jsp"%>
 
-<table class="data">
+<table class="data hl">
 	<tr>
 		<td>Месяц, год</td>
 		<td>Входящий остаток</td>

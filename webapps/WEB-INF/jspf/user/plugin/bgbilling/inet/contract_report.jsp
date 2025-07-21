@@ -38,7 +38,7 @@
 <c:set var="finishAllowed" value="${ctxUser.checkPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionFinish')}"/>
 
 <c:if test="${not empty frd.list}">
-	<table class="data mt1">
+	<table class="data mt1 hl">
 		<tr>
 			<td></td>
 			<td>ConID</td>

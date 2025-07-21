@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<table class="data" id="${uiid}">
+<table class="data hl" id="${uiid}">
 	<tr>
 		<td>Карта</td>
 		<td>Период</td>

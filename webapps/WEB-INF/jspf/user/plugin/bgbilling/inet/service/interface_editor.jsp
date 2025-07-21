@@ -7,7 +7,7 @@
 	<script>
 		const loadIface = (port,title)=>$$.bgbilling.inet.setIface(port,title);
 	</script>
-	<table class="data mt1" >
+	<table class="data mt1 hl" >
 		<tr>
 			<td >Интерфейс</td>
 			<td >Название</td>

@@ -3,7 +3,7 @@
 
 <c:set var="subList" value="${frd.subList}"/>
 <c:if test="${not empty subList}">
-	<table class="data mt1" width="100%" id="${uiid}">
+	<table class="data mt1 hl" id="${uiid}">
 		<tr>
 			<td>Договор</td>
 			<td>Дата</td>

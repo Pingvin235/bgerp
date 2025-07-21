@@ -42,7 +42,7 @@
 
 	<c:set var="sUrl">'${url}'+'&serviceId='+$("input[name='sid']").val()+'&cardCode='+$('#${uiid}_card').val()+'&pinCode='+$('#${uiid}_pin').val()</c:set>
 	<c:set var="script">$$.ajax.load(${sUrl}, $('#${uiid}').parent())</c:set>
-	<table class="hdata mt1" width="100%">
+	<table class="hdata mt1 hl">
 		<tr>
 			<td class="header" colspan="4"">Тип карт: <ui:combo-single
 					hiddenName="sid" value="${form.param.serviceId}"

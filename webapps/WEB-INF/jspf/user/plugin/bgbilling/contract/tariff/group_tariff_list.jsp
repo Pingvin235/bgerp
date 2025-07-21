@@ -9,9 +9,9 @@
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
-<button type="button" class="btn-green" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
+<ui:button type="add" onclick="$$.ajax.load('${url}', $('#${uiid}').parent());"/>
 
-<table class="data mt1" width="100%" id="${uiid}">
+<table class="data mt1 hl" id="${uiid}">
 	<tr>
 		<td width="30"></td>
 		<td nowrap="nowrap">Группа тарифов</td>
@@ -24,16 +24,15 @@
 			<c:url var="eUrl" value="${url}">
 				<c:param name="id" value="${tariffGroup.getId()}"/>
 			</c:url>
-			<c:set var="editCommand" value="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
 
-			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
+			<c:url var="delUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
 				<c:param name="method" value="deleteContractTariffGroup"/>
 				<c:param name="billingId" value="${form.param.billingId}"/>
 				<c:param name="id" value="${tariffGroup.getId()}"/>
 			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
 			<td nowrap="nowrap">
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${delUrl}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 			</td>
 			<td nowrap="nowrap">${tariffGroup.getTitle()}</td>
 			<td nowrap="nowrap">${tu.formatPeriod( tariffGroup.dateFrom, tariffGroup.dateTo, 'ymd' )}</td>
