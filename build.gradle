@@ -155,9 +155,6 @@ dependencies {
     // implementation 'commons-el:commons-el:1.0'
     // implementation 'commons-validator:commons-validator:1.6'
 
-    // project stored libraries, do not use anymore
-    implementation fileTree(dir: 'lib', include: ['*.jar'])
-
     // documentation library
     doc 'org.pzdcdoc:pzdcdoc:2.8'
 
