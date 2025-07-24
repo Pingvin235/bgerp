@@ -21,6 +21,7 @@ import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessCreateType;
+import org.bgerp.model.process.queue.JasperReport;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.SavedFilterDAO;
@@ -28,7 +29,6 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.queue.JasperReport;
 import ru.bgcrm.model.process.queue.MediaColumn;
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.model.process.queue.Queue;
@@ -385,7 +385,7 @@ public class ProcessQueueAction extends ProcessAction {
 
                 HttpServletResponse response = form.getHttpResponse();
                 response.setContentType("application/vnd.ms-excel");
-                response.setHeader("Content-Disposition", "attachment; filename=bgerp_process_list.xls");
+                response.setHeader("Content-Disposition", "attachment; filename=bgerp_process_queue.xls");
                 workbook.write(response.getOutputStream());
             }
         }
@@ -397,6 +397,6 @@ public class ProcessQueueAction extends ProcessAction {
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + (printType == null ? "queue.pdf" : printType.getFileName()));
 
-        new JasperReport().addPrintQueueDocumentToOutputStream(form, data, queue, printType, response.getOutputStream());
+        JasperReport.addPrintQueueDocumentToOutputStream(form, data, queue, printType, response.getOutputStream());
     }
 }

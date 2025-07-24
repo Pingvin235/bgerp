@@ -115,9 +115,11 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
 
-    implementation 'net.sf.jasperreports:jasperreports:6.7.0'
-    runtimeOnly 'com.lowagie:itext:2.1.7.js6'
-    implementation 'ar.com.fdvs:DynamicJasper:5.1.1'
+    implementation 'ar.com.fdvs:DynamicJasper:5.3.9'
+    implementation 'net.sf.jasperreports:jasperreports:6.21.5' // 7.0.3 doesn't work with DynamicJasper:5.3.9
+    // implementation 'net.sf.jasperreports:jasperreports-pdf:7.0.3'
+    runtimeOnly 'com.github.librepdf:openpdf:1.3.30'
+
     implementation 'org.apache.poi:poi:4.0.1' // directly used in Callboard plugin, for making Russian work days table
     runtimeOnly 'org.apache.commons:commons-collections4:4.3'
 

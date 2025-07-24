@@ -1,19 +1,4 @@
-filter.{@inc:cnt}.type=openClose
-filter.{@cnt}.defaultValue=open
-filter.{@inc:cnt}.type=status
-filter.{@inc:cnt}.type=groups
-filter.{@inc:cnt}.title=Executors
-filter.{@cnt}.type=executors
-filter.{@inc:cnt}.type=code
-filter.{@inc:cnt}.type=create_date
-filter.{@inc:cnt}.type=close_date
-filter.{@inc:cnt}.type=status_date
-filter.{@inc:cnt}.type=linkedCustomer:title
-filter.{@inc:cnt}.type=description
-filter.{@inc:cnt}.type=create_user
-filter.{@inc:cnt}.type=close_user
-filter.{@inc:cnt}.type=type
-
+# the hidden column used for sorting
 column.1.title=ID
 column.1.value=id
 # the column isn't visible, but changes table row background depending on the priority
@@ -43,6 +28,37 @@ column.19.titleIfMore=15
 
 media.html.columns=3,5,17,11,19,9
 
+# column with checkboxes
+checkColumn=1
+
+# print columns with default widths
+media.print.columns=1,17,4,11,19
+
+# fine print configuration
+media.print.{@inc:cnt}.title=Print Special
+# column width proportion mapping
+media.print.{@cnt}.columns=1:2;4:10;9:4
+media.print.{@cnt}.orientation=portrait
+
+# export to Excel
+media.xls.columns=1,17,4,11,19
+
+filter.{@inc:cnt}.type=openClose
+filter.{@cnt}.defaultValue=open
+filter.{@inc:cnt}.type=status
+filter.{@inc:cnt}.type=groups
+filter.{@inc:cnt}.title=Executors
+filter.{@cnt}.type=executors
+filter.{@inc:cnt}.type=code
+filter.{@inc:cnt}.type=create_date
+filter.{@inc:cnt}.type=close_date
+filter.{@inc:cnt}.type=status_date
+filter.{@inc:cnt}.type=linkedCustomer:title
+filter.{@inc:cnt}.type=description
+filter.{@inc:cnt}.type=create_user
+filter.{@inc:cnt}.type=close_user
+filter.{@inc:cnt}.type=type
+
 sort.mode.1.columnId=4
 sort.mode.1.title=Description
 sort.mode.2.columnId=1
@@ -55,18 +71,6 @@ sort.mode.3.desc=1
 sort.combo.count=2
 sort.combo.1.default=3
 sort.combo.2.default=2
-
-# Export to Excel
-media.xls.columns=1,17,4,11,19
-
-# PDF generation
-checkColumn=1
-media.print.1.title=PDF
-# column to width proportion mapping
-media.print.1.columns=1:2;4:10;9:4
-# can be landscape
-media.print.1.orientation=portrait
-media.print.1.fileName=queue.pdf
 
 # processors
 processor.{@inc:cnt}.title=Set Status (P)

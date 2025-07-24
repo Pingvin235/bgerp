@@ -680,6 +680,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>call.in</sys><en>Incoming</en><ru>Входящий</ru></p>
 	<p><sys>call.out</sys><en>Outgoing</en><ru>Исходящий</ru></p>
 	<p><en>Running task</en><ru>Задача выполняется</ru></p>
+	<p><en>Print</en><ru>Печать</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

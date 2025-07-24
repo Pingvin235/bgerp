@@ -53,7 +53,7 @@
 				const savedSetId = $$.process.queue.filter.savedSetId('${queue.id}');
 				window.location.href = $$.ajax.formUrl($('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&processIds=' + getCheckedProcessIds();
 			</c:set>
-			<li><a onclick="${script}">Печать</a></li>
+			<li><a onclick="${script}">${l.l('Print')}</a></li>
 		</c:if>
 
 		<%-- обращение к плагину, не совсем корректно, в перспективе лучше сделать точку расширения --%>

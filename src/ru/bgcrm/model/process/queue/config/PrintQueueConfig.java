@@ -51,7 +51,7 @@ public class PrintQueueConfig extends Config {
 
             this.type = config.get("type", TYPE_PDF);
             this.orientation = config.get("orientation", ORIENTATION_PORTRAIT);
-            this.fileName = config.get("fileName", "queue.pdf");
+            this.fileName = config.get("fileName", "bgerp_process_queue.pdf");
 
             for (String pair : Utils.toList(config.get("columns"))) {
                 String[] tokens = pair.split(":");
