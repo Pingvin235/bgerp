@@ -47,15 +47,14 @@ $$.process.queue.filter = new function () {
 		});
 	}
 
-	// TODO: Remove later, not used.
-	const checkedIfInputValue = (id) => {
-		const $filterItem = $('div#' + id);
-		if ($filterItem.find('input[type=text]').val() || $filterItem.find('input[type=hidden]').val())
-			$('input#' + id)[0].checked = true;
+	const savedSetId = (queueId) => {
+		const result = $('#processQueueFilter > #' + queueId).find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
+		return result ? result : 0;
 	}
 
 	// public functions
 	this.showSelected = showSelected;
+	this.savedSetId = savedSetId;
 
 	// $$.process.queue.filter.param
 	this.param = new function () {

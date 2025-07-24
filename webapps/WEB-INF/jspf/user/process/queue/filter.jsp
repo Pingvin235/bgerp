@@ -50,13 +50,8 @@
 
 		<c:if test="${not empty queue.getMediaColumnList('print') or not empty queue.configMap['allowPrint']}">
 			<c:set var="script">
-				var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
-				if( !savedSetId )
-				{
-					savedSetId = 0;
-				}
-
-				window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&processIds=' + getCheckedProcessIds();
+				const savedSetId = $$.process.queue.filter.savedSetId('${queue.id}');
+				window.location.href = $$.ajax.formUrl($('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&processIds=' + getCheckedProcessIds();
 			</c:set>
 			<li><a onclick="${script}">Печать</a></li>
 		</c:if>
@@ -66,13 +61,8 @@
 		<c:if test="${not empty printConfig and not empty printConfig.printTypes}">
 			<c:forEach var="item" items="${printConfig.printTypes}">
 				<c:set var="script">
-					var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
-					if( !savedSetId )
-					{
-						savedSetId = 0;
-					}
-
-					window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&print=1&printTypeId=${item.id}&processIds=' + getCheckedProcessIds();
+					const savedSetId = $$.process.queue.filter.savedSetId('${queue.id}');
+					window.location.href = $$.ajax.formUrl($('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId)) +'&print=1&printTypeId=${item.id}&processIds=' + getCheckedProcessIds();
 				</c:set>
 				<li><a onclick="${script}">${item.title}</a></li>
 			</c:forEach>
@@ -80,10 +70,10 @@
 
 		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="$$.process.queue.changed(0);">${l.l('Фильтр - вернуться в полный')}</a></li>
 		<c:set var="getSavedSetId">
-			var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters div.btn-blue' ).attr( 'id' ) ;
-			if( !savedSetId )
-			{
-				alert( '${l.l('Фильтр не выбран')}!' );return;
+			const savedSetId = $$.process.queue.filter.savedSetId('${queue.id}');
+			if (!savedSetId) {
+				alert( '${l.l('Фильтр не выбран')}!' );
+				return;
 			}
 		</c:set>
 		<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
@@ -132,12 +122,8 @@
 		</c:forEach>
 		<c:if test="${not empty queue.getMediaColumnList('xls')}">
 			<c:set var="xls">
-					var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters:visible .btn-blue' ).attr( 'id' );
-					if( !savedSetId )
-					{
-						savedSetId = 0;
-					}
-					window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&xls=1';
+				const savedSetId = $$.process.queue.filter.savedSetId('${queue.id}');
+				window.location.href = $$.ajax.formUrl($('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId)) +'&xls=1';
 			</c:set>
 			<li><a onclick="${xls}">${l.l('Выгрузка в Excel')}</a></li>
 		</c:if>
@@ -186,7 +172,7 @@
 
 					const debug = $$.keys.altPressed() ? '&debug=true' : '';
 					if (${processor.htmlReport}) {
-						const w = window.open( formUrl(this.form) + '&responseType=stream' + debug, 'Print', 'menubar=1, scrollbars=1, height=800, width=800');
+						const w = window.open($$.ajax.formUrl(this.form) + '&responseType=stream' + debug, 'Print', 'menubar=1, scrollbars=1, height=800, width=800');
 						<c:if test="${processor.configMap.openPrintDialog eq '1'}">
 							w.addEventListener('load', () => {
 								w.focus();
