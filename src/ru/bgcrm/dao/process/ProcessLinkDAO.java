@@ -20,9 +20,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.exception.BGException;
-import org.bgerp.dao.param.OldParamSearchDAO;
-import org.bgerp.dao.param.ParamValueDAO;
-import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -32,7 +29,6 @@ import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
@@ -61,8 +57,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Constructor, respecting isolations for methods: {@link #getLinkedProcessList(int, String, boolean, Set)},
-     * {@link #searchLinkedProcessList(Pageable, String, int, String, Set, Set, String, Boolean)}
+     * Constructor, respecting isolations for methods: {@link #getLinkedProcessList(int, String, boolean, Set)}
      * @param con DB connection.
      * @param form form object with a user.
      */
@@ -237,80 +232,6 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         ps.close();
 
         return result;
-    }
-
-    /**
-     * Возвращает процессы, привязанные к какой-либо сущности.
-     * @param searchResult результат с object_type и привязанным процессом.
-     * @param objectType фильтр по типу привязанного объекта LIKE.
-     * @param objectId фильтр по коду привязанного объекта.
-     * @param objectTitle опциональный фильтр по object_title привязки.
-     * @param typeIds опциональный фильтр по типам процессов.
-     * @param statusIds опциональный фильтр по статусам процессов.
-     * @param paramFilter опциональный фильтр по параметру, передаётся в {@link ParamValueDAO#getParamJoinFilters(String, String)}.
-     * @param open опциональный фильтр по открытости процесса.
-     * @see {@link org.bgerp.dao.process.ProcessLinkSearchDAO}
-     */
-    @Deprecated
-    public void searchLinkedProcessList(Pageable<Pair<String, Process>> searchResult,
-            String objectType, int objectId, String objectTitle,
-            Set<Integer> typeIds, Set<Integer> statusIds, String paramFilter, Boolean open)
-            throws Exception {
-        if (searchResult != null) {
-            Page page = searchResult.getPage();
-
-            List<Pair<String, Process>> list = searchResult.getList();
-
-            String query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM" + TABLE_PROCESS + " AS process "
-                    + "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id AND link.object_id=? AND link.object_type LIKE ? "
-                    + ProcessDAO.getIsolationJoin(form, "process");
-            PreparedQuery pq = new PreparedQuery(con, query);
-
-            pq.addInt(objectId);
-            pq.addString(objectType);
-
-            if (Utils.notBlankString(objectTitle)) {
-                pq.addQuery(" AND link.object_title=? ");
-                pq.addString(objectTitle);
-            }
-
-            if (Utils.notBlankString(paramFilter)) {
-                pq.addQuery(OldParamSearchDAO.getParamJoinFilters(paramFilter, "process.id"));
-            }
-
-            if (CollectionUtils.isNotEmpty(typeIds)) {
-                pq.addQuery(" AND process.type_id IN (" + Utils.toString(typeIds) + ") ");
-            }
-            if (CollectionUtils.isNotEmpty(statusIds)) {
-                pq.addQuery(" AND process.status_id IN (" + Utils.toString(statusIds) + ") ");
-            }
-
-            addOpenFilter(pq, open);
-
-            pq.addQuery(" ORDER BY process.create_dt DESC");
-            pq.addQuery(page.getLimitSql());
-
-            ResultSet rs = pq.executeQuery();
-            while (rs.next()) {
-                list.add(new Pair<>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
-            }
-
-            PreparedStatement ps = pq.getPrepared();
-
-            if (page != null) {
-                page.setRecordCount(ps);
-            }
-            pq.close();
-        }
-    }
-
-    private void addOpenFilter(PreparedQuery pq, Boolean open) {
-        if (open != null) {
-            if (open)
-                pq.addQuery(" AND process.close_dt IS NULL ");
-            else
-                pq.addQuery(" AND process.close_dt IS NOT NULL ");
-        }
     }
 
     /**

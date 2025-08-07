@@ -1,5 +1,0 @@
-
-messageType.22.title=Slack
-messageType.22.class=MessageTypeChannel
-# get the real token in Slack Configuration tool
-#messageType.22.authToken=xoxp-112244252000-112987389558-2315170001748-60b4dcd61bbc32505fad1ecfb771e000
