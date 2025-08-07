@@ -29,7 +29,7 @@ public class CommonDAO {
     protected final static String SQL_SELECT_ALL_FROM = "SELECT * FROM ";
     protected final static String SQL_SELECT_COUNT_ROWS = "SELECT SQL_CALC_FOUND_ROWS ";
     protected final static String SQL_DISTINCT = "DISTINCT ";
-    protected final static String SQL_INSERT_IGNORE = "INSERT IGNORE INTO ";
+    protected final static String SQL_INSERT_IGNORE_INTO = "INSERT IGNORE INTO ";
     protected final static String SQL_INSERT_INTO = "INSERT INTO ";
     protected final static String SQL_VALUES = " VALUES ";
     protected final static String SQL_VALUES_1 = SQL_VALUES + "(?)";

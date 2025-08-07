@@ -27,7 +27,7 @@ public class MobileDAO extends CommonDAO {
             ps.executeUpdate();
             ps.close();
 
-            query = SQL_INSERT_IGNORE + TABLE_ACCOUNT + "(object_type, object_id, mkey) "
+            query = SQL_INSERT_IGNORE_INTO + TABLE_ACCOUNT + "(object_type, object_id, mkey) "
                     + "VALUES (?,?,?)";
             ps = con.prepareStatement(query);
             ps.setString(1, account.getObjectType());

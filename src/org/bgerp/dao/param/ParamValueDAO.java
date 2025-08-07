@@ -136,7 +136,7 @@ public class ParamValueDAO extends CommonDAO {
 
         switch (paramType) {
             case ADDRESS -> {
-                query = SQL_INSERT_IGNORE + Tables.TABLE_PARAM_ADDRESS
+                query = SQL_INSERT_IGNORE_INTO + Tables.TABLE_PARAM_ADDRESS
                         + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment) "
                         + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment " + SQL_FROM
                         + Tables.TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
@@ -148,7 +148,7 @@ public class ParamValueDAO extends CommonDAO {
                 psList.add(con.prepareStatement(query));
             }
             case LIST -> {
-                query = SQL_INSERT_IGNORE + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment)"
+                query = SQL_INSERT_IGNORE_INTO + Tables.TABLE_PARAM_LIST + "(id, param_id, value, comment)"
                         + SQL_SELECT + "?, ?, value, comment "
                         + SQL_FROM + Tables.TABLE_PARAM_LIST
                         + SQL_WHERE + "id=? AND param_id=?";
@@ -173,15 +173,15 @@ public class ParamValueDAO extends CommonDAO {
             case DATE, DATETIME, MONEY, TEXT, BLOB, PHONE -> {
                 String tableName = "param_" + paramType.toString().toLowerCase();
 
-                query = "INSERT INTO " + tableName + " (id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                        + tableName + " WHERE id=? AND param_id=?";
+                query = SQL_INSERT_IGNORE_INTO + tableName + " (id, param_id, value) " + SQL_SELECT + "?, ?, value" + SQL_FROM
+                        + tableName + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
 
                 if (Parameter.Type.PHONE == paramType) {
-                    query = "INSERT INTO " + Tables.TABLE_PARAM_PHONE_ITEM
+                    query = SQL_INSERT_IGNORE_INTO + Tables.TABLE_PARAM_PHONE_ITEM
                             + " (id, param_id, n, phone, comment) "
-                            + "SELECT ?, ?, n, phone, comment" + SQL_FROM + Tables.TABLE_PARAM_PHONE_ITEM
-                            + " WHERE id=? AND param_id=?";
+                            + SQL_SELECT + "?, ?, n, phone, comment" + SQL_FROM + Tables.TABLE_PARAM_PHONE_ITEM
+                            + SQL_WHERE + "id=? AND param_id=?";
                     psList.add(con.prepareStatement(query));
                 }
             }

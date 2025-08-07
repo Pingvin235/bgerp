@@ -86,7 +86,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         try {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_INSERT_IGNORE);
+            query.append(SQL_INSERT_IGNORE_INTO);
             query.append(TABLE_PROCESS_LINK);
             query.append(" (process_id, object_id, object_type, object_title, config) ");
             query.append("SELECT process_id, ?, ?, object_title, config FROM ");
