@@ -136,7 +136,7 @@ public class ParamValueDAO extends CommonDAO {
 
         switch (paramType) {
             case ADDRESS -> {
-                query = "INSERT INTO " + Tables.TABLE_PARAM_ADDRESS
+                query = SQL_INSERT_IGNORE + Tables.TABLE_PARAM_ADDRESS
                         + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment) "
                         + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment " + SQL_FROM
                         + Tables.TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
