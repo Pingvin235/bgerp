@@ -495,29 +495,36 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return result;
     }
 
-    public Date getParamDateTime(String name, Date defaultValue) {
-        Date value = TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMDHMS);
+    public Date getParamDateTime(String name, String format, Date defaultValue) {
+        Date value = TimeUtils.parse(getParam(name), format);
         return value != null ? value : defaultValue;
     }
 
-    public Date getParamDateTime(String name) {
-        return getParamDateTime(name, (Date) null);
+    public Date getParamDateTime(String name, String format) {
+        return getParamDateTime(name, format, (Date) null);
     }
 
     /**
-     * Gets HTTP request parameter first value as type {@link Date} .
-     * @param name parameter name, storing the first day of month in string format {@link TimeUtils#FORMAT_TYPE_YMDHMS}.
-     * @param validator optional value validator.
-     * @return parameter value or {@code null}.
-     * @throws BGIllegalArgumentException when validation fails.
+     * Gets HTTP request parameter value with date and time
+     * @param name parameter name
+     * @param format date and time format
+     * @param validator optional value validator
+     * @return parameter value or {@code null}
+     * @throws BGIllegalArgumentException when validation fails
      */
-    public Date getParamDateTime(String name, Predicate<Date> validator) throws BGIllegalArgumentException {
-        var result = getParamDateTime(name);
+    public Date getParamDateTime(String name, String format, Predicate<Date> validator) throws BGIllegalArgumentException {
+        var result = getParamDateTime(name, format);
 
         if (validator != null && !validator.test(result))
             throw new BGIllegalArgumentException(name);
 
         return result;
+    }
+
+    @Deprecated
+    public Date getParamDateTime(String name) {
+        log.warndMethod("getParamDateTime(String)", null);
+        return getParamDateTime(name, TimeUtils.FORMAT_TYPE_YMDHMS, (Date) null);
     }
 
     public int getParamInt(String name, int defaultValue) {

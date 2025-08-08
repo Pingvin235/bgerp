@@ -431,7 +431,7 @@ public class ParameterAction extends BaseAction {
             case DATETIME -> {
                 String value = form.getParam("value");
 
-                paramValue = TimeUtils.parse(value, parameter.getConfigMap().get("type", TimeUtils.FORMAT_TYPE_YMD));
+                paramValue = TimeUtils.parse(value, parameter.getDateParamFormat());
                 if (Utils.notBlankString(value) &&
                 // при годе большим 4х знаков MySQL сохраняет нули и потом выдаёт ошибку при выборке
                         (paramValue == null || TimeUtils.convertDateToCalendar((Date) paramValue).get(Calendar.YEAR) >= 10000)) {

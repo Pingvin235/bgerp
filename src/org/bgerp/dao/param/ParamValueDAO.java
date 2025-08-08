@@ -959,7 +959,7 @@ public class ParamValueDAO extends CommonDAO {
         } else {
             StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_UPDATE).append(tableName).append("SET value=?").append(SQL_WHERE).append("id=? AND param_id=?");
+            query.append(SQL_UPDATE).append(tableName).append("SET value=?" + SQL_WHERE + "id=? AND param_id=?");
 
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setObject(1, value);

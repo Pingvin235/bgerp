@@ -260,7 +260,7 @@ public class Parameter extends IdTitleComment {
         String format = "";
 
         if (Parameter.TYPE_DATETIME.equals(type)) {
-            format = TimeUtils.getTypeFormat(getConfigMap().get("type", "ymd"));
+            format = TimeUtils.getTypeFormat(getConfigMap().get("type", TimeUtils.FORMAT_TYPE_YMD));
         } else {
             format = TimeUtils.getTypeFormat(TimeUtils.FORMAT_TYPE_YMD);
         }

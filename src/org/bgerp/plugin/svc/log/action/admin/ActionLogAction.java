@@ -15,6 +15,7 @@ import org.bgerp.util.TimeConvert;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/admin/plugin/log/action")
@@ -29,11 +30,11 @@ public class ActionLogAction extends BaseAction {
     }
 
     public ActionForward search(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Date timeFrom = form.getParamDateTime("timeFrom");
+        Date timeFrom = form.getParamDateTime("timeFrom", TimeUtils.FORMAT_TYPE_YMDHMS);
         if (timeFrom == null)
             throw new BGMessageException("Time from can't be empty.");
 
-        Date timeTo = form.getParamDateTime("timeTo");
+        Date timeTo = form.getParamDateTime("timeTo", TimeUtils.FORMAT_TYPE_YMDHMS);
         if (timeTo != null && !TimeConvert.toYearMonth(timeFrom).equals(TimeConvert.toYearMonth(timeTo)))
             throw new BGMessageException("Time to must be in the same month as time from.");
 

@@ -212,14 +212,18 @@ public class DefaultMarkedProcessor extends Processor {
                     } else if (name.equals(COMMAND_ADD_EXECUTORS)) {
                         new ProcessChangeExpressionObject(process, form, con).addExecutors(form.getParamValues("executor"));
                     } else if (name.equals(COMMAND_SET_PARAM)) {
-                        final String paramType = ParameterCache.getParameter(command.paramId).getType();
+                        final Parameter param = ParameterCache.getParameter(command.paramId);
+                        final var paramType = param.getTypeType();
                         final String paramName = "param" + command.paramId;
+
+                        log.debug("Set process ID: {}, param type: {}, ID: {}", processId, paramType, command.paramId);
+
                         var dao = new ParamValueDAO(con);
-                        if (Parameter.TYPE_DATE.equals(paramType))
+                        if (Parameter.Type.DATE == paramType)
                             dao.updateParamDate(processId, command.paramId, form.getParamDate(paramName));
-                        else if (Parameter.TYPE_DATETIME.equals(paramType))
-                            dao.updateParamDateTime(processId, command.paramId, form.getParamDateTime(paramName));
-                        else if (Parameter.TYPE_LIST.equals(paramType)) {
+                        else if (Parameter.Type.DATETIME == paramType)
+                            dao.updateParamDateTime(processId, command.paramId, form.getParamDateTime(paramName, param.getDateParamFormat()));
+                        else if (Parameter.Type.LIST == paramType) {
                             dao.updateParamList(processId, command.paramId, form.getParamValues(paramName));
                         }
                     }

@@ -16,7 +16,7 @@
 							<u:sc>
 								<ui:combo-single
 									hiddenName="statusId" list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}"
-									available="${command.allowedIds}" prefixText="${l.l('Status')}:" widthTextValue="100px"/>
+									available="${command.allowedIds}" prefixText="${l.l('Status')}:" widthTextValue="10em"/>
 							</u:sc>
 						</div>
 					</c:when>
@@ -29,13 +29,13 @@
 								<c:set var="executorParamName" value="executor"/>
 
 								<ui:combo-check
-									id="${groupListId}" prefixText="Группы:" paramName="${groupParamName}"
+									id="${groupListId}" prefixText="${l.l('Groups')}:" paramName="${groupParamName}"
 									list="${ctxUserGroupList}" available="${command.allowedIds}"
 									onChange="updateExecutors( $('#${groupListId}'), $('#${executorListId}'), '${groupParamName}', '${executorParamName}' ,'${showEmptyExecutor}', '');"/>
 
 								<ui:combo-check
 									id="${executorListId}" prefixText="${l.l('Executors')}:"
-									widthTextValue="150px" showFilter="1"/>
+									widthTextValue="12em" showFilter="1"/>
 							</u:sc>
 						</div>
 					</c:when>
