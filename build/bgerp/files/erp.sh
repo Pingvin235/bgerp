@@ -19,7 +19,7 @@ fi
 
 PARAMS="-Djava.security.egd=file:/dev/./urandom -Dbgerp.setup.data=bgerp -Djava.net.preferIPv4Stack=true -Dnetworkaddress.cache.ttl=3600 -Djava.awt.headless=true"
 MEMORY="-Xmx600m"
-DEBUG="-enableassertions -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=5599,server=y,suspend=n"
+DEBUG="-enableassertions -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5599"
 
 if [ "$1" = "start" ]; then
     #starting

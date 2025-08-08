@@ -7,9 +7,9 @@
         {
             "type": "java",
             "request": "launch",
-            "name": "BGERP Demo",
+            "name": "BGERP",
             "mainClass": "org.bgerp.Server",
-            "projectName": "ERP",
+            "projectName": "BGERP",
             "args": "start",
             "vmArgs": "-Dbgerp.setup.data=bgerp"
         },
@@ -18,9 +18,17 @@
             "request": "launch",
             "name": "BGERP BiTel",
             "mainClass": "org.bgerp.Server",
-            "projectName": "ERP",
+            "projectName": "BGERP",
             "args": "start",
             "vmArgs": "-Dbgerp.setup.data=bgerp_bitel"
+        },
+        {
+            "type": "java",
+            "request": "attach",
+            "name": "BGERP Remote Debug",
+            "projectName": "BGERP",
+            "hostName": "localhost",
+            "port": 5599
         }
     ]
 }
