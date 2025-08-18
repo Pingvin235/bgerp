@@ -6,7 +6,7 @@
 		if (confirm('${l.l('Прервать создание процесса?')}')) {
 			const command = 'process.do?method=processDeleteTmp&id=${process.id}';
 			$$.ajax.post(command).done(() => {
-				${returnBreakCommand}
+				${param.returnBreakCommand}
 			})
 		}
 	</c:set>
@@ -16,7 +16,7 @@
 		<c:set var="command">
 			const command = 'process.do?method=processFinishCreateTmp&id=${process.id}';
 			$$.ajax.post(command).done((result) => {
-				${returnOkCommand}
+				${param.returnOkCommand}
 			})
 		</c:set>
 		<button type="button" class="btn-grey" onclick="${command}">${l.l('Завершить')}</button>

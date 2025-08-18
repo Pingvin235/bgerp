@@ -81,7 +81,10 @@
 					<button type="button" class="btn-grey mr1" onclick="${returnBreakCommand}">${l.l('Close')}</button>
 				</c:if>
 
-				<%@ include file="/WEB-INF/jspf/process_wizard_actions.jsp"%>
+				<jsp:include page="/WEB-INF/jspf/process_wizard_actions.jsp">
+					<jsp:param name="returnBreakCommand" value="${returnBreakCommand}"/>
+					<jsp:param name="returnOkCommand" value="${returnOkCommand}"/>
+				</jsp:include>
 			</div>
 		</div>
 	</c:otherwise>

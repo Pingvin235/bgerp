@@ -34,8 +34,9 @@
 			<button type="button" class="btn-white mr1" onclick="${closeScript}">${l.l('Close')}</button>
 		</c:if>
 
-		<c:set var="returnBreakCommand" value="${closeScript}"/>
-		<c:set var="returnOkCommand" value="${closeScript}"/>
-		<%@ include file="/WEB-INF/jspf/process_wizard_actions.jsp"%>
+		<jsp:include page="/WEB-INF/jspf/process_wizard_actions.jsp">
+			<jsp:param name="returnBreakCommand" value="${closeScript}"/>
+			<jsp:param name="returnOkCommand" value="${closeScript}"/>
+		</jsp:include>
 	</div>
 </div>
