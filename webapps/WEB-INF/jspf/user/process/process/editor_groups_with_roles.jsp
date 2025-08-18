@@ -22,5 +22,7 @@
 		</c:if>
 	</c:forEach>
 
-	<%@ include file="editor_grex_save_cancel.jsp"%>
+	<div class="mt1">
+		<%@ include file="editor_save_cancel.jsp"%>
+	</div>
 </html:form>

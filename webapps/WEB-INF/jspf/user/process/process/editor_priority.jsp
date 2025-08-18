@@ -13,6 +13,7 @@
 			<div style="display: inline; padding-top: 0.15em;" class="pl05">${item.key}${empty description ? '' : ' - '.concat(description)}</div>
 		</div>
 	</c:forEach>
-
-	<%@ include file="editor_save_cancel.jsp"%>
+	<div class="pt1 pb1">
+		<%@ include file="editor_save_cancel.jsp"%>
+	</div>
 </html:form>

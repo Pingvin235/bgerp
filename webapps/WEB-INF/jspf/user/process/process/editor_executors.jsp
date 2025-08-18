@@ -14,5 +14,7 @@
 		<ui:select-mult hiddenName="executor" list="${item.second[0]}" values="${item.second[1]}" style="width: 100%;"/>
 	</c:forEach>
 
-	<%@ include file="editor_grex_save_cancel.jsp"%>
+	<div class="mt1">
+		<%@ include file="editor_save_cancel.jsp"%>
+	</div>
 </html:form>

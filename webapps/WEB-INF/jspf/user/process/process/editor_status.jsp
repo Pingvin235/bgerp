@@ -31,7 +31,9 @@
 		<textarea name="comment" style="width: 100%; resize: vertical;" rows="4"></textarea>
 	</div>
 
-	<%@ include file="editor_save_cancel.jsp"%>
+	<div class="pt1 pb1">
+		<%@ include file="editor_save_cancel.jsp"%>
+	</div>
 </html:form>
 
 

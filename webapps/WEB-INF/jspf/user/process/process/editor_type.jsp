@@ -15,7 +15,9 @@
 			<jsp:include page="../tree/process_type_tree_item.jsp"/>
 		</c:forEach>
 	</div>
-	<%@ include file="editor_save_cancel.jsp"%>
+	<div class="pt1 pb1">
+		<%@ include file="editor_save_cancel.jsp"%>
+	</div>
 	<script>
 		$(function () {
 			$$.process.type.selectEdit('${uiid}', '${form.param.typeId}');
