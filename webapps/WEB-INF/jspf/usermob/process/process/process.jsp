@@ -12,15 +12,13 @@
 </c:set>
 
 <div id="processEditor-${process.id}">
-	<c:if test="${not empty wizardData}">
-		<c:forEach var="stepData" items="${wizardData.stepDataList}">
-			<c:set var="stepData" value="${stepData}" scope="request"/>
-			<c:if test="${not empty stepData.step.title}">
-				<h2>${stepData.step.title}</h2>
-			</c:if>
-			<c:import url="${stepData.step.jsp}"/>
-		</c:forEach>
-	</c:if>
+	<c:forEach var="stepData" items="${wizardData.stepDataList}">
+		<c:set var="stepData" value="${stepData}" scope="request"/>
+		<c:if test="${not empty stepData.step.title}">
+			<h2>${stepData.step.title}</h2>
+		</c:if>
+		<c:import url="${stepData.step.jsp}"/>
+	</c:forEach>
 
 	<div class="mt1">
 		<c:set var="closeScript">
@@ -30,13 +28,17 @@
 			form.elements['page.pageIndex'].value = -1;
 			$$.ajax.load(form, $('#processQueueData'));
 		</c:set>
-		<c:if test="${process.id gt 0}">
-			<button type="button" class="btn-white mr1" onclick="${closeScript}">${l.l('Close')}</button>
-		</c:if>
 
-		<jsp:include page="/WEB-INF/jspf/process_wizard_actions.jsp">
-			<jsp:param name="returnBreakCommand" value="${closeScript}"/>
-			<jsp:param name="returnOkCommand" value="${closeScript}"/>
-		</jsp:include>
+		<c:choose>
+			<c:when test="${process.id gt 0}">
+				<button type="button" class="btn-white mr1" onclick="${closeScript}">${l.l('Close')}</button>
+			</c:when>
+			<c:otherwise>
+				<jsp:include page="/WEB-INF/jspf/process_create_wizard_end.jsp">
+					<jsp:param name="returnBreakCommand" value="${closeScript}"/>
+					<jsp:param name="returnOkCommand" value="${closeScript}"/>
+				</jsp:include>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </div>
