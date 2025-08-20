@@ -113,7 +113,7 @@ public class CustomerRuTest {
     @Test(dependsOnMethods = "param")
     public void patternTitle() throws Exception {
         titlePatternOrgPattern = "${param_" + paramOrgFormId + "} \"${param_" + paramOrgTitleId + "}\"";
-        titlePatternOrgId = ParamHelper.addPattern(Customer.OBJECT_TYPE, "Organization", titlePatternOrgPattern);
+        titlePatternOrgId = ParamHelper.addPattern(Customer.OBJECT_TYPE, "Организация", titlePatternOrgPattern);
         // TODO: Pattern for person with birthday date.
     }
 
