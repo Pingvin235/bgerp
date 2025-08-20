@@ -12,23 +12,25 @@
 </c:set>
 
 <div id="processEditor-${process.id}">
+	<c:set var="closeScript">
+		$('#processQueueShow').show();
+		$('#processQueueEditProcess').hide();
+		const form = $('#processQueueShow > #processQueueFilter')[0];
+		form.elements['page.pageIndex'].value = -1;
+		$$.ajax.load(form, $('#processQueueData'));
+	</c:set>
+
 	<c:forEach var="stepData" items="${wizardData.stepDataList}">
 		<c:set var="stepData" value="${stepData}" scope="request"/>
 		<c:if test="${not empty stepData.step.title}">
 			<h2>${stepData.step.title}</h2>
 		</c:if>
-		<c:import url="${stepData.step.jsp}"/>
+		<jsp:include page="${stepData.step.jsp}">
+			<jsp:param name="closeScript" value="${closeScript}"/>
+		</jsp:include>
 	</c:forEach>
 
 	<div class="mt1">
-		<c:set var="closeScript">
-			$('#processQueueShow').show();
-			$('#processQueueEditProcess').hide();
-			const form = $('#processQueueShow > #processQueueFilter')[0];
-			form.elements['page.pageIndex'].value = -1;
-			$$.ajax.load(form, $('#processQueueData'));
-		</c:set>
-
 		<c:choose>
 			<c:when test="${process.id gt 0}">
 				<button type="button" class="btn-white mr1" onclick="${closeScript}">${l.l('Close')}</button>

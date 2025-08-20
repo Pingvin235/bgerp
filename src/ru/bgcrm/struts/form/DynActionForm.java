@@ -76,6 +76,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final String PARAM_RESPONSE_TYPE = "responseType";
     private static final String PARAM_RETURN_URL = "returnUrl";
     private static final String PARAM_RETURN_CHILD_UIID = "returnChildUiid";
+    private static final String PARAM_CLOSE_SCRIPT = "closeScript";
     private static final String PARAM_FORWARD_FILE = "forwardFile";
 
     /** The properties are needed for allowing Struts HTML tags retrieving current request param values */
@@ -83,9 +84,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     static {
         PROPERTIES.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
         PROPERTIES.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
-        // a tiny optimization, String class for often param names
+        // String class for often used param names
         for (String name : List.of(PARAM_ACTION_METHOD, PARAM_ACTION_METHOD_OLD, PARAM_ID, PARAM_REQUEST_URL, PARAM_RESPONSE_TYPE, PARAM_RETURN_URL,
-                PARAM_RETURN_CHILD_UIID, PARAM_FORWARD_FILE))
+                PARAM_RETURN_CHILD_UIID, PARAM_CLOSE_SCRIPT, PARAM_FORWARD_FILE))
             PROPERTIES.put(name, new DynaProperty(name, String.class));
     }
 
@@ -335,6 +336,13 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      */
     public String getReturnChildUiid() {
         return getParam(PARAM_RETURN_CHILD_UIID);
+    }
+
+    /**
+     * @return JS code, to be executed for return in UI
+     */
+    public String getCloseScript() {
+        return getParam(PARAM_CLOSE_SCRIPT);
     }
 
     /**

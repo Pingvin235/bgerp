@@ -1,10 +1,27 @@
-wizard.createStep.{@inc:cnt}.title=Address Param
-wizard.createStep.{@cnt}.class=FillParamsStep
-wizard.createStep.{@cnt}.parameterIds={@PARAM_ADDRESS_ID}
+wizard.createStep.{@inc:cnt}.class=FillParamsStep
+wizard.createStep.{@cnt}.title=Parameters
+wizard.createStep.{@cnt}.parameterIds={@PARAM_ADDRESS_ID},{@PARAM_LIST_ID}
 
-wizard.createStep.{@inc:cnt}.title=Description
-wizard.createStep.{@cnt}.class=SetDescriptionStep
+wizard.createStep.{@inc:cnt}.class=AddressInfoStep
+wizard.createStep.{@cnt}.title=Address Info
+wizard.createStep.{@cnt}.addressParamId={@PARAM_ADDRESS_ID}
 
-wizard.createStep.{@inc:cnt}.title=List Param
-wizard.createStep.{@cnt}.class=FillParamsStep
-wizard.createStep.{@cnt}.parameterIds={@PARAM_LIST_ID}
+wizard.createStep.{@inc:cnt}.class=JexlStep
+wizard.createStep.{@cnt}.title=Information
+wizard.createStep.{@cnt}.doExpression=<<END
+    message = "";
+
+    message += "List value: <b>" + pp.val({@PARAM_LIST_ID}) + "</b><br/>";
+    message += "Address value: <b>" + pp.val({@PARAM_ADDRESS_ID}) + "</b><br/>";
+
+    return {"filled": true, "message": message};
+END
+
+wizard.createStep.{@inc:cnt}.class=SetDescriptionStep
+
+wizard.createStep.{@inc:cnt}.class=SetExecutorsStep
+wizard.createStep.{@cnt}.title=Executors
+
+wizard.createStep.{@inc:cnt}.class=SetStatusStep
+wizard.createStep.{@cnt}.okClose=1
+wizard.createStep.{@cnt}.title=Status

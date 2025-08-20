@@ -2,13 +2,7 @@ onProcessEvent.{@inc:cnt}.events=created
 onProcessEvent.{@cnt}.ifExpression=process.getExecutors().isEmpty()
 onProcessEvent.{@cnt}.doExpression=addExecutors({user.getId()})
 
-# status
-wizard.step.{@inc:cnt}.title=Status
-wizard.step.{@cnt}.class=SetStatusStep
-
-# description
-wizard.step.{@inc:cnt}.title=Description
-wizard.step.{@cnt}.class=SetDescriptionStep
+wizard.step.{@inc:cnt}.class=SetDescriptionStep
 
 # parameters
 #wizard.step.{@inc:cnt}.title=Parameters
@@ -16,6 +10,8 @@ wizard.step.{@cnt}.class=SetDescriptionStep
 # optional comma-separated parameter IDs
 #wizard.step.{@cnt}.parameterIds=
 
-# executors
-wizard.step.{@inc:cnt}.title=Executors
-wizard.step.{@cnt}.class=SetExecutorsStep
+wizard.step.{@inc:cnt}.class=SetExecutorsStep
+
+wizard.step.{@inc:cnt}.class=SetStatusStep
+wizard.step.{@cnt}.okClose=1
+

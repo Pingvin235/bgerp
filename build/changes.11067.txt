@@ -1,1 +1,2 @@
 C: Skip existing address values on parameter copy
+A: Config key 'okClose' for SetStatusStep of Process Wizard. https://bgerp.org/change/0/doc/kernel/process/wizard.html#step

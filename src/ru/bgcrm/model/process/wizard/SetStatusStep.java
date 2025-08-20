@@ -12,8 +12,15 @@ import ru.bgcrm.struts.form.DynActionForm;
 
 @Bean
 public class SetStatusStep extends Step {
+    private final boolean okClose;
+
     public SetStatusStep(ConfigMap config) {
         super(config);
+        okClose = config.getBoolean("okClose");
+    }
+
+    public boolean isOkClose() {
+        return okClose;
     }
 
     @Override
