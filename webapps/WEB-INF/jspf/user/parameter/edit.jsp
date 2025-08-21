@@ -148,19 +148,8 @@
 				<c:set var="selector">#${uiid} input[name='value']</c:set>
 				<c:set var="hideButtons" value="1"/>
 
-				<c:set var="getCommand"></c:set>
-				<c:set var="getDateUrl"></c:set>
-
-				<c:if test="${parameter.configMap.sendColorMapRequest eq 1}">
-					<c:url var="getDateUrl" value="parameter.do">
-						<c:param name="method" value="parameterGet"/>
-						<c:param name="id" value="${form.id}"/>
-						<c:param name="paramId" value="${parameter.id}"/>
-					</c:url>
-				</c:if>
-
 				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
-				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs} onclick="${getCommand}"/>
+				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs}/>
 				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
 			</c:when>
 

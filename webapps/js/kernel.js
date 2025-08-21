@@ -179,57 +179,6 @@ $$.encodeHtml = function (str) {
 	return aRet.join('');
 }
 
-function datetimepickerValueChanged( dayColorList, inst )
-{
-	if( !dayColorList )
-	{
-		return;
-	}
-
-	for( var i=0; i<dayColorList.length; i++ )
-	{
-		if( dayColorList[i].color != "" )
-		{
-			$( '#ui-datepicker-calendar-day-'+dayColorList[i].monthDay ).children().css( "background",dayColorList[i].color );
-		}
-		if( dayColorList[i].comment != "" )
-		{
-			$( '#ui-datepicker-calendar-day-'+dayColorList[i].monthDay ).attr( 'title',dayColorList[i].comment );
-		}
-	}
-
-	//Селектор для выбора времени
-	var timeSelector = $( "div#ui-timepicker-div-" + inst.id ).find( "select.ui-timepicker-timeselector" );
-
-	if( $( timeSelector ) != 'undefined' )
-	{
-		$( timeSelector ).empty();
-
-		if( dayColorList[inst.selectedDay-1] != 'undefined' && dayColorList[inst.selectedDay-1].timeList.length > 0 )
-		{
-			var availableTime = dayColorList[inst.selectedDay-1].timeList.toString().split( "," );
-			var appendTimeStr = '';
-
-			availableTime.forEach( function( value )
-			{
-				appendTimeStr+='<option>'+value+'</option>';
-			});
-
-			$( timeSelector ).append( appendTimeStr );
-		}
-	}
-}
-
-function datetimepickerOnChanging(year, month, inst, url)
-{
-	if(!url)
-	{
-		return;
-	}
-
-	datetimepickerValueChanged($$.ajax.post(url + $$.ajax.requestParamsToUrl({ 'newDate': '01.' + month + "." + year })).data.dayColorList, inst);
-}
-
 function openedObjectList( params )
 {
 	var result = [];

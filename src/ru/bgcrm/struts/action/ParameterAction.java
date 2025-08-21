@@ -50,7 +50,6 @@ import org.bgerp.model.param.ParameterValue;
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.DateChangingEvent;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.ParamChangingEvent;
 import ru.bgcrm.model.customer.Customer;
@@ -217,16 +216,6 @@ public class ParameterAction extends BaseAction {
                 resp.setData("value", paramDAO.getParamBlob(id, paramId));
             }
             case DATE, DATETIME -> {
-                if (Utils.notBlankString(form.getParam("newDate"))) {
-                    EventProcessor.processEvent(
-                            new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                            conSet);
-                    // TODO: Cleanup, but change calendar highlight in Callboard plugin
-                    EventProcessor.processEvent(
-                            new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                            conSet);
-                }
-
                 if (Parameter.TYPE_DATE.equals(parameter.getType())) {
                     resp.setData("value", paramDAO.getParamDate(id, paramId));
                 } else if (Parameter.TYPE_DATETIME.equals(parameter.getType())) {

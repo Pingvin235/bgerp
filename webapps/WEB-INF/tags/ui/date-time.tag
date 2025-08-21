@@ -79,11 +79,6 @@
 			, "onSelect": function() {  $("${selector}").datepicker( "setNowIfEmptySaveAndHide" ); }
 		</c:if>
 
-		<c:if test="${not empty getDateUrl}">
-			, "onChangeMonthYear" : function(year, month, inst) { if(year != undefined && month != undefined) { datetimepickerOnChanging(year, month, inst, '${getDateUrl}') } }
-			, "afterShow": function(input, inst){ datetimepickerOnChanging(inst.selectedYear, inst.selectedMonth+1, inst, '${getDateUrl}') }
-		</c:if>
-
 		<c:if test="${not empty saveCommand}">
 			, onClose: function() { ${saveCommand} }
 		</c:if>
