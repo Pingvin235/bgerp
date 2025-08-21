@@ -97,10 +97,9 @@
 </div>
 
 <script>
-	$(function()
-	{
-		clearInterval( bgcrm.blinkMessages );
-		$('#messagesLink').attr('style','');
+	$(function () {
+		clearInterval($$.blinkMessages);
+		$('#messagesLink').attr('style', '');
 	})
 </script>
 
