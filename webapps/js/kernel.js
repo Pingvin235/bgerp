@@ -180,18 +180,6 @@ function addLink( objectType, objectId, linkedObjectType, linkedObjectId, linked
 	return $$.ajax.post(url);
 }
 
-//фильтр по исполнителям, в реальном времени обновляет список пользователей
-function checkFilter( executorMaskInput, listId )
-{
-	var mask = executorMaskInput.val();
-
-	$("#" + listId + " tr").each( function()
-	{
-		var content = $(this).html().toLowerCase();
-		content.indexOf( mask.toLowerCase() )==-1 ? $(this).hide() : $(this).show();
-	});
-}
-
 //admin/process/type/check_list
 function markOutTr(tr)
 {
