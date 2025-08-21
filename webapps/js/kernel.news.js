@@ -1,6 +1,26 @@
 // "use strict";
 
 $$.news = new function () {
+	const showPopupMessage = (title, message) => {
+		const $messageDiv = $("<div>" + message + "</div>");
+
+		$("body").append($messageDiv);
+
+		$($messageDiv).dialog({
+			autoOpen: false,
+			show: "slide",
+			hide: "explode",
+			resizable: false,
+			position: { my: "center top", at: "center top+100px", of: window },
+			title: title,
+			close: () => {
+				$messageDiv.remove();
+			}
+		});
+
+		$messageDiv.dialog("open");
+	}
+
 	const processEvent = (event) => {
 		const messagesCount = event.newsCount + event.messagesCount + (event.versionUpdateNeeded ? 1 : 0);
 		const message = event.message;

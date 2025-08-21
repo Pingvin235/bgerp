@@ -315,28 +315,6 @@ function openedObjectList( params )
 	return result;
 }
 
-function showPopupMessage( title, message )
-{
-	var $messageDiv = $( "<div>" + message +"</div>" );
-
-	$( "body" ).append( $messageDiv );
-
-	$( $messageDiv ).dialog({
-		autoOpen: false,
-		show: "slide",
-		hide: "explode",
-		resizable: false,
-		position: { my: "center top", at: "center top+100px", of: window },
-		title: title,
-		close: function(event, ui)
-		{
-			$messageDiv.remove();
-		}
-	});
-
-	$messageDiv.dialog( "open" );
-}
-
 //обработка событий
 addEventProcessor('ru.bgcrm.event.client.MessageOpenEvent', processClientEvents);
 addEventProcessor('ru.bgcrm.event.client.UrlOpenEvent', processClientEvents);
