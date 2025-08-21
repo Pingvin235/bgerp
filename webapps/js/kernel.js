@@ -68,26 +68,13 @@ $$.objectTypeTitles = {
 	"customer" : "Контрагент"
 };
 
-$(function(){
-	$("input.hasDatePicker").on('keyup',
-		function(event)
-		{
-			if( (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105 ) )
-			{
-				if( $( this ).val().length == 2 || $( this ).val().length ==5 )
-				{
-					$( this ).val( $( this ).val() + '.' );
-				}
-			}
-			event.preventDefault();
-		});
-
+$(function () {
 	/* Scroll to top floating button */
 	$(window).scroll(function () {
 		$(this).scrollTop() > 300 ? $('#scroll-to-top:hidden').fadeIn() : $('#scroll-to-top:visible').fadeOut();
 	});
 	$('#scroll-to-top').click(function () {
-		$('html, body').animate({scrollTop: 0}, 600);
+		$('html, body').animate({ scrollTop: 0 }, 600);
 	});
 });
 
