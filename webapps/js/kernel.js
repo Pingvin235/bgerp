@@ -160,19 +160,6 @@ function enterPressed( e )
 	return keycode == 13;
 }
 
-function truncValue( value, length )
-{
-	if( length < 4 )
-	{
-		return value;
-	}
-	if( value.length > length )
-	{
-		return value.substr( 0, length - 4 ) + "...";
-	}
-	return value;
-}
-
 function getCheckedValuesUrl( $selector, inputName )
 {
 	var values = "";
@@ -180,21 +167,6 @@ function getCheckedValuesUrl( $selector, inputName )
 	for( var i = 0; i < $checked.length; i++ )
 	{
 		values += "&" + inputName + "=" + $checked[i].value;
-	}
-	return values;
-}
-
-function getCheckedValues( $selector, inputName )
-{
-	var values = "";
-	var $checked = $selector.find( " input:checked[name='" + inputName + "']" );
-	for( var i = 0; i < $checked.length; i++ )
-	{
-		if( values.length != 0 )
-		{
-			values += ",";
-		}
-		values += $checked[i].value;
 	}
 	return values;
 }
