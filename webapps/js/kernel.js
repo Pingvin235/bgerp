@@ -233,41 +233,6 @@ function checkFilter( executorMaskInput, listId )
 	});
 }
 
-function addParameter(uiid,count)
-{
-	addParameter(uiid, count, false);
-}
-
-function addParameter(uiid,count,firstOnly)
-{
-	var selected = $('#' + uiid + 'select').val();
-	var lastVisible = $('#'+ uiid +'table').find('tbody tr:visible:last');
-	$('#'+ uiid + 'row' + selected).css("display","");
-	(lastVisible).after($('#'+ uiid + 'row' + selected));
-	var checkbox = $('#'+ uiid + 'row' + selected).find('input[type=checkbox]').attr('checked', 'checked');
-	if(typeof count != 'undefined' && count !="")
-	{
-		var selectedText = $('#' + uiid + 'select').find('option:selected').text();
-		checkbox.val(selected+":"+count+":"+selectedText);
-
-		if( firstOnly )
-		{
-			$('#'+ uiid + 'row' + selected).find('input[type=text]').first().val(count);
-		}
-		else
-		{
-			$('#'+ uiid + 'row' + selected).find('input[type=text]').val(count);
-		}
-	}
-	$('#'+ uiid + 'select' + ' option:selected').remove();
-}
-
-function delParameter(uiid, itemId, text) {
-	$('#' + uiid + 'row' + itemId).find('input[type=checkbox]').removeAttr('checked').val(itemId);
-	$('#' + uiid + 'row' + itemId).css("display", "none");
-	$('#' + uiid + 'select').append('<option value=' + itemId + '>' + text + '</option>');
-}
-
 //admin/process/type/check_list
 function markOutTr(tr)
 {
