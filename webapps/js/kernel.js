@@ -357,16 +357,6 @@ function isNumberKey(event, digits) {
 	return result;
 }
 
-function updateLastModify( object, $uiid )
-{
-	var lastModify = object.lastModify;
-	if( lastModify )
-	{
-		$uiid.find("input[name='lastModifyUserId']").val( lastModify.userId );
-		$uiid.find("input[name='lastModifyTime']").val( lastModify.time );
-	}
-}
-
 // выполнение действия по нажатию, при этом не обрабатывается выделение текста + ряд проверок по буферу и т.п.
 $$.doOnClick = ($selector, filter, callback) => {
 	const getSelected = () => {
