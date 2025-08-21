@@ -8,12 +8,6 @@ const $$ = bgerp;
 // personal user settings
 $$.pers = {};
 
-// global key's state, pressed 'alt' etc.
-$$.keys = {};
-$$.keys.altPressed = function () {
-	return !!$$.keys[18];
-}
-
 // suppress debug messages for areas
 $$.debugAreas = {
 	openUrl: 0,
@@ -126,25 +120,6 @@ function toPage( form, pageIndex, pageSize, pagePrefix )
 	el.name = "page.pageSize";
 	el.value = pageSize;
 	form.appendChild( el );
-}
-
-function enterPressed( e )
-{
-	var keycode;
-	if( window.event )
-	{
-		keycode = window.event.keyCode;
-	}
-	else if( e )
-	{
-		keycode = e.which;
-	}
-	else
-	{
-		return false;
-	}
-
-	return keycode == 13;
 }
 
 function getCheckedValuesUrl( $selector, inputName )
@@ -330,33 +305,6 @@ function processClientEvents(event) {
 	}
 }
 
-/**
- * Validates text inputs for entering numeric values only, possible with decimal separator.
- * @param {Event} event 'onkeydown' or another event with 'key' property of 'text' input
- * @param {Number} digits amount of digits after dot, if not defined than 2
- * @return {Boolean} is input change allowed
- */
-function isNumberKey(event, digits) {
-	if (digits === undefined)
-		digits = 2;
-
-	if (event.ctrlKey || ['Backspace', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Delete'].includes(event.key))
-		return true;
-
-	const target = event.target;
-	const value = target.value;
-
-	const valueCandidate = value.substring(0, target.selectionStart) + event.key + value.substring(target.selectionEnd);
-
-	let result = !isNaN(valueCandidate);
-	if (result && digits > 0) {
-		const pos = valueCandidate.indexOf('.');
-		result = pos < 0 || valueCandidate.length - pos - 2 < digits;
-	}
-
-	return result;
-}
-
 // выполнение действия по нажатию, при этом не обрабатывается выделение текста + ряд проверок по буферу и т.п.
 $$.doOnClick = ($selector, filter, callback) => {
 	const getSelected = () => {
@@ -442,14 +390,3 @@ $(document).delegate('textarea.tabsupport', 'keydown', function(e) {
 		$(this).get(0).selectionEnd = start + 1;
 	  }
 });
-
-window.onkeydown = function(e) {
-	$$.keys[e.keyCode] = 1;
-	setTimeout( function() {
-		delete $$.keys[e.keyCode]
-	}, 4000);
-};
-
-window.onkeyup = function(e) {
-	delete $$.keys[e.keyCode];
-};
