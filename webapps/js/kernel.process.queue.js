@@ -104,6 +104,9 @@ $$.process.queue = new function () {
 			});
 	}
 
+	// events
+	// TODO: move client event processing logic here
+
 	// public functions
 	this.debug = debug;
 	this.changed = changed;
@@ -588,12 +591,12 @@ function delCounterFromPanel()
 }
 
 // processing client events
-addEventProcessor('ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent', () => {
+$$.event.addProcessor('ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent', () => {
 	$("#content > #process-queue #processQueueData button[name='pageControlRefreshButton']").first().click();
 });
 
 
-addEventProcessor('ru.bgcrm.event.client.FilterCounterEvent', (event) => {
+$$.event.addProcessor('ru.bgcrm.event.client.FilterCounterEvent', (event) => {
 	var queueId = $("#processQueueSelect > input[type=hidden]").val();
 
 	var filters = event["filters"];

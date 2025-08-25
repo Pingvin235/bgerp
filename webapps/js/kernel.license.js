@@ -3,6 +3,7 @@
 $$.license = new function() {
 	const debug = $$.debug("lic");
 
+	// events
 	const processEvent = (event) => {
 		const message = event.message;
 		if (!message)
@@ -15,5 +16,5 @@ $$.license = new function() {
 		$$.shell.message.show(message.title, text);
 	}
 
-	addEventProcessor('org.bgerp.event.client.LicenseEvent', processEvent);
+	$$.event.addProcessor('org.bgerp.event.client.LicenseEvent', processEvent);
 }

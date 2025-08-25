@@ -53,9 +53,6 @@ $$.error = function () {
 
 $$.deprecated = "Deprecated";
 
-// обработчики сообщений,пришедших от сервера
-$$.eventProcessors = {};
-
 // типы объектов ядра, сюда же добавляются плагины
 $$.objectTypeTitles = {
 	"process" : "Процесс",
@@ -71,28 +68,6 @@ $(function () {
 		$('html, body').animate({ scrollTop: 0 }, 600);
 	});
 });
-
-function addEventProcessor( eventType, processor )
-{
-	var processors;
-	if( !(processors = $$.eventProcessors[eventType]) )
-	{
-		processors = [];
-		$$.eventProcessors[eventType] = processors;
-	}
-	processors.push( processor );
-}
-
-function processEvent( event )
-{
-	processors = $$.eventProcessors[event.className];
-	if (processors) {
-		for (var i = 0; i < processors.length; i++) {
-			processors[i](event);
-		}
-	} else
-		console.warn('Not found processor for', event);
-}
 
 function toPageId( formId, pageIndex, pageSize, pagePrefix )
 {
@@ -237,21 +212,6 @@ function openedObjectList( params )
 	})
 
 	return result;
-}
-
-//обработка событий
-addEventProcessor('ru.bgcrm.event.client.MessageOpenEvent', processClientEvents);
-addEventProcessor('ru.bgcrm.event.client.UrlOpenEvent', processClientEvents);
-
-function processClientEvents(event) {
-	if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
-		$$.shell.contentLoad("/user/message/queue").done(() => {
-			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?method=messageList'));
-		});
-	}
-	else if (event.className == 'ru.bgcrm.event.client.UrlOpenEvent') {
-		$$.shell.contentLoad(event.url);
-	}
 }
 
 // выполнение действия по нажатию, при этом не обрабатывается выделение текста + ряд проверок по буферу и т.п.

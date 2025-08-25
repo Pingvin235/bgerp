@@ -11,6 +11,7 @@ $$.lock = new function () {
 		return $$.ajax.post('/user/lock.do?method=free&lockId=' + name);
 	}
 
+	// events
 	const processEvent = (event) => {
 		const lockId = event.lock.id;
 		if ($('#lock-' + lockId).length == 0) {
@@ -19,5 +20,5 @@ $$.lock = new function () {
 		}
 	}
 
-	addEventProcessor('ru.bgcrm.event.client.LockEvent', processEvent);
+	$$.event.addProcessor('ru.bgcrm.event.client.LockEvent', processEvent);
 }

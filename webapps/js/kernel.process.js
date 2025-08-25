@@ -60,6 +60,9 @@ $$.process = new function() {
 		$ta[0].setSelectionRange($ta[0].value.length, $ta[0].value.length);
 	}
 
+	// events
+	// TODO: move client event processing logic here
+
 	// public functions
 	this.open = open;
 	this.remove = remove;
@@ -199,17 +202,17 @@ $(() => {
 		$$.process.open(event.id);
 	};
 
-	addEventProcessor('ru.bgcrm.event.client.ProcessChangedEvent', processProcessClientEvents);
-	addEventProcessor('ru.bgcrm.event.client.ProcessOpenEvent', processProcessClientEvents);
+	$$.event.addProcessor('ru.bgcrm.event.client.ProcessChangedEvent', processProcessClientEvents);
+	$$.event.addProcessor('ru.bgcrm.event.client.ProcessOpenEvent', processProcessClientEvents);
 })
 
-addEventProcessor('ru.bgcrm.event.client.ProcessCloseEvent', (event) => {
+$$.event.addProcessor('ru.bgcrm.event.client.ProcessCloseEvent', (event) => {
 	removeCommandDiv( "process-" + event.id );
 	$$.closeObject = null;
 	window.history.back();
 });
 
-addEventProcessor('ru.bgcrm.event.client.TemporaryObjectEvent', (event) => {
+$$.event.addProcessor('ru.bgcrm.event.client.TemporaryObjectEvent', (event) => {
 	$.each(event.processIds, function () {
 		if ($('#content #process-'.concat(this)).length == 0)
 			openProcess(this);

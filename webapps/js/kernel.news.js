@@ -21,6 +21,7 @@ $$.news = new function () {
 		$messageDiv.dialog("open");
 	}
 
+	// events
 	const processEvent = (event) => {
 		const messagesCount = event.newsCount + event.messagesCount + (event.versionUpdateNeeded ? 1 : 0);
 		const message = event.message;
@@ -96,5 +97,5 @@ $$.news = new function () {
 		$messagesLink.html(messagesCount);
 	}
 
-	addEventProcessor('org.bgerp.event.client.NewsInfoEvent', processEvent);
+	$$.event.addProcessor('org.bgerp.event.client.NewsInfoEvent', processEvent);
 }

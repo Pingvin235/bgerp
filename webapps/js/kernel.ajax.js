@@ -399,7 +399,7 @@ $$.ajax = new function () {
 	const processClientEvents = function (data) {
 		for (var i = 0; i < data.eventList.length; i++) {
 			if (data.eventList[i] != null) {
-				processEvent(data.eventList[i]);
+				$$.event.process(data.eventList[i]);
 			}
 		}
 	}

@@ -116,10 +116,11 @@ $$.bgbilling = new function () {
 		this.onCheckTabOpen = onCheckTabOpen;
 	}
 
+	// events
 	const processContractOpenEvent = (event) => {
 		contract.open(event.billingId, event.contractId);
 	}
-	addEventProcessor('ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent', processContractOpenEvent);
+	$$.event.addProcessor('ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent', processContractOpenEvent);
 
 	// public objects
 	this.contract = contract;
