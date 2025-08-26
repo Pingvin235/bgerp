@@ -1,7 +1,7 @@
 // "use strict";
 
 $$.event = new function () {
-	const eventProcessors = {};
+	let eventProcessors = {};
 
 	const addProcessor = (eventType, processor) => {
 		let processors;
@@ -22,6 +22,14 @@ $$.event = new function () {
 			console.warn('Not found processor for', event);
 	}
 
+	/**
+	 * Disable processing client events
+	 */
+	const disable = () => {
+		this.process = () => {};
+		eventProcessors = {};
+	}
+
 	// events
 	const processEvent = (event) => {
 		if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
@@ -40,5 +48,6 @@ $$.event = new function () {
 	// public functions
 	this.addProcessor = addProcessor;
 	this.process = process;
+	this.disable = disable;
 }
 

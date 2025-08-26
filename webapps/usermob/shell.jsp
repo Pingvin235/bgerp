@@ -14,8 +14,8 @@
 	%>
 
 	<script>
-		$(function ()  {
-			var $tabs = $("#content").tabs( { cache : true } );
+		$(function () {
+			const $tabs = $("#content").tabs({ cache: true });
 
 			<c:url var="url" value="process.do?method=queue"/>
 			$tabs.tabs( "add", "${url}", "${l.l('Процессы')}" );
@@ -27,6 +27,8 @@
 				$("#content > .ui-tabs-nav").hide();
 				<c:set var="contentStyle" value="padding: 0"/>
 			</c:if>
+
+			$$.event.disable();
 		});
 	</script>
 

@@ -6,7 +6,6 @@
 <html>
 <head>
 	<title>${l.l('Open Interface')} | <%@ include file="/WEB-INF/jspf/title.jsp"%></title>
-	<%-- TODO: All the scripts are not needed here. --%>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 	<%@ include file="/WEB-INF/jspf/datepicker_l10n.jsp"%>
 
@@ -25,6 +24,8 @@
 		$$.shell.$content = () => $('#content');
 
 		<%@ include file="/WEB-INF/jspf/ui_init_js.jsp"%>
+
+		$$.event.disable();
 	</script>
 </head>
 
