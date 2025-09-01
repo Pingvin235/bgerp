@@ -1,9 +1,9 @@
 package org.bgerp.itest.helper;
 
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.model.customer.Customer;
 
 public class CustomerHelper {

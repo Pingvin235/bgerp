@@ -5,6 +5,7 @@ import static org.bgerp.itest.kernel.customer.CustomerTest.posParam;
 import java.util.Collections;
 import java.util.Set;
 
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -15,7 +16,6 @@ import org.bgerp.model.file.FileData;
 import org.bgerp.model.param.Parameter;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.util.Utils;
 

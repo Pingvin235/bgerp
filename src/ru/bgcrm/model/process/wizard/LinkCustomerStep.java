@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.bean.annotation.Bean;
+import org.bgerp.dao.customer.CustomerDAO;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;

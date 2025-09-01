@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.EventProcessor;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLogDAO;
 import org.bgerp.model.Pageable;
@@ -26,7 +27,6 @@ import org.bgerp.plugin.bil.invoice.model.Position;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.servlet.ActionServlet.Action;

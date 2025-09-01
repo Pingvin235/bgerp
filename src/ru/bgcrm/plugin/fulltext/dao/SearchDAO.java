@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Pair;

@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
@@ -17,7 +18,6 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.IOUtils;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;

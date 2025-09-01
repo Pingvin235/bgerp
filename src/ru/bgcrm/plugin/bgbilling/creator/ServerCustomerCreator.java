@@ -20,6 +20,7 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
@@ -30,7 +31,6 @@ import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.CommonObjectLink;

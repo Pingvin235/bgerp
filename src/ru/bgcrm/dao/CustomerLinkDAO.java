@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.CommonObjectLink;

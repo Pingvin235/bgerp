@@ -9,11 +9,11 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 
 import javassist.NotFoundException;
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.CommonObjectLink;

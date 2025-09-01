@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import com.google.common.collect.Sets;
 
 import ru.bgcrm.dao.CommonLinkDAO;
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;

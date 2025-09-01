@@ -7,13 +7,13 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.customer.CustomerParamSearchDAO;
 import org.bgerp.dao.process.ProcessParamSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter.Type;
 import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;

@@ -9,6 +9,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGSecurityException;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 import org.bgerp.model.msg.config.MessageTypeConfig;
@@ -16,7 +17,6 @@ import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import org.bgerp.plugin.msg.feedback.Plugin;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;

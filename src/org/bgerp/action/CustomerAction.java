@@ -9,6 +9,7 @@ import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -16,7 +17,6 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.param.ParameterValue;
 import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
