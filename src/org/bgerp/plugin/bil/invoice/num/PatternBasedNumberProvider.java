@@ -9,8 +9,8 @@ import org.bgerp.plugin.bil.invoice.dao.InvoiceNumberDAO;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 import org.bgerp.util.Log;
+import org.bgerp.util.text.PatternFormatter;
 
-import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

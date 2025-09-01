@@ -23,6 +23,7 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
+import org.bgerp.util.text.PatternFormatter;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamValueSelect;
@@ -35,7 +36,6 @@ import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.Pattern;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.struts.form.Response;
-import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.Utils;
 
 public class CustomerDAO extends CommonDAO {

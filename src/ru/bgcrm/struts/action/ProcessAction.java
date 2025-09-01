@@ -48,6 +48,7 @@ import org.bgerp.model.process.config.ProcessPriorityConfig;
 import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.Log;
+import org.bgerp.util.text.PatternFormatter;
 
 import com.google.common.base.Functions;
 
@@ -75,7 +76,6 @@ import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

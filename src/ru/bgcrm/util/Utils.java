@@ -712,14 +712,14 @@ public class Utils {
 
     /**
      * Генерирует строку из шаблона с подстановкой макросов вида ${param_<код параметра>}.
-     * @param object
+     * @param objectType
      * @param objectId
      * @param paramValueDAO
      * @param pattern
      * @return
      * @throws Exception
      */
-    public static String formatPatternString(String object, int objectId, ParamValueDAO paramValueDAO, String pattern) throws Exception {
+    public static String formatPatternString(String objectType, int objectId, ParamValueDAO paramValueDAO, String pattern) throws Exception {
         String result = "";
         if (pattern != null) {
             result = pattern;
@@ -735,7 +735,7 @@ public class Utils {
                 parameterIdList.add(Utils.parseInt(pattern.substring(last, found)));
             }
 
-            List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(object, -1);
+            List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(objectType, -1);
             List<ParameterValue> valueList = paramValueDAO.loadParameters(paramList, objectId, false);
 
             Map<Integer, ParameterValue> valueMap = new HashMap<>();

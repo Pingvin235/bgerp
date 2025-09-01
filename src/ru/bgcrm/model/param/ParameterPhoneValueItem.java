@@ -5,8 +5,7 @@ import java.util.Map;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.param.PhoneFormat;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.util.PatternFormatter;
+import org.bgerp.util.text.PatternFormatter;
 
 public class ParameterPhoneValueItem {
     private static final Log log = Log.getLog();

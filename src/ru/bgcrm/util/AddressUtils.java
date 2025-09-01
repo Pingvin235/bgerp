@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.util.text.PatternFormatter;
 
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.model.param.ParameterAddressValue;

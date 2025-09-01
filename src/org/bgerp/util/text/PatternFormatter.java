@@ -1,9 +1,11 @@
-package ru.bgcrm.util;
+package org.bgerp.util.text;
 
 import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ru.bgcrm.util.Utils;
 
 /**
  * Processor for substitution patterns like <pre>(${key})(текст ${key1})}</pre>.
@@ -37,9 +39,7 @@ public class PatternFormatter {
                 if (prefix.startsWith(",") && result.length() == 0) {
                     prefix = prefix.substring(1);
                 }
-                result.append(prefix);
-                result.append(value);
-                result.append(m.group(3));
+                result.append(prefix).append(value).append(m.group(3));
             }
 
             pos = m.end();

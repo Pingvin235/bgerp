@@ -1,4 +1,4 @@
-package ru.bgcrm.util;
+package org.bgerp.util.text;
 
 import java.util.Map;
 

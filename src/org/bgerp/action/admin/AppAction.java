@@ -23,6 +23,7 @@ import org.bgerp.app.servlet.file.Order;
 import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.app.servlet.util.AccessLogValve;
 import org.bgerp.util.Dynamic;
+import org.bgerp.util.text.PatternFormatter;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.model.News;
@@ -30,7 +31,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AdminPortListener;
-import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
