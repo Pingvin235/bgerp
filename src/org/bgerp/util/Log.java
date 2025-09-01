@@ -94,9 +94,9 @@ public class Log {
     }
 
     /**
-     * Writes deprecation warning for a called method.
-     * @param deprecatedName the deprecated method name.
-     * @param actualName the actual method name or {@code null} if no such exists.
+     * Deprecation warning for a called method
+     * @param deprecatedName the deprecated method name
+     * @param actualName the actual method name or {@code null} if no such exists
      */
     public void warndMethod(String deprecatedName, String actualName) {
         if (actualName == null)
@@ -106,7 +106,15 @@ public class Log {
     }
 
     /**
-     * Writes deprecated warning for a created class instance
+     * Deprecation warning for a called method
+     * @param deprecatedName the deprecated method name
+     */
+    public void warndMethod(String deprecatedName) {
+        warndMethod(deprecatedName, null);
+    }
+
+    /**
+     * Deprecation warning for a created class instance
      * @param deprecatedClass the deprecated class
      * @param actualClass the actual ones
      */
@@ -115,9 +123,9 @@ public class Log {
     }
 
     /**
-     * Writes deprecation warning for a JSP call.
-     * @param deprecatedName the deprecated call string.
-     * @param actualName the actual call string.
+     * Deprecation warning for a JSP call
+     * @param deprecatedName the deprecated call string
+     * @param actualName the actual call string
      */
     public void warndJsp(String deprecatedCall, String actionCall) {
         warn("Deprecated JSP call '{}', use '{}' instead.", deprecatedCall, actionCall);

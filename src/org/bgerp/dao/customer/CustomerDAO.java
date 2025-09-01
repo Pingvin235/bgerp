@@ -12,7 +12,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -86,108 +85,6 @@ public class CustomerDAO extends CommonDAO {
             ps.addQuery(query.toString());
 
             extractCustomersWithRef(page, list, referenceTemplate, ps);
-        }
-    }
-
-    /**
-     * Выбирает контрагентов по группам.
-     * @param searchResult
-     * @param groupIds - группы.
-     * @throws SQLException
-     */
-    public void searchCustomerList(Pageable<Customer> searchResult, Set<Integer> groupIds) {
-        Page page = searchResult.getPage();
-        List<Customer> list = searchResult.getList();
-
-        StringBuilder selectPart = new StringBuilder();
-        StringBuilder joinPart = new StringBuilder();
-
-        String referenceTemplate = addCustomerReferenceQuery(selectPart, joinPart);
-
-        if (CollectionUtils.isNotEmpty(groupIds)) {
-            joinPart.append(" INNER JOIN " + TABLE_CUSTOMER_GROUP + " AS customer_group ON customer.id=customer_group.customer_id "
-                    + "AND customer_group.group_id IN (" + Utils.toString(groupIds) + ") ");
-
-            PreparedQuery ps = new PreparedQuery(con);
-
-            StringBuilder query = new StringBuilder();
-            query.append(SQL_SELECT_COUNT_ROWS + " DISTINCT ");
-            query.append(selectPart);
-            query.append("customer.* FROM " + TABLE_CUSTOMER + " AS customer");
-            query.append(joinPart);
-            query.append(" ORDER BY title");
-            query.append(page.getLimitSql());
-
-            ps.addQuery(query.toString());
-
-            extractCustomersWithRef(page, list, referenceTemplate, ps);
-        }
-
-        PreparedQuery ps = new PreparedQuery(con);
-
-        StringBuilder query = new StringBuilder();
-        query.append(SQL_SELECT_COUNT_ROWS + " DISTINCT ");
-        query.append(selectPart);
-        query.append("customer.* FROM " + TABLE_CUSTOMER + " AS customer");
-        query.append(joinPart);
-        query.append(" ORDER BY title");
-        query.append(page.getLimitSql());
-
-        log.debug(query.toString());
-
-        ps.addQuery(query.toString());
-
-        extractCustomersWithRef(page, list, referenceTemplate, ps);
-    }
-
-    public Customer extractCustomerWithRef(int customerId) {
-        try {
-            int index = 1;
-            StringBuilder query = new StringBuilder();
-            StringBuilder selectPart = new StringBuilder();
-            StringBuilder joinPart = new StringBuilder();
-
-            String referenceTemplate = addCustomerReferenceQuery(selectPart, joinPart);
-
-            query.append(SQL_SELECT);
-            query.append(selectPart);
-            query.append(" customer.* ");
-            query.append(SQL_FROM);
-            query.append(TABLE_CUSTOMER);
-            query.append(" AS customer");
-            query.append(joinPart);
-            query.append(" WHERE customer.id = ? ");
-
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(index++, customerId);
-
-            final ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (Utils.notBlankString(referenceTemplate)) {
-                    Customer customer = getCustomerFromRs(rs, "");
-
-                    String reference = PatternFormatter.processPattern(referenceTemplate, variable -> {
-                        String value = "";
-                        try {
-                            if (variable.startsWith("param:")) {
-                                value = rs.getString(variable.replace(':', '_') + "_val");
-                            }
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                        }
-                        return value;
-                    });
-
-                    ps.close();
-                    customer.setReference(reference);
-                    return customer;
-                }
-            }
-            ps.close();
-            return null;
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
     }
 
@@ -489,51 +386,6 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагентов по привязанном объектам.
-     * @param searchResult
-     * @param linkedObjectTypeLike LIKE строка типа привязанного объекта.
-     * @param linkedObjectTitle LIKE строка наименования привязанного объекта.
-     */
-    public void searchCustomerByLinkedObjectTitle(Pageable<Customer> searchResult, String linkedObjectTypeLike, String linkedObjectTitle)
-            {
-        if (searchResult != null) {
-            Page page = searchResult.getPage();
-            List<Customer> list = searchResult.getList();
-
-            StringBuilder selectPart = new StringBuilder();
-            StringBuilder joinPart = new StringBuilder();
-            StringBuilder query = new StringBuilder();
-
-            selectPart.append(SQL_SELECT);
-            selectPart.append(" DISTINCT ");
-
-            joinPart.append(SQL_INNER_JOIN);
-            joinPart.append(TABLE_CUSTOMER_LINK);
-            joinPart.append(" AS link ON link.customer_id = customer.id ");
-            joinPart.append("AND link.object_title LIKE ? ");
-            joinPart.append("AND link.object_type LIKE ? ");
-
-            String referenceTemplate = addCustomerReferenceQuery(selectPart, joinPart);
-
-            query.append(selectPart);
-            query.append(" customer.* ");
-            query.append(SQL_FROM);
-            query.append(TABLE_CUSTOMER);
-            query.append(joinPart);
-
-            query.append(" ORDER BY customer.title ");
-            query.append(page.getLimitSql());
-
-            PreparedQuery ps = new PreparedQuery(con);
-            ps.addQuery(query.toString());
-            ps.addString(linkedObjectTitle);
-            ps.addString(linkedObjectTypeLike);
-            extractCustomersWithRef(page, list, referenceTemplate, ps);
-            ps.close();
-        }
-    }
-
-    /**
      * Выбирает контрагента по его коду.
      * @param customerId
      * @return
@@ -553,27 +405,6 @@ public class CustomerDAO extends CommonDAO {
         } catch (SQLException e) {
             throw new BGException(e);
         }
-
-        return customer;
-    }
-
-    /**
-     * Выбирает контрагента по названию.
-     * @param customerTitle название
-     * @return
-     */
-    public Customer getCustomerByTitle(String customerTitle) throws SQLException {
-        Customer customer = null;
-
-        int index = 1;
-
-        PreparedStatement ps = con.prepareStatement("SELECT * FROM customer WHERE UPPER(title)=?");
-        ps.setString(index++, customerTitle.toUpperCase());
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            customer = getCustomerFromRs(rs, "");
-        }
-        ps.close();
 
         return customer;
     }
@@ -752,42 +583,165 @@ public class CustomerDAO extends CommonDAO {
 
     // deprecated
 
-    /**
-     * Получение набора контрагентов по их ID
-     * @param customerIds идентификаторы контрагентов
-     * @return
-     */
     @Deprecated
-    public static Set<Customer> getCustomers(Connection connection, Collection<Integer> customerIds) {
-        Set<Customer> customers = new HashSet<>();
+    public void searchCustomerList(Pageable<Customer> searchResult, Set<Integer> groupIds) {
+        log.warndMethod("searchCustomerList");
 
-        String sql = "SELECT * FROM customer WHERE customer.id IN ( ";
-        sql += Utils.toString(customerIds);
-        sql += " )";
+        Page page = searchResult.getPage();
+        List<Customer> list = searchResult.getList();
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        StringBuilder selectPart = new StringBuilder();
+        StringBuilder joinPart = new StringBuilder();
 
-            while (rs.next()) {
-                customers.add(getCustomerFromRs(rs, ""));
-            }
+        String referenceTemplate = addCustomerReferenceQuery(selectPart, joinPart);
 
-            ps.close();
-        } catch (SQLException exception) {
-            throw new BGException(exception);
+        if (CollectionUtils.isNotEmpty(groupIds)) {
+            joinPart.append(" INNER JOIN " + TABLE_CUSTOMER_GROUP + " AS customer_group ON customer.id=customer_group.customer_id "
+                    + "AND customer_group.group_id IN (" + Utils.toString(groupIds) + ") ");
+
+            PreparedQuery ps = new PreparedQuery(con);
+
+            StringBuilder query = new StringBuilder();
+            query.append(SQL_SELECT_COUNT_ROWS + " DISTINCT ");
+            query.append(selectPart);
+            query.append("customer.* FROM " + TABLE_CUSTOMER + " AS customer");
+            query.append(joinPart);
+            query.append(" ORDER BY title");
+            query.append(page.getLimitSql());
+
+            ps.addQuery(query.toString());
+
+            extractCustomersWithRef(page, list, referenceTemplate, ps);
         }
 
-        return customers;
+        PreparedQuery ps = new PreparedQuery(con);
+
+        StringBuilder query = new StringBuilder();
+        query.append(SQL_SELECT_COUNT_ROWS + " DISTINCT ");
+        query.append(selectPart);
+        query.append("customer.* FROM " + TABLE_CUSTOMER + " AS customer");
+        query.append(joinPart);
+        query.append(" ORDER BY title");
+        query.append(page.getLimitSql());
+
+        log.debug(query.toString());
+
+        ps.addQuery(query.toString());
+
+        extractCustomersWithRef(page, list, referenceTemplate, ps);
     }
 
-    /**
-     * Получение набора контрагентов по их ID
-     * @param customerIds идентификаторы контрагентов
-     * @return
-     */
     @Deprecated
-    public Set<Customer> getCustomers(Collection<Integer> customerIds) {
-        return getCustomers(con, customerIds);
+    public Customer extractCustomerWithRef(int customerId) {
+        log.warndMethod("extractCustomerWithRef");
+
+        try {
+            int index = 1;
+            StringBuilder query = new StringBuilder();
+            StringBuilder selectPart = new StringBuilder();
+            StringBuilder joinPart = new StringBuilder();
+
+            String referenceTemplate = addCustomerReferenceQuery(selectPart, joinPart);
+
+            query.append(SQL_SELECT);
+            query.append(selectPart);
+            query.append(" customer.* ");
+            query.append(SQL_FROM);
+            query.append(TABLE_CUSTOMER);
+            query.append(" AS customer");
+            query.append(joinPart);
+            query.append(" WHERE customer.id = ? ");
+
+            PreparedStatement ps = con.prepareStatement(query.toString());
+            ps.setInt(index++, customerId);
+
+            final ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                if (Utils.notBlankString(referenceTemplate)) {
+                    Customer customer = getCustomerFromRs(rs, "");
+
+                    String reference = PatternFormatter.processPattern(referenceTemplate, variable -> {
+                        String value = "";
+                        try {
+                            if (variable.startsWith("param:")) {
+                                value = rs.getString(variable.replace(':', '_') + "_val");
+                            }
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                        }
+                        return value;
+                    });
+
+                    ps.close();
+                    customer.setReference(reference);
+                    return customer;
+                }
+            }
+            ps.close();
+            return null;
+        } catch (SQLException e) {
+            throw new BGException(e);
+        }
+    }
+
+    @Deprecated
+    public void searchCustomerByLinkedObjectTitle(Pageable<Customer> searchResult, String linkedObjectTypeLike, String linkedObjectTitle) {
+        log.warndMethod("searchCustomerByLinkedObjectTitle");
+
+        if (searchResult != null) {
+            Page page = searchResult.getPage();
+            List<Customer> list = searchResult.getList();
+
+            StringBuilder selectPart = new StringBuilder();
+            StringBuilder joinPart = new StringBuilder();
+            StringBuilder query = new StringBuilder();
+
+            selectPart.append(SQL_SELECT);
+            selectPart.append(" DISTINCT ");
+
+            joinPart.append(SQL_INNER_JOIN);
+            joinPart.append(TABLE_CUSTOMER_LINK);
+            joinPart.append(" AS link ON link.customer_id = customer.id ");
+            joinPart.append("AND link.object_title LIKE ? ");
+            joinPart.append("AND link.object_type LIKE ? ");
+
+            String referenceTemplate = addCustomerReferenceQuery(selectPart, joinPart);
+
+            query.append(selectPart);
+            query.append(" customer.* ");
+            query.append(SQL_FROM);
+            query.append(TABLE_CUSTOMER);
+            query.append(joinPart);
+
+            query.append(" ORDER BY customer.title ");
+            query.append(page.getLimitSql());
+
+            PreparedQuery ps = new PreparedQuery(con);
+            ps.addQuery(query.toString());
+            ps.addString(linkedObjectTitle);
+            ps.addString(linkedObjectTypeLike);
+            extractCustomersWithRef(page, list, referenceTemplate, ps);
+            ps.close();
+        }
+    }
+
+    @Deprecated
+    public Customer getCustomerByTitle(String customerTitle) throws SQLException {
+        log.warndMethod("getCustomerByTitle");
+
+        Customer customer = null;
+
+        int index = 1;
+
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM customer WHERE UPPER(title)=?");
+        ps.setString(index++, customerTitle.toUpperCase());
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            customer = getCustomerFromRs(rs, "");
+        }
+        ps.close();
+
+        return customer;
     }
 }

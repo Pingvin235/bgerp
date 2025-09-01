@@ -123,13 +123,13 @@ public class ParameterAddressValue {
 
     @Deprecated
     public String getCustom() {
-        log.warndMethod("getCustom", null);
+        log.warndMethod("getCustom");
         return custom;
     }
 
     @Deprecated
     public void setCustom(String custom) {
-        log.warndMethod("setCustom", null);
+        log.warndMethod("setCustom");
         this.custom = custom;
     }
 }

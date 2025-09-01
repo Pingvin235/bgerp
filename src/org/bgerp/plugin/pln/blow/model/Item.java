@@ -132,7 +132,7 @@ public class Item {
 
     @Deprecated
     public int getPriority() {
-        log.warndMethod("getPriority", null);
+        log.warndMethod("getPriority");
 
         if (process == null)
             return 0;

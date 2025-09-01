@@ -46,13 +46,13 @@ public class ParameterPhoneValueItem {
 
     @Deprecated
     public String getFormat() {
-        log.warndMethod("getFormat", null);
+        log.warndMethod("getFormat");
         return "";
     }
 
     @Deprecated
     public void setFormat(String format) {
-        log.warndMethod("setFormat", null);
+        log.warndMethod("setFormat");
     }
 
     @Override

@@ -515,7 +515,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     @Deprecated
     public Date getParamDateTime(String name) {
-        log.warndMethod("getParamDateTime(String)", null);
+        log.warndMethod("getParamDateTime(String)");
         return getParamDateTime(name, TimeUtils.FORMAT_TYPE_YMDHMS, (Date) null);
     }
 

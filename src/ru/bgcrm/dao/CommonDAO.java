@@ -337,7 +337,7 @@ public class CommonDAO {
 
     @Deprecated
     protected String getPeriodSql(Period period, String fieldName) {
-        log.warndMethod("getPeriodSql", null);
+        log.warndMethod("getPeriodSql");
         StringBuilder sql = new StringBuilder();
         if (period != null && fieldName != null) {
             if (period.getDateFrom() != null) {
@@ -356,7 +356,7 @@ public class CommonDAO {
 
     @Deprecated
     protected int setPeriodParamValue(Period period, PreparedStatement ps, int index) throws SQLException {
-        log.warndMethod("setPeriodParamValue", null);
+        log.warndMethod("setPeriodParamValue");
         if (period != null && ps != null) {
             if (period.getDateFrom() != null) {
                 ps.setDate(index++, TimeUtils.convertDateToSqlDate(period.getDateFrom()));
