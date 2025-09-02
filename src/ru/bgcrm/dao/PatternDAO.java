@@ -11,114 +11,95 @@ import org.bgerp.app.exception.BGException;
 
 import ru.bgcrm.model.param.Pattern;
 
-public class PatternDAO
-    extends CommonDAO
-{
-	public PatternDAO( Connection con )
-	{
-		super( con );
-	}
+public class PatternDAO extends CommonDAO {
+    private static final String TABLE = " object_title_pattern ";
 
-	public List<Pattern> getPatternList( String object )
-	    throws SQLException
-	{
-		List<Pattern> result = new ArrayList<>();
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		StringBuilder query = new StringBuilder();
+    public PatternDAO(Connection con) {
+        super(con);
+    }
 
-		query.append( "SELECT * FROM object_title_pattern WHERE object=? ORDER BY title" );
-		ps = con.prepareStatement( query.toString() );
-		ps.setString( 1, object );
-		rs = ps.executeQuery();
-		while( rs.next() )
-		{
-			Pattern pattern = new Pattern();
-			setPatternData( pattern, rs );
-			result.add( pattern );
-		}
-		rs.close();
-		ps.close();
+    public List<Pattern> getPatternList(String object) throws SQLException {
+        List<Pattern> result = new ArrayList<>();
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        StringBuilder query = new StringBuilder();
 
-		return result;
-	}
+        query.append("SELECT * FROM" + TABLE + "WHERE object=? ORDER BY title");
+        ps = con.prepareStatement(query.toString());
+        ps.setString(1, object);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            Pattern pattern = new Pattern();
+            setPatternData(pattern, rs);
+            result.add(pattern);
+        }
+        rs.close();
+        ps.close();
 
-	public Pattern getPattern( int id )
-	    throws SQLException
-	{
-		Pattern pattern = null;
+        return result;
+    }
 
-		String query = null;
-		ResultSet rs = null;
-		PreparedStatement ps = null;
+    public Pattern getPattern(int id) throws SQLException {
+        Pattern pattern = null;
 
-		query = "SELECT * FROM object_title_pattern WHERE id=?";
-		ps = con.prepareStatement( query );
-		ps.setInt( 1, id );
-		rs = ps.executeQuery();
-		while( rs.next() )
-		{
-			pattern = new Pattern();
-			setPatternData( pattern, rs );
-		}
-		rs.close();
-		ps.close();
+        String query = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
 
-		return pattern;
-	}
+        query = "SELECT * FROM" + TABLE + "WHERE id=?";
+        ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            pattern = new Pattern();
+            setPatternData(pattern, rs);
+        }
+        rs.close();
+        ps.close();
 
-	public void updatePattern( Pattern pattern )
-	    throws SQLException
-	{
+        return pattern;
+    }
 
-		int index = 1;
-		String query = null;
-		PreparedStatement ps = null;
+    public void updatePattern(Pattern pattern) throws SQLException {
 
-		if( pattern.getId() <= 0 )
-		{
-			query = "INSERT INTO object_title_pattern SET object=?, title=?, pattern=?";
-			ps = con.prepareStatement( query, PreparedStatement.RETURN_GENERATED_KEYS );
-			ps.setString( index++, pattern.getObject() );
-			ps.setString( index++, pattern.getTitle() );
-			ps.setString( index++, pattern.getPattern() );
-			ps.executeUpdate();
-			pattern.setId( lastInsertId( ps ) );
-		}
-		else
-		{
-			query = "UPDATE object_title_pattern SET title=?, pattern=? WHERE id=?";
-			ps = con.prepareStatement( query );
-			ps.setString( index++, pattern.getTitle() );
-			ps.setString( index++, pattern.getPattern() );
-			ps.setInt( index++, pattern.getId() );
-			ps.executeUpdate();
-		}
-		ps.close();
-	}
+        int index = 1;
+        String query = null;
+        PreparedStatement ps = null;
 
-	public void deletePattern( int id )
-		throws BGException
-	{
-		try
-		{
-			String query = "DELETE FROM object_title_pattern WHERE id=?";
-			PreparedStatement ps = con.prepareStatement( query);
-			ps.setInt( 1, id );
-			ps.executeUpdate();
-			ps.close();
-		}
-		catch( SQLException e )
-		{
-			throw new BGException( e );
-		}
-	}
+        if (pattern.getId() <= 0) {
+            query = "INSERT INTO" + TABLE + "SET object=?, title=?, pattern=?";
+            ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(index++, pattern.getObject());
+            ps.setString(index++, pattern.getTitle());
+            ps.setString(index++, pattern.getPattern());
+            ps.executeUpdate();
+            pattern.setId(lastInsertId(ps));
+        } else {
+            query = "UPDATE" + TABLE + "SET title=?, pattern=? WHERE id=?";
+            ps = con.prepareStatement(query);
+            ps.setString(index++, pattern.getTitle());
+            ps.setString(index++, pattern.getPattern());
+            ps.setInt(index++, pattern.getId());
+            ps.executeUpdate();
+        }
+        ps.close();
+    }
 
-	private void setPatternData( Pattern pattern, ResultSet rs )
-	    throws SQLException
-	{
-		pattern.setId( rs.getInt( "id" ) );
-		pattern.setTitle( rs.getString( "title" ) );
-		pattern.setPattern( rs.getString( "pattern" ) );
-	}
+    public void deletePattern(int id) throws BGException {
+        try {
+            String query = "DELETE FROM" + TABLE + "WHERE id=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            throw new BGException(e);
+        }
+    }
+
+    private void setPatternData(Pattern pattern, ResultSet rs) throws SQLException {
+        pattern.setId(rs.getInt("id"));
+        pattern.setTitle(rs.getString("title"));
+        pattern.setPattern(rs.getString("pattern"));
+    }
 }
