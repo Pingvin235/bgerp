@@ -5,6 +5,11 @@ import java.util.Map;
 
 import ru.bgcrm.model.process.Process;
 
+/**
+ * Expression object for accessing process parameters
+ *
+ * @author Shamil Vakhitov
+ */
 public class ProcessParamExpressionObject extends ParamExpressionObject {
     private static final String KEY = Process.OBJECT_TYPE + "Param";
     private static final String KEY_SHORT = "pp";
