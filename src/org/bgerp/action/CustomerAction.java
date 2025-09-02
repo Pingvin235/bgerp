@@ -35,7 +35,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/customer")
+@Action(path = "/user/customer", pathId = true)
 public class CustomerAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/customer";
 

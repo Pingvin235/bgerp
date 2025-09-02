@@ -32,14 +32,12 @@
 			<item title="House" action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch"/>
 		</item>
 	</item>
-	<item title="Customer">
-		<item title="Открытие контрагента для изменения" action="ru.bgcrm.struts.action.CustomerAction:customerGet"/>
-		<item title="Создание контрагента" action="ru.bgcrm.struts.action.CustomerAction:customerCreate"/>
-		<item title="Изменение контрагента" action="ru.bgcrm.struts.action.CustomerAction:customerUpdate"/>
-		<item title="Удаление контрагента" action="ru.bgcrm.struts.action.CustomerAction:customerDelete"/>
-		<item title="Просмотр карточки контрагента" action="ru.bgcrm.struts.action.CustomerAction:null, ru.bgcrm.struts.action.CustomerAction:customer"/>
-		<item title="Контекстный поиск контрагентов" action="ru.bgcrm.struts.action.CustomerAction:customerTitleList"/>
-		<item title="Слияние контрагентов" action="ru.bgcrm.struts.action.CustomerAction:customerMerge"/>
+	<item title="Customer" action="/user/customer:null, ru.bgcrm.struts.action.CustomerAction:null, ru.bgcrm.struts.action.CustomerAction:customer">
+		<item title="Create" action="/user/customer:customerCreate, ru.bgcrm.struts.action.CustomerAction:customerCreate"/>
+		<item title="Edit" action="/user/customer:customerUpdate, /user/customer:customerGet, ru.bgcrm.struts.action.CustomerAction:customerUpdate, ru.bgcrm.struts.action.CustomerAction:customerGet"/>
+		<item title="Delete" action="/user/customer:customerDelete, ru.bgcrm.struts.action.CustomerAction:customerDelete"/>
+		<item title="Merge" action="/user/customer:customerMerge, ru.bgcrm.struts.action.CustomerAction:customerMerge"/>
+		<!-- <item title="Контекстный поиск контрагентов" action="ru.bgcrm.struts.action.CustomerAction:customerTitleList"/> -->
 	</item>
 
 	<item title="Log" action="/user/log:null, /user/log:log, /user/log:download, ru.bgcrm.struts.action.LogAction:null, ru.bgcrm.struts.action.LogAction:log, ru.bgcrm.struts.action.LogAction:download"/>

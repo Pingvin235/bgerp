@@ -27,7 +27,7 @@
 
 			<button class="btn-white btn-small ml1 mr1" onclick="$$.ajax.load('${entityLogCommand}',  $('#${uiid}').parent());">${l.l('Лог изменений')}</button>
 
-			<p:check action="ru.bgcrm.struts.action.CustomerAction:customerMerge">
+			<p:check action="/user/customer:customerMerge">
 				<u:sc>
 					<c:set var="uiid" value="${u:uiid()}"/>
 					<div>

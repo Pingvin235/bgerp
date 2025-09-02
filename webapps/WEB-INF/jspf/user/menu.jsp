@@ -21,7 +21,7 @@
 </ui:menu-group>
 
 <ui:menu-group title="${l.l('Customer')}" icon="ti-face-smile">
-	<ui:menu-item title="${l.l('Создать')}" action="ru.bgcrm.struts.action.CustomerAction:customerCreate" command="$$.customer.createAndEdit()"/>
+	<ui:menu-item title="${l.l('Создать')}" action="/user/customer:customerCreate" command="$$.customer.createAndEdit()"/>
 </ui:menu-group>
 
 <ui:menu-item title="Log" href="log" icon="ti-receipt" action="/user/log:null" />
