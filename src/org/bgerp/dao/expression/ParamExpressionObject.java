@@ -250,7 +250,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
      */
     @Deprecated
     public List<String> addressValues(int paramId) {
-        log.warndMethod("addressValues", "getValue");
+        log.warndMethod("addressValues", "val");
 
         return addressValues(paramId, null);
     }
@@ -260,7 +260,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
      */
     @Deprecated
     public Set<String> listValueTitles(int paramId) {
-        log.warndMethod("listValueTitles", "getValue");
+        log.warndMethod("listValueTitles", "val");
 
         Set<String> result = Collections.emptySet();
 
@@ -287,7 +287,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
      */
     @Deprecated
     public String getParamText(int paramId) throws SQLException {
-        log.warndMethod("getParamText", "getValue");
+        log.warndMethod("getParamText", "val");
         return paramDao.getParamText(objectId, paramId);
     }
 
@@ -296,7 +296,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
      */
     @Deprecated
     public Date getParamDate(int paramId) throws SQLException {
-        log.warndMethod("getParamDate", "getValue");
+        log.warndMethod("getParamDate", "val");
         return paramDao.getParamDate(objectId, paramId);
     }
 
@@ -305,7 +305,7 @@ public abstract class ParamExpressionObject implements ExpressionObject {
      */
     @Deprecated
     public Date getParamDateTime(int paramId) throws SQLException {
-        log.warndMethod("getParamDateTime", "getValue");
+        log.warndMethod("getParamDateTime", "val");
         return paramDao.getParamDateTime(objectId, paramId);
     }
 
