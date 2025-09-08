@@ -67,32 +67,4 @@ public class AddressUtils {
 
         return result;
     }
-
-    public static String getHouseFlat(String value) {
-        StringBuffer buf = new StringBuffer();
-        if (value != null) {
-            for (int index = 0; index < value.length(); index++) {
-                char ch = value.charAt(index);
-                if (Character.isDigit(ch)) {
-                    buf.append(ch);
-                } else {
-                    break;
-                }
-            }
-        }
-        return buf.toString();
-    }
-
-    public static String getHouseRoom(String value) {
-        StringBuffer buf = new StringBuffer();
-        if (value != null) {
-            for (int index = 0; index < value.length(); index++) {
-                if (!Character.isDigit(value.charAt(index))) {
-                    buf.append(value.substring(index));
-                    break;
-                }
-            }
-        }
-        return buf.toString();
-    }
 }
