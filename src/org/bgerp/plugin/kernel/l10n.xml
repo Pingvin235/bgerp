@@ -124,7 +124,7 @@
 	<p><ru>Параметры пользователей</ru><en>User parameters</en></p>
 	<p><ru>Параметры контрагентов</ru><en>Customer parameters</en></p>
 	<p><ru>Группы параметров контрагентов</ru><en>Customer parameters groups</en></p>
-	<p><ru>Шаблоны названия контрагентов</ru><en>Parameter title patters</en></p>
+	<p><en>Customer title patterns</en><ru>Шаблоны названия контрагентов</ru></p>
 	<p><ru>Параметры домов</ru><en>House parameters</en></p>
 	<p><en>Filter</en><ru>Фильтр</ru></p>
 	<p><en>By ID, title, comment, configuration</en><ru>По ID, наименованию, комментарию, конфигурации</ru></p>

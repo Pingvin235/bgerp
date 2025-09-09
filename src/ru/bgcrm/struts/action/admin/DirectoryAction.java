@@ -57,7 +57,7 @@ public class DirectoryAction extends BaseAction {
         new Directory("userParameter", "Параметры пользователей", "parameterList"),
         new Directory("customerParameter", "Параметры контрагентов", "parameterList"),
         new Directory("customerParameterGroup", "Группы параметров контрагентов", "parameterGroupList"),
-        new Directory("customerPatternTitle", "Шаблоны названия контрагентов", "patternTitleList"),
+        new Directory("customerPatternTitle", "Customer title patterns", "patternTitleList"),
         new Directory("addressParameter", "Параметры домов", "parameterList")
     ));
 
