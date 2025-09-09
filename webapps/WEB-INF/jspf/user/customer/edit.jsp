@@ -14,22 +14,22 @@
 	<h2>${l.l('Название')}</h2>
 	<html:text property="title" value="${customer.title}" disabled="${customer.titlePatternId ne -1}"/>
 
-	<h2>${l.l('Шаблон названия')}</h2>
+	<h2>${l.l('Title pattern')}</h2>
 	<ui:combo-single hiddenName="titlePatternId" value="${customer.titlePatternId}" onSelect="
 		var form = $('#${formUiid}')[0];
 		form.elements['title'].disabled = form.elements.titlePatternId.value!=-1;
 		form.elements['titlePattern'].disabled = form.elements.titlePatternId.value!=0;
 	">
 		<jsp:attribute name="valuesHtml">
-			<li value="-1">${l.l('Без шаблона')}</li>
-			<li value="0">${l.l('Персональный шаблон')}</li>
+			<li value="-1">${l.l('No pattern')}</li>
+			<li value="0">${l.l('Personal pattern')}</li>
 			<c:forEach var="item" items="${patternList}">
 				<li value="${item.id}">${item.title} (${item.pattern})</li>
 			</c:forEach>
 		</jsp:attribute>
 	</ui:combo-single>
 
-	<h2>${l.l('Персональный шаблон названия')}</h2>
+	<h2>${l.l('Personal title pattern')}</h2>
 	<html:text property="titlePattern" disabled="${customer.titlePatternId ne 0}" value="${customer.titlePattern}"/>
 
 	<h2>${l.l('Группа параметров')}</h2>

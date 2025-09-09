@@ -144,10 +144,10 @@
 	<p><ru>из</ru><en>of</en></p>
 	<p><ru>Новый контрагент</ru><en>New customer</en></p>
 	<p><ru>Редактирование</ru><en>Editing</en></p>
-	<p><ru>Шаблон названия</ru><en>Title template</en></p>
-	<p><ru>Без шаблона</ru><en>No template</en></p>
-	<p><ru>Персональный шаблон</ru><en>Personal template</en></p>
-	<p><ru>Персональный шаблон названия</ru><en>Personal title template</en></p>
+	<p><en>Title pattern</en><ru>Шаблон названия</ru></p>
+	<p><en>No pattern</en><ru>Без шаблона</ru></p>
+	<p><en>Personal pattern</en><ru>Персональный шаблон</ru></p>
+	<p><en>Personal title pattern</en><ru>Персональный шаблон названия</ru></p>
 	<p><ru>Группа параметров</ru><en>Parameter group</en></p>
 	<p><ru>Группа не установлена (все параметры)</ru><en>Group not set (all parameters)</en></p>
 	<p><ru>Нажатие Enter - поиск по улице</ru><en>Pressing Enter - street search</en></p>
