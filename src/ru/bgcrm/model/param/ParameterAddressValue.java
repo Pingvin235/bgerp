@@ -1,7 +1,5 @@
 package ru.bgcrm.model.param;
 
-import org.bgerp.util.Log;
-
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.util.Utils;
 
@@ -11,8 +9,6 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class ParameterAddressValue {
-    private static final Log log = Log.getLog();
-
     private int houseId = -1;
     private String flat = "";
     private String room = "";
@@ -20,7 +16,6 @@ public class ParameterAddressValue {
     private Integer floor;
     private String value;
     private String comment = "";
-    private String custom;
     private AddressHouse house;
 
     public int getHouseId() {
@@ -117,19 +112,5 @@ public class ParameterAddressValue {
     @Override
     public String toString() {
         return "ParameterAddressValue: " + value;
-    }
-
-    // deprecated
-
-    @Deprecated
-    public String getCustom() {
-        log.warndMethod("getCustom");
-        return custom;
-    }
-
-    @Deprecated
-    public void setCustom(String custom) {
-        log.warndMethod("setCustom");
-        this.custom = custom;
     }
 }
