@@ -351,6 +351,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param contractId
      * @return
      */
+    @Deprecated
     public List<ContractTariffGroup> contractTariffGroupList(int contractId) {
         return contractTariffGroupList(contractId, false);
     }
@@ -361,6 +362,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param active выводить только активные в данный момент группы, с открытой второй датой.
      * @return
      */
+    @Deprecated
     private List<ContractTariffGroup> contractTariffGroupList(int contractId, boolean active) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             return Collections.emptyList();
@@ -403,6 +405,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param id код записи.
      * @return
      */
+    @Deprecated
     public ContractTariffGroup getContractTariffGroup(int id) {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
@@ -437,6 +440,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
      * @param dateTo по дату.
      * @param comment примечение.
      */
+    @Deprecated
     public void updateContractTariffGroup(int id, int contractId, int tariffGroupId, Date dateFrom, Date dateTo,
             String comment) {
         Request request = new Request();

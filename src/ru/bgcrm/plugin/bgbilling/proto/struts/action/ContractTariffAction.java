@@ -12,7 +12,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractPersonalTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffGroup;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffOption;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -63,7 +62,7 @@ public class ContractTariffAction extends BaseAction {
             form.setResponseData("options", "Нет прав просмотра");
         }
 
-        try {
+        /* try {
             StringBuilder groups = new StringBuilder();
 
             List<ContractTariffGroup> groupList = crmDAO.contractTariffGroupList(contractId);
@@ -75,7 +74,7 @@ public class ContractTariffAction extends BaseAction {
             form.setResponseData("groups", groups);
         } catch (Exception e) {
             form.setResponseData("groups", "Нет прав просмотра");
-        }
+        } */
 
         return html(conSet, form, PATH_JSP + "/tariff.jsp");
     }
@@ -257,7 +256,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward groupTariffList(DynActionForm form, ConnectionSet conSet) {
+    /* public ActionForward groupTariffList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -303,5 +302,5 @@ public class ContractTariffAction extends BaseAction {
         crmDAO.deleteContractTariffGroup(form.getId());
 
         return json(conSet, form);
-    }
+    }*/
 }

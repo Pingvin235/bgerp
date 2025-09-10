@@ -86,10 +86,6 @@
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:updateContractTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariff"
 				title="Изменение глобальных тарифов договора"/>
 			<item title="Удаление глобальных тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteСontractTariff"/>
-			<item title="Просмотр групп тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:groupTariffList"/>
-			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:updateContractTariffGroup, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:getContractTariffGroup"
-				title="Изменение групп тарифов договора"/>
-			<item title="Удаление групп тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteContractTariffGroup"/>
 			<item title="Просмотр тарифных опции договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionList"/>
 			<item title="Просмотр доступных тарифных опции договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionEditor"/>
 			<item title="Добавление тарифных опции договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:activateTariffOption"/>
