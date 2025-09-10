@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -24,12 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
 import org.bgerp.app.servlet.jsp.UtilFunction;
-import org.bgerp.cache.ParameterCache;
-import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Title;
-import org.bgerp.model.param.Parameter;
-import org.bgerp.model.param.ParameterValue;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -708,53 +703,6 @@ public class Utils {
             result.append(separator);
         }
         result.append(value);
-    }
-
-    /**
-     * Генерирует строку из шаблона с подстановкой макросов вида ${param_<код параметра>}.
-     * @param objectType
-     * @param objectId
-     * @param paramValueDAO
-     * @param pattern
-     * @return
-     * @throws Exception
-     */
-    public static String formatPatternString(String objectType, int objectId, ParamValueDAO paramValueDAO, String pattern) throws Exception {
-        String result = "";
-        if (pattern != null) {
-            result = pattern;
-            Set<Integer> parameterIdList = new HashSet<>();
-            int last = 0;
-            while (true) {
-                int found = pattern.indexOf("${param_", last);
-                if (found == -1) {
-                    break;
-                }
-                last = found + 8;
-                found = pattern.indexOf("}", last);
-                parameterIdList.add(Utils.parseInt(pattern.substring(last, found)));
-            }
-
-            List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(objectType, -1);
-            List<ParameterValue> valueList = paramValueDAO.loadParameters(paramList, objectId, false);
-
-            Map<Integer, ParameterValue> valueMap = new HashMap<>();
-            for (ParameterValue value : valueList) {
-                valueMap.put(value.getParameter().getId(), value);
-            }
-            for (Integer parameterId : parameterIdList) {
-                ParameterValue parameter = valueMap.get(parameterId);
-                String value = "";
-                if (parameter != null) {
-                    value = parameter.getValueTitle();
-                    if (value == null) {
-                        value = "";
-                    }
-                }
-                result = result.replaceAll("\\$\\{param_" + parameterId + "\\}", value);
-            }
-        }
-        return result;
     }
 
     /**

@@ -7,12 +7,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bgerp.app.exception.BGException;
+import org.apache.commons.lang3.StringUtils;
+import org.bgerp.dao.expression.ParamExpressionObject;
+import org.bgerp.util.text.PatternFormatter;
 
 import ru.bgcrm.model.param.Pattern;
+import ru.bgcrm.util.Utils;
 
 public class PatternDAO extends CommonDAO {
     private static final String TABLE = " object_title_pattern ";
+
+    /**
+     * Generation of title from a pattern with parameter values
+     * @param params param accessor
+     * @param pattern the {@link PatternFormatter} pattern with <pre>${param_&lt;PARAM_ID&gt;}</pre> substitutions
+     * @return the formatted title
+     */
+    public static String format(ParamExpressionObject params, String pattern) {
+        return PatternFormatter.processPattern(pattern, variable -> {
+            int paramId = Utils.parseInt(StringUtils.substringAfter(variable, "param_"));
+            if (paramId > 0)
+                return params.val(paramId);
+            return "???";
+        });
+    }
 
     public PatternDAO(Connection con) {
         super(con);
@@ -61,7 +79,6 @@ public class PatternDAO extends CommonDAO {
     }
 
     public void updatePattern(Pattern pattern) throws SQLException {
-
         int index = 1;
         String query = null;
         PreparedStatement ps = null;
@@ -85,16 +102,12 @@ public class PatternDAO extends CommonDAO {
         ps.close();
     }
 
-    public void deletePattern(int id) throws BGException {
-        try {
-            String query = "DELETE FROM" + TABLE + "WHERE id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
-        }
+    public void deletePattern(int id) throws SQLException {
+        String query = "DELETE FROM" + TABLE + "WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
     }
 
     private void setPatternData(Pattern pattern, ResultSet rs) throws SQLException {

@@ -18,8 +18,8 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.dao.expression.CustomerParamExpressionObject;
 import org.bgerp.dao.param.OldParamSearchDAO;
-import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
@@ -473,7 +473,6 @@ public class CustomerDAO extends CommonDAO {
      */
     public void updateCustomerTitle(String titleBefore, Customer customer, int changedParamId, Response response) throws Exception {
         PatternDAO patternDAO = new PatternDAO(con);
-        ParamValueDAO paramValueDAO = new ParamValueDAO(con);
 
         Customer oldCustomer = getCustomerById(customer.getId());
         oldCustomer.setGroupIds(this.getGroupIds(customer.getId()));
@@ -495,7 +494,7 @@ public class CustomerDAO extends CommonDAO {
 
             // формирование названия по шаблону
             if (Utils.notBlankString(titlePattern) && (changedParamId < 0 || titlePattern.contains(String.valueOf(changedParamId)))) {
-                customer.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customer.getId(), paramValueDAO, titlePattern));
+                customer.setTitle(PatternDAO.format(new CustomerParamExpressionObject(con, customer.getId()), titlePattern));
             }
 
             if (oldCustomer != null) {

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.bgerp.dao.customer.CustomerDAO;
+import org.bgerp.dao.expression.CustomerParamExpressionObject;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -14,10 +15,11 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.model.file.FileData;
 import org.bgerp.model.param.Parameter;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.util.Utils;
 
 @Test(groups = "customerRu", dependsOnGroups = { "param", "customer" })
 public class CustomerRuTest {
@@ -131,7 +133,9 @@ public class CustomerRuTest {
         paramDao.updateParamText(customerId, paramJurAddressId, "450000, г. Уфа, ул. Карла Маркса, д. 12, корп. 1 Литера А, кв. 25");
 
         var customerDao = new CustomerDAO(con);
-        customerOrgIvan.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customerId, paramDao, titlePatternOrgPattern));
+        String title = PatternDAO.format(new CustomerParamExpressionObject(con, customerId), titlePatternOrgPattern);
+        Assert.assertEquals(title, "ИП \"Образцов Иван Иванович\"");
+        customerOrgIvan.setTitle(title);
         customerDao.updateCustomer(customerOrgIvan);
 
         paramDao.updateParamText(customerId, paramInnId, "123456789012");
@@ -146,7 +150,7 @@ public class CustomerRuTest {
         paramDao.updateParamFile(customerId, paramSignId, 0, new FileData("sign.png", ResourceHelper.getResourceBytes(this, "sign.png")));
         paramDao.updateParamText(customerId, paramSignNameId, "И.И.Образцов");
         paramDao.updateParamFile(customerId, paramStampId, 0, new FileData("stamp.png", ResourceHelper.getResourceBytes(this, "stamp.png")));
-        paramDao.updateParamText(customerId, paramInvoiceFooterId, "На основании Договора-оферты от 17.02.2022, расположенному по адресу: https://bgerp.ru/client/");
+        paramDao.updateParamText(customerId, paramInvoiceFooterId, "На основании Договора-оферты от 17.02.2022, расположенному по адресу: https://bgerp.org/ru/client/");
 
         // TODO: Email and phones.
     }

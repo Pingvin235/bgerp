@@ -1,0 +1,1 @@
+A: Extended customer title pattern. https://bgerp.org/change/0/doc/kernel/customer.html#setup-title-pattern

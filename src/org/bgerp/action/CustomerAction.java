@@ -10,6 +10,7 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.customer.CustomerDAO;
+import org.bgerp.dao.expression.CustomerParamExpressionObject;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -274,18 +275,7 @@ public class CustomerAction extends BaseAction {
                 titlePattern = pattern.getPattern();
             }
         }
-        customer.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customer.getId(), paramDAO, titlePattern));
+        customer.setTitle(PatternDAO.format(new CustomerParamExpressionObject(con, customer.getId()), titlePattern));
         customerDAO.updateCustomer(customer);
-    }
-
-    protected void setCustomerTitle(String title, Customer customer, PatternDAO patternDAO, ParamValueDAO paramDAO) throws Exception {
-        if (customer.getTitlePatternId() == 0) {
-            customer.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customer.getId(), paramDAO, customer.getTitlePattern()));
-        } else if (customer.getTitlePatternId() > 0) {
-            ru.bgcrm.model.param.Pattern pattern = patternDAO.getPattern(customer.getTitlePatternId());
-            customer.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customer.getId(), paramDAO, pattern.getPattern()));
-        } else {
-            customer.setTitle(title);
-        }
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.dao.customer.CustomerDAO;
+import org.bgerp.dao.expression.CustomerParamExpressionObject;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
@@ -18,11 +19,11 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.IOUtils;
 import org.testng.annotations.Test;
 
+import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
-import ru.bgcrm.util.Utils;
 
 @Test(groups = "customer", dependsOnGroups = "param")
 public class CustomerTest {
@@ -160,7 +161,7 @@ public class CustomerTest {
         paramDao.updateParamBlob(customerId, paramInvoiceFooterId, ResourceHelper.getResource(this, "invoice.footer.txt"));
 
         var customerDao = new CustomerDAO(con);
-        customerOrgNs.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customerId, paramDao, titlePatternOrgPattern));
+        customerOrgNs.setTitle(PatternDAO.format(new CustomerParamExpressionObject(con, customerId), titlePatternOrgPattern));
         customerDao.updateCustomer(customerOrgNs);
     }
 }
