@@ -52,7 +52,6 @@ import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -369,7 +368,7 @@ public class ParamValueDAO extends CommonDAO {
         if (loadDirs) {
             result.setHouse(AddressDAO.getAddressHouseFromRs(rs, "house.", LOAD_LEVEL_COUNTRY));
             if (Utils.notBlankString(formatName)) {
-                result.setValue(AddressUtils.buildAddressValue(result, null, formatName));
+                result.setValue(result.formatValue(null, formatName));
             }
         }
 
@@ -811,7 +810,7 @@ public class ParamValueDAO extends CommonDAO {
             pq.close();
         } else {
             if (value.getValue() == null)
-                value.setValue(AddressUtils.buildAddressValue(value, con));
+                value.setValue(value.formatValue(con));
 
             try {
                 if (position <= 0) {
@@ -926,7 +925,7 @@ public class ParamValueDAO extends CommonDAO {
             int pos = rs.getInt("n");
 
             ParameterAddressValue value = getParameterAddressValueFromRs(rs, "");
-            value.setValue(AddressUtils.buildAddressValue(value, con));
+            value.setValue(value.formatValue(con));
 
             updateParamAddress(id, paramId, pos, value);
         }

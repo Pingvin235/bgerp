@@ -1,6 +1,15 @@
 package ru.bgcrm.model.param;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.bgerp.app.cfg.Setup;
+import org.bgerp.util.text.PatternFormatter;
+
+import ru.bgcrm.dao.AddressDAO;
+import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressHouse;
+import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -92,6 +101,55 @@ public class ParameterAddressValue {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String formatValue(Connection con) throws SQLException {
+        return formatValue(con, null);
+    }
+
+    public String formatValue(Connection con, String formatName) throws SQLException {
+        if (house == null) {
+            house = new AddressDAO(con).getAddressHouse(houseId, true, true, true);
+            if (house == null)
+                throw new IllegalArgumentException("House not found: " + houseId);
+        }
+
+        final AddressHouse addressHouse = house;
+        final AddressItem addressStreet = house.getAddressStreet();
+        final AddressCity addressCity = addressStreet.getAddressCity();
+
+        String address = Setup.getSetup().get("address.format", "(${street})(, ${house})(, ${floor} floor)(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})( [${comment}])");
+        if (Utils.notBlankString(formatName)) {
+            address = Setup.getSetup().get("address.format." + formatName, address);
+        }
+
+        String result = PatternFormatter.processPattern(address, variable -> {
+            if ("index".equals(variable))
+                return addressHouse.getPostIndex();
+            if ("city".equals(variable))
+                return addressCity.getTitle();
+            if ("area".equals(variable))
+                return addressHouse.getAddressArea().getTitle();
+            if ("quarter".equals(variable))
+                return addressHouse.getAddressQuarter().getTitle();
+            if ("street".equals(variable))
+                return addressStreet.getTitle();
+            if ("house".equals(variable))
+                return addressHouse.getHouseAndFrac();
+            if ("flat".equals(variable))
+                return flat;
+            if ("room".equals(variable))
+                return room;
+            if ("pod".equals(variable))
+                return pod > 0 ? String.valueOf(pod) : "";
+            if ("floor".equals(variable))
+                return floor == null ? "" : String.valueOf(floor);
+            if ("comment".equals(variable))
+                return comment;
+            return "";
+        });
+
+        return result;
     }
 
     @Override

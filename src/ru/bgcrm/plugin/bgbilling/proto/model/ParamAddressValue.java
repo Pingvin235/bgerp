@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import ru.bgcrm.model.param.ParameterAddressValue;
-import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -156,7 +155,7 @@ public class ParamAddressValue {
         result.setPod(Utils.parseInt(getPod()));
         result.setRoom(getRoom());
         if (result.getHouseId() != 0) {
-            result.setValue(AddressUtils.buildAddressValue(result, con));
+            result.setValue(result.formatValue(con));
         } else {
             result.setValue("");
         }

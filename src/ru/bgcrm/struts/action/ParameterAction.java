@@ -64,7 +64,6 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.struts.form.Response;
-import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -391,7 +390,7 @@ public class ParameterAction extends BaseAction {
                     String floor = form.getParam("floor");
                     addressValue.setFloor(Utils.notBlankString(floor) ? Integer.parseInt(floor) : null);
                     addressValue.setComment(form.getParam("comment", ""));
-                    addressValue.setValue(AddressUtils.buildAddressValue(addressValue, con));
+                    addressValue.setValue(addressValue.formatValue(con));
                 }
 
                 paramChangingProcess(con, form, parameter, id, paramValue = addressValue);

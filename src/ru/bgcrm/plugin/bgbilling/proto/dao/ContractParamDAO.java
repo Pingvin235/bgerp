@@ -47,7 +47,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrEmail;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrList;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrPhone;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrText;
-import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -73,7 +72,7 @@ public class ContractParamDAO extends BillingDAO {
             crmItem.setHouseId(item.getHouseId());
             crmItem.setPod(Utils.parseInt(item.getPod()));
             crmItem.setRoom(item.getRoom());
-            crmItem.setValue(AddressUtils.buildAddressValue(crmItem, con));
+            crmItem.setValue(crmItem.formatValue(con));
         }
 
         return crmItem;

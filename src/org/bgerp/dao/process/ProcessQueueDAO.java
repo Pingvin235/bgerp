@@ -38,7 +38,6 @@ import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -215,7 +214,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     addrValue.setFloor(Utils.parseInt(addressData[4]));
                     addrValue.setComment(addressData[5]);
 
-                    Utils.addSeparated(newValue, "; ", AddressUtils.buildAddressValue(addrValue, con, formatName));
+                    Utils.addSeparated(newValue, "; ", addrValue.formatValue(con, formatName));
                 }
 
                 row[i + 1] = newValue.toString();

@@ -51,7 +51,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -542,7 +541,7 @@ public class ServerCustomerCreator {
                     }
 
                     if (!addressExist) {
-                        billingAddr.setValue(AddressUtils.buildAddressValue(billingAddr, con));
+                        billingAddr.setValue(billingAddr.formatValue(con));
                         paramValueDao.updateParamAddress(customer.getId(), param.getId(), 0, billingAddr);
 
                         log.info("Add address param value, param: " + param.getId() + "; value: " + billingAddr.getValue());
