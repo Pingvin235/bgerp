@@ -4,25 +4,15 @@ import java.util.Map;
 
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.param.PhoneFormat;
-import org.bgerp.util.Log;
 import org.bgerp.util.text.PatternFormatter;
 
 public class ParameterPhoneValueItem {
-    private static final Log log = Log.getLog();
-
     private String phone = "";
     private String comment = "";
 
     public ParameterPhoneValueItem() {}
 
     public ParameterPhoneValueItem(String phone, String comment) {
-        this.phone = phone;
-        this.comment = comment;
-    }
-
-    @Deprecated
-    public ParameterPhoneValueItem(String phone, String format, String comment) {
-        log.warnd("Deprecated constructor was called.");
         this.phone = phone;
         this.comment = comment;
     }
@@ -41,17 +31,6 @@ public class ParameterPhoneValueItem {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    @Deprecated
-    public String getFormat() {
-        log.warndMethod("getFormat");
-        return "";
-    }
-
-    @Deprecated
-    public void setFormat(String format) {
-        log.warndMethod("setFormat");
     }
 
     @Override
