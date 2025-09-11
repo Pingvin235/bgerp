@@ -4,7 +4,7 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.util.Utils;
 
 /**
- * Value of parameter with type address.
+ * Value of parameter with type address
  *
  * @author Shamil Vakhitov
  */
@@ -14,9 +14,11 @@ public class ParameterAddressValue {
     private String room = "";
     private int pod = -1;
     private Integer floor;
-    private String value;
     private String comment = "";
+    /** House for generation {@link #value} */
     private AddressHouse house;
+    /** Formatted address */
+    private String value;
 
     public int getHouseId() {
         return houseId;
@@ -68,14 +70,6 @@ public class ParameterAddressValue {
         this.floor = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -90,6 +84,19 @@ public class ParameterAddressValue {
 
     public void setHouse(AddressHouse house) {
         this.house = house;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 
     @Override
@@ -107,10 +114,5 @@ public class ParameterAddressValue {
             return false;
 
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ParameterAddressValue: " + value;
     }
 }
