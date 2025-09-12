@@ -487,15 +487,10 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward processMessageCreateEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
-        restoreRequestParams(conSet.getConnection(), form, true, false, "messageTypeAdd");
         return processMessageEdit(form, conSet);
     }
 
     public ActionForward processMessageCreateUpdate(DynActionForm form, Connection con) throws Exception {
-        // preserving message type for choosing in next usage of editor
-        form.setParam("messageTypeAdd", String.valueOf(getType(form.getParamInt("typeId")).getId()));
-        restoreRequestParams(con, form, false, true, "messageTypeAdd");
-
         return processMessageUpdate(form, con);
     }
 

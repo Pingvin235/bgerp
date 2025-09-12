@@ -38,9 +38,6 @@
 						<c:set var="value" value="${form.param.messageType}"/>
 						<c:set var="disable" value="1"/>
 					</c:when>
-					<c:when test="${not empty form.param.messageTypeAdd}">
-						<c:set var="value" value="${form.param.messageTypeAdd}"/>
-					</c:when>
 				</c:choose>
 
 				<c:set var="perm" value="${ctxUser.getPerm('/user/message:'.concat(form.method))}"/>
