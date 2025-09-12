@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.dao.customer.CustomerDAO;
-import org.bgerp.dao.expression.CustomerParamExpressionObject;
+import org.bgerp.dao.expression.ParamExpressionObject;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
@@ -161,7 +161,7 @@ public class CustomerTest {
         paramDao.updateParamBlob(customerId, paramInvoiceFooterId, ResourceHelper.getResource(this, "invoice.footer.txt"));
 
         var customerDao = new CustomerDAO(con);
-        customerOrgNs.setTitle(PatternDAO.format(new CustomerParamExpressionObject(con, customerId), titlePatternOrgPattern));
+        customerOrgNs.setTitle(PatternDAO.format(new ParamExpressionObject(con, customerId), titlePatternOrgPattern));
         customerDao.updateCustomer(customerOrgNs);
     }
 }

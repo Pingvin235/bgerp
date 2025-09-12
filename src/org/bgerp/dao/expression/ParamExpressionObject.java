@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,15 +29,20 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public abstract class ParamExpressionObject implements ExpressionObject {
+public class ParamExpressionObject implements ExpressionObject {
     private static final Log log = Log.getLog();
 
     private final ParamValueDAO paramDao;
     private final int objectId;
 
-    protected ParamExpressionObject(Connection con, int objectId) {
+    public ParamExpressionObject(Connection con, int objectId) {
         this.paramDao = new ParamValueDAO(con);
         this.objectId = objectId;
+    }
+
+    @Override
+    public void toContext(Map<String, Object> context) {
+        throw new UnsupportedOperationException("The expression object can't be added to context");
     }
 
     /**

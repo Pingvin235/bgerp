@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.bgerp.dao.customer.CustomerDAO;
-import org.bgerp.dao.expression.CustomerParamExpressionObject;
+import org.bgerp.dao.expression.ParamExpressionObject;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -133,7 +133,7 @@ public class CustomerRuTest {
         paramDao.updateParamText(customerId, paramJurAddressId, "450000, г. Уфа, ул. Карла Маркса, д. 12, корп. 1 Литера А, кв. 25");
 
         var customerDao = new CustomerDAO(con);
-        String title = PatternDAO.format(new CustomerParamExpressionObject(con, customerId), titlePatternOrgPattern);
+        String title = PatternDAO.format(new ParamExpressionObject(con, customerId), titlePatternOrgPattern);
         Assert.assertEquals(title, "ИП \"Образцов Иван Иванович\"");
         customerOrgIvan.setTitle(title);
         customerDao.updateCustomer(customerOrgIvan);

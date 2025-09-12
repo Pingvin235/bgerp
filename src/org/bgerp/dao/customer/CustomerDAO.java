@@ -18,7 +18,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
-import org.bgerp.dao.expression.CustomerParamExpressionObject;
+import org.bgerp.dao.expression.ParamExpressionObject;
 import org.bgerp.dao.param.OldParamSearchDAO;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;
@@ -494,7 +494,7 @@ public class CustomerDAO extends CommonDAO {
 
             // формирование названия по шаблону
             if (Utils.notBlankString(titlePattern) && (changedParamId < 0 || titlePattern.contains(String.valueOf(changedParamId)))) {
-                customer.setTitle(PatternDAO.format(new CustomerParamExpressionObject(con, customer.getId()), titlePattern));
+                customer.setTitle(PatternDAO.format(new ParamExpressionObject(con, customer.getId()), titlePattern));
             }
 
             if (oldCustomer != null) {

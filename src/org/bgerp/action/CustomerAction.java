@@ -10,7 +10,7 @@ import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.customer.CustomerDAO;
-import org.bgerp.dao.expression.CustomerParamExpressionObject;
+import org.bgerp.dao.expression.ParamExpressionObject;
 import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -275,7 +275,7 @@ public class CustomerAction extends BaseAction {
                 titlePattern = pattern.getPattern();
             }
         }
-        customer.setTitle(PatternDAO.format(new CustomerParamExpressionObject(con, customer.getId()), titlePattern));
+        customer.setTitle(PatternDAO.format(new ParamExpressionObject(con, customer.getId()), titlePattern));
         customerDAO.updateCustomer(customer);
     }
 }
