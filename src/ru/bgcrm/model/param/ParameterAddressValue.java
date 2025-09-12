@@ -3,13 +3,16 @@ package ru.bgcrm.model.param;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
+import org.bgerp.cache.ParameterCache;
+import org.bgerp.dao.expression.ParamExpressionObject;
+import org.bgerp.util.Log;
 import org.bgerp.util.text.PatternFormatter;
 
 import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressHouse;
-import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -111,31 +114,27 @@ public class ParameterAddressValue {
         if (house == null) {
             house = new AddressDAO(con).getAddressHouse(houseId, true, true, true);
             if (house == null)
-                throw new IllegalArgumentException("House not found: " + houseId);
+                throw new BGException("House not found: " + houseId);
         }
 
-        final AddressHouse addressHouse = house;
-        final AddressItem addressStreet = house.getAddressStreet();
-        final AddressCity addressCity = addressStreet.getAddressCity();
-
-        String address = Setup.getSetup().get("address.format", "(${street})(, ${house})(, ${floor} floor)(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})( [${comment}])");
+        String pattern = Setup.getSetup().get("address.format", "(${street})(, ${house})(, ${floor} floor)(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})( [${comment}])");
         if (Utils.notBlankString(formatName)) {
-            address = Setup.getSetup().get("address.format." + formatName, address);
+            pattern = Setup.getSetup().get("address.format." + formatName, pattern);
         }
 
-        String result = PatternFormatter.processPattern(address, variable -> {
+        String result = PatternFormatter.processPattern(pattern, variable -> {
             if ("index".equals(variable))
-                return addressHouse.getPostIndex();
+                return house.getPostIndex();
             if ("city".equals(variable))
-                return addressCity.getTitle();
+                return house.getAddressStreet().getAddressCity().getTitle();
             if ("area".equals(variable))
-                return addressHouse.getAddressArea().getTitle();
+                return house.getAddressArea().getTitle();
             if ("quarter".equals(variable))
-                return addressHouse.getAddressQuarter().getTitle();
+                return house.getAddressQuarter().getTitle();
             if ("street".equals(variable))
-                return addressStreet.getTitle();
+                return house.getAddressStreet().getTitle();
             if ("house".equals(variable))
-                return addressHouse.getHouseAndFrac();
+                return house.getHouseAndFrac();
             if ("flat".equals(variable))
                 return flat;
             if ("room".equals(variable))
@@ -146,6 +145,17 @@ public class ParameterAddressValue {
                 return floor == null ? "" : String.valueOf(floor);
             if ("comment".equals(variable))
                 return comment;
+            if (variable.startsWith("param_")) {
+                if (con == null)
+                    throw new BGException("Can't use ${param_<ID>} variables with con=null");
+                var p = ParameterCache.getParameter(Utils.parseInt(StringUtils.substringAfter(variable, "_")));
+                if (p == null)
+                    throw new BGException("Not found parameter for variable: " + variable);
+                if (!AddressHouse.OBJECT_TYPE.equals(p.getObjectType()))
+                    throw new BGException(Log.format("Object type for parameter '{}' must be '{}'", variable, AddressHouse.OBJECT_TYPE));
+
+                return new ParamExpressionObject(con, houseId).val(p.getId());
+            }
             return "";
         });
 
