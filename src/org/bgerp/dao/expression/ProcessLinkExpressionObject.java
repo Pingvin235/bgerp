@@ -8,6 +8,7 @@ import java.util.Map;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.util.Utils;
 
 /**
  * Expression object for operations with process links
@@ -17,6 +18,10 @@ import ru.bgcrm.model.process.Process;
 public class ProcessLinkExpressionObject implements ExpressionObject {
     private static final String KEY = Process.OBJECT_TYPE + "Link";
     private static final String KEY_SHORT = "pl";
+
+    public static final boolean called(String expression) {
+        return Utils.notBlankString(expression) && (expression.contains(KEY_SHORT + ".") || expression.contains(KEY + "."));
+    }
 
     private final ProcessLinkDAO linkDao;
     private final int processId;

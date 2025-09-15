@@ -9,6 +9,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.expression.CalledParamIdsExpressionObject;
 import org.bgerp.dao.expression.Expression;
 import org.bgerp.dao.expression.ProcessExpressionObject;
+import org.bgerp.dao.expression.ProcessLinkExpressionObject;
 
 import ru.bgcrm.util.Utils;
 
@@ -31,7 +32,11 @@ abstract class ProcessTextConfig extends Config {
     }
 
     public boolean isProcessUsed() {
-        return expression.contains(ProcessExpressionObject.KEY + ".") || expression.contains(ProcessExpressionObject.KEY_SHORT + ".");
+        return ProcessExpressionObject.called(expression);
+    }
+
+    public boolean isProcessLinkUsed() {
+        return ProcessLinkExpressionObject.called(expression);
     }
 
     public boolean isAnyParamUsed() {
