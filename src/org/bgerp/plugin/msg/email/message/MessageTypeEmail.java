@@ -335,9 +335,11 @@ public class MessageTypeEmail extends MessageType {
     @Override
     public Message newMessageLoad(Connection con, String messageId) throws Exception {
         try (var store = mailConfig.getImapStore();
-            var incomingFolder = store.getFolder(folderIncoming);
-            var processedFolder = store.getFolder(folderProcessed);
-            var skippedFolder = store.getFolder(folderSkipped);) {
+                var incomingFolder = store.getFolder(folderIncoming);
+                var processedFolder = store.getFolder(folderProcessed);
+                var skippedFolder = store.getFolder(folderSkipped)) {
+            checkFolders(processedFolder, skippedFolder);
+
             incomingFolder.open(Folder.READ_WRITE);
             processedFolder.open(Folder.READ_WRITE);
             skippedFolder.open(Folder.READ_WRITE);
