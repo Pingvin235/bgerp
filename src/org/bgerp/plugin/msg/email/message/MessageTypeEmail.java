@@ -476,9 +476,6 @@ public class MessageTypeEmail extends MessageType {
         String subject = "???";
 
         try {
-            // клонирование сообщения для избежания ошибки "Unable to load BODYSTRUCTURE"
-            // http://www.oracle.com/technetwork/java/javamail/faq/index.html#imapserverbug
-            // MessageParser mp = new MessageParser(new MimeMessage((MimeMessage) message));
             MessageParser mp = new MessageParser(message);
 
             subject = mp.getMessageSubject();
@@ -517,7 +514,8 @@ public class MessageTypeEmail extends MessageType {
             });
         }
 
-        message.setFlag(Flags.Flag.DELETED, true);
+        if (!message.isExpunged())
+            message.setFlag(Flags.Flag.DELETED, true);
 
         return result;
     }
