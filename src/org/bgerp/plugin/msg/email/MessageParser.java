@@ -89,17 +89,28 @@ public class MessageParser {
     }
 
     public Date getFromTime() throws MessagingException {
-        // приоритентна дата из заголовка Recieved - время получения нашим IMAP сервером
+        Date result = null;
+
+        // header 'Received'
         String[] headers = message.getHeader("Received");
         if (headers != null && headers.length > 0) {
             Matcher m = DATE_PATTERN.matcher(headers[0]);
             if (m.find()) {
                 try {
-                    return MAIL_DATE_FORMAT.parse(m.group());
+                    result = MAIL_DATE_FORMAT.parse(m.group());
                 } catch (Exception e) {}
             }
         }
-        return message.getSentDate();
+
+        // header 'Date'
+        if (result == null)
+            result = message.getSentDate();
+
+        // current time
+        if (result == null)
+            result = new Date();
+
+        return result;
     }
 
     public String getTo() throws Exception {

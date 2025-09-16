@@ -330,12 +330,9 @@ public class MessageAction extends BaseAction {
                 log.error("Timeout waiting threads");
 
             Collections.sort(result, (Message o1, Message o2) -> {
-                if (reverseOrder) {
-                    Message tmp = o1;
-                    o1 = o2;
-                    o2 = tmp;
-                }
-                return o1.getFromTime() == null ? -1 : o1.getFromTime().compareTo(o2.getFromTime());
+                Date time1 = o1.getFromTime();
+                Date time2 = o2.getFromTime();
+                return reverseOrder ? time2.compareTo(time1) : time1.compareTo(time2);
             });
 
             form.setResponseData("list", result);

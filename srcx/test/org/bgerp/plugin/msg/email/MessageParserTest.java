@@ -103,4 +103,10 @@ public class MessageParserTest {
         List<FileData> attaches = mp.getAttachContent();
         Assert.assertEquals(0, attaches.size());
     }
+
+    @Test
+    public void testMessageParse8() throws Exception {
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail8_no_from_time.eml"));
+        Assert.assertNotNull(mp.getFromTime());
+    }
 }
