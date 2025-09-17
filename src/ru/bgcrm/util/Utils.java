@@ -17,8 +17,6 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
@@ -27,6 +25,9 @@ import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Title;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
+
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 
 @Dynamic
 public class Utils {

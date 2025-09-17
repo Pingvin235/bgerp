@@ -1,10 +1,10 @@
 package org.bgerp.util.mail;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeBodyPart;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeBodyPart;
 
 public class MailMsgTest {
     @Test

@@ -2,13 +2,12 @@ package org.bgerp.util.mail;
 
 import java.util.Properties;
 
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Store;
-
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
 
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -33,7 +32,7 @@ public class MailConfig {
         return props;
     }
 
-    private static class Authenticator extends javax.mail.Authenticator {
+    private static class Authenticator extends jakarta.mail.Authenticator {
         private PasswordAuthentication authentication;
 
         public Authenticator(String user, String password) {

@@ -11,15 +11,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.io.IOUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
@@ -44,6 +35,14 @@ import org.bgerp.util.mail.Addresses;
 import org.bgerp.util.mail.MailConfig;
 import org.bgerp.util.mail.MailMsg;
 
+import jakarta.mail.Flags;
+import jakarta.mail.Folder;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import ru.bgcrm.dao.Locker;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
@@ -316,7 +315,7 @@ public class MessageTypeEmail extends MessageType {
 
             var messages = incomingFolder.getMessages();
 
-            var list = new ArrayList<javax.mail.Message>(messageIds.length);
+            var list = new ArrayList<jakarta.mail.Message>(messageIds.length);
 
             for (var messageId : messageIds) {
                 int index = incomingCache.idToIndex(messageId);
@@ -326,7 +325,7 @@ public class MessageTypeEmail extends MessageType {
                 list.add(message);
             }
 
-            incomingFolder.copyMessages(list.toArray(new javax.mail.Message[0]), trashFolder);
+            incomingFolder.copyMessages(list.toArray(new jakarta.mail.Message[0]), trashFolder);
 
             incomingCache.delete(messageIds);
         }
@@ -399,7 +398,7 @@ public class MessageTypeEmail extends MessageType {
 
                     if (imapSentFolder != null) {
                         message.setFlag(Flags.Flag.SEEN, true);
-                        imapSentFolder.appendMessages(new javax.mail.Message[] { message });
+                        imapSentFolder.appendMessages(new jakarta.mail.Message[] { message });
                         log.info("Saved copy to folder: {}", folderSent);
                     }
                 } catch (Exception e) {
@@ -437,7 +436,7 @@ public class MessageTypeEmail extends MessageType {
             processedFolder.open(Folder.READ_WRITE);
             skippedFolder.open(Folder.READ_WRITE);
 
-            javax.mail.Message[] messages = null;
+            jakarta.mail.Message[] messages = null;
 
             var list = incomingCache.list(incomingFolder);
             for (int i = 0; i < list.size(); i++) {
@@ -468,7 +467,7 @@ public class MessageTypeEmail extends MessageType {
      * @param message processed message.
      * @throws MessagingException
      */
-    private Message processMessage(Connection con, Folder incomingFolder, Folder processedFolder, Folder skippedFolder, javax.mail.Message message)
+    private Message processMessage(Connection con, Folder incomingFolder, Folder processedFolder, Folder skippedFolder, jakarta.mail.Message message)
             throws MessagingException {
         final String key = "email.process.error";
 
@@ -495,11 +494,11 @@ public class MessageTypeEmail extends MessageType {
 
             result = processMessage(con, msg);
 
-            incomingFolder.copyMessages(new javax.mail.Message[] { message }, processedFolder);
+            incomingFolder.copyMessages(new jakarta.mail.Message[] { message }, processedFolder);
             con.commit();
         } catch (Exception e) {
             log.error(e);
-            incomingFolder.copyMessages(new javax.mail.Message[] { message }, skippedFolder);
+            incomingFolder.copyMessages(new jakarta.mail.Message[] { message }, skippedFolder);
 
             String s = subject;
             AlarmSender.send(key, 0, "Email processing error", () -> "Subject: " + s, e, () -> {

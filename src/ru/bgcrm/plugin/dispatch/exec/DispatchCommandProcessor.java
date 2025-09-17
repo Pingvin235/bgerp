@@ -5,16 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.mail.FetchProfile;
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message.RecipientType;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.annotation.Bean;
@@ -23,9 +13,18 @@ import org.bgerp.util.Log;
 import org.bgerp.util.mail.MailConfig;
 import org.bgerp.util.mail.MailMsg;
 
+import jakarta.mail.FetchProfile;
+import jakarta.mail.Flags;
+import jakarta.mail.Folder;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
-import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
@@ -71,11 +70,11 @@ public class DispatchCommandProcessor extends Task {
                 Folder incomingFolder = store.getFolder("INBOX");
                 incomingFolder.open(Folder.READ_WRITE);
 
-                javax.mail.Message[] messages = incomingFolder.getMessages();
+                jakarta.mail.Message[] messages = incomingFolder.getMessages();
 
                 incomingFolder.fetch(messages, FETCH_PROFILE);
 
-                for (javax.mail.Message message : messages) {
+                for (jakarta.mail.Message message : messages) {
                     try {
                         if (!message.getContentType().startsWith("text/plain"))
                             continue;

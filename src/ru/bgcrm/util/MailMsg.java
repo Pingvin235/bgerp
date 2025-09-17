@@ -1,9 +1,9 @@
 package ru.bgcrm.util;
 
-import javax.mail.MessagingException;
-
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
+
+import jakarta.mail.MessagingException;
 
 @Deprecated
 public class MailMsg extends org.bgerp.util.mail.MailMsg {

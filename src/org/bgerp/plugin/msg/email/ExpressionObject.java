@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.mail.MessagingException;
-
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.l10n.Localization;
@@ -19,6 +17,7 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.mail.MailMsg;
 
+import jakarta.mail.MessagingException;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

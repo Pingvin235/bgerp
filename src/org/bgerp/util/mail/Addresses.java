@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.util.Dynamic;
@@ -18,6 +14,9 @@ import org.bgerp.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import ru.bgcrm.util.Utils;
 
 /**

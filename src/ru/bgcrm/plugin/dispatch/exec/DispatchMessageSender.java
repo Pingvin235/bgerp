@@ -5,12 +5,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.mail.Message.RecipientType;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.annotation.Bean;
@@ -18,9 +12,14 @@ import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
 import org.bgerp.util.mail.MailMsg;
 
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.DispatchMessage;
-import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.util.sql.SQLUtils;
 
 @Bean(oldClasses = "ru.bgcrm.plugin.dispatch.MessageSender")

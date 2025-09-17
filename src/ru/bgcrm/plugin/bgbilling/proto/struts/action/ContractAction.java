@@ -12,9 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGException;
@@ -24,6 +21,8 @@ import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.ParamList;

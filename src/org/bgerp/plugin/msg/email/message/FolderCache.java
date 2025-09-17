@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.mail.FetchProfile;
-import javax.mail.Folder;
-import javax.mail.MessagingException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.msg.Message;
 import org.bgerp.plugin.msg.email.MessageParser;
 import org.bgerp.util.Log;
 
+import jakarta.mail.FetchProfile;
+import jakarta.mail.Folder;
+import jakarta.mail.MessagingException;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -60,7 +59,7 @@ class FolderCache {
     }
 
     private boolean isListActual(Folder folder) throws MessagingException {
-        javax.mail.Message[] messages = folder.getMessages();
+        jakarta.mail.Message[] messages = folder.getMessages();
         folder.fetch(messages, FETCH_PROFILE_SIZE);
         List<Integer> sizes = new ArrayList<>(messages.length);
         for (var m : messages)
@@ -73,7 +72,7 @@ class FolderCache {
     public synchronized void relist(Folder folder) throws Exception {
         log.debug("relist");
 
-        javax.mail.Message[] messages = folder.getMessages();
+        jakarta.mail.Message[] messages = folder.getMessages();
         folder.fetch(messages, FETCH_PROFILE_LIST);
 
         data = new ArrayList<>(messages.length);

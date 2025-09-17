@@ -10,15 +10,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.mail.BodyPart;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MailDateFormat;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.james.mime4j.codec.DecodeMonitor;
 import org.apache.james.mime4j.codec.DecoderUtil;
@@ -38,6 +29,14 @@ import org.jsoup.nodes.TextNode;
 
 import com.sun.mail.imap.IMAPMessage;
 
+import jakarta.mail.BodyPart;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MailDateFormat;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -63,7 +62,7 @@ public class MessageParser {
      * @param message must be {@link IMAPMessage} instance.
      * @throws IllegalArgumentException not {@link IMAPMessage} was passed.
      */
-    public MessageParser(javax.mail.Message message) {
+    public MessageParser(jakarta.mail.Message message) {
         if (!(message instanceof IMAPMessage))
             throw new IllegalArgumentException("Parameter must be IMAPMessage");
         this.message = (MimeMessage) message;

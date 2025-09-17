@@ -2,8 +2,6 @@ package ru.bgcrm.plugin.dispatch.action.open;
 
 import java.sql.Connection;
 
-import javax.mail.Session;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
@@ -12,6 +10,7 @@ import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.model.Pageable;
 
+import jakarta.mail.Session;
 import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.exec.Config;

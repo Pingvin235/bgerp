@@ -89,8 +89,8 @@ dependencies {
     runtimeOnly 'commons-chain:commons-chain:1.2'
     runtimeOnly 'commons-digester:commons-digester:2.1'
 
-    implementation 'com.sun.mail:javax.mail:1.6.2'
-    implementation 'javax.activation:activation:1.1.1' //TODO: Fix using classes and remove library.
+    implementation 'com.sun.mail:jakarta.mail:2.0.2'
+    implementation 'com.sun.activation:jakarta.activation:2.0.1'
     implementation 'org.apache.james:apache-mime4j-dom:0.8.11'
     implementation 'org.apache.james:apache-mime4j-core:0.8.11'
 
@@ -139,10 +139,6 @@ dependencies {
     // Telegram
     implementation 'org.telegram:telegrambots:6.3.0'
     implementation 'org.telegram:telegrambots-meta:6.3.0'
-    // implementation 'aopalliance:aopalliance:1.0'
-    // implementation 'com.google.guava:failureaccess:1.0.1'
-    // implementation 'com.google.inject:guice:4.2.2'
-    // implementation 'javax.inject:javax.inject:1'
 
     // separated libraries without transitive dependencies should be added the end of the list
     implementation 'org.apache.commons:commons-lang3:3.12.0'
