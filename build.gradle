@@ -144,7 +144,7 @@ dependencies {
     runtimeOnly 'commons-collections:commons-collections:3.2.2' // delete later
     implementation 'org.apache.commons:commons-lang3:3.18.0'
     implementation 'com.google.guava:guava:33.5.0-jre'
-    implementation 'org.jsoup:jsoup:1.15.3'
+    implementation 'org.jsoup:jsoup:1.21.2'
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.javassist:javassist:3.29.2-GA'
     implementation 'com.itextpdf:itextpdf:5.5.13' // used in Document plugin for filling out PDF forms
