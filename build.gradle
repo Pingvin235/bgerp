@@ -116,7 +116,6 @@ dependencies {
 
     implementation 'ar.com.fdvs:DynamicJasper:5.3.9'
     implementation 'net.sf.jasperreports:jasperreports:6.21.5' // 7.0.3 doesn't work with DynamicJasper:5.3.9
-    // implementation 'net.sf.jasperreports:jasperreports-pdf:7.0.3'
     runtimeOnly 'com.github.librepdf:openpdf:1.3.30'
 
     implementation 'org.apache.poi:poi:4.0.1' // directly used in Callboard plugin, for making Russian work days table
@@ -125,7 +124,6 @@ dependencies {
     // Asterisk
     implementation 'org.asteriskjava:asterisk-java:3.41.0'
     // dep 'org.reflections:reflections'
-    // dep 'org.javassist:javassist'
 
     // License check
     implementation 'org.bouncycastle:bcprov-jdk15on:1.68'
@@ -142,7 +140,7 @@ dependencies {
     // separated libraries without transitive dependencies should be added the end of the list
     implementation 'org.apache.commons:commons-collections4:4.5.0'
     runtimeOnly 'commons-collections:commons-collections:3.2.2' // delete later
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'org.apache.commons:commons-lang3:3.18.0'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.jsoup:jsoup:1.15.3'
     implementation 'org.reflections:reflections:0.10.2'
