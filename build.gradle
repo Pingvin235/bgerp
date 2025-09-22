@@ -94,7 +94,7 @@ dependencies {
     implementation 'org.apache.james:apache-mime4j-dom:0.8.11' // version 0.8.12 and newer fails MessageParserTest
     implementation 'org.apache.james:apache-mime4j-core:0.8.11'
 
-    implementation 'commons-beanutils:commons-beanutils:1.9.3' // DynActionForm
+    implementation 'commons-beanutils:commons-beanutils:1.11.0' // DynActionForm
     implementation 'commons-collections:commons-collections:3.2.2' // 'org.apache.commons:commons-collections4' has a different package
 
     implementation 'org.apache.commons:commons-dbcp2:2.9.0'
