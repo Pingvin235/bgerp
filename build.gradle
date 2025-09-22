@@ -110,9 +110,9 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.7'
     implementation 'org.apache.httpcomponents:httpcore:4.4.11'
 
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.1'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
 
     implementation 'ar.com.fdvs:DynamicJasper:5.3.9'
     implementation 'net.sf.jasperreports:jasperreports:6.21.5' // 7.0.3 doesn't work with DynamicJasper:5.3.9
