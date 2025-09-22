@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
@@ -340,7 +340,6 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP_CONTRACT + "/group_list.jsp");
     }
 
-    @SuppressWarnings("unchecked")
     public ActionForward updateGroups(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");

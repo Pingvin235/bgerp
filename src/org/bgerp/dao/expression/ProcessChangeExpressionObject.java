@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
 import org.bgerp.plugin.msg.email.ExpressionObject;
@@ -62,7 +62,6 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
      * @param roleId
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public void addGroups(Set<Integer> groupIds, int roleId) throws Exception {
         ProcessType type = ProcessAction.getProcessType(process.getTypeId());
 

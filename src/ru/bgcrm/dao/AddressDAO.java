@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.dao.param.Tables;
 import org.bgerp.model.Pageable;

@@ -95,7 +95,6 @@ dependencies {
     implementation 'org.apache.james:apache-mime4j-core:0.8.11'
 
     implementation 'commons-beanutils:commons-beanutils:1.11.0' // DynActionForm
-    implementation 'commons-collections:commons-collections:3.2.2' // 'org.apache.commons:commons-collections4' has a different package
 
     implementation 'org.apache.commons:commons-dbcp2:2.9.0'
     implementation 'org.apache.commons:commons-pool2:2.11.1'
@@ -121,7 +120,7 @@ dependencies {
     runtimeOnly 'com.github.librepdf:openpdf:1.3.30'
 
     implementation 'org.apache.poi:poi:4.0.1' // directly used in Callboard plugin, for making Russian work days table
-    runtimeOnly 'org.apache.commons:commons-collections4:4.3'
+    // dep 'org.apache.commons:commons-collections4'
 
     // Asterisk
     implementation 'org.asteriskjava:asterisk-java:3.41.0'
@@ -141,6 +140,8 @@ dependencies {
     implementation 'org.telegram:telegrambots-meta:6.3.0'
 
     // separated libraries without transitive dependencies should be added the end of the list
+    implementation 'org.apache.commons:commons-collections4:4.5.0'
+    runtimeOnly 'commons-collections:commons-collections:3.2.2' // delete later
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'org.jsoup:jsoup:1.15.3'
@@ -149,9 +150,6 @@ dependencies {
     implementation 'com.itextpdf:itextpdf:5.5.13' // used in Document plugin for filling out PDF forms
     implementation 'org.json:json:20220924'
     implementation 'com.cronutils:cron-utils:9.2.1'
-
-    // implementation 'commons-el:commons-el:1.0'
-    // implementation 'commons-validator:commons-validator:1.6'
 
     // documentation library
     doc 'org.pzdcdoc:pzdcdoc:2.8'

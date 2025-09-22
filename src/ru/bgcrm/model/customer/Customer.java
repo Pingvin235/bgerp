@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bgerp.cache.CustomerGroupCache;
 import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.util.Log;

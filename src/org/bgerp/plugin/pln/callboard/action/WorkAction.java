@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
@@ -391,7 +391,6 @@ public class WorkAction extends BaseAction {
         Set<Integer> processGroupIds = ProcessGroup.getGroupsWithRole(process.getGroups(), 0);
         Set<Integer> groupIds = new HashSet<>(getGroupList(null, callboard, false, null));
 
-        @SuppressWarnings("unchecked")
         Integer groupId = (Integer) Utils.getFirst(CollectionUtils.intersection(processGroupIds, groupIds));
 
         if (groupId != null) {

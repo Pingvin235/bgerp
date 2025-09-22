@@ -8,7 +8,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.l10n.Localizer;

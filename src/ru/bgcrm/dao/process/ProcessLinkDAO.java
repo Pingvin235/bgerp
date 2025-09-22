@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.util.sql.LikePattern;

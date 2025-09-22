@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.jexl3.JexlArithmetic;
 import org.apache.commons.jexl3.JexlBuilder;
@@ -44,13 +44,9 @@ public class Expression {
     private static final TimeUtils PREFIX_tu = new TimeUtils();
     private static final TimeConvert PREFIX_tc = new TimeConvert();
     private static final StringUtils PREFIX_su = new StringUtils();
-    private static final CollectionUtils PREFIX_cu = new CollectionUtils();
+    private static final CollectionUtils PREFIX_cu = initCollectionUtils();
     @SuppressWarnings("deprecation")
     private static final FileUtils PREFIX_fu = new FileUtils();
-
-    private JexlEngine jexl;
-
-    private JexlContext context = new Context();
 
     public static final class ContextInitEvent implements Event {
         private final Map<String, Object> context;
@@ -63,6 +59,21 @@ public class Expression {
             return context;
         }
     }
+
+    private static CollectionUtils initCollectionUtils() {
+        try {
+            var constructor = CollectionUtils.class.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            return constructor.newInstance();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return null;
+    }
+
+    private JexlEngine jexl;
+
+    private JexlContext context = new Context();
 
     public Expression(Map<String, Object> context) {
         // the key 'jexl.default.safe' isn't documented, needed for an emergency case during library updates and has will be removed later
