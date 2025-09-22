@@ -127,6 +127,9 @@ dependencies {
     // dep 'org.reflections:reflections'
     // dep 'org.slf4j:slf4j-api'
 
+    // Document, filling out PDF forms
+    implementation 'com.itextpdf:itextpdf:5.5.13.4'
+
     // License check
     implementation 'org.bouncycastle:bcprov-jdk18on:1.82'
     implementation 'org.bouncycastle:bcpkix-jdk18on:1.82'
@@ -147,7 +150,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.21.2'
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.javassist:javassist:3.30.2-GA'
-    implementation 'com.itextpdf:itextpdf:5.5.13' // used in Document plugin for filling out PDF forms
     implementation 'org.json:json:20220924'
     implementation 'com.cronutils:cron-utils:9.2.1'
 
