@@ -150,7 +150,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.21.2'
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.javassist:javassist:3.30.2-GA'
-    implementation 'org.json:json:20220924'
+    implementation 'org.json:json:20250517'
     implementation 'com.cronutils:cron-utils:9.2.1'
 
     // documentation library
