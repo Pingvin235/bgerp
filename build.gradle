@@ -96,9 +96,9 @@ dependencies {
 
     implementation 'commons-beanutils:commons-beanutils:1.11.0' // DynActionForm
 
-    implementation 'org.apache.commons:commons-dbcp2:2.9.0'
-    implementation 'org.apache.commons:commons-pool2:2.11.1'
-    runtimeOnly 'com.mysql:mysql-connector-j:8.0.33'
+    implementation 'org.apache.commons:commons-dbcp2:2.13.0'
+    implementation 'org.apache.commons:commons-pool2:2.12.1'
+    runtimeOnly 'com.mysql:mysql-connector-j:9.4.0'
 
     implementation 'commons-fileupload:commons-fileupload:1.6.0'
     implementation 'commons-io:commons-io:2.20.0'
