@@ -91,7 +91,7 @@ dependencies {
 
     implementation 'com.sun.mail:jakarta.mail:2.0.2'
     implementation 'com.sun.activation:jakarta.activation:2.0.1'
-    implementation 'org.apache.james:apache-mime4j-dom:0.8.11'
+    implementation 'org.apache.james:apache-mime4j-dom:0.8.11' // version 0.8.12 and newer fails MessageParserTest
     implementation 'org.apache.james:apache-mime4j-core:0.8.11'
 
     implementation 'commons-beanutils:commons-beanutils:1.9.3' // DynActionForm
