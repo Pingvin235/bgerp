@@ -160,8 +160,8 @@ dependencies {
     tool 'org.apache.ant:ant:1.10.12'
 
     // unit tests of the main code
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.hamcrest:hamcrest-core:1.3'
+    testImplementation 'junit:junit:4.13.2' // the recommended replacement is junit-jupiter-api
+    testImplementation 'org.hamcrest:hamcrest-core:1.3' // version 3.0 fails
 
     // integration test
     itest 'org.testng:testng:7.7.1'
