@@ -19,8 +19,6 @@
 		<%@ include file="/WEB-INF/jspf/last_modify_hiddens.jsp"%>
 	</div>
 
-	<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.admin.ConfigAction:get')}" />
-
 	<div class="in-inline-block in-va-top">
 		<div style="width: 30%;">
 			<h2>ID</h2>
@@ -29,7 +27,7 @@
 			<h2>${l.l('Название')}</h2>
 			<html:text property="title" style="width: 100%" value="${config.title}"/>
 
-			<c:if test="${config.parentId le 0 and perm['activeAllow'] ne '0'}">
+			<c:if test="${config.parentId le 0 and ctxUser.getPerm('/admin/config:update')['activeAllow'] ne '0'}">
 				<h2>${l.l('Активный')}</h2>
 				<ui:combo-single hiddenName="active" value="${config.active ? 1 : 0}" style="width: 100px;">
 					<jsp:attribute name="valuesHtml">
@@ -47,14 +45,24 @@
 	</div>
 
 	<div class="mt1">
-		<ui:form-ok-cancel/>
-		<span style="float: right;">
-			<button type="button" class="btn-grey mr1"
-				onclick="$$.ajax.post(this).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()))"
-				title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
-			<button type="button" class="btn-grey"
-				onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent());">${l.l('Restore')}</button>
-		</span>
+		<c:set var="loadReturn" value="$$.ajax.load('${form.returnUrl}', $(this.form).parent())"/>
+		<c:set var="updateAllowed" value="${ctxUser.checkPerm('/admin/config:update')}"/>
+
+		<c:if test="${updateAllowed}">
+			<ui:button type="ok" styleClass="mr1" onclick="$$.ajax.post(this).done(() => {${loadReturn}})"/>
+		</c:if>
+
+		<ui:button type="cancel" onclick="${loadReturn}"/>
+
+		<c:if test="${updateAllowed}">
+			<span style="float: right;">
+				<button type="button" class="btn-grey mr1"
+					onclick="$$.ajax.post(this).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()))"
+					title="${l.l('Save without leaving editor')}">${l.l('Save')}</button>
+				<button type="button" class="btn-grey"
+					onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent());">${l.l('Restore')}</button>
+			</span>
+		</c:if>
 	</div>
 </html:form>
 

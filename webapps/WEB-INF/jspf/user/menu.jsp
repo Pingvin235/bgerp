@@ -38,8 +38,7 @@
 
 	<ui:menu-item title="${l.l('License')}" href="admin/license" icon="ti-money" action="/admin/license:null" />
 
-	<ui:menu-item title="${l.l('Configuration')}" href="admin/config" icon="ti-panel"
-		action="ru.bgcrm.struts.action.admin.ConfigAction:list" />
+	<ui:menu-item title="${l.l('Configuration')}" href="admin/config" icon="ti-panel" action="/admin/config:list" />
 
 	<ui:menu-item title="${l.l('Parameters')}" href="admin/param" icon="ti-palette"
 		action="ru.bgcrm.struts.action.admin.DirectoryAction:null" />

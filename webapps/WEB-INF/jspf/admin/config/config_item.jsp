@@ -22,7 +22,7 @@
 	<td>${indent} ${item.title}</td>
 	<td>${item.enabledPluginsTitles}</td>
 	<td nowrap="true">
-		<c:if test="${item.parentId ge 0 and item.active and ctxUser.checkPerm('ru.bgcrm.struts.action.admin.ConfigAction:addIncluded')}">
+		<c:if test="${item.parentId ge 0 and item.active and ctxUser.checkPerm('/admin/config:addIncluded')}">
 			<html:form action="/admin/config" style="display: none;">
 				<input type="hidden" name="method" value="addIncluded"/>
 				<input type="hidden" name="id" value="${item.id}"/>

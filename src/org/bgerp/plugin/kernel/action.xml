@@ -224,20 +224,23 @@
 		</item>
 
 		<item title="Config">
-			<item title="List" action="ru.bgcrm.struts.action.admin.ConfigAction:list">
+			<item title="List" action="/admin/config:list, ru.bgcrm.struts.action.admin.ConfigAction:list">
 				<b>allowedConfigIds</b> - comma-separated allowed configuration IDs<br/>
 			</item>
-			<item title="Delete" action="ru.bgcrm.struts.action.admin.ConfigAction:delete"/>
-			<item title="Edit" action="ru.bgcrm.struts.action.admin.ConfigAction:get, ru.bgcrm.struts.action.admin.ConfigAction:update">
+			<item title="View" action="/admin/config:get, ru.bgcrm.struts.action.admin.ConfigAction:get">
+				<b>allowedConfigIds</b> - comma-separated allowed configuration IDs<br/>
+			</item>
+			<item title="Add included" action="/admin/config:addIncluded, ru.bgcrm.struts.action.admin.ConfigAction:addIncluded"/>
+			<item title="Update" action="/admin/config:update, ru.bgcrm.struts.action.admin.ConfigAction:update">
 				<b>allowedConfigIds</b> - comma-separated allowed configuration IDs<br/>
 				<b>activeAllow</b> - 0, deny to set in active<br/>
 			</item>
-			<item title="Add included" action="ru.bgcrm.struts.action.admin.ConfigAction:addIncluded"/>
+			<item title="Delete" action="/admin/config:delete, ru.bgcrm.struts.action.admin.ConfigAction:delete"/>
 		</item>
 
 		<item title="License">
 			<item title="Status" action="/admin/license:null, org.bgerp.action.admin.LicenseAction:null"/>
-			<item title="Upload" action="/admin/license:upload, org.bgerp.action.admin.LicenseAction:upload, ru.bgcrm.struts.action.admin.ConfigAction:licenseUpload"/>
+			<item title="Upload" action="/admin/license:upload, org.bgerp.action.admin.LicenseAction:upload"/>
 		</item>
 
 		<item title="Справочники">
