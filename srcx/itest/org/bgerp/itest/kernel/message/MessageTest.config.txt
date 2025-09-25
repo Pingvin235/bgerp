@@ -8,7 +8,12 @@ tag.3.color=magenta
 tag.4.title=OPEN
 tag.4.color=green
 
-# ID from 1 to 49 reserved for plugin Email
+messageType.1.title=Note
+messageType.1.class=MessageTypeNote
+# create messages as unread
+#messageType.1.create.unread=1
+# do not check empty subjects
+#messageType.1.check.empty.subject=0
 
 messageType.50.title=Call
 messageType.50.class=MessageTypeCall
@@ -21,12 +26,7 @@ messageType.50.saver.class=MessageTypeContactSaverPhone
 # can be changed to process parameter ID
 messageType.50.saver.paramId={@PARAM_CUSTOMER_PHONE_ID}
 
-messageType.100.title=Note
-messageType.100.class=MessageTypeNote
-# create messages as unread
-#messageType.100.create.unread=1
-# do not check empty subjects
-#messageType.100.check.empty.subject=0
+# ID from 100 to 199 reserved for plugin Email
 
 # ID from 200 to 249 reserved for plugin BGBilling
 

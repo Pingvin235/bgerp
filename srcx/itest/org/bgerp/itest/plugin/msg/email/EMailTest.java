@@ -48,7 +48,7 @@ public class EMailTest {
             ) + ResourceHelper.getResource(this, "config.txt"));
 
         var messageTypeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
-        Assert.assertNotNull(messageType = (MessageTypeEmail) messageTypeConfig.getTypeMap().get(1));
+        Assert.assertNotNull(messageType = (MessageTypeEmail) messageTypeConfig.getTypeMap().get(100));
     }
 
     @Test(dependsOnMethods = "processType")

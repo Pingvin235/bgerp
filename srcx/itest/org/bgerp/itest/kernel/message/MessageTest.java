@@ -53,7 +53,7 @@ public class MessageTest {
         ConfigHelper.addIncludedConfig(TITLE, config);
 
         var messageTypeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
-        Assert.assertNotNull(messageTypeNote = (MessageTypeNote) messageTypeConfig.getTypeMap().get(100));
+        Assert.assertNotNull(messageTypeNote = (MessageTypeNote) messageTypeConfig.getTypeMap().get(1));
         Assert.assertNotNull(messageTypeCall = (MessageTypeCall) messageTypeConfig.getTypeMap().get(50));
 
         var tagsConfig = Setup.getSetup().getConfig(TagConfig.class);

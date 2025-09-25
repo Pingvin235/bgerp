@@ -1,18 +1,18 @@
 SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7 (347) 258-85-86" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
 
-messageType.1.title=demo@bgerp.org
-messageType.1.class=MessageTypeEmail
-messageType.1.email=demo@bgerp.org
-messageType.1.host=imappro.zoho.eu
-messageType.1.pswd=fafTc?r2
-messageType.1.mail.smtp.host=smtppro.zoho.eu
-messageType.1.sign.expression={@SIGN_TEXT}
-messageType.1.search.{@inc:cnt}.title=By EMail
-messageType.1.search.{@cnt}.class=MessageTypeSearchEmail
-messageType.1.search.{@inc:cnt}.title=Customer by Title
-messageType.1.search.{@cnt}.class=MessageTypeSearchCustomerByTitle
-messageType.1.saver.class=MessageTypeContactSaverEmail
-messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
+messageType.100.title=demo@bgerp.org
+messageType.100.class=MessageTypeEmail
+messageType.100.email=demo@bgerp.org
+messageType.100.host=imappro.zoho.eu
+messageType.100.pswd=fafTc?r2
+messageType.100.mail.smtp.host=smtppro.zoho.eu
+messageType.100.sign.expression={@SIGN_TEXT}
+messageType.100.search.{@inc:cnt}.title=By EMail
+messageType.100.search.{@cnt}.class=MessageTypeSearchEmail
+messageType.100.search.{@inc:cnt}.title=Customer by Title
+messageType.100.search.{@cnt}.class=MessageTypeSearchCustomerByTitle
+messageType.100.saver.class=MessageTypeContactSaverEmail
+messageType.100.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 
 # areas to search recipient's e-mails in message editor, other possible values: users
 #email:recipients.search.area=process,executors,process_customers
