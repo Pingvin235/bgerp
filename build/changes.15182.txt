@@ -1,1 +1,1 @@
-C: Disable processing client events in Mobile and Open interfaces
+C: Disabled processing client events in Mobile and Open interfaces
