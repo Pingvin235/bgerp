@@ -97,7 +97,7 @@
 								<c:otherwise>${value.value}</c:otherwise>
 							</c:choose>
 
-							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet">
+							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
 								<c:url var="url" value="/user/directory/address.do">
 									<c:param name="method" value="addressGet"/>
 									<c:param name="addressHouseId" value="${value.houseId}"/>
