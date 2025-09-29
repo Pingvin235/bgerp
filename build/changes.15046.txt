@@ -1,1 +1,0 @@
-C: Delete plugin Slack

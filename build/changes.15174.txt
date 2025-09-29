@@ -1,1 +1,0 @@
-C: Simplified Email configurations: 'email' value as default for SMTP and IMAP login, 'smtps' and 'imaps' as defaults.

@@ -1,2 +1,0 @@
-C: Java libraries update
-A: Separated config view action

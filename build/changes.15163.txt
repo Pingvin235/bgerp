@@ -1,1 +1,0 @@
-A: Process priority description. https://bgerp.org/change/0/doc/kernel/setup.html#config-process-priority

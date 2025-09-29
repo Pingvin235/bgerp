@@ -1,1 +1,0 @@
-A: Handle email with no time headers

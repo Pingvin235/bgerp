@@ -1,1 +1,0 @@
-C: Recommended path of JSP reports. https://bgerp.org/change/0/doc/plugin/report/index.html#jsp

@@ -1,1 +1,0 @@
-C: Process queue to PDF update. https://bgerp.org/change/0/doc/kernel/process/queue.html#setup-column-print

@@ -1,1 +1,0 @@
-C: Disabled processing client events in Mobile and Open interfaces
