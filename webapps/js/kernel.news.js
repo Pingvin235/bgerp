@@ -63,12 +63,9 @@ $$.news = new function () {
 		// app version update needed
 		if (event.versionUpdateNeeded) {
 			itemCode = "<li>";
-			if (event.versionLink)
-				itemCode += "<a href='/user/admin/app/status' onclick='$$.shell.followLink(this.href, event)'>";
+			itemCode += event.versionLink ? "<a href='/user/admin/app/status' onclick='$$.shell.followLink(this.href, event)'>" : "<a href='#'>";
 			itemCode += message['App update is needed'] + ": <span style='font-weight: bold; color: orange;'>1</span>";
-			if (event.versionLink)
-				itemCode += "</a>";
-			itemCode += "</li>";
+			itemCode += "</a></li>";
 
 			$messagesMenu.append(itemCode);
 		}

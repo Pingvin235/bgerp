@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.action.admin.LicenseAction;
-import org.bgerp.action.base.Actions;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
@@ -26,6 +25,7 @@ import org.bgerp.util.TimeConvert;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
+import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -141,7 +141,7 @@ public class License {
         if (user == null)
             return;
 
-        final boolean actionAllowed = user.checkPerm(Actions.getByClass(LicenseAction.class).getId() + ":null");
+        final boolean actionAllowed = user.checkPerm(ActionServlet.pathId(LicenseAction.class, "null"));
 
         // notification
         if (Utils.isBlankString(error)) {

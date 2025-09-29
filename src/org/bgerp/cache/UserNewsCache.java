@@ -59,7 +59,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
             // необработанные сообщения
             int currentUnprocessedMessages = 0;
 
-            if (UserCache.getUser(userId).checkPerm(MessageAction.class.getAnnotation(ActionServlet.Action.class).path() + ":messageList")) {
+            if (UserCache.getUser(userId).checkPerm(ActionServlet.pathId(MessageAction.class, "messageList"))) {
                 MessageTypeConfig mtConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
                 for (MessageType type : mtConfig.getTypeMap().values()) {
                     if (type.getUnprocessedMessagesCount() != null)

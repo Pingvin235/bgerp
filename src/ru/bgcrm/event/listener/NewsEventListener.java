@@ -7,9 +7,12 @@ import org.bgerp.cache.UserNewsCache;
 import org.bgerp.event.client.NewsInfoEvent;
 
 import ru.bgcrm.event.GetPoolTasksEvent;
+import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class NewsEventListener {
+    private static final String ACTION_STATUS = ActionServlet.pathId(AppAction.class, "status");
+
     public NewsEventListener() {
         EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e), GetPoolTasksEvent.class);
     }
@@ -18,7 +21,7 @@ public class NewsEventListener {
         NewsInfoEvent event = UserNewsCache.getUserEvent(conSet, e.getUser().getId());
 
         if (VersionCheck.INSTANCE.isUpdateNeeded()) {
-            event.version(e.getUser().checkPerm(AppAction.class.getName() + ":status"));
+            event.version(e.getUser().checkPerm(ACTION_STATUS));
             event.message(e.getForm().l, "App update is needed");
         }
 
