@@ -102,6 +102,12 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
                         message.setProcessId(outCall.getProcessId());
                     reg.setOutCall(null);
                 } else {
+                    // property 'exten' contains TO number
+                    if (!numberOur.equals(event.getExten())) {
+                        log.debug("{} != {}", numberOur, event.getExten());
+                        return;
+                    }
+
                     message.setDirection(Message.DIRECTION_INCOMING);
                     message.setFrom(numberTheir);
                     message.setTo(numberOur);

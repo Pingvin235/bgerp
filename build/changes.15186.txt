@@ -1,0 +1,1 @@
+A: Analyze 'extent' property in Asterisk AMI events
