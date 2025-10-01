@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessQueueCache;
+import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessCreateType;
@@ -29,6 +31,7 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.queue.MediaColumn;
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.model.process.queue.Queue;
@@ -235,7 +238,10 @@ public class ProcessQueueAction extends ProcessAction {
 
             form.setResponseData("queue", queue);
 
-            form.setResponseData("typeList", processCreateTypes(form, "queue", queue.getProcessTypeIds()));
+            List<ProcessType> types = ProcessTypeCache.getTypeList().stream()
+                .filter(type -> queue.getProcessTypeIds().contains(type.getId()))
+                .collect(Collectors.toList());
+            form.setResponseData("typeList", types);
 
             Preferences personalizationMap = user.getPersonalizationMap();
             String persConfigBefore = personalizationMap.getDataString();
