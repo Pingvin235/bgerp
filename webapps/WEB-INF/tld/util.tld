@@ -43,7 +43,7 @@
 	<tag>
 		<description>
 			Creates a Java object and saves it to page context.
-			Constructor argurments, if needed, can be passed using u:param nested tags.
+			Constructor arguments, if needed, can be passed using u:param nested tags.
 		</description>
 		<name>newInstance</name>
 		<tag-class>org.bgerp.app.servlet.jsp.tag.NewInstanceTag</tag-class>
@@ -62,7 +62,7 @@
 		</attribute>
 	</tag>
 	<tag>
-		<description>Nested tag for u:newInstance, to pass constructor argurments.</description>
+		<description>Nested tag for u:newInstance, to pass constructor arguments.</description>
 		<name>param</name>
 		<tag-class>org.bgerp.app.servlet.jsp.tag.ParamTag</tag-class>
 		<body-content>JSP</body-content>
