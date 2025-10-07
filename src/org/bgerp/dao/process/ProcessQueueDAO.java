@@ -7,10 +7,8 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
@@ -20,6 +18,7 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.queue.Column;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterCustomerParam;
+import org.bgerp.model.process.queue.filter.FilterExecutors;
 import org.bgerp.model.process.queue.filter.FilterGrEx;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
 import org.bgerp.model.process.queue.filter.FilterList;
@@ -280,49 +279,8 @@ public class ProcessQueueDAO extends ProcessDAO {
                     joinPart.append(groupIds);
                     joinPart.append(")");
                 }
-            } else if ("executors".equals(type)) {
-                Filter filter = f;
-
-                Set<String> executorIds = form.getParamValuesStr("executor");
-                if (executorIds.contains("current")) {
-                    executorIds.remove("current");
-                    executorIds.add(String.valueOf(form.getUserId()));
-                }
-
-                // hard filter with only the current executor
-                if (filter.getValues().contains("current")) {
-                    executorIds = Collections.singleton(String.valueOf(form.getUserId()));
-                }
-
-                boolean includeCreateUser = false;
-                if (Utils.parseBoolean(filter.getConfigMap().get("includeCreateUser"))) {
-                    includeCreateUser = true;
-                }
-
-                if (executorIds.size() > 0) {
-                    if (executorIds.contains("empty")) {
-                        wherePart.append(" AND process.executors=''");
-                    } else {
-                        executorIds.remove("empty");
-
-                        String executorIdsStr = Utils.toString(executorIds);
-
-                        joinPart.append(SQL_LEFT_JOIN);
-                        joinPart.append(Tables.TABLE_PROCESS_EXECUTOR);
-                        joinPart.append("AS ie ON process.id=ie.process_id ");
-
-                        wherePart.append(" AND ( ie.user_id IN(");
-                        wherePart.append(executorIdsStr);
-                        wherePart.append(")");
-                        if (includeCreateUser) {
-                            wherePart.append(" OR process.create_user_id IN(");
-                            wherePart.append(executorIdsStr);
-                            wherePart.append(")");
-                        }
-
-                        wherePart.append(") ");
-                    }
-                }
+            } else if (f instanceof FilterExecutors filter) {
+                filter.apply(form, params);
             } else if ("create_user".equals(type)) {
                 var userIds = form.getParamValues("create_user");
                 if (!userIds.isEmpty()) {

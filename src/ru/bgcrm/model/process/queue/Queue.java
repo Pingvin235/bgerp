@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.bean.Bean;
@@ -20,6 +21,7 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.queue.Column;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterCustomerParam;
+import org.bgerp.model.process.queue.filter.FilterExecutors;
 import org.bgerp.model.process.queue.filter.FilterGrEx;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
 import org.bgerp.model.process.queue.filter.FilterList;
@@ -270,21 +272,23 @@ public class Queue extends IdTitle {
             try {
                 String type = filter.get("type", "");
 
-                if (StringUtils.equalsAny(type, "status", "groups", "executors", "close_date", "create_date",
-                        "status_date", "code", "description", "message:systemId", "create_user", "close_user")) {
+                if (Strings.CS.equalsAny(type, "status", "groups", "close_date", "create_date", "status_date", "code", "description",
+                        "message:systemId", "create_user", "close_user")) {
                     filterList.add(new Filter(id, filter));
-                } else if ("type".equals(type)) {
-                    filterList.add(new FilterProcessType(id, filter));
-                } else if ("openClose".equals(type)) {
-                    filterList.add(new FilterOpenClose(id, filter));
+                } else if ("executors".equals(type)) {
+                    filterList.add(new FilterExecutors(id, filter));
                 } else if ("grex".equals(type)) {
                     filterList.add(new FilterGrEx(id, filter));
+                } else if ("openClose".equals(type)) {
+                    filterList.add(new FilterOpenClose(id, filter));
                 } else if ("quarter".equals(type)) {
                     int paramId = Utils.parseInt(filter.get("param"));
                     if (paramId > 0) {
                         Parameter parameter = ParameterCache.getParameter(paramId);
                         filterList.add(new FilterParam(id, filter, parameter));
                     }
+                } else if ("type".equals(type)) {
+                    filterList.add(new FilterProcessType(id, filter));
                 } else if (type.startsWith("linkCustomer:") || type.startsWith("linkedCustomer:")) {
                     String entity = StringUtils.substringAfter(type, ":");
                     if (entity.startsWith("title")) {

@@ -8,7 +8,7 @@
 
 <li>
 	<input type="checkbox" name="${paramName}" value="empty" ${u:checkedFromCollection(form.getParamValues('executor'), 'empty')}/>
-	<span>${l.l("** Не указан **")}</span>
+	<span>** ${l.l("Undefined")} **</span>
 </li>
 <li>
 	<input type="checkbox" name="${paramName}" value="current" ${u:checkedFromCollection(form.getParamValues('executor'), 'current')}/>
