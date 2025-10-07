@@ -61,15 +61,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 	<ul class="drop" style="display: none;">
 		<c:if test="${showFilter}">
 			<li class="in-table-cell">
-				<c:set var="filterCode">
-					var mask = $(this).val().toLowerCase();
-					$(this).closest('ul').find('li:gt(0)').each( function()
-					{
-						var content = $(this).text().toLowerCase();
-						$(this).toggle( content.indexOf( mask ) >= 0 );
-					});
-				</c:set>
-				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Filter" onkeyup="${filterCode}"/></div>
+				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Filter" onkeyup="$$.ui.combocheck.filter(this)"/></div>
 				<div class="pl05"><div class="btn-white btn-icon" onclick='$$.ui.combocheck.uncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
 			</li>
 		</c:if>

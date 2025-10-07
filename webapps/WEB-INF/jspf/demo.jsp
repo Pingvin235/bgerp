@@ -210,13 +210,11 @@ cmd do && cmd undo
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<u:sc>
-			<ui:combo-single hiddenName="param" widthTextValue="12em" list="${frd.comboSingeList}" onSelect="${onSelect}">
-				<jsp:attribute name="valuesHtml">
-					<li value="-1">-- select --</li>
-				</jsp:attribute>
-			</ui:combo-single>
-		</u:sc>
+		<ui:combo-single hiddenName="param" widthTextValue="12em" list="${frd.comboSingeList}" onSelect="${onSelect}">
+			<jsp:attribute name="valuesHtml">
+				<li value="-1">-- select --</li>
+			</jsp:attribute>
+		</ui:combo-single>
 
 		<div style="width: 20em; display: inline-block;">
 			<ui:combo-single hiddenName="param" prefixText="Long value selected:" style="width: 100%;">
@@ -232,7 +230,14 @@ cmd do && cmd undo
 
 		<ui:combo-check prefixText="Status:" paramName="param" list="${frd.comboCheckList}" values="${frd.comboCheckValues}"
 			onChange="console.log('this=', this); alert('Values are chosen, see console log')"
-			widthTextValue="15em" showFilter="true"/>
+			widthTextValue="15em" showFilter="true">
+			<jsp:attribute name="valuesHtml">
+				<li>
+					<input type="checkbox" name="${paramName}" value="empty"/>
+					<span>Value from 'valuesHtml' attribute</span>
+				</li>
+			</jsp:attribute>
+		</ui:combo-check>
 	</div>
 
 	<div>

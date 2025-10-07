@@ -15,18 +15,20 @@ $$.ui.combocheck = new function () {
 			}
 		}
 
-		$comboDiv.find("ul.drop").on("click", "li input", function (event) {
+		$comboDiv.find("ul.drop").on("click", "li input[type=checkbox]", function (event) {
 			updateCurrentTitle($comboDiv);
 			doOnChange(this);
 			event.stopPropagation();
 		});
 
 		$comboDiv.find("ul.drop").on("click", "li", function () {
-			const input = $(this).find("input")[0];
-			input.checked = !(input.checked);
-			updateCurrentTitle($comboDiv);
-			doOnChange(input);
-			return false;
+			const input = this.querySelector("input[type=checkbox]");
+			if (input) {
+				input.checked = !(input.checked);
+				updateCurrentTitle($comboDiv);
+				doOnChange(input);
+				return false;
+			}
 		});
 
 		$$.ui.dropOnClick($comboDiv, $drop);
@@ -61,6 +63,18 @@ $$.ui.combocheck = new function () {
 		$comboDiv.find('.text-value').text("[" + checkedCount + "] " + titles);
 	}
 
+	/**
+	 * Values search
+	 * @param {HTMLInputElement} input text field with search substring
+	 */
+	const filter = (input) => {
+		const mask = input.value.toLowerCase();
+		$(input).closest('ul').find('li:gt(0)').each(function () {
+			var content = $(this).text().toLowerCase();
+			$(this).toggle(content.indexOf(mask) >= 0);
+		});
+	}
+
 	const uncheck = (object) => {
 		const $parent = $(object).closest("ul");
 		if ($parent.find("input[type=checkbox]:checked").length === 0)
@@ -71,5 +85,6 @@ $$.ui.combocheck = new function () {
 
 	// public functions
 	this.init = init;
+	this.filter = filter;
 	this.uncheck = uncheck;
 }
