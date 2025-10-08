@@ -859,8 +859,7 @@ public class ContractDAO extends BillingDAO {
     public void updateLimit(int contractId, BigDecimal limit, int days, String comment) {
         if (days > 0) {
             if (dbInfo.versionCompare("6.2") >= 0) {
-                RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_LIMIT, "ContractLimitService",
-                        "updateContractLimitPeriod");
+                RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_LIMIT, "ContractLimitService", "updateContractLimitPeriod");
                 req.setParamContractId(contractId);
                 req.setParam("limit", limit);
                 req.setParam("period", days);
@@ -877,13 +876,21 @@ public class ContractDAO extends BillingDAO {
                 transferData.postData(request, user);
             }
         } else {
-            Request request = new Request();
-            request.setModule("contract");
-            request.setContractId(contractId);
-            request.setAttribute("comment", comment);
-            request.setAction("UpdateContractLimit");
-            request.setAttribute("value", Utils.format(limit));
-            transferData.postData(request, user);
+            if (dbInfo.versionCompare("9.2") > 0) {
+                RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_LIMIT, "ContractLimitService", "updateContractLimit");
+                req.setParamContractId(contractId);
+                req.setParam("limit", limit);
+                req.setParam("comment", comment);
+                transferData.postData(req, user);
+            } else {
+                Request request = new Request();
+                request.setModule("contract");
+                request.setContractId(contractId);
+                request.setAttribute("comment", comment);
+                request.setAction("UpdateContractLimit");
+                request.setAttribute("value", Utils.format(limit));
+                transferData.postData(request, user);
+            }
         }
     }
 

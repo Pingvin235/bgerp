@@ -68,9 +68,7 @@
 					<c:param name="contractId" value="${form.param.contractId}"/>
 					<c:param name="id" value="${item.id}"/>
 				</c:url>
-				<c:set var="deleteAjaxUrl" value="${url}"/>
-				<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 			</td>
 			<td nowrap="nowrap">${tu.format( item.date, 'ymd' )}</td>
 			<td nowrap="nowrap">${item.status}</td>
