@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
@@ -68,6 +69,7 @@ public class ContractDAO extends BillingDAO {
 
     public static final String KERNEL_CONTRACT_API = "ru.bitel.bgbilling.kernel.contract.api";
     public static final String KERNEL_CONTRACT_LIMIT = "ru.bitel.bgbilling.kernel.contract.limit";
+    private static final String KERNEL_CONTRACT_LABEL = "ru.bitel.bgbilling.kernel.contract.label";
 
     public static class SearchOptions {
         public boolean showHidden;
@@ -567,7 +569,7 @@ public class ContractDAO extends BillingDAO {
     public List<ContractGroup> getContractLabelTreeItemList(int contractId) {
         List<ContractGroup> groups = new ArrayList<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.label", "ContractLabelService",
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_LABEL, "ContractLabelService",
                     "getContractLabelTreeItemList");
             req.setParam("contractId", contractId);
             req.setParam("calcCount", false);
@@ -582,8 +584,7 @@ public class ContractDAO extends BillingDAO {
         Set<Integer> selectedIds = new HashSet<>();
         if (dbInfo.versionCompare("9.2") >= 0) {
             List<ContractGroup> groups = getContractLabelTreeItemList(contractId);
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.label", "ContractLabelService",
-                    "getContractLabelIds");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_LABEL, "ContractLabelService", "getContractLabelIds");
             req.setParam("contractId", contractId);
             JsonNode ret = transferData.postDataReturn(req, user);
             selectedIds = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(Set.class, Integer.class));
@@ -621,7 +622,25 @@ public class ContractDAO extends BillingDAO {
         return new Pair<>(groupList, selectedIds);
     }
 
-    public void updateGroup(String command, int contractId, int groupId) {
+    public void updateLabels(int contractId, Set<Integer> labelIds) {
+        if (dbInfo.versionCompare("9.2") > 0) {
+             RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_LABEL, "ContractLabelService", "setContractLabelIds");
+            req.setParam("contractId", contractId);
+            req.setParam("contractLabelsIds", labelIds);
+            transferData.postData(req, user);
+        } else {
+            Set<Integer> currentGroups = groupsGet(contractId).getSecond();
+
+            for (Integer deleteGroup : (Iterable<Integer>) CollectionUtils.subtract(currentGroups, labelIds)) {
+                updateGroup("del", contractId, deleteGroup);
+            }
+            for (Integer addGroup : (Iterable<Integer>) CollectionUtils.subtract(labelIds, currentGroups)) {
+                updateGroup("add", contractId, addGroup);
+            }
+        }
+    }
+
+    private void updateGroup(String command, int contractId, int groupId) {
         if (dbInfo.versionCompare("5.2") < 0) {
             Request request = new Request();
             request.setModule("contract");

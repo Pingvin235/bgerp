@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
@@ -346,14 +345,8 @@ public class ContractAction extends BaseAction {
         Set<Integer> groupIds = form.getParamValues("groupId");
 
         ContractDAO contractDao = new ContractDAO(form.getUser(), billingId);
-        Set<Integer> currentGroups = contractDao.groupsGet(contractId).getSecond();
 
-        for (Integer deleteGroup : (Iterable<Integer>) CollectionUtils.subtract(currentGroups, groupIds)) {
-            contractDao.updateGroup("del", contractId, deleteGroup);
-        }
-        for (Integer addGroup : (Iterable<Integer>) CollectionUtils.subtract(groupIds, currentGroups)) {
-            contractDao.updateGroup("add", contractId, addGroup);
-        }
+        contractDao.updateLabels(contractId, groupIds);
 
         return json(conSet, form);
     }
