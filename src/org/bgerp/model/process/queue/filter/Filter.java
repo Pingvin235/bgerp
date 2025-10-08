@@ -109,10 +109,10 @@ public class Filter extends CommonDAO {
     }
 
     /**
-     * Takes comma separated list of values from request, taking on account {@link Filter#getValues()} and {@link Filter#getOnEmptyValues()}.
-     * @param form
-     * @param paramName HTTP request parameter.
-     * @return
+     * Values of a request parameter, taking on account {@link Filter#getValues()} and {@link Filter#getOnEmptyValues()}.
+     * @param form form with the HTTP request
+     * @param paramName the parameter name
+     * @return comma-separated list
      */
     public String getValues(DynActionForm form, String paramName) {
         if (!values.isEmpty())

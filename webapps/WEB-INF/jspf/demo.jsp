@@ -233,7 +233,7 @@ cmd do && cmd undo
 			widthTextValue="15em" showFilter="true">
 			<jsp:attribute name="valuesHtml">
 				<li>
-					<input type="checkbox" name="${paramName}" value="empty"/>
+					<input type="checkbox" name="param" value="empty"/>
 					<span>Value from 'valuesHtml' attribute</span>
 				</li>
 			</jsp:attribute>

@@ -12,6 +12,8 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
+import static org.bgerp.dao.param.Tables.*;
+
 public class FilterParam extends Filter {
     private Parameter parameter;
 
@@ -52,7 +54,7 @@ public class FilterParam extends Filter {
             if (cityId > 0 || flat > 0 || houseId > 0 || streetId > 0 || quarterId > 0 ||
                     Utils.notEmptyString(city) || Utils.notEmptyString(street) || Utils.notEmptyString(quarter) ||  Utils.notEmptyString(houseAndFrac)) {
                 joinPart.append(SQL_INNER_JOIN);
-                joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_ADDRESS);
+                joinPart.append(TABLE_PARAM_ADDRESS);
                 joinPart.append(" AS " + paramAlias + " ON process.id=" + paramAlias + ".id AND " + paramAlias
                         + ".param_id=" + parameter.getId() + " ");
 
@@ -66,7 +68,7 @@ public class FilterParam extends Filter {
                     joinPart.append(paramAlias + ".house_id=" + houseId + " ");
                 } else {
                     joinPart.append(SQL_INNER_JOIN);
-                    joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_HOUSE);
+                    joinPart.append(TABLE_ADDRESS_HOUSE);
                     joinPart.append(" AS " + houseAlias + " ON " + paramAlias + ".house_id=" + houseAlias + ".id ");
 
                     if (Utils.notEmptyString(houseAndFrac)) {
@@ -83,7 +85,7 @@ public class FilterParam extends Filter {
 
                     if (quarterId > 0) {
                         joinPart.append(SQL_INNER_JOIN);
-                        joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_QUARTER);
+                        joinPart.append(TABLE_ADDRESS_QUARTER);
                         joinPart.append(" AS " + quarterAlias + " ON " + houseAlias + ".quarter_id="
                                 + quarterAlias + ".id AND" + quarterAlias + ".id=" + quarterId);
                     } else if (Utils.notBlankString(quarter)) {
@@ -92,12 +94,12 @@ public class FilterParam extends Filter {
 
                     if (streetId > 0) {
                         joinPart.append(SQL_INNER_JOIN);
-                        joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET);
+                        joinPart.append(TABLE_ADDRESS_STREET);
                         joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias
                                 + ".id AND " + streetAlias + ".id=" + streetId);
                     } else if (Utils.notEmptyString(street)) {
                         joinPart.append(SQL_INNER_JOIN);
-                        joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET);
+                        joinPart.append(TABLE_ADDRESS_STREET);
                         joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias
                                 + ".id AND " + streetAlias + ".title LIKE '%" + street + "%' ");
                     }
@@ -106,7 +108,7 @@ public class FilterParam extends Filter {
                         // JOIN может быть уже добавлен фильтром по названию улицы
                         if (!joinPart.toString().contains(streetAlias)) {
                             joinPart.append(SQL_INNER_JOIN);
-                            joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_STREET);
+                            joinPart.append(TABLE_ADDRESS_STREET);
                             joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias + ".id ");
                         }
                     };
@@ -120,7 +122,7 @@ public class FilterParam extends Filter {
                             addStreetJoin.run();
                             // добавка джойна города
                             joinPart.append(SQL_INNER_JOIN);
-                            joinPart.append(org.bgerp.dao.param.Tables.TABLE_ADDRESS_CITY);
+                            joinPart.append(TABLE_ADDRESS_CITY);
                             joinPart.append(" AS " + cityAlias + " ON " + cityAlias + ".id=" + streetAlias +
                                     ".city_id AND " + cityAlias + ".title LIKE '%" + city + "%' ");
                         }
@@ -160,20 +162,16 @@ public class FilterParam extends Filter {
         } else if (Parameter.TYPE_LIST.equals(paramType) || Parameter.TYPE_LISTCOUNT.equals(paramType)) {
             String values = getValues(form, "param" + paramId + "value");
 
-            if (Utils.isBlankString(values)) {
+            if (Utils.isBlankString(values))
                 return;
-            }
 
             String tableAlias = "param_lx_" + paramId;
 
-            joinPart.append(SQL_INNER_JOIN);
-            if (Parameter.TYPE_LIST.equals(paramType)) {
-                joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_LIST);
-            } else {
-                joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_LISTCOUNT);
-            }
-            joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".id AND " + tableAlias + ".param_id="
-                    + paramId + " AND " + tableAlias + ".value IN(" + values + ")");
+            joinPart.append(SQL_LEFT_JOIN).append(Parameter.TYPE_LIST.equals(paramType) ? TABLE_PARAM_LIST : TABLE_PARAM_LISTCOUNT);
+            joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".id AND " + tableAlias + ".param_id=" + paramId);
+
+            wherePart.append(" AND ("+ tableAlias + ".value IN (" + values + ")");
+            wherePart.append(Utils.toIntegerSet(values).contains(-1) ? " OR " + tableAlias + ".value IS NULL)" : ")");
         } else if (Parameter.TYPE_MONEY.equals(paramType)) {
             String tableAlias = "param_money_" + paramId;
 
@@ -190,7 +188,7 @@ public class FilterParam extends Filter {
                     else
                         joinPart.append(SQL_INNER_JOIN);
 
-                    joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_MONEY);
+                    joinPart.append(TABLE_PARAM_MONEY);
                     joinPart.append(
                             "AS " + tableAlias + " ON process.id=" + tableAlias + ".id AND " + tableAlias + ".param_id=" + paramId);
 
@@ -213,9 +211,9 @@ public class FilterParam extends Filter {
                 joinPart.append(SQL_INNER_JOIN);
 
                 if (Parameter.TYPE_BLOB.equals(paramType)) {
-                    joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_BLOB);
+                    joinPart.append(TABLE_PARAM_BLOB);
                 } else if (Parameter.TYPE_TEXT.equals(paramType)) {
-                    joinPart.append(org.bgerp.dao.param.Tables.TABLE_PARAM_TEXT);
+                    joinPart.append(TABLE_PARAM_TEXT);
                 }
 
                 if ("regexp".equals(mode)) {

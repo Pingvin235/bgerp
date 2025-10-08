@@ -119,7 +119,14 @@
 					<ui:combo-check paramName="${paramName}"
 						list="${filter.parameter.listParamValues}" available="${filter.availableValues}"
 						values="${empty values ? filter.defaultValues : values}"
-						showFilter="1" prefixText="${title}:" widthTextValue="12em"/>
+						showFilter="1" prefixText="${title}:" widthTextValue="12em">
+						<jsp:attribute name="valuesHtml">
+							<li>
+								<input type="checkbox" name="${paramName}" value="-1"/>
+								<span>** ${l.l("Undefined")} **</span>
+							</li>
+						</jsp:attribute>
+					</ui:combo-check>
 				</u:sc>
 			</c:set>
 
