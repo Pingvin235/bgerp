@@ -84,11 +84,10 @@ public class TransferData {
         }
 
         @Override
-        protected Date parseAsISO8601(String dateStr, ParsePosition pos) throws ParseException {
+        protected Date _parseDate(String dateStr, ParsePosition pos) throws ParseException {
             Date result = getDateFormat().parse(dateStr, pos);
-            if (result == null) {
-                return super.parseAsISO8601(dateStr, pos);
-            }
+            if (result == null)
+                result = super._parseDate(dateStr, pos);
             return TimeUtils.timezoneChange(result, _timezone, CURRENT_TIMEZONE);
         }
 
