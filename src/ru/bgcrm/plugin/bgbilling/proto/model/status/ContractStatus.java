@@ -7,13 +7,6 @@ import org.bgerp.model.base.Id;
 import ru.bgcrm.model.PeriodSet;
 
 public class ContractStatus extends Id implements PeriodSet {
-    public static final int ACTIVE = 0; // 0 активен
-    public static final int ON_DISCONNECT = 1; // 1 на отключении
-    public static final int DISABLED = 2; // 2 отключен
-    public static final int CLOSED = 3; // 3 закрыт
-    public static final int SUSPENDED = 4; // 4 приостановлен
-    public static final int ON_CONNECT = 5; // 5 на подключении
-
     private String comment;
     private int statusId;
     private String status;

@@ -19,16 +19,17 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
-import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
 import ru.bgcrm.util.Utils;
 
 public class DirectoryDAO extends BillingDAO {
     private static final List<IdTitle> FIXED_OLD_STATUS_LIST = new ArrayList<>();
     static {
-        FIXED_OLD_STATUS_LIST.add(new IdTitle(ContractStatus.ACTIVE, "активен"));
-        FIXED_OLD_STATUS_LIST.add(new IdTitle(ContractStatus.SUSPENDED, "приостановлен"));
-        FIXED_OLD_STATUS_LIST.add(new IdTitle(ContractStatus.CLOSED, "закрыт"));
-        FIXED_OLD_STATUS_LIST.add(new IdTitle(ContractStatus.DISABLED, "заблокирован"));
+        FIXED_OLD_STATUS_LIST.add(new IdTitle(0, "активен"));
+        // 1 на отключении
+        FIXED_OLD_STATUS_LIST.add(new IdTitle(2, "заблокирован"));
+        FIXED_OLD_STATUS_LIST.add(new IdTitle(3, "закрыт"));
+        FIXED_OLD_STATUS_LIST.add(new IdTitle(4, "приостановлен"));
+        // 5 на подключении
     }
 
     public DirectoryDAO(User user, String billingId) {
