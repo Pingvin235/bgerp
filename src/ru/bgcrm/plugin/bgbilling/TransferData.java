@@ -87,6 +87,8 @@ public class TransferData {
         protected Date _parseDate(String dateStr, ParsePosition pos) throws ParseException {
             Date result = getDateFormat().parse(dateStr, pos);
             if (result == null)
+                result = TimeUtils.parse(dateStr, TimeUtils.PATTERN_DDMMYYYY);
+            if (result == null)
                 result = super._parseDate(dateStr, pos);
             return TimeUtils.timezoneChange(result, _timezone, CURRENT_TIMEZONE);
         }
