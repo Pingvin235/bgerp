@@ -36,19 +36,13 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
 import org.bgerp.util.xml.XMLUtils;
-import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
@@ -111,20 +105,6 @@ public class TransferData {
         }
     }
 
-    private static class JSONObjectDeserializer extends JsonDeserializer<JSONObject> {
-        @Override
-        public JSONObject deserialize(JsonParser p, DeserializationContext ctxt)
-                throws IOException, JsonProcessingException {
-            JsonNode node = p.getCodec().readTree(p);
-            JSONObject jsonObject = new JSONObject(node.get("json").asText());
-            return jsonObject;
-        }
-
-        private static SimpleModule toModule() {
-            return new SimpleModule().addDeserializer(JSONObject.class, new JSONObjectDeserializer());
-        }
-    }
-
     private final DBInfo dbInfo;
     private final URL url;
     private final int timeOut;
@@ -146,7 +126,6 @@ public class TransferData {
         }
 
         jsonMapper.setDateFormat(new BitelJsonDateFormat(timezone));
-        jsonMapper.registerModule(JSONObjectDeserializer.toModule());
 
         timeOut = dbInfo.getSetup().getInt("requestTimeOut", 5000);
     }

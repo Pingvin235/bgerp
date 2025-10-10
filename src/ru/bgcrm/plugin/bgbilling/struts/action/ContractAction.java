@@ -77,13 +77,12 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/customer_contract_list_create_tariff.jsp");
     }
 
-    public ActionForward contract(DynActionForm form, ConnectionSet conSet) {
+    public ActionForward contract(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         int id = form.getId();
 
         if (Utils.notBlankString(billingId) && id > 0) {
-            ContractInfo info = new ContractDAO(form.getUser(), billingId)
-                    .getContractInfo(id);
+            ContractInfo info = new ContractDAO(form.getUser(), billingId).getContractInfo(id);
             form.setResponseData("contract", info);
 
             Customer customer = new ContractCustomerDAO(conSet.getConnection()).getContractCustomer(info);

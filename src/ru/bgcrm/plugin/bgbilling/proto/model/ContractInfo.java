@@ -7,14 +7,20 @@ import java.util.List;
 
 import org.bgerp.model.base.IdTitle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ru.bgcrm.model.Pair;
 
 public class ContractInfo extends Contract {
     public static class ModuleInfo {
-        private final int moduleId;
-        private final String title;
-        private final String clientPackage;
-        private final String status;
+        private int moduleId;
+        private String title;
+        private String clientPackage;
+        private String status;
+
+        public ModuleInfo() {
+        }
 
         public ModuleInfo(int moduleId, String title, String clientPackage, String status) {
             this.moduleId = moduleId;
@@ -23,27 +29,44 @@ public class ContractInfo extends Contract {
             this.status = status;
         }
 
+        @JsonProperty("id")
         public int getModuleId() {
             return moduleId;
+        }
+
+        public void setModuleId(int moduleId) {
+            this.moduleId = moduleId;
         }
 
         public String getTitle() {
             return title;
         }
 
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        @JsonProperty("package")
         public String getClientPackage() {
             return clientPackage;
         }
 
+        public void setClientPackage(String clientPackage) {
+            this.clientPackage = clientPackage;
+        }
+
         public String getStatus() {
             return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
     }
 
     private int mode = 0;
     private int face = 0;
     private boolean deleted = false;
-    private String comment;
     @Deprecated
     private String statisticPassword;
     private Pair<Integer, Integer> objects;
@@ -66,14 +89,6 @@ public class ContractInfo extends Contract {
     private List<IdTitle> scriptList = new ArrayList<>();
     private int comments = 0;
     private List<Integer> subContractIds = new ArrayList<>();
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 
     public Date getBalanceDate() {
         return balanceDate;
@@ -123,6 +138,7 @@ public class ContractInfo extends Contract {
         this.balanceOut = balanceOut;
     }
 
+    @JsonProperty("limit")
     public BigDecimal getBalanceLimit() {
         return balanceLimit;
     }
@@ -147,6 +163,7 @@ public class ContractInfo extends Contract {
         this.status = status;
     }
 
+    @JsonProperty("fc")
     public int getFace() {
         return face;
     }
@@ -155,6 +172,7 @@ public class ContractInfo extends Contract {
         this.face = face;
     }
 
+    @JsonProperty("del")
     public boolean isDeleted() {
         return deleted;
     }
@@ -187,6 +205,7 @@ public class ContractInfo extends Contract {
         this.hierarchyIndep = hierarchyIndep;
     }
 
+    @JsonProperty("date1")
     public Date getDateFrom() {
         return dateFrom;
     }
@@ -195,6 +214,7 @@ public class ContractInfo extends Contract {
         this.dateFrom = fromDate;
     }
 
+    @JsonProperty("date2")
     public Date getDateTo() {
         return dateTo;
     }
@@ -251,6 +271,7 @@ public class ContractInfo extends Contract {
         this.comments = comments;
     }
 
+    @JsonIgnore
     public Pair<Integer, Integer> getObjects() {
         return objects;
     }

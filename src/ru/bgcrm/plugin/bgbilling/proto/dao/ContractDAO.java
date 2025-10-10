@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -28,9 +29,8 @@ import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
+import org.bgerp.util.TimeConvert;
 import org.bgerp.util.xml.XMLUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -1129,72 +1129,45 @@ public class ContractDAO extends BillingDAO {
         return paramList;
     }
 
-    public ContractInfo getContractInfo(int contractId) {
+    public ContractInfo getContractInfo(int contractId) throws Exception {
         ContractInfo result = null;
 
         if (dbInfo.versionCompare("8.0") > 0) {
             RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractInfoGet");
             req.setParamContractId(contractId);
 
-            JsonNode res = transferData.postDataReturn(req, user);
-
-            JSONObject contractInfo = jsonMapper.convertValue(res, JSONObject.class);
-            JSONObject contract = contractInfo.optJSONObject("contract");
+            JsonNode contractInfo = jsonMapper.readTree(transferData.postDataReturn(req, user).get("json").asText());
+            JsonNode contract = contractInfo.get("contract");
             if (contract != null) {
-                result = new ContractInfo();
+                result = jsonMapper.convertValue(contract, ContractInfo.class);
 
                 result.setBillingId(dbInfo.getId());
                 result.setId(contractId);
-                result.setComment(contract.optString("comment"));
-                result.setObjects(Utils.parseInt(contract.optString("objects").split("/")[0]),
-                        Utils.parseInt(contract.optString("objects").split("/")[1]));
-                result.setHierarchy(contract.optString("hierarchy"));
-                result.setHierarchyDep(Utils.parseInt(contract.optString("hierarchyDep", null)));
-                result.setHierarchyIndep(Utils.parseInt(contract.optString("hierarchyIndep", null)));
-                result.setDeleted(Utils.parseBoolean(contract.optString("del")));
-                result.setFace(Utils.parseInt(contract.optString("fc")));
-                result.setDateFrom(TimeUtils.parse(contract.optString("date1"), TimeUtils.PATTERN_DDMMYYYY));
-                result.setDateTo(TimeUtils.parse(contract.optString("date2"), TimeUtils.PATTERN_DDMMYYYY));
-                result.setMode(Utils.parseInt(contract.optString("mode")));
-                result.setBalanceLimit(Utils.parseBigDecimal(contract.optString("limit"), BigDecimal.ZERO));
-                result.setStatus(contract.optString("status"));
-                result.setTitle(contract.optString("title"));
-                result.setComments(Utils.parseInt(contract.optString("comments")));
+                String[] objects = contract.get("objects").asText().split("/");
+                result.setObjects(Utils.parseInt(objects[0]), Utils.parseInt(objects[1]));
 
-                if ("super".equals(contract.optString("hierarchy"))) {
+                if ("super".equals(result.getHierarchy()))
                     result.setSubContractIds(new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId));
-                }
 
-                JSONObject infoJson = contractInfo.optJSONObject("info");
-                result.setGroupList(getList(infoJson, "groups"));
-                result.setTariffList(getList(infoJson, "tariff"));
-                result.setScriptList(getList(infoJson, "script"));
+                JsonNode info = contractInfo.get("info");
+                if (info != null) {
+                    result.setGroupList(readJsonValue(info.get("groups").traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class)));
+                    result.setTariffList(readJsonValue(info.get("tariff").traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class)));
+                    result.setScriptList(readJsonValue(info.get("script").traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class)));
 
-                JSONArray modulesJson = infoJson.optJSONArray("modules");
-                if (modulesJson != null && !modulesJson.isEmpty()) {
-                    List<ContractInfo.ModuleInfo> moduleList = new ArrayList<>();
-                    for (int i = 0; i < modulesJson.length(); i++) {
-                        JSONObject moduleJson = modulesJson.getJSONObject(i);
-                        int moduleId = moduleJson.optInt("id", -1);
-                        String moduleTitle = moduleJson.optString("title", "?");
-                        String status = moduleJson.optString("status", null);
-                        String modulePackage = moduleJson.optString("package");
-                        if (status == null) {
-                            status = "";
-                        }
-                        moduleList.add(new ContractInfo.ModuleInfo(moduleId, moduleTitle, modulePackage, status));
+                    JsonNode modules = info.get("modules");
+                    if (modules != null)
+                        result.setModuleList(readJsonValue(modules.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractInfo.ModuleInfo.class)));
+
+                    JsonNode balance = info.get("balance");
+                    if (balance != null) {
+                        result.setBalanceDate(TimeConvert.toDate(LocalDate.of(balance.get("yy").asInt(), balance.get("mm").asInt(), 1)));
+                        result.setBalanceIn(Utils.parseBigDecimal(balance.get("summa1").asText()));
+                        result.setBalancePayment(Utils.parseBigDecimal(balance.get("summa2").asText()));
+                        result.setBalanceAccount(Utils.parseBigDecimal(balance.get("summa3").asText()));
+                        result.setBalanceCharge(Utils.parseBigDecimal(balance.get("summa4").asText()));
+                        result.setBalanceOut(Utils.parseBigDecimal(balance.get("summa5").asText()));
                     }
-                    result.setModuleList(moduleList);
-                }
-
-                JSONObject balanceJson = infoJson.optJSONObject("balance");
-                if (balanceJson != null) {
-                    result.setBalanceDate(new GregorianCalendar(balanceJson.optInt("yy", -1), balanceJson.optInt("mm", -1) - 1, 1).getTime());
-                    result.setBalanceIn(Utils.parseBigDecimal(balanceJson.optString("summa1", "0"), BigDecimal.ZERO));
-                    result.setBalancePayment(Utils.parseBigDecimal(balanceJson.optString("summa2", "0"), BigDecimal.ZERO));
-                    result.setBalanceAccount(Utils.parseBigDecimal(balanceJson.optString("summa3", "0"), BigDecimal.ZERO));
-                    result.setBalanceCharge(Utils.parseBigDecimal(balanceJson.optString("summa4", "0"), BigDecimal.ZERO));
-                    result.setBalanceOut(Utils.parseBigDecimal(balanceJson.optString("summa5", "0"), BigDecimal.ZERO));
                 }
             }
         } else {
@@ -1262,21 +1235,7 @@ public class ContractDAO extends BillingDAO {
         return result;
     }
 
-    protected List<IdTitle> getList(JSONObject infoJson, String nodeName) {
-        List<IdTitle> result = new ArrayList<>();
-        JSONArray nodeJson = infoJson.optJSONArray(nodeName);
-        if (nodeJson == null) {
-            return result;
-        }
-        for (int index = 0; index < nodeJson.length(); index++) {
-            JSONObject itemJson = nodeJson.optJSONObject(index);
-            IdTitle item = new IdTitle(itemJson.optInt("id"), itemJson.optString("title"));
-            result.add(item);
-        }
-        return result;
-    }
-
-    protected List<IdTitle> getList(Element node) {
+    private List<IdTitle> getList(Element node) {
         List<IdTitle> result = Collections.emptyList();
 
         if (node != null) {

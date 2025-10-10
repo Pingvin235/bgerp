@@ -587,7 +587,7 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP_CONTRACT + "/subcontract_list.jsp");
     }
 
-    public ActionForward scriptList(DynActionForm form, ConnectionSet conSet) {
+    public ActionForward scriptList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -650,7 +650,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward faceLog(DynActionForm form, ConnectionSet conSet) {
+    public ActionForward faceLog(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -671,7 +671,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward modeLog(DynActionForm form, ConnectionSet conSet) {
+    public ActionForward modeLog(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -719,7 +719,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward status(DynActionForm form, ConnectionSet conSet) {
+    public ActionForward status(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
