@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.cfg.Setup;
@@ -77,7 +78,7 @@ public class HelpDeskListener {
 
         // статус (категория)
         if (paramId == mt.getStatusParamId()) {
-            hdDao.setTopicStatus(topic.getContractId(), topicId, Utils.getFirst((Set<Integer>) e.getValue()));
+            hdDao.setTopicStatus(topic.getContractId(), topicId, Utils.getFirst(((Map<Integer, String>) e.getValue()).keySet()));
         }
         // стоимость
         else if (paramId == mt.getCostParamId()) {
