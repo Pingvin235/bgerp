@@ -729,7 +729,9 @@ public class ContractAction extends BaseAction {
 
         ContractStatusDAO statusDao = new ContractStatusDAO(form.getUser(), billingId);
         form.setResponseData("statusList", statusDao.statusList(contractId, statusTitleMap));
-        form.setResponseData("statusLog", statusDao.statusLog(contractId, statusTitleMap));
+        form.setResponseData("statusLog", statusDao.statusLog(contractId));
+        form.setResponseData("statusFutureTasks", statusDao.statusFutureTasks(contractId, statusTitleMap));
+
         form.setResponseData("availableStatusList", directoryDAO.getContractStatusList(true));
 
         form.setRequestAttribute("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));

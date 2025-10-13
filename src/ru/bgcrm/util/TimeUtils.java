@@ -84,7 +84,7 @@ public class TimeUtils {
     }
 
     public static final String formatPeriod(java.util.Date dateFrom, java.util.Date dateTo, String patternType) {
-        return format(dateFrom, patternType) + "-" + format(dateTo, patternType);
+        return format(dateFrom, patternType) + " - " + format(dateTo, patternType);
     }
 
     /**

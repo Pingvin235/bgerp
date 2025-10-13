@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.exception.BGException;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,13 +21,14 @@ import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.directory.UserInfoDirectory;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
+import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatusFutureTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatusLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class ContractStatusDAO extends BillingDAO {
+    private static final String KERNEL_CONTRACT_API = "ru.bitel.bgbilling.kernel.contract.api";
     private static final String CONTRACT_STATUS_MODULE_ID = "ru.bitel.bgbilling.kernel.contract.status";
-    private static final String MODULE = "contract.status";
 
     public ContractStatusDAO(User user, String billingId) {
         super(user, billingId);
@@ -43,7 +45,7 @@ public class ContractStatusDAO extends BillingDAO {
      */
     public List<ContractStatus> statusList(int contractId, Map<Integer, String> statusTitleMap) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "contractStatusList");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractStatusService", "contractStatusList");
             req.setParam("contractId", contractId);
             JsonNode ret = transferData.postDataReturn(req, user);
             List<ContractStatus> result = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractStatus.class));
@@ -55,7 +57,7 @@ public class ContractStatusDAO extends BillingDAO {
             List<ContractStatus> statusList = new ArrayList<>();
 
             Request request = new Request();
-            request.setModule(MODULE);
+            request.setModule("contract.status");
             request.setAction("ContractStatusTable");
             request.setContractId(contractId);
 
@@ -76,9 +78,9 @@ public class ContractStatusDAO extends BillingDAO {
      * @return
      *
      */
-    public List<ContractStatusLogItem> statusLog(int contractId, Map<Integer, String> statusTitleMap) {
+    public List<ContractStatusLogItem> statusLog(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "contractStatusLogSearch");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractStatusService", "contractStatusLogSearch");
             req.setParam("contractId", contractId);
             req.setParam("objectId", 0);
             req.setParam("page", new Page());
@@ -93,7 +95,7 @@ public class ContractStatusDAO extends BillingDAO {
             List<ContractStatusLogItem> result = new ArrayList<>();
 
             Request request = new Request();
-            request.setModule(MODULE);
+            request.setModule("contract.status");
             request.setAction("ContractStatusLog");
             request.setContractId(contractId);
 
@@ -109,6 +111,36 @@ public class ContractStatusDAO extends BillingDAO {
 
             return result;
         }
+    }
+
+    public List<ContractStatusFutureTask> statusFutureTasks(int contractId, Map<Integer, String> statusTitleMap) {
+        List<ContractStatusFutureTask> result = List.of();
+
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractStatusService", "statusFutureTasks");
+            req.setParam("entityType", "CONTRACT");
+            req.setParam("entityId", contractId);
+            req.setParam("taskStatus", "ACTIVE");
+            JsonNode ret = transferData.postDataReturn(req, user);
+
+            result = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractStatusFutureTask.class));
+
+            UserInfoDirectory directory = dbInfo.directory(UserInfoDirectory.class);
+            result.forEach(item -> {
+                item.setUser(directory.get(user, item.getCreateUserId()).getName());
+                try {
+                    JsonNode data = jsonMapper.readTree(item.getData());
+                    item.setDateFrom(TimeUtils.parse(data.get("dateFrom").asText(), TimeUtils.PATTERN_DDMMYYYY));
+                    item.setDateTo(TimeUtils.parse(data.get("dateTo").asText(), TimeUtils.PATTERN_DDMMYYYY));
+                    item.setStatus(statusTitleMap.getOrDefault(data.get("status").asInt(), "??? " + data.get("status").asText()));
+                    item.setComment(data.get("comment").asText());
+                } catch (Exception e) {
+                    throw new BGException(e);
+                }
+            });
+        }
+
+        return result;
     }
 
     private void loadContractStatusLogItem(Element element, ContractStatus status) {
