@@ -10,7 +10,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.proto.model.npay.NPayService;
@@ -18,14 +17,10 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class NPayDAO extends BillingModuleDAO {
-    private static final String NPAY_MODULE_ID = "npay";
+    private static final String MODULES_NPAY = "ru.bitel.bgbilling.modules.npay";
 
     public NPayDAO(User user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
-    }
-
-    public NPayDAO(User user, DBInfo dbInfo, int moduleId) {
-        super(user, dbInfo.getId(), moduleId);
     }
 
     /**
@@ -35,7 +30,7 @@ public class NPayDAO extends BillingModuleDAO {
      */
     public List<NPayService> getServiceList(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectList");
+            RequestJsonRpc req = new RequestJsonRpc(MODULES_NPAY, moduleId, "NPayService", "serviceObjectList");
             req.setParamContractId(contractId);
             req.setParam("objectId", 0);
             req.setParam("entityModuleId", -1);
@@ -46,7 +41,7 @@ public class NPayDAO extends BillingModuleDAO {
                     jsonTypeFactory.constructCollectionType(List.class, NPayService.class));
         } else {
             Request req = new Request();
-            req.setModule(NPAY_MODULE_ID);
+            req.setModule("npay");
             req.setAction("ServiceObjectTable");
             req.setModuleID(moduleId);
             req.setContractId(contractId);
@@ -89,14 +84,14 @@ public class NPayDAO extends BillingModuleDAO {
      */
     public NPayService getService(int id) {
         if (dbInfo.versionCompare("8.0") > 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectGet");
+            RequestJsonRpc req = new RequestJsonRpc(MODULES_NPAY, moduleId, "NPayService", "serviceObjectGet");
             req.setParam("id", id);
             return jsonMapper.convertValue(transferData.postDataReturn(req, user), NPayService.class);
         } else {
             NPayService result = null;
 
             Request req = new Request();
-            req.setModule(NPAY_MODULE_ID);
+            req.setModule("npay");
             req.setAction("ServiceObjectGet");
             req.setModuleID(moduleId);
             req.setAttribute("id", id);
@@ -124,13 +119,13 @@ public class NPayDAO extends BillingModuleDAO {
      */
     public void updateService(NPayService service) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectUpdate");
+            RequestJsonRpc req = new RequestJsonRpc(MODULES_NPAY, moduleId, "NPayService", "serviceObjectUpdate");
             req.setParam("contractId", service.getContractId());
             req.setParam("serviceObject", service);
             transferData.postData(req, user);
         } else {
             Request req = new Request();
-            req.setModule(NPAY_MODULE_ID);
+            req.setModule("npay");
             req.setAction("ServiceObjectUpdate");
             req.setModuleID(String.valueOf(moduleId));
             req.setContractId(service.getContractId());
@@ -157,13 +152,13 @@ public class NPayDAO extends BillingModuleDAO {
      */
     public void deleteService(int contractId, int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectDelete");
+            RequestJsonRpc req = new RequestJsonRpc(MODULES_NPAY, moduleId, "NPayService", "serviceObjectDelete");
             req.setParam("contractId", contractId);
             req.setParam("serviceId", id);
             transferData.postData(req, user);
         } else {
             Request req = new Request();
-            req.setModule(NPAY_MODULE_ID);
+            req.setModule("npay");
             req.setAction("ServiceObjectDelete");
             req.setModuleID(moduleId);
             req.setAttribute("id", id);

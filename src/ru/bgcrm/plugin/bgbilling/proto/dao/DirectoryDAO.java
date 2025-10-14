@@ -225,33 +225,6 @@ public class DirectoryDAO extends BillingDAO {
         }
     }
 
-    public List<IdTitle> getRegistredTariffGroupList(int selectedTariffGroupId) {
-        Request request = new Request();
-        request.setModule("tariff");
-        request.setAction("ListTariffGroups");
-
-        Document document = transferData.postData(request, user);
-
-        Element dataElement = document.getDocumentElement();
-        NodeList nodeList = dataElement.getElementsByTagName("item");
-
-        List<IdTitle> registerGroupTariffList = new ArrayList<>();
-        for (int index = 0; index < nodeList.getLength(); index++) {
-            Element rowElement = (Element) nodeList.item(index);
-            IdTitle type = new IdTitle();
-            type.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            type.setTitle(rowElement.getAttribute("title"));
-
-            if (selectedTariffGroupId == type.getId()) {
-                registerGroupTariffList.add(0, type);
-            } else {
-                registerGroupTariffList.add(type);
-            }
-        }
-
-        return registerGroupTariffList;
-    }
-
     public List<IdTitle> getBillingModuleList() {
         Request request = new Request();
         request.setModule("service");
