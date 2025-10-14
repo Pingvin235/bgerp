@@ -205,7 +205,7 @@ public class DirectoryDAO extends BillingDAO {
 
     public List<IdTitle> getServiceTypeList(int moduleId) {
         if (dbInfo.versionCompare("8.0") > 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.module", moduleId, "ModuleService", "moduleServiceList");
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.module", "ModuleService", "moduleServiceList");
             req.setParam("moduleId", moduleId);
             return readJsonValue(transferData.postDataReturn(req, user).traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
         } else {
