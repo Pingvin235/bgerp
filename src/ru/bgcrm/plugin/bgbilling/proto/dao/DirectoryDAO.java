@@ -203,6 +203,11 @@ public class DirectoryDAO extends BillingDAO {
         return contractChargeTypes;
     }
 
+    public List<IdTitle> chargeTypeList() {
+        var req = new RequestJsonRpc(BalanceDAO.CONTRACT_BALANCE_MODULE, "ChargeService", "chargeTypeList");
+        return readJsonValue(transferData.postDataReturn(req, user).traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+    }
+
     public List<IdTitle> getServiceTypeList(int moduleId) {
         if (dbInfo.versionCompare("8.0") > 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.module", "ModuleService", "moduleServiceList");

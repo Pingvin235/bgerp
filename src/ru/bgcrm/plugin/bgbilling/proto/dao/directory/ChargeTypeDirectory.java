@@ -15,7 +15,7 @@ public class ChargeTypeDirectory extends Directory<IdTitle> {
 
     @Override
     protected List<IdTitle> list(User user) {
-        return new DirectoryDAO(user, dbInfo).paymentTypeList();
+        return new DirectoryDAO(user, dbInfo).chargeTypeList();
     }
 
     @Override

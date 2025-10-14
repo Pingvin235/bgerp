@@ -125,7 +125,7 @@ public class BalanceDAO extends BillingDAO {
             var directoryType = dbInfo.directory(ChargeTypeDirectory.class);
             var directoryUser = dbInfo.directory(UserInfoDirectory.class);
 
-            Consumer<ContractPayment> directoryConsumer = charge -> {
+            Consumer<ContractCharge> directoryConsumer = charge -> {
                 charge.setType(directoryType.get(user, charge.getTypeId()).getTitle());
                 charge.setUser(directoryUser.get(user, charge.getUserId()).getName());
             };
