@@ -139,8 +139,8 @@ dependencies {
     runtimeOnly 'org.slf4j:slf4j-reload4j:2.0.17'
 
     // Telegram
-    implementation 'org.telegram:telegrambots:6.3.0'
-    implementation 'org.telegram:telegrambots-meta:6.3.0'
+    implementation 'org.telegram:telegrambots:6.9.7.1'
+    implementation 'org.telegram:telegrambots-meta:6.9.7.1'
 
     // separated libraries without transitive dependencies should be added the end of the list
     implementation 'org.apache.commons:commons-collections4:4.5.0'

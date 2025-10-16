@@ -1,5 +1,6 @@
 package org.bgerp.plugin.telegram;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.util.Log;
@@ -15,16 +17,23 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
+/**
+ * Telegram JEXL API for sending messages to chats.
+ * Generic method {@link #sendMessage(Collection, String, String)} sends message in different formats to chat ID.
+ * There are three formats available, more about those: https://core.telegram.org/bots/api#formatting-options
+ * Chat IDs for sending can be a also stored in user or process {@code text} parameter with ID configured as {@code telegram:userParamId} or {@code telegram:processParamId} respectively.
+ */
 public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObject {
     private static final Log log = Log.getLog();
 
     private static final Set<Character> SPECIAL_CHARACTERS_MD = Set.of('(', ')');
 
+    private static final Set<String> PARSE_MODES = Set.of("MarkdownV2", "HTML");
+
     /**
-     * Escapes Markdown characters from {@link #SPECIAL_CHARACTERS_MD}.
-     *
-     * @param text
-     * @return
+     * Escape a Markdown text from {@link #SPECIAL_CHARACTERS_MD}
+     * @param text the Markdown text
+     * @return the {@code text} with escaped special characters
      */
     public static String escapeMarkdown(String text) {
         StringBuilder result = new StringBuilder(text.length());
@@ -50,51 +59,57 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send message in a chat.
-     *
-     * @param chatId telegram chatId
-     * @param text   text message
+     * Send a plain text message to a chat
+     * @param chatId the chat ID
+     * @param text the message
      */
     public void sendMessage(String chatId, String text) {
-        if (chatId != null && !chatId.trim().isEmpty()) {
-            Bot bot = Bot.getInstance();
-            if (bot == null) {
-                return;
-            }
-
-            log.debug("Send message: {}, chatId: {}", text, chatId);
-
-            bot.sendMessage(chatId, text);
-        }
+        sendMessage(chatId, text, null);
     }
 
     /**
-     * Send message in a chat with specific formatting message
-     *
-     * @param chatId    telegram chatId
-     * @param text      text message
-     * @param parseMode ParseMode
+     * Send a message to a chat with a specific format
+     * @param chatId the chat ID
+     * @param text the message
+     * @param parseMode the format: {@code null} - plain text, {@code MarkdownV2}, {@code HTML}
      */
     public void sendMessage(String chatId, String text, String parseMode) {
-        if (chatId != null && !chatId.trim().isEmpty() && !parseMode.trim().isEmpty()) {
-            Bot bot = Bot.getInstance();
-            if (bot == null) {
-                return;
-            }
+        Bot bot = Bot.getInstance();
+        if (bot == null)
+            throw new IllegalStateException("Telegram bot is not running");
 
-            log.debug("Send message: {}, chatId: {}", text, chatId);
+        if (Utils.isBlankString(chatId))
+            throw new IllegalArgumentException("chatId is not defined");
 
-            bot.sendMessage(chatId, text, parseMode);
+        if (parseMode != null && !PARSE_MODES.contains(parseMode))
+            throw new BGException("Unsupported parseMode: {}", parseMode);
+
+        if (chatId != null && !chatId.trim().isEmpty()) {
+            log.debug("Send message: {}, chatId: {}, parseMode: {}", text, chatId, parseMode);
+
+            if (parseMode == null)
+                bot.sendMessage(chatId, text);
+            else
+                bot.sendMessage(chatId, text, parseMode);
         }
     }
 
     /**
-     * Send message to users.
-     *
-     * @param userIds user IDs
-     * @param text    text message
+     * Send a plain text message to users
+     * @param userIds the user IDs
+     * @param text the message
      */
     public void sendMessage(Collection<Integer> userIds, String text) {
+        sendMessage(userIds, text, null);
+    }
+
+    /**
+     * Send a message with a specific format to users
+     * @param userIds the user IDs
+     * @param text the message
+     * @param parseMode the format: {@code null} - plain text, {@code MarkdownV2}, {@code HTML}
+     */
+    public void sendMessage(Collection<Integer> userIds, String text, String parseMode) {
         Config config = Setup.getSetup().getConfig(Config.class);
 
         Collection<Integer> activeUserIds = userIds.stream()
@@ -107,47 +122,47 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
             return;
         }
 
-        sendMessageForObject(activeUserIds, config.getParamId(), text);
+        sendMessageForObject(activeUserIds, config.getParamId(), text, parseMode);
     }
 
     /**
-     * Send a message to the executor of the process.
-     *
-     * @param process object process
-     * @param text    text message
+     * Send a plain text message to a process executors
+     * @param process the process with the executor user IDs
+     * @param text the message
      */
-
     public void sendMessage(Process process, String text) {
-        sendMessage(process.getExecutorIds(), text);
+        sendMessage(process.getExecutorIds(), text, null);
     }
 
     /**
-     * Send message in chat process.
-     *
-     * @param process object process
-     * @param text    text message
+     * Send a message with a specific format to a process executors
+     * @param process the process with the executor user IDs
+     * @param text the message
+     * @param parseMode the format: {@code null} - plain text, {@code MarkdownV2}, {@code HTML}
+     */
+    public void sendMessage(Process process, String text, String parseMode) {
+        sendMessage(process.getExecutorIds(), text, parseMode);
+    }
+
+    /**
+     * Send a plain text message to a process
+     * @param process the process
+     * @param text the message
      */
     public void sendMessageForProcess(Process process, String text) {
         Config config = Setup.getSetup().getConfig(Config.class);
-        sendMessageForObject(Collections.singletonList(process.getId()), config.getProcessParamId(), text);
+        sendMessageForObject(Collections.singletonList(process.getId()), config.getProcessParamId(), text, null);
     }
 
-    private void sendMessageForObject(Collection<Integer> objectIds, int paramId, String text) {
-        Bot bot = Bot.getInstance();
-        if (bot == null) {
-            return;
-        }
-
+    private void sendMessageForObject(Collection<Integer> objectIds, int paramId, String text, String parseMode) {
         try (var con = Setup.getSetup().getDBSlaveConnectionFromPool()) {
             ParamValueDAO paramDAO = new ParamValueDAO(con);
             for (int objectId : objectIds) {
                 String chatId = paramDAO.getParamText(objectId, paramId);
-                if (Utils.notBlankString(chatId)) {
-                    bot.sendMessage(chatId, text);
-                }
+                sendMessage(chatId, text, parseMode);
             }
-        } catch (Exception ex) {
-            log.error("Error send message in telegram", ex);
+        } catch (SQLException ex) {
+            log.error(ex);
         }
     }
 }

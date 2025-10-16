@@ -1,0 +1,1 @@
+A: Improvements in Telegram JEXL API. https://bgerp.org/change/0/doc/plugin/telegram/
