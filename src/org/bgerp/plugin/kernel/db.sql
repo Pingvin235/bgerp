@@ -640,7 +640,6 @@ CREATE TABLE IF NOT EXISTS queue_process_type (
 
 CREATE TABLE IF NOT EXISTS user (
 	id INT NOT NULL AUTO_INCREMENT,
-	deleted TINYINT NOT NULL,
 	title VARCHAR(255) NOT NULL,
 	`login` VARCHAR(32) NOT NULL,
 	pswd VARCHAR(32) NOT NULL,
@@ -656,6 +655,7 @@ CALL drop_column_if_exists('user', 'email');
 CALL drop_column_if_exists('user', 'ids');
 CALL rename_column_if_exists('user', 'date_created', 'create_dt');
 CALL drop_column_if_exists('user', 'lu');
+CALL drop_column_if_exists('user', 'deleted');
 
 CREATE TABLE IF NOT EXISTS user_group (
 	user_id INT NOT NULL,
