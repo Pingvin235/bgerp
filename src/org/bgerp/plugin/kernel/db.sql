@@ -643,7 +643,7 @@ CREATE TABLE IF NOT EXISTS user (
 	title VARCHAR(255) NOT NULL,
 	`login` VARCHAR(32) NOT NULL,
 	pswd VARCHAR(32) NOT NULL,
-	`description` VARCHAR(255) NOT NULL,
+	comment VARCHAR(255) NOT NULL,
 	create_dt DATETIME NOT NULL,
 	`status` INT NOT NULL,
 	config TEXT NOT NULL,
@@ -656,6 +656,7 @@ CALL drop_column_if_exists('user', 'ids');
 CALL rename_column_if_exists('user', 'date_created', 'create_dt');
 CALL drop_column_if_exists('user', 'lu');
 CALL drop_column_if_exists('user', 'deleted');
+CALL rename_column_if_exists('user', 'description', 'comment');
 
 CREATE TABLE IF NOT EXISTS user_group (
 	user_id INT NOT NULL,
@@ -757,4 +758,4 @@ CALL drop_table_if_exists('wizard_link');
 CALL drop_table_if_exists('wizard_node');
 
 -- must be the last query;
-INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");
+INSERT IGNORE INTO user (id, title, login, pswd, comment) VALUES (1, "Administrator", "admin", "admin", "Super user without permission check");

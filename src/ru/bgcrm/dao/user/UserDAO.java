@@ -113,7 +113,7 @@ public class UserDAO extends CommonDAO {
             pq.addQuery(" WHERE 1=1 ");
 
             if (Utils.notBlankString(filterLike)) {
-                pq.addQuery(" AND (id LIKE ? OR title LIKE ? OR login LIKE ? OR description LIKE ?) ");
+                pq.addQuery(" AND (id LIKE ? OR title LIKE ? OR login LIKE ? OR comment LIKE ?) ");
                 pq.addString(filterLike).addString(filterLike).addString(filterLike).addString(filterLike);
             }
 
@@ -304,7 +304,7 @@ public class UserDAO extends CommonDAO {
         user.setStatus(rs.getInt(prefix + "status"));
         user.setConfig(rs.getString(prefix + "config"));
         user.setPersonalization(prefix + rs.getString("personalization"));
-        user.setDescription(rs.getString(prefix + "description"));
+        user.setComment(rs.getString(prefix + "comment"));
         user.setLogin(rs.getString(prefix + "login"));
         if (loadPassword) {
             user.setPassword(rs.getString(prefix + "pswd"));
@@ -333,34 +333,21 @@ public class UserDAO extends CommonDAO {
     }
 
     public void updateUser(User user) throws SQLException {
-        boolean newUser = false;
-        int index = 1;
-        PreparedStatement ps;
+        final boolean newUser = user.getId() <= 0;
 
-        if (user.getId() <= 0) {
-            newUser = true;
-            String query = "INSERT INTO " + TABLE_USER + " SET title=?, login=?, description=?, config=?, create_dt=?, status=?";
-            ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setString(index++, user.getTitle());
-            ps.setString(index++, user.getLogin());
-            ps.setString(index++, user.getDescription());
-            ps.setString(index++, user.getConfig());
-            ps.setDate(index++, TimeUtils.convertDateToSqlDate(new Date()));
-            ps.setInt(index++, user.getStatus());
-            ps.executeUpdate();
-            user.setId(lastInsertId(ps));
-        } else {
-            ps = con.prepareStatement(
-                    "UPDATE " + TABLE_USER + " SET title=?, login=?, status=?, description=?, config=? WHERE id=?");
-            ps.setString(index++, user.getTitle());
-            ps.setString(index++, user.getLogin());
-            ps.setInt(index++, user.getStatus());
-            ps.setString(index++, user.getDescription());
-            ps.setString(index++, user.getConfig());
-            ps.setInt(index++, user.getId());
-            ps.executeUpdate();
+        String query = newUser ?
+            SQL_INSERT_INTO + TABLE_USER + "(title, login, comment, status, config, create_dt)" + SQL_VALUES + "(?, ?, ?, ?, ?, NOW())" :
+            SQL_UPDATE + TABLE_USER + "SET title=?, login=?, comment=?, status=?, config=?" + SQL_WHERE + "id=?";
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addObjects(user.getTitle(), user.getLogin(), user.getComment(), user.getStatus(), user.getConfig());
+            if (newUser) {
+                pq.executeInsert();
+                user.setId(lastInsertId(pq.getPrepared()));
+            } else {
+                pq.addInt(user.getId());
+                pq.executeUpdate();
+            }
         }
-        ps.close();
 
         updateUserPassword(user.getId(), user.getPassword());
 

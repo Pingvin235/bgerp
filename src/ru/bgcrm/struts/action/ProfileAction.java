@@ -76,7 +76,7 @@ public class ProfileAction extends BaseAction {
         user.setTitle(userName);
         user.setLogin(userLogin);
         user.setPassword(userPassword);
-        user.setDescription(form.getParam("userDescription"));
+        user.setComment(form.getParam("userDescription"));
 
         userDAO.updateUser(user);
 

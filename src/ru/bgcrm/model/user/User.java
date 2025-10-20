@@ -20,7 +20,7 @@ import ru.bgcrm.util.PswdUtil;
 import ru.bgcrm.util.Utils;
 
 /**
- * Application user.
+ * Application user
  *
  * @author Shamil Vakhitov
  */
@@ -55,8 +55,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     private String login;
     private String password;
     private int status = STATUS_ACTIVE;
-    // TODO: Rename to comment similar with others?.
-    private String description = "";
+    private String comment = "";
     private Set<Integer> groupIds = new HashSet<>();
     private List<Integer> permsetIds = new ArrayList<>();
     private Set<Integer> queueIds = new HashSet<>();
@@ -110,12 +109,12 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         this.status = status;
     }
 
-    public String getDescription() {
-        return description;
+    public String getComment() {
+        return comment;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setComment(String value) {
+        this.comment = value;
     }
 
     /**
@@ -191,7 +190,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         var user = new User();
 
         user.setConfig(config);
-        user.setDescription(description);
+        user.setComment(comment);
         user.setGroupIds(new HashSet<>(groupIds));
         user.setId(id);
         user.setLogin(login);
@@ -242,5 +241,18 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
             log.warn("Not primary action name '{}' was used for checking of '{}'", action, node.getAction());
 
         return UserCache.getPerm(id, action);
+    }
+
+    @Deprecated
+    @JsonIgnore
+    public String getDescription() {
+        log.warndMethod("getDescription");
+        return comment;
+    }
+
+    @Deprecated
+    public void setDescription(String value) {
+        log.warndMethod("setDescription");
+        this.comment = value;
     }
 }

@@ -99,7 +99,7 @@
 			<td>${item.login}</td>
 			<td>${u.getObjectTitles(ctxUserPermsetMap, item.permsetIds)}</td>
 			<td>${u.getObjectTitles(ctxUserGroupFullTitledList, item.groupIds)}</td>
-			<td>${item.description}</td>
+			<td>${item.comment}</td>
 		</tr>
 	</c:forEach>
 </table>

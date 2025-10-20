@@ -268,7 +268,7 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
         if (!perm.getBoolean("configDisable", false)) {
             user.setConfig(form.getParam("userConfig", ""));
         }
-        user.setDescription(form.getParam("description", ""));
+        user.setComment(form.getParam("description", ""));
 
         String setConfVars = perm.get("setConfigVars");
         if (Utils.notBlankString(setConfVars)) {
