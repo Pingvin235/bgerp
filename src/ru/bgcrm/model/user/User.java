@@ -10,7 +10,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.cache.UserCache;
-import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -24,7 +24,7 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class User extends IdTitle implements Comparable<User>, Cloneable, UserAccount {
+public class User extends IdTitleComment implements Comparable<User>, Cloneable, UserAccount {
     private static final Log log = Log.getLog();
 
     public static final String OBJECT_TYPE = "user";
@@ -55,7 +55,6 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     private String login;
     private String password;
     private int status = STATUS_ACTIVE;
-    private String comment = "";
     private Set<Integer> groupIds = new HashSet<>();
     private List<Integer> permsetIds = new ArrayList<>();
     private Set<Integer> queueIds = new HashSet<>();
@@ -107,14 +106,6 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String value) {
-        this.comment = value;
     }
 
     /**

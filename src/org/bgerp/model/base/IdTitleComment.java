@@ -3,7 +3,7 @@ package org.bgerp.model.base;
 import org.bgerp.model.base.iface.Comment;
 
 public class IdTitleComment extends IdTitle implements Comment {
-    private String comment = "";
+    protected String comment = "";
 
     public IdTitleComment() {
     }
