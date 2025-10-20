@@ -56,7 +56,7 @@
 
 		<c:forEach var="value" items="${userGroupList}">
 			<c:forEach var="item" items="${list}">
-				<c:if test="${item.id eq value.id}">
+				<c:if test="${item.id eq value.groupId}">
 					<tr>
 						<td nowrap="nowrap">
 							<ui:button type="del" styleClass="btn-small"

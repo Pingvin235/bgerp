@@ -162,7 +162,7 @@
 					<c:param name="method" value="parameterList" />
 					<c:param name="id" value="${form.id}" />
 					<c:param name="objectType" value="user" />
-					<c:param name="header" value="Доп. параметры"/>
+					<c:param name="header" value="${l.l('Parameters')}"/>
 				</c:url>
 				<c:import url="${url}" />
 			</div>

@@ -52,22 +52,4 @@ public class UserGroup {
 
         return resultList;
     }
-
-    /**
-     * Использовать {@link #getGroupId()}.
-     * @return
-     */
-    @Deprecated
-    public int getId() {
-        return groupId;
-    }
-
-    /**
-     * Использовать {@link #setGroupId(int)}.
-     * @return
-     */
-    @Deprecated
-    public void setId(int id) {
-        this.groupId = id;
-    }
 }
