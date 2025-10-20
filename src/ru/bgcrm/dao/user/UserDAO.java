@@ -317,21 +317,6 @@ public class UserDAO extends CommonDAO {
         return user;
     }
 
-    public void updateUser(int userId, String title, String login, String pswd, String description)
-            throws SQLException {
-        int index = 1;
-
-        var ps = con.prepareStatement("UPDATE user SET title=?, login=?, description=? WHERE id=?");
-        ps.setString(index++, title);
-        ps.setString(index++, login);
-        ps.setString(index++, description);
-        ps.setInt(index++, userId);
-        ps.executeUpdate();
-        ps.close();
-
-        updateUserPassword(userId, pswd);
-    }
-
     public void updateUser(User user) throws SQLException {
         final boolean newUser = user.getId() <= 0;
 
@@ -663,5 +648,25 @@ public class UserDAO extends CommonDAO {
 
         ps.executeUpdate();
         ps.close();
+    }
+
+    // deprecated
+
+    @Deprecated
+    public void updateUser(int userId, String title, String login, String pswd, String comment)
+            throws SQLException {
+        log.warndMethod("updateUser(int, String, String, String, String)", "updateUser(User)");
+
+        int index = 1;
+
+        var ps = con.prepareStatement("UPDATE user SET title=?, login=?, comment=? WHERE id=?");
+        ps.setString(index++, title);
+        ps.setString(index++, login);
+        ps.setString(index++, comment);
+        ps.setInt(index++, userId);
+        ps.executeUpdate();
+        ps.close();
+
+        updateUserPassword(userId, pswd);
     }
 }
