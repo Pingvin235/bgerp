@@ -8,17 +8,16 @@ import java.util.Set;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.cache.UserCache;
-import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.model.base.iface.TitleWithPath;
 import org.bgerp.util.Dynamic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class Group extends IdTitle implements TitleWithPath, Cloneable {
+public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
     private int archive;
     private int parentId;
     private int childCount;
-    private String comment;
     private String config;
     private ConfigMap configMap = new Preferences();
     private Set<Integer> queueIds = new HashSet<>();
@@ -45,20 +44,12 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
         this.archive = archive;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
     public int getParentId() {
         return parentId;
     }
 
     public void setParentId(int parentId) {
         this.parentId = parentId;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public List<Integer> getPermsetIds() {
