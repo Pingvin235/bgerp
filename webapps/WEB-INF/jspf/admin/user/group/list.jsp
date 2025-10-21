@@ -61,7 +61,6 @@
 		<td width="30%">${l.l('Title')}</td>
 		<td width="50">${l.l('Подгрупп')}</td>
 		<td width="40%">${l.l('Наборы прав')}</td>
-		<td width="50">${l.l('Скрытая')}</td>
 		<td width="30%">${l.l('Comment')}</td>
 	</tr>
 	<c:forEach var="item" items="${frd.list}">
@@ -109,14 +108,6 @@
 
 			<td>${item.childCount}</td>
 			<td>${u.getObjectTitles(ctxUserPermsetMap, item.permsetIds)}</td>
-
-			<td>
-				<c:choose>
-					<c:when test="${item.archive == 1}">${l.l('Yes')}</c:when>
-					<c:otherwise>${l.l('No')}</c:otherwise>
-				</c:choose>
-			</td>
-
 			<td>${item.comment}</td>
 		</tr>
 	</c:forEach>

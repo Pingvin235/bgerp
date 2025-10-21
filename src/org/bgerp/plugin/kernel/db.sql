@@ -688,17 +688,17 @@ CREATE TABLE IF NOT EXISTS user_group_queue (
 CREATE TABLE IF NOT EXISTS user_group_title (
 	id INT NOT NULL AUTO_INCREMENT,
 	title VARCHAR(250) NOT NULL,
-	`description` VARCHAR(250) NOT NULL,
+	comment VARCHAR(250) NOT NULL,
 	config TEXT NOT NULL,
 	parent_id INT NOT NULL,
-	archive TINYINT NOT NULL,
 	child_count INT NOT NULL,
 	PRIMARY KEY (id)
 );
 CALL add_column_if_not_exists('user_group_title', 'config', 'TEXT NOT NULL');
 CALL add_column_if_not_exists('user_group_title', 'parent_id', 'INT NOT NULL');
-CALL add_column_if_not_exists('user_group_title', 'archive', 'TINYINT NOT NULL');
 CALL add_column_if_not_exists('user_group_title', 'child_count', 'INT NOT NULL');
+CALL drop_column_if_exists('user_group_title', 'archive');
+CALL rename_column_if_exists('user_group_title', 'description', 'comment');
 
 CREATE TABLE IF NOT EXISTS user_permission (
 	user_id INT NOT NULL,

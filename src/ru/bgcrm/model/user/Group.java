@@ -11,11 +11,13 @@ import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.model.base.iface.TitleWithPath;
 import org.bgerp.util.Dynamic;
+import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
-    private int archive;
+    private static final Log log = Log.getLog();
+
     private int parentId;
     private int childCount;
     private String config;
@@ -34,14 +36,6 @@ public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
 
     public ConfigMap getConfigMap() {
         return configMap;
-    }
-
-    public int getArchive() {
-        return archive;
-    }
-
-    public void setArchive(int archive) {
-        this.archive = archive;
     }
 
     public int getParentId() {
@@ -102,7 +96,6 @@ public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
         result.setId(id);
         result.setParentId(parentId);
         result.setTitle(title);
-        result.setArchive(archive);
         result.setChildCount(childCount);
         result.setComment(comment);
         result.setConfig(config);
@@ -110,5 +103,18 @@ public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
         result.setPermsetIds(permsetIds);
 
         return result;
+    }
+
+    // deprecated
+
+    @Deprecated
+    public int getArchive() {
+        log.warndMethod("getArchive");
+        return 0;
+    }
+
+    @Deprecated
+    public void setArchive(int archive) {
+        log.warndMethod("setArchive");
     }
 }

@@ -22,14 +22,6 @@
 
 				<h2>${l.l('Comment')}</h2>
 				<input type="text" name="comment" style="width: 100%" value="${group.comment}"/>
-
-				<h2>${l.l('Скрытая')}</h2>
-				<ui:combo-single hiddenName="archive" value="${group.archive}" style="width: 100px;">
-					<jsp:attribute name="valuesHtml">
-						<li value="0">${l.l('No')}</li>
-						<li value="1">${l.l('Yes')}</li>
-					</jsp:attribute>
-				</ui:combo-single>
 			</div>
 		</div><%--
 	--%><div style="width: 50%;">

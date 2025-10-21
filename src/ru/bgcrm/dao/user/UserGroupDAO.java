@@ -20,7 +20,6 @@ import org.bgerp.util.sql.PreparedQuery;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SQLUtils;
 
 public class UserGroupDAO extends CommonDAO {
     public UserGroupDAO(Connection con) {
@@ -101,40 +100,27 @@ public class UserGroupDAO extends CommonDAO {
         return result;
     }
 
-    public void updateGroup(Group group) {
-        try {
-            PreparedStatement ps = null;
+    public void updateGroup(Group group) throws SQLException {
+        String query = group.getId() <= 0 ?
+            SQL_INSERT_INTO + TABLE_USER_GROUP_TITLE + " (title, comment, parent_id, config)" + SQL_VALUES_4 :
+            SQL_UPDATE + TABLE_USER_GROUP_TITLE + "SET title=?, comment=?, parent_id=?, config=?" + SQL_WHERE + "id=?";
+
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addObjects(group.getTitle(), group.getComment(), group.getParentId(), group.getConfig());
 
             if (group.getId() <= 0) {
-                ps = con.prepareStatement(
-                        "INSERT INTO " + TABLE_USER_GROUP_TITLE + " (title, description, parent_id, archive, config) VALUES (?,?,?,?,?)",
-                        PreparedStatement.RETURN_GENERATED_KEYS);
+                pq.executeInsert();
+                group.setId(lastInsertId(pq.getPrepared()));
             } else {
-                ps = con.prepareStatement(
-                        "UPDATE " + TABLE_USER_GROUP_TITLE + " SET title=?, description=?, parent_id=?, archive=?, config=? WHERE id=?");
-                ps.setInt(6, group.getId());
+                pq.addInt(group.getId());
+                pq.executeUpdate();
             }
-
-            ps.setString(1, group.getTitle());
-            ps.setString(2, group.getComment());
-            ps.setInt(3, group.getParentId());
-            ps.setInt(4, group.getArchive());
-            ps.setString(5, group.getConfig());
-            ps.executeUpdate();
-
-            if (group.getId() <= 0) {
-                group.setId(SQLUtils.lastInsertId(ps));
-            }
-
-            updateIds(TABLE_USER_GROUP_QUEUE, "group_id", "queue_id", group.getId(), group.getQueueIds());
-            updateIds(TABLE_USER_GROUP_PERMSET, "group_id", "permset_id", "pos", group.getId(), group.getPermsetIds());
-
-            setChildCount(group.getId(), 0);
-
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+
+        updateIds(TABLE_USER_GROUP_QUEUE, "group_id", "queue_id", group.getId(), group.getQueueIds());
+        updateIds(TABLE_USER_GROUP_PERMSET, "group_id", "permset_id", "pos", group.getId(), group.getPermsetIds());
+
+        setChildCount(group.getId(), 0);
     }
 
     public void deleteGroup(int id) throws SQLException {
@@ -163,9 +149,8 @@ public class UserGroupDAO extends CommonDAO {
 
         result.setId(rs.getInt("id"));
         result.setTitle(rs.getString("title"));
-        result.setComment(rs.getString("description"));
+        result.setComment(rs.getString("comment"));
         result.setParentId(rs.getInt("parent_id"));
-        result.setArchive(rs.getInt("archive"));
         result.setChildCount(rs.getInt("child_count"));
         result.setConfig(rs.getString("config"));
 
