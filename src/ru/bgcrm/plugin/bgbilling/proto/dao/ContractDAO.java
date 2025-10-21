@@ -59,6 +59,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractCreateData;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractSearchDto;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
@@ -101,18 +102,25 @@ public class ContractDAO extends BillingDAO {
         Contract result = null;
 
         if (dbInfo.versionCompare("8.0") > 0) {
-            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractList0");
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", dbInfo.versionCompare("9.2") >= 0 ? "contractList" : "contractList0");
             req.setParamContractId(contractId);
             req.setParam("fc", -1);
+            req.setParam("groupMask", 0);
             req.setParam("subContracts", true);
             req.setParam("closed", true);
             req.setParam("hidden", true);
-            req.setParam("inAllLabels", true);
+            if (dbInfo.versionCompare("9.2501") < 0)
+                req.setParam("inAllLabels", true);
 
-            JsonNode ret = transferData.postData(req, user);
-            List<Contract> contractList = readJsonValue(ret.findValue("return").traverse(),
-                    jsonTypeFactory.constructCollectionType(List.class, Contract.class));
-            result = contractList.stream().findFirst().orElse(null);
+            JsonNode ret = transferData.postDataReturn(req, user);
+            JsonNode list = ret.findValue("list");
+            if (list != null && list.isArray()) {
+                List<ContractSearchDto> dtoList = readJsonValue(list.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractSearchDto.class));
+                result = dtoList.stream().map(ContractSearchDto::toContract).findFirst().orElse(null);
+            } else { // формат для биллинга старee 9.2501
+                List<Contract> contractList = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class));
+                result = contractList.stream().findFirst().orElse(null);
+            }
         } else {
             Request req = new Request();
             req.setModule("contract");
@@ -149,23 +157,17 @@ public class ContractDAO extends BillingDAO {
                 JsonNode ret = data.findValue("return");
                 JsonNode list = ret.findValue("list");
 
-                JsonNode pageParent = null;
-
-                // формат впервые обнаружен в версии 9.2501-2510171811 / 17.10.2025 18:11 Telegram ERPS14890: Рокет Телеком
                 if (list != null && list.isArray()) {
-                    list.forEach(contract -> {
-                        searchResult.add(new IdTitle(contract.get("contractId").asInt(),
-                                contract.get("contractTitle").asText() + " [ " + contract.get("contractComment").asText() + " ]"));
-                    });
-                    pageParent = ret;
-                } else {
+                    List<ContractSearchDto> contractList = readJsonValue(list.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractSearchDto.class));
+                    searchResult.getList().addAll(contractList.stream()
+                            .map(c -> new IdTitle(c.getContractId(), c.getContractTitle() + " [ " + c.getContractComment() + " ]")).collect(Collectors.toList()));
+                    searchResult.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
+                } else { // формат для биллинга старee 9.2501
                     List<Contract> contractList = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class));
-                    List<IdTitle> resultList = searchResult.getList();
-                    resultList.addAll(contractList.stream()
+                    searchResult.getList().addAll(contractList.stream()
                             .map(c -> new IdTitle(c.getId(), c.getTitle() + " [ " + c.getComment() + " ]")).collect(Collectors.toList()));
-                    pageParent = data;
+                    searchResult.getPage().setData(jsonMapper.convertValue(data.findValue("page"), Page.class));
                 }
-                searchResult.getPage().setData(jsonMapper.convertValue(pageParent, Page.class));
             } else {
                 Page page = searchResult.getPage();
                 List<IdTitle> contractList = searchResult.getList();
@@ -347,8 +349,7 @@ public class ContractDAO extends BillingDAO {
         final Page page = result.getPage();
 
         if (dbInfo.versionCompare("9.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractList0");
-            req.setParam("contractId", 0);
+            RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractList");
             req.setParam("fc", -1);
             req.setParam("entityFilter", List.of(Map.of(
                 "type", "Phone",
@@ -362,14 +363,23 @@ public class ContractDAO extends BillingDAO {
             req.setParam("page", page);
             req.setParam("inAllLabels", true);
 
-            JsonNode ret = transferData.postData(req, user);
+            JsonNode data = transferData.postData(req, user);
+            JsonNode ret = data.findValue("return");
+            JsonNode list = ret.findValue("list");
 
-            List<Contract> list = result.getList();
-            list.addAll(readJsonValue(ret.findValue("return").traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class)));
-            for (Contract contract : list)
+            final var resultList = result.getList();
+
+            if (list != null && list.isArray()) {
+                List<ContractSearchDto> dtoList = readJsonValue(list.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractSearchDto.class));
+                resultList.addAll(dtoList.stream().map(ContractSearchDto::toContract).collect(Collectors.toList()));
+                page.setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
+            } else { // формат для биллинга старee 9.2501
+                resultList.addAll(readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class)));
+                page.setData(jsonMapper.convertValue(data.findValue("page"), Page.class));
+            }
+
+            for (Contract contract : resultList)
                 contract.setBillingId(dbInfo.getId());
-
-            page.setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
         } else {
             Request req = new Request();
             req.setPage(page);
