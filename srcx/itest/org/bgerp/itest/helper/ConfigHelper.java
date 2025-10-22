@@ -25,7 +25,11 @@ public class ConfigHelper {
     }
 
     public static void addPluginConfig(Plugin plugin, String config) throws Exception {
-        ConfigHelper.addIncludedConfig(plugin.getTitleWithPrefix(), plugin.getId() + ":enable=1\n" + config);
+        addPluginConfig(plugin, "", config);
+    }
+
+    public static void addPluginConfig(Plugin plugin, String prefix, String config) throws Exception {
+        ConfigHelper.addIncludedConfig(plugin.getTitleWithPrefix(), prefix + plugin.getId() + ":enable=1\n" + config);
         PluginHelper.initPlugin(plugin);
     }
 

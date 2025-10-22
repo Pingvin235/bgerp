@@ -49,6 +49,7 @@ public class AsteriskTest {
     @Test(dependsOnMethods = "param")
     public void config() throws Exception {
         ConfigHelper.addPluginConfig(PLUGIN,
+            "# enable the plugin with corrected configuration below\n#",
             ConfigHelper.generateConstants(
                 "CALL_MESSAGE_TYPE_ID", MessageTest.messageTypeCall.getId(),
                 "USER_NUMBER_PARAM_ID", paramUserNumberId
