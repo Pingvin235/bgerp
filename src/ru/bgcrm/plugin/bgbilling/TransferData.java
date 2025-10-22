@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.Callable;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
@@ -57,11 +56,10 @@ public class TransferData {
     private static final Log log = Log.getLog();
 
     private static final String REQUEST_ENCODING = "UTF-8";
+    private static final String RESPONSE_ENCODING = "UTF-8";
 
     private static final int LOGGING_REQUEST_TRIM_LENGTH = 3000;
     private static final int LOGGING_RESPONSE_TRIM_LENGTH = 5000;
-
-    private static final Pattern PATTERN_CHARSET = Pattern.compile("charset=([\\w\\d\\-]+)[\\s;]*.*$");
 
     private static final Pattern CHARACTER_ENTITY_INVALID_REGEXP = Pattern.compile(
             "&#0;|&#1;|&#2;|&#3;|&#4;|&#5;|&#6;|&#7;|&#8;|&#11;|&#12;|&#14;|&#15;|&#16;|&#17;|&#18;|&#19;|&#20;|&#21;|&#22;|&#23;|&#24;|&#25;|&#26;|&#27;|&#28;|&#29;|&#30;|&#31;");
@@ -110,8 +108,6 @@ public class TransferData {
     private final int timeOut;
 
     private final ObjectMapper jsonMapper = new ObjectMapper();
-
-    private String responseEncoding;
 
     public TransferData(DBInfo dbInfo) {
         this.dbInfo = dbInfo;
@@ -268,19 +264,6 @@ public class TransferData {
             }
 
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                responseEncoding = REQUEST_ENCODING;
-
-                String key;
-                for (int n = 1; (key = con.getHeaderFieldKey(n)) != null; n++) {
-                    if (key.equalsIgnoreCase("Content-Type")) {
-                        String contentType = con.getHeaderField(n);
-                        Matcher m = PATTERN_CHARSET.matcher(contentType);
-                        if (m.find()) {
-                            responseEncoding = m.group(1);
-                        }
-                    }
-                }
-
                 inBytes = IOUtils.toByteArray(con.getInputStream());
                 con.disconnect();
             }
@@ -310,13 +293,11 @@ public class TransferData {
      */
     public Document postData(Request request, User user) {
         try {
-            Document doc = getDocument(new String(postDataInternal(request, user), responseEncoding));
+            Document doc = getDocument(new String(postDataInternal(request, user), RESPONSE_ENCODING));
 
             checkDocumentStatus(doc, user);
 
             return doc;
-        } catch (BGException e) {
-            throw e;
         } catch (Exception e) {
             throw new BGException(e);
         }
@@ -371,14 +352,14 @@ public class TransferData {
     }
 
     /**
-     * Отправляет запрос и возвращает результат в виде строки, раскодированной #responseEncoding.
+     * Отправляет запрос и возвращает результат в виде строки, раскодированной {@link #RESPONSE_ENCODING}.
      * @param request
      * @param user
      * @return
      */
     public String postDataGetString(Request request, User user) {
         try {
-            return new String(postDataGetBytes(request, user), responseEncoding);
+            return new String(postDataGetBytes(request, user), RESPONSE_ENCODING);
         } catch (UnsupportedEncodingException e) {
             throw new BGException(e);
         }
