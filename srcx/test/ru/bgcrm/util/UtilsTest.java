@@ -74,6 +74,18 @@ public class UtilsTest {
     }
 
     @Test
+    public void testParseBoolean() {
+        Assert.assertEquals(false, Utils.parseBoolean("xyz", false));
+        Assert.assertEquals(true, Utils.parseBoolean("1", false));
+        Assert.assertEquals(true, Utils.parseBoolean("oN", false));
+        Assert.assertEquals(true, Utils.parseBoolean("true"));
+        Assert.assertEquals(false, Utils.parseBoolean("xx", false));
+        Assert.assertEquals(false, Utils.parseBoolean("No", null));
+        Assert.assertEquals(false, Utils.parseBoolean("falSe", null));
+        Assert.assertEquals(true, Utils.parseBoolean("42", true));
+    }
+
+    @Test
     public void getGetObjectTitles() {
         List<IdTitle> list = List.of(new IdTitle(1, "A"), new IdTitle(2, "B"), new IdTitle(3, "C"));
         Map<Integer, IdTitle> map = list.stream().collect(Collectors.toMap(IdTitle::getId, Function.identity()));
