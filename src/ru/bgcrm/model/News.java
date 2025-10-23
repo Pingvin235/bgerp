@@ -8,8 +8,7 @@ import org.bgerp.model.base.Id;
 import ru.bgcrm.model.user.User;
 
 public class News extends Id {
-
-    /** Всплывающая. */
+    /** Popup */
     private boolean popup;
     /** Прочитана. */
     private boolean read;
@@ -26,8 +25,6 @@ public class News extends Id {
     private Date updateDate;
     /** Группы - получатели новости.*/
     private Set<Integer> groupIds;
-    @Deprecated
-    private String reference;
 
     public News() {}
 
@@ -53,23 +50,8 @@ public class News extends Id {
         this.lifeTime = lifeTime;
     }
 
-    @Deprecated
-    public String getReference() {
-        return reference;
-    }
-
-    @Deprecated
-    public void setReference(String uniqueKeys) {
-        this.reference = uniqueKeys;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    @Deprecated
-    public boolean getIsRead() {
-        return read;
     }
 
     public boolean isRead() {
