@@ -8,19 +8,19 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.model.user.User;
 
 public class News extends IdTitle {
-    private boolean popup;
-    private boolean read;
     private int userId = User.USER_SYSTEM_ID;
+    private Date createDate;
+    private Date updateDate;
+    /** Content */
+    private String description;
+    private boolean popup;
     /** Days before deletion */
     private int lifeTime = 300;
     /** Hours before automatically became read */
     private int readTime = 240;
-    /** Content */
-    private String description;
-    private Date createDate;
-    private Date updateDate;
     /** Receiving group IDs */
     private Set<Integer> groupIds;
+    private boolean read;
 
     public News() {}
 
@@ -28,46 +28,6 @@ public class News extends IdTitle {
         this.popup = popup;
         this.title = title;
         this.description = description;
-    }
-
-    public int getReadTime() {
-        return readTime;
-    }
-
-    public void setReadTime(int readTime) {
-        this.readTime = readTime;
-    }
-
-    public int getLifeTime() {
-        return lifeTime;
-    }
-
-    public void setLifeTime(int lifeTime) {
-        this.lifeTime = lifeTime;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isRead() {
-        return read;
-    }
-
-    public void setRead(boolean isRead) {
-        this.read = isRead;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isPopup() {
-        return popup;
-    }
-
-    public void setPopup(boolean isPopup) {
-        this.popup = isPopup;
     }
 
     public int getUserId() {
@@ -94,11 +54,51 @@ public class News extends IdTitle {
         this.updateDate = updateDate;
     }
 
+     public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isPopup() {
+        return popup;
+    }
+
+    public void setPopup(boolean isPopup) {
+        this.popup = isPopup;
+    }
+
+    public int getReadTime() {
+        return readTime;
+    }
+
+    public void setReadTime(int readTime) {
+        this.readTime = readTime;
+    }
+
+    public int getLifeTime() {
+        return lifeTime;
+    }
+
+    public void setLifeTime(int lifeTime) {
+        this.lifeTime = lifeTime;
+    }
+
     public Set<Integer> getGroupIds() {
         return groupIds;
     }
 
     public void setGroupIds(Set<Integer> groupIds) {
         this.groupIds = groupIds;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean isRead) {
+        this.read = isRead;
     }
 }
