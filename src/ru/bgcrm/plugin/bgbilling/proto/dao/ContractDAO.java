@@ -430,7 +430,7 @@ public class ContractDAO extends BillingDAO {
         applySearchOptions(options, req);
 
         req.setAction("FindContract");
-        req.setAttribute("type", 3);
+        req.setAttribute("type", "c3");
         req.setAttribute("parameters", Utils.toString(paramIds));
         req.setAttribute("mail", email);
 
