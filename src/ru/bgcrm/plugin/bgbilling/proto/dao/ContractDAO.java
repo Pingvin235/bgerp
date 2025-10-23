@@ -351,6 +351,7 @@ public class ContractDAO extends BillingDAO {
         if (dbInfo.versionCompare("9.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractList");
             req.setParam("fc", -1);
+            req.setParam("groupMask", 0);
             req.setParam("entityFilter", List.of(Map.of(
                 "type", "Phone",
                 "entitySpecAttrIds", Utils.toString(paramIds),
@@ -361,7 +362,6 @@ public class ContractDAO extends BillingDAO {
             req.setParam("closed", true);
             req.setParam("hidden", true);
             req.setParam("page", page);
-            req.setParam("inAllLabels", true);
 
             JsonNode data = transferData.postData(req, user);
             JsonNode ret = data.findValue("return");
