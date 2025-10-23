@@ -3,27 +3,23 @@ package ru.bgcrm.model;
 import java.util.Date;
 import java.util.Set;
 
-import org.bgerp.model.base.Id;
+import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.model.user.User;
 
-public class News extends Id {
-    /** Popup */
+public class News extends IdTitle {
     private boolean popup;
-    /** Прочитана. */
     private boolean read;
     private int userId = User.USER_SYSTEM_ID;
-    /** Время в днях, после которого новость удаляется. */
+    /** Days before deletion */
     private int lifeTime = 300;
-    /** Время в часах, после которого новость становится прочитанной автоматически. */
+    /** Hours before automatically became read */
     private int readTime = 240;
-    /** Заголовок. */
-    private String title;
-    /** Содержимое новости. */
+    /** Content */
     private String description;
     private Date createDate;
     private Date updateDate;
-    /** Группы - получатели новости.*/
+    /** Receiving group IDs */
     private Set<Integer> groupIds;
 
     public News() {}
@@ -80,14 +76,6 @@ public class News extends Id {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Date getCreateDate() {
