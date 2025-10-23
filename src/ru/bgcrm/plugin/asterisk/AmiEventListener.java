@@ -103,7 +103,8 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
                     reg.setOutCall(null);
                 } else {
                     // property 'exten' contains TO number
-                    if (!numberOur.equals(event.getExten())) {
+                    String exten = event.getExten();
+                    if (exten != null && !numberOur.equals(exten)) {
                         log.debug("{} != {}", numberOur, event.getExten());
                         return;
                     }
