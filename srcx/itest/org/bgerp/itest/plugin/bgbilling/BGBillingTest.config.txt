@@ -25,6 +25,16 @@ bgbilling:contractType.1.tariffList=133:Tariff ID 133,134:Tariff ID 134
 #bgbilling:creator.server.{@cnt}.paramMapping=41:{@PARAM_RU_INN}
 #bgbilling:creator.server.{@cnt}.pageSize=10
 
+messageType.50.search.200.title=Договор по номеру звонящего
+messageType.50.search.200.class=BGBillingMessageTypeSearchCall
+messageType.50.search.200.billingId=bill
+messageType.50.search.200.commands=contractByPhoneParam:16
+
+messageType.100.search.200.title=Договор по email
+messageType.100.search.200.class=BGBillingMessageTypeSearchEmail
+messageType.100.search.200.billingId=bill
+messageType.100.search.200.paramIds=15
+
 messageType.200.title=BGBilling HelpDesk
 messageType.200.billingId={@BILLING_ID}
 messageType.200.class=MessageTypeHelpDesk

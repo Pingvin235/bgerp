@@ -1,5 +1,6 @@
 package org.bgerp.itest.plugin.bgbilling;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
@@ -143,5 +144,10 @@ public class BGBillingTest {
         MessageHelper.addHowToTestNoteMessage(processId, this);
 
         // HD processes have to be imported
+    }
+
+    @Test
+    public void message() throws Exception {
+        MessageHelper.addCallMessage(0, UserTest.USER_ADMIN_ID, Duration.ZERO, "79171234567", "100", TITLE + " звонок от договора 'test'", "");
     }
 }
