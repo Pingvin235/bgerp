@@ -40,7 +40,7 @@ public class NewsAction extends BaseAction {
         news.setId(form.getId());
         news.setUserId(form.getUserId());
         news.setTitle(form.getParam("title", ""));
-        news.setDescription(form.getParam("description", ""));
+        news.setText(form.getParam("description", ""));
         news.setPopup(type == 1);
         news.setLifeTime(form.getParamInt("lifeTime", 30));
         news.setReadTime(form.getParamInt("readTime", 24));
@@ -49,7 +49,7 @@ public class NewsAction extends BaseAction {
             throw new BGMessageException("Нельзя добавить " + kindOf + " без заголовка");
         }
 
-        if (Utils.isBlankString(news.getDescription())) {
+        if (Utils.isBlankString(news.getText())) {
             throw new BGMessageException("Нельзя добавить " + kindOf + " без текста");
         }
 

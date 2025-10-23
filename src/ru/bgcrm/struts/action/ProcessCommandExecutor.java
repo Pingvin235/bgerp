@@ -125,7 +125,7 @@ public class ProcessCommandExecutor {
 
                 text += "<br/><a href='#' onClick='$$.process.open( " + process.getId() + " )'>Перейти к процессу</a>";
 
-                news.setDescription(text);
+                news.setText(text);
 
                 userIds.remove(event.getForm().getUserId());
 

@@ -44,7 +44,7 @@ public class NewsDAO extends CommonDAO {
             }
         }
         if (Utils.notBlankString(text)) {
-            pq.addQuery(" AND (POSITION(? IN n.title)>0 OR POSITION(? IN n.description)>0) ");
+            pq.addQuery(" AND (POSITION(? IN n.title)>0 OR POSITION(? IN n.text)>0) ");
             pq.addString(text);
             pq.addString(text);
         }
@@ -87,10 +87,10 @@ public class NewsDAO extends CommonDAO {
         PreparedStatement ps = null;
 
         if (news.getId() <= 0) {
-            query = "INSERT INTO " + TABLE_NEWS + " SET create_dt=now(), title=?, description=?, user_id=?, is_popup=?, life_time=?, read_time=?";
+            query = "INSERT INTO " + TABLE_NEWS + " SET create_dt=now(), title=?, text=?, user_id=?, is_popup=?, life_time=?, read_time=?";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, news.getTitle());
-            ps.setString(index++, news.getDescription());
+            ps.setString(index++, news.getText());
             ps.setInt(index++, news.getUserId());
             ps.setBoolean(index++, news.isPopup());
             ps.setInt(index++, news.getLifeTime());
@@ -99,10 +99,10 @@ public class NewsDAO extends CommonDAO {
             news.setId(lastInsertId(ps));
         } else {
             query = "UPDATE " + TABLE_NEWS
-                    + " SET update_dt=now(), title=?, description=?, user_id=?, is_popup=?, life_time=?, read_time=? WHERE id=?";
+                    + " SET update_dt=now(), title=?, text=?, user_id=?, is_popup=?, life_time=?, read_time=? WHERE id=?";
             ps = con.prepareStatement(query);
             ps.setString(index++, news.getTitle());
-            ps.setString(index++, news.getDescription());
+            ps.setString(index++, news.getText());
             ps.setInt(index++, news.getUserId());
             ps.setBoolean(index++, news.isPopup());
             ps.setInt(index++, news.getLifeTime());
@@ -193,7 +193,7 @@ public class NewsDAO extends CommonDAO {
         news.setCreateDate(rs.getTimestamp("create_dt"));
         news.setUpdateDate(rs.getTimestamp("update_dt"));
         news.setTitle(rs.getString("title"));
-        news.setDescription(rs.getString("description"));
+        news.setText(rs.getString("text"));
         news.setPopup(rs.getBoolean("is_popup"));
         news.setLifeTime(rs.getInt("life_time"));
         news.setReadTime(rs.getInt("read_time"));

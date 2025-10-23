@@ -157,7 +157,7 @@ public class AppAction extends BaseAction {
             News news = new News();
             news.setUserId(form.getUserId());
             news.setTitle(l.l("Maintenance"));
-            news.setDescription(PatternFormatter.processPattern(message, Map.of(
+            news.setText(PatternFormatter.processPattern(message, Map.of(
                 "user", maintenance.getUser().getTitle(),
                 "time", maintenance.getLogoffTime().format(DateTimeFormatter.ISO_LOCAL_TIME)
             )));
@@ -178,7 +178,7 @@ public class AppAction extends BaseAction {
         News news = new News();
         news.setUserId(form.getUserId());
         news.setTitle(l.l("Maintenance cancel"));
-        news.setDescription(l.l("maintenance.cancel", maintenance.getStartTime().format(DateTimeFormatter.ISO_LOCAL_TIME)));
+        news.setText(l.l("maintenance.cancel", maintenance.getStartTime().format(DateTimeFormatter.ISO_LOCAL_TIME)));
         news.setPopup(true);
         news.setReadTime(1);
 

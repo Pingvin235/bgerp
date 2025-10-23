@@ -49,7 +49,7 @@ public class MessageCallAction extends BaseAction {
                 news.setPopup(true);
                 news.setLifeTime(1);
                 news.setTitle(l.l("The number is occupied"));
-                news.setDescription(l.l("Number {} occupied by user {}", number, form.getUser().getTitle()));
+                news.setText(l.l("Number {} occupied by user {}", number, form.getUser().getTitle()));
 
                 new NewsDAO(conSet.getConnection()).updateNewsUsers(news, Collections.singleton(reg.getUserId()));
 

@@ -4,15 +4,18 @@ import java.util.Date;
 import java.util.Set;
 
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;
 
 public class News extends IdTitle {
+    private static final Log log = Log.getLog();
+
     private int userId = User.USER_SYSTEM_ID;
     private Date createDate;
     private Date updateDate;
     /** Content */
-    private String description;
+    private String text;
     private boolean popup;
     /** Days before deletion */
     private int lifeTime = 300;
@@ -27,7 +30,7 @@ public class News extends IdTitle {
     public News(boolean popup, String title, String description) {
         this.popup = popup;
         this.title = title;
-        this.description = description;
+        this.text = description;
     }
 
     public int getUserId() {
@@ -54,12 +57,12 @@ public class News extends IdTitle {
         this.updateDate = updateDate;
     }
 
-     public String getDescription() {
-        return description;
+    public String getText() {
+        return text;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setText(String description) {
+        this.text = description;
     }
 
     public boolean isPopup() {
@@ -100,5 +103,19 @@ public class News extends IdTitle {
 
     public void setRead(boolean isRead) {
         this.read = isRead;
+    }
+
+    // deprecated
+
+    @Deprecated
+    public String getDescription() {
+        log.warndMethod("getDescription", "getText");
+        return text;
+    }
+
+    @Deprecated
+    public void setDescription(String value) {
+        log.warndMethod("setDescription", "setText");
+        this.text = value;
     }
 }

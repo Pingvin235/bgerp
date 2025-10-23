@@ -10,7 +10,7 @@
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <p><b>${item.title}</b></p>
-<p>${item.description.replace(newLineChar, "<br/>")}</p>
+<p>${item.text.replace(newLineChar, "<br/>")}</p>
 
 <c:if test="${empty hideNewsHeaders}">
 	<p><b>${l.l('Author')}:</b> ${ctxUserMap[item.userId].title}</p>

@@ -16,7 +16,7 @@ public class NewsTest {
         News news = new News();
         news.setUserId(UserTest.USER_ADMIN_ID);
         news.setTitle("Update and Restart");
-        news.setDescription(ResourceHelper.getResource(this, "news.ur.txt"));
+        news.setText(ResourceHelper.getResource(this, "news.ur.txt"));
         news.setPopup(true);
         news.setLifeTime(30);
         news.setReadTime(100);
@@ -28,7 +28,7 @@ public class NewsTest {
         news = new News();
         news.setUserId(UserTest.USER_ADMIN_ID);
         news.setTitle("Team Building Party");
-        news.setDescription(ResourceHelper.getResource(this, "news.tb.txt"));
+        news.setText(ResourceHelper.getResource(this, "news.tb.txt"));
         news.setPopup(false);
         news.setLifeTime(30);
         news.setReadTime(100);

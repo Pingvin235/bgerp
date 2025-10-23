@@ -206,16 +206,17 @@ CREATE TABLE IF NOT EXISTS news (
 	create_dt DATETIME NOT NULL,
 	update_dt TIMESTAMP NOT NULL,
 	title VARCHAR(255) NOT NULL,
-	`description` TEXT,
+	`text` TEXT,
 	is_popup BIT NOT NULL,
 	life_time INT NOT NULL DEFAULT '30',
 	read_time INT NOT NULL DEFAULT '24',
-	`groups` VARCHAR(250) NOT NULL,
+	groups VARCHAR(250) NOT NULL,
 	PRIMARY KEY (id)
 );
 CALL add_column_if_not_exists('news', 'read_time', 'INT NOT NULL DEFAULT 24');
 CALL add_column_if_not_exists('news', 'groups', 'VARCHAR(250) NOT NULL');
 CALL rename_table_if_exists('n_news', 'news');
+CALL rename_column_if_exists('news', 'description', 'text');
 
 CREATE TABLE IF NOT EXISTS news_user (
 	news_id INT NOT NULL,
