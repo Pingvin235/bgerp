@@ -93,7 +93,8 @@ public class NewsAction extends BaseAction {
     }
 
     public ActionForward newsList(DynActionForm form, Connection con) throws Exception {
-        Boolean read = form.getParamBoolean("read", false);
+        int readInt = form.getParamInt("read", 0);
+        Boolean read = readInt >= 0 ? Utils.parseBoolean(String.valueOf(readInt)) : null;
 
         Pageable<News> searchResult = new Pageable<>(form);
 
