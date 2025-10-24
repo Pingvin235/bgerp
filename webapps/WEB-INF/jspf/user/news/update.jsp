@@ -30,7 +30,7 @@
 			<h2>${l.l('Тип новости')}</h2>
 			<ui:combo-single style="width: 150px;" hiddenName="type">
 				<jsp:attribute name="valuesHtml">
-					<li value="-1">${l.l('----')}</li>
+					<li value="-1">----</li>
 					<li value="0">${l.l('Обычная')}</li>
 					<li value="1">${l.l('Всплывающая')}</li>
 				</jsp:attribute>
