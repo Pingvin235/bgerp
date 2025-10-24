@@ -14,5 +14,5 @@
 
 <c:if test="${empty hideNewsHeaders}">
 	<p><b>${l.l('Author')}:</b> ${ctxUserMap[item.userId].title}</p>
-	<p><b>${l.l('Date')}:</b> ${tu.format(item.createDate, 'ymdhms')}</p>
+	<p><b>${l.l('Date')}:</b> ${tu.format(item.createTime, 'ymdhms')}</p>
 </c:if>

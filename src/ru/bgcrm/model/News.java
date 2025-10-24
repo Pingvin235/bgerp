@@ -12,8 +12,8 @@ public class News extends IdTitle {
     private static final Log log = Log.getLog();
 
     private int userId = User.USER_SYSTEM_ID;
-    private Date createDate;
-    private Date updateDate;
+    private Date createTime;
+    private Date updateTime;
     /** Content */
     private String text;
     private boolean popup;
@@ -41,20 +41,20 @@ public class News extends IdTitle {
         this.userId = userId;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateTime(Date createDate) {
+        this.createTime = createDate;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setUpdateTime(Date updateDate) {
+        this.updateTime = updateDate;
     }
 
     public String getText() {
@@ -106,6 +106,30 @@ public class News extends IdTitle {
     }
 
     // deprecated
+
+    @Deprecated
+    public Date getCreateDate() {
+        log.warndMethod("getCreateDate", "getCreateTime");
+        return createTime;
+    }
+
+    @Deprecated
+    public void setCreateDate(Date value) {
+        log.warndMethod("setCreateDate", "setCreateTime");
+        this.createTime = value;
+    }
+
+    @Deprecated
+    public Date getUpdateDate() {
+        log.warndMethod("getUpdateDate", "getUpdateTime");
+        return updateTime;
+    }
+
+    @Deprecated
+    public void setUpdateDate(Date value) {
+        log.warndMethod("setUpdateDate", "setUpdateTime");
+        this.updateTime = value;
+    }
 
     @Deprecated
     public String getDescription() {

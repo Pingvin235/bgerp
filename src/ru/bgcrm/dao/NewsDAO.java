@@ -190,8 +190,8 @@ public class NewsDAO extends CommonDAO {
 
         news.setId(rs.getInt("id"));
         news.setUserId(rs.getInt("user_id"));
-        news.setCreateDate(rs.getTimestamp("create_dt"));
-        news.setUpdateDate(rs.getTimestamp("update_dt"));
+        news.setCreateTime(rs.getTimestamp("create_dt"));
+        news.setUpdateTime(rs.getTimestamp("update_dt"));
         news.setTitle(rs.getString("title"));
         news.setText(rs.getString("text"));
         news.setPopup(rs.getBoolean("is_popup"));

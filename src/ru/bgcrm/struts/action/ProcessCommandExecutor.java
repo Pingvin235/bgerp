@@ -113,7 +113,7 @@ public class ProcessCommandExecutor {
                 NewsDAO newsDao = new NewsDAO(con);
 
                 News news = new News();
-                news.setCreateDate(new Date());
+                news.setCreateTime(new Date());
                 news.setLifeTime(200);
                 news.setReadTime(400);
                 news.setUserId(event.getForm().getUserId());
