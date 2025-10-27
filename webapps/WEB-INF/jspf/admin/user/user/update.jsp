@@ -136,8 +136,8 @@
 
 	<div class="separator"/>
 
-	<div style="height: 300px;" class="mt1 in-table-cell in-va-top in-pr1">
-		<div style="width: 50%;">
+	<div style="display: flex;" class="mt1 in-va-top in-pr1">
+		<div style="flex-grow: 1;">
 			<h2>${l.l('Groups')}</h2>
 			<%-- extra wrapper to do not rewrite the label before on reload --%>
 			<div>
@@ -149,7 +149,7 @@
 				<c:import url="${url}" />
 			</div>
 		</div>
-		<div style="width: 50%;">
+		<div style="flex-grow: 1;">
 			<div>
 				<c:url var="url" value="/user/parameter.do">
 					<c:param name="method" value="parameterList" />
