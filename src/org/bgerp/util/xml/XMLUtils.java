@@ -6,11 +6,6 @@ import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
@@ -143,49 +138,19 @@ public class XMLUtils {
             element.setAttribute(name, value);
     }
 
-    // парсинг документов
-
     public static Document parseDocument(InputStream stream) {
-        return parseDocument(stream, true);
-    }
-
-    public static Document parseDocument(InputStream stream, boolean showError) {
-        return parseDocument(new InputSource(stream), showError);
+        return parseDocument(new InputSource(stream));
     }
 
     public static Document parseDocument(InputSource source) {
-        return parseDocument(source, true);
-    }
-
-    public static Document parseDocument(InputSource source, boolean showError) {
-        Document result = null;
-
-        if (source != null) {
-            try {
-                DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-                dFactory.setNamespaceAware(true);
-                dFactory.setValidating(false);
-                DocumentBuilder docBuilder = dFactory.newDocumentBuilder();
-
-                result = docBuilder.parse(source);
-            } catch (Exception e) {
-                if (showError) {
-                    logger.error(e.getMessage(), e);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    public static void parseDocument(InputSource source, org.xml.sax.ContentHandler handler) {
         try {
-            javax.xml.parsers.SAXParserFactory saxParserFactory = javax.xml.parsers.SAXParserFactory.newInstance();
-            javax.xml.parsers.SAXParser saxParser = saxParserFactory.newSAXParser();
-            org.xml.sax.XMLReader parser = saxParser.getXMLReader();
-            parser.setContentHandler(handler);
-            parser.parse(source);
-        } catch (Exception ex) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+
+            return factory.newDocumentBuilder().parse(source);
+        } catch (Exception e) {
+            logger.error(e);
+            return null;
         }
     }
 
@@ -355,30 +320,5 @@ public class XMLUtils {
         domSerializer.getDomConfig().setParameter("format-pretty-print", pretty);
         domSerializer.getDomConfig().setParameter("xml-declaration", false);
         domSerializer.write(xml, formattedOutput);
-    }
-
-    // трансформация
-
-    /**
-     * Трансформация xml+xstl&rarr;выход
-     * @param xml исходный документ xml в виде Source.
-     * @param xslt исходный документ xslt в виде Source.
-     * @param res результат (например, готовый FO-документ) в виде Result.
-     * @param enc кодировка, может быть null, тогда получается из шаблона.
-     * @throws TransformerException ошибка трансформации.
-     */
-    public static void transform(Source xml, Source xslt, Result res, String enc) throws TransformerException {
-        TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(xslt);
-
-        transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-        // кодировка может быть указана в самом шаблоне
-        if (enc != null) {
-            transformer.setOutputProperty("encoding", enc);
-        }
-
-        transformer.transform(xml, res);
     }
 }
