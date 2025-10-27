@@ -6,13 +6,13 @@
 
 <html:form action="/admin/custom" onsubmit="return false;" style="display: inline-block;" styleClass="mt1">
 	<input type="hidden" name="method" value="compile"/>
-	<button class="btn-grey" type="button" onclick="$$.ajax.loadContent(this);">${l.l('Скомпилировать Java код')}</button>
+	<button class="btn-grey" type="button" onclick="$$.ajax.loadContent(this);">${l.l('Compile Java code')}</button>
 </html:form>
 
 <c:set var="result" value="${frd.result}"/>
 <c:if test="${not empty result}">
 	<div class="mt1">
-		<b>${l.l('Результат компиляции')}:</b><br/>
+		<b>${l.l('Compilation result')}:</b><br/>
 		${u:htmlEncode(result.logString)}
 	</div>
 </c:if>

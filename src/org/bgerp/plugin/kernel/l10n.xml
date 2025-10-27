@@ -286,10 +286,10 @@
 	<p><en>Run</en><ru>Выполнить</ru></p>
 	<p><en>Wait of execution is done</en><ru>Ожидание окончания выполнения</ru></p>
 	<p><ru>синхронно</ru><en>synch</en></p>
-	<p><ru>Скомпилировать Java код</ru><en>Compile Java code</en></p>
+	<p><en>Compile Java code</en><ru>Скомпилировать Java код</ru></p>
 	<p><ru>Имя класса, реализующего java.lang.Runnable</ru><en>Class name, implementing java.lang.Runnable</en></p>
 	<p><ru>Custom</ru><en>Custom</en></p>
-	<p><ru>Результат компиляции</ru><en>Compilation result</en></p>
+	<p><en>Compilation result</en><ru>Результат компиляции</ru></p>
 	<p><ru>Класс не найден: {}</ru><en>Class not found: {}</en></p>
 	<p><en>The class does not implement java.lang.Runnable: {}</en><ru>Класс не реализует java.lang.Runnable: {}</ru></p>
 	<p><ru>Вы уверены, что хотите удалить?</ru><en>Are you sure you want to delete it?</en></p>
