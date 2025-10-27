@@ -48,7 +48,7 @@
 				<c:set var="uiid" value="${u:uiid()}"/>
 				<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:first"/>
 				<c:set var="selectorTo" value="#${uiid}"/>
-				<textarea id="${uiid}" style="width: 100%; resize: none;" name="description">${user.description}</textarea>
+				<textarea id="${uiid}" style="width: 100%; resize: none;" name="description">${user.comment}</textarea>
 				<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
 			</u:sc>
 
