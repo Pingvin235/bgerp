@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<shell:title text="${l.l('Очереди процессов')}"/>
+<shell:title text="${l.l('Process Queues')}"/>
 
 <div id="processQueueShow" >
 	<table style="width: 100%;"><tr>

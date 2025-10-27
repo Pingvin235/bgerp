@@ -66,7 +66,7 @@
 	</div>
 </html:form>
 
-<shell:state text="${l.l('Редактор')}" help="kernel/setup.html#config"/>
+<shell:state text="${l.l('Editor')}" help="kernel/setup.html#config"/>
 
 <script>
 	$$.ui.codeMirror('${taUiid}');

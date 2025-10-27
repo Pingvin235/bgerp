@@ -11,7 +11,7 @@
 <ui:menu-item title="${l.l('Сообщения')}" href="message/queue" icon="ti-email" action="/user/message:messageList" />
 
 <ui:menu-group title="${l.l('Процессы')}" icon="ti-control-shuffle">
-	<ui:menu-item title="${l.l('Очереди процессов')}" href="process/queue"
+	<ui:menu-item title="${l.l('Process Queues')}" href="process/queue"
 		action="ru.bgcrm.struts.action.ProcessQueueAction:queue" />
 
 	<ui:menu-item title="${l.l('My Processes')}" href="process/my"
@@ -44,7 +44,7 @@
 		action="ru.bgcrm.struts.action.admin.DirectoryAction:null" />
 
 	<ui:menu-group title="${l.l('Пользователи')}" icon="ti-user">
-		<ui:menu-item title="${l.l('Наборы прав')}" href="admin/user/permset"
+		<ui:menu-item title="${l.l('Permission Sets')}" href="admin/user/permset"
 			action="ru.bgcrm.struts.action.admin.UserAction:permsetList" />
 
 		<ui:menu-item title="${l.l('Groups')}" href="admin/user/group"
@@ -61,7 +61,7 @@
 		<ui:menu-item title="${l.l('Типы процессов')}" href="admin/process/type"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:typeList" />
 
-		<ui:menu-item title="${l.l('Очереди процессов')}" href="admin/process/queue"
+		<ui:menu-item title="${l.l('Process Queues')}" href="admin/process/queue"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:queueList" />
 	</ui:menu-group>
 

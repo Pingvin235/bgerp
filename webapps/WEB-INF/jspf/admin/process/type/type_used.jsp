@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div class="mb1" style="width: 20em;">
-	<b>${l.l('Очереди процессов')}:</b>
+	<b>${l.l('Process Queues')}:</b>
 </div>
 <div class="mb1">
 	${u.toString(frd.queueTitleList)}

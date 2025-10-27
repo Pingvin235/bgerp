@@ -41,12 +41,12 @@
 
 	<div class="in-inline-block in-pr1 in-va-top">
 		<div style="width: 50%;">
-			<h2>${l.l('Наборы прав')}</h2>
+			<h2>${l.l('Permission Sets')}</h2>
 
 			<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${group.permsetIds}" moveOn="1"/>
 		</div><%--
 	--%><div style="width: 50%;">
-			<h2>${l.l('Очереди процессов')}</h2>
+			<h2>${l.l('Process Queues')}</h2>
 
 			<ui:select-mult list="${ctxProcessQueueList}" map="${ctxProcessQueueMap}" hiddenName="queue" values="${group.queueIds}"/>
 		</div>
@@ -55,7 +55,7 @@
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
-<shell:state text="${l.l('Редактор')}" help="kernel/setup.html#user"/>
+<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user"/>
 
 <script>
 	$(function () {

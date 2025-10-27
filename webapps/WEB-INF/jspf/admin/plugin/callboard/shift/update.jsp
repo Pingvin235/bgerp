@@ -52,4 +52,4 @@
 	$('input#shiftColor${uiid}').colorPicker();
 </script>
 
-<shell:state text="${l.l('Редактор')}"/>
+<shell:state text="${l.l('Editor')}"/>

@@ -74,5 +74,5 @@
 	</c:forEach>
 </table>
 
-<shell:title text="${l.l('Наборы прав')}"/>
+<shell:title text="${l.l('Permission Sets')}"/>
 <shell:state/>

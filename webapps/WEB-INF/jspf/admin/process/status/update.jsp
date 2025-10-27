@@ -19,4 +19,4 @@
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
-<shell:state text="${l.l('Редактор')}" help="kernel/process/index.html#status"/>
+<shell:state text="${l.l('Editor')}" help="kernel/process/index.html#status"/>

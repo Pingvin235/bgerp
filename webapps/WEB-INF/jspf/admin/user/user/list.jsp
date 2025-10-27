@@ -24,8 +24,8 @@
 	<ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}"
 		prefixText="${l.l('Status')}:" widthTextValue="70px">
 		<jsp:attribute name="valuesHtml">
-			<li value="${STATUS_ACTIVE}">${l.l('Активные')}</li>
-			<li value="${STATUS_DISABLED}">${l.l('Заблокированные')}</li>
+			<li value="${STATUS_ACTIVE}">${l.l('Active')}</li>
+			<li value="${STATUS_DISABLED}">${l.l('Blocked')}</li>
 			<li value="${STATUS_EXTERNAL}">${l.l('Внешние')}</li>
 			<li value="-1">${l.l('All')}</li>
 		</jsp:attribute>
@@ -56,8 +56,8 @@
 		<td width="30">ID</td>
 		<td>${l.l('Status')}</td>
 		<td>${l.l('Title')}</td>
-		<td>${l.l('Логин')}</td>
-		<td>${l.l('Наборы прав')}</td>
+		<td>${l.l('Login')}</td>
+		<td>${l.l('Permission Sets')}</td>
 		<td>${l.l('Groups')}</td>
 		<td>${l.l('Comment')}</td>
 	</tr>
@@ -89,8 +89,8 @@
 			<td>${item.id}</td>
 			<td>
 				<c:choose>
-					<c:when test="${item.status eq STATUS_ACTIVE}">${l.l('Активен')}</c:when>
-					<c:when test="${item.status eq STATUS_DISABLED}">${l.l('Заблокирован')}</c:when>
+					<c:when test="${item.status eq STATUS_ACTIVE}">${l.l('Active')}</c:when>
+					<c:when test="${item.status eq STATUS_DISABLED}">${l.l('Blocked')}</c:when>
 					<c:when test="${item.status eq STATUS_EXTERNAL}">${l.l('Внешний')}</c:when>
 					<c:otherwise>${l.l('Неизвестный статус')} (${item.status})</c:otherwise>
 				</c:choose>

@@ -11,7 +11,7 @@
 	<input type="hidden" name="method" value="userUpdate" />
 	<html:hidden property="id" />
 
-	<h1>Основные свойства (сохранение/отмена по OK/Отмена)</h1>
+	<h1>${l.l('Main properties (Save/Cancel via OK/Cancel)')}</h1>
 
 	<div class="separator"/>
 
@@ -21,28 +21,28 @@
 			<h2>ID</h2>
 			<div>
 				<input type="text" disabled="disabled" style="width: 100%" value="${form.id}"/>
-				<h2>Имя</h2>
+				<h2>${l.l('Name')}</h2>
 				<html:text property="title" style="width: 100%" value="${user.title}"/>
 			</div>
 
 			<%@ include file="user_status_const.jsp"%>
 
-			<h2>Логин</h2>
+			<h2>${l.l('Login')}</h2>
 			<div>
 				<html:text property="login" style="width: 100%" value="${user.login}"/>
-				<h2>Пароль</h2>
+				<h2>${l.l('Password')}</h2>
 				<html:password property="pswd" style="width: 100%" value="${user.password}"/>
-				<h2>Статус</h2>
+				<h2>${l.l('Status')}</h2>
 				<ui:combo-single hiddenName="status" value="${user.status}" widthTextValue="120px">
 					<jsp:attribute name="valuesHtml">
-						<li value="${STATUS_ACTIVE}">Активен</li>
-						<li value="${STATUS_DISABLED}">Заблокирован</li>
+						<li value="${STATUS_ACTIVE}">${l.l('Active')}</li>
+						<li value="${STATUS_DISABLED}">${l.l('Blocked')}</li>
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
 		</div><%--
 	--%><div style="width: 20%;">
-			<h2>Комментарии</h2>
+			<h2>${l.l('Comment')}</h2>
 
 			<u:sc>
 				<c:set var="uiid" value="${u:uiid()}"/>
@@ -69,7 +69,7 @@
 		</div><%--
 	--%><c:if test="${empty perm['permsetSet']}"><%--
 		--%><div style="width: 20%;">
-				<h2>${l.l('Наборы прав')}</h2>
+				<h2>${l.l('Permission Sets')}</h2>
 
 				<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${user.permsetIds}" moveOn="1" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
@@ -95,7 +95,7 @@
 	--%></c:if><%--
 	--%><c:if test="${empty perm['queueSet']}"><%--
 		--%><div style="width: 20%;">
-				<h2>${l.l('Очереди процессов')}</h2>
+				<h2>${l.l('Process Queues')}</h2>
 
 				<ui:select-mult list="${ctxProcessQueueList}" hiddenName="queue" values="${user.queueIds}" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
@@ -120,7 +120,7 @@
 						this
 					)
 				})
-			">${l.l('Промежуточное сохранение')}</button>
+			">${l.l('Intermediate save')}</button>
 		</c:when>
 		<c:otherwise>
 			<ui:button type="ok" onclick="$$.ajax
@@ -132,18 +132,11 @@
 </div>
 
 <c:if test="${form.id gt 0}">
-	<h1>Дополнительные свойства (сохраняются сразу)</h1>
+	<h1>${l.l('Additional properties (saved immediately)')}</h1>
 
 	<div class="separator"/>
 
 	<div style="height: 300px;" class="mt1 in-table-cell in-va-top in-pr1">
-		<div <%-- style="min-width: 200px;" --%> class="pr1">
-			<h2>Фото</h2>
-			<div class="border-table" style="text-align: center; height: 150px; width: 150px; line-height: 150px; vertical-align: middle;">
-				<div>НЕТ ФОТО</div>
-			</div>
-			<button class="btn-white mt05" style="width: 150px;">Обновить фото</button>
-		</div>
 		<div style="width: 50%;">
 			<h2>${l.l('Groups')}</h2>
 			<%-- extra wrapper to do not rewrite the label before on reload --%>
@@ -170,7 +163,7 @@
 	</div>
 </c:if>
 
-<shell:state text="${l.l('Редактор')}" help="kernel/setup.html#user"/>
+<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user"/>
 
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>
 

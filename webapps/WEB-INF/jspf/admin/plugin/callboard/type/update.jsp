@@ -77,4 +77,4 @@
 	<%@ include file="/WEB-INF/jspf/layout_process.jsp"%>
 </html:form>
 
-<shell:state text="${l.l('Редактор')}"/>
+<shell:state text="${l.l('Editor')}"/>

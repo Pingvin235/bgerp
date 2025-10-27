@@ -23,11 +23,11 @@
 			</td>
 		</tr>
 		<tr>
-			<td>${l.l('Логин')}</td>
+			<td>${l.l('Login')}</td>
 			<td><input id="userLogin" name="userLogin" type="text" size="30" value="${user.login}"/></td>
 		</tr>
 		<tr>
-			<td>${l.l('Пароль')}</td>
+			<td>${l.l('Password')}</td>
 			<td><input id="userPassword" name="userPassword" type="password" size="30" value="${user.password}"/></td>
 		</tr>
 		<tr>

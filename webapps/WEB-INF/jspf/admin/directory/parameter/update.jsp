@@ -69,4 +69,4 @@
 	${typeChangedScript}
 </script>
 
-<shell:state text="${l.l('Редактор')}" help="kernel/setup.html#param"/>
+<shell:state text="${l.l('Editor')}" help="kernel/setup.html#param"/>

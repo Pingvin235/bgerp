@@ -3,8 +3,8 @@
 	<p><ru>Перенесено из процесса #{}</ru><en>Moved from process #{}</en></p>
 	<p><en>Properties</en><ru>Свойства</ru></p>
 	<p><ru>Сохранить свойства</ru><en>Save properties</en></p>
-	<p><ru>Пароль</ru><en>Password</en></p>
-	<p><ru>Логин</ru><en>Login</en></p>
+	<p><en>Password</en><ru>Пароль</ru></p>
+	<p><en>Login</en><ru>Логин</ru></p>
 	<p><en>Name</en><ru>Имя</ru></p>
 	<p><ru>Свойство</ru><en>Property</en></p>
 	<p><ru>Параметр</ru><en>Parameter</en></p>
@@ -98,12 +98,12 @@
 	<p><ru>Поиск</ru><en>Search</en></p>
 	<p><en>News</en><ru>Новости</ru></p>
 	<p><ru>Адреса</ru><en>Addresses</en></p>
-	<p><ru>Наборы прав</ru><en>Permission Sets</en></p>
+	<p><en>Permission Sets</en><ru>Наборы прав</ru></p>
 	<p><en>Groups</en><ru>Группы</ru></p>
 	<p><ru>Пользователи</ru><en>Users</en></p>
 	<p><ru>Статусы процессов</ru><en>Statuses</en></p>
 	<p><ru>Типы процессов</ru><en>Process Types</en></p>
-	<p><ru>Очереди процессов</ru><en>Process Queues</en></p>
+	<p><en>Process Queues</en><ru>Очереди процессов</ru></p>
 	<p><en>Configuration</en><ru>Конфигурация</ru></p>
 	<p><en>App Status</en><ru>Статус приложения</ru></p>
 	<p><ru>Приложение</ru><en>App</en></p>
@@ -179,7 +179,7 @@
 	<p><en>Read</en><ru>Прочитано</ru></p>
 	<p><ru>Пометить все новости прочитанными</ru><en>Mark all news as read</en></p>
 	<p><ru>Все прочитаны</ru><en>All read</en></p>
-	<p><ru>Редактор</ru><en>Editor</en></p>
+	<p><en>Editor</en><ru>Редактор</ru></p>
 	<p><ru>Помощь</ru><en>Help</en></p>
 	<p><ru>Фильтры</ru><en>Filters</en></p>
 	<p><ru>Сорт.</ru><en>Order</en></p>
@@ -397,10 +397,8 @@
 	<p><ru>Экспорт своего фильтра в общие</ru><en>Export filter to common</en></p>
 	<p><ru>Удалить общий фильтр</ru><en>Delete common filter</en></p>
 	<p><ru>Общий фильтр</ru><en>Common filter</en></p>
-	<p><ru>Активные</ru><en>Active</en></p>
-	<p><ru>Заблокированные</ru><en>Blocked</en></p>
-	<p><ru>Заблокирован</ru><en>Blocked</en></p>
-	<p><ru>Активен</ru><en>Active</en></p>
+	<p><en>Blocked</en><ru>Заблокирован</ru></p>
+	<p><en>Active</en><ru>Активен</ru></p>
 	<p><ru>Набор прав</ru><en>Permission set</en></p>
 	<p><ru>Гр. на дату</ru><en>Gr. on date</en></p>
 	<p><ru>ПРОЦЕСС ДЛЯ ВАС НЕ СУЩЕСТВУЕТ</ru><en>PROCESS FOR YOU DOESN'T EXIST</en></p>
@@ -445,7 +443,7 @@
 	<p><ru>Занять</ru><en>Occupy</en></p>
 	<p><ru>Звонок</ru><en></en>Call</p>
 	<p><ru>Перезапустить</ru><en>Restart</en></p>
-	<p><ru>Промежуточное сохранение</ru><en>Intermediate save</en></p>
+	<p><en>Intermediate save</en><ru>Промежуточное сохранение</ru></p>
 	<p><en>Use dot as a decimal separator</en><ru>Используйте точку как десятичный разделитель</ru></p>
 	<p><ru>Выбрать файл</ru><en>Select file</en></p>
 	<p><en>Month</en><ru>Месяц</ru></p>
@@ -681,6 +679,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>call.out</sys><en>Outgoing</en><ru>Исходящий</ru></p>
 	<p><en>Running task</en><ru>Задача выполняется</ru></p>
 	<p><en>Print</en><ru>Печать</ru></p>
+	<p><en>Main properties (Save/Cancel via OK/Cancel)</en><ru>Основные свойства (сохранение/отмена по OK/Отмена)</ru></p>
+	<p><en>Additional properties (saved immediately)</en><ru>Дополнительные свойства (сохраняются сразу)</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
