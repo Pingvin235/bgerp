@@ -59,9 +59,9 @@ $$.report = new function() {
 		$data.empty();
 
 		const url = $$.ajax.formUrl($form) + "&page.pageIndex=-1&chartIndex=" + index;
-		$$.ajax.post(url).done((response) => {
+		$$.ajax.post(url).done((result) => {
 			chart = echarts.init($data[0]);
-			chart.setOption(response.data.chart);
+			chart.setOption(result.data.chart);
 			$data.data("echart", chart);
 		});
 	}
