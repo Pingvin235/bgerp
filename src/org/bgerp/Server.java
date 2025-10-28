@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import javax.net.ssl.HostnameVerifier;
@@ -27,6 +28,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.apache.tomcat.util.threads.TaskQueue;
+import org.apache.tomcat.util.threads.TaskThreadFactory;
+import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.exception.alarm.AlarmSender;
@@ -163,7 +167,14 @@ public class Server extends Tomcat {
         connector.setUseBodyEncodingForURI(true);
         connector.setMaxPostSize(setup.getInt("max.post.size", 10000000));
         connector.setMaxSavePostSize(1000000);
-        connector.setProperty("maxThreads", setup.get("connector.http.thread.max", "25"));
+
+        // copy from method createExecutor in org.apache.tomcat.util.net.AbstractEndpoint
+        TaskQueue queue = new TaskQueue();
+        TaskThreadFactory tf = new TaskThreadFactory("http-", true, 5);
+        var executor = new ThreadPoolExecutor(10, setup.getInt("connector.http.threads.max", 25), 60L, TimeUnit.SECONDS, queue, tf);
+        queue.setParent(executor);
+
+        connector.getProtocolHandler().setExecutor(executor);
 
         start();
 
@@ -179,8 +190,6 @@ public class Server extends Tomcat {
                 log.error(e.getMessage(), e);
             }
         }
-
-        // EventProcessor.subscribeDynamicClasses();
     }
 
     private void checkDBConnectionOrExit() {
