@@ -232,20 +232,21 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
-    public List<Message> newMessageList(ConnectionSet conSet) throws Exception {
+    public synchronized List<Message> newMessageList(ConnectionSet conSet) throws Exception {
         List<Message> result = new ArrayList<>();
 
         long time = System.currentTimeMillis();
         try (var store = mailConfig.getImapStore();
             var incomingFolder = store.getFolder(folderIncoming);) {
 
-            log.debug("Get imap store time: {} ms.", System.currentTimeMillis() - time);
+            log.debug("{} get imap store time: {} ms.", getEmail(), System.currentTimeMillis() - time);
+            time = System.currentTimeMillis();
 
             incomingFolder.open(Folder.READ_ONLY);
 
             result = incomingCache.list(incomingFolder);
 
-            log.debug("New message list time: {} ms.", System.currentTimeMillis() - time);
+            log.debug("{} new message list time: {} ms.", getEmail(), System.currentTimeMillis() - time);
         }
 
         unprocessedMessagesCount = result.size();
@@ -299,7 +300,7 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
-    public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
+    public synchronized void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
         // message in process, called deletions per one
         if (messageIds.length == 1 && Utils.parseInt(messageIds[0]) > 0) {
             new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageIds[0]));
@@ -327,7 +328,9 @@ public class MessageTypeEmail extends MessageType {
 
             incomingFolder.copyMessages(list.toArray(new jakarta.mail.Message[0]), trashFolder);
 
-            incomingCache.delete(messageIds);
+            incomingFolder.close();
+            incomingFolder.open(Folder.READ_ONLY);
+            incomingCache.relist(incomingFolder);
         }
     }
 

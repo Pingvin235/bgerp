@@ -42,10 +42,10 @@ class FolderCache {
 
     private final MessageTypeEmail type;
 
-    private long lastListTimeMs;
+    private volatile long lastListTimeMs;
 
-    /** Folder messages with partially filled fields. */
-    private List<Item> data;
+    /** Folder messages with partially filled fields */
+    private volatile List<Item> data;
 
     FolderCache(MessageTypeEmail type) {
         this.type = type;
@@ -70,7 +70,7 @@ class FolderCache {
     }
 
     public synchronized void relist(Folder folder) throws Exception {
-        log.debug("relist");
+        log.debug("relist: {}", type.getEmail());
 
         jakarta.mail.Message[] messages = folder.getMessages();
         folder.fetch(messages, FETCH_PROFILE_LIST);
@@ -90,7 +90,7 @@ class FolderCache {
                 log.debug("Message subject: {}, from: {}, fromTime: {}", m.getSubject(), m.getFrom(), m.getFromTime());
         }
 
-        log.debug("relist, size: {}", data.size());
+        log.debug("relist: {}, size: {}", type.getEmail(), data.size());
 
         lastListTimeMs = System.currentTimeMillis();
     }
@@ -112,10 +112,11 @@ class FolderCache {
      * Removes one or more messages by IDs.
      * @param ids string IDs like 'indexDDD'.
      */
-    void delete(String... ids) {
-        for(var id : ids) {
+    @Deprecated
+    synchronized void delete(String... ids) {
+        log.debug("delete in: {}, ids: {}", type.getEmail(), List.of(ids));
+        for(var id : ids)
             data.remove(idToIndex(id));
-        }
     }
 
     /**
