@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS news (
 	is_popup BIT NOT NULL,
 	life_time INT NOT NULL DEFAULT '30',
 	read_time INT NOT NULL DEFAULT '24',
-	groups VARCHAR(250) NOT NULL,
+	`groups` VARCHAR(250) NOT NULL,
 	PRIMARY KEY (id)
 );
 CALL add_column_if_not_exists('news', 'read_time', 'INT NOT NULL DEFAULT 24');
