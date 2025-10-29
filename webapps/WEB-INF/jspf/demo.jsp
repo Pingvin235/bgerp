@@ -106,11 +106,11 @@ cmd do && cmd undo
 		<li>
 			<a href="#" onclick="alert('Item 1 pressed!')">Item 1</a>
 			<ul>
-				<li><a href="#" onclick="alert('Item 1/1 pressed!')">Item 1/1</a></li>
+				<li><a href="#" onclick="alert('Item 1/1 pressed!'); return false;">Item 1/1</a></li>
 			</ul>
 		</li>
-		<li><a href="#" onclick="alert('Item 2 pressed!')"><i class="ti-alarm-clock"></i> Item 2</a></li>
-		<li><a href="#" onclick="alert('Item 3 pressed!')"><img src="/img/fugue/plug-disconnect.png"/> Item 3</a></li>
+		<li><a href="#" onclick="alert('Item 2 pressed!'); return false;"><i class="ti-alarm-clock"></i> Item 2</a></li>
+		<li><a href="#" onclick="alert('Item 3 pressed!'); return false;"><img src="/img/fugue/plug-disconnect.png"/> Item 3</a></li>
 	</ui:popup-menu>
 	<ui:button type="more" onclick="$$.ui.menuInit($(this), $('#${uiid}'), 'left', true);"/>
 </div>
