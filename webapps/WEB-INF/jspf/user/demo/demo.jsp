@@ -3,6 +3,46 @@
 
 <%@ include file="/WEB-INF/jspf/demo.jsp"%>
 
+<h1>Dialogs</h1>
+
+<div>
+	<div>
+		<button class="btn-white" onclick="$$.shell.message.show('Title', '<b>HTML</b> Text')">$$.shell.message.show</button>
+	</div>
+	<div>
+		<button class="btn-white" onclick="$('#demo-dialog').dialog('open')">Dialog</button>
+
+		<form id="demo-dialog" method="post" style="display: none;">
+			<!-- the HTML of the form can be also dynamically loaded with AJAX request -->
+			<input type="text" name="field0" class="w100p"/>
+			<input type="text" name="field1" class="w100p mt05"/>
+			<div class="mt05">
+				<button type="submit" class="btn-grey">OK</button>
+				<button type="button" onclick="$(this.form).dialog('close')" class="btn-white ml1">${l.l('Cancel')}</button>
+			</div>
+		</form>
+		<script>
+			$(function () {
+				const $dialog = $("#demo-dialog").dialog({
+					modal: true,
+					draggable: false,
+					resizable: false,
+					title: "Demo Dialog",
+					// width: 300,
+					position: { my: "center top", at: "center top+100px", of: window }
+				}).dialog("close");
+
+				$dialog.submit((e) => {
+					console.log("Dialog submit");
+					$dialog.dialog("close");
+					// prevent the form be submitted by browser
+					e.preventDefault();
+				});
+			})
+		</script>
+	</div>
+</div>
+
 <h1>AJAX</h1>
 
 <div>
