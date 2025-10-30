@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<form id="loginDialog" method="post" style="display: none;" class="in-mt05"
-	style="width: 250px; margin-left: auto; margin-right: auto; height: 200px; box-sizing: border-box;">
+<form id="loginDialog" method="post" style="display: none;" class="in-mt05">
 	<%@ include file="login_form_inputs.jsp"%>
 </form>
 
