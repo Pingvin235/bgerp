@@ -35,12 +35,12 @@ public class Installer {
         }
     }
 
-    private static final String K_SKIPHASH = "skiphash";
-    private static final String K_KILLHASH = "killhash";
-    public static final String K_UPDATE = "update";
-    public static final String K_UPDATEF = "updatef";
-    public static final String K_INSTALL = "install";
-    public static final String K_INSTALLC = "installc";
+    private static final String SKIPHASH = "skiphash";
+    private static final String KILLHASH = "killhash";
+    public static final String UPDATE = "update";
+    public static final String UPDATEF = "updatef";
+    public static final String INSTALL = "install";
+    public static final String INSTALLC = "installc";
 
     private static void execute(String[] args) throws Exception {
         if (args == null || args.length == 0)
@@ -49,24 +49,24 @@ public class Installer {
         log.info("Executing {}", List.of(args));
 
         final String cmd = args[0];
-        if (args.length == 1 && cmd.equals(K_UPDATE)) {
+        if (args.length == 1 && cmd.equals(UPDATE)) {
             new InstallerModules().update(false);
-        } else if (args.length == 1 && args[0].equals(K_UPDATEF)) {
+        } else if (args.length == 1 && args[0].equals(UPDATEF)) {
             new InstallerModules().update(true);
-        } else if (args.length == 2 && args[0].equals(K_UPDATE)) {
+        } else if (args.length == 2 && args[0].equals(UPDATE)) {
             new InstallerModules(args[1]).update(false);
-        } else if (args.length == 2 && args[0].equals(K_UPDATEF)) {
+        } else if (args.length == 2 && args[0].equals(UPDATEF)) {
             new InstallerModules(args[1]).update(true);
-        } else if (args.length == 2 && args[0].equals(K_SKIPHASH)) {
+        } else if (args.length == 2 && args[0].equals(SKIPHASH)) {
             ExecuteSQL.skipHash(args[1]);
             log.info("DB update hash was stored to be skipped");
-        } else if (args.length >= 1 && args[0].equals(K_KILLHASH)) {
+        } else if (args.length >= 1 && args[0].equals(KILLHASH)) {
             ExecuteSQL.clearHashes();
             log.info("DB update hashes cleanup finished!");
-        } else if (args.length == 2 && args[0].equals(K_INSTALL)) {
+        } else if (args.length == 2 && args[0].equals(INSTALL)) {
             final var im = new InstallerModule(Setup.getSetup(), new File("."), new File(args[1]));
             log.info("Report:\n{}", im.getReport());
-        } else if (args.length == 2 && args[0].endsWith(K_INSTALLC)) {
+        } else if (args.length == 2 && args[0].endsWith(INSTALLC)) {
             var files = new InstallerChanges(args[1]).getUpdateFiles();
             if (files.isEmpty()) {
                 log.info("No update files found for change ID: " + args[1]);

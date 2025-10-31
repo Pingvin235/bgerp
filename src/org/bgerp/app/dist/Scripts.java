@@ -16,8 +16,8 @@ public class Scripts {
     private static final Log log = Log.getLog();
 
     private static final String BACKUP = "./backup.sh";
-    private static final String INSTALLER = " ./installer.sh ";
-    private static final String RESTART = " ./erp_restart.sh ";
+    private static final String INSTALLER = "./installer.sh ";
+    private static final String RESTART = "./erp_restart.sh ";
 
     public Scripts backup(boolean db) throws Exception {
         new RuntimeRunner("bash", BACKUP, db ? "create_db" : "create").run();
@@ -30,7 +30,7 @@ public class Scripts {
     }
 
     public Scripts update(boolean force) throws Exception {
-        new RuntimeRunner("sh", "-c", INSTALLER + (force ? Installer.K_UPDATEF : Installer.K_UPDATE)).run();
+        new RuntimeRunner("sh", "-c", INSTALLER + (force ? Installer.UPDATEF : Installer.UPDATE)).run();
         return this;
     }
 
@@ -48,13 +48,13 @@ public class Scripts {
 
     public Scripts install(List<String> files) throws Exception {
         for (String file : files) {
-            new RuntimeRunner("sh", "-c", INSTALLER + Installer.K_INSTALL + " " + file).run();
+            new RuntimeRunner("sh", "-c", INSTALLER + Installer.INSTALL + " " + file).run();
         }
         return this;
     }
 
     public Scripts installc(String changeId) throws Exception {
-        new RuntimeRunner("sh", "-c", INSTALLER + Installer.K_INSTALLC + " " + changeId).run();
+        new RuntimeRunner("sh", "-c", INSTALLER + Installer.INSTALLC + " " + changeId).run();
         return this;
     }
 }
