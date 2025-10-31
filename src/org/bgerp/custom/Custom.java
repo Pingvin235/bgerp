@@ -40,7 +40,7 @@ public class Custom {
     public static final String PACKAGE = "org.bgerp.plugin.custom";
 
     private static final String DIR_NAME = "custom";
-    private static final File DIR = new File(DIR_NAME);
+    public static final File DIR = new File(DIR_NAME);
 
     private static final File DIR_SRC = new File(DIR, "src");
     private static final File DIR_WEBAPPS = new File(DIR, Server.WEBAPPS_DIR);

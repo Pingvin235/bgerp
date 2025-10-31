@@ -1,7 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h2>SRC</h2>
+<h2 id="custom-src-header">SRC</h2>
+
+<plugin:include endpoint="admin.custom"/>
+
 <ui:files files="<%=org.bgerp.action.admin.CustomAction.CUSTOM_SRC%>" maxCount="20"/>
 
 <html:form action="/admin/custom" onsubmit="return false;" style="display: inline-block;" styleClass="mt1">

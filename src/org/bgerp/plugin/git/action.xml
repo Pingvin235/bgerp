@@ -1,3 +1,6 @@
 <item title="Plugin GIT">
 	<item title="Process Commands" action="/user/plugin/git/process:null, org.bgerp.plugin.git.action.GitAction:git"/>
+	<item title="Custom" action="/admin/plugin/git/custom:null">
+		<item title="Update" action="/admin/plugin/git/custom:update"/>
+	</item>
 </item>

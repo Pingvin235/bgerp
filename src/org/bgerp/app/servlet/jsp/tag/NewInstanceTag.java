@@ -70,6 +70,8 @@ public class NewInstanceTag extends BodyTagSupport {
             throw new JspException(e.getMessage(), e);
         }
 
+        log.warnd("Deprecated JSP tag '<u:newInstance' was called. Use functions 'u:newInstance0'..'u:newInstance3' instead.");
+
         return EVAL_PAGE;
     }
 
