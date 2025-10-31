@@ -81,10 +81,6 @@ public class ConnectionPool {
     private final Set<String> notAvailableReplications = new TreeSet<>();
 
     public ConnectionPool(String name, ConfigMap map) {
-        if (!name.endsWith(" ")) {
-            name += " ";
-        }
-
         this.name = name;
         try {
             log.info(name + "Init DB connection pools.");
