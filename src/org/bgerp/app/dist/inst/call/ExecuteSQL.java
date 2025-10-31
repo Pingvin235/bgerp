@@ -14,6 +14,7 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.PreparedQuery;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -35,6 +36,21 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
     private static final String TABLE_DB_UPDATE = "db_update_log";
     /** Column with query hash. */
     private static final String HASH_COLUMN = "query_hash";
+
+    public static void clearHashes() throws SQLException {
+        try (var con = Setup.getSetup().getDBConnectionFromPool()) {
+            con.createStatement().executeUpdate(SQL_DELETE_FROM + TABLE_DB_UPDATE);
+            con.commit();
+        }
+    }
+
+    public static void skipHash(String hash) throws SQLException {
+        try (var con = Setup.getSetup().getDBConnectionFromPool();
+            var pq = new PreparedQuery(con, SQL_INSERT_INTO + TABLE_DB_UPDATE + "(query_hash, dt)" + SQL_VALUES + "(?, NOW())")) {
+            pq.addString(hash).executeUpdate();
+            con.commit();
+        }
+    }
 
     @Override
     public void call(Setup setup, File zip, String param) throws Exception {
@@ -202,13 +218,6 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
                 ps.setString(1, hash);
                 ps.executeUpdate();
             }
-        }
-    }
-
-    public static void clearHashes() throws SQLException {
-        try (var con = Setup.getSetup().getDBConnectionFromPool()) {
-            con.createStatement().executeUpdate(SQL_DELETE_FROM + TABLE_DB_UPDATE);
-            con.commit();
         }
     }
 }

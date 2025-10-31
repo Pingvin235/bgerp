@@ -35,7 +35,8 @@ public class Installer {
         }
     }
 
-    static final String K_KILLHASH = "killhash";
+    private static final String K_SKIPHASH = "skiphash";
+    private static final String K_KILLHASH = "killhash";
     public static final String K_UPDATE = "update";
     public static final String K_UPDATEF = "updatef";
     public static final String K_INSTALL = "install";
@@ -56,6 +57,9 @@ public class Installer {
             new InstallerModules(args[1]).update(false);
         } else if (args.length == 2 && args[0].equals(K_UPDATEF)) {
             new InstallerModules(args[1]).update(true);
+        } else if (args.length == 2 && args[0].equals(K_SKIPHASH)) {
+            ExecuteSQL.skipHash(args[1]);
+            log.info("DB update hash was stored to be skipped");
         } else if (args.length >= 1 && args[0].equals(K_KILLHASH)) {
             ExecuteSQL.clearHashes();
             log.info("DB update hashes cleanup finished!");
@@ -82,13 +86,14 @@ public class Installer {
 
     private static String getHelp() {
         StringBuffer sb = new StringBuffer();
-        sb.append("\nCommands for installer:");
-        sb.append("\n\t update            - update to the actual builds if they differ from currents.");
-        sb.append("\n\t updatef           - update to the actual builds without comparison.");
-        sb.append("\n\t update <version>  - switch to another version (not build) of the program.");
-        sb.append("\n\t killhash          - clear executed queries history.");
-        sb.append("\n\t install <zip>     - install a module from the zip file.");
-        sb.append("\n\t installc <change> - download update files from <change> and install them.");
+        sb.append("\nCommands for the Installer:");
+        sb.append("\n\t update               - update to the actual builds if they differ from currents");
+        sb.append("\n\t updatef              - update to the actual builds without comparison");
+        sb.append("\n\t update <VERSION>     - switch to another MAJOR <VERSION> of the program");
+        sb.append("\n\t skiphash <HASH>      - skip execution a DB update query with <HASH>");
+        sb.append("\n\t killhash             - clear ALL executed DB update queries");
+        sb.append("\n\t install <ZIP>        - install a module from the <ZIP> file");
+        sb.append("\n\t installc <CHANGE_ID> - update to the <CHANGE_ID>, 0 - is for MASTER release");
         return sb.toString();
     }
 }
