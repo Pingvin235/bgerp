@@ -1,9 +1,1 @@
-processReference.1.objectTypes=processCard
-processReference.1.stringExpression=<<END
-    text = "Subscription " + process.getId();
-    text += " " + u.escapeXml(u.toString(processLink.linkTitles("customer")));
-    return text;
-END
-
-# to enable right invoice sum, set in 'Plugin Invoice' configuration parameter PARAM_COST_ID from the current config
 invoice:processShowInvoices=1
