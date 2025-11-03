@@ -1,1 +1,6 @@
+process.link.category.{@inc:cnt}.title=Products
+process.link.category.{@cnt}.link=0
+process.link.category.{@cnt}.link.type=processDepend
+process.link.category.{@cnt}.process.types={@PRODUCT_PROCESS_TYPE_ID}
+
 invoice:processShowInvoices=1
