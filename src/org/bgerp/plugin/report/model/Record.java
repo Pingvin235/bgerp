@@ -20,32 +20,35 @@ public class Record {
     }
 
     /**
-     * Add the value of the next column.
-     * @param value
+     * Add value of the next column
+     * @param value the value
+     * @return the record
      */
-    public void add(Object value) {
+    public Record add(Object value) {
         int index = values.size();
         if (index >= data.getColumns().size())
             throw new IndexOutOfBoundsException("Too many column values");
         var column = data.getColumns().getByIndex(index);
         values.add(column.accept(value));
+
+        return this;
     }
 
     /**
-     * Get value by column ID.
-     * @param id the column ID.
-     * @return
-     * @throws IllegalArgumentException - if no column found.
+     * Get a value by column ID
+     * @param id the column ID
+     * @return the value
+     * @throws IllegalArgumentException - no column found
      */
     public Object get(String id) {
         return values.get(data.getColumns().getIndex(id));
     }
 
     /**
-     * Get a value formatted to string by column ID.
-     * @param id the column ID.
-     * @return
-     * @throws IllegalArgumentException - if no column found.
+     * Get a value formatted to string by column ID
+     * @param id the column ID
+     * @return the formatted value
+     * @throws IllegalArgumentException - no column found
      */
     public String getString(String id) {
         var column = data.getColumns().get(id);
@@ -55,7 +58,7 @@ public class Record {
     /**
      * Get position for {@link java.sql.ResultSet}.
      * Starts from 1, and for each call incremented on 1.
-     * @return
+     * @return the position
      */
     public int pos() {
         return ++pos;
