@@ -34,7 +34,7 @@
 		</en>
 	</p>
 	<p><ru>Лицензионный файл</ru><en>License file</en></p>
-	<p><en>Subscription Payments</en><ru>Платежи за Подписки</ru></p>
+	<p><en>Subscription Payments</en><ru>Платежи за подписки</ru></p>
 	<p><en>Subscription</en><ru>Подписка</ru></p>
 	<p><en>Incoming Tax</en><ru>Входящий налог</ru></p>
 	<p><en>Subscription Process</en><ru>Процесс подписки</ru></p>
@@ -48,6 +48,10 @@
 	<p><en>Date To is too far in the future.</en><ru>Дата По слишком далеко в будущем.</ru></p>
 	<p><en>Product Cost Part</en><ru>Доля владельца продукта</ru></p>
 	<p><en>Discount can't be more than product's cost: {}</en><ru>Скидка не может быть больше стоимости продуктов: {}</ru></p>
+	<p><en>Subscription Debts</en><ru>Долги за подписки</ru></p>
+	<p><en>Debts</en><ru>Долги</ru></p>
+	<p><en>Who</en><ru>Кто</ru></p>
+	<p><en>Payment User</en><ru>Получатель платежа</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->
