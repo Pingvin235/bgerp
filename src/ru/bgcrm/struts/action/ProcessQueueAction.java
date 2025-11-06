@@ -26,6 +26,8 @@ import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.queue.JasperReport;
 import org.bgerp.util.Log;
 
+import javassist.NotFoundException;
+import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
@@ -78,22 +80,19 @@ public class ProcessQueueAction extends ProcessAction {
     }
 
     public ActionForward processor(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Queue queue = ProcessQueueCache.getQueue(form.getParamInt("queueId"), form.getUser());
-        if (queue != null) {
-            Processor processor = queue.getProcessor(form.getParamInt("processorId"));
-            List<Integer> processIds = Utils.toIntegerList(form.getParam("processIds"));
+        Queue queue = getQueueOrThrow(form.getParamInt("queueId"), form.getUser());
 
-            ProcessMarkedActionEvent event = new ProcessMarkedActionEvent(form, processor, processIds);
-            processor.process(event, conSet);
+        Processor processor = queue.getProcessor(form.getParamInt("processorId"));
+        List<Integer> processIds = Utils.toIntegerList(form.getParam("processIds"));
 
-            if (event.isStreamResponse()) {
-                return null;
-            } else {
-                return json(conSet, form);
-            }
+        ProcessMarkedActionEvent event = new ProcessMarkedActionEvent(form, processor, processIds);
+        processor.process(event, conSet);
+
+        if (event.isStreamResponse()) {
+            return null;
+        } else {
+            return json(conSet, form);
         }
-
-        throw new BGException("Queue not found.");
     }
 
     public ActionForward queueSavedFilterSet(DynActionForm form, Connection con) throws Exception {
@@ -231,7 +230,7 @@ public class ProcessQueueAction extends ProcessAction {
         HttpServletRequest request = form.getHttpRequest();
 
         Queue queue = ProcessQueueCache.getQueue(form.getId(), user);
-        if (queue != null && form.getUser().getQueueIds().contains(queue.getId())) {
+        if (queue != null) {
             ArrayList<SavedFilter> commonFilters = new SavedFilterDAO(con).getFilters(queue.getId());
             SavedCommonFiltersConfig commonConfig = new SavedCommonFiltersConfig(commonFilters);
             request.setAttribute("commonConfig", commonConfig);
@@ -318,6 +317,30 @@ public class ProcessQueueAction extends ProcessAction {
         }
 
         return html(connectionSet, form, PATH_JSP + "/queue/show.jsp");
+    }
+
+    public ActionForward processAction(DynActionForm form, Connection con) throws Exception {
+        Queue queue = getQueueOrThrow(form.getId(), form.getUser());
+
+        Process process = getProcess(new ProcessDAO(con), form.getParamInt("processId"));
+
+        var action = queue.getActionList().get(form.getParamInt("index"));
+
+        List<String> commands = Utils.toList(action.getCommands(), ";");
+        if (commands.size() == 0) {
+            throw new BGException("Пустой список команд");
+        }
+
+        ProcessCommandExecutor.processDoCommands(con, form, process, null, commands);
+
+        return json(con, form);
+    }
+
+    private Queue getQueueOrThrow(int id, User user) throws NotFoundException {
+        Queue queue = ProcessQueueCache.getQueue(id, user);
+        if (queue == null)
+            throw new NotFoundException(Log.format("Queue with ID {} doesn't exist or not allowed for the user", id));
+        return queue;
     }
 
     private void saveFormFilters(int queueId, DynActionForm form, Preferences personalizationMap) {

@@ -44,8 +44,8 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.model.process.config.IsolationConfig;
-import org.bgerp.model.process.config.ProcessPriorityConfig;
 import org.bgerp.model.process.config.IsolationConfig.IsolationProcess;
+import org.bgerp.model.process.config.ProcessPriorityConfig;
 import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.util.Log;
 import org.bgerp.util.text.PatternFormatter;
@@ -324,20 +324,6 @@ public class ProcessAction extends BaseAction {
         EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATE_FINISHED), new SingleConnectionSet(con));
 
         TemporaryObjectOpenListener.flushUserData(form.getUserId());
-
-        return json(con, form);
-    }
-
-    public ActionForward processDoCommands(DynActionForm form, Connection con) throws Exception {
-        Process process = getProcess(new ProcessDAO(con), form.getId());
-
-        // FIXME: Security issue, send action ID instead with possibility there define doExpression or use these old commands.
-        List<String> commands = Utils.toList(form.getParam("commands"), ";");
-        if (commands.size() == 0) {
-            throw new BGException("Пустой список команд");
-        }
-
-        ProcessCommandExecutor.processDoCommands(con, form, process, null, commands);
 
         return json(con, form);
     }
@@ -704,7 +690,6 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    @SuppressWarnings("unchecked")
     public static void processExecutorsUpdate(DynActionForm form, Connection con, Process process, Set<ProcessGroup> processGroups,
             Set<ProcessExecutor> processExecutors) throws Exception {
         ProcessDAO processDao = new ProcessDAO(con, form);

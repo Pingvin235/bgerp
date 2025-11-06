@@ -78,15 +78,14 @@
 	</item>
 
 	<item title="Process">
-		<item title="Queue">
-			<item title="Queues" action="ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue, ru.bgcrm.struts.action.ProcessAction:queue"/>
+		<item title="Queue" action="ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue, ru.bgcrm.struts.action.ProcessAction:queue">
 			<item title="Get Properties" action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet"/>
 			<item title="Show" action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow"/>
 			<item title="Process creation editor" action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree">
 				<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
 			</item>
-			<item title="Run processor" action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke"/>
-			<item title="Run macros" action="ru.bgcrm.struts.action.ProcessAction:processDoCommands"/>
+			<item title="Action" action="ru.bgcrm.struts.action.ProcessQueueAction:processAction, ru.bgcrm.struts.action.ProcessAction:processDoCommands"/>
+			<item title="Processor" action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke"/>
 			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet"/>
 			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet"/>
 		</item>
