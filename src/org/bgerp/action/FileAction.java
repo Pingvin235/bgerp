@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
@@ -27,7 +28,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/user/file")
 public class FileAction extends BaseAction {
     @Override
-    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
+    public ActionForward unspecified(DynActionForm form, Connection con) throws SQLException, FileNotFoundException {
         var response = form.getHttpResponse();
 
         FileData data = new FileData();
@@ -37,12 +38,16 @@ public class FileAction extends BaseAction {
 
         File file = new FileDataDAO(con).getFile(data);
         if (file != null) {
-            OutputStream out = response.getOutputStream();
-            try (var fis = new FileInputStream(file)) {
-                Utils.setFileNameHeaders(response, data.getTitle());
-                IOUtils.copy(fis, out);
+            try {
+                OutputStream out = response.getOutputStream();
+                try (var fis = new FileInputStream(file)) {
+                    Utils.setFileNameHeaders(response, data.getTitle());
+                    IOUtils.copy(fis, out);
+                }
+                out.flush();
+            } catch (IOException e) {
+                log.error("IOException on file download: {}", e.getMessage());
             }
-            out.flush();
         }
 
         return null;
