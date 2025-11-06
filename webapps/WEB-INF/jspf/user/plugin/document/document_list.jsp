@@ -68,7 +68,7 @@
 		</div>
 	</html:form>
 
-	<p:check action="ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument">
+	<p:check action="ru.bgcrm.plugin.document.action.DocumentAction:uploadDocument">
 		<form action="${form.requestURI}" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="method" value="uploadDocument"/>
 			<input type="hidden" name="responseType" value="json"/>
