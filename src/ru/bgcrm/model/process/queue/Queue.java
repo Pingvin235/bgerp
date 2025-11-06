@@ -18,6 +18,7 @@ import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.process.queue.ProcessAction;
 import org.bgerp.model.process.queue.column.Column;
 import org.bgerp.model.process.queue.column.MediaColumn;
 import org.bgerp.model.process.queue.filter.Filter;
@@ -60,7 +61,7 @@ public class Queue extends IdTitle {
     private final FilterList filterList = new FilterList();
 
     private final Map<Integer, Processor> processorMap = new HashMap<>();
-    private final List<Action> actionList = new ArrayList<>();
+    private final List<ProcessAction> actionList = new ArrayList<>();
     private final List<IdTitle> createAllowedProcessList = new ArrayList<>();
 
     private LastModify lastModify = new LastModify();
@@ -232,7 +233,7 @@ public class Queue extends IdTitle {
         return sortSet;
     }
 
-    public List<Action> getActionList() {
+    public List<ProcessAction> getActionList() {
         return actionList;
     }
 
@@ -391,7 +392,7 @@ public class Queue extends IdTitle {
         }
 
         for (ConfigMap actionConfig : config.subIndexed("action.").values()) {
-            actionList.add(new Action(actionConfig));
+            actionList.add(new ProcessAction(actionConfig));
         }
 
         for (String token : config.get("createAllowedProcessList", "").split(";")) {

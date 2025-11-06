@@ -1,4 +1,4 @@
-package ru.bgcrm.model.process.queue;
+package org.bgerp.model.process.queue;
 
 import java.util.Set;
 
@@ -6,14 +6,19 @@ import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.util.Utils;
 
-public class Action {
+/**
+ * Action shown in queues' {@code action} column
+ *
+ * @author Shamil Vakhitov
+ */
+public class ProcessAction {
     private final String title;
     private final String shortcut;
     private final String style;
     private final Set<Integer> statusIds;
     private final String commands;
 
-    public Action(ConfigMap config) {
+    public ProcessAction(ConfigMap config) {
         title = config.get("title", "");
         shortcut = config.get("shortcut", "*");
         style = config.get("style", "");
