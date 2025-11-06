@@ -14,10 +14,10 @@ import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.process.Process;
 
-public class Column extends org.bgerp.model.process.queue.Column {
+public class Column extends org.bgerp.model.process.queue.column.Column {
     private static final Log log = Log.getLog();
 
-    public Column(org.bgerp.model.process.queue.Column columnDefault) {
+    public Column(org.bgerp.model.process.queue.column.Column columnDefault) {
         super(columnDefault);
     }
 

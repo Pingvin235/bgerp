@@ -24,6 +24,7 @@ import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.queue.JasperReport;
+import org.bgerp.model.process.queue.column.MediaColumn;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
@@ -34,7 +35,6 @@ import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.process.queue.MediaColumn;
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.config.PrintQueueConfig;

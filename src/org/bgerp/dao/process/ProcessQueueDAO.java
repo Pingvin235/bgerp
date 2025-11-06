@@ -15,7 +15,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.param.Parameter;
-import org.bgerp.model.process.queue.Column;
+import org.bgerp.model.process.queue.column.Column;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterCustomerParam;
 import org.bgerp.model.process.queue.filter.FilterExecutors;

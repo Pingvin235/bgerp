@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.model.process.queue.column.MediaColumn;
+
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.DynamicReport;
@@ -29,7 +31,6 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import ru.bgcrm.model.process.queue.MediaColumn;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.config.PrintQueueConfig.PrintType;
 import ru.bgcrm.struts.form.DynActionForm;
