@@ -1,6 +1,7 @@
 package org.bgerp.dao.expression;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -26,7 +27,7 @@ import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Expression object for performing process related operations.
+ * Expression object for performing process related operations
  *
  * @author Shamil Vakhitov
  */
@@ -50,16 +51,16 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Delete the current process.
+     * Delete the current process
     */
     public void delete() throws Exception {
         ProcessAction.processDelete(form, con, process);
     }
 
     /**
-     * Добавляет группы решения в процесс.
-     * @param groupIds
-     * @param roleId
+     * Add execution groups in the process
+     * @param groupIds the group IDs
+     * @param roleId the role ID
      * @throws Exception
      */
     public void addGroups(Set<Integer> groupIds, int roleId) throws Exception {
@@ -77,8 +78,8 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Удаляет группы решения процесса и связанных с ними исполнителей
-     * @param ids коды групп решения.
+     * Delete execution groups and related executors in the process
+     * @param ids the group IDs
      */
     public void deleteGroups(Set<Integer> ids) throws Exception {
         Set<ProcessGroup> processGroups = process.getGroups().stream()
@@ -91,12 +92,13 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Добавляет исполнителей в процесс. Группы решения уже должны быть установлены.
-     * При этом каждый из добавляемых исполнителей должен входить только в одну из этих групп.
-     * @param ids
+     * Add executors in the process. Execution groups must be already set there.
+     * Any of added executors must have only one of the process execution groups.
+     * @param ids the executor user IDs
+     * @throws BGMessageException not any of added executors have only one of the process execution groups
      * @throws Exception
      */
-    public void addExecutors(Set<Integer> ids) throws Exception {
+    public void addExecutors(Set<Integer> ids) throws BGMessageException, Exception {
         // определение единственной группороли в которую добавляются исполнители
         ProcessGroup processGroup = null;
         for (ProcessGroup pg : process.getGroups()) {
@@ -104,7 +106,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
                 User user = UserCache.getUser(executorId);
                 if (user.getGroupIds().contains(pg.getGroupId())) {
                     if (processGroup != null && processGroup.getGroupId() != pg.getGroupId())
-                        throw new BGMessageException("Устанавливаемые исполнители относится к нескольким группам процесса.");
+                        throw new BGMessageException("The set executor '{}' is member more than one process execution groups", user.getTitle());
                     processGroup = pg;
                 }
             }
@@ -113,7 +115,6 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
         if (processGroup == null)
             throw new BGMessageException("The set executors '{}' are not members of process execution groups '{}'.", ids, process.getGroupIds());
 
-        // добавление в текущих исполнителей группороли
         Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
         executors.addAll(ProcessExecutor.toProcessExecutorSet(ids, processGroup));
 
@@ -147,8 +148,8 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Удаляет исполнителей процесса.
-     * @param ids коды пользователей.
+     * Delete process executors
+     * @param ids the executor user IDs
      */
     public void deleteExecutors(Set<Integer> ids) throws Exception {
         Set<ProcessGroup> processGroups = process.getGroups();
@@ -159,19 +160,19 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
 
 
     /**
-     * Sets process priority.
-     * @param value the value.
-     * @throws Exception
+     * Set process priority
+     * @param value the priority
+     * @throws SQLException
      */
-    public void setPriority(int value) throws Exception {
+    public void setPriority(int value) throws SQLException {
         process.setPriority(value);
         new ProcessDAO(con).updateProcess(process);
     }
 
     /**
-     * Changes process status.
-     * @param value status ID.
-     * @comment comment.
+     * Change process status
+     * @param value the status
+     * @comment optional comment
      * @throws Exception
      */
     public void setStatus(int value, String comment) throws Exception {

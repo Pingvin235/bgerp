@@ -552,7 +552,8 @@ if position isn't re-defined in process type or parameter group.</en>
 		<ru>Определяет позицию параметра в общем списке либо в таблице параметров объектов,
 если позиция не переопределяется в типе процесса либо в группе параметров.</ru>
 	</p>
-	<p><en>"The set executors '{}' are not members of process execution groups '{}'.</en><ru>Устанавливаемые исполнители '{}' не входят в группы '{}', исполняющие процесс.</ru></p>
+	<p><en>The set executors '{}' are not members of process execution groups '{}'</en><ru>Устанавливаемые исполнители '{}' не входят в группы решения процесса '{}'</ru></p>
+	<p><en>The set executor '{}' is member more than one process execution groups</en><ru>Устанавливаемый исполнитель '{}' входит более чем в одну группу решения процесса</ru></p>
 	<p><en>Not defined mandatory comment for a value</en><ru>Не указан обязательный комментарий к значению</ru></p>
 	<p><en>of message</en><ru>сообщения</ru></p>
 	<p><en>of news</en><ru>новости</ru></p>
