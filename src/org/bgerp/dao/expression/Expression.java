@@ -43,6 +43,7 @@ public class Expression {
     private static final Utils PREFIX_u = new Utils();
     private static final TimeUtils PREFIX_tu = new TimeUtils();
     private static final TimeConvert PREFIX_tc = new TimeConvert();
+    @SuppressWarnings("deprecation")
     private static final StringUtils PREFIX_su = new StringUtils();
     private static final CollectionUtils PREFIX_cu = initCollectionUtils();
     @SuppressWarnings("deprecation")

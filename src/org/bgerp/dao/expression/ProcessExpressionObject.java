@@ -12,7 +12,7 @@ import ru.bgcrm.util.Utils;
  */
 public class ProcessExpressionObject implements ExpressionObject {
     public static final String KEY = Process.OBJECT_TYPE;
-    public static final String KEY_SHORT = "p";
+    private static final String KEY_SHORT = "p";
 
     public static final boolean called(String expression) {
         return Utils.notBlankString(expression) && (expression.contains(KEY_SHORT + ".") || expression.contains(KEY + "."));

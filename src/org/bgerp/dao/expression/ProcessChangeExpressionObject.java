@@ -172,6 +172,15 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     /**
      * Change process status
      * @param value the status
+     * @throws Exception
+     */
+    public void setStatus(int value) throws Exception {
+        setStatus(value, "");
+    }
+
+    /**
+     * Change process status
+     * @param value the status
      * @comment optional comment
      * @throws Exception
      */
