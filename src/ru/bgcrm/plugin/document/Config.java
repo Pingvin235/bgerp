@@ -12,10 +12,10 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.plugin.document.model.Pattern;
 
 public class Config extends org.bgerp.app.cfg.Config {
-    private Map<String, SortedMap<Integer, Pattern>> patterns = new HashMap<>();
+    private final Map<String, SortedMap<Integer, Pattern>> patterns = new HashMap<>();
 
     public Config(ConfigMap setup) {
-        super(setup);
+        super(null);
         for (Map.Entry<Integer, ConfigMap> me : setup.subSokIndexed("document:pattern.", "patterndoc.").entrySet()) {
             int id = me.getKey();
             ConfigMap params = me.getValue();
