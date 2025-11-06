@@ -210,7 +210,7 @@ public class DefaultMarkedProcessor extends Processor {
                             ProcessAction.processStatusUpdate(form, con, process, change);
                         }
                     } else if (name.equals(COMMAND_ADD_EXECUTORS)) {
-                        new ProcessChangeExpressionObject(process, form, con).addExecutors(form.getParamValues("executor"));
+                        new ProcessChangeExpressionObject(con, form, process).addExecutors(form.getParamValues("executor"));
                     } else if (name.equals(COMMAND_SET_PARAM)) {
                         final Parameter param = ParameterCache.getParameter(command.paramId);
                         final var paramType = param.getTypeType();

@@ -159,7 +159,7 @@ public class Expression {
         Connection con = conSet.getConnection();
 
         Map<String, Object> context = new HashMap<>(100);
-        new ProcessChangeExpressionObject(process, form, con).toContext(context);
+        new ProcessChangeExpressionObject(con, form, process).toContext(context);
         new UserExpressionObject(form.getUser()).toContext(context);
         new UserParamExpressionObject(con, form.getUserId()).toContext(context);
         new ProcessExpressionObject(process).toContext(context);

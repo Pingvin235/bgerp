@@ -38,7 +38,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     private final DynActionForm form;
     private final Connection con;
 
-    public ProcessChangeExpressionObject(Process process, DynActionForm form, Connection con) {
+    public ProcessChangeExpressionObject(Connection con, DynActionForm form, Process process) {
         this.process = process;
         this.form = form;
         this.con = con;
@@ -194,6 +194,14 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
 
         ProcessAction.processStatusUpdate(form, con, process, change);
         new ProcessDAO(con).updateProcess(process);
+    }
+
+    // deprecated
+
+    @Deprecated
+    public ProcessChangeExpressionObject(Process process, DynActionForm form, Connection con) {
+        this(con, form, process);
+        log.warnd("Deprecated constructor 'Process, DynActionForm, Connection' called, use 'Connection, DynActionForm, Process' instead");
     }
 
     @Deprecated

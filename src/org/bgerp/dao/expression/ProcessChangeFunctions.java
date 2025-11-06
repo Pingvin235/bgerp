@@ -12,7 +12,7 @@ public class ProcessChangeFunctions extends ProcessChangeExpressionObject {
     private static final Log log = Log.getLog();
 
     public ProcessChangeFunctions(Process process, DynActionForm form, Connection con) {
-        super(process, form, con);
+        super(con, form, process);
         log.warndClass(ProcessChangeFunctions.class, ProcessChangeExpressionObject.class);
     }
 }
