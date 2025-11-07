@@ -3,6 +3,7 @@ package org.bgerp.model.process.queue;
 import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.expression.Expression;
 
 import ru.bgcrm.util.Utils;
 
@@ -16,6 +17,7 @@ public class ProcessAction {
     private final String shortcut;
     private final String style;
     private final Set<Integer> statusIds;
+    private final String doExpression;
     private final String commands;
 
     public ProcessAction(ConfigMap config) {
@@ -23,6 +25,7 @@ public class ProcessAction {
         shortcut = config.get("shortcut", "*");
         style = config.get("style", "");
         statusIds = Utils.toIntegerSet(config.get("statusIds"));
+        doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
         commands = config.get("commands", "");
     }
 
@@ -40,6 +43,10 @@ public class ProcessAction {
 
     public Set<Integer> getStatusIds() {
         return statusIds;
+    }
+
+    public String getDoExpression() {
+        return doExpression;
     }
 
     public String getCommands() {

@@ -20,6 +20,7 @@ import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ProcessQueueCache;
 import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.dao.expression.Expression;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessCreateType;
@@ -319,21 +320,28 @@ public class ProcessQueueAction extends ProcessAction {
         return html(connectionSet, form, PATH_JSP + "/queue/show.jsp");
     }
 
-    public ActionForward processAction(DynActionForm form, Connection con) throws Exception {
+    public ActionForward processAction(DynActionForm form, ConnectionSet conSet) throws Exception {
         Queue queue = getQueueOrThrow(form.getId(), form.getUser());
 
-        Process process = getProcess(new ProcessDAO(con), form.getParamInt("processId"));
+        Process process = getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getParamInt("processId"));
 
         var action = queue.getActionList().get(form.getParamInt("index"));
 
-        List<String> commands = Utils.toList(action.getCommands(), ";");
-        if (commands.size() == 0) {
-            throw new BGException("Пустой список команд");
+        String doExpression = action.getDoExpression();
+        if (Utils.notBlankString(doExpression)) {
+            new Expression(Expression.context(conSet, form, null, process)).execute(doExpression);
+        } else {
+            log.warnd("Deprecated 'commands' key used in action for process queue ID: {}", queue.getId());
+
+            List<String> commands = Utils.toList(action.getCommands(), ";");
+            if (commands.size() == 0) {
+                throw new BGException("Пустой список команд");
+            }
+
+            ProcessCommandExecutor.processDoCommands(conSet.getConnection(), form, process, null, commands);
         }
 
-        ProcessCommandExecutor.processDoCommands(con, form, process, null, commands);
-
-        return json(con, form);
+        return json(conSet, form);
     }
 
     private Queue getQueueOrThrow(int id, User user) throws NotFoundException {

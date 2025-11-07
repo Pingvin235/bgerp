@@ -165,6 +165,7 @@ public class Expression {
         new ProcessExpressionObject(process).toContext(context);
         new ProcessParamExpressionObject(con, process.getId()).toContext(context);
         new ProcessLinkExpressionObject(con, process.getId()).toContext(context);
+        new UiExpressionObject(form, process).toContext(context);
         context.put(ConnectionSet.KEY, conSet);
         context.put(DynActionForm.KEY, form);
         if (event != null)

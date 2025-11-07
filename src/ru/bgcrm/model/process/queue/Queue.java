@@ -392,7 +392,10 @@ public class Queue extends IdTitle {
         }
 
         for (ConfigMap actionConfig : config.subIndexed("action.").values()) {
-            actionList.add(new ProcessAction(actionConfig));
+            var action = new ProcessAction(actionConfig);
+            actionList.add(action);
+            if (!Utils.isBlankString(action.getCommands()))
+                log.warnd("Deprecated 'commands' key used in action for process queue ID: {}", id);
         }
 
         for (String token : config.get("createAllowedProcessList", "").split(";")) {
