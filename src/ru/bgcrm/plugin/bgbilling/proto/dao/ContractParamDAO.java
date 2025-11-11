@@ -260,18 +260,20 @@ public class ContractParamDAO extends BillingDAO {
 
     public ParamEmailValue getEmailParam(int contractId, int paramId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
-
             RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractParameterGet");
-
             req.setParam("contractId", contractId);
             req.setParam("parameterId", paramId);
-            JsonNode ret = transferData.postDataReturn(req, user);
-            EntityAttrEmail attrEmail = jsonMapper.convertValue(ret, ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrEmail.class);
+
             ParamEmailValue result = new ParamEmailValue();
-            List<String> emails = attrEmail.getContactList().stream()
-                    .map(i -> i.getAddress()).collect(Collectors.toList());
-            result.setEmails(emails);
-            result.setEntityAttrEmail(attrEmail);
+
+            EntityAttrEmail attrEmail = jsonMapper.convertValue(transferData.postDataReturn(req, user), ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrEmail.class);
+            if (attrEmail != null) {
+                List<String> emails = attrEmail.getContactList().stream()
+                        .map(i -> i.getAddress()).collect(Collectors.toList());
+                result.setEmails(emails);
+                result.setEntityAttrEmail(attrEmail);
+            }
+
             return result;
 
         } else {
@@ -367,12 +369,14 @@ public class ContractParamDAO extends BillingDAO {
             req.setParam("contractId", contractId);
             req.setParam("parameterId", paramId);
 
-            JsonNode ret = transferData.postDataReturn(req, user);
-
-            EntityAttrList attrList = jsonMapper.convertValue(ret, EntityAttrList.class);
             ParamList result = new ParamList();
-            result.setId(attrList.getValue());
-            result.setTitle(attrList.getTitle());
+
+            EntityAttrList attrList = jsonMapper.convertValue(transferData.postDataReturn(req, user), EntityAttrList.class);
+            if (attrList != null) {
+                result.setId(attrList.getValue());
+                result.setTitle(attrList.getTitle());
+            }
+
             getParamListValues(paramId).forEach(result::addValue);
 
             return result;
