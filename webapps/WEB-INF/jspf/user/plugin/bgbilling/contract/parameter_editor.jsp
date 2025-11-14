@@ -186,9 +186,8 @@
 	</c:choose>
 
 	<script>
-		$( function()
-		{
-			$("#${focusFieldUiid}").focus();
+		$(() => {
+			document.getElementById('${focusFieldUiid}').focus();
 		});
 	</script>
 

@@ -1,7 +1,7 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Date input with optional time"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="id" description="id of input, auto generated if not explicitly specified"%>
+<%@ attribute name="id" description="input's id, auto generated if not explicitly specified"%>
 <%@ attribute name="paramName" description="input's name"%>
 <%@ attribute name="value" description="current value in dd.MM.yyyy format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
 <%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
@@ -76,11 +76,11 @@
 
 		<c:if test="${type eq 'ymd'}">
 			, "showTimepicker" : false
-			, "onSelect": function() {  $("${selector}").datepicker( "setNowIfEmptySaveAndHide" ); }
+			, "onSelect": function() { $("${selector}").datepicker("setNowIfEmptySaveAndHide"); }
 		</c:if>
 
 		<c:if test="${not empty saveCommand}">
-			, onClose: function() { ${saveCommand} }
+			, onClose: function () { ${saveCommand} }
 		</c:if>
 
 		<c:forEach var="item" items="${parameter.configMap}">
@@ -90,19 +90,17 @@
 
 	$$.ui.datetime.init('${selector}', '${type}', '${tu.getTypeFormat(type)}');
 
-	<c:if test="${value eq '0' or value eq 'last' or value eq 'first'}">
-		var date = new Date();
-		<c:if test="${value eq '0'}">
-			$("${selector}").datepicker('setDate', date);
-		</c:if>
-		<c:if test="${value eq 'last'}">
+	<c:choose>
+		<c:when test="${value eq '0'}">
+			$("${selector}").datepicker('setDate', new Date());
+		</c:when>
+		<c:when test="${value eq 'last'}">
 			$("${selector}").datepicker('setDate', new Date(date.getFullYear(), date.getMonth() + 1, 0));
-		</c:if>
-		<c:if test="${value eq 'first'}">
+		</c:when>
+		<c:when test="${value eq 'first'}">
 			$("${selector}").datepicker('setDate', new Date(date.getFullYear(), date.getMonth(), 1));
-		</c:if>
-	</c:if>
+		</c:when>
+	</c:choose>
 
-	$("${selector}").attr( "size", "${size}" );
-	$("${selector}").css( "text-align", "center" );
+	$("${selector}").attr("size", "${size}").css("text-align", "center");
 </script>
