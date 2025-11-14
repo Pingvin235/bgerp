@@ -16,21 +16,21 @@
 			<h2>${l.l('Properties')}</h2>
 			<c:import url="/user/profile.do?method=settings"/>
 
-			<h2>${l.l('Параметры (сохраняются сразу)')}</h2>
+			<h2>${l.l('Parameters (saved immediately)')}</h2>
 			<c:import url="/user/profile.do?method=settings&subAction=parameters&requestUserId=${requestUserId}"/>
 
-			<%-- значение по-умолчанию должно быть таким же как и при обращении к данной опции на чтение!!! --%>
-			<h2>${l.l('Опции интерфейса')}</h2>
+			<h2>${l.l('Interface Options')}</h2>
 
 			<html:form action="/user/profile">
 				<input type="hidden" name="method" value="updatePersonalization"/>
 
 				<table class="data">
 					<tr>
-						<td>${l.l('Параметр')}</td>
+						<td>${l.l('Option')}</td>
 						<td width="100%">${l.l('Value')}</td>
 					</tr>
 
+					<%-- default option value must be the same as then reading the option!!! --%>
 					<tr>
 						<td nowrap="nowrap">
 							${l.l('Порядок объектов в буфере')}

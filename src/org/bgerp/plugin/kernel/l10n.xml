@@ -8,13 +8,13 @@
 	<p><en>Name</en><ru>Имя</ru></p>
 	<p><ru>Свойство</ru><en>Property</en></p>
 	<p><ru>Параметр</ru><en>Parameter</en></p>
-	<p><ru>Параметры (сохраняются сразу)</ru><en>Parameters (saved immediately)</en></p>
-	<p><ru>Опции интерфейса</ru><en>Interface Options</en></p>
+	<p><en>Parameters (saved immediately)</en><ru>Параметры (сохраняются сразу)</ru></p>
+	<p><en>Interface Options</en><ru>Опции интерфейса</ru></p>
+	<p><en>Option</en><ru>Опция</ru></p>
 	<p><en>Yes</en><ru>Да</ru></p>
 	<p><en>No</en><ru>Нет</ru></p>
 	<p><ru>Сохранять порядок объектов</ru><en>Preserve objects order</en></p>
 	<p><ru>Последний объект сверху</ru><en>Last object on top</en></p>
-	<p><ru>Открытие буфера объектов по долгому нажатию ЛКМ</ru><en>Open buffer on long left mouse press</en></p>
 	<p><ru>Порядок объектов в буфере</ru><en>Order of objects in buffer</en></p>
 	<p><ru>Максимальное число объектов в буфере</ru><en>Maximum objects in buffer</en></p>
 	<p><ru>Текст</ru><en>Text</en></p>
