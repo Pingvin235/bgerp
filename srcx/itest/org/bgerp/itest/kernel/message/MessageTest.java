@@ -105,7 +105,8 @@ public class MessageTest {
         dao.updateMessageTags(m.getId(), Set.of(TagConfig.Tag.TAG_PIN_ID, MessageTest.tagSpecification.getId(), MessageTest.tagTodo.getId()), false);
 
         m = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Attachment", "The message must contain an attachment with preview.");
-        m.addAttach(FileHelper.addFile(new File("srcx/doc/_res/image.png")));
+        final var clazz = this.getClass();
+        m.addAttach(FileHelper.addFile(new File("srcx/itest/" + clazz.getPackageName().replace('.', '/') + "/" + clazz.getSimpleName() + ".image.png")));
         dao.updateMessage(m);
     }
 
