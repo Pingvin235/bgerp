@@ -13,9 +13,6 @@
 	<p><en>Option</en><ru>Опция</ru></p>
 	<p><en>Yes</en><ru>Да</ru></p>
 	<p><en>No</en><ru>Нет</ru></p>
-	<p><ru>Сохранять порядок объектов</ru><en>Preserve objects order</en></p>
-	<p><ru>Последний объект сверху</ru><en>Last object on top</en></p>
-	<p><ru>Порядок объектов в буфере</ru><en>Order of objects in buffer</en></p>
 	<p><ru>Максимальное число объектов в буфере</ru><en>Maximum objects in buffer</en></p>
 	<p><ru>Текст</ru><en>Text</en></p>
 	<p><ru>Показать текст конфигурации опций</ru><en>Show option's configuration text</en></p>

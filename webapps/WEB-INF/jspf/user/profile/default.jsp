@@ -33,21 +33,6 @@
 					<%-- default option value must be the same as then reading the option!!! --%>
 					<tr>
 						<td nowrap="nowrap">
-							${l.l('Порядок объектов в буфере')}
-						</td>
-						<td>
-							<c:set var="key" value="iface.buffer.behavior"/>
-							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '1')}" widthTextValue="200px">
-								<jsp:attribute name="valuesHtml">
-									<li value="1">${l.l('Последний объект сверху')}</li>
-									<li value="2">${l.l('Сохранять порядок объектов')}</li>
-								</jsp:attribute>
-							</ui:combo-single>
-						</td>
-					</tr>
-
-					<tr>
-						<td nowrap="nowrap">
 							${l.l('Максимальное число объектов в буфере')}
 						</td>
 						<td>
