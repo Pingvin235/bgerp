@@ -89,7 +89,7 @@ public class ProfileAction extends BaseAction {
         User user = UserCache.getUser(form.getUserId());
         UserDAO userDAO = new UserDAO(con);
 
-        Preferences map = user.getPersonalizationMap();
+        Preferences map = user.getPers();
         String mapDataBefore = map.getDataString();
 
         if (form.getParamBoolean("overwrite"))

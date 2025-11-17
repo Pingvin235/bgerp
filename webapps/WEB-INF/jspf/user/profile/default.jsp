@@ -37,7 +37,7 @@
 						</td>
 						<td>
 							<c:set var="key" value="iface.buffer.maxObjects"/>
-							<input type="text" name="${key}" value="${ctxUser.personalizationMap.get(key, '15')}" size="10"/>
+							<input type="text" name="${key}" value="${ctxUser.pers.get(key, '15')}" size="10"/>
 						</td>
 					</tr>
 
@@ -47,7 +47,7 @@
 						</td>
 						<td>
 							<c:set var="key" value="iface.process.card.extend.right.on.scroll.down"/>
-							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '1')}" widthTextValue="200px">
+							<ui:combo-single hiddenName="${key}" value="${ctxUser.pers.get(key, '1')}" widthTextValue="200px">
 								<jsp:attribute name="valuesHtml">
 									<li value="1">${l.l('Yes')}</li>
 									<li value="0">${l.l('No')}</li>
@@ -71,7 +71,7 @@
 				<div id="${configTextUiid}" style="display: none;">
 					<h2>${l.l('Текст конфигурации опций')}</h2>
 
-					<textarea style="width: 100%; height: 400px; resize: vertical;">${ctxUser.personalizationMap.getDataString().replace('&', '&amp;')}</textarea>
+					<textarea style="width: 100%; height: 400px; resize: vertical;">${ctxUser.pers.getDataString().replace('&', '&amp;')}</textarea>
 
 					<button class="btn-grey mt1 icon" type="button" name="reset" title="${l.l('Delete all the stored personalization options')}" onclick="
 						if (!confirm('${l.l('Reset all the user personalizations?')}')) return;

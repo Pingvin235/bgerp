@@ -87,7 +87,7 @@
 		${menuItemsJS}
 
 		<%-- move personal settings to $$.pers for using in JS --%>
-		<c:forEach var="pair" items="${ctxUser.personalizationMap}">
+		<c:forEach var="pair" items="${ctxUser.pers}">
 			$$.pers['${pair.key}'] = '${pair.value}';
 		</c:forEach>
 

@@ -89,7 +89,7 @@
 
 							<plugin:include endpoint="user.process.tabs.jsp"/>
 
-							<c:if test="${ctxUser.personalizationMap.get('iface.process.card.extend.right.on.scroll.down', '1') ne '0'}">
+							<c:if test="${ctxUser.pers.get('iface.process.card.extend.right.on.scroll.down', '1') ne '0'}">
 								$$.process.hideLeftAreaOnScroll($('#${tableId} #processLeftDiv'), 300);
 							</c:if>
 						})

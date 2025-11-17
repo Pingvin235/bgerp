@@ -42,7 +42,7 @@ public class Pageable<T> {
         if (page.isPaginationEnabled() && page.getPageSize() <= 0) {
             String key = Page.PAGE_SIZE + "." + form.getPageableId();
             if (form.getUser() != null)
-                page.setPageSize(form.getUser().getPersonalizationMap().getInt(key, defaultPageSize));
+                page.setPageSize(form.getUser().getPers().getInt(key, defaultPageSize));
         }
 
         form.getResponse().addPageable(this);

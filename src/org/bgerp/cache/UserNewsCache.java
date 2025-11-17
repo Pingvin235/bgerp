@@ -52,7 +52,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
             final User user = UserCache.getUser(userId);
 
             String currentNonpopupUnread = Utils.toString(notPopupNews);
-            String lastNonpopupUnread = user.getPersonalizationMap().get(NewsAction.UNREAD_NEWS_PERSONAL_KEY, "");
+            String lastNonpopupUnread = user.getPers().get(NewsAction.UNREAD_NEWS_PERSONAL_KEY, "");
 
             final boolean blinkNews = !currentNonpopupUnread.equals(lastNonpopupUnread);
 
@@ -67,7 +67,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
                 }
             }
 
-            int lastUnprocessedMessages = user.getPersonalizationMap().getInt(MessageAction.UNPROCESSED_MESSAGES_PERSONAL_KEY, 0);
+            int lastUnprocessedMessages = user.getPers().getInt(MessageAction.UNPROCESSED_MESSAGES_PERSONAL_KEY, 0);
 
             final boolean blinkMessages = currentUnprocessedMessages > 0 && currentUnprocessedMessages != lastUnprocessedMessages;
 

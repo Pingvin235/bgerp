@@ -12,7 +12,7 @@
 <!-- search over boardId -->
 <c:set var="boardId" value="${form.id}"/>
 <c:if test="${not (boardId gt 0)}">
-	<c:set var="boardId" value="${ctxUser.personalizationMap['blowBoardLastSelected']}"/>
+	<c:set var="boardId" value="${ctxUser.pers['blowBoardLastSelected']}"/>
 </c:if>
 <c:if test="${not (boardId gt 0)}">
 	<c:set var="boardId" value="${u.getFirst(boards).id}"/>

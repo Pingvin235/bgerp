@@ -10,7 +10,7 @@
 		<div class="pl1 w100p">
 			<c:choose>
 				<c:when test="${ctxUser.checkPerm('/user/plugin/email/email:recipients') and
-					ctxUser.personalizationMap.get('iface.email.message.tag-box.disable') ne '1'}">
+					ctxUser.pers.get('iface.email.message.tag-box.disable') ne '1'}">
 
 					<c:set var="to" value="${not empty message ? message.to : ''}"/>
 					<c:set var="addresses" value="${u:newInstance1('org.bgerp.util.mail.Addresses', to)}"/>

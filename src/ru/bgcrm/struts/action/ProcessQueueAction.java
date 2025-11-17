@@ -97,7 +97,7 @@ public class ProcessQueueAction extends ProcessAction {
     }
 
     public ActionForward queueSavedFilterSet(DynActionForm form, Connection con) throws Exception {
-        Preferences personalizationMap = form.getUser().getPersonalizationMap();
+        Preferences personalizationMap = form.getUser().getPers();
         SavedFiltersConfig config = personalizationMap.getConfig(SavedFiltersConfig.class);
 
         String persConfigBefore = personalizationMap.getDataString();
@@ -198,7 +198,7 @@ public class ProcessQueueAction extends ProcessAction {
     }
 
     public ActionForward queueSavedPanelSet(DynActionForm form, Connection con) throws Exception {
-        Preferences map = form.getUser().getPersonalizationMap();
+        Preferences map = form.getUser().getPers();
         SavedPanelConfig config = map.getConfig(SavedPanelConfig.class);
 
         String mapDataBefore = map.getDataString();
@@ -243,7 +243,7 @@ public class ProcessQueueAction extends ProcessAction {
                 .collect(Collectors.toList());
             form.setResponseData("typeList", types);
 
-            Preferences personalizationMap = user.getPersonalizationMap();
+            Preferences personalizationMap = user.getPers();
             String persConfigBefore = personalizationMap.getDataString();
 
             personalizationMap.put("queueLastSelected", String.valueOf(queue.getId()));
@@ -261,7 +261,7 @@ public class ProcessQueueAction extends ProcessAction {
     }
 
     public ActionForward queueShow(DynActionForm form, ConnectionSet connectionSet) throws Exception {
-        Preferences personalizationMap = form.getUser().getPersonalizationMap();
+        Preferences personalizationMap = form.getUser().getPers();
 
         String configBefore = personalizationMap.getDataString();
 

@@ -46,7 +46,7 @@ public class UserAction extends BaseAction {
         form.setResponseData("counters", counters);
 
         FilterEntryCounter counter = FilterEntryCounter.getInstance();
-        SavedFiltersConfig config = UserCache.getUser(account.getObjectId()).getPersonalizationMap()
+        SavedFiltersConfig config = UserCache.getUser(account.getObjectId()).getPers()
                 .getConfig(SavedFiltersConfig.class);
 
         Map<Integer, SavedFilterSet> topFilters = config.getTopFilters();

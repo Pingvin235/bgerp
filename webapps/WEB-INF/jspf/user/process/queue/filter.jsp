@@ -6,9 +6,9 @@
 <c:set var="formAction" value="/user/process.do"/>
 
 <c:set var="key" value="queueCurrentSavedFilterSet.${queue.id}"/>
-<c:set var="currentSavedFilterSetId" value="${u:int( ctxUser.personalizationMap[key] )}"/>
+<c:set var="currentSavedFilterSetId" value="${u:int( ctxUser.pers[key] )}"/>
 
-<c:set var="config" value="${ctxUser.personalizationMap.getConfig('ru.bgcrm.model.process.queue.config.SavedFiltersConfig')}"/>
+<c:set var="config" value="${ctxUser.pers.getConfig('ru.bgcrm.model.process.queue.config.SavedFiltersConfig')}"/>
 <c:set var="currentSavedFilterSet" value="${config.savedFilterSetMap[u:int( currentSavedFilterSetId )]}"/>
 
 <c:choose>
@@ -252,7 +252,7 @@
 	</div>
 
 	<%-- Set используется для установки статусов отображаемым фильтрам --%>
-	<c:set var="selectedFiltersStr" value="${ctxUser.personalizationMap['queueSelectedFilters'.concat(queue.id)]}"/>
+	<c:set var="selectedFiltersStr" value="${ctxUser.pers['queueSelectedFilters'.concat(queue.id)]}"/>
 	<c:set var="selectedFilters" value="${u.toIntegerSet(selectedFiltersStr)}"/>
 
 	<%-- полный фильтр --%>

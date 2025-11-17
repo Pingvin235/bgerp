@@ -8,7 +8,7 @@
 		<td nowrap="nowrap">
 			<c:choose>
 				<c:when test="${not empty frd.list}">
-					<c:set var="config" value="${ctxUser.personalizationMap.getConfig('ru.bgcrm.model.process.queue.config.SavedPanelConfig')}"/>
+					<c:set var="config" value="${ctxUser.pers.getConfig('ru.bgcrm.model.process.queue.config.SavedPanelConfig')}"/>
 					<c:set var="savedPanelMap" value="${config.savedPanelSet}"/>
 					<c:set var="valuesHtml">
 						<c:forEach items="${frd.list}" var="item">
@@ -23,7 +23,7 @@
 					<c:set var="id" value="processQueueSelect"/>
 
 					<ui:combo-single id="${id}"
-						value="${ctxUser.personalizationMap.queueLastSelected}"
+						value="${ctxUser.pers.queueLastSelected}"
 						onSelect="$$.process.queue.updateSelected(this.value); $$.process.queue.showSelected(this.value);"
 						widthTextValue="18em"
 						prefixText="${l.l('Очередь')}:"
@@ -31,7 +31,7 @@
 
 					<c:set var="queueId" value="${form.id}"/>
 					<c:if test="${not (queueId gt 0)}">
-						<c:set var="queueId" value="${ctxUser.personalizationMap.queueLastSelected}"/>
+						<c:set var="queueId" value="${ctxUser.pers.queueLastSelected}"/>
 					</c:if>
 
 					<script>

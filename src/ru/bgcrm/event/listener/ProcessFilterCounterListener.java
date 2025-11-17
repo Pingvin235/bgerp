@@ -26,7 +26,7 @@ public class ProcessFilterCounterListener {
     }
 
     private void processListener(DynActionForm form, ConnectionSet conSet) {
-        Preferences personalizationMap = form.getUser().getPersonalizationMap();
+        Preferences personalizationMap = form.getUser().getPers();
 
         // впоследствии они вернуться в это же место кода в processCounterUrls параметре запроса
         SavedFiltersConfig config = personalizationMap.getConfig(SavedFiltersConfig.class);

@@ -63,7 +63,7 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
     private ConfigMap configMap = new Preferences();
 
     private String personalization = "";
-    private Preferences personalizationMap = new Preferences();
+    private Preferences pers = new Preferences();
 
     public User() {}
 
@@ -163,12 +163,12 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
 
     public void setPersonalization(String personalization) {
         this.personalization = personalization;
-        this.personalizationMap = new Preferences(personalization);
+        this.pers = new Preferences(personalization);
     }
 
     @JsonIgnore
-    public Preferences getPersonalizationMap() {
-        return personalizationMap;
+    public Preferences getPers() {
+        return pers;
     }
 
     @Override
@@ -232,6 +232,15 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
             log.warn("Not primary action name '{}' was used for checking of '{}'", action, node.getAction());
 
         return UserCache.getPerm(id, action);
+    }
+
+    // deprecated
+
+    @Deprecated
+    @JsonIgnore
+    public Preferences getPersonalizationMap() {
+        log.warndMethod("getPersonalizationMap", "getPers");
+        return pers;
     }
 
     @Deprecated

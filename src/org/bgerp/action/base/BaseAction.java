@@ -273,9 +273,9 @@ public abstract class BaseAction extends DispatchAction {
             String key = Page.PAGE_SIZE + "." + pageableId;
             User user = form.getUser();
 
-            int currentValue = user.getPersonalizationMap().getInt(key, -1);
+            int currentValue = user.getPers().getInt(key, -1);
             if (currentValue != pageSize) {
-                user.getPersonalizationMap().put(key, String.valueOf(pageSize));
+                user.getPers().put(key, String.valueOf(pageSize));
                 new UserDAO(conSet.getConnection()).updatePersonalization(null, user);
             }
         }
@@ -413,7 +413,7 @@ public abstract class BaseAction extends DispatchAction {
 
     /**
      * Saves and restores HTTP request parameters.
-     * As storage used {@link User#getPersonalizationMap()}, key is 'param.' + {@link DynActionForm#getAreaId()}.
+     * As storage used {@link User#getPers()}, key is 'param.' + {@link DynActionForm#getAreaId()}.
      * @param con DB connection.
      * @param form there params are taken and restored, also contains 'areaId' param.
      * @param get restore values.
@@ -422,7 +422,7 @@ public abstract class BaseAction extends DispatchAction {
      * @throws SQLException
      */
     protected void restoreRequestParams(Connection con, DynActionForm form, boolean get, boolean set, String... params) throws SQLException {
-        final Preferences map = form.getUser().getPersonalizationMap();
+        final Preferences map = form.getUser().getPers();
         final String mapDataBefore = map.getDataString();
 
         for (String param : params) {
@@ -466,7 +466,7 @@ public abstract class BaseAction extends DispatchAction {
     protected void updatePersonalization(DynActionForm form, Connection con, Consumer<Preferences> setFunction) throws Exception {
         User user = form.getUser();
 
-        Preferences map = user.getPersonalizationMap();
+        Preferences map = user.getPers();
         String mapDataBefore = map.getDataString();
 
         setFunction.accept(map);
