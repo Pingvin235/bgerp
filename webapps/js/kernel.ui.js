@@ -431,7 +431,7 @@ $$.ui = new function () {
 		// иначе в FF не работает
 		setTimeout(function () {
 			// mouseover() мыши нужно для datepicker а, чтобы отобразился редактор
-			$selector.mouseover().focus();
+			$selector.mouseover().focus()[0].setSelectionRange(0, 0);
 		}, 0);
 	}
 

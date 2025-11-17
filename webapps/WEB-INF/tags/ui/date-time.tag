@@ -107,6 +107,7 @@
 		if (navigator.userAgent.includes('Chrome'))
 			size -= 2;
 
-		$("${selector}").attr("size", size).css("text-align", "center");
+		// setting css text-align='center' here moves cursor position to the center after focus like in webapps/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_editor.jsp
+		$("${selector}").attr("size", size);
 	})
 </script>

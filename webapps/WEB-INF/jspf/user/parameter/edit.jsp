@@ -238,7 +238,5 @@
 </html:form>
 
 <script>
-	$(function () {
-		$$.ui.inputFocus($("#${focusFieldUiid}"));
-	});
+	$$.ui.inputFocus($("#${focusFieldUiid}"));
 </script>
