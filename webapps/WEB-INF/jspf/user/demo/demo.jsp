@@ -72,9 +72,6 @@
 
 <shell:title text="Demo Title"/>
 
-<%-- this tag is only needed here for testing --%>
-<u:newInstance clazz="java.util.Random" var="random"/>
-
 <c:set var="rnd" value="${u:newInstance0('java.util.Random').nextInt(3)}"/>
 <c:choose>
 	<c:when test="${rnd == 0}">
