@@ -19,7 +19,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
@@ -82,55 +81,37 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     public void linkToAnotherObject(int objectFromId, String typeObjectFrom, int objectToId, String typeObjectTo,
-            String typePrefix, String excludeType) {
-        try {
-            StringBuilder query = new StringBuilder(200);
+            String typePrefix, String excludeType) throws SQLException {
+        StringBuilder query = new StringBuilder(200);
 
-            query.append(SQL_INSERT_IGNORE_INTO);
-            query.append(TABLE_PROCESS_LINK);
-            query.append(" (process_id, object_id, object_type, object_title, config) ");
-            query.append("SELECT process_id, ?, ?, object_title, config FROM ");
-            query.append(TABLE_PROCESS_LINK);
-            query.append(SQL_WHERE);
-            query.append("object_id=? AND object_type=?");
+        query.append(SQL_INSERT_IGNORE_INTO + TABLE_PROCESS_LINK + "(process_id, object_id, object_type, object_title, config)" +
+            SQL_SELECT + "process_id, ?, ?, object_title, config" + SQL_FROM + TABLE_PROCESS_LINK +
+            SQL_WHERE + "object_id=? AND object_type=?");
 
-            if (Utils.notBlankString(typePrefix)) {
-                query.append(" AND object_type LIKE '");
-                query.append(typePrefix);
-                query.append("%'");
-            }
+        if (Utils.notBlankString(typePrefix)) {
+            query.append(" AND object_type LIKE '").append(typePrefix).append("%'");
+        }
 
-            if (Utils.notBlankString(excludeType)) {
-                query.append(" AND object_type NOT LIKE '");
-                query.append(excludeType);
-                query.append("'");
-            }
+        if (Utils.notBlankString(excludeType)) {
+            query.append(" AND object_type NOT LIKE '").append(excludeType).append("'");
+        }
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
+        try (var ps = con.prepareStatement(query.toString())) {
             ps.setInt(1, objectToId);
             ps.setString(2, typeObjectTo);
             ps.setInt(3, objectFromId);
             ps.setString(4, typeObjectFrom);
 
             ps.executeUpdate();
-            ps.close();
+        }
 
-            //удаление старых привязок
-            query = new StringBuilder(200);
-
-            query.append(SQL_DELETE_FROM);
-            query.append(TABLE_PROCESS_LINK);
-            query.append(SQL_WHERE);
-            query.append("object_id=? AND object_type=?");
-
-            ps = con.prepareStatement(query.toString());
+        // delete old links
+        String q = SQL_DELETE_FROM + TABLE_PROCESS_LINK + SQL_WHERE + "object_id=? AND object_type=?";
+        try (var ps = con.prepareStatement(q)) {
             ps.setInt(1, objectFromId);
             ps.setString(2, typeObjectFrom);
 
             ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
     }
 
@@ -145,7 +126,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      */
     public List<Process> getLinkProcessList(int processId, String linkType, boolean onlyOpen, Set<Integer> typeIds)
             throws SQLException {
-        return getFromLinkProcess(processId, linkType, onlyOpen, "INNER JOIN " + TABLE_PROCESS_LINK
+        return getFromLinkProcess(processId, linkType, onlyOpen, SQL_INNER_JOIN + TABLE_PROCESS_LINK
                 + " AS link ON process.id=link.object_id AND link.object_type " + LIKE_PROCESS + " AND link.process_id=? ", typeIds);
     }
 
@@ -160,9 +141,8 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      */
     public List<Process> getLinkedProcessList(int processId, String linkType, boolean onlyOpen, Set<Integer> typeIds)
             throws SQLException {
-        return getFromLinkProcess(processId, linkType, onlyOpen,
-                "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id AND link.object_type " + LIKE_PROCESS + " AND link.object_id=? ",
-                typeIds);
+        return getFromLinkProcess(processId, linkType, onlyOpen, SQL_INNER_JOIN + TABLE_PROCESS_LINK
+                + " AS link ON process.id=link.process_id AND link.object_type " + LIKE_PROCESS + " AND link.object_id=? ", typeIds);
     }
 
     private List<Process> getFromLinkProcess(int processId, String linkType, boolean onlyOpen, String joinQuery,
@@ -351,13 +331,17 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         return result;
     }
 
+    // deprecated
+
     @Deprecated
     public Set<Integer> getLinkedProcessTypeIdList(String objectType, int objectId) throws SQLException {
+        log.warndMethod("getLinkedProcessTypeIdList");
+
         Set<Integer> list = new TreeSet<>();
 
         String query =
             "SELECT DISTINCT process.type_id FROM " + TABLE_PROCESS + " AS process " +
-            "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id  AND link.object_id=? AND link.object_type LIKE ? ";
+            SQL_INNER_JOIN + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id  AND link.object_id=? AND link.object_type LIKE ? ";
 
         query += "ORDER BY process.type_id";
 
