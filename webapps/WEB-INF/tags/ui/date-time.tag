@@ -91,9 +91,10 @@
 
 		$$.ui.datetime.init('${selector}', '${type}', '${tu.getTypeFormat(type)}');
 
+		const date = new Date();
 		<c:choose>
 			<c:when test="${value eq '0'}">
-				$("${selector}").datepicker('setDate', new Date());
+				$("${selector}").datepicker('setDate', date);
 			</c:when>
 			<c:when test="${value eq 'last'}">
 				$("${selector}").datepicker('setDate', new Date(date.getFullYear(), date.getMonth() + 1, 0));
