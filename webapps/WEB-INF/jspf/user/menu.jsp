@@ -40,8 +40,7 @@
 
 	<ui:menu-item title="${l.l('Configuration')}" href="admin/config" icon="ti-panel" action="/admin/config:list" />
 
-	<ui:menu-item title="${l.l('Parameters')}" href="admin/param" icon="ti-palette"
-		action="ru.bgcrm.struts.action.admin.DirectoryAction:null" />
+	<ui:menu-item title="${l.l('Parameters')}" href="admin/param" icon="ti-palette" action="/admin/directory:null" />
 
 	<ui:menu-group title="${l.l('Пользователи')}" icon="ti-user">
 		<ui:menu-item title="${l.l('Permission Sets')}" href="admin/user/permset"

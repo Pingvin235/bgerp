@@ -243,26 +243,26 @@
 		</item>
 
 		<item title="Справочники">
-			<item title="Получение списка справочников" action="ru.bgcrm.struts.action.admin.DirectoryAction:null"/>
+			<item title="Получение списка справочников" action="/admin/directory:null, ru.bgcrm.struts.action.admin.DirectoryAction:null"/>
 
 			<item title="Параметры">
-				<item title="Просмотр параметров" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterList"/>
-				<item title="Просмотр параметра" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGet"/>
-				<item title="Изменение параметра" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterUpdate"/>
-				<item title="Удаление параметра" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterDelete"/>
-				<item title="Просмотр в каких процессах используется параметр" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterUseProcess"/>
+				<item title="Просмотр параметров" action="/admin/directory:parameterList, ru.bgcrm.struts.action.admin.DirectoryAction:parameterList"/>
+				<item title="Просмотр параметра" action="/admin/directory:parameterGet, ru.bgcrm.struts.action.admin.DirectoryAction:parameterGet"/>
+				<item title="Изменение параметра" action="/admin/directory:parameterUpdate, ru.bgcrm.struts.action.admin.DirectoryAction:parameterUpdate"/>
+				<item title="Удаление параметра" action="/admin/directory:parameterDelete, ru.bgcrm.struts.action.admin.DirectoryAction:parameterDelete"/>
+				<item title="Просмотр в каких процессах используется параметр" action="/admin/directory:parameterUseProcess, ru.bgcrm.struts.action.admin.DirectoryAction:parameterUseProcess"/>
 			</item>
 			<item title="Шаблоны названий">
-				<item title="Просмотр шаблонов названий" action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleList"/>
-				<item title="Просмотр шаблона названия" action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleGet"/>
-				<item title="Изменение шаблона названия" action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleUpdate"/>
-				<item title="Удаление шаблона названия" action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleDelete"/>
+				<item title="Просмотр шаблонов названий" action="/admin/directory:patternTitleList, ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleList"/>
+				<item title="Просмотр шаблона названия" action="/admin/directory:patternTitleGet, ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleGet"/>
+				<item title="Изменение шаблона названия" action="/admin/directory:patternTitleUpdate, ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleUpdate"/>
+				<item title="Удаление шаблона названия" action="/admin/directory:patternTitleDelete, ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleDelete"/>
 			</item>
 			<item title="Группы параметров">
-				<item title="Просмотр групп параметров" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupList"/>
-				<item title="Просмотр группы параметров" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupGet"/>
-				<item title="Изменение группы параметров" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupUpdate"/>
-				<item title="Удаление группы параметров" action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupDelete"/>
+				<item title="Просмотр групп параметров" action="/admin/directory:parameterGroupList, ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupList"/>
+				<item title="Просмотр группы параметров" action="/admin/directory:parameterGroupGet, ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupGet"/>
+				<item title="Изменение группы параметров" action="/admin/directory:parameterGroupUpdate, ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupUpdate"/>
+				<item title="Удаление группы параметров" action="/admin/directory:parameterGroupDelete, ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupDelete"/>
 			</item>
 		</item>
 

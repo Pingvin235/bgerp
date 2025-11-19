@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action.admin;
+package org.bgerp.action.admin;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -32,10 +32,11 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
+import ru.bgcrm.struts.action.admin.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Action(path = "/admin/directory")
+@Action(path = "/admin/directory", pathId = true)
 public class DirectoryAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/directory";
 

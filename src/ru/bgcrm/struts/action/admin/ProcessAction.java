@@ -46,7 +46,7 @@ import ru.bgcrm.util.Utils;
 public class ProcessAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/process";
 
-    static final String JSP_USED_IN_TYPES = PATH_JSP + "/used_in_types.jsp";
+    public static final String JSP_USED_IN_TYPES = PATH_JSP + "/used_in_types.jsp";
 
     // статусы
     public ActionForward statusList(DynActionForm form, Connection con) throws Exception {
