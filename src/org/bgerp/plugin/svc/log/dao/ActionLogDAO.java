@@ -124,10 +124,10 @@ public class ActionLogDAO extends PeriodicDAO {
                 .addQuery("SELECT DISTINCT SQL_CALC_FOUND_ROWS * FROM ")
                 .addQuery(table)
                 .addQuery(" WHERE ?<=time ")
-                .addDate(timeFrom);
+                .addTimestamp(timeFrom);
 
             if (timeTo != null) {
-                pq.addQuery(" AND time<? ").addDate(timeTo);
+                pq.addQuery(" AND time<? ").addTimestamp(timeTo);
             }
 
             if (Utils.notBlankString(ipAddress)) {
