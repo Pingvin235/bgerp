@@ -5,6 +5,7 @@ import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
 import static ru.bgcrm.dao.process.ProcessDAO.LINKED_PROCESS;
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_STATUS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_TYPE;
@@ -384,6 +385,21 @@ public class Column {
             }else if (value.equals("messageOutLastUser")) {
                 selectPart.append(" pm_last_out_user.title ");
             }
+        } else if (value.startsWith("linkProcessCount") || value.startsWith("linkedProcessCount")) {
+            var col = new ColumnLink(value);
+
+            selectPart.append("(SELECT COUNT(*) FROM " + TABLE_PROCESS_LINK + " AS pl");
+
+            if (col.openOnly || col.typeIds != null) {
+                selectPart.append(" INNER JOIN" + TABLE_PROCESS + " AS pl_p ON pl_p.id=pl." + (col.linked ? "process_id" : "object_id"));
+                if (col.openOnly)
+                    selectPart.append(" AND pl_p.close_dt IS NULL");
+                if (col.typeIds != null)
+                    selectPart.append(" AND pl_p.type_id IN (" + Utils.toString(col.typeIds) + ")");
+            }
+
+            selectPart.append(" WHERE " + target + ".id=pl." + (col.linked ? "object_id" : "process_id"))
+                    .append(" AND pl.object_type LIKE '" + (Utils.isEmptyString(col.linkType) ? "process%" : col.linkType) + "')");
         }
         // колонка обрабатывается в JSP - список операций, в конфиге колонок чтобы была возможность ставить nowrap, выравнивание и т.п.
         // TODO: Сюда же можно перенести макросы выбора наименования типа, статуса и т.п., т.к. их можно выбрать из справочников
@@ -496,25 +512,16 @@ public class Column {
 
             result = groups.toString();
         }
-        // TODO: Сделать подзапросом сразу в ProcessDAO.
         // linkProcessList:depend:open or linkedProcessList:depend:open
         else if (columnValue.startsWith("linkProcessList") || columnValue.startsWith("linkedProcessList")) {
-            String[] tokens = columnValue.split(":");
-
-            String linkTypeFilter = tokens.length > 1 ? tokens[1] : "*";
-            String stateFilter = tokens.length > 2 ? tokens[2] : "open";
-            String typeFilter = tokens.length > 3 ? tokens[3] : "*";
-
-            String linkTypeParam = linkTypeFilter.equals("*") ? null : linkTypeFilter;
-            boolean stateParam = stateFilter.equals("open");
-            Set<Integer> typeParam = typeFilter.equals("*") ? null : Utils.toIntegerSet(typeFilter);
+            var col = new ColumnLink(columnValue);
 
             ProcessLinkDAO dao = new ProcessLinkDAO(form.getConnectionSet().getSlaveConnection(), form);
 
             if (columnValue.startsWith("linkProcessList"))
-                result = dao.getLinkProcessList(process.getId(), linkTypeParam, stateParam, typeParam);
+                result = dao.getLinkProcessList(process.getId(), col.linkType, col.openOnly, col.typeIds);
             else
-                result = dao.getLinkedProcessList(process.getId(), linkTypeParam, stateParam, typeParam);
+                result = dao.getLinkedProcessList(process.getId(), col.linkType, col.openOnly, col.typeIds);
         } else {
             if (isHtmlMedia) {
                 result = rawCellValue;

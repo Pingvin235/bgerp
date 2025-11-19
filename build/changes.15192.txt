@@ -1,0 +1,1 @@
+A: Process queue column types 'linkProcessCount' and 'linkedProcessCount'. https://bgerp.org/change/0/doc/kernel/process/queue.html#setup-column-type
