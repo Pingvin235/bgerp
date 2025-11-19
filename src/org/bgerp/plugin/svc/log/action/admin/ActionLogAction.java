@@ -18,7 +18,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/plugin/log/action")
+@Action(path = "/admin/plugin/log/action", pathId = true)
 public class ActionLogAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
