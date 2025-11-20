@@ -19,6 +19,7 @@ import org.bgerp.dao.param.ParamGroupDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.PatternDAO;
@@ -36,32 +37,35 @@ import ru.bgcrm.util.Utils;
 
 @Action(path = "/admin/directory", pathId = true)
 public class DirectoryAction extends BaseAction {
-    private static final String PATH_JSP = PATH_JSP_ADMIN + "/directory";
-
     public static final class Directory extends IdStringTitle {
         private final String action;
+        private final String objectType;
 
-        public Directory(String id, String title, String action) {
+        public Directory(String id, String title, String action, String objectType) {
             super(id, title);
             this.action = action;
+            this.objectType = objectType;
         }
 
+        @Dynamic
         public String getAction() {
             return action;
         }
     }
 
-    private static final List<Directory> directoryList = List.of(
-        new Directory("processParameter", "Process parameters", "parameterList"),
-        new Directory("userParameter", "User parameters", "parameterList"),
-        new Directory("customerParameter", "Customer parameters", "parameterList"),
-        new Directory("customerParameterGroup", "Customer parameters groups", "parameterGroupList"),
-        new Directory("customerPatternTitle", "Customer title patterns", "patternTitleList"),
-        new Directory("addressParameter", "House parameters", "parameterList")
+    private static final String PATH_JSP = PATH_JSP_ADMIN + "/directory";
+
+    private static final List<Directory> DIRECTORY_LIST = List.of(
+        new Directory("processParameter", "Process parameters", "parameterList", Process.OBJECT_TYPE),
+        new Directory("userParameter", "User parameters", "parameterList", User.OBJECT_TYPE),
+        new Directory("customerParameter", "Customer parameters", "parameterList", Customer.OBJECT_TYPE),
+        new Directory("customerParameterGroup", "Customer parameters groups", "parameterGroupList", null),
+        new Directory("customerPatternTitle", "Customer title patterns", "patternTitleList", null),
+        new Directory("addressHouseParameter", "House parameters", "parameterList", AddressHouse.OBJECT_TYPE)
     );
 
-    private static final Map<String, Directory> directoryMap = Collections.unmodifiableMap(
-        directoryList.stream().collect(Collectors.toMap(d -> d.getId(), d -> d))
+    private static final Map<String, Directory> DIRECTORY_MAP = Collections.unmodifiableMap(
+        DIRECTORY_LIST.stream().collect(Collectors.toMap(d -> d.getId(), d -> d))
     );
 
     @Override
@@ -114,7 +118,7 @@ public class DirectoryAction extends BaseAction {
 
         var request = form.getHttpRequest();
         setDirectoryList(request);
-        request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
+        request.setAttribute("directoryTitle", DIRECTORY_MAP.get(form.getParam("directoryId")));
         request.setAttribute("types", Parameter.TYPES);
 
         return html(con, form, PATH_JSP + "/parameter/update.jsp");
@@ -175,7 +179,7 @@ public class DirectoryAction extends BaseAction {
 
         var request = form.getHttpRequest();
         setDirectoryList(request);
-        request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
+        request.setAttribute("directoryTitle", DIRECTORY_MAP.get(form.getParam("directoryId")));
 
         return html(con, form, PATH_JSP + "/pattern/update.jsp");
     }
@@ -226,7 +230,7 @@ public class DirectoryAction extends BaseAction {
         var request = form.getHttpRequest();
         setDirectoryList(request);
         request.setAttribute("parameterList", paramDAO.getParameterList(getObjectType(form.getParam("directoryId")), 0)); //!!!
-        request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
+        request.setAttribute("directoryTitle", DIRECTORY_MAP.get(form.getParam("directoryId")));
 
         return html(con, form, PATH_JSP + "/parameter/group/update.jsp");
     }
@@ -255,22 +259,14 @@ public class DirectoryAction extends BaseAction {
     }
 
     private void setDirectoryList(HttpServletRequest request) {
-        request.setAttribute("directoryList", directoryList);
+        request.setAttribute("directoryList", DIRECTORY_LIST);
     }
 
     private String getObjectType(String directoryId) {
-        String objectType = null;
-        if (directoryId != null) {
-            if (directoryId.startsWith("customer")) {
-                objectType = Customer.OBJECT_TYPE;
-            } else if (directoryId.startsWith("user")) {
-                objectType = User.OBJECT_TYPE;
-            } else if (directoryId.startsWith("process")) {
-                objectType = Process.OBJECT_TYPE;
-            } else if (directoryId.startsWith("address")) {
-                objectType = AddressHouse.OBJECT_TYPE;
-            }
-        }
-        return objectType;
+        var directory = DIRECTORY_MAP.get(directoryId);
+        if (directory != null)
+            return directory.objectType;
+
+        return null;
     }
 }
