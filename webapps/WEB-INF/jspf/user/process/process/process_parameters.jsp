@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- id="forParamsReload" --%>
 <div>
 	<c:url var="url" value="/user/parameter.do">
 		<c:param name="method" value="parameterList"/>

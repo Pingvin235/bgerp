@@ -3,76 +3,90 @@
 
 <c:set var="house" value="${frd.house}"/>
 
-<c:set var="uiid" value="${u:uiid()}"/>
+<html:form action="/user/directory/address">
+	<input type="hidden" name="method" value="addressUpdate"/>
+	<html:hidden property="addressHouseId"/>
+	<html:hidden property="addressCountryId"/>
+	<html:hidden property="addressCityId"/>
 
-<html:form action="/user/directory/address" styleId="${uiid}">
-<input type="hidden" name="method" value="addressUpdate"/>
-<html:hidden property="addressHouseId"/>
-<html:hidden property="addressCountryId"/>
-<html:hidden property="addressCityId"/>
+	<div id="houseParam">
+		<c:if test="${not empty form.param.inlineEditor}">
+			<h2>${l.l('Редактор дома')}</h2>
+		</c:if>
 
-<div id="houseParam">
+		<table class="data">
+			<tr>
+				<td width="150">${l.l('Параметр')}</td>
+				<td>${l.l('Value')}</td>
+			</tr>
+			<tr>
+				<td>ID</td>
+				<td>${form.param['addressHouseId']}</td>
+			</tr>
+			<tr>
+				<td>${l.l('Страна')}</td>
+				<td>${form.param['addressCountryTitle']}</td>
+			</tr>
+			<tr>
+				<td>${l.l('Город')}</td>
+				<td>${form.param['addressCityTitle']}</td>
+			</tr>
+			<tr>
+				<td>${l.l('Улица')}</td>
+				<td>
+					<ui:select-single hiddenName="addressItemId" value="${house.addressStreet.id}" list="${parameterAddressStreetList}"/>
+				</td>
+			</tr>
+			<tr>
+				<td>${l.l('Район')}</td>
+				<td>
+					<ui:select-single hiddenName="addressAreaId" value="${house.addressArea.id}" list="${parameterAddressAreaList}"/>
+				</td>
+			</tr>
+			<tr>
+				<td>${l.l('Квартал')}</td>
+				<td>
+					<ui:select-single hiddenName="addressQuarterId" value="${house.addressQuarter.id}" list="${parameterAddressQuarterList}"/>
+				</td>
+			</tr>
+			<tr>
+				<td>${l.l('Номер дома с дробью')}</td>
+				<td><html:text property="house" style="width: 100%;" value="${house.houseAndFrac}"/></td>
+			</tr>
+			<tr>
+				<td>${l.l('Почтовый индекс')}</td>
+				<td><html:text property="postIndex" style="width: 100" value="${house.postIndex}"/></td>
+			</tr>
+			<tr valign="top" class="even">
+				<td>${l.l('Коментарий')}</td>
+				<td><html:textarea property="comment" rows="2" style="width: 100%" value="${house.comment}"/></td>
+			</tr>
+		</table>
+	</div>
 
-<c:if test="${not empty form.param['hideLeftPanel']}">
-	<h2>${l.l('Редактор дома')}</h2>
-</c:if>
+	<div class="mt1 in-mr1">
+		<c:choose>
+			<c:when test="${not empty form.param.inlineEditor}">
+				<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.load('${form.returnUrl}', $(this.form).closest('div')))">OK</button>
+				<button type="button" class="btn-white" onclick="$$.ajax.load('${form.returnUrl}', $(this.form).closest('div'))">${l.l('Cancel')}</button>
+			</c:when>
+			<c:otherwise>
+				<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${form.returnUrl}', this))">OK</button>
+				<button type="button" class="btn-white" onclick="$$.ajax.loadContent('${form.returnUrl}', this)">${l.l('Cancel')}</button>
 
-<table class="data">
-	<tr>
-		<td width="150">${l.l('Параметр')}</td>
-		<td>${l.l('Value')}</td>
-	</tr>
-	<tr>
-		<td>ID</td>
-		<td>${form.param['addressHouseId']}</td>
-	</tr>
-	<tr>
-		<td>${l.l('Страна')}</td>
-		<td>${form.param['addressCountryTitle']}</td>
-	</tr>
-	<tr>
-		<td>${l.l('Город')}</td>
-		<td>${form.param['addressCityTitle']}</td>
-	</tr>
-	<tr>
-		<td>${l.l('Улица')}</td>
-		<td>
-			<ui:select-single hiddenName="addressItemId" value="${house.addressStreet.id}" list="${parameterAddressStreetList}"/>
-		</td>
-	</tr>
-	<tr>
-		<td>${l.l('Район')}</td>
-		<td>
-			<ui:select-single hiddenName="addressAreaId" value="${house.addressArea.id}" list="${parameterAddressAreaList}"/>
-		</td>
-	</tr>
-	<tr>
-		<td>${l.l('Квартал')}</td>
-		<td>
-			<ui:select-single hiddenName="addressQuarterId" value="${house.addressQuarter.id}" list="${parameterAddressQuarterList}"/>
-		</td>
-	</tr>
-	<tr>
-		<td>${l.l('Номер дома с дробью')}</td>
-		<td><html:text property="house" style="width: 100%;" value="${house.houseAndFrac}"/></td>
-	</tr>
-	<tr>
-		<td>${l.l('Почтовый индекс')}</td>
-		<td><html:text property="postIndex" style="width: 100" value="${house.postIndex}"/></td>
-	</tr>
-	<tr valign="top" class="even">
-		<td>${l.l('Коментарий')}</td>
-		<td><html:textarea property="comment" rows="2" style="width: 100%" value="${house.comment}"/></td>
-	</tr>
-</table>
-</div>
+				<shell:state text="${l.l('Редактор дома')}" help="kernel/setup.html#address"/>
+			</c:otherwise>
+		</c:choose>
+	</div>
+</html:form>
+
 <% out.flush(); %>
 <div>
 	<h2>${l.l('ПАРАМЕТРЫ')}</h2>
 
-	<div id="forParamsReload">
+	<div>
 		<c:url var="url" value="/user/parameter.do">
-	   		<c:param name="method" value="parameterList"/>
+			<c:param name="method" value="parameterList"/>
 			<c:param name="id" value="${form.param['addressHouseId']}"/>
 			<c:param name="objectType" value="address_house"/>
 			<c:param name="parameterGroup" value="-1"/>
@@ -80,18 +94,3 @@
 		<c:import url="${url}"/>
 	</div>
 </div>
-<div class="mt1 in-mr1">
-	<c:choose>
-		<c:when test="${not empty form.param['hideLeftPanel']}">
-			<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div')))">OK</button>
-			<button type="button" class="btn-white" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div'))">${l.l('Cancel')}</button>
-		</c:when>
-		<c:otherwise>
-			<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${form.returnUrl}', this))">OK</button>
-			<button type="button" class="btn-white" onclick="$$.ajax.loadContent('${form.returnUrl}', this)">${l.l('Cancel')}</button>
-		</c:otherwise>
-	</c:choose>
-</div>
-</html:form>
-
-<shell:state text="${l.l('Редактор дома')}" help="kernel/setup.html#address"/>

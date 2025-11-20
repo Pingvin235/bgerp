@@ -4,7 +4,7 @@
 <c:set var="disabled" value="false"/><c:if test="${addressTable eq 'houseData'}"><c:set var="disabled" value="true"/></c:if>
 <table style="width: 100%; height:100%">
 	<tr>
-		<c:if test="${empty form.param['hideLeftPanel']}">
+		<c:if test="${empty form.param.inlineEditor}">
 			<td width="20px" valign="top">
 				<c:set var="formUiid" value="${u:uiid()}"/>
 

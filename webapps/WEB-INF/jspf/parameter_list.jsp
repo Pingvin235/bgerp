@@ -101,7 +101,7 @@
 								<c:url var="url" value="/user/directory/address.do">
 									<c:param name="method" value="addressGet"/>
 									<c:param name="addressHouseId" value="${value.houseId}"/>
-									<c:param name="hideLeftPanel" value="1"/>
+									<c:param name="inlineEditor" value="1"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 								</c:url>
 								<div style="display: inline;">[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('house')}</a>]</div>
