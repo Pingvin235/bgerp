@@ -116,13 +116,13 @@
 	<p><ru>Квартира</ru><en>Apartment</en></p>
 	<p><ru>Улица</ru><en>Street</en></p>
 	<p><ru>Очистить</ru><en>Clear</en></p>
-	<p><ru>Справочник</ru><en>Directory</en></p>
-	<p><ru>Параметры процессов</ru><en>Process parameters</en></p>
-	<p><ru>Параметры пользователей</ru><en>User parameters</en></p>
-	<p><ru>Параметры контрагентов</ru><en>Customer parameters</en></p>
-	<p><ru>Группы параметров контрагентов</ru><en>Customer parameters groups</en></p>
+	<p><en>Directory</en><ru>Справочник</ru></p>
+	<p><en>Process parameters</en><ru>Параметры процессов</ru></p>
+	<p><en>User parameters</en><ru>Параметры пользователей</ru></p>
+	<p><en>Customer parameters</en><ru>Параметры контрагентов</ru></p>
+	<p><en>Customer parameters groups</en><ru>Группы параметров контрагентов</ru></p>
 	<p><en>Customer title patterns</en><ru>Шаблоны названия контрагентов</ru></p>
-	<p><ru>Параметры домов</ru><en>House parameters</en></p>
+	<p><en>House parameters</en><ru>Параметры домов</ru></p>
 	<p><en>Filter</en><ru>Фильтр</ru></p>
 	<p><en>By ID, title, comment, configuration</en><ru>По ID, наименованию, комментарию, конфигурации</ru></p>
 	<p><en>Interface</en><ru>Интерфейс</ru></p>

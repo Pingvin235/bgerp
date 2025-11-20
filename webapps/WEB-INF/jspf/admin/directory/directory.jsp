@@ -7,7 +7,7 @@
 	<input type="hidden" name="method"/>
 
 	<ui:combo-single hiddenName="directoryId" value="${form.param.directoryId}"
-		prefixText="${l.l('Справочник')}:" widthTextValue="20em"
+		prefixText="${l.l('Directory')}:" widthTextValue="20em"
 		onSelect="$$.param.dirChanged($('#${uiid}')[0], item, this)">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${directoryList}">
@@ -19,7 +19,7 @@
 
 <script>
 	$(function () {
-		var $left = $('#title > .status:visible > .wrap > .left');
+		const $left = $('#title > .status:visible > .wrap > .left');
 		$left.html("");
 		$('#${uiid}').appendTo($left);
 	})

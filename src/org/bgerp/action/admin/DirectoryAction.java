@@ -21,8 +21,6 @@ import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.sql.LikePattern;
 
-import com.google.common.collect.Lists;
-
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterGroup;
@@ -53,14 +51,14 @@ public class DirectoryAction extends BaseAction {
         }
     }
 
-    private static final List<Directory> directoryList = Collections.unmodifiableList(Lists.newArrayList(
-        new Directory("processParameter", "Параметры процессов", "parameterList"),
-        new Directory("userParameter", "Параметры пользователей", "parameterList"),
-        new Directory("customerParameter", "Параметры контрагентов", "parameterList"),
-        new Directory("customerParameterGroup", "Группы параметров контрагентов", "parameterGroupList"),
+    private static final List<Directory> directoryList = List.of(
+        new Directory("processParameter", "Process parameters", "parameterList"),
+        new Directory("userParameter", "User parameters", "parameterList"),
+        new Directory("customerParameter", "Customer parameters", "parameterList"),
+        new Directory("customerParameterGroup", "Customer parameters groups", "parameterGroupList"),
         new Directory("customerPatternTitle", "Customer title patterns", "patternTitleList"),
-        new Directory("addressParameter", "Параметры домов", "parameterList")
-    ));
+        new Directory("addressParameter", "House parameters", "parameterList")
+    );
 
     private static final Map<String, Directory> directoryMap = Collections.unmodifiableMap(
         directoryList.stream().collect(Collectors.toMap(d -> d.getId(), d -> d))
