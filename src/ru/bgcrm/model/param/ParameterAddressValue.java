@@ -2,6 +2,7 @@ package ru.bgcrm.model.param;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
@@ -12,7 +13,9 @@ import org.bgerp.util.Log;
 import org.bgerp.util.text.PatternFormatter;
 
 import ru.bgcrm.dao.AddressDAO;
+import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressHouse;
+import ru.bgcrm.model.param.address.AddressStreet;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -21,6 +24,8 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class ParameterAddressValue {
+    private final Set<String> OBJECT_TYPES = Set.of(AddressCity.OBJECT_TYPE, AddressStreet.OBJECT_TYPE, AddressHouse.OBJECT_TYPE);
+
     private int houseId = -1;
     private String flat = "";
     private String room = "";
@@ -151,10 +156,17 @@ public class ParameterAddressValue {
                 var p = ParameterCache.getParameter(Utils.parseInt(StringUtils.substringAfter(variable, "_")));
                 if (p == null)
                     throw new BGException("Not found parameter for variable: " + variable);
-                if (!AddressHouse.OBJECT_TYPE.equals(p.getObjectType()))
-                    throw new BGException(Log.format("Object type for parameter '{}' must be '{}'", variable, AddressHouse.OBJECT_TYPE));
 
-                return new ParamExpressionObject(con, houseId).val(p.getId());
+                if (!OBJECT_TYPES.contains(p.getObjectType()))
+                    throw new BGException(Log.format("Object type for parameter '{}' must be one of the: {}", variable, OBJECT_TYPES));
+
+                int objectId = switch (p.getObjectType()) {
+                    case AddressCity.OBJECT_TYPE -> house.getAddressStreet().getCityId();
+                    case AddressStreet.OBJECT_TYPE -> house.getStreetId();
+                    default -> houseId;
+                };
+
+                return new ParamExpressionObject(con, objectId).val(p.getId());
             }
             return "";
         });

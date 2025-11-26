@@ -1,9 +1,11 @@
 package ru.bgcrm.model.param.address;
 
 public class AddressCity extends AddressBase {
+    public static final String OBJECT_TYPE = "address_city";
+
     private int countryId = -1;
     private AddressCountry addressCountry;
-    
+
     public int getCountryId() {
         return countryId;
     }

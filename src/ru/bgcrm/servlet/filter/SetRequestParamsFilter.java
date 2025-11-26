@@ -73,7 +73,7 @@ public class SetRequestParamsFilter implements Filter {
      *
      * <b>ctxPluginManager</b>  {@link PluginManager#getInstance()}<br/>
      *
-     * <b>ctxUserCache</b> - {@link UserCache#INSTANCE} user cache instance</br>
+     * <b>ctxUserCache</b>  static instance of {@link UserCache}</br>
      *
      * <b>ctxUserList</b>  {@link UserCache#getUserList()} List с пользователями системы<br/>
      * <b>ctxUserMap</b>  {@link UserCache#getUserMap()} Map с пользователями системы<br/>
@@ -99,7 +99,9 @@ public class SetRequestParamsFilter implements Filter {
      * <b>ctxProcessQueueMap</b>  {@link ProcessTypeCache#getProcessQueueMap()} Map с очередями процессов<br/>
      * <b>ctxProcessQueueList</b>  {@link ProcessTypeCache#getProcessQueueList()} List с очередями процессов<br/>
      *
-     * <b>ctxParameterMap</b>  {@link ParameterCache#getParameterMap()} Map с параметрами<br/>
+     * <b>ctxParameterCache</b>  static instance of {@link ParameterCache}<br/>
+     *
+     * <b>ctxParameterMap</b>  {@link ParameterCache#getParameterMap()} parameter Map<br/>
      *
      * <br/>
      */
@@ -148,6 +150,8 @@ public class SetRequestParamsFilter implements Filter {
         result.put("ctxProcessStatusMap", ProcessTypeCache.getStatusMap());
         result.put("ctxProcessQueueMap", ProcessQueueCache.getQueueMap());
         result.put("ctxProcessQueueList", ProcessQueueCache.getQueueList());
+
+        result.put("ctxParameterCache", ParameterCache.HOLDER.getInstance());
 
         result.put("ctxParameterMap", ParameterCache.getParameterMap());
 

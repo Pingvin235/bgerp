@@ -117,12 +117,14 @@
 	<p><ru>Улица</ru><en>Street</en></p>
 	<p><ru>Очистить</ru><en>Clear</en></p>
 	<p><en>Directory</en><ru>Справочник</ru></p>
-	<p><en>Process parameters</en><ru>Параметры процессов</ru></p>
-	<p><en>User parameters</en><ru>Параметры пользователей</ru></p>
-	<p><en>Customer parameters</en><ru>Параметры контрагентов</ru></p>
-	<p><en>Customer parameters groups</en><ru>Группы параметров контрагентов</ru></p>
-	<p><en>Customer title patterns</en><ru>Шаблоны названия контрагентов</ru></p>
-	<p><en>House parameters</en><ru>Параметры домов</ru></p>
+	<p><en>Process parameters</en><ru>Параметры процесса</ru></p>
+	<p><en>User parameters</en><ru>Параметры пользователя</ru></p>
+	<p><en>Customer parameters</en><ru>Параметры контрагента</ru></p>
+	<p><en>Customer parameters groups</en><ru>Группы параметров контрагента</ru></p>
+	<p><en>Customer title patterns</en><ru>Шаблоны названия контрагента</ru></p>
+	<p><en>City parameters</en><ru>Параметры города</ru></p>
+	<p><en>Street parameters</en><ru>Параметры улицы</ru></p>
+	<p><en>House parameters</en><ru>Параметры дома</ru></p>
 	<p><en>Filter</en><ru>Фильтр</ru></p>
 	<p><en>By ID, title, comment, configuration</en><ru>По ID, наименованию, комментарию, конфигурации</ru></p>
 	<p><en>Interface</en><ru>Интерфейс</ru></p>

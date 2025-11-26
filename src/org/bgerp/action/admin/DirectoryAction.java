@@ -26,7 +26,9 @@ import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterGroup;
 import ru.bgcrm.model.param.Pattern;
+import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressHouse;
+import ru.bgcrm.model.param.address.AddressStreet;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
@@ -61,6 +63,8 @@ public class DirectoryAction extends BaseAction {
         new Directory("customerParameter", "Customer parameters", "parameterList", Customer.OBJECT_TYPE),
         new Directory("customerParameterGroup", "Customer parameters groups", "parameterGroupList", null),
         new Directory("customerPatternTitle", "Customer title patterns", "patternTitleList", null),
+        new Directory("addressCityParameter", "City parameters", "parameterList", AddressCity.OBJECT_TYPE),
+        new Directory("addressStreetParameter", "Street parameters", "parameterList", AddressStreet.OBJECT_TYPE),
         new Directory("addressHouseParameter", "House parameters", "parameterList", AddressHouse.OBJECT_TYPE)
     );
 

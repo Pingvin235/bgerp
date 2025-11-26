@@ -19,6 +19,7 @@ import org.bgerp.dao.param.ParamDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.TableChangeMonitor;
 
@@ -28,7 +29,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class ParameterCache extends Cache<ParameterCache> {
     private static final Log log = Log.getLog();
 
-    private static final CacheHolder<ParameterCache> HOLDER = new CacheHolder<>(new ParameterCache());
+    public static final CacheHolder<ParameterCache> HOLDER = new CacheHolder<>(new ParameterCache());
 
     public static Parameter getParameter(int id) {
         return HOLDER.getInstance().parameterMap.get(id);
@@ -39,6 +40,7 @@ public class ParameterCache extends Cache<ParameterCache> {
      * @param objectType {@link ru.bgcrm.model.process.Process#OBJECT_TYPE}, {@link ru.bgcrm.model.customer.Customer#OBJECT_TYPE}, {@link ru.bgcrm.model.user.User#OBJECT_TYPE}, {@link ru.bgcrm.model.param.address.AddressHouse#OBJECT_TYPE}
      * @return
      */
+    @Dynamic
     public static List<Parameter> getObjectTypeParameterList(String objectType) {
         return HOLDER.getInstance().objectTypeParameters.getOrDefault(objectType, List.of());
     }
