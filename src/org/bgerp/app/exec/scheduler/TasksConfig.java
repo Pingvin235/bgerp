@@ -13,7 +13,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import javassist.NotFoundException;
 
 public class TasksConfig extends Config {
-    /** Configured to run tasks. */
+    /** Configured to run tasks */
     private final List<TaskConfig> taskConfigs;
 
     protected TasksConfig(ConfigMap config) {
@@ -24,30 +24,16 @@ public class TasksConfig extends Config {
     private List<TaskConfig> loadTaskConfigs(ConfigMap config) {
         var result = new ArrayList<TaskConfig>();
 
-        log.info("Loading tasks config.");
+        log.info("Loading task configs");
 
         for (Map.Entry<String, ConfigMap> me : config.subKeyed("scheduler.task.").entrySet()) {
             String taskId = me.getKey();
             try {
                 result.add(new TaskConfig(taskId, me.getValue()));
             } catch (Throwable e) {
-                log.error("Load task config: " + taskId + ", error: " + e.getMessage(), e);
+                log.error("Load task config: {}, error: {}", taskId , e.getMessage(), e);
             }
         }
-
-        result.sort((tc1, tc2) -> {
-            final String kernelPrefix = "Kernel";
-
-            final String title1 = tc1.getTitle();
-            final String title2 = tc2.getTitle();
-
-            if (title1.startsWith(kernelPrefix) && !title2.startsWith(kernelPrefix))
-                return -1;
-            else if (!title1.startsWith(kernelPrefix) && title2.startsWith(kernelPrefix))
-                return 1;
-            else
-                return title1.compareTo(title2);
-        });
 
         return Collections.unmodifiableList(result);
     }
@@ -59,16 +45,16 @@ public class TasksConfig extends Config {
     }
 
     /**
-     * @return configured to run tasks.
+     * @return configured to run tasks
      */
     public List<TaskConfig> getTaskConfigs() {
         return taskConfigs;
     }
 
     /**
-     * Gets a task configuration by ID.
-     * @param id the ID.
-     * @return a first found configuration.
+     * Get a task configuration by ID
+     * @param id the ID
+     * @return a first found configuration
      * @throws NotFoundException
      */
     public TaskConfig getTaskConfigOrThrow(String id) throws NotFoundException {

@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.model.base.iface.IdTitle;
+import org.bgerp.model.base.iface.Title;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -22,14 +23,14 @@ import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
 
 /**
- * Scheduled task configuration.
+ * Scheduled task configuration
  *
  * @author Shamil Vakhitov
  */
 public class TaskConfig implements IdTitle<String> {
     private static final Log log = Log.getLog();
 
-    private static Set<Class<?>> runningClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private static final Set<Class<?>> RUNNING_CLASSES = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     private final String id;
     private final ConfigMap config;
@@ -81,7 +82,10 @@ public class TaskConfig implements IdTitle<String> {
     @Override
     public String getTitle() {
         try {
-            return taskInstance().getTitle();
+            Runnable task = taskInstance();
+            if (task instanceof Title titled)
+                return titled.getTitle();
+            return task.getClass().getSimpleName();
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -121,43 +125,18 @@ public class TaskConfig implements IdTitle<String> {
         return executionTime.isMatch(time);
     }
 
-    Task taskInstance() throws Exception {
-        try {
-            return clazz.getDeclaredConstructor(ConfigMap.class).newInstance(config);
-        } catch (NoSuchMethodException e) {
-            // no constructor with ParameterMap was found
-        } catch (Exception e) {
-            throw e;
-        }
-
-        return clazz.getDeclaredConstructor().newInstance();
-    }
-
-     /**
-     * @return {@code null} if the task can be run, or the state, preventing that.
+    /**
+     * @return {@code null} if the task can be run, or the state, preventing that
      */
     @Dynamic
     public String getNotRunnableState() {
         if (running.get())
             return "Running task";
 
-        if (runningClasses.contains(clazz))
+        if (RUNNING_CLASSES.contains(clazz))
             return "Running class";
 
         return null;
-    }
-
-    void taskRun() throws Exception {
-        runningClasses.add(clazz);
-        running.set(true);
-        lastRunStart = new Date();
-        taskInstance().run();
-    }
-
-    void taskDone() {
-        runningClasses.remove(clazz);
-        running.set(false);
-        lastRunDuration = Duration.between(lastRunStart.toInstant(), Instant.now());
     }
 
     @Dynamic
@@ -174,4 +153,30 @@ public class TaskConfig implements IdTitle<String> {
     public String toString() {
         return "Task " + clazz.getName();
     }
+
+    void taskRun() throws Exception {
+        RUNNING_CLASSES.add(clazz);
+        running.set(true);
+        lastRunStart = new Date();
+        taskInstance().run();
+    }
+
+    void taskDone() {
+        RUNNING_CLASSES.remove(clazz);
+        running.set(false);
+        lastRunDuration = Duration.between(lastRunStart.toInstant(), Instant.now());
+    }
+
+    private Runnable taskInstance() throws Exception {
+        try {
+            return clazz.getDeclaredConstructor(ConfigMap.class).newInstance(config);
+        } catch (NoSuchMethodException e) {
+            // no constructor with ParameterMap was found
+        } catch (Exception e) {
+            throw e;
+        }
+
+        return clazz.getDeclaredConstructor().newInstance();
+    }
 }
+
