@@ -23,11 +23,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public String getTitle() {
-        return "Email";
-    }
-
-    @Override
     protected Map<String, List<String>> endpoints() {
         return Map.of(
             ENDPOINT_MESSAGE_VIEWER, List.of(ENDPOINT_MESSAGE_VIEWER),
