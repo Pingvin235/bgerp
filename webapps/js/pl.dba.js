@@ -4,10 +4,10 @@
 "use strict";
 
 $$.dba = new function() {
-	const debug = $$.debug("report");
+	const debug = $$.debug("dba");
 
 	/**
-	 * Loads stored query to editor.
+	 * Load a stored query to editor
 	 * @param {*} button
 	 */
 	const queryHistoryGet = (button) => {
@@ -22,7 +22,7 @@ $$.dba = new function() {
 	}
 
 	/**
-	 * Removes stored query.
+	 * Remove a stored query
 	 * @param {*} button
 	 */
 	const queryHistoryDel = (button) => {
