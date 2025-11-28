@@ -108,8 +108,5 @@
 	</c:forEach>
 </c:forEach>
 
-<script>
-	$(function () {
-		<plugin:include endpoint="js.init"/>
-	})
-</script>
+<plugin:include endpoint="js.init"/>
+
