@@ -9,6 +9,7 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
+import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.param.Parameter;
@@ -32,9 +33,9 @@ public class SlaTest {
     @Test
     public void param() throws SQLException {
         paramCloseBeforeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Close Before", ProcessTest.posParam += 2,
-                "type=ymdhm\nreadonly=1", "");
+                "type=ymdhm\n" + ParamTest.READONLY, "");
         paramUpdateBeforeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Update Before", ProcessTest.posParam += 2,
-                "type=ymdhm\nreadonly=1", "");
+                "type=ymdhm\n" + ParamTest.READONLY, "");
     }
 
     @Test(dependsOnMethods = "param")
