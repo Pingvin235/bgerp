@@ -20,10 +20,9 @@
 		{
 			$("#${editTdId}").hide();
 
-			var $tabs = $("#${tabsUiid}").tabs( {spinner: '' , refreshButton : true} );
+			const $tabs = $("#${tabsUiid}").tabs( {spinner: '' , refreshButton : true} );
 
 			<%-- параметры и отчёты - ниже в DIV ке --%>
-
 			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 				<c:param name="method" value="contractCards"/>
 				<c:param name="billingId" value="${billingId}"/>
@@ -128,36 +127,30 @@
 		<div style="width: 100%;" id="${editTdId}">
 			<ui:combo-single id="${customerSelectUiid}" hiddenName="customerId" widthTextValue="15em" prefixText="Контрагент:"/>
 
-			<c:set var="removeContractTab">
-				var $tabs = $('#${editTdId}').closest( 'div.ui-tabs' );
-				var active = $tabs.tabs( 'option', 'active' );
-				$tabs.tabs( 'remove', active );
-			</c:set>
 			<c:set var="changeCustomerScript">
 				bgbilling_changeContractCustomer($('#${editTdId}'), $('#${showTdId}').find('span'), '${billingId}', ${contractId}, '${contractTitle}').done(() => {
 					const newCustomerId = $('#${editTdId} input[name=customerId]').val();
 					const dependView = bgcrm.pers['iface.bgbilling.contractOpenMode'] != 2;
 
 					<%--- исходя из того, что того же контрагента он выбрать не сможет --%>
-					if( dependView )
-					{
+					if (dependView) {
 						<c:choose>
 							<c:when test="${not empty customer}">
-								${removeContractTab}
+								const $tabs = $('#${editTdId}').closest('div.ui-tabs');
+								const active = $tabs.tabs('option', 'active');
+								$tabs.tabs('remove', active);
 							</c:when>
 							<c:otherwise>
 								$$.closeObject = null;
 								$$.shell.removeCommandDiv('contract_${billingId}-${contractId}');
-								$$.bgbilling.contract.open( '${billingId}', ${contractId} );
+								$$.bgbilling.contract.open('${billingId}', ${contractId});
 							</c:otherwise>
 						</c:choose>
-					}
-					else
-					{
+					} else {
 						<%-- для обновления обозначения в буфере --%>
 						$$.closeObject = null;
 						$$.shell.removeCommandDiv('contract_${billingId}-${contractId}');
-						$$.bgbilling.contract.open( '${billingId}', ${contractId} );
+						$$.bgbilling.contract.open('${billingId}', ${contractId});
 					}
 				});
 			</c:set>
