@@ -149,7 +149,7 @@ public class ContractDAO extends BillingDAO {
                 req.setParam("groupMask", 0);
                 req.setParam("entityFilter", null);
                 req.setParam("subContracts", searchOptions.showSub);
-                req.setParam("closed", !searchOptions.showClosed); //It is turn over in billing. I don't know why!!!
+                req.setParam("closed", searchOptions.showClosed);
                 req.setParam("hidden", searchOptions.showHidden);
                 req.setParam("page", searchResult.getPage());
 
