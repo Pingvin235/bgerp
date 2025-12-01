@@ -38,10 +38,10 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
     }
 
     /**
-     * Sends email to process' executors, except ones from the current {@link DynActionForm}.
-     * @param paramId user parameter ID with type 'email', use {@code 0} for using the first user parameter with this type.
-     * @param subject message subject.
-     * @param text message text.
+     * Send email to process' executors, except ones from the current {@link DynActionForm}
+     * @param paramId user parameter ID with type 'email', use {@code 0} for using the first user parameter with this type
+     * @param subject message subject
+     * @param text message text
      * @throws BGMessageException
      * @throws SQLException
      * @throws MessagingException
@@ -58,11 +58,11 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
     }
 
     /**
-     * Sends email to users.
-     * @param userIds recipient user IDs.
-     * @param paramId user parameter ID with type 'email', use {@code 0} for using the first user parameter with this type.
-     * @param subject message subject.
-     * @param text message text.
+     * Send email to users
+     * @param userIds recipient user IDs
+     * @param paramId user parameter ID with type 'email', use {@code 0} for using the first user parameter with this type
+     * @param subject message subject
+     * @param text message text
      * @throws BGMessageException
      * @throws SQLException
      * @throws MessagingException
@@ -84,8 +84,8 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
 
         try (var con = Setup.getSetup().getDBSlaveConnectionFromPool()) {
             ParamValueDAO paramDao = new ParamValueDAO(con);
-            for (Integer executorId : userIds) {
-                for (ParameterEmailValue value : paramDao.getParamEmail(executorId, paramId).values()) {
+            for (Integer userId : userIds) {
+                for (ParameterEmailValue value : paramDao.getParamEmail(userId, param.getId()).values()) {
                     new MailMsg(Setup.getSetup()).send(value.getValue(), subject, text);
                 }
             }
