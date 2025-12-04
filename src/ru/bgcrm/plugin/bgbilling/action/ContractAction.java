@@ -41,13 +41,11 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractScriptDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ContractServiceDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractStatusDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractService;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParameterType;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
@@ -811,61 +809,7 @@ public class ContractAction extends BaseAction {
         return null;
     }
 
-    public ActionForward serviceList(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-        int contractId = form.getParamInt("contractId");
-        int moduleId = form.getParamInt("moduleId");
-
-        form.setResponseData("list",
-                new ContractServiceDAO(form.getUser(), billingId).getContractServiceList(contractId, moduleId));
-
-        return html(conSet, form, PATH_JSP_CONTRACT + "/service/list.jsp");
-    }
-
-    public ActionForward serviceEdit(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-        int contractId = form.getParamInt("contractId");
-        int moduleId = form.getParamInt("moduleId");
-
-        form.setResponseData("pair",
-                new ContractServiceDAO(form.getUser(), billingId).getContractService(contractId, moduleId, form.getId(),
-                        form.getId() > 0 ? false : form.getParamBoolean("onlyUsing", true)));
-
-        return html(conSet, form, PATH_JSP_CONTRACT + "/service/edit.jsp");
-    }
-
-    public ActionForward serviceUpdate(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-        int contractId = form.getParamInt("contractId");
-
-        ContractServiceDAO serviceDAO = new ContractServiceDAO(form.getUser(), billingId);
-
-        for (int serviceId : form.getParamValuesList("serviceId")) {
-            ContractService service = new ContractService();
-            service.setId(form.getId());
-            service.setContractId(contractId);
-            service.setServiceId(serviceId);
-            service.setDateFrom(form.getParamDate("dateFrom"));
-            service.setDateTo(form.getParamDate("dateTo"));
-            service.setComment(form.getParam("comment"));
-
-            serviceDAO.updateContractService(service);
-        }
-
-        return json(conSet, form);
-    }
-
-    public ActionForward serviceDelete(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-        int contractId = form.getParamInt("contractId");
-
-        new ContractServiceDAO(form.getUser(), billingId).deleteContractService(contractId, form.getId());
-
-        return json(conSet, form);
-    }
-
-    // далее сомнительные функции, которые не очень идеологически ложатся в этот
-    // класс
+    // далее сомнительные функции, которые не очень идеологически ложатся в этот класс
 
     public ActionForward getContractStatisticPassword(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");

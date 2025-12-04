@@ -19,13 +19,6 @@
 		<item title="Карты регистрации" action="/user/plugin/bgbilling/proto/contract:contractCards, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractCards"/>
 		<item title="Загрузка карты" action="/user/plugin/bgbilling/proto/contract:getContractCard, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractCard"/>
 
-		<item title="Разрешённые услуги">
-			<item title="Просмотр разрешённых услуг" action="/user/plugin/bgbilling/proto/contract:serviceList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceList"/>
-			<item title="Изменение разрешённой услуги" action="/user/plugin/bgbilling/proto/contract:serviceUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceUpdate"/>
-			<item title="Редактор разрешённой услуги" action="/user/plugin/bgbilling/proto/contract:serviceEdit, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceEdit"/>
-			<item title="Удаление разрешённой услуги" action="/user/plugin/bgbilling/proto/contract:serviceDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceDelete"/>
-		</item>
-
 		<item title="Параметры">
 			<item title="Просмотр списка параметров" action="/user/plugin/bgbilling/proto/contract:parameterList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterList">
 				<b>parameterIds</b> - ID параметров через запятую, разрешенных для отображения<br/>
