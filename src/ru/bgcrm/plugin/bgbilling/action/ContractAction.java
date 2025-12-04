@@ -811,16 +811,6 @@ public class ContractAction extends BaseAction {
 
     // далее сомнительные функции, которые не очень идеологически ложатся в этот класс
 
-    public ActionForward getContractStatisticPassword(DynActionForm form, ConnectionSet conSet) throws Exception {
-        String billingId = form.getParam("billingId");
-        Integer contractId = form.getParamInt("contractId");
-
-        ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
-        form.setResponseData("password", contractDAO.getContractStatisticPassword(contractId));
-
-        return json(conSet, form);
-    }
-
     public ActionForward addressList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");

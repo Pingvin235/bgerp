@@ -82,18 +82,20 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
+    public static void copyParametersToAllContracts(Connection con, User user, int customerId) throws Exception {
+        CustomerLinkDAO linkDao = new CustomerLinkDAO(con);
+        for (CommonObjectLink link : linkDao.getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%")) {
+            Contract contract = new Contract(link);
+            new ContractDAO(user, contract.getBillingId()).copyParametersToBilling(con, customerId, contract.getId(), contract.getTitle());
+        }
+    }
+
     public ContractDAO(User user, String billingId) {
         super(user, billingId);
     }
 
     private ContractDAO(User user, DBInfo dbInfo) {
         super(user, dbInfo);
-    }
-
-    @Deprecated
-    public static ContractDAO getInstance(User user, String billingId) {
-        log.warnd(Log.MSG_DEPRECATED_METHOD_WAS_CALLED + Log.MSG_WS_CREATE_NEW_INSTANCE_INSTEAD, "getInstance");
-        return new ContractDAO(user, billingId);
     }
 
     public Contract getContractById(int contractId) {
@@ -934,11 +936,6 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public String getContractStatisticPassword(int contractId) {
-        Document contractCard = new ContractDAO(this.user, this.dbInfo).getContractCardDoc(contractId);
-        return XMLUtils.selectText(contractCard, "/data/contract/@pswd");
-    }
-
     public List<IdTitle> getContractAddress(int contractId) {
         Request request = new Request();
         request.setModule("contract");
@@ -1251,6 +1248,7 @@ public class ContractDAO extends BillingDAO {
 
         copyObjectParamsToContract(con, copyParamsMapping, customerId, contractId, customer);
     }
+
     public void copyObjectParamsToContract(Connection con, String copyParamsMapping, int objectId, int contractId,
                                            Customer customer) throws SQLException, BGMessageException {
         ParamValueDAO paramDAO = new ParamValueDAO(con);
@@ -1383,11 +1381,9 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public static void copyParametersToAllContracts(Connection con, User user, int customerId) throws Exception {
-        CustomerLinkDAO linkDao = new CustomerLinkDAO(con);
-        for (CommonObjectLink link : linkDao.getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%")) {
-            Contract contract = new Contract(link);
-            new ContractDAO(user, contract.getBillingId()).copyParametersToBilling(con, customerId, contract.getId(), contract.getTitle());
-        }
+    @Deprecated
+    public String getContractStatisticPassword(int contractId) {
+        Document contractCard = new ContractDAO(this.user, this.dbInfo).getContractCardDoc(contractId);
+        return XMLUtils.selectText(contractCard, "/data/contract/@pswd");
     }
 }

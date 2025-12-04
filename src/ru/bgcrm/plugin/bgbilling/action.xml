@@ -125,7 +125,6 @@
 			<item title="Изменение модулей" action="/user/plugin/bgbilling/proto/contract:updateModules, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateModules"/>
 
 			<item title="ContractAction">
-				<item title="Просмотр пароля статистики договора" action="/user/plugin/bgbilling/proto/contract:getContractStatisticPassword, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractStatisticPassword" />
 				<item title="Получение списка субдоговоров" action="/user/plugin/bgbilling/proto/contract:getSubContractList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getSubContractList" />
 			</item>
 
