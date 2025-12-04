@@ -811,17 +811,6 @@ public class ContractAction extends BaseAction {
 
     // далее сомнительные функции, которые не очень идеологически ложатся в этот класс
 
-    public ActionForward addressList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        String billingId = form.getParam("billingId");
-        Integer contractId = form.getParamInt("contractId");
-
-        ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
-
-        form.setResponseData("contractAddressList", contractDAO.getContractAddress(contractId));
-
-        return html(conSet, form, PATH_JSP + "/crm/contract_address_list.jsp");
-    }
-
     public ActionForward bgbillingOpenContract(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");

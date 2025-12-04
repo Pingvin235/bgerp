@@ -936,30 +936,6 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public List<IdTitle> getContractAddress(int contractId) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("ContractAddressList");
-        request.setContractId(contractId);
-
-        Document document = transferData.postData(request, user);
-
-        List<IdTitle> contractAddress = new ArrayList<>();
-        Element dataElement = document.getDocumentElement();
-        NodeList nodeList = dataElement.getElementsByTagName("item");
-
-        for (int index = 0; index < nodeList.getLength(); index++) {
-            Element rowElement = (Element) nodeList.item(index);
-            IdTitle address = new IdTitle();
-            address.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            address.setTitle(rowElement.getAttribute("title"));
-
-            contractAddress.add(address);
-        }
-
-        return contractAddress;
-    }
-
     public void updateContractPassword(int contractId, String value, boolean generate) {
         Request request = new Request();
         request.setModule("contract");

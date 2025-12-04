@@ -12,7 +12,6 @@
 	</item>
 	<item title="Договор">
 		<item title="Создание договора" action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreate, ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreateTariff"/>
-		<item title="Адресный справочник" action="/user/plugin/bgbilling/proto/contract:addressList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:addressList"/>
 		<item title="Открытие карточки договора в клиенте BGBilling" action="/user/plugin/bgbilling/proto/contract:bgbillingOpenContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingOpenContract"/>
 		<item title="Изменение заголовка и комментария договора" action="/user/plugin/bgbilling/proto/contract:bgbillingUpdateContractTitleAndComment, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingUpdateContractTitleAndComment"/>
 		<item title="Просмотр списка шаблонов договора" action="/user/plugin/bgbilling/proto/contract:bgbillingGetContractPatternList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingGetContractPatternList"/>
