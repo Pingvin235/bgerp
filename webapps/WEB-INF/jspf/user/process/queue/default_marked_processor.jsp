@@ -53,7 +53,7 @@
 										<script>
 											$(function () {
 												$("#${dateInputUiid}").closest("form").on("show", () => {
-													$$.ui.inputFocus($("#${dateInputUiid}"));
+													$$.ui.inputFocus("${dateInputUiid}");
 												});
 											});
 										</script>

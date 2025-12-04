@@ -164,7 +164,7 @@ cmd do && cmd undo
 		<ui:date-time type="ymdhm" paramName="datehm"/>
 
 		<c:set var="uiid" value="${u:uiid()}"/>
-		ymdhms [<a href="#" onclick="$$.ui.inputFocus($('#${uiid}')); return false;">focus</a>]:
+		ymdhms [<a href="#" onclick="$$.ui.inputFocus('${uiid}'); return false;">focus</a>]:
 		<input type="text" name="datehms" id="${uiid}"/>
 		<ui:date-time type="ymdhms" selector="#${uiid}"/>
 

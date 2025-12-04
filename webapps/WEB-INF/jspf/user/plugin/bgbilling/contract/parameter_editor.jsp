@@ -186,7 +186,7 @@
 	</c:choose>
 
 	<script>
-		$$.ui.inputFocus($("#${focusFieldUiid}"));
+		$$.ui.inputFocus("${focusFieldUiid}");
 	</script>
 
 	<c:if test="${empty hideButtons}">

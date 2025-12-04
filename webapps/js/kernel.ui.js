@@ -427,11 +427,15 @@ $$.ui = new function () {
 			});
 	}
 
-	const inputFocus = ($selector) => {
-		// иначе в FF не работает
+	/**
+	 * Set input focus for an DOM element
+	 * @param {String} id the elements' CSS ID
+	 */
+	const inputFocus = (id) => {
+		// without the timeout doesn't work in FF
 		setTimeout(function () {
-			// mouseover() мыши нужно для datepicker а, чтобы отобразился редактор
-			$selector.mouseover().focus()[0].setSelectionRange(0, 0);
+			// mouseover() is needed to show the datepicker
+			$(document.getElementById(id)).mouseover().focus()[0].setSelectionRange(0, 0);
 		}, 0);
 	}
 

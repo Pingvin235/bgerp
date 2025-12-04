@@ -234,5 +234,5 @@
 </html:form>
 
 <script>
-	$$.ui.inputFocus($("#${focusFieldUiid}"));
+	$$.ui.inputFocus("${focusFieldUiid}");
 </script>
