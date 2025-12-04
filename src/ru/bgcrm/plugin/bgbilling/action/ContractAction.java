@@ -928,22 +928,6 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward openContract(DynActionForm form, ConnectionSet conSet) throws Exception {
-        String billingId = form.getParam("billingId");
-
-        if (billingId == null) {
-            throw new BGMessageExceptionWithoutL10n("Не указан параметр запроса billingId");
-        }
-
-        if (billingId.length() == 0) {
-            throw new BGMessageExceptionWithoutL10n("Не указано значение параметра запроса billingId");
-        }
-
-        form.setResponseData("openContract", new ContractDAO(form.getUser(), billingId).openContract());
-
-        return json(conSet, form);
-    }
-
     public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         form.setResponseData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);

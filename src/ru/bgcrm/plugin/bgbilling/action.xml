@@ -205,6 +205,5 @@
 				<item title="Пометка сообщения прочитанным" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:markMessageRead"/>
 			</item>
 		</item>
-		<item title="OpenContract" action="/user/plugin/bgbilling/proto/contract:openContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:openContract"/>
 	</item>
 </item>

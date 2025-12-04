@@ -56,7 +56,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractGroup;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
-import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractCreateData;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractSearchDto;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
@@ -1094,15 +1093,6 @@ public class ContractDAO extends BillingDAO {
         }
 
         return contractPatterns;
-    }
-
-    public OpenContract openContract() {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("OpenContract");
-
-        Document document = transferData.postData(request, user);
-        return new OpenContract(document);
     }
 
     public List<IdTitle> getParameterList(int parameterTypeId) {
