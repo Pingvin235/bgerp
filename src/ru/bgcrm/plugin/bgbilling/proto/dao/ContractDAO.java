@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1095,24 +1094,6 @@ public class ContractDAO extends BillingDAO {
         }
 
         return contractPatterns;
-    }
-
-    public List<IdTitle> getStreetsByCity(int cityId) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("GetStreetsByCity");
-
-        request.setAttribute("city", cityId);
-
-        Document document = transferData.postData(request, user);
-
-        List<IdTitle> streets = new LinkedList<>();
-
-        for (Element item : XMLUtils.selectElements(document, "/data/streets/item")) {
-            streets.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
-        }
-
-        return streets;
     }
 
     public OpenContract openContract() {

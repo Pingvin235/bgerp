@@ -944,28 +944,6 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward getStreetsByCity(DynActionForm form, ConnectionSet conSet) throws Exception {
-        String billingId = form.getParam("billingId");
-
-        if (billingId == null) {
-            throw new BGMessageExceptionWithoutL10n("Не указан параметр запроса billingId");
-        }
-
-        if (billingId.length() == 0) {
-            throw new BGMessageExceptionWithoutL10n("Не указано значение параметра запроса billingId");
-        }
-
-        int cityId = form.getParamInt("cityId");
-
-        if (cityId == 0) {
-            throw new BGMessageExceptionWithoutL10n("Не указано значение параметра запроса cityId");
-        }
-
-        form.setResponseData("streets", new ContractDAO(form.getUser(), billingId).getStreetsByCity(cityId));
-
-        return json(conSet, form);
-    }
-
     public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         form.setResponseData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);
