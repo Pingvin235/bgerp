@@ -163,12 +163,14 @@ cmd do && cmd undo
 		ymdhm:
 		<ui:date-time type="ymdhm" paramName="datehm"/>
 
-		ymdhms:
 		<c:set var="uiid" value="${u:uiid()}"/>
-		<input type="text" id="${uiid}"/>
+		ymdhms [<a href="#" onclick="$$.ui.inputFocus($('#${uiid}')); return false;">focus</a>]:
+		<input type="text" name="datehms" id="${uiid}"/>
 		<ui:date-time type="ymdhms" selector="#${uiid}"/>
 
-		<button class="btn-white ml1" type="button" onclick="console.log(this.form.date.value)">PRINT VALUES TO LOG</button>
+		<button class="btn-white ml1" type="button"
+			onclick="console.log(this.form.date.value, this.form.dateh.value, this.form.datehm.value, this.form.datehms.value)">PRINT
+			VALUES TO LOG</button>
 	</form>
 
 	<div>

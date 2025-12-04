@@ -5,7 +5,7 @@
 <%@ attribute name="paramName" description="input's name"%>
 <%@ attribute name="value" description="current value in dd.MM.yyyy format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
 <%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
-<%@ attribute name="selector" description="jQuery selector of input element (deprecated)"%>
+<%@ attribute name="selector" description="jQuery selector of an existing input text element"%>
 <%@ attribute name="styleClass" description="CSS-classes for input"%>
 <%@ attribute name="placeholder" description="placeholder for input"%>
 <%@ attribute name="saveCommand" description="command used to save the value upon closure"%>

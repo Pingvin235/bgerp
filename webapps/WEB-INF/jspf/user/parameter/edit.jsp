@@ -145,9 +145,7 @@
 			</c:when>
 
 			<c:when test="${parameter.type eq 'date' or parameter.type eq 'datetime'}">
-				<c:set var="selector">#${uiid} input[name='value']</c:set>
 				<c:set var="hideButtons" value="1"/>
-
 				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
 				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs}/>
 				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
@@ -233,8 +231,6 @@
 			<ui:button type="cancel" onclick="$$.ajax.load('${form.returnUrl}', $('#${tableId}').parent())"/>
 		</div>
 	</c:if>
-
-	<c:remove var="hideButtons"/>
 </html:form>
 
 <script>
