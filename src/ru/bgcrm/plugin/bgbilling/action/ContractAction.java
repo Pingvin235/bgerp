@@ -852,16 +852,6 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward getSubContractList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        String billingId = form.getParam("billingId");
-        int contractId = form.getParamInt("contractId");
-
-        ContractHierarchyDAO contractDAO = new ContractHierarchyDAO(form.getUser(), billingId);
-        form.setResponseData("subContractList", contractDAO.getSubContracts(contractId));
-
-        return json(conSet, form);
-    }
-
     public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         form.setResponseData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);
