@@ -90,8 +90,8 @@ public class ContractAction extends BaseAction {
                         form.getParamInt("houseId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
             } else if ("addressObject".equals(searchBy)) {
                 Pageable<ParameterSearchedObject<Contract>> result = new Pageable<>(form);
-                contractDAO.searchContractByObjectAddressParam(result, searchOptions, null,
-                        form.getParamInt("streetId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
+                contractDAO.searchContractByObjectAddressParam(result, searchOptions, null, form.getParamInt("streetId"), form.getParam("house"),
+                        form.getParam("flat"), form.getParam("room"));
             } else if ("id".equals(searchBy)) {
                 Pageable<IdTitle> result = new Pageable<>(form);
                 Contract contract = contractDAO.getContractById(form.getParamInt("id"));
@@ -100,35 +100,68 @@ public class ContractAction extends BaseAction {
                 }
             } else if ("title".equals(searchBy) || "comment".equals(searchBy)) {
                 Pageable<IdTitle> result = new Pageable<>(form);
-                contractDAO.searchContractByTitleComment(result, form.getParam("title"), form.getParam("comment"),
-                        searchOptions);
+                contractDAO.searchContractByTitleComment(result, form.getParam("title"), form.getParam("comment"), searchOptions);
             } else if (searchBy.equals("parameter_text")) {
                 Pageable<Contract> result = new Pageable<>(form);
-                contractDAO.searchContractByTextParam(result, searchOptions,
-                        getParasmIdsSet(form), form.getParam("value"));
+                contractDAO.searchContractByTextParam(result, searchOptions, getParamIds(form), form.getParam("value"));
             } else if (searchBy.equals("parameter_date")) {
                 Pageable<Contract> result = new Pageable<>(form);
-                contractDAO.searchContractByDateParam(result, searchOptions,
-                        getParasmIdsSet(form),
-                        form.getParamDate("date_from"), form.getParamDate("date_to"));
+                contractDAO.searchContractByDateParam(result, searchOptions, getParamIds(form), form.getParamDate("date_from"),
+                        form.getParamDate("date_to"));
             } else if (searchBy.equals("parameter_phone")) {
                 Pageable<Contract> result = new Pageable<>(form);
-                contractDAO.searchContractByPhoneParam(result, searchOptions,
-                        getParasmIdsSet(form), form.getParam("value"));
+                contractDAO.searchContractByPhoneParam(result, searchOptions, getParamIds(form), form.getParam("value"));
             }
         }
 
         return html(conSet, form, PATH_JSP + "/search_contract_result.jsp");
     }
 
-    private Set<Integer> getParasmIdsSet(DynActionForm form) throws BGMessageException {
+    private Set<Integer> getParamIds(DynActionForm form) throws BGMessageException {
         String[] vals = form.getParam().getArray("paramIds");
         if (vals == null) {
-            return getParamListImpl(form).stream()
+            return getParams(form).stream()
                     .map(i -> i.getId())
                     .collect(Collectors.toSet());
         }
         return Arrays.stream(vals).map(i -> Utils.parseInt(i, -1)).collect(Collectors.toSet());
+    }
+
+    public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
+        form.setResponseData("paramType", form.getParamInt("paramType"));
+        List<IdTitle> list = getParams(form);
+        form.setResponseData("paramList", list);
+        return html(conSet, form, PATH_JSP + "/search_param_list.jsp");
+    }
+
+    private List<IdTitle> getParams(DynActionForm form) throws BGMessageException {
+        int type = form.getParamInt("paramType");
+        String billingId = form.getParam("billingId");
+        if (billingId == null) {
+            throw new BGMessageExceptionWithoutL10n("Не указан параметр запроса billingId");
+        }
+        return new ContractDAO(form.getUser(), billingId).getParameterList(type);
+    }
+
+    public ActionForward bgbillingUpdateContractTitleAndComment(DynActionForm form, ConnectionSet conSet) throws Exception {
+        String billingId = form.getParam("billingId");
+        Integer contractId = form.getParamInt("contractId");
+        String comment = form.getParam("comment");
+
+        ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
+        contractDAO.bgbillingUpdateContractTitleAndComment(contractId, comment, 0);
+
+        return json(conSet, form);
+    }
+
+    public ActionForward bgbillingOpenContract(DynActionForm form, ConnectionSet conSet) throws Exception {
+        String billingId = form.getParam("billingId");
+        Integer contractId = form.getParamInt("contractId");
+
+        ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
+        contractDAO.bgbillingOpenContract(contractId);
+
+        return json(conSet, form);
     }
 
     public ActionForward parameterList(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -807,44 +840,5 @@ public class ContractAction extends BaseAction {
         }
 
         return null;
-    }
-
-    // далее сомнительные функции, которые не очень идеологически ложатся в этот класс
-
-    public ActionForward bgbillingOpenContract(DynActionForm form, ConnectionSet conSet) throws Exception {
-        String billingId = form.getParam("billingId");
-        Integer contractId = form.getParamInt("contractId");
-
-        ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
-        contractDAO.bgbillingOpenContract(contractId);
-
-        return json(conSet, form);
-    }
-
-    public ActionForward bgbillingUpdateContractTitleAndComment(DynActionForm form, ConnectionSet conSet) throws Exception {
-        String billingId = form.getParam("billingId");
-        Integer contractId = form.getParamInt("contractId");
-        String comment = form.getParam("comment");
-
-        ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
-        contractDAO.bgbillingUpdateContractTitleAndComment(contractId, comment, 0);
-
-        return json(conSet, form);
-    }
-
-    public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
-        form.setResponseData("paramType", form.getParamInt("paramType"));
-        List<IdTitle> list = getParamListImpl(form);
-        form.setResponseData("paramList", list);
-        return html(conSet, form, PATH_JSP + "/search_param_list.jsp");
-    }
-
-    private List<IdTitle> getParamListImpl(DynActionForm form) throws BGMessageException {
-        int type = form.getParamInt("paramType");
-        String billingId = form.getParam("billingId");
-        if (billingId == null) {
-            throw new BGMessageExceptionWithoutL10n("Не указан параметр запроса billingId");
-        }
-        return new ContractDAO(form.getUser(), billingId).getParameterList(type);
     }
 }
