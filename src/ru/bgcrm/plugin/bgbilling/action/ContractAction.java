@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.struts.action;
+package ru.bgcrm.plugin.bgbilling.action;
 
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -61,7 +61,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/contract")
+@Action(path = "/user/plugin/bgbilling/proto/contract", pathId = true)
 public class ContractAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
     private static final String PATH_JSP_CONTRACT = PATH_JSP + "/contract";

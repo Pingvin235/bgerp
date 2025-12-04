@@ -1,5 +1,5 @@
 <item title="Плагин BGBilling">
-	<item title="Поиск договоров" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getParamList, ru.bgcrm.plugin.bgbilling.struts.action.SearchAction:contractSearch">
+	<item title="Поиск договоров" action="/user/plugin/bgbilling/proto/contract:searchContract, /user/plugin/bgbilling/proto/contract:getParamList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getParamList, ru.bgcrm.plugin.bgbilling.struts.action.SearchAction:contractSearch">
 		<b>billingIds</b> - разделённые запятыми ID биллинга, разрешённые для поиска<br/>
 	</item>
 	<item title="Контрагент">
@@ -12,72 +12,72 @@
 	</item>
 	<item title="Договор">
 		<item title="Создание договора" action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreate, ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreateTariff"/>
-		<item title="Адресный справочник" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:addressList"/>
-		<item title="Открытие карточки договора в клиенте BGBilling" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingOpenContract"/>
-		<item title="Изменение заголовка и комментария договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingUpdateContractTitleAndComment"/>
-		<item title="Просмотр списка шаблонов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingGetContractPatternList"/>
-		<item title="Карты регистрации" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractCards"/>
-		<item title="Загрузка карты" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractCard"/>
+		<item title="Адресный справочник" action="/user/plugin/bgbilling/proto/contract:addressList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:addressList"/>
+		<item title="Открытие карточки договора в клиенте BGBilling" action="/user/plugin/bgbilling/proto/contract:bgbillingOpenContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingOpenContract"/>
+		<item title="Изменение заголовка и комментария договора" action="/user/plugin/bgbilling/proto/contract:bgbillingUpdateContractTitleAndComment, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingUpdateContractTitleAndComment"/>
+		<item title="Просмотр списка шаблонов договора" action="/user/plugin/bgbilling/proto/contract:bgbillingGetContractPatternList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingGetContractPatternList"/>
+		<item title="Карты регистрации" action="/user/plugin/bgbilling/proto/contract:contractCards, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractCards"/>
+		<item title="Загрузка карты" action="/user/plugin/bgbilling/proto/contract:getContractCard, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractCard"/>
 
 		<item title="Разрешённые услуги">
-			<item title="Просмотр разрешённых услуг" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceList"/>
-			<item title="Изменение разрешённой услуги" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceUpdate"/>
-			<item title="Редактор разрешённой услуги" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceEdit"/>
-			<item title="Удаление разрешённой услуги" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceDelete"/>
+			<item title="Просмотр разрешённых услуг" action="/user/plugin/bgbilling/proto/contract:serviceList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceList"/>
+			<item title="Изменение разрешённой услуги" action="/user/plugin/bgbilling/proto/contract:serviceUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceUpdate"/>
+			<item title="Редактор разрешённой услуги" action="/user/plugin/bgbilling/proto/contract:serviceEdit, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceEdit"/>
+			<item title="Удаление разрешённой услуги" action="/user/plugin/bgbilling/proto/contract:serviceDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:serviceDelete"/>
 		</item>
 
 		<item title="Параметры">
-			<item title="Просмотр списка параметров" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterList">
+			<item title="Просмотр списка параметров" action="/user/plugin/bgbilling/proto/contract:parameterList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterList">
 				<b>parameterIds</b> - ID параметров через запятую, разрешенных для отображения<br/>
 			</item>
-			<item title="Изменение параметра" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterGet">
+			<item title="Изменение параметра" action="/user/plugin/bgbilling/proto/contract:parameterUpdate, /user/plugin/bgbilling/proto/contract:parameterGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterGet">
 				<b>parameterIds</b> - ID параметров через запятую, разрешенных для изменения<br/>
 			</item>
-			<item title="Изменение групппы параметров" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterGroupUpdate"/>
+			<item title="Изменение групппы параметров" action="/user/plugin/bgbilling/proto/contract:parameterGroupUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:parameterGroupUpdate"/>
 		</item>
 
 		<item title="Иерархия">
-			<item title="Просмотр списка субдоговоров договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractSubcontractList"/>
+			<item title="Просмотр списка субдоговоров договора" action="/user/plugin/bgbilling/proto/contract:contractSubcontractList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractSubcontractList"/>
 		</item>
 
 		<item title="Объекты">
-			<item title="Просмотр списка объектов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectList"/>
-			<item title="Просмотр списка параметров объектов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectParameterList"/>
-			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateObjectParameter, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getObjectParameter"
+			<item title="Просмотр списка объектов договора" action="/user/plugin/bgbilling/proto/contract:contractObjectList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectList"/>
+			<item title="Просмотр списка параметров объектов договора" action="/user/plugin/bgbilling/proto/contract:contractObjectParameterList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectParameterList"/>
+			<item action="/user/plugin/bgbilling/proto/contract:updateObjectParameter, /user/plugin/bgbilling/proto/contract:getObjectParameter, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateObjectParameter, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getObjectParameter"
 				title="Изменение параметров объектов договора"/>
-			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateContractObject, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractObject"
+			<item action="/user/plugin/bgbilling/proto/contract:updateContractObject, /user/plugin/bgbilling/proto/contract:getContractObject, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateContractObject, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractObject"
 				title="Изменение объектов договора"/>
-			<item title="Удаление объектов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteContractObject"/>
-			<item title="Просмотр сводной таблицы по модулям объектов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectModuleSummaryTable"/>
-			<item title="Просмотр информации по модулям объектов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectModuleInfo"/>
+			<item title="Удаление объектов договора" action="/user/plugin/bgbilling/proto/contract:deleteContractObject, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteContractObject"/>
+			<item title="Просмотр сводной таблицы по модулям объектов договора" action="/user/plugin/bgbilling/proto/contract:contractObjectModuleSummaryTable, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectModuleSummaryTable"/>
+			<item title="Просмотр информации по модулям объектов договора" action="/user/plugin/bgbilling/proto/contract:contractObjectModuleInfo, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractObjectModuleInfo"/>
 		</item>
 
 		<item title="Доп. действия">
-			<item title="Просмотр списка доп.действий" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:additionalActionList"/>
-			<item title="Выполнение списка доп.действий" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:executeAdditionalAction"/>
+			<item title="Просмотр списка доп.действий" action="/user/plugin/bgbilling/proto/contract:additionalActionList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:additionalActionList"/>
+			<item title="Выполнение списка доп.действий" action="/user/plugin/bgbilling/proto/contract:executeAdditionalAction, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:executeAdditionalAction"/>
 		</item>
 
 		<item title="Группы">
-			<item title="Просмотр групп договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:groupList"/>
-			<item title="Изменение групп договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateGroups"/>
+			<item title="Просмотр групп договора" action="/user/plugin/bgbilling/proto/contract:groupList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:groupList"/>
+			<item title="Изменение групп договора" action="/user/plugin/bgbilling/proto/contract:updateGroups, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateGroups"/>
 		</item>
 
 		<item title="Статус">
-			<item title="Просмотр истории статусов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:status"/>
-			<item title="Изменение статуса договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateStatus"/>
+			<item title="Просмотр истории статусов" action="/user/plugin/bgbilling/proto/contract:status, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:status"/>
+			<item title="Изменение статуса договора" action="/user/plugin/bgbilling/proto/contract:updateStatus, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateStatus"/>
 		</item>
 
 		<item title="Лимит">
-			<item title="Просмотр истории лимитов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:limit"/>
-			<item title="Изменение лимита договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateLimit"/>
-			<item title="Удаление задачи на автоматическое изменение" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteLimitTask"/>
+			<item title="Просмотр истории лимитов" action="/user/plugin/bgbilling/proto/contract:limit, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:limit"/>
+			<item title="Изменение лимита договора" action="/user/plugin/bgbilling/proto/contract:updateLimit, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateLimit"/>
+			<item title="Удаление задачи на автоматическое изменение" action="/user/plugin/bgbilling/proto/contract:deleteLimitTask, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteLimitTask"/>
 		</item>
 
 		<item title="Скрипты">
-			<item title="Просмотр списка скриптов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:scriptList"/>
-			<item title="Удаление скриптов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteScript"/>
-			<item title="Изменение скриптов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateScript, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getScript"/>
-			<item title="Просмотр логов выполнения скриптов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:scriptLog"/>
+			<item title="Просмотр списка скриптов договора" action="/user/plugin/bgbilling/proto/contract:scriptList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:scriptList"/>
+			<item title="Удаление скриптов договора" action="/user/plugin/bgbilling/proto/contract:deleteScript, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteScript"/>
+			<item title="Изменение скриптов договора" action="/user/plugin/bgbilling/proto/contract:updateScript, /user/plugin/bgbilling/proto/contract:getScript, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateScript, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getScript"/>
+			<item title="Просмотр логов выполнения скриптов" action="/user/plugin/bgbilling/proto/contract:scriptLog, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:scriptLog"/>
 		</item>
 
 		<item title="Тарифные планы">
@@ -97,20 +97,20 @@
 		</item>
 
 		<item title="Примечания">
-			<item title="Просмотр примечаний договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:memoList"/>
-			<item title="Просмотр примечания договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getMemo"/>
-			<item title="Изменение примечаний договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateMemo"/>
-			<item title="Удаление примечаний договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteMemo"/>
+			<item title="Просмотр примечаний договора" action="/user/plugin/bgbilling/proto/contract:memoList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:memoList"/>
+			<item title="Просмотр примечания договора" action="/user/plugin/bgbilling/proto/contract:getMemo, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getMemo"/>
+			<item title="Изменение примечаний договора" action="/user/plugin/bgbilling/proto/contract:updateMemo, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateMemo"/>
+			<item title="Удаление примечаний договора" action="/user/plugin/bgbilling/proto/contract:deleteMemo, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:deleteMemo"/>
 		</item>
 
 		<item title="Режим">
-			<item title="Просмотр лога изменений" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:modeLog"/>
-			<item title="Изменение" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateMode"/>
+			<item title="Просмотр лога изменений" action="/user/plugin/bgbilling/proto/contract:modeLog, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:modeLog"/>
+			<item title="Изменение" action="/user/plugin/bgbilling/proto/contract:updateMode, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateMode"/>
 		</item>
 
 		<item title="Лицо">
-			<item title="Просмотр лога изменений" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:faceLog"/>
-			<item title="Изменение" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateFace"/>
+			<item title="Просмотр лога изменений" action="/user/plugin/bgbilling/proto/contract:faceLog, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:faceLog"/>
+			<item title="Изменение" action="/user/plugin/bgbilling/proto/contract:updateFace, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateFace"/>
 		</item>
 
 		<item title="Баланс/Платежи">
@@ -128,12 +128,12 @@
 		</item>
 
 		<item title="Модули">
-			<item title="Просмотр модулей" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:moduleList"/>
-			<item title="Изменение модулей" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateModules"/>
+			<item title="Просмотр модулей" action="/user/plugin/bgbilling/proto/contract:moduleList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:moduleList"/>
+			<item title="Изменение модулей" action="/user/plugin/bgbilling/proto/contract:updateModules, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateModules"/>
 
 			<item title="ContractAction">
-				<item title="Просмотр пароля статистики договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractStatisticPassword" />
-				<item title="Получение списка субдоговоров" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getSubContractList" />
+				<item title="Просмотр пароля статистики договора" action="/user/plugin/bgbilling/proto/contract:getContractStatisticPassword, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractStatisticPassword" />
+				<item title="Получение списка субдоговоров" action="/user/plugin/bgbilling/proto/contract:getSubContractList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getSubContractList" />
 			</item>
 
 			<item title="Bill">
@@ -205,7 +205,7 @@
 				<item title="Пометка сообщения прочитанным" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:markMessageRead"/>
 			</item>
 		</item>
-		<item title="OpenContract" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:openContract"/>
-		<item title="Получение списка улиц по ID города" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getStreetsByCity"/>
+		<item title="OpenContract" action="/user/plugin/bgbilling/proto/contract:openContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:openContract"/>
+		<item title="Получение списка улиц по ID города" action="/user/plugin/bgbilling/proto/contract:getStreetsByCity, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getStreetsByCity"/>
 	</item>
 </item>

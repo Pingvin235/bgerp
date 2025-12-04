@@ -40,7 +40,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
  * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в
- * {@link ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction}. Такие методы помечены как устаревшие.
+ * {@link ru.bgcrm.plugin.bgbilling.action.ContractAction}. Такие методы помечены как устаревшие.
  */
 @Action(path = "/user/plugin/bgbilling/contract")
 public class ContractAction extends BaseAction {
