@@ -5,12 +5,13 @@
 
 $$.ui.datetime = new function () {
 	/**
-	 * Inits text input for picking date and time.
-	 * @param {*} inputSelector selector of the input.
-	 * @param {*} type date or time BGERP style format type.
-	 * @param {*} format date or time Java style format.
+	 * Init text input for picking date and time
+	 * @param {String} selector selector of the input
+	 * @param {String} type date and time format type in BGERP style
+	 * @param {String} format date and time format in Java style
+	 * @param {String} value the current value
 	 */
-	const init = (inputSelector, type, format) => {
+	const init = (selector, type, format, value) => {
 		format = format
 			.replaceAll('yyyy', 'y')
 			.replaceAll('yy', 'y')
@@ -20,12 +21,16 @@ $$.ui.datetime = new function () {
 			.replaceAll('mm', 's')
 			.replaceAll('ss', 's');
 
+		const $input = $(selector);
+		const input = $input[0];
+
+		// with the attribute the field won't react on getting focus, etc
+		$input.removeAttr("readonly");
+
 		if (type.startsWith('ymd'))
-			$(inputSelector).inputmask(format, { "placeholder": "_" });
+			$input.inputmask(format, { "placeholder": "_" });
 
-		$(inputSelector).keydown(function (e) {
-			const input = $(inputSelector)[0];
-
+		$input.keydown(function (e) {
 			// Обработка таба и шифта
 			if (!e.shiftKey && e.keyCode === 9) {
 				const start = this.selectionStart;
@@ -367,6 +372,29 @@ $$.ui.datetime = new function () {
 				}
 			}
 		});
+
+		const date = initValue(value);
+		if (date) {
+			$input
+				// erase special values: '0', 'first' or 'last'
+				.val("")
+				.datepicker('setDate', date);
+		} else if (value)
+			input.value = value;
+
+		let size = 8;
+		if (type === 'ymdh')
+			size = 10;
+		else if (type === 'ymdhm')
+			size = 13;
+		else if (type === 'ymdhms')
+			size = 16;
+
+		if (navigator.userAgent.includes('Chrome'))
+			size -= 2;
+
+		// setting css text-align='center' here moves cursor position to the center after focus like in webapps/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_editor.jsp
+		$input.attr("size", size);
 	}
 
 	const setFocusAndRangeForDate = function (input, from, end, event, preventDefault) {
@@ -376,6 +404,17 @@ $$.ui.datetime = new function () {
 		setTimeout(function () {
 			input.setSelectionRange(from, end);
 		}, 50);
+	}
+
+	const initValue = (value) => {
+		const date = new Date();
+		if (value === '0')
+			return date;
+		if (value === 'last')
+			return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+		if (value == 'first')
+			return new Date(date.getFullYear(), date.getMonth(), 1);
+		return null;
 	}
 
 	// public functions

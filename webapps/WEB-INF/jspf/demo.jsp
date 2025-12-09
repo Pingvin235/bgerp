@@ -130,7 +130,7 @@ cmd do && cmd undo
 			<span class="hint">Dot-separated decimal values, e.g. money</span>
 		</div>
 		<div class="pl1">
-			<b>&lt;ui:input-decimal digits=0&gt;</b><br/>
+			<b>&lt;ui:input-decimal digits="0"&gt;</b><br/>
 			<ui:input-decimal size="20" digits="0"/>
 			<span class="hint">Only numbers can be inserted</span>
 		</div>
@@ -142,7 +142,7 @@ cmd do && cmd undo
 			<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)"/>
 		</div>
 		<div class="pl1">
-			<b>&lt;ui:input-text showOutButton='false'&gt;</b><br/>
+			<b>&lt;ui:input-text showOutButton="false"&gt;</b><br/>
 			<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)" showOutButton='false'/>
 		</div>
 	</div>
@@ -151,27 +151,49 @@ cmd do && cmd undo
 <h1>Date and Time</h1>
 
 <div>
-	<form action="${form.requestURI}">
-		<b>&lt;ui:date-time&gt;</b><br/>
+	<form action="${form.requestURI}" class="in-table-cell">
+		<div>
+			<b>&lt;ui:date-time&gt;</b><br/>
+			<ui:date-time paramName="date"/>
+		</div>
+		<div class="pl1">
+			<b>&lt;ui:date-time type="ymdh"&gt;</b><br/>
+			<ui:date-time type="ymdh" paramName="dateh"/>
+		</div>
+		<div class="pl1">
+			<b>&lt;ui:date-time type="ymdhm"&gt;</b><br/>
+			<ui:date-time type="ymdhm" paramName="datehm"/>
+		</div>
+		<div class="pl1">
+			<c:set var="uiid" value="${u:uiid()}"/>
+			<b>&lt;ui:date-time type="ymdhms" selector="#${uiid}"&gt;</b> [<a href="#" onclick="$$.ui.inputFocus('${uiid}'); return false;">focus</a>]<br/>
+			<input type="text" name="datehms" id="${uiid}"/>
+			<ui:date-time type="ymdhms" selector="#${uiid}"/>
+		</div>
 
-		ymd:
-		<ui:date-time type="ymd" paramName="date"/>
-
-		ymdh:
-		<ui:date-time type="ymdh" paramName="dateh"/>
-
-		ymdhm:
-		<ui:date-time type="ymdhm" paramName="datehm"/>
-
-		<c:set var="uiid" value="${u:uiid()}"/>
-		ymdhms [<a href="#" onclick="$$.ui.inputFocus('${uiid}'); return false;">focus</a>]:
-		<input type="text" name="datehms" id="${uiid}"/>
-		<ui:date-time type="ymdhms" selector="#${uiid}"/>
-
-		<button class="btn-white ml1" type="button"
-			onclick="console.log(this.form.date.value, this.form.dateh.value, this.form.datehm.value, this.form.datehms.value)">PRINT
-			VALUES TO LOG</button>
+		<br/>
+		<button type="button" class="btn-white"
+				onclick="console.log(this.form.date.value, this.form.dateh.value, this.form.datehm.value, this.form.datehms.value)">PRINT VALUES TO LOG</button>
 	</form>
+
+	<div class="in-table-cell">
+		<div>
+			<b>&lt;ui:date-time value="01.07.1983"&gt;</b><br/>
+			<ui:date-time paramName="date" value="01.07.1983"/>
+		</div>
+		<div class="pl1">
+			<b>&lt;ui:date-time value="0"&gt;</b><br/>
+			<ui:date-time paramName="date" value="0"/>
+		</div>
+		<div class="pl1">
+			<b>&lt;ui:date-time value="first"&gt;</b><br/>
+			<ui:date-time paramName="date" value="first"/>
+		</div>
+		<div class="pl1">
+			<b>&lt;ui:date-time value="last"&gt;</b><br/>
+			<ui:date-time paramName="date" value="last"/>
+		</div>
+	</div>
 
 	<div>
 		<b>&lt;ui:date-month-days&gt;</b><br/>
@@ -181,6 +203,11 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:date-month&gt;</b><br/>
 		<ui:date-month/>
+	</div>
+
+	<div class="in-table-cell">
+		<button type="button" onclick="$$.demo.dateSelectDialog(this)" class="btn-white">DETEPICKER DIALOG</button>
+		<button type="button" onclick="$$.demo.dateSelectDialogWithButtons(this)" class="btn-white ml1">DETEPICKER DIALOG WITH BUTTONS</button>
 	</div>
 </div>
 

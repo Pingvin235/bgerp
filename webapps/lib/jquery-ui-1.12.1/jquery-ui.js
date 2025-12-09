@@ -8057,15 +8057,22 @@ $.extend( Datepicker.prototype, {
 	},
 
 	// PATCH ADDITION BGERP, functions with save
-	_clearAndHideDatepicker: function (id) {
-		$(id).val("");
+	_clearAndHide: function (id) {
+		const $input = $(id).val("");
+
+		const inst = this._getInst($input[0]);
+
+		const onSelect = this._get(inst, "onSelect");
+		if (onSelect)
+			onSelect.apply($input[0], ['', inst]);
+
 		this._hideDatepicker();
 	},
 
-	_setNowIfEmptySaveAndHideDatepicker: function (id) {
-		if ($(id).val() == "") {
+	_setNowIfEmptyAndHide: function (id) {
+		if ($(id).val() == "")
 			this._gotoToday(id);
-		}
+
 		this._hideDatepicker();
 	},
 	// END PATCH
@@ -8888,8 +8895,8 @@ $.extend( Datepicker.prototype, {
 
 		controls = (!inst.inline ?
 				// PATCH ADDITION BGERP,  added X button, changed closeProcess
-				'<button type="button" class="ui-datepicker-close btn-white btn-small icon btn-close" onclick="$.datepicker._clearAndHideDatepicker(\'#' + inst.id + '\');"><i class="ti-eraser"></i></button>' +
-				'<button type="button" class="ui-datepicker-close btn-white btn-small" onclick="$.datepicker._setNowIfEmptySaveAndHideDatepicker(\'#' + inst.id + '\');">OK</button>'
+				'<button type="button" class="ui-datepicker-close btn-white btn-small icon btn-close" onclick="$.datepicker._clearAndHide(\'#' + inst.id + '\');"><i class="ti-eraser"></i></button>' +
+				'<button type="button" class="ui-datepicker-close btn-white btn-small" onclick="$.datepicker._setNowIfEmptyAndHide(\'#' + inst.id + '\');">OK</button>'
 				// END PATCH
 				: '');
 

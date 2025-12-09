@@ -3,13 +3,13 @@
 
 <%@ attribute name="id" description="input's id, auto generated if not explicitly specified"%>
 <%@ attribute name="paramName" description="input's name"%>
-<%@ attribute name="value" description="current value in dd.MM.yyyy format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
-<%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
 <%@ attribute name="selector" description="jQuery selector of an existing input text element"%>
+<%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
+<%@ attribute name="parameter" type="java.lang.Object" description="provides access to the configuration when editing object's parameter"%>
+<%@ attribute name="value" description="current value in defined format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
 <%@ attribute name="styleClass" description="CSS-classes for input"%>
 <%@ attribute name="placeholder" description="placeholder for input"%>
 <%@ attribute name="saveCommand" description="command used to save the value upon closure"%>
-<%@ attribute name="parameter" type="java.lang.Object" description="provides access to the configuration when editing object's parameter"%>
 
 <%-- type: ymd, ymdh, ymdhm, ymdhms --%>
 <c:if test="${empty type and not empty parameter}">
@@ -19,27 +19,13 @@
 	<c:set var="type" value="ymd"/>
 </c:if>
 
-<c:set var="timeFormat" value=""/>
-
 <c:set var="dateFormat" value="${tu.getTypeFormat(type)}"/>
 <c:if test="${dateFormat.contains(' ')}">
+	<c:set var="timeFormat" value="${su.substringAfter(dateFormat, ' ')}"/>
 	<c:set var="dateFormat" value="${su.substringBefore(dateFormat, ' ')}"/>
-	<c:set var="timeFormat" value="${su.substringAfter(tu.getTypeFormat(type), ' ')}"/>
 </c:if>
 
-<c:set var="dateFormat" value="${dateFormat.replace('yyyy', 'yy')}"/>
-<c:set var="dateFormat" value="${dateFormat.replace('MM', 'mm')}"/>
-
-<c:set var="size" value="8"/>
-<c:if test="${type eq 'ymdh'}">
-	<c:set var="size" value="10"/>
-</c:if>
-<c:if test="${type eq 'ymdhm'}">
-	<c:set var="size" value="13"/>
-</c:if>
-<c:if test="${type eq 'ymdhms'}">
-	<c:set var="size" value="16"/>
-</c:if>
+<c:set var="dateFormat" value="${dateFormat.replace('yyyy', 'yy').replace('MM', 'mm')}"/>
 
 <c:if test="${empty selector and not empty paramName}">
 	<c:choose>
@@ -56,32 +42,24 @@
 
 <script style="display: none;">
 	$(() => {
-		<%-- if attribute is not removed, then the field won't react on getting focus, etc --%>
-		$("${selector}").removeAttr("readonly");
-
-		$("${selector}").datetimepicker({
+		const $input = $("${selector}");
+		$input.datetimepicker({
 			"dateFormat" : "${dateFormat}",
+			"timeFormat" : "${timeFormat}",
 			"showHour" : ${type.startsWith('ymdh')},
 			"showMinute" : ${type.startsWith('ymdhm')},
 			"showSecond" : ${type.startsWith('ymdhms')},
-			"timeFormat" : "${timeFormat}",
-			"stepMinute" : 5
+			"stepMinute" : 5,
 
-			<c:if test="${type ne 'ymd'}">
-				, "showTime" : true
-			</c:if>
-
-			<c:if test="${parameter.configMap['showTimeSelector'] == 1}">
-				, showTimeSelector : true
-			</c:if>
+			onClose: function () {
+				${saveCommand}
+			}
 
 			<c:if test="${type eq 'ymd'}">
+				, onSelect: function () {
+					$input.datepicker("hide");
+				}
 				, "showTimepicker" : false
-				, "onSelect": function() { $("${selector}").datepicker("setNowIfEmptySaveAndHide"); }
-			</c:if>
-
-			<c:if test="${not empty saveCommand}">
-				, onClose: function () { ${saveCommand} }
 			</c:if>
 
 			<c:forEach var="item" items="${parameter.configMap}">
@@ -89,26 +67,6 @@
 			</c:forEach>
 		});
 
-		$$.ui.datetime.init('${selector}', '${type}', '${tu.getTypeFormat(type)}');
-
-		const date = new Date();
-		<c:choose>
-			<c:when test="${value eq '0'}">
-				$("${selector}").datepicker('setDate', date);
-			</c:when>
-			<c:when test="${value eq 'last'}">
-				$("${selector}").datepicker('setDate', new Date(date.getFullYear(), date.getMonth() + 1, 0));
-			</c:when>
-			<c:when test="${value eq 'first'}">
-				$("${selector}").datepicker('setDate', new Date(date.getFullYear(), date.getMonth(), 1));
-			</c:when>
-		</c:choose>
-
-		let size = "${size}";
-		if (navigator.userAgent.includes('Chrome'))
-			size -= 2;
-
-		// setting css text-align='center' here moves cursor position to the center after focus like in webapps/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_editor.jsp
-		$("${selector}").attr("size", size);
+		$$.ui.datetime.init('${selector}', '${type}', '${tu.getTypeFormat(type)}', '${value}');
 	})
 </script>
