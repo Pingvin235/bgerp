@@ -21,10 +21,6 @@
 
 <c:set var="reloadScript">() => { $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) }</c:set>
 
-<%-- for payment date dialog --%>
-<c:set var="hiddenUiid" value="${u:uiid()}"/>
-<input type='hidden' id="${hiddenUiid}"/>
-
 <table id="${uiid}" class="data mt05 hl">
 	<tr>
 		<td width="1em">&nbsp;</td>
@@ -74,7 +70,7 @@
 									<c:param name="id" value="${item.id}"/>
 								</c:url>
 								<li><a href="#"
-									onclick="$$.invoice.paid('${hiddenUiid}', '${url}').done(${reloadScript}); return false;">
+									onclick="$$.invoice.paid(this, '${url}').done(${reloadScript}); return false;">
 									<i class="ti-money"></i>
 									${l.l('Paid')}</a>
 								</li>

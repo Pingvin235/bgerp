@@ -7,8 +7,8 @@ $$.invoice = new function() {
 	const debug = $$.debug("invoice");
 
 	/**
-	 * Adds invoice position.
-	 * @param {*} button triggering button.
+	 * Add invoice position
+	 * @param {*} button the triggering button
 	 */
 	const addPosition = (button) => {
 		const $tr = $(button).closest("tr");
@@ -29,20 +29,19 @@ $$.invoice = new function() {
 	}
 
 	/**
-	 * Request payment date and make invoice paid.
-	 * @param {*} hiddenId hidden input ID.
-	 * @param {*} url URL for AJAX call.
-	 * @return promise.
+	 * Request payment date and make invoice paid
+	 * @param {HTMLElement} element any HTML element
+	 * @param {*} url URL for AJAX call
+	 * @return promise
 	 */
-	const paid = (hiddenId, url) => {
+	const paid = (element, url) => {
 		const dfd = $.Deferred();
 
-		$(document.getElementById(hiddenId)).datepicker("dialog", "", (unused, inst) => {
-			const date = new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay);
+		$(element).datepicker("dialog", "", (value) => {
 			$$.ajax
-				.post(url + "&date=" + date.toLocaleDateString('de-DE'))
+				.post(url + "&date=" + value)
 				.done(() => dfd.resolve());
-		});
+		}, { dateFormat: "dd.mm.yy" });
 
 		return dfd.promise();
 	}
