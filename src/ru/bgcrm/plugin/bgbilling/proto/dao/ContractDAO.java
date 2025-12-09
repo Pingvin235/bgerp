@@ -1044,30 +1044,6 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public List<IdTitle> bgbillingGetContractPatternList() {
-        Request req = new Request();
-
-        req.setModule("contract");
-        req.setAction("GetPatternList");
-
-        Document document = transferData.postData(req, user);
-
-        List<IdTitle> contractPatterns = new ArrayList<>();
-        Element dataElement = document.getDocumentElement();
-        NodeList nodeList = dataElement.getElementsByTagName("item");
-
-        for (int index = 0; index < nodeList.getLength(); index++) {
-            Element rowElement = (Element) nodeList.item(index);
-            IdTitle pattern = new IdTitle();
-            pattern.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            pattern.setTitle(rowElement.getAttribute("title"));
-
-            contractPatterns.add(pattern);
-        }
-
-        return contractPatterns;
-    }
-
     public List<IdTitle> getParameterList(int parameterTypeId) {
         List<IdTitle> paramList;
 
