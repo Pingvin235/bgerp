@@ -160,19 +160,22 @@
 		</div>
 
 		<c:if test="${not empty contract.title}">
-
-
-			<div>
-				Период: <b>${tu.format( contract.dateFrom, 'ymd' )} - ${tu.format( contract.dateTo, 'ymd' )}</b>
-			</div>
+			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
+				<c:param name="billingId" value="${billingId}"/>
+				<c:param name="contractId" value="${contractId}"/>
+			</c:url>
+			<div><u:sc>
+				<c:set var="value" value="${tu.format(contract.dateTo, 'dd.MM.yyyy')}"/>
+				Период: <b>${tu.format(contract.dateFrom, 'ymd')} - <a href="#" onclick="$$.bgbilling.contract.dateToUpdate(this, '${value}', '${url}').done(() => {
+					$$.ajax.loadContent('${form.requestUrl}');
+				}); return false;">${empty value ? '...' : value}</a></b>
+			</u:sc></div>
 			<div>
 				Биллинг: <b>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</b>
 			</div>
 			<div>
-				<c:url var="openUrl" value="/user/plugin/bgbilling/proto/contract.do">
+				<c:url var="openUrl" value="${url}">
 					<c:param name="method" value="bgbillingOpenContract" />
-					<c:param name="billingId" value="${billingId }" />
-					<c:param name="contractId" value="${contractId }" />
 				</c:url>
 
 				<button type="button" class="btn-white btn-small" onclick="$$.ajax.post('${openUrl}')">Открыть в биллинге</button>

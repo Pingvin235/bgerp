@@ -154,6 +154,16 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
+    public ActionForward dateToUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
+        String billingId = form.getParam("billingId");
+        Integer contractId = form.getParamInt("contractId");
+        Date date = form.getParamDate("date");
+
+        new ContractDAO(form.getUser(), billingId).dateToUpdate(contractId, date);
+
+        return json(conSet, form);
+    }
+
     public ActionForward bgbillingOpenContract(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");

@@ -1029,7 +1029,7 @@ public class ContractDAO extends BillingDAO {
             req.setParam("title", null);
             req.setParam("comment", comment);
             req.setParam("patternId", patid);
-            transferData.postDataReturn(req, user);
+            transferData.postData(req, user);
         } else {
             Request req = new Request();
             req.setModule("contract");
@@ -1042,6 +1042,13 @@ public class ContractDAO extends BillingDAO {
 
             transferData.postData(req, user);
         }
+    }
+
+    public void dateToUpdate(int contractId, Date dateTo) {
+        RequestJsonRpc req = new RequestJsonRpc(KERNEL_CONTRACT_API, "ContractService", "contractDateToUpdate");
+        req.setParamContractId(contractId);
+        req.setParam("dateTo", dateTo);
+        transferData.postData(req, user);
     }
 
     public List<IdTitle> getParameterList(int parameterTypeId) {

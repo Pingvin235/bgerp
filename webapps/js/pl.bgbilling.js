@@ -6,7 +6,7 @@
 $$.bgbilling = new function () {
 	const contract = new function () {
 		/**
-		 * Opens contract in UI.
+		 * Open contract in UI
 		 * @param {*} billingId
 		 * @param {*} contractId
 		 */
@@ -56,7 +56,7 @@ $$.bgbilling = new function () {
 		}
 
 		/**
-		 * Loads list of creation tariffs.
+		 * Load list of creation tariffs
 		 * @param {*} formId
 		 */
 		const createTariff = (formId) => {
@@ -89,7 +89,7 @@ $$.bgbilling = new function () {
 		}
 
 		/**
-		 * Opens contract in tab when checkbox is clicked.
+		 * Open contract in tab when checkbox is clicked
 		 * @param {*} searchTabsId
 		 * @param {*} scriptId
 		 * @param {*} linkedObjectTitle
@@ -109,11 +109,27 @@ $$.bgbilling = new function () {
 				});
 		}
 
+		const dateToUpdate = (element, initialValue, url) => {
+			const dfd = $.Deferred();
+
+			$(element).datepicker("dialog", initialValue, (value) => {
+				if (value !== initialValue)
+					$$.ajax
+						.post(url + "&" + $$.ajax.requestParamsToUrl({ method: 'dateToUpdate', date: value }))
+						.done(() => dfd.resolve());
+				else
+					dfd.reject();
+			}, { dateFormat: 'dd.mm.yy', showButtonPanel: true });
+
+			return dfd.promise();
+		}
+
 		// public functions
 		this.open = open;
 		this.createTariff = createTariff;
 		this.create = create;
 		this.onCheckTabOpen = onCheckTabOpen;
+		this.dateToUpdate = dateToUpdate;
 	}
 
 	// events
