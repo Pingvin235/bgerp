@@ -21,7 +21,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/user/plugin/bgbilling/search")
 public class SearchAction extends BaseAction {
     /**
-     * Использовать из {@link ContractAction}.
+     * Использовать из {@link ContractAction}, метод применяется только в мастере создания процессов, файл step_find_contract.jsp
      */
     @Deprecated
     public ActionForward contractSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
