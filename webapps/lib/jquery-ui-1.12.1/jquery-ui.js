@@ -8057,50 +8057,16 @@ $.extend( Datepicker.prototype, {
 	},
 
 	// PATCH ADDITION BGERP, functions with save
-	_clearAndHideDatepicker: function(id) {
-		$(id).val( "" );
-		this._saveAndHideDatepicker( id );
+	_clearAndHideDatepicker: function (id) {
+		$(id).val("");
+		this._hideDatepicker();
 	},
 
-	_setNowIfEmptySaveAndHideDatepicker: function(id) {
-		if( $(id).val() == "" )
-		{
-			this._gotoToday( id );
+	_setNowIfEmptySaveAndHideDatepicker: function (id) {
+		if ($(id).val() == "") {
+			this._gotoToday(id);
 		}
-		this._saveAndHideDatepicker( id );
-	},
-	_saveAndHideDatepicker: function(id) {
-		var target = $(id);
-		var inst = this._getInst(target[0]);
-
-		if( ( inst.settings.showTimeSelector == true || inst.settings.showTimeSelector == "true" ) &&  $( id ).val().length > 0 )
-		{
-			var timeSelector = $( "div#ui-timepicker-div-" + inst.id ).find( "select.ui-timepicker-timeselector" );
-
-			if( $( timeSelector ).find( 'option:selected' ).length > 0 )
-			{
-				console.log( this._curInst.selectedMonth );
-				console.log( this._curInst.selectedYear );
-
-				var dateInput = $( "input#" + this._curInst.id );
-				var dateTime = ( this._curInst.selectedDay < 10 ? "0" + this._curInst.selectedDay : this._curInst.selectedDay ) + ".";
-				dateTime+=( this._curInst.selectedMonth < 9 ? "0" + (this._curInst.selectedMonth+1) : this._curInst.selectedMonth+1 ) + ".";
-				dateTime+=this._curInst.selectedYear;
-
-				$( dateInput ).val( dateTime + " " + $( timeSelector ).find( 'option:selected' ).val() );
-			}
-			else
-			{
-				alert( "Время не выбрано" );
-				return ;
-			}
-		}
-
-		var onSave = this._get( inst, 'onSave' );
-		if( onSave == null || onSave() )
-		{
-			this._hideDatepicker();
-		}
+		this._hideDatepicker();
 	},
 	// END PATCH
 
@@ -8922,9 +8888,8 @@ $.extend( Datepicker.prototype, {
 
 		controls = (!inst.inline ?
 				// PATCH ADDITION BGERP,  added X button, changed closeProcess
-				'<button type="button" class="ui-datepicker-close btn-white btn-small icon btn-close" onclick="$.datepicker._clearAndHideDatepicker(\'#' + inst.id + '\');"><i class="ti-close"></i></button>' +
-				'<button type="button" class="ui-datepicker-close btn-white btn-small" onclick="$.datepicker._setNowIfEmptySaveAndHideDatepicker(\'#' + inst.id + '\');">' +
-				this._get(inst, 'closeText') + '</button>'
+				'<button type="button" class="ui-datepicker-close btn-white btn-small icon btn-close" onclick="$.datepicker._clearAndHideDatepicker(\'#' + inst.id + '\');"><i class="ti-eraser"></i></button>' +
+				'<button type="button" class="ui-datepicker-close btn-white btn-small" onclick="$.datepicker._setNowIfEmptySaveAndHideDatepicker(\'#' + inst.id + '\');">OK</button>'
 				// END PATCH
 				: '');
 
