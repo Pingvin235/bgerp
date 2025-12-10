@@ -37,36 +37,46 @@
 		</c:otherwise>
 	</c:choose>
 	<c:set var="selector" value="#${uiid}"/>
-	<input type="text" name="${paramName}" id="${uiid}" value="${value}" class="${styleClass}" placeholder="${placeholder}"/><%--
---%></c:if>
+	<c:choose>
+		<c:when test="${type eq 'ymd' and ctxUser.pers['iface.input.date'] eq 'native'}">
+			<c:set var="nativeInput" value="1"/>
+			<input type="date" name="${paramName}" value="${value}" class="${styleClass}" placeholder="${placeholder}"/>
+		</c:when>
+		<c:otherwise>
+			<input type="text" name="${paramName}" id="${uiid}" value="${value}" class="${styleClass}" placeholder="${placeholder}"/>
+		</c:otherwise>
+	</c:choose>
+</c:if>
 
-<script style="display: none;">
-	$(() => {
-		const $input = $("${selector}");
-		$input.datetimepicker({
-			"dateFormat" : "${dateFormat}",
-			"timeFormat" : "${timeFormat}",
-			"showHour" : ${type.startsWith('ymdh')},
-			"showMinute" : ${type.startsWith('ymdhm')},
-			"showSecond" : ${type.startsWith('ymdhms')},
-			"stepMinute" : 5,
+<c:if test="${empty nativeInput}">
+	<script style="display: none;">
+		$(() => {
+			const $input = $("${selector}");
+			$input.datetimepicker({
+				"dateFormat" : "${dateFormat}",
+				"timeFormat" : "${timeFormat}",
+				"showHour" : ${type.startsWith('ymdh')},
+				"showMinute" : ${type.startsWith('ymdhm')},
+				"showSecond" : ${type.startsWith('ymdhms')},
+				"stepMinute" : 5,
 
-			onClose: function () {
-				${saveCommand}
-			}
-
-			<c:if test="${type eq 'ymd'}">
-				, onSelect: function () {
-					$input.datepicker("hide");
+				onClose: function () {
+					${saveCommand}
 				}
-				, "showTimepicker" : false
-			</c:if>
 
-			<c:forEach var="item" items="${parameter.configMap}">
-				,"${item.key}" : "${item.value}"
-			</c:forEach>
-		});
+				<c:if test="${type eq 'ymd'}">
+					, onSelect: function () {
+						$input.datepicker("hide");
+					}
+					, "showTimepicker" : false
+				</c:if>
 
-		$$.ui.datetime.init('${selector}', '${type}', '${tu.getTypeFormat(type)}', '${value}');
-	})
-</script>
+				<c:forEach var="item" items="${parameter.configMap}">
+					,"${item.key}" : "${item.value}"
+				</c:forEach>
+			});
+
+			$$.ui.datetime.init('${selector}', '${type}', '${tu.getTypeFormat(type)}', '${value}');
+		})
+	</script>
+</c:if>
