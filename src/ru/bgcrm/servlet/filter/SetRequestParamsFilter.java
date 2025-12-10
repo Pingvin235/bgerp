@@ -114,8 +114,6 @@ public class SetRequestParamsFilter implements Filter {
         Map<String, Object> result = new HashMap<>(30);
 
         result.put("ctxSetup", Setup.getSetup());
-        // TODO: Delete later
-        result.put("setup", Setup.getSetup());
 
         result.put("ctxCustomerGroupMap", CustomerGroupCache.getGroupMap());
         result.put("ctxCustomerGroupList", CustomerGroupCache.getGroupList());

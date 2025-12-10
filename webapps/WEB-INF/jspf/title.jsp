@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%><%--
 --%><c:choose><%--
-	--%><c:when test="${not empty setup['title']}"><%--
+	--%><c:when test="${not empty ctxSetup.title}"><%--
 		--%>${ctxSetup.title}<%--
 	--%></c:when><%--
 	--%><c:otherwise><%--

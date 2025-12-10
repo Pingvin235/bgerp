@@ -123,7 +123,7 @@
 
 			$$.shell.contentLoad(href);
 
-			<c:if test="${setup['pooling.enable'] ne 0 and ctxUser.configMap['pooling.enable'] ne 0}">
+			<c:if test="${ctxSetup['pooling.enable'] ne 0 and ctxUser.configMap['pooling.enable'] ne 0}">
 				$$.timer.init();
 			</c:if>
 
