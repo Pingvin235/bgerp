@@ -13,9 +13,9 @@
 	<div class="in-inline-block mb1">
 		<ui:combo-single list="${types}" hiddenName="typeId" value="${typeId}" prefixText="${l.l('Type')}:" widthTextValue="10em"/>
 		&nbsp;
-		<ui:date-month hiddenName="monthFrom" value="${monthFrom}"/>
+		<ui:date-month name="monthFrom" value="${monthFrom}"/>
 		&nbsp;
-		<ui:date-month hiddenName="monthTo" value="${monthTo}"/>
+		<ui:date-month name="monthTo" value="${monthTo}"/>
 	</div>
 
 	<div>
