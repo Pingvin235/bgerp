@@ -19,14 +19,6 @@
 	<c:set var="type" value="ymd"/>
 </c:if>
 
-<c:set var="dateFormat" value="${tu.getTypeFormat(type)}"/>
-<c:if test="${dateFormat.contains(' ')}">
-	<c:set var="timeFormat" value="${su.substringAfter(dateFormat, ' ')}"/>
-	<c:set var="dateFormat" value="${su.substringBefore(dateFormat, ' ')}"/>
-</c:if>
-
-<c:set var="dateFormat" value="${dateFormat.replace('yyyy', 'yy').replace('MM', 'mm')}"/>
-
 <c:if test="${empty selector and not empty paramName}">
 	<c:choose>
 		<c:when test="${not empty id}">
@@ -53,8 +45,7 @@
 		$(() => {
 			const $input = $("${selector}");
 			$input.datetimepicker({
-				"dateFormat" : "${dateFormat}",
-				"timeFormat" : "${timeFormat}",
+				"timeFormat" : "${su.substringAfter(tu.getTypeFormat(type), ' ')}",
 				"showHour" : ${type.startsWith('ymdh')},
 				"showMinute" : ${type.startsWith('ymdhm')},
 				"showSecond" : ${type.startsWith('ymdhms')},

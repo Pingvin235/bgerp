@@ -16,7 +16,6 @@ $$.callboard = new function () {
 			$(document.getElementById(id)).find('div.datepicker').datepicker({
 				changeMonth: false,
 				changeYear: false,
-				dateFormat: "dd.mm.yy",
 				minDate: new Date(year, 0, 1),
 				maxDate: new Date(year, 11, 31),
 				numberOfMonths: [3, 4],

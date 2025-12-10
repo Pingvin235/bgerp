@@ -41,7 +41,7 @@ $$.invoice = new function() {
 			$$.ajax
 				.post(url + "&date=" + value)
 				.done(() => dfd.resolve());
-		}, { dateFormat: "dd.mm.yy" });
+		});
 
 		return dfd.promise();
 	}

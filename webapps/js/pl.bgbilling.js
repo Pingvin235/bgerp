@@ -119,7 +119,7 @@ $$.bgbilling = new function () {
 						.done(() => dfd.resolve());
 				else
 					dfd.reject();
-			}, { dateFormat: 'dd.mm.yy', showButtonPanel: true });
+			}, { showButtonPanel: true });
 
 			return dfd.promise();
 		}

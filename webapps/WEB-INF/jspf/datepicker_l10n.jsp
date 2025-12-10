@@ -5,7 +5,8 @@
 	<c:when test="${l.lang eq 'en'}">
 		<script>
 			$.datepicker.setDefaults({
-				firstDay: 1
+				firstDay: 1,
+				dateFormat: "${tu.getTypeFormat('ymd').replace('yyyy', 'yy').replace('MM', 'mm')}"
 			});
 		</script>
 	</c:when>
