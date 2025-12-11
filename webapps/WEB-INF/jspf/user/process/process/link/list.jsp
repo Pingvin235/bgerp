@@ -117,7 +117,7 @@
 		<plugin:include endpoint="user.process.linkForAddCustom.jsp"/>
 
 		<ui:combo-single
-			hiddenName="param" prefixText="${l.l('Type')}:" style="width: 100%;"
+			name="param" prefixText="${l.l('Type')}:" style="width: 100%;"
 			onSelect="$$.process.link.showForm('${uiid}', this.value);">
 			<jsp:attribute name="valuesHtml">
 				<li value="none">-- ${l.l('нет')} --</li>

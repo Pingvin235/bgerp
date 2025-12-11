@@ -13,7 +13,7 @@
 					<input type="hidden" name="method" value="maintenanceStart"/>
 					<textarea name="message" class="w100p" rows="4" style="resize: none;">${l.l('maintenance.message.default')}</textarea>
 					<div class="mt1">
-						<ui:combo-single hiddenName="delayMinutes" prefixText="${l.l('Delay in minutes before user\\\'s logoff')}:" value="2">
+						<ui:combo-single name="delayMinutes" prefixText="${l.l('Delay in minutes before user\\\'s logoff')}:" value="2">
 							<jsp:attribute name="valuesHtml">
 								<li value="5">5</li>
 								<li value="4">4</li>

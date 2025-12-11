@@ -30,7 +30,7 @@
 				</c:set>
 
 				<ui:combo-single
-					id="${selectUiid}" hiddenName="patternId"
+					id="${selectUiid}" name="patternId"
 					prefixText="Шаблон:" style="width: 100%;"
 					onSelect="${onChangeCode}">
 					<jsp:attribute name="valuesHtml">

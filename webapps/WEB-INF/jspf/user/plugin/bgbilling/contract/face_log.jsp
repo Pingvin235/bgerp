@@ -9,7 +9,7 @@
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 
-		<ui:combo-single hiddenName="value" value="${frd.contractInfo.face}" prefixText="Лицо (изменить):" widthTextValue="100px"
+		<ui:combo-single name="value" value="${frd.contractInfo.face}" prefixText="Лицо (изменить):" widthTextValue="100px"
 			onSelect="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))">
 			<jsp:attribute name="valuesHtml">
 				<li value="0">Физическое</li>

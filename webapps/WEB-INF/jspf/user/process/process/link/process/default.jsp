@@ -20,7 +20,7 @@
 			<html:hidden property="ifaceId"/>
 			<html:hidden property="ifaceState"/>
 
-			<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="$$.ajax.load(this.form, $(this.form).parent())"
+			<ui:combo-single name="open" value="${form.param.open}" onSelect="$$.ajax.load(this.form, $(this.form).parent())"
 				prefixText="${l.l('Open')}:" styleClass="mr05" widthTextValue="5em">
 				<jsp:attribute name="valuesHtml">
 					<li value="">${l.l('All')}</li>

@@ -29,7 +29,7 @@
 
 			<c:if test="${config.parentId le 0 and ctxUser.getPerm('/admin/config:update')['activeAllow'] ne '0'}">
 				<h2>${l.l('Активный')}</h2>
-				<ui:combo-single hiddenName="active" value="${config.active ? 1 : 0}" style="width: 100px;">
+				<ui:combo-single name="active" value="${config.active ? 1 : 0}" style="width: 100px;">
 					<jsp:attribute name="valuesHtml">
 						<li value="0">${l.l('No')}</li>
 						<li value="1">${l.l('Yes')}</li>

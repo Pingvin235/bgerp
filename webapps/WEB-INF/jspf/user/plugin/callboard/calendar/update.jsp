@@ -31,7 +31,7 @@
 <div id="${uiid}" class="in-ml1">
 	<h1 style="display: inline-block;">${calendar.title}</h1>
 
-	<ui:combo-single hiddenName="year" value="${year}" style="width: 5em;" onSelect="$$.ajax.loadContent('${getUrl}&year='+ this.value);">
+	<ui:combo-single name="year" value="${year}" style="width: 5em;" onSelect="$$.ajax.loadContent('${getUrl}&year='+ this.value);">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" begin="${year-1}" end="${year+1}">
 				<li value="${item}">${item}</li>
@@ -57,7 +57,7 @@
 <div style="text-align: center;" id="${uiid}" >
 	<div style="display: inline-block; text-align: left;">
 		<div class="workDaysTypeSelect mb1">
-			<ui:combo-single hiddenName="dayType" prefixText="Тип дня:" widthTextValue="120px">
+			<ui:combo-single name="dayType" prefixText="Тип дня:" widthTextValue="120px">
 				<jsp:attribute name="valuesHtml">
 					<c:forEach var="type" items="${dayTypes}" >
 						<li value="${type.id}"><span style="color: ${type.color};">${type.title}</span></li>

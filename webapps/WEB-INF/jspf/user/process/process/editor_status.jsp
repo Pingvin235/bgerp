@@ -13,7 +13,7 @@
 
 	<ui:combo-single
 		prefixText="<b>${process.statusTitle}</b> ${l.l('status.to')}"
-		style="width: 100%;" hiddenName="statusId">
+		style="width: 100%;" name="statusId">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${statusList}">
 				<c:if test="${allowedStatusIds.contains(item.id) and item.id ne process.statusId}">

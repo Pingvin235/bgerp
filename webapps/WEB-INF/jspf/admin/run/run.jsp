@@ -10,7 +10,7 @@
 		<ui:select-single name="class" list="${runnableClasses}" style="width: 30em;" placeholder="${l.l('Имя класса, реализующего java.lang.Runnable')}"/>
 
 		<ui:combo-single
-			hiddenName="sync" value="0" prefixText="${l.l('Wait of execution is done')}:" styleClass="ml1">
+			name="sync" value="0" prefixText="${l.l('Wait of execution is done')}:" styleClass="ml1">
 			<jsp:attribute name="valuesHtml">
 				<li value="0">${l.l('No')}</li>
 				<li value="1">${l.l('Yes')}</li>

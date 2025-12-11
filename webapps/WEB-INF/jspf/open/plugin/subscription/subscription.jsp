@@ -11,11 +11,11 @@
 			<input type="hidden" name="subscriptionId" value="${subscriptionId}"/>
 		</c:when>
 		<c:otherwise>
-			<ui:combo-single hiddenName="subscriptionId" widthTextValue="20em" list="${subscriptions}" styleClass="mr05"/>
+			<ui:combo-single name="subscriptionId" widthTextValue="20em" list="${subscriptions}" styleClass="mr05"/>
 		</c:otherwise>
 	</c:choose>
 
-	<ui:combo-single hiddenName="limitId" prefixText="${l.l('Лимит')}:" styleClass="mr1" list="${limits}"/>
+	<ui:combo-single name="limitId" prefixText="${l.l('Лимит')}:" styleClass="mr1" list="${limits}"/>
 
 	<button class="btn-grey" type="button" onclick="
 		const processIds = getCheckedProcessIds();

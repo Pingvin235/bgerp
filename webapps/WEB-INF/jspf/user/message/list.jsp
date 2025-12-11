@@ -14,7 +14,7 @@
 	<c:set var="script">$$.ajax.loadContent($('#${formUiid}'));</c:set>
 
 	<ui:combo-single
-		hiddenName="typeId" value="${form.param.typeId}"
+		name="typeId" value="${form.param.typeId}"
 		widthTextValue="15em"
 		onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
@@ -30,7 +30,7 @@
 	</ui:combo-single>
 
 	<ui:combo-single
-		hiddenName="processed" value="${form.param.processed}"
+		name="processed" value="${form.param.processed}"
 		prefixText="${l.l('Обработаны')}:" widthTextValue="3em"
 		onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
@@ -41,7 +41,7 @@
 
 	<c:if test="${form.param.processed eq 1}">
 		<ui:combo-single
-			hiddenName="read" value="${form.param.read}"
+			name="read" value="${form.param.read}"
 			prefixText="${l.l('Read')}:" widthTextValue="3em"
 			onSelect="${script}">
 			<jsp:attribute name="valuesHtml">
@@ -56,7 +56,7 @@
 	</c:if>
 
 	<ui:combo-single
-		hiddenName="order" value="${form.param.order}" prefixText="${l.l('Сортировка')}:"
+		name="order" value="${form.param.order}" prefixText="${l.l('Сортировка')}:"
 		widthTextValue="7em" onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
 			<li value="1">${l.l('Обратная')}</li>

@@ -16,7 +16,7 @@
 			<input type="text" name="id" style="width: 100%" value="${shift.id}" disabled="disabled"/>
 
 			<h2>Категория</h2>
-			<ui:combo-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${shift.category}" style="width: 100%;"/>
+			<ui:combo-single list="${allowOnlyCategories}" name="categoryId" value="${shift.category}" style="width: 100%;"/>
 
 			<h2>${l.l('Title')}</h2>
 			<html:text property="title" style="width: 100%" value="${shift.title}"/>
@@ -25,7 +25,7 @@
 		</div><%--
 	--%><div style="width: 50%;">
 			<h2>Использовать цвет смены</h2>
-			<ui:combo-single hiddenName="useOwnColor" value="${shift.useOwnColor ? 1 : 0}" style="width: 100%;">
+			<ui:combo-single name="useOwnColor" value="${shift.useOwnColor ? 1 : 0}" style="width: 100%;">
 				<jsp:attribute name="valuesHtml">
 					<li value="1">Да</li>
 					<li value="0">Нет</li>

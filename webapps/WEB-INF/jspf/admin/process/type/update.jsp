@@ -22,7 +22,7 @@
 	<html:text property="title" style="width: 100%" value="${type.title}"/>
 
 	<h2>${l.l('Наследовать свойства от предка')}</h2>
-	<ui:combo-single hiddenName="useParent" value="${type.useParentProperties ? 1 : 0}" style="width: 100px;">
+	<ui:combo-single name="useParent" value="${type.useParentProperties ? 1 : 0}" style="width: 100px;">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('No')}</li>
 			<li value="1">${l.l('Yes')}</li>

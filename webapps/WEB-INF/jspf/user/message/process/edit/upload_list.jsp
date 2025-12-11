@@ -15,7 +15,7 @@
 	<%-- here is generated a list of newly uploaded attachments --%>
 </div>
 <div>
-	<ui:combo-single hiddenName="addFileId" style="width: 20em;">
+	<ui:combo-single name="addFileId" style="width: 20em;">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('Выбрать файл')}</li>
 			<c:forEach var="file" items="${files}">

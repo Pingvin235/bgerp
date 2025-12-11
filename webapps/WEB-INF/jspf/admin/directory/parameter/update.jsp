@@ -33,7 +33,7 @@
 						<input type="text" name="type" value="${parameter.type}" disabled="disabled" style="width: 100%;"/>
 					</c:when>
 					<c:otherwise>
-						<ui:combo-single hiddenName="type" list="<%=ru.bgcrm.model.param.Parameter.TYPES%>" styleClass="w100p" onSelect="${typeChangedScript}"/>
+						<ui:combo-single name="type" list="<%=ru.bgcrm.model.param.Parameter.TYPES%>" styleClass="w100p" onSelect="${typeChangedScript}"/>
 					</c:otherwise>
 				</c:choose>
 

@@ -26,7 +26,7 @@
 			<html:form action="/admin/config" style="display: none;">
 				<input type="hidden" name="method" value="addIncluded"/>
 				<input type="hidden" name="id" value="${item.id}"/>
-				<ui:combo-single hiddenName="pluginId" prefixText="${l.l('Включённая конфигурация')}:">
+				<ui:combo-single name="pluginId" prefixText="${l.l('Включённая конфигурация')}:">
 					<jsp:attribute name="valuesHtml">
 						<li value="">${l.l('Без плагина')}</li>
 						<c:forEach var="plugin" items="${ctxPluginManager.inactivePluginList}">

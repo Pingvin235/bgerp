@@ -35,7 +35,7 @@ public class ProcessTextTest {
                 .append("Empty line after:\n")
                 .append("\n")
                 .append("Block of JSP code with indents:\n")
-                .append("<ui:toggle-button-group onChange=\"bla-bla\" hiddenName=\"\" value=\"1\">\n")
+                .append("<ui:toggle-button-group onChange=\"bla-bla\" name=\"\" value=\"1\">\n")
                 .append("    <button style=\"btn-white\" value=\"1\"></button>\n")
                 .append("    <button style=\"btn-white\" value=\"2\"></button>\n")
                 .append("</ui:toggle-button-group>\n")

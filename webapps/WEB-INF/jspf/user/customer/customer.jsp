@@ -57,7 +57,7 @@
 								<input type="hidden" name="customerId" value="${customer.id}"/>
 
 								${l.l('Слить с')}:
-								<ui:combo-single hiddenName="mergingCustomerId" id="${mergeCustomersUiid}"/>
+								<ui:combo-single name="mergingCustomerId" id="${mergeCustomersUiid}"/>
 
 								<button type="button" class="btn-grey ml1"
 									onclick="

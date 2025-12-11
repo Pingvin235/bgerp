@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div style="display: flex;">
-	<ui:combo-single hiddenName="textLikeMode" style="width: 10em;">
+	<ui:combo-single name="textLikeMode" style="width: 10em;">
 		<jsp:attribute name="valuesHtml">
 			<li value="sub">${l.l('search.sub')}</li>
 			<li value="eq">${l.l('search.eq')}</li>

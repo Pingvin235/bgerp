@@ -44,7 +44,7 @@
 						<c:set var="searchResultId" value="${u:uiid()}"/>
 
 						<div class="in-inline-block" id="${searchBlockId}">
-							<ui:combo-single hiddenName="searchId" prefixText="${l.l('Поиск')}:" styleClass="mr1"
+							<ui:combo-single name="searchId" prefixText="${l.l('Поиск')}:" styleClass="mr1"
 								onSelect="$('#${searchBlockId} > .filter').hide(); $('#${searchBlockId} > .filter#' + this.value).show();">
 								<jsp:attribute name="valuesHtml">
 									<c:forEach var="item" items="${messageType.searchMap}">

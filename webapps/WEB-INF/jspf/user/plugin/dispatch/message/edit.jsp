@@ -23,7 +23,7 @@
 		</c:when>
 		<c:otherwise>
 			<h2>Готово к отправке</h2>
-			<ui:combo-single hiddenName="ready" value="${message.ready}">
+			<ui:combo-single name="ready" value="${message.ready}">
 				<jsp:attribute name="valuesHtml">
 					<li value="false">Не готово</li>
 					<li value="true">Готово</li>

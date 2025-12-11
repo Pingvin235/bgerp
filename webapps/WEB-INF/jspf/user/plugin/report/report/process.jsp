@@ -7,7 +7,7 @@
 
 <div class="report">
 	<html:form action="${form.requestURI}">
-		<ui:combo-single hiddenName="mode" widthTextValue="5em" value="${form.param.mode}">
+		<ui:combo-single name="mode" widthTextValue="5em" value="${form.param.mode}">
 			<jsp:attribute name="valuesHtml">
 				<li value="create">${l.l('Созданные')}</li>
 				<li value="close">${l.l('Closed')}</li>

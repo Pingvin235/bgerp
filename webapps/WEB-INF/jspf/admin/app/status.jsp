@@ -46,7 +46,7 @@
 				<h2>${l.l('Update')}</h2>
 				<html:form action="/admin/app">
 					<input type="hidden" name="method" value="update"/>
-					<ui:combo-single hiddenName="force" widthTextValue="3em" prefixText="${l.l('Force')}:" styleClass="mr05">
+					<ui:combo-single name="force" widthTextValue="3em" prefixText="${l.l('Force')}:" styleClass="mr05">
 						<jsp:attribute name="valuesHtml">
 							<li value="0">${l.l('No')}</li>
 							<li value="1">${l.l('Yes')}</li>
@@ -65,7 +65,7 @@
 				<h2>${l.l('Update on Change')}</h2>
 				<html:form action="/admin/app">
 					<input type="hidden" name="method" value="updateToChange"/>
-					<ui:combo-single hiddenName="changeId" widthTextValue="18em" prefixText="ID:" styleClass="mr05">
+					<ui:combo-single name="changeId" widthTextValue="18em" prefixText="ID:" styleClass="mr05">
 						<jsp:attribute name="valuesHtml">
 							<c:forEach var="item" items="${frd.changes}">
 								<li value="${item.id}">${item.title}</li>

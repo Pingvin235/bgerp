@@ -47,7 +47,7 @@
 						</td>
 						<td>
 							<c:set var="key" value="iface.process.card.extend.right.on.scroll.down"/>
-							<ui:combo-single hiddenName="${key}" value="${ctxUser.pers.get(key, '1')}" widthTextValue="15em">
+							<ui:combo-single name="${key}" value="${ctxUser.pers.get(key, '1')}" widthTextValue="15em">
 								<jsp:attribute name="valuesHtml">
 									<li value="1">${l.l('Yes')}</li>
 									<li value="0">${l.l('No')}</li>
@@ -62,7 +62,7 @@
 						</td>
 						<td>
 							<c:set var="key" value="iface.input.date"/>
-							<ui:combo-single hiddenName="${key}" value="${ctxUser.pers.get(key, '')}" widthTextValue="15em">
+							<ui:combo-single name="${key}" value="${ctxUser.pers.get(key, '')}" widthTextValue="15em">
 								<jsp:attribute name="valuesHtml">
 									<li value="">jQuery</li>
 									<li value="native">Native</li>

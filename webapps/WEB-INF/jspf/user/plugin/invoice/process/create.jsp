@@ -11,7 +11,7 @@
 	<html:hidden property="returnUrl"/>
 
 	<div class="in-inline-block mb1">
-		<ui:combo-single list="${types}" hiddenName="typeId" value="${typeId}" prefixText="${l.l('Type')}:" widthTextValue="10em"/>
+		<ui:combo-single list="${types}" name="typeId" value="${typeId}" prefixText="${l.l('Type')}:" widthTextValue="10em"/>
 		&nbsp;
 		<ui:date-month name="monthFrom" value="${monthFrom}"/>
 		&nbsp;

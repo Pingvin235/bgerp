@@ -6,7 +6,7 @@
 <form action="/admin/directory.do" id="${uiid}">
 	<input type="hidden" name="method"/>
 
-	<ui:combo-single hiddenName="directoryId" value="${form.param.directoryId}"
+	<ui:combo-single name="directoryId" value="${form.param.directoryId}"
 		prefixText="${l.l('Directory')}:" widthTextValue="20em"
 		onSelect="$$.param.dirChanged($('#${uiid}')[0], item, this)">
 		<jsp:attribute name="valuesHtml">

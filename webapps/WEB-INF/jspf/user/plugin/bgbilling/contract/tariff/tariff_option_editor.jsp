@@ -17,7 +17,7 @@
 			style="width: 300px;" placeholder="Выберите опцию"/>
 
 		<div class="ml1" style="display: inline-block;">
-			<ui:combo-single list="${frd.activateModeList}" hiddenName="modeId" prefixText="Режим активации:" widthTextValue="200px"/>
+			<ui:combo-single list="${frd.activateModeList}" name="modeId" prefixText="Режим активации:" widthTextValue="200px"/>
 		</div>
 	</div>
 

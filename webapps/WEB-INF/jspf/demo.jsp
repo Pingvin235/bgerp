@@ -219,8 +219,7 @@ cmd do && cmd undo
 
 		<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, 'item=', item); alert('A value is chosen, see console log')"/>
 
-		<ui:combo-single
-			hiddenName="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}" showFilter="true">
+		<ui:combo-single name="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}" showFilter="true">
 			<jsp:attribute name="valuesHtml">
 				<li value="1">First (current)</li>
 				<li value="2 test">Second</li>
@@ -229,8 +228,7 @@ cmd do && cmd undo
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<ui:combo-single
-			hiddenName="param" value="2" style="width: 12em;" onSelect="${onSelect}">
+		<ui:combo-single name="param" value="2" style="width: 12em;" onSelect="${onSelect}">
 			<jsp:attribute name="valuesHtml">
 				<li value="1">First</li>
 				<li value="2">Second (current)</li>
@@ -239,14 +237,14 @@ cmd do && cmd undo
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<ui:combo-single hiddenName="param" widthTextValue="12em" list="${frd.comboSingeList}" onSelect="${onSelect}">
+		<ui:combo-single name="param" widthTextValue="12em" list="${frd.comboSingeList}" onSelect="${onSelect}">
 			<jsp:attribute name="valuesHtml">
 				<li value="-1">-- select --</li>
 			</jsp:attribute>
 		</ui:combo-single>
 
 		<div style="width: 20em; display: inline-block;">
-			<ui:combo-single hiddenName="param" prefixText="Long value selected:" style="width: 100%;">
+			<ui:combo-single name="param" prefixText="Long value selected:" style="width: 100%;">
 				<jsp:attribute name="valuesHtml">
 					<li value="-1">This is a looooong text, has to be correctly cut from right when selected.</li>
 				</jsp:attribute>
@@ -313,7 +311,7 @@ cmd do && cmd undo
 
 		<input type="text" style="width: 10em;"/><br/>
 
-		<ui:combo-single hiddenName="param" value="2" style="width: 10em;">
+		<ui:combo-single name="param" value="2" style="width: 10em;">
 			<jsp:attribute name="valuesHtml">
 				<li value="1">First</li>
 				<li value="2">Second</li>

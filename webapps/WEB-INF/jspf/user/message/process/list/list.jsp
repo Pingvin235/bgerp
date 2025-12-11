@@ -33,7 +33,7 @@
 		<html:hidden property="attach"/>
 		<c:set var="sendCommand">$$.ajax.load($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>
 
-		<ui:combo-single hiddenName="tagId" value="${form.param.tagId}" onSelect="${sendCommand}" widthTextValue="10em">
+		<ui:combo-single name="tagId" value="${form.param.tagId}" onSelect="${sendCommand}" widthTextValue="10em">
 			<jsp:attribute name="valuesHtml">
 				<li value="0">${l.l('All')}</li>
 				<c:if test="${frd.tagIds.contains(u:int(TAG_ATTACH_ID))}">
@@ -187,7 +187,7 @@
 						</c:set>
 
 						<c:set var="targetProcessUiid" value="${u:uiid()}"/>
-						<ui:combo-single hiddenName="processId" id="${targetProcessUiid}" style="width: 100%;"/>
+						<ui:combo-single name="processId" id="${targetProcessUiid}" style="width: 100%;"/>
 
 						<c:set var="actionButtonStartEditMerge">
 							const processList = openedObjectList({'typesInclude' : ['process']});

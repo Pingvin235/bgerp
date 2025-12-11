@@ -22,7 +22,7 @@
 	</ul>
 	<c:forEach var="item" items="${ctxUserGroupRoleList}">
 		<ui:select-mult
-			id="${tabsId}-${item.id}"  hiddenName="${hiddenName}"
+			id="${tabsId}-${item.id}"  name="${hiddenName}"
 			showId="1" style="width:100%;"
 			styleClass="layout-height-rest" list="${ctxUserCache.getUserGroupRoleFullTitledList(item.id)}" values="${groups.groupRoleIds}"/>
 	</c:forEach>

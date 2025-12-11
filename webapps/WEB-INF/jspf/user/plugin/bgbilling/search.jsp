@@ -20,7 +20,7 @@
 
 			<c:set var="billingIds" value="${u.toSet(ctxUser.getPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract').get('billingIds'))}"/>
 
-			<ui:combo-single hiddenName="billingId" prefixText="Биллинг:" onSelect="$('#paramIdsDiv').html('')">
+			<ui:combo-single name="billingId" prefixText="Биллинг:" onSelect="$('#paramIdsDiv').html('')">
 				<jsp:attribute name="valuesHtml">
 					<c:forEach items="${plugin.dbInfoManager.dbInfoList}" var="db">
 						<c:if test="${empty billingIds or billingIds.contains(db.id)}">

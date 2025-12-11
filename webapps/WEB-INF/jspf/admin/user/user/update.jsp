@@ -33,7 +33,7 @@
 				<h2>${l.l('Password')}</h2>
 				<html:password property="pswd" style="width: 100%" value="${user.password}"/>
 				<h2>${l.l('Status')}</h2>
-				<ui:combo-single hiddenName="status" value="${user.status}" widthTextValue="120px">
+				<ui:combo-single name="status" value="${user.status}" widthTextValue="120px">
 					<jsp:attribute name="valuesHtml">
 						<li value="${STATUS_ACTIVE}">${l.l('Active')}</li>
 						<li value="${STATUS_DISABLED}">${l.l('Blocked')}</li>

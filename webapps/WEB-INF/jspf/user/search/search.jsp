@@ -9,7 +9,7 @@
 		<u:sc>
 			<c:set var="onSelect" value="$$.search.onObjectSelect()"/>
 
-			<ui:combo-single id="searchForm" hiddenName="searchMode" prefixText="${l.l('Искать')}:" onSelect="${onSelect}">
+			<ui:combo-single id="searchForm" name="searchMode" prefixText="${l.l('Искать')}:" onSelect="${onSelect}">
 				<jsp:attribute name="valuesHtml">
 					<c:if test="${empty allowedForms or allowedForms.contains('customer')}">
 						<li value="customer">${l.l('Customer')}</li>
@@ -68,7 +68,7 @@
 				<div style="display: flex;">
 					<u:sc>
 						<%@ include file="process_search_constants.jsp"%>
-						<ui:combo-single hiddenName="mode" styleClass="w100p">
+						<ui:combo-single name="mode" styleClass="w100p">
 							<jsp:attribute name="valuesHtml">
 								<li value="${MODE_USER_CREATED}">${l.l('Cозданные мной')}</li>
 								<li value="${MODE_USER_CLOSED}">${l.l('Закрытые мной')}</li>
@@ -83,7 +83,7 @@
 
 				<div class="separator"/>
 
-				<ui:combo-single hiddenName="open" prefixText="${l.l('process.closed')}:">
+				<ui:combo-single name="open" prefixText="${l.l('process.closed')}:">
 					<jsp:attribute name="valuesHtml">
 						<li value="1">${l.l('Open')}</li>
 						<li value="0">${l.l('Closed')}</li>

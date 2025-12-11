@@ -24,7 +24,7 @@
 	<c:set var="typeChangedCode" value="$$.bgbilling.contract.createTariff('${createContractUiid}')"/>
 
 	<div style="width: 50%;">
-		<ui:combo-single hiddenName="typeId" onSelect="${typeChangedCode}" prefixText="Тип договора:" style="width: 100%;">
+		<ui:combo-single name="typeId" onSelect="${typeChangedCode}" prefixText="Тип договора:" style="width: 100%;">
 			<jsp:attribute name="valuesHtml">
 				<c:forEach var="item" items="${contractTypesConfig.typeMap}">
 					<li value="${item.key}">${item.value.title}</li>

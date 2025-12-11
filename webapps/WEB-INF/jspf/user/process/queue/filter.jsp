@@ -246,7 +246,7 @@
 			<button onclick="importFilterFromCommons()" title="${l.l('Импорт себе общего фильтра')}" class="btn-white btn-icon"><i class="ti-arrow-left"></i></button>
 			<button onclick="exportFilterToCommons()" title="${l.l('Экспорт своего фильтра в общие')}" class="btn-white btn-icon"><i class="ti-arrow-right"></i></button>
 			<button onclick="deleteFilterFromCommons()" title="${l.l('Удалить общий фильтр')}" class="btn-white btn-icon"><i class="ti-trash"></i></button>
-			<ui:combo-single hiddenName="currentCommonFilter" prefixText="${l.l('Общий фильтр')}:" list="${commonConfig.queueSavedCommonFilterSetsMap[queue.id]}"
+			<ui:combo-single name="currentCommonFilter" prefixText="${l.l('Общий фильтр')}:" list="${commonConfig.queueSavedCommonFilterSetsMap[queue.id]}"
 				style="display: inline-block;" widthTextValue="100px"/>
 		</div>
 	</div>
@@ -320,7 +320,7 @@
 									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
 								</c:if>
 
-								<ui:combo-single value="${value}" hiddenName="${hiddenName}" prefixText="${l.l('Closed')}:" widthTextValue="40px" onSelect="${sendCommand}">
+								<ui:combo-single value="${value}" name="${hiddenName}" prefixText="${l.l('Closed')}:" widthTextValue="40px" onSelect="${sendCommand}">
 									<jsp:attribute name="valuesHtml">
 										<li value="none">${l.l('All')}</li>
 										<li value="open">${l.l('No')}</li>
@@ -475,7 +475,7 @@
 							<u:sc>
 								<c:set var="hiddenName" value="dateStatusStatus"/>
 
-								<ui:combo-single hiddenName="${hiddenName}" value="${savedParamsFilters.get(hiddenName)}"
+								<ui:combo-single name="${hiddenName}" value="${savedParamsFilters.get(hiddenName)}"
 									list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" available="${filter.availableValues}"
 									prefixText="${l.l('Status')}:" widthTextValue="8em"/>
 
@@ -587,7 +587,7 @@
 						</c:if>
 					</c:forEach>
 
-					<ui:combo-single value="${value}" hiddenName="sort" prefixText="${l.l('Сорт.')}:" widthTextValue="50px" >
+					<ui:combo-single value="${value}" name="sort" prefixText="${l.l('Сорт.')}:" widthTextValue="50px" >
 						<jsp:attribute name="valuesHtml">
 							<li value="0">- ${l.l('нет')} -</li>
 							<c:forEach var="mode" items="${queue.sortSet.modeList}" varStatus="statusItem">

@@ -21,7 +21,7 @@
 
 	<%@ include file="user_status_const.jsp"%>
 
-	<ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}"
+	<ui:combo-single name="status" value="${form.param.status}" onSelect="${showCode}"
 		prefixText="${l.l('Status')}:" widthTextValue="70px">
 		<jsp:attribute name="valuesHtml">
 			<li value="${STATUS_ACTIVE}">${l.l('Active')}</li>

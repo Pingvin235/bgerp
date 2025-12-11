@@ -20,7 +20,7 @@
 		<%-- текущая очередь --%>
 		<c:set var="queue" value="${ctxProcessQueueMap[u:int(currentQueueId)]}"/>
 
-		<ui:combo-single hiddenName="id" valuesHtml="${valuesHtml}" value="${currentQueueId}"
+		<ui:combo-single name="id" valuesHtml="${valuesHtml}" value="${currentQueueId}"
 			prefixText="${l.l('Очередь')}:" style="width: 100%;"
 			onSelect="$$.ajax.load(this.form, $('#processQueueShow').parent())"/>
 

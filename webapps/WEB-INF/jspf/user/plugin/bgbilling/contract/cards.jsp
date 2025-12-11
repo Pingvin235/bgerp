@@ -8,7 +8,7 @@
 	<html:hidden property="contractId"/>
 	<html:hidden property="billingId"/>
 
-	<ui:combo-single hiddenName="cardType" prefixText="Выберите карту:" widthTextValue="300px;">
+	<ui:combo-single name="cardType" prefixText="Выберите карту:" widthTextValue="300px;">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${frd.cardTypeList}">
 				<li value="${item[0]}">${item[1]}</li>

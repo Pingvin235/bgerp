@@ -125,7 +125,7 @@
 		</div>
 
 		<div style="width: 100%;" id="${editTdId}">
-			<ui:combo-single id="${customerSelectUiid}" hiddenName="customerId" widthTextValue="15em" prefixText="Контрагент:"/>
+			<ui:combo-single id="${customerSelectUiid}" name="customerId" widthTextValue="15em" prefixText="Контрагент:"/>
 
 			<c:set var="changeCustomerScript">
 				bgbilling_changeContractCustomer($('#${editTdId}'), $('#${showTdId}').find('span'), '${billingId}', ${contractId}, '${contractTitle}').done(() => {

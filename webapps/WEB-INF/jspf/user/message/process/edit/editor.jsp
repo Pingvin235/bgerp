@@ -44,7 +44,7 @@
 				<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm['allowedTypeIds'])}"/>
 
 				<ui:combo-single
-					id="${typeComboUiid}" hiddenName="typeId" widthTextValue="10em"
+					id="${typeComboUiid}" name="typeId" widthTextValue="10em"
 					value="${value}" disable="${disable}" onSelect="${typeChangedScript}">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${config.typeMap}">

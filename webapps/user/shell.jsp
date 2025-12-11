@@ -45,7 +45,7 @@
 	<div id="title">
 		<div id="empty" class="status"></div>
 		<div title="${l.l('Буфер открытых объектов')}">
-			<ui:combo-single id="objectBuffer" hiddenName="object">
+			<ui:combo-single id="objectBuffer" name="object">
 				<jsp:attribute name="prefixText">
 					${l.l('Объектов в буфере')}:&nbsp;<span class="object-count">0</span>
 				</jsp:attribute>

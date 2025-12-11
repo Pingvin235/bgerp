@@ -32,7 +32,7 @@
 	<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 
 	<div style="width: 100%;">
-		<ui:combo-single list="${list.second}" hiddenName="typeIds" style="width: 100%;"/>
+		<ui:combo-single list="${list.second}" name="typeIds" style="width: 100%;"/>
 	</div>
 	<div class="pl1">
 		<ui:button type="add" onclick="if (this.form.typeIds.value) $$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))"/>

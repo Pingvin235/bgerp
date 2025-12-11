@@ -16,7 +16,7 @@
 	<input type="hidden" name="billingId" value="${stepData.contract.billingId}"/>
 	<input type="hidden" name="comment" value="Мастер"/>
 	<div class="in-table-cell">
-		<ui:combo-single hiddenName="tariffPlanId" list="${stepData.tariffList}" value="${stepData.contractTariff.tariffPlanId}"/>
+		<ui:combo-single name="tariffPlanId" list="${stepData.tariffList}" value="${stepData.contractTariff.tariffPlanId}"/>
 		<button class="ml1 btn-white" type="button" onClick="if (this.form.tariffPlanId.value > 0) $$.ajax.post(this.form).done(() => { ${reopenProcessEditorCode} })">Выбрать</button>
 	</div>
 </html:form>

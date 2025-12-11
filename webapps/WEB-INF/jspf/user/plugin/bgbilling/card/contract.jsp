@@ -45,7 +45,7 @@
 	<table class="hdata mt1 hl">
 		<tr>
 			<td class="header" colspan="4"">Тип карт: <ui:combo-single
-					hiddenName="sid" value="${form.param.serviceId}"
+					name="sid" value="${form.param.serviceId}"
 					list="${frd.serviceList}" onSelect="${script}" /></td>
 		</tr>
 		<tr>

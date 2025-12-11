@@ -28,7 +28,7 @@
 			<span class="hint">${l.l('Через какое количество суток новость будет удалена для всех адресатов.')}</span>
 
 			<h2>${l.l('Тип новости')}</h2>
-			<ui:combo-single style="width: 150px;" hiddenName="type">
+			<ui:combo-single style="width: 150px;" name="type">
 				<jsp:attribute name="valuesHtml">
 					<li value="-1">----</li>
 					<li value="0">${l.l('Обычная')}</li>

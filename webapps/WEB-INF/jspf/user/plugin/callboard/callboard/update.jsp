@@ -49,7 +49,7 @@
 		</c:set>
 
 		<div>
-			<ui:combo-single list="${callboardList}" hiddenName="graphId" prefixText="График:" value="${form.param.graphId}" widthTextValue="100px"
+			<ui:combo-single list="${callboardList}" name="graphId" prefixText="График:" value="${form.param.graphId}" widthTextValue="100px"
 				id="callboardSelect-${uiid}" onSelect="${onSelectGroupScript}"/>
 		</div>
 
@@ -448,7 +448,7 @@
 					</div>
 
 					<div class="pl05">
-						<ui:combo-single hiddenName="mode" widthTextValue="50px" onSelect="
+						<ui:combo-single name="mode" widthTextValue="50px" onSelect="
 							$('#${uiid} #categories').toggle( this.value == 0 );
 							$('#${uiid} #shiftArea').toggle( this.value == 0 );
 							$('#${uiid} #teams').toggle( this.value == 1 );

@@ -35,7 +35,7 @@
 
 				<h2>Тип:</h2>
 
-				<ui:combo-single id="${typeSelectUiid}" hiddenName="typeId" value="${service.typeId}" onSelect="${onSelectCode}" style="width: 100%;">
+				<ui:combo-single id="${typeSelectUiid}" name="typeId" value="${service.typeId}" onSelect="${onSelectCode}" style="width: 100%;">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${typeList}">
 							<li value="${item.id}"
@@ -73,7 +73,7 @@
 			</td>
 			<td nowrap="nowrap">
 				<h2>Статус</h2>
-				<ui:combo-single hiddenName="status" value="${service.status}" widthTextValue="150px">
+				<ui:combo-single name="status" value="${service.status}" widthTextValue="150px">
 					<jsp:attribute name="valuesHtml">
 						<li value="0">Открыт</li>
 						<li value="1">Закрыт</li>
@@ -83,7 +83,7 @@
 			</td>
 			<td nowrap="nowrap" id="sessionCountLimit">
 				<h2>Кол.-во сессий</h2>
-				<ui:combo-single hiddenName="sessions" value="${service.sessionCountLimit}" widthTextValue="100px">
+				<ui:combo-single name="sessions" value="${service.sessionCountLimit}" widthTextValue="100px">
 					<jsp:attribute name="valuesHtml">
 						<li value="0">Неограниченно</li>
 						<c:forEach var="item" begin="1" end="10">
@@ -198,7 +198,7 @@
 		<div style="width: 100%;">
 			<h2>Обьект</h2>
 			<ui:combo-single
-					hiddenName="contractObjectId" value="${service.contractObjectId}" prefixText="Объект:" widthTextValue="120px">
+					name="contractObjectId" value="${service.contractObjectId}" prefixText="Объект:" widthTextValue="120px">
 				<jsp:attribute name="valuesHtml">
 					<c:forEach var="object" items="${objectList}" >
 						<li value="${object.id}">${object.title}</li>

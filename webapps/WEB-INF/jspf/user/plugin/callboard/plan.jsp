@@ -36,7 +36,7 @@
 		</c:set>
 
 		<div>
-			<ui:combo-single list="${callboardList}" hiddenName="graphId" prefixText="План:" value="${form.param.graphId}" widthTextValue="100px" id="callboardSelect-${uiid}"
+			<ui:combo-single list="${callboardList}" name="graphId" prefixText="План:" value="${form.param.graphId}" widthTextValue="100px" id="callboardSelect-${uiid}"
 				onSelect="${onSelectGroupScript}"/>
 		</div>
 
@@ -139,7 +139,7 @@
 		<c:set var="timeList" value="${callboard.planConfig.getDateTimes( date )}"/>
 
 		<div id="mode" class="mb1">
-			<ui:combo-single hiddenName="mode" widthTextValue="150px" prefixText="Режим:">
+			<ui:combo-single name="mode" widthTextValue="150px" prefixText="Режим:">
 				<jsp:attribute name="valuesHtml">
 					<li value="view">Просмотр</li>
 					<li value="lock">Блокировка</li>

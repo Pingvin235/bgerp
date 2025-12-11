@@ -7,7 +7,7 @@
 	<input type="hidden" name="method" value="processMerge"/>
 
 	<c:set var="mergeProcessUiid" value="${u:uiid()}"/>
-	<ui:combo-single hiddenName="processId" id="${mergeProcessUiid}" style="width: 100%;"/>
+	<ui:combo-single name="processId" id="${mergeProcessUiid}" style="width: 100%;"/>
 
 	<script>
 		$(() => {

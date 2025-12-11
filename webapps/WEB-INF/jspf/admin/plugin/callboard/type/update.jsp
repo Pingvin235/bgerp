@@ -18,7 +18,7 @@
 			<input type="text" name="title" style="width: 100%" value="${workType.title}"/>
 
 			<h2>${l.l('Категория')}</h2>
-			<ui:combo-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${workType.category}" style="width: 100%;"/>
+			<ui:combo-single list="${allowOnlyCategories}" name="categoryId" value="${workType.category}" style="width: 100%;"/>
 
 			<h2>${l.l('Цвет')}</h2>
 			<div class="controlset">
@@ -28,7 +28,7 @@
 
 
 			<h2>Учитывать в рабочих часах</h2>
-			<ui:combo-single hiddenName="nonWorkHours" value="${workType.nonWorkHours ? 1 : 0}" style="width: 100px;">
+			<ui:combo-single name="nonWorkHours" value="${workType.nonWorkHours ? 1 : 0}" style="width: 100px;">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">${l.l('Yes')}</li>
 					<li value="1">${l.l('No')}</li>
@@ -53,7 +53,7 @@
 			<div class="hint">Шаг в минутах, через который устанавливается время процессов. 0 - все процессы назначаются на начало периода типа работ.</div>
 
 			<h2>Назначать время на</h2>
-			<ui:combo-single hiddenName="timeSetMode" value="${workType.timeSetMode}" style="width: 150px;">
+			<ui:combo-single name="timeSetMode" value="${workType.timeSetMode}" style="width: 150px;">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">Начало интервала</li>
 					<li value="1">Начало слота</li>

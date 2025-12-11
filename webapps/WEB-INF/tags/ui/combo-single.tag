@@ -21,7 +21,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 --%>
 
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
-<%@ attribute name="hiddenName" description="hidden input name"%>
+<%@ attribute name="name" description="hidden input's name"%>
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="value" description="hidden input's current value"%>
 <%@ attribute name="style" description="outer DIV style"%>
@@ -36,6 +36,14 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="list" type="java.util.Collection" description="List of values, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map of values, refer to description inside tag"%>
 <%@ attribute name="available" type="java.util.Collection" description="Set of allowed ids, refer to description inside tag"%>
+
+<%@ attribute name="hiddenName" description="Deprecated 'name'"%>
+<c:if test="${not empty hiddenName}">
+	${log.warnd("Deprecated attribute 'hiddenName' was used in tag 'ui:combo-single', change it to 'name'")}
+	<c:if test="${empty name}">
+		<c:set var="name" value="${hiddenName}"/>
+	</c:if>
+</c:if>
 
 <c:if test="${not empty widthTextValue}">
 	<c:set var="styleTextValue">min-width: ${widthTextValue}; width: ${widthTextValue}; max-width: ${widthTextValue};</c:set>
@@ -54,7 +62,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 </c:choose>
 
 <div class="btn-white combo ${styleClass}" id="${uiid}" style="${style}">
-	<input type="hidden" name="${hiddenName}" value="${value}"/>
+	<input type="hidden" name="${name}" value="${value}"/>
 
 	<c:if test="${not empty prefixText}">
 		<div class="text-pref">${prefixText}</div>

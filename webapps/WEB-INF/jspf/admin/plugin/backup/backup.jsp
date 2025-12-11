@@ -4,7 +4,7 @@
 <h2>${l.l('Создать Backup')}</h2>
 <form action="/admin/plugin/backup/backup.do">
 	<input type="hidden" name="method" value="backup"/>
-	<ui:combo-single hiddenName="db" widthTextValue="2em" prefixText="${l.l('Включить БД')}:">
+	<ui:combo-single name="db" widthTextValue="2em" prefixText="${l.l('Включить БД')}:">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('No')}</li>
 			<li value="1">${l.l('Yes')}</li>

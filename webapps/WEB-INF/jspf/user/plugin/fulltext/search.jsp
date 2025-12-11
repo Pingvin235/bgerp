@@ -14,7 +14,7 @@
 			<html:hidden property="method" value="search"/>
 
 			<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.fulltext.model.Config')}"/>
-			<ui:combo-single hiddenName="objectType" prefixText="${l.l('Искать')}:" list="${config.objectTypeList}"/>
+			<ui:combo-single name="objectType" prefixText="${l.l('Искать')}:" list="${config.objectTypeList}"/>
 
 			<ui:input-text name="filter" placeholder="${l.l('Строка поиска')}"
 				onSelect="$$.ajax.load(this.form, '#searchResult');" />

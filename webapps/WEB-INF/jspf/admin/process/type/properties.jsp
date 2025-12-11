@@ -43,7 +43,7 @@
 
 				<c:if test="${not empty properties.statusIds}">
 					<h2>${l.l('Creating status')}</h2>
-					<ui:combo-single hiddenName="createStatusId" value="${properties.createStatusId}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
+					<ui:combo-single name="createStatusId" value="${properties.createStatusId}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
 						styleClass="w100p" />
 
 					<h2>${l.l('Closing statuses')}</h2>

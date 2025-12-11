@@ -15,7 +15,7 @@
 						<div>
 							<u:sc>
 								<ui:combo-single
-									hiddenName="statusId" list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}"
+									name="statusId" list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}"
 									available="${command.allowedIds}" prefixText="${l.l('Status')}:" widthTextValue="10em"/>
 							</u:sc>
 						</div>

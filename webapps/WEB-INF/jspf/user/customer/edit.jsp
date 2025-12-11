@@ -15,7 +15,7 @@
 	<html:text property="title" value="${customer.title}" disabled="${customer.titlePatternId ne -1}"/>
 
 	<h2>${l.l('Title pattern')}</h2>
-	<ui:combo-single hiddenName="titlePatternId" value="${customer.titlePatternId}" onSelect="
+	<ui:combo-single name="titlePatternId" value="${customer.titlePatternId}" onSelect="
 		var form = $('#${formUiid}')[0];
 		form.elements['title'].disabled = form.elements.titlePatternId.value!=-1;
 		form.elements['titlePattern'].disabled = form.elements.titlePatternId.value!=0;
@@ -33,7 +33,7 @@
 	<html:text property="titlePattern" disabled="${customer.titlePatternId ne 0}" value="${customer.titlePattern}"/>
 
 	<h2>${l.l('Группа параметров')}</h2>
-	<ui:combo-single hiddenName="parameterGroupId" value="${customer.paramGroupId}">
+	<ui:combo-single name="parameterGroupId" value="${customer.paramGroupId}">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('Группа не установлена (все параметры)')}</li>
 			<c:forEach var="item" items="${parameterGroupList}">

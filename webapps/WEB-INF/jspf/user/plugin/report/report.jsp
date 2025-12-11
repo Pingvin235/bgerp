@@ -6,7 +6,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<ui:combo-single id="${uiid}" hiddenName="reportId"
+<ui:combo-single id="${uiid}" name="reportId"
 	map="${config.reportMap}" list="${config.reportList}" available="${allowedReports}"
 	widthTextValue="20em">
 	<jsp:attribute name="valuesHtml">

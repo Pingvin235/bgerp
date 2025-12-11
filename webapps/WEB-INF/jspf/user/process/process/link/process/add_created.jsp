@@ -8,7 +8,7 @@
 
 		<div class="in-table-cell pt05">
 			<div style="width: 100%;">
-				<ui:combo-single hiddenName="createTypeId" style="width: 100%;">
+				<ui:combo-single name="createTypeId" style="width: 100%;">
 					<jsp:attribute name="valuesHtml">
 						<li value="0">-- ${l.l('значение не установлено')} --</li>
 						<c:forEach var="item" items="${createTypeList}">

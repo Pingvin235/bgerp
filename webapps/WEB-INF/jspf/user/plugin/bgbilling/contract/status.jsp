@@ -23,7 +23,7 @@
 						<ui:date-time name="dateTo" value="${script.dateTo}"/>
 					</td>
 					<td width="100%" class="pl05">
-						<ui:combo-single list="${frd.availableStatusList}" hiddenName="statusId" style="width: 100%;"/>
+						<ui:combo-single list="${frd.availableStatusList}" name="statusId" style="width: 100%;"/>
 					</td>
 				</tr>
 
