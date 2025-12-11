@@ -6,7 +6,7 @@
 <div id="${uiid}">
 	<form action="${form.requestURI}" onsubmit="return false;" style="display: inline-block;">
 		<input type="hidden" name="method" value="log"/>
-		<ui:toggle inputName="enable" value="${frd.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
+		<ui:toggle name="enable" value="${frd.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
 	</form>
 	<textarea style="width: 100%; resize: vertical;" rows="50" wrap="off"> ${frd.log}</textarea>
 </div>

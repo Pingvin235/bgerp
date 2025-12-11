@@ -59,7 +59,7 @@ cmd do && cmd undo
 
 		<button class="btn-blue" onclick="$(this).toggleClass('btn-white btn-blue')" title="Blue-white buttons can be used as toggles">Text Button</button>
 
-		<ui:toggle inputName="test" value="0" title="Toggle"
+		<ui:toggle name="test" value="0" title="Toggle"
 			prefixText="Toggle" textOn="ON" textOff="OFF"
 			onChange="console.log('Is checked: ', this.checked);"/>
 	</div>
@@ -73,7 +73,7 @@ cmd do && cmd undo
 
 		<button class="btn-white btn-small"><i class="ti-settings"></i></button>
 
-		<ui:toggle styleClass="btn-toggle-small" inputName="test" value="1"
+		<ui:toggle styleClass="btn-toggle-small" name="test" value="1"
 			prefixText="Prefix"
 			textOn="ON" textOff="OFF"
 			onChange="console.log('Is checked: ', this.checked);"/>

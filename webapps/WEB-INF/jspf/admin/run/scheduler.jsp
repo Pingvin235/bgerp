@@ -49,7 +49,7 @@
 								<form action="/admin/run.do">
 									<input type="hidden" name="method" value="schedulerRun"/>
 									<input type="hidden" name="id" value="${item.id}"/>
-									<ui:toggle styleClass="btn-toggle-small" inputName="wait" title="${l.l('Wait of execution is done')}"/>
+									<ui:toggle styleClass="btn-toggle-small" name="wait" title="${l.l('Wait of execution is done')}"/>
 									<button type="button" class="btn-white btn-small icon ml05" onclick="
 										$$.ajax.post(this).done(() => {
 											$$.ajax.loadContent('${form.requestUrl}', this);

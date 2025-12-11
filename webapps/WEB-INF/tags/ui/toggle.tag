@@ -2,14 +2,22 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp" %>
 
 <%@ attribute name="id" description="id of the checkbox input, if not mentioned will be generated" %>
-<%@ attribute name="inputName" description="name of input element" %>
-<%@ attribute name="value" type="java.lang.Boolean" description="current value of the checkbox input" %>
+<%@ attribute name="name" description="checkbox input's name" %>
+<%@ attribute name="value" type="java.lang.Boolean" description="checkbox input's value" %>
 <%@ attribute name="styleClass" description="additional class for the button element" %>
 <%@ attribute name="prefixText" description="label before toggle button" %>
 <%@ attribute name="title" description="Optional outer div's title" %>
 <%@ attribute name="textOn" description="text which appears when toggle button is ON" %>
 <%@ attribute name="textOff" description="text which appears when toggle button is OFF" %>
 <%@ attribute name="onChange" description="javascript, to be executed on change event" %>
+
+<%@ attribute name="inputName" description="Deprecated 'name'"%>
+<c:if test="${not empty inputName}">
+	${log.warnd("Deprecated attribute 'inputName' was used in tag 'ui:toggle', change it to 'name'")}
+	<c:if test="${empty name}">
+		<c:set var="name" value="${inputName}"/>
+	</c:if>
+</c:if>
 
 <c:choose>
 	<c:when test="${not empty id}">
@@ -32,7 +40,7 @@
 		<div class="text-pref">${prefixText}</div>
 	</c:if>
 	<label>
-		<input type="checkbox" name="${inputName}" onChange="${onChange}" ${u:checkedFromBool(value)}>
+		<input type="checkbox" name="${name}" onChange="${onChange}" ${u:checkedFromBool(value)}>
 			<span class="toggle"
 				<c:if test="${not empty textOn}"> data-before="${textOn}"</c:if>
 				<c:if test="${not empty textOff}"> data-after="${textOff}"</c:if>

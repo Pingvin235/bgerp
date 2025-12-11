@@ -9,7 +9,7 @@
 	<html:form action="${form.requestURI}" styleClass="in-ml05">
 		<ui:date-month value="${form.param.dateFrom}"/>
 
-		<ui:toggle inputName="det" value="${form.getParamBoolean('det')}" onChange="$$.ajax.loadContent(this)" prefixText="Details" styleClass="mr05"/>
+		<ui:toggle name="det" value="${form.getParamBoolean('det')}" onChange="$$.ajax.loadContent(this)" prefixText="Details" styleClass="mr05"/>
 
 		<ui:button type="out" onclick="$$.ajax.loadContent(this)" styleClass="mr1 more out"/>
 	</html:form>
