@@ -21,7 +21,7 @@
 		<c:set var="updateExecutors" value="updateExecutors($('#${groupListId}'), $('#${executorListId}'), '${groupParamName}', '${executorParamName}' , '${savedExecutors}');"/>
 
 		<ui:combo-check id="${groupListId}"
-			paramName="${groupParamName}"
+			name="${groupParamName}"
 			list="${ctxUserGroupList}"
 			values="${values}"
 			available="${filter.availableValues}"

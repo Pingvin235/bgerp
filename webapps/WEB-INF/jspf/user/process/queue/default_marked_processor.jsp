@@ -29,7 +29,7 @@
 								<c:set var="executorParamName" value="executor"/>
 
 								<ui:combo-check
-									id="${groupListId}" prefixText="${l.l('Groups')}:" paramName="${groupParamName}"
+									id="${groupListId}" prefixText="${l.l('Groups')}:" name="${groupParamName}"
 									list="${ctxUserGroupList}" available="${command.allowedIds}"
 									onChange="updateExecutors( $('#${groupListId}'), $('#${executorListId}'), '${groupParamName}', '${executorParamName}' ,'${showEmptyExecutor}', '');"/>
 

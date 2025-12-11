@@ -15,11 +15,11 @@
 	<c:set var="groupListId" value="${u:uiid()}"/>
 	<c:set var="executorListId" value="${u:uiid()}"/>
 	<ui:combo-check
-		id="${groupListId}" list="${ctxUserGroupList}" paramName="groupId" values="${form.getParamValues('groupId')}"
+		id="${groupListId}" list="${ctxUserGroupList}" name="groupId" values="${form.getParamValues('groupId')}"
 		prefixText="${l.l('Groups')}:" widthTextValue="10em" onChange="updateExecutors($('#${groupListId}'), $('#${executorListId}'), 'groupId', 'userId');"/>
 
 	<ui:combo-check
-		id="${executorListId}" list="${ctxUserList}" paramName="userId" values="${form.getParamValues('userId')}"
+		id="${executorListId}" list="${ctxUserList}" name="userId" values="${form.getParamValues('userId')}"
 		prefixText="${l.l('Users')}:" widthTextValue="10em" styleClass="mr05"/>
 
 	<ui:combo-perm-tree-check permTrees="${permTrees}" values="${form.getParamValuesStr('perm')}"
