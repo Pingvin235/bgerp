@@ -120,7 +120,7 @@ cmd do && cmd undo
 <div>
 	<div>
 		<b>&lt;ui:ip&gt;</b><br/>
-		<ui:ip paramName="ip"/>
+		<ui:ip name="ip"/>
 	</div>
 
 	<div class="in-table-cell">

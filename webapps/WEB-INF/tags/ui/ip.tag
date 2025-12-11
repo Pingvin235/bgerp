@@ -1,17 +1,25 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="IP address"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="paramName" description="input element name"%>
+<%@ attribute name="name" description="input's name"%>
 <%@ attribute name="value" description="current value"%>
 <%@ attribute name="selector" description="jQuery element selector"%>
 <%@ attribute name="editable" description="=1, editable"%>
 
+<%@ attribute name="paramName" description="Deprecated 'name'"%>
+<c:if test="${not empty paramName}">
+	${log.warnd("Deprecated attribute 'paramName' was used in tag 'ui:ip', change it to 'name'")}
+	<c:if test="${empty name}">
+		<c:set var="name" value="${paramName}"/>
+	</c:if>
+</c:if>
+
 <c:set var="type" value="ip"/>
 
-<c:if test="${not empty paramName}">
+<c:if test="${not empty name}">
 	<c:set var="uiid" value="${u:uiid()}"/>
 	<c:set var="selector" value="#${uiid}"/>
-	<input type="text" name="${paramName}" id="${uiid}"/>
+	<input type="text" name="${name}" id="${uiid}"/>
 </c:if>
 
 <script style="display: none;">
