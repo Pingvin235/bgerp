@@ -31,7 +31,7 @@ Incoming variables:
 		<td>
 			<a href="#" onclick="$$.param.treecount.treeOpen(this); return false;">${l.l('undefined')}</a>
 			<div style="display: none;">
-				<ui:tree-single rootNode="${treeRootNode}" hiddenName="newItemId" hiddenNameTitle="newItemTitle" style="height: 20em; overflow: auto;"/>
+				<ui:tree-single rootNode="${treeRootNode}" name="newItemId" nameTitle="newItemTitle" style="height: 20em; overflow: auto;"/>
 				<ui:button type="ok" styleClass="mt1 btn-white" onclick="$$.param.treecount.treeClose(this, 'newItemTitle'); return false;"/>
 			</div>
 		</td>

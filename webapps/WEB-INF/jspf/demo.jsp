@@ -333,13 +333,13 @@ cmd do && cmd undo
 		<div style="flex-grow: 1;">
 			<b>&lt;ui:tree-single&gt;</b>
 			<ui:tree-single rootNode="${frd.treeRootNode}"
-				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle" selectableFolder="false"
+				name="nodeId" value="3" nameTitle="nodeTitle" selectableFolder="false"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>
 		<div style="flex-grow: 1;">
 			<b>&lt;ui:tree-single&gt; (selectableFolder)</b>
 			<ui:tree-single rootNode="${frd.treeRootNode}"
-				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle"
+				name="nodeId" value="3" nameTitle="nodeTitle"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>
 	</div>

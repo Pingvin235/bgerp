@@ -13,7 +13,7 @@ Incoming variables:
 	<td>
 		<a href="#" onclick="$$.param.treecount.treeOpen(this); return false;">${not empty itemTitle ? itemTitle : form.param.itemTitle}</a>
 		<div style="display: none;">
-			<ui:tree-single rootNode="${treeRootNode}" hiddenName="itemId" hiddenNameTitle="itemTitle" value="${not empty itemId ? itemId : form.param.itemId}"
+			<ui:tree-single rootNode="${treeRootNode}" name="itemId" nameTitle="itemTitle" value="${not empty itemId ? itemId : form.param.itemId}"
 				style="height: 20em; overflow: auto;"/>
 			<ui:button type="ok" styleClass="mt1 btn-white" onclick="$$.param.treecount.treeClose(this, 'itemTitle'); return false;"/>
 		</div>
