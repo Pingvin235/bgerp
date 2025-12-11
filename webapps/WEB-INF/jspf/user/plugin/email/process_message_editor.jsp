@@ -16,7 +16,7 @@
 					<c:set var="addresses" value="${u:newInstance1('org.bgerp.util.mail.Addresses', to)}"/>
 
 					<h2>${l.l('Получатель')}</h2>
-					<ui:tag-box inputName="to" style="width: 100%;"
+					<ui:tag-box name="to" style="width: 100%;"
 						showOptions="1"
 						value="${addresses.serializeTo()}"
 						url="/user/plugin/email/email.do?method=recipients&processId=${form.param.processId}"
@@ -25,7 +25,7 @@
 					/>
 
 					<h2>${l.l('Recipient (Copy)')}</h2>
-					<ui:tag-box inputName="toCc" style="width: 100%;"
+					<ui:tag-box name="toCc" style="width: 100%;"
 						showOptions="1"
 						value="${addresses.serializeCc()}"
 						url="/user/plugin/email/email.do?method=recipients&processId=${form.param.processId}"

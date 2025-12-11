@@ -2,11 +2,11 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp" %>
 
 <%@ attribute name="id" description="id of the input, auto generated if not explicitly specified" %>
-<%@ attribute name="inputName" description="name of input element" %>
-<%@ attribute name="value" description="current value of the checkbox input" %>
-<%@ attribute name="placeholder" description="input element placeholder" %>
-<%@ attribute name="title" description="input element title" %>
-<%@ attribute name="style" description="input element CSS style" %>
+<%@ attribute name="name" description="input's name" required="true"%>
+<%@ attribute name="value" description="input's value" %>
+<%@ attribute name="placeholder" description="input's placeholder" %>
+<%@ attribute name="title" description="input's title" %>
+<%@ attribute name="style" description="input's style" %>
 <%@ attribute name="choices" description="data to choose from" %>
 <%@ attribute name="showOptions" description="show options on focus" %>
 <%@ attribute name="url" description="URL for AJAX request to get values for autocomplete" %>
@@ -34,7 +34,7 @@
 		value="${value}"
 		<c:if test="${not empty placeholder}">placeholder="${placeholder}"</c:if>
 		<c:if test="${not empty title}">title="${title}"</c:if>
-		name="${inputName}">
+		name="${name}"/>
 
 <script>
 	(function () {

@@ -300,11 +300,11 @@ cmd do && cmd undo
 		<b>&lt;ui:tag-box&gt;</b><br/>
 
 		Directly provided values<br>
-		<ui:tag-box showOptions="1" choices="first,second,third"/>
+		<ui:tag-box name="tagBox" showOptions="1" choices="first,second,third"/>
 
 		<ui:when type="user">
 			<br/>Lazy loading from AJAX request<br>
-			<ui:tag-box showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="${form.requestURI}?method=enumValues" style="width: 30em;"/>
+			<ui:tag-box name="tagBoxAjax" showOptions="1" value="mail1@domain.com,Ivan2 Pupkin <mail2@domain.com>" url="${form.requestURI}?method=enumValues" style="width: 30em;"/>
 		</ui:when>
 	</div>
 
