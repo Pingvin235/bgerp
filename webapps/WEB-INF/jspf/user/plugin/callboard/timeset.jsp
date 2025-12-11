@@ -13,7 +13,7 @@
 	<input type="hidden" name="processId" value="${form.param.processId}"/>
 
 	${l.l('Вывести на дату')}:
-	<ui:date-time type="ymd" paramName="date" value="${form.param.date}"/>
+	<ui:date-time type="ymd" name="date" value="${form.param.date}"/>
 
 	<button type="button" class="btn-grey ml05" onclick="$$.ajax.load(this, $(this.form).parent())">${l.l('Вывести')}</button>
 

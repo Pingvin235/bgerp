@@ -19,9 +19,9 @@
 	<div style="display: flex;">
 		<div class="nowrap">
 			Период c
-			<ui:date-time paramName="dateFrom" value="${tu.format(object.dateFrom, 'ymd')}"/>
+			<ui:date-time name="dateFrom" value="${tu.format(object.dateFrom, 'ymd')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${tu.format(object.dateTo, 'ymd')}"/>
+			<ui:date-time name="dateTo" value="${tu.format(object.dateTo, 'ymd')}"/>
 			Название&nbsp;
 		</div>
 		<input type="text" style="width: 100%;" name="title" value="${object.title}"/>

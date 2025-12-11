@@ -52,9 +52,9 @@
 			<input type="text" style="text-align:center; width:50px" name="position" value="${contractTariff.position}"/>
 
 			Период c
-			<ui:date-time paramName="dateFrom" value="${tu.format(contractTariff.dateFrom, 'ymd')}"/>
+			<ui:date-time name="dateFrom" value="${tu.format(contractTariff.dateFrom, 'ymd')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${tu.format(contractTariff.dateTo, 'ymd')}"/>
+			<ui:date-time name="dateTo" value="${tu.format(contractTariff.dateTo, 'ymd')}"/>
 		</div>
 	</div>
 

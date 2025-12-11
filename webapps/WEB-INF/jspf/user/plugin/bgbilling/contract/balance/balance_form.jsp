@@ -14,9 +14,9 @@
 
 	<div>
 		Период c
-		<ui:date-time paramName="dateFrom" value="${form.param.dateFrom}"/>
+		<ui:date-time name="dateFrom" value="${form.param.dateFrom}"/>
 		по
-		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
+		<ui:date-time name="dateTo" value="${form.param.dateTo}"/>
 
 		<c:set var="contractInfo" value="${frd.contractInfo}"/>
 		<button type="button" class="btn-white ml1 mr1"

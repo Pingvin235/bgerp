@@ -154,15 +154,15 @@ cmd do && cmd undo
 	<form action="${form.requestURI}" class="in-table-cell">
 		<div>
 			<b>&lt;ui:date-time&gt;</b><br/>
-			<ui:date-time paramName="date"/>
+			<ui:date-time name="date"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:date-time type="ymdh"&gt;</b><br/>
-			<ui:date-time type="ymdh" paramName="dateh"/>
+			<ui:date-time type="ymdh" name="dateh"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:date-time type="ymdhm"&gt;</b><br/>
-			<ui:date-time type="ymdhm" paramName="datehm"/>
+			<ui:date-time type="ymdhm" name="datehm"/>
 		</div>
 		<div class="pl1">
 			<c:set var="uiid" value="${u:uiid()}"/>
@@ -179,19 +179,19 @@ cmd do && cmd undo
 	<div class="in-table-cell">
 		<div>
 			<b>&lt;ui:date-time value="01.07.1983"&gt;</b><br/>
-			<ui:date-time paramName="date" value="01.07.1983"/>
+			<ui:date-time name="date" value="01.07.1983"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:date-time value="0"&gt;</b><br/>
-			<ui:date-time paramName="date" value="0"/>
+			<ui:date-time name="date" value="0"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:date-time value="first"&gt;</b><br/>
-			<ui:date-time paramName="date" value="first"/>
+			<ui:date-time name="date" value="first"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:date-time value="last"&gt;</b><br/>
-			<ui:date-time paramName="date" value="last"/>
+			<ui:date-time name="date" value="last"/>
 		</div>
 	</div>
 

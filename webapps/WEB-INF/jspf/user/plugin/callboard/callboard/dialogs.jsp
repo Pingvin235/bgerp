@@ -22,9 +22,9 @@
 			</c:forEach>
 		</select>
 		<a>&nbsp;Период с: </a>
-		<ui:date-time paramName="fromDate" value="0"/>
+		<ui:date-time name="fromDate" value="0"/>
 		<a>по:</a>
-		<ui:date-time paramName="toDate"/>
+		<ui:date-time name="toDate"/>
 	</div>
 </div>
 
@@ -58,9 +58,9 @@
 		<div style="padding-top: 5px;">
 			<span class="ui-helper-hidden-accessible"><input type="text" /></span>
 			<a><b>Период:</b> с </a>
-			<ui:date-time paramName="fromDate" styleClass="fromDate"/>
+			<ui:date-time name="fromDate" styleClass="fromDate"/>
 			<a>по</a>
-			<ui:date-time paramName="toDate" styleClass="toDate"/>
+			<ui:date-time name="toDate" styleClass="toDate"/>
 		</div>
 	</div>
 	<div style="padding-top: 10px;">

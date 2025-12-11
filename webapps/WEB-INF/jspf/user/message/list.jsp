@@ -50,8 +50,8 @@
 				<li value="1">${l.l('Yes')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
-		<ui:date-time type="ymd" paramName="dateFrom" value="${form.param.dateFrom}" placeholder="${l.l('Дата от')}"/>
-		<ui:date-time type="ymd" paramName="dateTo" value="${form.param.dateTo}" placeholder="${l.l('Дата по')}"/>
+		<ui:date-time type="ymd" name="dateFrom" value="${form.param.dateFrom}" placeholder="${l.l('Дата от')}"/>
+		<ui:date-time type="ymd" name="dateTo" value="${form.param.dateTo}" placeholder="${l.l('Дата по')}"/>
 		<input type="text" name="from" value="${form.param.from}" placeholder="${l.l('Отправитель')}"/>
 	</c:if>
 

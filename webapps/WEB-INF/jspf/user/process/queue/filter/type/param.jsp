@@ -101,10 +101,10 @@
 				${title}
 				<u:sc>
 					<c:set var="paramNameFrom" value="dateTimeParam${filter.parameter.id}From"/>
-					&nbsp;${l.l('с')}&nbsp;<ui:date-time paramName="${paramNameFrom}" value="${savedParamsFilters.get(paramNameFrom)}"/>
+					&nbsp;${l.l('с')}&nbsp;<ui:date-time name="${paramNameFrom}" value="${savedParamsFilters.get(paramNameFrom)}"/>
 
 					<c:set var="paramNameTo" value="dateTimeParam${filter.parameter.id}To"/>
-					&nbsp;${l.l('по')}&nbsp;<ui:date-time paramName="${paramNameTo}" value="${savedParamsFilters.get(paramNameTo)}"/>
+					&nbsp;${l.l('по')}&nbsp;<ui:date-time name="${paramNameTo}" value="${savedParamsFilters.get(paramNameTo)}"/>
 				</u:sc>
 			</c:set>
 			<%@ include file="../item.jsp"%>

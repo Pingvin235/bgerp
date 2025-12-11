@@ -58,11 +58,11 @@
 		</div>
 
 		<div>
-			<ui:date-time paramName="fromDate" value="${u.maskEmpty(form.param.fromDate, 'first')}" placeholder="${l.l('Date from')}"/>
+			<ui:date-time name="fromDate" value="${u.maskEmpty(form.param.fromDate, 'first')}" placeholder="${l.l('Date from')}"/>
 		</div>
 
 		<div>
-			<ui:date-time paramName="toDate" value="${u.maskEmpty(form.param.toDate, 'last')}" placeholder="${l.l('Date to')}"/>
+			<ui:date-time name="toDate" value="${u.maskEmpty(form.param.toDate, 'last')}" placeholder="${l.l('Date to')}"/>
 		</div>
 		<div>
 			<ui:button type="out" styleClass="ml05" onclick="$$.ajax.load(this.form, $('#${uiid}').parent(), {control: this})"/>

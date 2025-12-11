@@ -430,8 +430,8 @@
 
 						<c:set var="title" value="${l.l('Дата создания')}"/>
 						<c:set var="code">
-							${l.l('Создан с')}&nbsp;<ui:date-time paramName="dateCreateFrom" value="${dateFrom}"/>
-							${l.l('по')}&nbsp;<ui:date-time paramName="dateCreateTo" value="${dateTo}"/>
+							${l.l('Создан с')}&nbsp;<ui:date-time name="dateCreateFrom" value="${dateFrom}"/>
+							${l.l('по')}&nbsp;<ui:date-time name="dateCreateTo" value="${dateTo}"/>
 						</c:set>
 
 						<%@ include file="filter/item.jsp"%>
@@ -460,8 +460,8 @@
 
 						<c:set var="title" value="${l.l('Дата закрытия')}"/>
 						<c:set var="code">
-							${l.l('Закрыт с')}&nbsp;<ui:date-time paramName="dateCloseFrom" value="${dateFrom}"/>
-							${l.l('по')}&nbsp;<ui:date-time paramName="dateCloseTo" value="${dateTo}"/>
+							${l.l('Закрыт с')}&nbsp;<ui:date-time name="dateCloseFrom" value="${dateFrom}"/>
+							${l.l('по')}&nbsp;<ui:date-time name="dateCloseTo" value="${dateTo}"/>
 						</c:set>
 
 						<%@ include file="filter/item.jsp"%>
@@ -480,10 +480,10 @@
 									prefixText="${l.l('Status')}:" widthTextValue="8em"/>
 
 								<c:set var="paramName" value="dateStatusFrom"/>
-								&nbsp;${l.l('с')}&nbsp;<ui:date-time paramName="${paramName}" value="${savedParamsFilters.get(paramName)}"/>
+								&nbsp;${l.l('с')}&nbsp;<ui:date-time name="${paramName}" value="${savedParamsFilters.get(paramName)}"/>
 
 								<c:set var="paramName" value="dateStatusTo"/>
-								${l.l('по')}&nbsp;<ui:date-time paramName="${paramName}" value="${savedParamsFilters.get(paramName)}"/>
+								${l.l('по')}&nbsp;<ui:date-time name="${paramName}" value="${savedParamsFilters.get(paramName)}"/>
 							</u:sc>
 						</c:set>
 

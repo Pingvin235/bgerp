@@ -19,9 +19,9 @@
 		</div>
 		<div style="white-space:nowrap;" class="pl1">
 			c
-			<ui:date-time paramName="dateFrom" value="${tu.format(script.period.dateFrom, 'dd.MM.yyyy')}"/>
+			<ui:date-time name="dateFrom" value="${tu.format(script.period.dateFrom, 'dd.MM.yyyy')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${tu.format(script.period.dateTo, 'dd.MM.yyyy')}"/>
+			<ui:date-time name="dateTo" value="${tu.format(script.period.dateTo, 'dd.MM.yyyy')}"/>
 		</div>
 	</div>
 

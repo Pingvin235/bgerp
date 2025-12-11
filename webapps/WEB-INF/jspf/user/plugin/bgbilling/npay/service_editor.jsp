@@ -23,9 +23,9 @@
 		</div>
 		<div style="white-space:nowrap;" class="pl1">
 			c
-			<ui:date-time paramName="dateFrom" value="${tu.format(service.dateFrom, 'ymd')}"/>
+			<ui:date-time name="dateFrom" value="${tu.format(service.dateFrom, 'ymd')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${tu.format(service.dateTo, 'ymd')}"/>
+			<ui:date-time name="dateTo" value="${tu.format(service.dateTo, 'ymd')}"/>
 		</div>
 
 		<div style="width: 50%;" class="pl1">

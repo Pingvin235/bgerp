@@ -6,8 +6,8 @@
 <form action="${form.requestURI}" id="${uiid}" class="in-mr05 in-mb05-all">
 	<input type="hidden" name="method" value="search"/>
 
-	<ui:date-time type="ymdhms" paramName="timeFrom" value="${empty form.param.timeFrom ? 'first' : form.param.timeFrom}" placeholder="From time"/>
-	<ui:date-time type="ymdhms" paramName="timeTo" value="${form.param.timeTo}" placeholder="To time"/>
+	<ui:date-time type="ymdhms" name="timeFrom" value="${empty form.param.timeFrom ? 'first' : form.param.timeFrom}" placeholder="From time"/>
+	<ui:date-time type="ymdhms" name="timeTo" value="${form.param.timeTo}" placeholder="To time"/>
 
 	<input type="text" name="ipAddress" value="${form.param.ipAddress}" size="15" placeholder="IP address"/>
 	<input type="text" name="parameter" value="${form.param.parameter}" size="15" placeholder="Parameters substring"/>

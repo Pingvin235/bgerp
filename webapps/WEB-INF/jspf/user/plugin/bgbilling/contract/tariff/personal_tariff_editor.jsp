@@ -20,9 +20,9 @@
 
 		<div style="white-space: nowrap;" class="pl1">
 			c
-			<ui:date-time paramName="dateFrom" value="${tu.format(personalTariff.date1, 'ymd')}"/>
+			<ui:date-time name="dateFrom" value="${tu.format(personalTariff.date1, 'ymd')}"/>
 			по
-			<ui:date-time paramName="dateTo" value="${tu.format(personalTariff.date2, 'ymd')}"/>
+			<ui:date-time name="dateTo" value="${tu.format(personalTariff.date2, 'ymd')}"/>
 		</div>
 	</div>
 

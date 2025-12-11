@@ -13,9 +13,9 @@
 
 			<c:when test="${frd.paramType eq 6}">
 				Дата открытия:
-				<ui:date-time styleClass="mt05" paramName="date_from" value="" /></br>
+				<ui:date-time styleClass="mt05" name="date_from" value="" /></br>
 				Дата закрытия:
-				<ui:date-time styleClass="mt05" paramName="date_to" value="" /><br>
+				<ui:date-time styleClass="mt05" name="date_to" value="" /><br>
 				<input class="in-mt05" type="button" value="Поиск" class="btn-white"
 					onclick="this.form.elements['searchBy'].value='parameter_date'; ${loadCommand}" />
 			</c:when>

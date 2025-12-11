@@ -22,7 +22,7 @@
 		<c:if test="${not empty balanceItem.date}">
 			<c:set var="date" value="${tu.format(balanceItem.date, 'dd.MM.yyyy')}"/>
 		</c:if>
-		<ui:date-time paramName="date" value="${date}" styleClass="mr1"/>
+		<ui:date-time name="date" value="${date}" styleClass="mr1"/>
 
 		<c:set var="dbInfo" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId]}"/>
 		<c:if test="${dbInfo.pluginSet.contains('ru.bitel.bgbilling.plugins.cashcheck')}">

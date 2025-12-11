@@ -145,7 +145,7 @@
 		</c:when>
 
 		<c:when test="${paramType eq 6}"> <!-- date -->
-			<ui:date-time paramName="value" value="${form.param.value}" saveCommand="${saveCommand}" id="${focusFieldUiid}" styleClass="mr1"/>
+			<ui:date-time name="value" value="${form.param.value}" saveCommand="${saveCommand}" id="${focusFieldUiid}" styleClass="mr1"/>
 			<c:set var="hideButtons" value="1"/>
 		</c:when>
 

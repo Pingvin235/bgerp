@@ -39,7 +39,7 @@
 			value="${form.param.group}"
 			onSelect="${showCode}" placeholder="${l.l('Group')}" style="width: 200px;"/>
 
-		<ui:date-time paramName="date" placeholder="${l.l('Гр. на дату')}" value="${form.param.date}"/>
+		<ui:date-time name="date" placeholder="${l.l('Гр. на дату')}" value="${form.param.date}"/>
 	</c:if>
 
 	<ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}"

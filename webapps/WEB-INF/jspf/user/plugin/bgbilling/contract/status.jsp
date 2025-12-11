@@ -18,9 +18,9 @@
 				<tr class="in-pr05">
 					<td>С даты:</td>
 					<td class="nowrap">
-						<ui:date-time paramName="dateFrom" value="${script.dateFrom}"/>
+						<ui:date-time name="dateFrom" value="${script.dateFrom}"/>
 						по дату:
-						<ui:date-time paramName="dateTo" value="${script.dateTo}"/>
+						<ui:date-time name="dateTo" value="${script.dateTo}"/>
 					</td>
 					<td width="100%" class="pl05">
 						<ui:combo-single list="${frd.availableStatusList}" hiddenName="statusId" style="width: 100%;"/>

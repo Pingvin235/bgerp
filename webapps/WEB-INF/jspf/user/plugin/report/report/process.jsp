@@ -14,9 +14,9 @@
 			</jsp:attribute>
 		</ui:combo-single>
 		<span> </span>${l.l("с")}<span> </span>
-		<ui:date-time paramName="dateFrom" value="${form.param.dateFrom}"/>
+		<ui:date-time name="dateFrom" value="${form.param.dateFrom}"/>
 		${l.l("по")}<span> </span>
-		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
+		<ui:date-time name="dateTo" value="${form.param.dateTo}"/>
 
 		<ui:combo-check name="type" values="${form.getParamValues('type')}"
 			list="${frd.types}" map="${ctxProcessTypeMap}"

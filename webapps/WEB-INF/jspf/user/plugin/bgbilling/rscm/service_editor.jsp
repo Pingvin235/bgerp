@@ -24,7 +24,7 @@
 
 		<div style="white-space:nowrap;" class="pl1" style="width: 50%;">
 			Дата:
-			<ui:date-time paramName="date" value="${tu.format(service.date, 'ymd')}"/>
+			<ui:date-time name="date" value="${tu.format(service.date, 'ymd')}"/>
 			Кол.-во:
 			<input type="text" value="${service.amount}" name="amount" style="text-align: center;"/>
 		</div>

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="id" description="input's id, auto generated if not explicitly specified"%>
-<%@ attribute name="paramName" description="input's name"%>
+<%@ attribute name="name" description="input's name"%>
 <%@ attribute name="selector" description="jQuery selector of an existing input text element"%>
 <%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
 <%@ attribute name="parameter" type="java.lang.Object" description="provides access to the configuration when editing object's parameter"%>
@@ -10,6 +10,14 @@
 <%@ attribute name="styleClass" description="CSS-classes for input"%>
 <%@ attribute name="placeholder" description="placeholder for input"%>
 <%@ attribute name="saveCommand" description="command used to save the value upon closure"%>
+
+<%@ attribute name="paramName" description="Deprecated 'name'"%>
+<c:if test="${not empty paramName}">
+	${log.warnd("Deprecated attribute 'paramName' was used in tag 'ui:date-time', change it to 'name'")}
+	<c:if test="${empty name}">
+		<c:set var="name" value="${paramName}"/>
+	</c:if>
+</c:if>
 
 <%-- type: ymd, ymdh, ymdhm, ymdhms --%>
 <c:if test="${empty type and not empty parameter}">
@@ -19,7 +27,7 @@
 	<c:set var="type" value="ymd"/>
 </c:if>
 
-<c:if test="${empty selector and not empty paramName}">
+<c:if test="${empty selector and not empty name}">
 	<c:choose>
 		<c:when test="${not empty id}">
 			<c:set var="uiid" value="${id}"/>
@@ -32,10 +40,10 @@
 	<c:choose>
 		<c:when test="${type eq 'ymd' and ctxUser.pers['iface.input.date'] eq 'native'}">
 			<c:set var="nativeInput" value="1"/>
-			<input type="date" name="${paramName}" value="${value}" class="${styleClass}" placeholder="${placeholder}"/>
+			<input type="date" name="${name}" value="${value}" class="${styleClass}" placeholder="${placeholder}"/>
 		</c:when>
 		<c:otherwise>
-			<input type="text" name="${paramName}" id="${uiid}" value="${value}" class="${styleClass}" placeholder="${placeholder}"/>
+			<input type="text" name="${name}" id="${uiid}" value="${value}" class="${styleClass}" placeholder="${placeholder}"/>
 		</c:otherwise>
 	</c:choose>
 </c:if>

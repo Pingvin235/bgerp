@@ -13,9 +13,9 @@
 		<tr>
 			<td nowrap="nowrap">${l.l('Период с')}:</td>
 			<td class="pl05">
-				<ui:date-time paramName="fromDate" value="0"/>
+				<ui:date-time name="fromDate" value="0"/>
 				${l.l('по')}:
-				<ui:date-time paramName="toDate"/>
+				<ui:date-time name="toDate"/>
 			</td>
 		</tr>
 		<tr>
@@ -37,7 +37,7 @@
 	<div class="in-mr1">
 		<ui:button type="add" onclick="$('#showGroup${uiid}').hide(); $('#addGroup${uiid}').show();"/>
 
-		<ui:date-time styleClass="ml1" paramName="date" value="${form.param.date}" placeholder="${l.l('На дату')}"/>
+		<ui:date-time styleClass="ml1" name="date" value="${form.param.date}" placeholder="${l.l('На дату')}"/>
 
 		<ui:button type="run" onclick="$$.ajax.load(this.form, $('#showGroup${uiid}').parent())"/>
 	</div>
@@ -86,7 +86,7 @@
 
 	${l.l('Закрыть с даты')}:
 
-	<ui:date-time paramName="date" value="0"/>
+	<ui:date-time name="date" value="0"/>
 
 	<div class="in-ml1 ml1">
 		<ui:button type="ok" onclick="if (!confirm('${l.l('Вы уверены, что хотите закрыть период группы?')}')) return; $$.ajax.post(this).done(() => { ${reloadScript} })"/>

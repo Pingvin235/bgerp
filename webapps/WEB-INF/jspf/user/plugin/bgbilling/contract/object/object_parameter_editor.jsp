@@ -84,7 +84,7 @@
 				</c:when>
 
 				<c:when test="${parameter.typeId eq 3}"> <!-- date -->
-					<ui:date-time paramName="dateValue" value="${parameter.getValue()}"/>
+					<ui:date-time name="dateValue" value="${parameter.getValue()}"/>
 				</c:when>
 
 				<c:when test="${parameter.typeId eq 2}"> <!-- list -->
