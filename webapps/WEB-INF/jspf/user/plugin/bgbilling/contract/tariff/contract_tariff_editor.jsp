@@ -28,7 +28,7 @@
 		</c:if>
 	</div>
 	<div style="width: 100%;" class="pl1">
-		<ui:select-single list="${frd.moduleList}" hiddenName="moduleId" value="${form.param.moduleId}" onSelect="${reload}"
+		<ui:select-single list="${frd.moduleList}" name="moduleId" value="${form.param.moduleId}" onSelect="${reload}"
 			style="width: 100%;" placeholder="Фильтр по модулю"/>
 	</div>
 </html:form>
@@ -43,7 +43,7 @@
 
 	<div class="in-table-cell">
 		<div style="width: 100%">
-			<ui:select-single list="${frd.tariffList}" hiddenName="tariffPlanId" value="${contractTariff.tariffPlanId}"
+			<ui:select-single list="${frd.tariffList}" name="tariffPlanId" value="${contractTariff.tariffPlanId}"
 				style="width: 100%;" placeholder="Тариф"/>
 		</div>
 

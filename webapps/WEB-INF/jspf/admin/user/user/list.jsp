@@ -33,7 +33,7 @@
 
 	<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.admin.UserAction:userList')}"/>
 	<c:if test="${empty perm['allowOnlyGroups'] or not empty perm['allowFilterGroups']}">
-		<ui:select-single hiddenName="group"
+		<ui:select-single name="group"
 			list="${ctxUserGroupFullTitledList}" map="${ctxUserGroupFullTitledMap}"
 			availableIdSet="${u.toIntegerSet(perm['allowFilterGroups'])}"
 			value="${form.param.group}"
@@ -42,7 +42,7 @@
 		<ui:date-time name="date" placeholder="${l.l('Гр. на дату')}" value="${form.param.date}"/>
 	</c:if>
 
-	<ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}"
+	<ui:select-single list="${ctxUserPermsetList}" name="permset" value="${form.param.permset}"
 		onSelect="${showCode}" placeholder="${l.l('Набор прав')}" style="width: 200px;"/>
 
 	<ui:button type="out" onclick="$$.ajax.loadContent(this);"/>

@@ -21,7 +21,7 @@
 		<tr>
 			<td class="pt05">${l.l('Group')}:</td>
 			<td style="width: 100%" class="pl05 pt05">
-				<ui:select-single hiddenName="group" list="${ctxUserGroupFullTitledList}" style="width: 100%;"/>
+				<ui:select-single name="group" list="${ctxUserGroupFullTitledList}" style="width: 100%;"/>
 			</td>
 		</tr>
 	</table>

@@ -14,8 +14,8 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 --%>
 
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
-<%@ attribute name="hiddenName" description="hidden parameter name"%>
-<%@ attribute name="value" description="hidden parameter's current value"%>
+<%@ attribute name="name" description="hidden input's name"%>
+<%@ attribute name="value" description="hidden input's value"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV CSS class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
@@ -29,7 +29,15 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag"%>
-<%@ attribute name="filter" description="Value filtering JS code"%>
+<%@ attribute name="filter" description="values filtering JS code"%>
+
+<%@ attribute name="hiddenName" description="Deprecated 'name'"%>
+<c:if test="${not empty hiddenName}">
+	${log.warnd("Deprecated attribute 'hiddenName' was used in tag 'ui:select-single', change it to 'name'")}
+	<c:if test="${empty name}">
+		<c:set var="name" value="${hiddenName}"/>
+	</c:if>
+</c:if>
 
 <c:choose>
 	<c:when test="${not empty id}">
@@ -48,7 +56,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 </c:if>
 
 <div class="select ${styleClass}" style="${style}" id="${uiid}">
-	<input type="hidden" name="${hiddenName}" value="${value}"/>
+	<input type="hidden" name="${name}" value="${value}"/>
 	<input type="text" name="data" ${inputAttrs} style="width: 100%;" placeholder="${placeholder}"/>
 	<span class="icon"><i class="ti-angle-down"></i></span>
 

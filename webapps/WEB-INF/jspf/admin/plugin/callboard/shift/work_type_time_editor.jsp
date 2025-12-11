@@ -12,7 +12,7 @@
 		<div>Работы:</div>
 
 		<div style="width: 100%;" class="pl05">
-			<ui:select-single id="workTypeSelect${uiid}" list="${workTypeList}" hiddenName="param" style="width: 100%;"/>
+			<ui:select-single id="workTypeSelect${uiid}" list="${workTypeList}" name="param" style="width: 100%;"/>
 		</div>
 
 		<%-- <select id="workTypeSelect${uiid}" onchange="onSelect();" class="parametersSelect" style="min-width:200px;max-width:200px; width:200px">

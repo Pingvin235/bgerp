@@ -14,7 +14,7 @@
 
 	<div class="in-table-cell mb1">
 		<div style="width: 100%;">
-			<ui:select-single list="${frd.scriptTypeList}" hiddenName="scriptTypeId" value="${script.scriptId}"
+			<ui:select-single list="${frd.scriptTypeList}" name="scriptTypeId" value="${script.scriptId}"
 				style="width: 100%;" placeholder="Скрипт"/>
 		</div>
 		<div style="white-space:nowrap;" class="pl1">

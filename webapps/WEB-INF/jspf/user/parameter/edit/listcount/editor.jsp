@@ -41,7 +41,7 @@ Incoming variables:
 			<%-- editor --%>
 			<tr>
 				<td>
-					<ui:select-single list="${listValues}" hiddenName="newItemId" onSelect="this.form.newItemTitle.value = $input.val()" styleClass="w100p" inputAttrs="autofocus"/>
+					<ui:select-single list="${listValues}" name="newItemId" onSelect="this.form.newItemTitle.value = $input.val()" styleClass="w100p" inputAttrs="autofocus"/>
 					<input type="hidden" name="newItemTitle"/>
 				</td>
 				<td>
@@ -55,7 +55,7 @@ Incoming variables:
 	</c:when>
 	<c:otherwise>
 		<div style="display: flex;">
-			<ui:select-single hiddenName="itemId" list="${listValues}" value="${u.getFirst(values.keySet())}" styleClass="w100p" inputAttrs="autofocus"/>
+			<ui:select-single name="itemId" list="${listValues}" value="${u.getFirst(values.keySet())}" styleClass="w100p" inputAttrs="autofocus"/>
 			<input name="itemCount" value="${u.format(u.getFirst(values.entrySet()).value)}" size="4" onkeydown="return isNumberKey(event)" class="ml1"/>
 		</div>
 	</c:otherwise>

@@ -274,17 +274,17 @@ cmd do && cmd undo
 
 		<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, '$input=', $input); alert('A value is chosen, see console log')"/>
 
-		<ui:select-single hiddenName="param" value="2" style="width: 10em;"
+		<ui:select-single name="param" value="2" style="width: 10em;"
 			list="${frd.selectSingle1List}" availableIdSet="${frd.selectSingle1AvailableIdSet}"
 			onSelect="${onSelect}"/>
 
-		<ui:select-single hiddenName="param" style="width: 15em;" map="${frd.selectSingle2Map}" availableIdList="${frd.selectSingle2AvailableIdList}"
+		<ui:select-single name="param" style="width: 15em;" map="${frd.selectSingle2Map}" availableIdList="${frd.selectSingle2AvailableIdList}"
 			onSelect="${onSelect}"/>
 
-		<ui:select-single hiddenName="param" value="1" style="width: 10em;" list="${frd.selectSingle3List}" showId="1" showComment="1"
+		<ui:select-single name="param" value="1" style="width: 10em;" list="${frd.selectSingle3List}" showId="1" showComment="1"
 			onSelect="${onSelect}"/>
 
-		<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${frd.selectSingle4List}" inputAttrs="disabled='1'"
+		<ui:select-single name="param" value="2" style="width: 10em;" list="${frd.selectSingle4List}" inputAttrs="disabled='1'"
 			onSelect="alert('Must not be selectable!')"/>
 	</div>
 
@@ -320,7 +320,7 @@ cmd do && cmd undo
 			</jsp:attribute>
 		</ui:combo-single><br/>
 
-		<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${frd.selectSingle1List}"
+		<ui:select-single name="param" value="2" style="width: 10em;" list="${frd.selectSingle1List}"
 			onSelect="console.log('this=', this, '$hidden=', $hidden); alert('Value is chosen, see console log')"/>
 	</div>
 </div>

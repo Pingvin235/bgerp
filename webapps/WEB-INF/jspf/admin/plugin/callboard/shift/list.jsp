@@ -11,7 +11,7 @@
 	</c:url>
 	<ui:button type="add" styleClass="mr1" onclick="$$.ajax.loadContent('${url}')"/>
 
-	<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${form.param.categoryId}"
+	<ui:select-single list="${allowOnlyCategories}" name="categoryId" value="${form.param.categoryId}"
 		onSelect="$$.ajax.loadContent(this.form)" style="width: 15em;" placeholder="${l.l('Choose category')}" />
 
 	<ui:page-control/>

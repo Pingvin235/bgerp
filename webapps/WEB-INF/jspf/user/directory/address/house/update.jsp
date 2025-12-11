@@ -34,19 +34,19 @@
 			<tr>
 				<td>${l.l('Улица')}</td>
 				<td>
-					<ui:select-single hiddenName="addressItemId" value="${house.addressStreet.id}" list="${parameterAddressStreetList}"/>
+					<ui:select-single name="addressItemId" value="${house.addressStreet.id}" list="${parameterAddressStreetList}"/>
 				</td>
 			</tr>
 			<tr>
 				<td>${l.l('Район')}</td>
 				<td>
-					<ui:select-single hiddenName="addressAreaId" value="${house.addressArea.id}" list="${parameterAddressAreaList}"/>
+					<ui:select-single name="addressAreaId" value="${house.addressArea.id}" list="${parameterAddressAreaList}"/>
 				</td>
 			</tr>
 			<tr>
 				<td>${l.l('Квартал')}</td>
 				<td>
-					<ui:select-single hiddenName="addressQuarterId" value="${house.addressQuarter.id}" list="${parameterAddressQuarterList}"/>
+					<ui:select-single name="addressQuarterId" value="${house.addressQuarter.id}" list="${parameterAddressQuarterList}"/>
 				</td>
 			</tr>
 			<tr>

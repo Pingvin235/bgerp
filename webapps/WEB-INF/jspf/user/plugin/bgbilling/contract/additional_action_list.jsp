@@ -9,7 +9,7 @@
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />
 
 	<div class="pr1" style="width: 100%;">
-		<ui:select-single list="${frd.additionalActionList}" hiddenName="actionId" value="${form.param.actionId}"
+		<ui:select-single list="${frd.additionalActionList}" name="actionId" value="${form.param.actionId}"
 			placeholder="Выберите действие" style="width: 100%;"/>
 	</div>
 	<div>

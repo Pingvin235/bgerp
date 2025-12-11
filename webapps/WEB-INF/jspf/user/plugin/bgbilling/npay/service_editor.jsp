@@ -19,7 +19,7 @@
 			<c:if test="${service.id gt 0}">
 				<c:set var="inputAttrs">disabled="disabled"</c:set>
 			</c:if>
-			<ui:select-single list="${frd.serviceTypeList}" hiddenName="serviceId" value="${service.serviceId}" inputAttrs="${inputAttrs}" style="width: 100%;" placeholder="Услуга"/>
+			<ui:select-single list="${frd.serviceTypeList}" name="serviceId" value="${service.serviceId}" inputAttrs="${inputAttrs}" style="width: 100%;" placeholder="Услуга"/>
 		</div>
 		<div style="white-space:nowrap;" class="pl1">
 			c
@@ -29,7 +29,7 @@
 		</div>
 
 		<div style="width: 50%;" class="pl1">
-			<ui:select-single list="${frd.objectList}" hiddenName="objectId" value="${service.objectId}" style="width: 100%;" placeholder="Объект (необязательно)"/>
+			<ui:select-single list="${frd.objectList}" name="objectId" value="${service.objectId}" style="width: 100%;" placeholder="Объект (необязательно)"/>
 		</div>
 	</div>
 

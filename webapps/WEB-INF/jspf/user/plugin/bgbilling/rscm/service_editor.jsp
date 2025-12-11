@@ -14,7 +14,7 @@
 
 	<div class="in-table-cell mb1">
 		<div style="width: 50%;">
-			<ui:select-single hiddenName="serviceId" value="${service.serviceId}"
+			<ui:select-single name="serviceId" value="${service.serviceId}"
 				placeholder="Услуга" style="width: 100%;" list="${frd.serviceTypeList}">
 				<jsp:attribute name="inputAttrs">
 					<c:if test="${service.id gt 0}">disabled="disabled"</c:if>

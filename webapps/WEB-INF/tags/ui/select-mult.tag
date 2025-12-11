@@ -58,7 +58,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <div class="select-mult ${styleClass}" style="${style}" id="${uiid}">
 	<div style="display:table; width: 100%;">
 		<div style="display: table-cell; width: 100%;">
-			<ui:select-single hiddenName="${uiid}-addingValue" style="width: 100%;"
+			<ui:select-single name="${uiid}-addingValue" style="width: 100%;"
 				showId="${showId}" showComment="${showComment}"
 				onSelect="
 					const upDownIcons = \"${upDownIcons}\";

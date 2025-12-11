@@ -56,7 +56,7 @@
 					<input type="hidden" name="method" value="permsetReplacePermissions"/>
 					<input type="hidden" name="id" value="${permset.id}"/>
 
-					<ui:select-single list="${ctxUserPermsetList}" hiddenName="fromId" style="width: 200px;" placeholder="Выберите набор"/>
+					<ui:select-single list="${ctxUserPermsetList}" name="fromId" style="width: 200px;" placeholder="Выберите набор"/>
 
 					<button
 						type="button" class="btn-grey ml1"

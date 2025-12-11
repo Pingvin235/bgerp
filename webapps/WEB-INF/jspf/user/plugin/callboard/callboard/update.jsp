@@ -461,7 +461,7 @@
 					</div>
 				</div>
 				<div id="categories">
-					<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId"
+					<ui:select-single list="${allowOnlyCategories}" name="categoryId"
 						onSelect="var url = '/user/plugin/callboard/work.do?method=callboardAvailableShift&categoryId=' + this.value;
 								$$.ajax.load( url, $('#${uiid} #shiftArea') );"
 						style="width: 100%;" placeholder="Категория смен"/>

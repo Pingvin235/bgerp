@@ -152,7 +152,7 @@
 		<c:when test="${paramType eq 7}"> <!-- list -->
 			<c:set var="value" value="${data.value}"/>
 			<div class="mb1">
-				<ui:select-single list="${value.values}" hiddenName="value" value="${value.id}" style="width: 250px;"/>
+				<ui:select-single list="${value.values}" name="value" value="${value.id}" style="width: 250px;"/>
 			</div>
 		</c:when>
 
