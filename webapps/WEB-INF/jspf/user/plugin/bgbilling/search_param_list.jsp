@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 <div class="in-w100p">
-	<ui:select-mult hiddenName="paramIds" showId="true" moveOn="true" styleClass="mb05" list="${frd.paramList}" />
+	<ui:select-mult name="paramIds" showId="true" moveOn="true" styleClass="mb05" list="${frd.paramList}" />
 
 	<u:sc>
 		<c:set var="loadCommand" value="$$.ajax.load(this.form, '#searchResult')"/>

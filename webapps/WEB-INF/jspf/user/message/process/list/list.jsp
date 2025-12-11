@@ -208,7 +208,7 @@
 						<input type="hidden" name="method" value="messageUpdateTags"/>
 						<input type="hidden" name="id" value="${message.id}"/>
 
-						<ui:select-mult list="${tagConfig.tagList}" values="${messageTagIds}" hiddenName="tagId"/>
+						<ui:select-mult list="${tagConfig.tagList}" values="${messageTagIds}" name="tagId"/>
 
 						<c:set var="command">$$.ajax.post(this).done(() => { $$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent()) });</c:set>
 

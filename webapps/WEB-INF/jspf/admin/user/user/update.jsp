@@ -71,7 +71,7 @@
 		--%><div style="width: 20%;">
 				<h2>${l.l('Permission Sets')}</h2>
 
-				<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${user.permsetIds}" moveOn="1" style="width: 100%;" styleClass="layout-height-rest"/>
+				<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" name="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${user.permsetIds}" moveOn="1" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
 	--%></c:if><%--
 	--%><c:if test="${empty perm['permDisable']}"><%--
@@ -97,7 +97,7 @@
 		--%><div style="width: 20%;">
 				<h2>${l.l('Process Queues')}</h2>
 
-				<ui:select-mult list="${ctxProcessQueueList}" hiddenName="queue" values="${user.queueIds}" style="width: 100%;" styleClass="layout-height-rest"/>
+				<ui:select-mult list="${ctxProcessQueueList}" name="queue" values="${user.queueIds}" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
 	--%></c:if><%--
 --%></div>

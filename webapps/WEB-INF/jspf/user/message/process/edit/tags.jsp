@@ -11,6 +11,6 @@
 		<c:if test="${frd.messageTagIds.contains(u:int(TAG_PIN_ID))}">
 			<input type="hidden" name="tagId" value="${TAG_PIN_ID}"/>
 		</c:if>
-		<ui:select-mult list="${tagConfig.tagList}" values="${frd.messageTagIds}" hiddenName="tagId"/>
+		<ui:select-mult list="${tagConfig.tagList}" values="${frd.messageTagIds}" name="tagId"/>
 	</div>
 </c:if>

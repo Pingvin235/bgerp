@@ -40,7 +40,7 @@
 	 		<c:if test="${not(form.param.requestUserId > 0 )}">
 				<h2>${l.l('Groups')}</h2>
 
-				<ui:select-mult list="${ctxUserGroupList}" hiddenName="group" values="${news.groupIds}" style="width: 100%;"/>
+				<ui:select-mult list="${ctxUserGroupList}" name="group" values="${news.groupIds}" style="width: 100%;"/>
 
 				<span class="hint">${l.l('Если группы не указаны - новость получают все пользователи.')}</span>
 			</c:if>

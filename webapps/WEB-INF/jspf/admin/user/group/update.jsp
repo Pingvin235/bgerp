@@ -43,12 +43,12 @@
 		<div style="width: 50%;">
 			<h2>${l.l('Permission Sets')}</h2>
 
-			<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${group.permsetIds}" moveOn="1"/>
+			<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" name="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${group.permsetIds}" moveOn="1"/>
 		</div><%--
 	--%><div style="width: 50%;">
 			<h2>${l.l('Process Queues')}</h2>
 
-			<ui:select-mult list="${ctxProcessQueueList}" map="${ctxProcessQueueMap}" hiddenName="queue" values="${group.queueIds}"/>
+			<ui:select-mult list="${ctxProcessQueueList}" map="${ctxProcessQueueMap}" name="queue" values="${group.queueIds}"/>
 		</div>
 	</div>
 

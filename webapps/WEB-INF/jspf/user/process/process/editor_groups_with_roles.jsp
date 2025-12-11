@@ -15,7 +15,7 @@
 					 or processType.properties.getAllowedGroups().roleIds.contains(role.id)
 					 or empty processType.properties.getAllowedGroups()}">
 			<h2>${role.title}</h2>
-			<ui:select-mult hiddenName="groupRole"
+			<ui:select-mult name="groupRole"
 				list="${ctxUserCache.getUserGroupRoleFullTitledList(role.id)}" values="${process.groups.groupRoleIds}"
 				availableIdSet="${processType.properties.getAllowedGroups(role.id).groupRoleIds}"
 				style="width: 100%;"/>

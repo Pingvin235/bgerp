@@ -290,14 +290,10 @@ cmd do && cmd undo
 
 	<div>
 		<b>&lt;ui:select-mult&gt;</b><br/>
-		<ui:select-mult
-			showId="true"
-			hiddenName="param" style="width: 12em;"
-			list="${frd.selectMult1List}" values="${frd.selectMult1Values}"/>
+		<ui:select-mult showId="true" name="param" style="width: 12em;" list="${frd.selectMult1List}" values="${frd.selectMult1Values}"/>
 
 		With position changing (preliminary order must be Second before First):
-		<ui:select-mult hiddenName="param" style="width: 12em;" moveOn="true"
-			list="${frd.selectMult2List}" map="${frd.selectMult2Map}" values="${frd.selectMult2Values}"/>
+		<ui:select-mult name="param" style="width: 12em;" moveOn="true" list="${frd.selectMult2List}" map="${frd.selectMult2Map}" values="${frd.selectMult2Values}" />
 	</div>
 
 	<div>

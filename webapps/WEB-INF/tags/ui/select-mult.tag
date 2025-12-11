@@ -14,7 +14,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 --%>
 
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
-<%@ attribute name="hiddenName" description="hidden parameter name"%>
+<%@ attribute name="name" description="hidden input's name"%>
 <%@ attribute name="values" type="java.util.Collection" description="hidden parameter's current value"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV class"%>
@@ -29,6 +29,14 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag"%>
 <%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
+
+<%@ attribute name="hiddenName" description="Deprecated 'name'"%>
+<c:if test="${not empty hiddenName}">
+	${log.warnd("Deprecated attribute 'hiddenName' was used in tag 'ui:select-mult', change it to 'name'")}
+	<c:if test="${empty name}">
+		<c:set var="name" value="${hiddenName}"/>
+	</c:if>
+</c:if>
 
 <c:choose>
 	<c:when test="${not empty id}">
@@ -55,7 +63,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 				onSelect="
 					const upDownIcons = \"${upDownIcons}\";
 					${onChange};
-					return $$.ui.select.mult.onSelect($hidden, $input, '${uiid}', '${hiddenName}', upDownIcons);
+					return $$.ui.select.mult.onSelect($hidden, $input, '${uiid}', '${name}', upDownIcons);
 				"
 				list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"
 				filter="$$.ui.select.mult.filter"/>
@@ -69,7 +77,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 					<c:forEach var="id" items="${values}">
 						<c:set var="item" value="${map[id]}"/>
 						<c:if test="${not empty item}">
-							<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" onChange="${onChange}" upDownIcons="${upDownIcons}"/>
+							<ui:select-mult-li item="${item}" name="${name}" showId="${showId}" showComment="${showComment}" onChange="${onChange}" upDownIcons="${upDownIcons}"/>
 						</c:if>
 					</c:forEach>
 				</ul>
@@ -80,7 +88,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 						<c:when test="${empty availableIdList}">
 							<c:forEach var="item" items="${list}">
 								<c:if test="${values.contains(item.id)}">
-									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" onChange="${onChange}"/>
+									<ui:select-mult-li item="${item}" name="${name}" showId="${showId}" showComment="${showComment}" onChange="${onChange}"/>
 								</c:if>
 							</c:forEach>
 						</c:when>
@@ -88,7 +96,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 							<c:forEach var="availableId" items="${availableIdList}">
 								<c:set var="item" value="${map[availableId]}"/>
 								<c:if test="${values.contains(item.id)}">
-									<ui:select-mult-li item="${item}" hiddenName="${hiddenName}" showId="${showId}" showComment="${showComment}" onChange="${onChange}"/>
+									<ui:select-mult-li item="${item}" name="${name}" showId="${showId}" showComment="${showComment}" onChange="${onChange}"/>
 								</c:if>
 							</c:forEach>
 						</c:otherwise>

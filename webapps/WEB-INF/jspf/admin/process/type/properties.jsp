@@ -33,7 +33,7 @@
 				<c:set var="applyButtonUiid" value="${u:uiid()}"/>
 
 				<h2>${l.l('Allowed statuses')}</h2>
-				<ui:select-mult hiddenName="status"
+				<ui:select-mult name="status"
 						showId="1" moveOn="true" style="width: 100%;"
 						list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"
 						onChange="document.getElementById('${applyButtonUiid}').style.display = 'block'"/>
@@ -47,12 +47,12 @@
 						styleClass="w100p" />
 
 					<h2>${l.l('Closing statuses')}</h2>
-					<ui:select-mult hiddenName="closeStatusId" values="${properties.closeStatusIds}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
+					<ui:select-mult name="closeStatusId" values="${properties.closeStatusIds}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
 						styleClass="w100p" />
 				</c:if>
 
 				<h2>${l.l('Parameters')}</h2>
-				<ui:select-mult hiddenName="param"
+				<ui:select-mult name="param"
 					showId="1" moveOn="true" showComment="true" style="width: 100%;"
 					list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
 			</div>

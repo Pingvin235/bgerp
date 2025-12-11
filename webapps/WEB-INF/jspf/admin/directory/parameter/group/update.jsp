@@ -16,7 +16,7 @@
 	<input type="text" name="title" style="width: 100%" value="${group.title}"/>
 
 	<h2>${l.l('Parameters')}</h2>
-	<ui:select-mult hiddenName="param" list="${parameterList}" values="${group.parameterIds}" style="width: 100%;"/>
+	<ui:select-mult name="param" list="${parameterList}" values="${group.parameterIds}" style="width: 100%;"/>
 
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>

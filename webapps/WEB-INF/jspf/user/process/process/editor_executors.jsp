@@ -11,7 +11,7 @@
 		<input type="hidden" name="group" value="${item.first.id}"/>
 		<h2>${item.first.title}</h2>
 
-		<ui:select-mult hiddenName="executor" list="${item.second[0]}" values="${item.second[1]}" style="width: 100%;"/>
+		<ui:select-mult name="executor" list="${item.second[0]}" values="${item.second[1]}" style="width: 100%;"/>
 	</c:forEach>
 
 	<div class="mt1">
