@@ -3,7 +3,7 @@
 
 <%--
 Incoming variables:
-	frd.value - ParameterPhoneValue
+	value - ParameterPhoneValue
 --%>
 <u:sc>
 	<c:set var="addButtonUiid" value="${u:uiid()}"/>
@@ -13,11 +13,11 @@ Incoming variables:
 			<td width="50%">${l.l('Comment')}</td>
 			<td><ui:button type="add" id="${addButtonUiid}" styleClass="btn-small" onclick="$$.param.phone.addValue(this)"/></td>
 		</tr>
-		<c:forEach var="item" items="${data.value.itemList}">
+		<c:forEach var="item" items="${value.itemList}">
 			<%@ include file="value_row.jsp"%>
 		</c:forEach>
 	</table>
-	<c:if test="${empty data.value.itemList}">
+	<c:if test="${empty value.itemList}">
 		<script>
 			$(function() {
 				document.getElementById('${addButtonUiid}').click();

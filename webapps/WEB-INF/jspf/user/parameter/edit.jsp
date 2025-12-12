@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="data" value="${frd}" />
 <c:set var="listValues" value="${frd.listValues}"/>
 <c:set var="hideButtons" value="${form.param.hideButtons}"/>
 <c:set var="elId" value="${u:uiid()}" />
@@ -51,8 +50,8 @@
 					})
 				</script>
 
-				<c:set var="address" value="${data.address}" />
-				<c:set var="house" value="${data.house}" />
+				<c:set var="address" value="${frd.address}"/>
+				<c:set var="house" value="${frd.house}"/>
 
 				<c:set var="streetTitle" value="" />
 				<c:set var="houseTitle" value="" />
@@ -141,13 +140,13 @@
 
 			<c:when test="${parameter.type eq 'blob'}">
 				<c:set var="rows" value="rows='${u.maskEmpty(parameter.configMap.rows, '4')}'"/>
-				<textarea id="${focusFieldUiid}" name="value" ${rows}  style="width: 100%;" ${changeAttrs} ${onBlur}>${data.value}</textarea>
+				<textarea id="${focusFieldUiid}" name="value" ${rows}  style="width: 100%;" ${changeAttrs} ${onBlur}>${frd.value}</textarea>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'date' or parameter.type eq 'datetime'}">
 				<c:set var="hideButtons" value="1"/>
 				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
-				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs}/>
+				<input type="text" name="value" value="${tu.format(frd.value, type)}" id="${focusFieldUiid}" ${changeAttrs}/>
 				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
 			</c:when>
 
@@ -157,32 +156,33 @@
 
 			<c:when test="${parameter.type eq 'list'}">
 				<%-- Also used: 'listValues', 'multiple', 'listParamConfig' --%>
-				<c:set var="value" value="${data.values}"/>
+				<c:set var="value" value="${frd.values}"/>
 				<%@ include file="edit/list/editor.jsp"%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'listcount'}">
 				<%-- Also used: 'listValues', 'multiple' --%>
-				<c:set var="values" value="${data.values}"/>
+				<c:set var="values" value="${frd.values}"/>
 				<%@ include file="edit/listcount/editor.jsp"%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'money'}">
-				<input id="${focusFieldUiid}" type="text" name="value" value="${data.value}" size="10" onkeydown="if (enterPressed(event)){ ${saveCommand} }; return isNumberKey(event)" ${changeAttrs} ${onBlur}/>
+				<input id="${focusFieldUiid}" type="text" name="value" value="${frd.value}" size="10" onkeydown="if (enterPressed(event)){ ${saveCommand} }; return isNumberKey(event)" ${changeAttrs} ${onBlur}/>
 				<span class="hint">${l.l('Use dot as a decimal separator')}</span>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'phone'}">
+				<c:set var="value" value="${frd.value}"/>
 				<%@ include file="edit/phone/editor.jsp"%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'text'}">
 				<c:choose>
-					<c:when test="${data.value eq '<ЗНАЧЕНИЕ ЗАШИФРОВАНО>'}">
+					<c:when test="${frd.value eq '<ЗНАЧЕНИЕ ЗАШИФРОВАНО>'}">
 						<c:set var="checkedParamValue" value=""/>
 					</c:when>
 					<c:otherwise>
-						<c:set var="checkedParamValue" value="${u.escapeXml( data.value)}"/>
+						<c:set var="checkedParamValue" value="${u.escapeXml(frd.value)}"/>
 					</c:otherwise>
 				</c:choose>
 
@@ -193,7 +193,7 @@
 				<c:set var="treeValueId" value="${u:uiid()}" />
 
 				<ul id="${treeValueId}">
-					<c:set var="values" value="${data.values}" scope="request" />
+					<c:set var="values" value="${frd.values}" scope="request" />
 					<c:set var="paramName" value="value" scope="request" />
 					<c:forEach var="node" items="${frd.treeRootNode.children}">
 						<c:set var="node" value="${node}" scope="request" />
