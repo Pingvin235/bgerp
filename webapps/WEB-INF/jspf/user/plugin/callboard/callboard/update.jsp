@@ -31,7 +31,7 @@
 		<c:set var="values" value="${form.getParamValues('groupId')}"/>
 
 		<c:forEach var="clb" items="${callboardList}">
-			<ui:combo-check id="${clb.id}-${uiid}" paramName="groupId"
+			<ui:combo-check id="${clb.id}-${uiid}" name="groupId"
 				list="${ctxUserGroupList}"
 				available="${empty allowOnlyGroups ? ctxUserGroupMap[clb.groupId].childSet : cu.intersection(ctxUserGroupMap[clb.groupId].childSet, allowOnlyGroups)}"
 				showFilter="1" prefixText="${l.l('Groups')}:" widthTextValue="7em"/>

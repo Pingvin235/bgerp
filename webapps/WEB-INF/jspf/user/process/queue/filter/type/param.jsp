@@ -116,7 +116,7 @@
 					<c:set var="paramName" value="param${filter.parameter.id}value"/>
 					<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 
-					<ui:combo-check paramName="${paramName}"
+					<ui:combo-check name="${paramName}"
 						list="${filter.parameter.listParamValues}" available="${filter.availableValues}"
 						values="${empty values ? filter.defaultValues : values}"
 						showFilter="1" prefixText="${title}:" widthTextValue="12em">

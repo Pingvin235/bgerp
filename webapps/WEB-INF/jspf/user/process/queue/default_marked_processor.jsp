@@ -59,7 +59,7 @@
 										</script>
 									</c:when>
 									<c:when test="${p.type eq 'list'}">
-										<ui:combo-check paramName="param${p.id}" list="${p.listParamValues}" prefixText="${p.title}:" widthTextValue="12em"/>
+										<ui:combo-check name="param${p.id}" list="${p.listParamValues}" prefixText="${p.title}:" widthTextValue="12em"/>
 									</c:when>
 									<c:otherwise>
 										${l.l('The parameter\'s type is not supported.')}

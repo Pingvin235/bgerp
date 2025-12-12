@@ -19,7 +19,7 @@
 		<c:set var="values" value="${form.getParamValues('groupId')}"/>
 
 		<c:forEach var="clb" items="${callboardList}">
-			<ui:combo-check id="${clb.id}-${uiid}" paramName="groupId"
+			<ui:combo-check id="${clb.id}-${uiid}" name="groupId"
 				list="${ctxUserGroupList}" available="${ctxUserGroupMap[clb.groupId].childSet}"
 				showFilter="1" prefixText="${l.l('Groups')}:" widthTextValue="10em"/>
 	</c:forEach>

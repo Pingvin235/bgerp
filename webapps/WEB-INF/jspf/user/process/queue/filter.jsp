@@ -296,7 +296,7 @@
 									<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 								</c:if>
 
-								<ui:combo-check paramName="${paramName}" values="${values}"
+								<ui:combo-check name="${paramName}" values="${values}"
 									list="${frd.typeList}" map="${ctxProcessTypeMap}" available="${filter.availableValues}"
 									prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 							</u:sc>
@@ -342,7 +342,7 @@
 							<u:sc>
 								<c:set var="paramName" value="status"/>
 								<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
-								<ui:combo-check paramName="${paramName}"
+								<ui:combo-check name="${paramName}"
 									list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" available="${filter.availableValues}"
 									values="${empty values ? filter.defaultValues : values}"
 									prefixText="${l.l('Status')}:" widthTextValue="8em"/>
@@ -400,7 +400,7 @@
 								<c:set var="paramName" value="param${filter.parameter.id}value"/>
 								<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 
-								<ui:combo-check paramName="${paramName}"
+								<ui:combo-check name="${paramName}"
 									list="${filter.parameter.listParamValues}" available="${filter.availableValues}"
 									values="${empty values ? filter.defaultValues : values}"
 									showFilter="1" prefixText="${title}:" widthTextValue="12em"/>
@@ -517,7 +517,7 @@
 							</c:if>
 						</c:set>
 						<c:set var="code">
-							<ui:combo-check list="${ctxUser.getUserListWithSameGroups()}" paramName="${filter.type}"
+							<ui:combo-check list="${ctxUser.getUserListWithSameGroups()}" name="${filter.type}"
 								prefixText="${title}:" widthTextValue="5em"/>
 						</c:set>
 						<%@ include file="filter/item.jsp"%>

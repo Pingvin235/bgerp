@@ -257,7 +257,7 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:combo-check&gt;</b><br/>
 
-		<ui:combo-check prefixText="Status:" paramName="param" list="${frd.comboCheckList}" values="${frd.comboCheckValues}"
+		<ui:combo-check prefixText="Status:" name="param" list="${frd.comboCheckList}" values="${frd.comboCheckValues}"
 			onChange="console.log('this=', this); alert('Values are chosen, see console log')"
 			widthTextValue="15em" showFilter="true">
 			<jsp:attribute name="valuesHtml">

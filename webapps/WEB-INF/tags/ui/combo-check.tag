@@ -17,7 +17,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 --%>
 
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
-<%@ attribute name="paramName" description="input name in а checkbox"%>
+<%@ attribute name="name" description="checkbox input's name"%>
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="values" type="java.util.Collection" description="current values"%>
 <%@ attribute name="onChange" description="The action to be triggered on onchange"%>
@@ -31,6 +31,14 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="available" type="java.util.Collection" description="List&lt;Integer&gt; of allowed values, refer to description inside tag"%>
+
+<%@ attribute name="paramName" description="Deprecated 'name'"%>
+<c:if test="${not empty paramName}">
+	${log.warnd("Deprecated attribute 'paramName' was used in tag 'ui:combo-check', change it to 'name'")}
+	<c:if test="${empty name}">
+		<c:set var="name" value="${paramName}"/>
+	</c:if>
+</c:if>
 
 <c:if test="${not empty widthTextValue}">
 	<c:set var="styleTextValue">width: ${widthTextValue}; max-width: ${widthTextValue};</c:set>
@@ -71,7 +79,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 			--%><c:when test="${empty available}"><%--
 				--%><c:forEach var="item" items="${list}"><%--
 					--%><li><%--
-						--%><input type="checkbox" name="${paramName}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
+						--%><input type="checkbox" name="${name}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
 						--%><span>${item.title}</span><%--
 					--%></li><%--
 				--%></c:forEach><%--
@@ -83,7 +91,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 							--%><c:set var="item" value="${map[availableId]}"/><%--
 							--%><c:if test="${not empty item}"><%--
 								--%><li><%--
-									--%><input type="checkbox" name="${paramName}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
+									--%><input type="checkbox" name="${name}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
 									--%><span>${item.title}</span><%--
 								--%></li><%--
 							--%></c:if><%--
@@ -94,7 +102,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 							--%><c:forEach var="item" items="${list}"><%--
 								--%><c:if test="${availableId eq item.id}"><%--
 									--%><li><%--
-										--%><input type="checkbox" name="${paramName}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
+										--%><input type="checkbox" name="${name}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
 										--%><span>${item.title}</span><%--
 									--%></li><%--
 								--%></c:if><%--

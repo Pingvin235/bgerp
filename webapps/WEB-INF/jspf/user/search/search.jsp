@@ -47,7 +47,7 @@
 
 				<%@ include file="search_address_filter.jsp"%>
 
-				<ui:combo-check paramName="textParam" prefixText="${l.l('Param text')}:" list="${customerParamTextList}" styleClass="w100p"/>
+				<ui:combo-check name="textParam" prefixText="${l.l('Param text')}:" list="${customerParamTextList}" styleClass="w100p"/>
 
 				<%@ include file="search_text_filter.jsp"%>
 
@@ -91,7 +91,7 @@
 					</jsp:attribute>
 				</ui:combo-single>
 
-				<ui:combo-check paramName="textParam" prefixText="${l.l('Param text')}:" list="${processParamTextList}" styleClass="w100p"/>
+				<ui:combo-check name="textParam" prefixText="${l.l('Param text')}:" list="${processParamTextList}" styleClass="w100p"/>
 
 				<%@ include file="search_text_filter.jsp"%>
 			</html:form>

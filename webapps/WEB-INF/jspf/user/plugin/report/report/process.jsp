@@ -18,7 +18,7 @@
 		${l.l("по")}<span> </span>
 		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
 
-		<ui:combo-check paramName="type" values="${form.getParamValues('type')}"
+		<ui:combo-check name="type" values="${form.getParamValues('type')}"
 			list="${frd.types}" map="${ctxProcessTypeMap}"
 			prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 
