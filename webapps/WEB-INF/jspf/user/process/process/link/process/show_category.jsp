@@ -31,7 +31,6 @@
 		<c:set var="process" value="${item.second}"/>
 
 		<c:url var="url" value="/user/process.do">
-			<c:param name="method" value="process"/>
 			<c:param name="id" value="${item.second.id}"/>
 			<c:param name="mode" value="linked"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>

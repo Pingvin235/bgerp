@@ -52,7 +52,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.PermissionActionMethodException;
 import ru.bgcrm.servlet.ActionServlet;
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

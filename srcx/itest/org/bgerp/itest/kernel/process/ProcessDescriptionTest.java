@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.action.ProcessAction;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -23,7 +24,6 @@ import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 

@@ -13,7 +13,7 @@
 	</c:set>
 
 	<ui:when type="user">
-		<c:set var="statusEdit" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processStatusUpdate')}"/>
+		<c:set var="statusEdit" value="${ctxUser.checkPerm('/user/process:processStatusUpdate')}"/>
 
 		${l.l('Status')}:
 		[<b><%--
@@ -30,7 +30,7 @@
 			<c:if test="${statusEdit}"></a></c:if>
 		</b>]
 		${statusEnd}
-		<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
+		<p:check action="/user/process:processStatusHistory">
 			<c:url var="url" value="/user/process.do">
 				<c:param name="id" value="${process.id}"/>
 				<c:param name="method" value="processStatusHistory"/>

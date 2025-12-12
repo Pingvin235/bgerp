@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.ProcessAction;
 import org.bgerp.action.ProcessLinkProcessAction;
 import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.app.event.EventProcessor;

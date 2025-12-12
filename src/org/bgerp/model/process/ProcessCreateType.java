@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.action.ProcessAction;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.model.base.tree.TreeItem;
 import org.bgerp.model.process.config.ProcessCreateInConfig;
@@ -11,7 +12,6 @@ import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**

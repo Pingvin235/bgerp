@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.action.ProcessAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.annotation.Bean;
@@ -54,7 +55,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdMessage;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
 import ru.bgcrm.struts.action.LinkAction;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;

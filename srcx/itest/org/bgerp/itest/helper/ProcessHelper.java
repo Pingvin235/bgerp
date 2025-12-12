@@ -2,6 +2,7 @@ package org.bgerp.itest.helper;
 
 import java.util.Set;
 
+import org.bgerp.action.ProcessAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.cache.UserCache;
@@ -25,7 +26,6 @@ import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class ProcessHelper {

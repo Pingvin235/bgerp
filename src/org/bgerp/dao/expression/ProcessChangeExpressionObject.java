@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.bgerp.action.ProcessAction;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
 import org.bgerp.plugin.msg.email.ExpressionObject;
@@ -23,7 +24,6 @@ import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**

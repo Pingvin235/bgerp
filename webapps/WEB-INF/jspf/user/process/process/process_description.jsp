@@ -20,12 +20,12 @@
 			<h2>${l.l('Description')}
 				<span class="normal">
 					<c:if test="${not empty processType}">
-						<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd">
+						<p:check action="/user/process:processDescriptionAdd">
 							[<a href="#" title="${l.l('Добавить в конец описания текст с именем автора и временем')}"
 								onclick="$('#${uiid} #editorChange').hide(); $('#${uiid} #editorAdd').show(); return false;">${l.l('add')}</a>]
 						</p:check>
 
-						<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate">
+						<p:check action="/user/process:processDescriptionUpdate">
 							<c:if test="${processType.properties.configMap['hideDescriptionChange'] ne 1}">
 								[<a href="#" title="${l.l('Править описание целиком (также можете кликнуть мышью по описанию)')}"
 									onclick="${editCommand}">${l.l('править целиком')}</a>]

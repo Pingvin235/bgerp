@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.bgerp.action.ProcessAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.annotation.Bean;
@@ -34,7 +35,6 @@ import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator;
 import ru.bgcrm.plugin.document.event.DocumentGenerateEvent;
 import ru.bgcrm.plugin.document.model.Pattern;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.action.ProcessCommandExecutor;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

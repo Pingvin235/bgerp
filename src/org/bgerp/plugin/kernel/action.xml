@@ -48,7 +48,7 @@
 				<b>allowedTypeIds</b> - comma-separated type IDs<br/>
 			</item>
 			<item title="View" action="/user/message:null, ru.bgcrm.struts.action.MessageAction:null, ru.bgcrm.struts.action.MessageAction:newMessageLoad"/>
-			<item title="Possible Processes" action="ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList"/>
+			<item title="Possible Processes" action="/user/process:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messagePossibleProcessList, ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList"/>
 			<item title="Create a Process" action="/user/message:processCreate, ru.bgcrm.struts.action.MessageAction:processCreate"/>
 			<item title="Call">
 				<item title="Occupy number" action="/user/message/call:numberRegister, ru.bgcrm.struts.action.MessageCallAction:numberRegister"/>
@@ -89,28 +89,28 @@
 			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet"/>
 			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet"/>
 		</item>
-		<item title="Create" action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate"/>
+		<item title="Create" action="/user/process:processCreate, /user/process:processCreateGroups, ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate"/>
 		<item title="Card">
-			<item title="View" action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process"/>
+			<item title="View" action="/user/process:null, ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process"/>
 
-			<item title="Clone" action="ru.bgcrm.struts.action.ProcessAction:processClone"/>
-			<item title="Delete" action="ru.bgcrm.struts.action.ProcessAction:processDelete"/>
-			<item title="Merge" action="ru.bgcrm.struts.action.ProcessAction:processMerge, ru.bgcrm.struts.action.ProcessAction:processMergeEdit"/>
+			<item title="Clone" action="/user/process:processClone, ru.bgcrm.struts.action.ProcessAction:processClone"/>
+			<item title="Delete" action="/user/process:processDelete, ru.bgcrm.struts.action.ProcessAction:processDelete"/>
+			<item title="Merge" action="/user/process:processMerge, /user/process:processMergeEdit, ru.bgcrm.struts.action.ProcessAction:processMerge, ru.bgcrm.struts.action.ProcessAction:processMergeEdit"/>
 
-			<item title="Edit status" action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate, ru.bgcrm.struts.action.ProcessAction:processStatusEdit"/>
-			<item title="View status history" action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory"/>
-			<item title="Edit priority" action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate, ru.bgcrm.struts.action.ProcessAction:processPriorityEdit"/>
-			<item title="Edit description" action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate"/>
-			<item title="Add to description" action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd"/>
-			<item title="Edit groups" action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate, ru.bgcrm.struts.action.ProcessAction:processGroupsEdit"/>
-			<item title="Edit executors" action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate, ru.bgcrm.struts.action.ProcessAction:processExecutorsEdit">
+			<item title="Edit status" action="/user/process:processStatusUpdate, /user/process:processStatusEdit, ru.bgcrm.struts.action.ProcessAction:processStatusUpdate, ru.bgcrm.struts.action.ProcessAction:processStatusEdit"/>
+			<item title="View status history" action="/user/process:processStatusHistory, ru.bgcrm.struts.action.ProcessAction:processStatusHistory"/>
+			<item title="Edit priority" action="/user/process:processPriorityUpdate, /user/process:processPriorityEdit, ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate, ru.bgcrm.struts.action.ProcessAction:processPriorityEdit"/>
+			<item title="Edit description" action="/user/process:processDescriptionUpdate, ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate"/>
+			<item title="Add to description" action="/user/process:processDescriptionAdd, ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd"/>
+			<item title="Edit groups" action="/user/process:processGroupsUpdate, /user/process:processGroupsEdit, ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate, ru.bgcrm.struts.action.ProcessAction:processGroupsEdit"/>
+			<item title="Edit executors" action="/user/process:processExecutorsUpdate, /user/process:processExecutorsEdit, ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate, ru.bgcrm.struts.action.ProcessAction:processExecutorsEdit">
 				<b>allowOnlyGroups</b> - id групп через запятую, в которых возможно изменение исполнителей<br/>
 				<b>allowOnlyUsers</b> - id исполнителей через запятую, которых можно удалять/добавлять<br/>
 				<b>allowOnlyProcessTypeIds</b> - id типов процессов через запятую, в которых разрешено изменение исполнителей<br/>
 			</item>
-			<item title="Swap executors" action="ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap"/>
-			<item title="Edit type" action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate"/>
-			<item title="View change log" action="ru.bgcrm.struts.action.ProcessAction:unionLog"/>
+			<item title="Swap executors" action="/user/process:processExecutorsSwap, ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap"/>
+			<item title="Edit type" action="/user/process:processTypeUpdate, /user/process:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate"/>
+			<item title="View change log" action="/user/process:unionLog, ru.bgcrm.struts.action.ProcessAction:unionLog"/>
 
 			<item title="Related Processes">
 				<item action="/user/process/link/process:null, /user/process/link/process:showCategory, org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:showCategory, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
@@ -131,10 +131,10 @@
 			<item title="Create linked process" action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate"/>
 		</item>
 
-		<item title="My processes" action="ru.bgcrm.struts.action.ProcessAction:userProcessList"/>
+		<item title="My processes" action="/user/process:userProcessList, ru.bgcrm.struts.action.ProcessAction:userProcessList"/>
 		<!-- used by wizard, clarify and cleanup -->
-		<item allowAll="1" action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp"/>
-		<item allowAll="1" action="ru.bgcrm.struts.action.ProcessAction:processFinishCreateTmp"/>
+		<item allowAll="1" action="/user/process:processDeleteTmp"/>
+		<item allowAll="1" action="/user/process:processFinishCreateTmp"/>
 	</item>
 
 	<item title="Parameters">

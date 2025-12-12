@@ -6,9 +6,9 @@
 	<div style="background-color: ${process.priorityColor}; padding-bottom: 0;" class="box">
 		<div id="${uiid}" class="pb05">
 			<ui:when type="user">
-				<c:set var="cloneAllowed" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processClone')}"/>
-				<c:set var="mergeAllowed" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processMerge')}"/>
-				<c:set var="deleteAllowed" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processDelete')}"/>
+				<c:set var="cloneAllowed" value="${ctxUser.checkPerm('/user/process:processClone')}"/>
+				<c:set var="mergeAllowed" value="${ctxUser.checkPerm('/user/process:processMerge')}"/>
+				<c:set var="deleteAllowed" value="${ctxUser.checkPerm('/user/process:processDelete')}"/>
 
 				<c:if test="${cloneAllowed || mergeAllowed || deleteAllowed}">
 					<c:set var="uiidMenu" value="${u:uiid()}"/>
@@ -78,7 +78,7 @@
 					<c:set var="process" value="${processTmp}" scope="request"/>
 				</u:sc>
 
-				<p:check action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate">
+				<p:check action="/user/process:processPriorityUpdate">
 					<c:if test="${processType.properties.configMap['hidePriority'] ne 1}">
 						<c:url var="url" value="/user/process.do">
 							<c:param name="method" value="processPriorityEdit"/>
@@ -91,7 +91,7 @@
 					</c:if>
 				</p:check>
 
-				<p:check action="ru.bgcrm.struts.action.ProcessAction:unionLog">
+				<p:check action="/user/process:unionLog">
 					<c:url var="logUrl" value="/user/process.do">
 						<c:param name="method" value="unionLog"></c:param>
 						<c:param name="id" value="${form.id}"></c:param>

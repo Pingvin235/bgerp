@@ -15,7 +15,7 @@
 		action="ru.bgcrm.struts.action.ProcessQueueAction:queue" />
 
 	<ui:menu-item title="${l.l('My Processes')}" href="process/my"
-		action="ru.bgcrm.struts.action.ProcessAction:userProcessList"/>
+		action="/user/process:userProcessList"/>
 
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_PROCESS_MENU_ITEMS%>"/>
 </ui:menu-group>

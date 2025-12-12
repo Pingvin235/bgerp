@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.action.ProcessAction;
 import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.UserHelper;
@@ -22,7 +23,6 @@ import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 
 @Test(groups = "processIsolation", dependsOnGroups = "process")

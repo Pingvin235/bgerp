@@ -7,7 +7,7 @@
 		<div class="mt1 mb05" id="${uiid}">
 			<h2>${l.l('Группы / исполнители')}
 				<span class="normal">
-					<p:check action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate">
+					<p:check action="/user/process:processGroupsUpdate">
 						<c:url var="url" value="/user/process.do">
 							<c:param name="method" value="processGroupsEdit"/>
 							<c:param name="id" value="${process.id}"/>
@@ -19,7 +19,7 @@
 						</c:if>
 					</p:check>
 
-					<p:check action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate">
+					<p:check action="/user/process:processExecutorsUpdate">
 						<c:url var="url" value="/user/process.do">
 							<c:param name="method" value="processExecutorsEdit"/>
 							<c:param name="id" value="${process.id}"/>
@@ -31,7 +31,7 @@
 						</c:if>
 					</p:check>
 
-					<c:if test="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap') and process.getGroups().size() eq 2}">
+					<c:if test="${ctxUser.checkPerm('/user/process:processExecutorsSwap') and process.getGroups().size() eq 2}">
 						<c:url var="url" value="/user/process.do">
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="method" value="processExecutorsSwap"/>
