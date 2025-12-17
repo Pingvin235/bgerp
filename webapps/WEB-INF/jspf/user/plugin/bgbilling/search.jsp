@@ -18,7 +18,7 @@
 			<html:hidden property="method" value="searchContract"/>
 			<html:hidden property="searchBy"/>
 
-			<c:set var="billingIds" value="${u.toSet(ctxUser.getPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract').get('billingIds'))}"/>
+			<c:set var="billingIds" value="${u.toSet(ctxUser.getPerm('/user/plugin/bgbilling/proto/contract:searchContract').get('billingIds'))}"/>
 
 			<ui:combo-single name="billingId" prefixText="Биллинг:" onSelect="$('#paramIdsDiv').html('')">
 				<jsp:attribute name="valuesHtml">
@@ -54,7 +54,7 @@
 			</c:url>
 			<ui:combo-single  >
 				<jsp:attribute name="id">paramTypeCombo</jsp:attribute>
-				<jsp:attribute name="hiddenName">paramType</jsp:attribute>
+				<jsp:attribute name="name">paramType</jsp:attribute>
 				<jsp:attribute name="prefixText">Поиск по параметру:</jsp:attribute>
 				<jsp:attribute  name="valuesHtml">
 					<li value="-1">--</li>
