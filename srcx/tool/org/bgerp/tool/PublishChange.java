@@ -64,6 +64,9 @@ public class PublishChange extends PublishBase {
             if (changesFile.exists())
                 log.info(changeDir + "/changes.txt");
         }
+
+        log.info("Delete old changes");
+        ssh("find " + SSH_DIR + "*/doc/index.html -mtime +100 | sed -E \"s|(.+)/doc/index.html|\\1|\" | xargs -d \\\\n rm -rf");
     }
 
     /**
@@ -73,7 +76,7 @@ public class PublishChange extends PublishBase {
      * @return name of the copied file or {@code null}.
      * @throws Exception
      */
-    protected String publishFile(String name) throws Exception {
+    private String publishFile(String name) throws Exception {
         final String mask = name + "_" + version + "_*.zip";
 
         log.info("Remove existing: {}", mask);
