@@ -67,7 +67,7 @@ public class PublishRelease extends PublishBase {
             // but that is a normal case for the first publish of a new version
         }
 
-        var files = new File(dir).list(new WildcardFileFilter(mask));
+        var files = new File(dir).list(WildcardFileFilter.builder().setWildcards(mask).get());
         if (files.length > 0) {
             var local = files[0];
 

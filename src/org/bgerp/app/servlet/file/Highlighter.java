@@ -35,7 +35,7 @@ public class Highlighter {
      * @param wildcard wildcard for matched files
      */
     private Highlighter(String wildcard) {
-        this.fileFilter = new WildcardFileFilter(wildcard);
+        this.fileFilter = WildcardFileFilter.builder().setWildcards(wildcard).get();
     }
 
     /**

@@ -48,7 +48,7 @@ public class Files {
         this.id = id;
         this.basedir = Paths.get(basedir);
         this.options = options;
-        this.fileFilter = new WildcardFileFilter(wildcards);
+        this.fileFilter = WildcardFileFilter.builder().setWildcards(wildcards).get();
     }
 
     /**

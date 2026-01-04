@@ -82,7 +82,7 @@ public class PublishChange extends PublishBase {
         log.info("Remove existing: {}", mask);
         ssh("rm -f ", sshDir + "/" + mask);
 
-        var files = new File(dir).list(new WildcardFileFilter(mask));
+        var files = new File(dir).list(WildcardFileFilter.builder().setWildcards(mask).get());
         if (files.length > 0) {
             var file = files[0];
             log.info("Copy: {}", file);
