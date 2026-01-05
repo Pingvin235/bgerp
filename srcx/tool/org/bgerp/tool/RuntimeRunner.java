@@ -82,8 +82,8 @@ public class RuntimeRunner {
         long time = System.currentTimeMillis();
         Process proc = Runtime.getRuntime().exec(commands);
 
-        new StreamGobbler(proc.getInputStream(), new PrintStream(new WriterOutputStream(out, StandardCharsets.UTF_8))).start();
-        new StreamGobbler(proc.getErrorStream(), new PrintStream(new WriterOutputStream(err, StandardCharsets.UTF_8))).start();
+        new StreamGobbler(proc.getInputStream(), new PrintStream(WriterOutputStream.builder().setWriter(out).setCharset(StandardCharsets.UTF_8).get())).start();
+        new StreamGobbler(proc.getErrorStream(), new PrintStream(WriterOutputStream.builder().setWriter(err).setCharset(StandardCharsets.UTF_8).get())).start();
 
         int code = proc.waitFor();
 
