@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,8 +16,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.util.Log;
-
-import com.google.common.base.Charsets;
 
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -41,7 +40,7 @@ public class ChangesRss {
 
         log.info("Generating RSS for version: {}", version);
 
-        try (BufferedReader changesTxt = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn), Charsets.UTF_8))) {
+        try (BufferedReader changesTxt = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn), StandardCharsets.UTF_8))) {
             SortedMap<Date, Record> sortedRecords = new TreeMap<>();
 
             Record current = null;
@@ -59,7 +58,7 @@ public class ChangesRss {
                     current.appendDescription(line);
             }
 
-            BufferedWriter changesRss = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileOut), Charsets.UTF_8));
+            BufferedWriter changesRss = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileOut), StandardCharsets.UTF_8));
             changesRss.write("<rss version='2.0'>\n");
             changesRss.write("<channel>\n");
             changesRss.write("<title>" + title + "</title>\n");
