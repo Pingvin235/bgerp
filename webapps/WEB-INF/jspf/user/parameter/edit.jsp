@@ -162,7 +162,7 @@
 
 			<c:when test="${parameter.type eq 'listcount'}">
 				<%-- Also used: 'listValues', 'multiple' --%>
-				<c:set var="values" value="${frd.values}"/>
+				<c:set var="values" value="${empty frd.values ? parameter.listCountDefaultValues : frd.values}"/>
 				<%@ include file="edit/listcount/editor.jsp"%>
 			</c:when>
 

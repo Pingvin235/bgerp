@@ -1,0 +1,1 @@
+A: Preselected listcount values. https://bgerp.org/change/0/doc/kernel/setup.html#param-listcount

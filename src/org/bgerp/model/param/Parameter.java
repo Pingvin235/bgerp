@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.cfg.ConfigMap;
@@ -266,6 +267,10 @@ public class Parameter extends IdTitleComment {
         }
 
         return format;
+    }
+
+    public Map<Integer, BigDecimal> getListCountDefaultValues() {
+        return Utils.toIntegerSet(configMap.get("defaultValues")).stream().collect(Collectors.toMap(Function.identity(), unused -> BigDecimal.ZERO));
     }
 
     public boolean isReadonly() {
