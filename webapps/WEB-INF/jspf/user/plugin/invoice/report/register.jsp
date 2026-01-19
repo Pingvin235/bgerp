@@ -17,10 +17,6 @@
 
 	<c:if test="${not empty list}">
 		<div class="data mt1 w100p" style="overflow: auto;">
-			<%-- for payment date dialog --%>
-			<c:set var="hiddenUiid" value="${u:uiid()}"/>
-			<input type='hidden' id="${hiddenUiid}"/>
-
 			<table class="data hl">
 				<report:headers data="${data}"/>
 				<c:forEach var="r" items="${list}">
@@ -40,7 +36,7 @@
 										<c:param name="method" value="paid"/>
 										<c:param name="id" value="${invoiceId}"/>
 									</c:url>
-									<a href="#" title="${l.l('Paid')}" onclick="$$.invoice.paid('${hiddenUiid}', '${url}').done(() => $('#${outId}').click()); return false;">${l.l('paid')}</a>
+									<a href="#" title="${l.l('Paid')}" onclick="$$.invoice.paid(this, '${url}').done(() => $('#${outId}').click()); return false;">${l.l('paid')}</a>
 								</c:when>
 								<c:otherwise>
 									<c:url var="url" value="/user/plugin/invoice/invoice.do">
