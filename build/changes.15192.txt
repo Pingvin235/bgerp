@@ -1,2 +1,0 @@
-A: Process queue column types 'linkProcessCount' and 'linkedProcessCount'. https://bgerp.org/change/0/doc/kernel/process/queue.html#setup-column-type
-A: Parameters for city and street, usable in address string format. https://bgerp.org/change/0/doc/kernel/setup.html#config-param-address

@@ -1,6 +1,25 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+20.01.2026 16:02:11 2601
+A: [14799] GIT integration for Custom. https://bgerp.org/version/3.0/doc/plugin/git/index.html#usage-custom
+A: [14799] Dialog examples in Demo tool
+A: [15014] installer.sh skiphash
+A: [15014] Report 'Subscription Debts'. https://bgerp.org/version/3.0/doc/plugin/bil/subscription/index.html#usage-report
+B: [15014] JEXL 'doExpression' for Process Action. https://bgerp.org/version/3.0/doc/kernel/process/queue.html#setup-column-action
+A: [15135] Improvements in Telegram JEXL API. https://bgerp.org/version/3.0/doc/plugin/telegram/
+C: [15141] DB structure unification
+A: [15156] Plugin Geo Map. https://bgerp.org/version/3.0/doc/plugin/geo/gmap
+A: [15175] BGBilling change contract closing date
+A: [15188] Combine 'Undefined' with other values in 'executors' queue filter
+A: [15188] Queue filter for missing 'list' parameter values
+A: [15188] Check user of the running script
+A: [15189] BGBilling contract status future tasks
+A: [15192] Process queue column types 'linkProcessCount' and 'linkedProcessCount'. https://bgerp.org/version/3.0/doc/kernel/process/queue.html#setup-column-type
+A: [15192] Parameters for city and street, usable in address string format. https://bgerp.org/version/3.0/doc/kernel/setup.html#config-param-address
+A: [15194] Native date input prototype
+A: [15198] Preselected listcount values. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-listcount
+
 29.09.2025 09:59:25 2509
 C: [11067] Skip existing address values on parameter copy
 A: [11067] Config key 'okClose' for SetStatusStep of Process Wizard. https://bgerp.org/version/3.0/doc/kernel/process/wizard.html#step

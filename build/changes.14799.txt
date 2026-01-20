@@ -1,2 +1,0 @@
-A: GIT integration for Custom. https://bgerp.org/change/0/doc/plugin/git/index.html#usage-custom
-A: Dialog examples in Demo tool

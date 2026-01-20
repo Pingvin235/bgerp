@@ -1,1 +1,0 @@
-A: Plugin Geo Map. https://bgerp.org/change/0/doc/plugin/geo/gmap

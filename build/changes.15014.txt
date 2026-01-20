@@ -1,3 +1,0 @@
-A: installer.sh skiphash
-A: Report 'Subscription Debts'. https://bgerp.org/change/0/doc/plugin/bil/subscription/index.html#usage-report
-B: JEXL 'doExpression' for Process Action. https://bgerp.org/change/0/doc/kernel/process/queue.html#setup-column-action
