@@ -24,8 +24,8 @@ public class PublishRelease extends PublishBase {
 
     /** Build number is published to web site. */
     private final static String SSH_LOGIN_BUILD_NUM = "www@bgerp.org";
-    /** Target dir for build number, change it to "/home/www/www.bgerp.org/_download" when testing. */
-    private final static String SSH_DIR_BUILD_NUM = "/home/www/www.bgerp.org/download";
+    /** Target dir for build number, change it to "/home/www/bgerp.org/_download" when testing. */
+    private final static String SSH_DIR_BUILD_NUM = "/home/www/bgerp.org/download";
 
     private final String build;
 
