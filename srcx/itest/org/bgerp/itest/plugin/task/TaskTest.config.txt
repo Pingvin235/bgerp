@@ -13,9 +13,3 @@ task:type.{@cnt}.doExpression=<<END
 END
 
 scheduler.task.taskRunner.class=TaskRunner
-
-# TODO: Example config for task:userStateSender
-
-scheduler.task.taskUserState.class=UserStateSender
-scheduler.task.taskUserState.hours=9
-scheduler.task.taskUserState.minutes=10
