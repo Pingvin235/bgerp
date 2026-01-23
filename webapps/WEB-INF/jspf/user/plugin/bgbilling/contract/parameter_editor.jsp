@@ -5,8 +5,7 @@
 <c:set var="dbInfo" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId]}"/>
 
 <form action="/user/plugin/bgbilling/proto/contract.do" onsubmit="return false;" class="editorStopReload">
-	<c:set var="data" value="${frd}"/>
-	<c:set var="parameter" value="${data.parameter}"/>
+	<c:set var="parameter" value="${frd.parameter}"/>
 
 	<input type="hidden" name="method" value="parameterUpdate"/>
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
@@ -33,8 +32,8 @@
 				})
 			</script>
 
-			<c:set var="address" value="${data.address}"/>
-			<c:set var="house" value="${data.house}"/>
+			<c:set var="address" value="${frd.address}"/>
+			<c:set var="house" value="${frd.house}"/>
 
 			<c:set var="streetTitle" value=""/>
 			<c:set var="houseTitle" value=""/>
@@ -98,7 +97,7 @@
 								<td width="50%">Имя</td>
 								<td><ui:button type="add" id="${addButtonUiid}" styleClass="btn-small" onclick="$$.param.email.addValue(this)"/></td>
 							</tr>
-							<c:forEach var="item" items="${data.emails.entityAttrEmail.contactList}">
+							<c:forEach var="item" items="${frd.emails.entityAttrEmail.contactList}">
 								<tr>
 									<td><input type="text" name="address" value="${item.address}" class="w100p"/></td>
 									<td><input type="text" name="name" value="${item.name}" class="w100p"/></td>
@@ -106,7 +105,7 @@
 								</tr>
 							</c:forEach>
 						</table>
-						<c:if test="${empty data.emails.entityAttrEmail.contactList}">
+						<c:if test="${empty frd.emails.entityAttrEmail.contactList}">
 							<script>
 								$(function() {
 									document.getElementById('${addButtonUiid}').click();
@@ -150,7 +149,7 @@
 		</c:when>
 
 		<c:when test="${paramType eq 7}"> <!-- list -->
-			<c:set var="value" value="${data.value}"/>
+			<c:set var="value" value="${frd.value}"/>
 			<div class="mb1">
 				<ui:select-single list="${value.values}" name="value" value="${value.id}" style="width: 250px;"/>
 			</div>
