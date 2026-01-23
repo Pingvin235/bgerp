@@ -159,7 +159,8 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
             ParamValueDAO paramDAO = new ParamValueDAO(con);
             for (int objectId : objectIds) {
                 String chatId = paramDAO.getParamText(objectId, paramId);
-                sendMessage(chatId, text, parseMode);
+                if (Utils.notBlankString(chatId))
+                    sendMessage(chatId, text, parseMode);
             }
         } catch (SQLException ex) {
             log.error(ex);
