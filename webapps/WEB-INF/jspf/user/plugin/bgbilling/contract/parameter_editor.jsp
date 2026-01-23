@@ -158,7 +158,10 @@
 
 		<c:when test="${paramType eq 9}"> <!-- phone -->
 			<div class="mb1">
-				<%@ include file="/WEB-INF/jspf/user/parameter/edit/phone/editor.jsp"%>
+				<u:sc>
+					<c:set var="value" value="${frd.value}"/>
+					<%@ include file="/WEB-INF/jspf/user/parameter/edit/phone/editor.jsp"%>
+				</u:sc>
 			</div>
 		</c:when>
 
