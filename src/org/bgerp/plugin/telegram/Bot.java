@@ -176,7 +176,7 @@ public class Bot extends TelegramLongPollingBot {
                     Connection con = Setup.getSetup().getDBConnectionFromPool();
                     try {
                         ParamValueDAO paramDAO = new ParamValueDAO(con);
-                        paramDAO.updateParamText(user.getId(), config.getParamId(), chatId);
+                        paramDAO.updateParamText(user.getId(), config.getUserParamId(), chatId);
                         con.commit();
                         userMap.put(chatId, null);
                         sendMessage(chatId, config.getMsgLinkChange());

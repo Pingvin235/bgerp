@@ -122,7 +122,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
             return;
         }
 
-        sendMessageForObject(activeUserIds, config.getParamId(), text, parseMode);
+        sendMessageForObject(activeUserIds, config.getUserParamId(), text, parseMode);
     }
 
     /**

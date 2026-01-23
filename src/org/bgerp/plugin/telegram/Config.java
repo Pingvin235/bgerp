@@ -8,7 +8,7 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     private final String token;
     private final String userName;
-    private final int paramId;
+    private final int userParamId;
     private final int processParamId;
     private final boolean botStart;
 
@@ -31,7 +31,7 @@ public class Config extends org.bgerp.app.cfg.Config {
 
         token = config.get("token", "");
         userName = config.getSok("botName", validate,"botName", "bot_name");
-        paramId = config.getInt("userParamId", -1);
+        userParamId = config.getInt("userParamId", -1);
         processParamId = config.getInt("processParamId", -1);
 
         proxyHost = config.get("proxyHost");
@@ -46,8 +46,16 @@ public class Config extends org.bgerp.app.cfg.Config {
         msgUrlHelp = config.get("msgUrlHelp", App.URL + "/doc/3.0/manual/plugin/telegram/index.html");
     }
 
-    public String getProxyType() {
-        return proxyType;
+    public String getToken() {
+        return token;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public int getUserParamId() {
+        return userParamId;
     }
 
     public int getProcessParamId() {
@@ -58,12 +66,8 @@ public class Config extends org.bgerp.app.cfg.Config {
         return botStart;
     }
 
-    public String getProxyHost() {
-        return proxyHost;
-    }
-
-    public String getProxyPort() {
-        return proxyPort;
+    public String getMsgWrongPassword() {
+        return msgWrongPassword;
     }
 
     public String getMsgAskLogin() {
@@ -72,22 +76,6 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     public String getMsgAskPassword() {
         return msgAskPassword;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getMsgWrongPassword() {
-        return msgWrongPassword;
-    }
-
-    public int getParamId() {
-        return paramId;
     }
 
     public String getMsgLinkChange() {
@@ -102,4 +90,15 @@ public class Config extends org.bgerp.app.cfg.Config {
         return msgUrlHelp;
     }
 
+    public String getProxyHost() {
+        return proxyHost;
+    }
+
+    public String getProxyPort() {
+        return proxyPort;
+    }
+
+    public String getProxyType() {
+        return proxyType;
+    }
 }
