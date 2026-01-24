@@ -75,7 +75,7 @@
 									if (!confirm('${l.l('Do you really want to completely rewrite your DB and app files?')}')) return;
 									$$.ajax
 										.post('${url}', {control: this, failAlert: false})
-										.fail(() => {alert('${l.l('Выполнен перезапуск, обновите страницу браузера.')}')});
+										.fail(() => {alert('${l.l('Restart has been done, refresh the browser site')}')});
 								"><i class="ti-share"></i>
 							</button>
 						</c:if>
