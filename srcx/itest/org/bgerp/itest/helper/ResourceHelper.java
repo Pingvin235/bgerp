@@ -9,7 +9,7 @@ public class ResourceHelper {
     private static final Log log = Log.getLog();
 
     public static String getResource(Object object, String suffix) throws Exception {
-        return new String(getResourceBytes(object, suffix), StandardCharsets.UTF_8);
+        return new String(getResourceBytes(object, suffix), StandardCharsets.UTF_8).replace("\r", "");
     }
 
     public static byte[] getResourceBytes(Object object, String suffix) throws Exception {
