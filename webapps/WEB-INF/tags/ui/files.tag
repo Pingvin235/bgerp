@@ -7,16 +7,18 @@
 
 <c:set var="deletionEnabled" value="${files.options.deletionEnabled and not empty requestUrl and ctxUser.checkPerm(files.deletePermissionAction)}"/>
 
+<c:set var="fileList" value="${files.list()}"/>
+
 <table class="data hl">
 	<tr>
-		<td width="50%">${l.l('File')}</td>
+		<td width="50%">${l.l('File')} [${fileList.size()}]</td>
 		<td width="50%">${l.l('Modification time')}</td>
-		<td>${l.l('Size')}</td>
+		<td nowrap>${l.l('Size')} [${fu.byteCountToDisplaySize(files.size(fileList))}]</td>
 		<c:if test="${deletionEnabled}">
 			<td></td>
 		</c:if>
 	</tr>
-	<c:forEach var="file" items="${files.list()}" varStatus="status">
+	<c:forEach var="file" items="${fileList}" varStatus="status">
 		<c:if test="${empty maxCount or status.count le maxCount}">
 			<tr>
 				<td>

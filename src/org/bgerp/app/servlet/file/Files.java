@@ -138,6 +138,15 @@ public class Files {
     }
 
     /**
+     * Calculates total size of provided files.
+     * @param files list of files to sum
+     * @return total size in bytes
+     */
+    public long size(List<File> files) {
+        return files.stream().mapToLong(File::length).sum();
+    }
+
+    /**
      * Sends a file content to response output stream
      * @param form request form with file name in param {@code name}
      * @throws BGIllegalArgumentException
