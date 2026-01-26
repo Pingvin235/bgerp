@@ -47,7 +47,7 @@ public class PermissionNodeTest {
         var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
         Assert.assertEquals("Plugin Task", node.getTitle());
         Assert.assertEquals("Plugin Task", node.getTitlePath());
-        Assert.assertEquals(3, node.getChildren().size());
+        Assert.assertEquals(1, node.getChildren().size());
     }
 
     @Test

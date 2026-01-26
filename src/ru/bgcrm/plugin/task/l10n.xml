@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
-	<p><en>Task Runner</en><ru>Task исполнитель</ru></p>
-	<p><en>Task User State Sender</en><ru>Task рассыльщик статуса пользователей</ru></p>
+	<p><en>Tasks</en><ru>Задачи</ru></p>
+	<p><en>Task Runner</en><ru>Task Исполнение</ru></p>
+	<p><en>Scheduled</en><ru>Запланировано</ru></p>
+	<p><en>Executed</en><ru>Выполнено</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->
