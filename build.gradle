@@ -343,6 +343,14 @@ task jdoc(type: Javadoc, description: 'Builds JavaDoc API') {
     destinationDir = file("$buildDir/javadoc")
 }
 
+task zdoc(type: Zip, description: 'Builds documentation zip archive') {
+    archiveFileName.set("$buildDir/doc.zip")
+    mustRunAfter 'doc', 'jdoc'
+    from("$buildDir") {
+        include 'doc/**', 'javadoc/**'
+    }
+}
+
 task touchChanges(description: "Creates file 'build/changes.<PROCESS_ID>.txt' if missing") {
     doFirst {
         def processId = getChangeIdOrThrow()

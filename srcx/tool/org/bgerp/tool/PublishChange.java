@@ -34,6 +34,12 @@ public class PublishChange extends PublishBase {
 
         var docDir = publishDocDir("doc");
         var javaDocDir = publishDocDir( "javadoc");
+        var zipDoc = targetDistrDir + "/../doc.zip";
+        if (new File(zipDoc).exists()) {
+            log.info("Copy doc.zip");
+            scp(zipDoc);
+        } else
+            log.info("{} is missing", zipDoc);
 
         var changesName = targetDistrDir + "/../../build/changes." + changeId + ".txt";
         var changesFile = new File(changesName);
