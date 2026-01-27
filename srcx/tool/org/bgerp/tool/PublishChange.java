@@ -32,8 +32,8 @@ public class PublishChange extends PublishBase {
         var updateFile = publishFile("update");
         var updateLibFile = publishFile("update_lib");
 
-        var docDir = publishDir(targetDistrDir, "doc");
-        var javaDocDir = publishDir(targetDistrDir, "javadoc");
+        var docDir = publishDocDir("doc");
+        var javaDocDir = publishDocDir( "javadoc");
 
         var changesName = targetDistrDir + "/../../build/changes." + changeId + ".txt";
         var changesFile = new File(changesName);
@@ -71,9 +71,8 @@ public class PublishChange extends PublishBase {
 
     /**
      * Copies a file to a remote system. Removes previously existing.
-     * @param name name prefix of a copied from {@link #dir} file.
-     * @param removeExisting delete already existing remote file with the same mask.
-     * @return name of the copied file or {@code null}.
+     * @param name name prefix of a copied from {@link #dir} directory file
+     * @return the name of the copied file or {@code null} if missing
      * @throws Exception
      */
     private String publishFile(String name) throws Exception {
@@ -95,14 +94,13 @@ public class PublishChange extends PublishBase {
     }
 
     /**
-     * Copies a directory to remote system.
-     * @param targetDistrDir
-     * @param name
-     * @return
+     * Copies a documentation directory from {@link #dir}/.. to remote system.
+     * @param name the name of the directory
+     * @return the name of the copied directory or {@code null} if missing
      * @throws Exception
      */
-    private File publishDir(String targetDistrDir, String name) throws Exception {
-        var dir = new File(targetDistrDir + "/../" + name);
+    private File publishDocDir(String name) throws Exception {
+        var dir = new File(this.dir + "/../" + name);
 
         if (dir.exists() && dir.isDirectory()) {
             log.info("Sync {}", name);
@@ -110,7 +108,7 @@ public class PublishChange extends PublishBase {
                 "-e", "ssh " + String.join(" ", SSH_OPTIONS), dir.toString(),
                 SSH_LOGIN + ":" + sshDir).run();
         } else
-            log.info("{} directory is missing: {}", name, dir);
+            log.info("'{}' directory is missing", dir.toString());
 
         return dir;
     }
