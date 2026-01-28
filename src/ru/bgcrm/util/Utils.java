@@ -759,12 +759,18 @@ public class Utils {
         return TMP_DIR;
     }
 
+    /**
+     * Creates a directory with a given name in working directory if it does not exist.
+     * @param dirName the directory name.
+     * @return created or existing directory.
+     */
     public static final File createDirectoryIfNoExistInWorkDir(String dirName) {
         File dir = new File(dirName);
         if (!dir.exists()) {
-            // каталог log взят, т.к. он обязательно есть в рабочем каталоге
+            // the 'log' directory must be always there
             File logFile = new File("log");
-            dir = new File(logFile.getAbsolutePath() + "/../" + dirName);
+            dir = new File(logFile.getAbsoluteFile().getParentFile(), dirName);
+            log.debug("Creating directory: {}", dir.getAbsolutePath());
             dir.mkdir();
         }
         return dir;
