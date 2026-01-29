@@ -20,7 +20,7 @@
 							<c:set var="url" value="/user/message/call.do?typeId=${type.id}&method=testCall"/>
 
 							<c:set var="testCallFromUiid" value="${u:uiid()}"/>
-							<input type="text" id="${testCallFromUiid}" placeholder="${l.l('С номера')}" size="10"/>
+							<input type="text" id="${testCallFromUiid}" placeholder="${l.l('From number')}" size="10"/>
 							<button type="button" class="btn-grey ml"
 								onclick="$$.ajax.post('${url}&testCallFrom=' + $('#${testCallFromUiid}').val(), {control: this}).done(() => { alert('OK') })">TEST</button>
 						</p:check>

@@ -208,8 +208,8 @@
 			<c:when test="${typeCall}">
 				<h2>${l.l('Звонок')}</h2>
 				<div class="tt in-mt05">
-					<div>${l.l('С номера')}: <b>${message.from}</b></div>
-					<div>${l.l('На номер')}: <b>${message.to}</b></div>
+					<div>${l.l('From number')}: <b>${message.from}</b></div>
+					<div>${l.l('To number')}: <b>${message.to}</b></div>
 					<div>${l.l('Время начала')}: <b>${tu.format(message.fromTime, 'ymdhms')}</b></div>
 				</div>
 			</c:when>

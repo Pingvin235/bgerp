@@ -340,8 +340,8 @@
 	<p><en>Set a new process</en><ru>Установить новый процесс</ru></p>
 	<p><ru>Привязать</ru><en>Link</en></p>
 	<p><ru>Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.</ru><en>Provide the code to bind the process. Code "0" - to decouple the message from the process.</en></p>
-	<p><ru>С номера</ru><en>From number</en></p>
-	<p><ru>На номер</ru><en>To the number</en></p>
+	<p><en>From number</en><ru>С номера</ru></p>
+	<p><en>To number</en><ru>На номер</ru></p>
 	<p><ru>Время начала</ru><en>Start time</en></p>
 	<p><en>Set the process by ID</en><ru>Установить процесс по ID</ru></p>
 	<p><en>Possible processes</en><ru>Возможные процессы</ru></p>
