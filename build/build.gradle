@@ -26,6 +26,8 @@ task updateLibProperties(type: JavaExec, dependsOn: 'compileToolJava', descripti
 
 // update_$version_$build.zip has placed to $buildDir/$distsDirName
 task buildUpdate(type: Zip, dependsOn: 'buildAppJar', description: 'Builds distribution and update archives') {
+    mustRunAfter 'checkoutStable'
+    mustRunAfter 'clean'
     mustRunAfter 'updateProperties'
     doFirst {
         def module = new org.bgerp.tool.prop.Module(updateDir);

@@ -1,0 +1,1 @@
+A: Gradle task 'publishReleaseFix'. https://bgerp.org/change/0/doc/project/workflow.html#build-release-fix

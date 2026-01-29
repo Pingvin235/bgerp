@@ -1,4 +1,4 @@
-task publishChange(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'], description: 'Copies changes modules to be available under https://bgerp.org/change') {
+task publishChange(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'], description: 'Copies Change distribution to CDN server') {
     mustRunAfter 'doc'
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'
@@ -7,11 +7,42 @@ task publishChange(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'
     args "${->base.distsDirectory.get().asFile.path}", version, "${->getChangeIdOrThrow()}"
 }
 
-task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: 'Copies distribution, update and update_lib packages to CDN server') {
+task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: 'Copies Stable distribution to CDN server') {
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'
     mustRunAfter 'changesFile'
     mustRunAfter 'changesRss'
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.PublishRelease'
+    args "${->base.distsDirectory.get().asFile.path}", version, "${->getBuild()}"
+}
+
+task checkoutStable(type: Exec, description: 'Checks out the stable branch for the current build') {
+    workingDir projectDir
+    commandLine 'git', 'checkout', "stable-${->getBuild()}"
+}
+
+task publishReleaseFix(type: JavaExec, dependsOn: ['checkoutStable', 'clean', 'buildUpdate', 'buildDist'], description: 'Copies Stable Fix distribution to CDN server') {
+    doFirst {
+        exec {
+            workingDir projectDir
+            commandLine 'bash', '-c', 'build/docker/bgerp/files.sh'
+        }
+        exec {
+            workingDir projectDir
+            commandLine 'docker', 'build', 'build/docker/bgerp', '-t', 'bgerp/bgerp'
+        }
+        exec {
+            workingDir projectDir
+            commandLine 'docker', 'push', 'bgerp/bgerp'
+        }
+    }
+    doLast {
+        exec {
+            workingDir projectDir
+            commandLine 'git', 'commit', '-m', "PUBLISH ${->getBuild()}", '--allow-empty'
+        }
+    }
     classpath =  sourceSets.tool.runtimeClasspath
     mainClass = 'org.bgerp.tool.PublishRelease'
     args "${->base.distsDirectory.get().asFile.path}", version, "${->getBuild()}"
