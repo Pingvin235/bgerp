@@ -9,7 +9,9 @@ import org.asteriskjava.manager.ManagerConnectionState;
 import org.asteriskjava.manager.ManagerEventListener;
 import org.asteriskjava.manager.action.StatusAction;
 import org.asteriskjava.manager.event.ManagerEvent;
+import org.asteriskjava.manager.event.NewExtenEvent;
 import org.asteriskjava.manager.event.NewStateEvent;
+import org.asteriskjava.manager.event.VarSetEvent;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.message.call.CallRegistration;
@@ -72,6 +74,10 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
     @Override
     public void onManagerEvent(ManagerEvent e) {
+        // not needed even for logging
+        if (e instanceof VarSetEvent || e instanceof NewExtenEvent)
+            return;
+
         log.debug("AMI event: {}", e);
 
         if (!(e instanceof NewStateEvent event) || !"Up".equals(event.getChannelStateDesc()))
