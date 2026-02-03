@@ -87,7 +87,7 @@ public class Expression {
 
         jexl = new JexlBuilder()
             // throw exceptions on missing methods signatures
-            .strict(true)
+            .strict(!safe)
             .safe(safe)
             .arithmetic(new JexlArithmetic(false))
             .permissions(JexlPermissions.UNRESTRICTED)
