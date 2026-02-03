@@ -608,10 +608,12 @@ public class Utils {
     public static final <T extends IdTitle> List<T> getObjectList(Map<Integer, T> fullMap, List<Integer> selectedIds) {
         List<T> result = new ArrayList<>();
 
-        for (int id : selectedIds) {
-            T object = fullMap.get(id);
-            if (object != null) {
-                result.add(object);
+        if (fullMap != null && selectedIds != null) {
+            for (int id : selectedIds) {
+                T object = fullMap.get(id);
+                if (object != null) {
+                    result.add(object);
+                }
             }
         }
 
