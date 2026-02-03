@@ -1,14 +1,10 @@
 package org.bgerp.event.listener;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.dao.expression.Expression;
-import org.bgerp.dao.expression.ProcessExpressionObject;
-import org.bgerp.dao.expression.ProcessLinkExpressionObject;
-import org.bgerp.dao.expression.ProcessParamExpressionObject;
 import org.bgerp.model.process.config.ProcessDescriptionConfig;
 import org.bgerp.model.process.config.ProcessTitleConfig;
 import org.bgerp.util.Log;
@@ -67,7 +63,7 @@ public class ProcessTextListener {
     }
 
     private void updateProcessTitle(DynActionForm form, ConnectionSet conSet, Process process, String expression) throws SQLException {
-        var context = context(conSet, process);
+        var context = Expression.context(conSet, form, null, process);
 
         String title = Utils.maskNull(new Expression(context).executeGetString(expression));
         if (!title.equals(process.getTitle())) {
@@ -78,7 +74,7 @@ public class ProcessTextListener {
     }
 
     private void updateProcessDescription(DynActionForm form, ConnectionSet conSet, Process process, String expression) throws SQLException {
-        var context = context(conSet, process);
+        var context = Expression.context(conSet, form, null, process);
 
         String description = Utils.maskNull(new Expression(context).executeGetString(expression));
         if (!description.equals(process.getDescription())) {
@@ -87,13 +83,5 @@ public class ProcessTextListener {
             form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessChangedEvent(process.getId()));
             log.info("Update description '{}' for process {}", description, process.getId());
         }
-    }
-
-    private HashMap<String, Object> context(ConnectionSet conSet, Process process) {
-        var result = new HashMap<String, Object>();
-        new ProcessExpressionObject(process).toContext(result);
-        new ProcessParamExpressionObject(conSet.getConnection(), process.getId()).toContext(result);
-        new ProcessLinkExpressionObject(conSet.getConnection(), process.getId()).toContext(result);
-        return result;
     }
 }
