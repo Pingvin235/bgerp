@@ -38,6 +38,11 @@ public class MessageTypeCall extends MessageType {
     */
     private static final Map<Integer, Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>>> REGISTER = new ConcurrentHashMap<>();
 
+    /**
+     * Calling suffix for outbound calls.
+     */
+    private volatile String callingSuffix;
+
     public MessageTypeCall(Setup setup, int id, ConfigMap config) {
         super(setup, id, config.get("title"), config);
     }
@@ -116,6 +121,15 @@ public class MessageTypeCall extends MessageType {
 
     public CallRegistration getRegistrationByNumber(String number) {
         return getRegMaps().getFirst().get(number);
+    }
+
+    @Dynamic
+    public String getCallingSuffix() {
+        return callingSuffix;
+    }
+
+    public void setCallingSuffix(String callingSuffix) {
+        this.callingSuffix = callingSuffix;
     }
 
     @Override

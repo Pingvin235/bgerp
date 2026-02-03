@@ -18,7 +18,7 @@
 					<c:param name="number" value="${item.phone}"/>
 				</c:url>
 
-				<li><a href="tel:${item.phone}" onclick="$$.ajax.post('${url}')"><i class="ti-headphone-alt"></i> ${item}</a></li>
+				<li><a href="sip:${item.phone}${type.callingSuffix}" onclick="$$.ajax.post('${url}')"><i class="ti-headphone-alt"></i> ${item}</a></li>
 			</c:forEach>
 		</c:if>
 	</c:forEach>

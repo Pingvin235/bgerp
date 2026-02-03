@@ -42,6 +42,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
         while (run) {
             try {
                 managerConnection = new ru.bgcrm.plugin.asterisk.ManagerConnection(config);
+                messageType.setCallingSuffix("@" + managerConnection.getHostname());
 
                 managerConnection.addEventListener(this);
 
