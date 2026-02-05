@@ -41,4 +41,9 @@ public class CallRegistration {
     public void setOutCall(OutCall outCall) {
         this.outCall = outCall;
     }
+
+    @Override
+    public String toString() {
+        return "CallRegistration [userId=" + userId + "]";
+    }
 }
