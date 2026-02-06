@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.struts.action;
+package ru.bgcrm.plugin.bgbilling.action.proto;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -32,7 +32,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/balance")
+@Action(path = "/user/plugin/bgbilling/proto/balance", pathId = true)
 public class ContractBalanceAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/contract/balance";
 

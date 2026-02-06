@@ -106,17 +106,17 @@
 		</item>
 
 		<item title="Баланс/Платежи">
-			<item title="Просмотр Приходов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:paymentList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractPaymentList"/>
-			<item title="Просмотр Расходов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:chargeList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractChargeList"/>
-			<item title="Просмотр Наработки" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:accountList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractAccountList"/>
-			<item title="Просмотр Баланса" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:balance, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractBalanceList"/>
-			<item title="Просмотр Детализированного Баланса" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:balanceDetail, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractDetailBalanceList"/>
-			<item title="Редактирование Приходов/Расходов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:balanceEditor, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:balanceEditor">
+			<item title="Просмотр Приходов" action="/user/plugin/bgbilling/proto/balance:paymentList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:paymentList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractPaymentList"/>
+			<item title="Просмотр Расходов" action="/user/plugin/bgbilling/proto/balance:chargeList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:chargeList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractChargeList"/>
+			<item title="Просмотр Наработки" action="/user/plugin/bgbilling/proto/balance:accountList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:accountList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractAccountList"/>
+			<item title="Просмотр Баланса" action="/user/plugin/bgbilling/proto/balance:balance, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:balance, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractBalanceList"/>
+			<item title="Просмотр Детализированного Баланса" action="/user/plugin/bgbilling/proto/balance:balanceDetail, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:balanceDetail, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:contractDetailBalanceList"/>
+			<item title="Редактирование Приходов/Расходов" action="/user/plugin/bgbilling/proto/balance:balanceEditor, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:balanceEditor, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:balanceEditor">
 				<font color="#ff0000"><b>paymentTypeIds</b></font> список типов платежей маска billingid:typeIds;<br/>
 			</item>
-			<item title="Изменение Приходов/Расходов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:updateBalance, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:updateBalance"/>
-			<item title="Удаление Приходов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:deletePayment, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:deletePayment"/>
-			<item title="Удаление Расходов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:deleteCharge, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:deleteCharge"/>
+			<item title="Изменение Приходов/Расходов" action="/user/plugin/bgbilling/proto/balance:updateBalance, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:updateBalance, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:updateBalance"/>
+			<item title="Удаление Приходов" action="/user/plugin/bgbilling/proto/balance:deletePayment, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:deletePayment, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:deletePayment"/>
+			<item title="Удаление Расходов" action="/user/plugin/bgbilling/proto/balance:deleteCharge, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction:deleteCharge, ru.bgcrm.plugin.bgbilling.proto.struts.action.BalanceAction:deleteCharge"/>
 		</item>
 
 		<item title="Модули">
