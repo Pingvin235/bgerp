@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.struts.action;
+package ru.bgcrm.plugin.bgbilling.action.proto;
 
 import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
@@ -25,7 +25,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/helpdesk")
+@Action(path = "/user/plugin/bgbilling/proto/helpdesk", pathId = true)
 public class HelpDeskAction extends BaseAction {
     public ActionForward getAttach(DynActionForm form, ConnectionSet conSet) throws Exception {
         int processId = form.getParamInt("processId");

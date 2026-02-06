@@ -188,8 +188,8 @@
 				<item title="Печать чека" action="/user/plugin/bgbilling/proto/cashcheck:printCheck, ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction:printCheck"/>
 			</item>
 			<item title="HelpDesk">
-				<item title="Получение вложения" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:getAttach"/>
-				<item title="Пометка сообщения прочитанным" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:markMessageRead"/>
+				<item title="Получение вложения" action="/user/plugin/bgbilling/proto/helpdesk:getAttach, ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:getAttach"/>
+				<item title="Пометка сообщения прочитанным" action="/user/plugin/bgbilling/proto/helpdesk:markMessageRead, ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:markMessageRead"/>
 			</item>
 		</item>
 	</item>
