@@ -151,23 +151,23 @@
 
 			<item title="Inet">
 				<item title="Сервисы">
-					<item title="Просмотр дерева сервисов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceTree"/>
-					<item title="Открытие сервиса для редактирования" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceGet"/>
-					<item title="Изменение сервиса" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceUpdate"/>
-					<item title="Удаление сервиса" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceDelete"/>
-					<item title="Получение списка функций устройства" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceMenu"/>
-					<item title="Вызов метода управления устройством" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceDeviceManage"/>
-					<item title="Изменение статуса сервиса" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceStateModify"/>
-					<item title="Редактирование интерфейса в сервисе" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:interfaceListGet"/>
-					<item title="Получение vlan в сервисе" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:getFreeVlan"/>
-					<item title="Получение устройства в сервисе" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:devicesGet"/>
+					<item title="Просмотр дерева сервисов" action="/user/plugin/bgbilling/proto/inet:serviceTree, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceTree"/>
+					<item title="Открытие сервиса для редактирования" action="/user/plugin/bgbilling/proto/inet:serviceGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceGet"/>
+					<item title="Изменение сервиса" action="/user/plugin/bgbilling/proto/inet:serviceUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceUpdate"/>
+					<item title="Удаление сервиса" action="/user/plugin/bgbilling/proto/inet:serviceDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceDelete"/>
+					<item title="Получение списка функций устройства" action="/user/plugin/bgbilling/proto/inet:serviceMenu, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceMenu"/>
+					<item title="Вызов метода управления устройством" action="/user/plugin/bgbilling/proto/inet:serviceDeviceManage, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceDeviceManage"/>
+					<item title="Изменение статуса сервиса" action="/user/plugin/bgbilling/proto/inet:serviceStateModify, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceStateModify"/>
+					<item title="Редактирование интерфейса в сервисе" action="/user/plugin/bgbilling/proto/inet:interfaceListGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:interfaceListGet"/>
+					<item title="Получение vlan в сервисе" action="/user/plugin/bgbilling/proto/inet:getFreeVlan, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:getFreeVlan"/>
+					<item title="Получение устройства в сервисе" action="/user/plugin/bgbilling/proto/inet:devicesGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:devicesGet"/>
 
 				</item>
 				<item title="Отчёт">
-					<item title="Активные сессии" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionAliveContractList"/>
-					<item title="Лог сессий" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionLogContractList"/>
-					<item title="Сбросить соединение (отключить)" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionClose"/>
-					<item title="Завершить (зависшее) соединение" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionFinish"/>
+					<item title="Активные сессии" action="/user/plugin/bgbilling/proto/inet:sessionAliveContractList, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionAliveContractList"/>
+					<item title="Лог сессий" action="/user/plugin/bgbilling/proto/inet:sessionLogContractList, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionLogContractList"/>
+					<item title="Сбросить соединение (отключить)" action="/user/plugin/bgbilling/proto/inet:connectionClose, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionClose"/>
+					<item title="Завершить (зависшее) соединение" action="/user/plugin/bgbilling/proto/inet:connectionFinish, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionFinish"/>
 				</item>
 			</item>
 			<item title="RSCM">

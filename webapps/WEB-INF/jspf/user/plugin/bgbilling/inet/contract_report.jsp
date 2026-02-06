@@ -34,8 +34,8 @@
 	</script>
 </html:form>
 
-<c:set var="closeAllowed" value="${ctxUser.checkPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionClose')}"/>
-<c:set var="finishAllowed" value="${ctxUser.checkPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionFinish')}"/>
+<c:set var="closeAllowed" value="${ctxUser.checkPerm('/user/plugin/bgbilling/proto/inet:connectionClose')}"/>
+<c:set var="finishAllowed" value="${ctxUser.checkPerm('/user/plugin/bgbilling/proto/inet:connectionFinish')}"/>
 
 <c:if test="${not empty frd.list}">
 	<table class="data mt1 hl">
