@@ -73,19 +73,19 @@
 		</item>
 
 		<item title="Тарифные планы">
-			<item title="Просмотр глобальных тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:contractTariffList"/>
-			<item title="Открытие на правку тарифа договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:getContractTariff"/>
-			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:updateContractTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariff"
+			<item title="Просмотр глобальных тарифов договора" action="/user/plugin/bgbilling/proto/contractTariff:contractTariffList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:contractTariffList"/>
+			<item title="Открытие на правку тарифа договора" action="/user/plugin/bgbilling/proto/contractTariff:getContractTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:getContractTariff"/>
+			<item action="/user/plugin/bgbilling/proto/contractTariff:updateContractTariff, /user/plugin/bgbilling/proto/contractTariff:tariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:updateContractTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariff"
 				title="Изменение глобальных тарифов договора"/>
 			<item title="Удаление глобальных тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteСontractTariff"/>
-			<item title="Просмотр тарифных опции договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionList"/>
-			<item title="Просмотр доступных тарифных опции договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionEditor"/>
-			<item title="Добавление тарифных опции договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:activateTariffOption"/>
-			<item title="Удаление тарифных опции договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteTariffOption"/>
-			<item title="Просмотр персональных тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:personalTariffList"/>
-			<item title="Просмотр формы правки персонального тарифа договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:getPersonalTariff"/>
-			<item title="Удаление удаление персональных тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deletePersonalTariff"/>
-			<item title="Изменение персональных тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:updatePersonalTariff"/>
+			<item title="Просмотр тарифных опции договора" action="/user/plugin/bgbilling/proto/contractTariff:tariffOptionList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionList"/>
+			<item title="Просмотр доступных тарифных опции договора" action="/user/plugin/bgbilling/proto/contractTariff:tariffOptionEditor, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionEditor"/>
+			<item title="Добавление тарифных опции договора" action="/user/plugin/bgbilling/proto/contractTariff:activateTariffOption, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:activateTariffOption"/>
+			<item title="Удаление тарифных опции договора" action="/user/plugin/bgbilling/proto/contractTariff:deleteTariffOption, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteTariffOption"/>
+			<item title="Просмотр персональных тарифов договора" action="/user/plugin/bgbilling/proto/contractTariff:personalTariffList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:personalTariffList"/>
+			<item title="Просмотр формы правки персонального тарифа договора" action="/user/plugin/bgbilling/proto/contractTariff:getPersonalTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:getPersonalTariff"/>
+			<item title="Удаление удаление персональных тарифов договора" action="/user/plugin/bgbilling/proto/contractTariff:deletePersonalTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deletePersonalTariff"/>
+			<item title="Изменение персональных тарифов договора" action="/user/plugin/bgbilling/proto/contractTariff:updatePersonalTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:updatePersonalTariff"/>
 		</item>
 
 		<item title="Примечания">
