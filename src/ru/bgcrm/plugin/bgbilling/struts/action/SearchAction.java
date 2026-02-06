@@ -11,7 +11,7 @@ import org.w3c.dom.Document;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.Request;
-import ru.bgcrm.plugin.bgbilling.action.ContractAction;
+import ru.bgcrm.plugin.bgbilling.action.proto.ContractAction;
 import ru.bgcrm.plugin.bgbilling.dao.BGBillingDAO;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

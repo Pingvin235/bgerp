@@ -4,7 +4,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGMessageException;
 
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.plugin.bgbilling.action.ContractAction;
+import ru.bgcrm.plugin.bgbilling.action.proto.ContractAction;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CashCheckDAO;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;

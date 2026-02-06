@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.action;
+package ru.bgcrm.plugin.bgbilling.action.proto;
 
 import java.io.OutputStream;
 import java.math.BigDecimal;
