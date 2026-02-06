@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.struts.action;
+package ru.bgcrm.plugin.bgbilling.action.proto;
 
 import java.time.YearMonth;
 import java.util.Date;
@@ -17,7 +17,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/rscm")
+@Action(path = "/user/plugin/bgbilling/proto/rscm", pathId = true)
 public class RscmAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/rscm";
 

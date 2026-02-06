@@ -171,10 +171,10 @@
 				</item>
 			</item>
 			<item title="RSCM">
-				<item title="Просмотр списка услуг" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceList" />
-				<item title="Открытие услуги для редактирования" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceGet" />
-				<item title="Изменение услуги" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceUpdate" />
-				<item title="Удаление услуги" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceDelete" />
+				<item title="Просмотр списка услуг" action="/user/plugin/bgbilling/proto/rscm:serviceList, ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceList" />
+				<item title="Открытие услуги для редактирования" action="/user/plugin/bgbilling/proto/rscm:serviceGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceGet" />
+				<item title="Изменение услуги" action="/user/plugin/bgbilling/proto/rscm:serviceUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceUpdate" />
+				<item title="Удаление услуги" action="/user/plugin/bgbilling/proto/rscm:serviceDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceDelete" />
 			</item>
 			<item title="Card">
 				<item title="Просмотр в договоре" action="/user/plugin/bgbilling/proto/card:contractInfo, ru.bgcrm.plugin.bgbilling.proto.struts.action.CardAction:contractInfo" />
