@@ -124,13 +124,13 @@
 			<item title="Изменение модулей" action="/user/plugin/bgbilling/proto/contract:updateModules, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateModules"/>
 
 			<item title="Bill">
-				<item title="Просмотр атрибутов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:attributeList" />
-				<item title="Просмотр типов документов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeList" />
-				<item title="Добавление типа документа" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeAdd" />
-				<item title="Удаление типа документа" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeDelete" />
-				<item title="Просмотр счетов и актов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:documentList" />
-				<item title="Просмотр счёта или акта" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:getDocument" />
-				<item title="Пометка счёта оплаченным" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:setPayed" />
+				<item title="Просмотр атрибутов" action="/user/plugin/bgbilling/proto/bill:attributeList, /user/plugin/bgbilling/proto/bill:attributeList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:attributeList" />
+				<item title="Просмотр типов документов" action="/user/plugin/bgbilling/proto/bill:docTypeList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeList" />
+				<item title="Добавление типа документа" action="/user/plugin/bgbilling/proto/bill:docTypeAdd, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeAdd" />
+				<item title="Удаление типа документа" action="/user/plugin/bgbilling/proto/bill:docTypeDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeDelete" />
+				<item title="Просмотр счетов и актов договора" action="/user/plugin/bgbilling/proto/bill:documentList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:documentList" />
+				<item title="Просмотр счёта или акта" action="/user/plugin/bgbilling/proto/bill:getDocument, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:getDocument" />
+				<item title="Пометка счёта оплаченным" action="/user/plugin/bgbilling/proto/bill:setPayed, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:setPayed" />
 			</item>
 
 			<item title="NPay">
