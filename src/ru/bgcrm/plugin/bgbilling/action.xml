@@ -141,12 +141,12 @@
 			</item>
 
 			<item title="CerberCrypt">
-				<item title="Просмотр списка карт доступа" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:cardPacketList" />
-				<item title="Получение списка карт договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:contractCards" />
-				<item title="Получение списка пакетов" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:getPacketList" />
-				<item title="Получение списка свободных карт" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:getFreeCards" />
-				<item title="Редактирование карт" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:updateCard" />
-				<item title="Редактирование пакетов на карте" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:updateCardPacket" />
+				<item title="Просмотр списка карт доступа" action="/user/plugin/bgbilling/proto/cerbercrypt:cardPacketList, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:cardPacketList" />
+				<item title="Получение списка карт договора" action="/user/plugin/bgbilling/proto/cerbercrypt:contractCards, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:contractCards" />
+				<item title="Получение списка пакетов" action="/user/plugin/bgbilling/proto/cerbercrypt:getPacketList, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:getPacketList" />
+				<item title="Получение списка свободных карт" action="/user/plugin/bgbilling/proto/cerbercrypt:getFreeCards, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:getFreeCards" />
+				<item title="Редактирование карт" action="/user/plugin/bgbilling/proto/cerbercrypt:updateCard, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:updateCard" />
+				<item title="Редактирование пакетов на карте" action="/user/plugin/bgbilling/proto/cerbercrypt:updateCardPacket, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:updateCardPacket" />
 			</item>
 
 			<item title="Inet">

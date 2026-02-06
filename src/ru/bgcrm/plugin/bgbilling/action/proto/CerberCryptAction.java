@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.struts.action;
+package ru.bgcrm.plugin.bgbilling.action.proto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,7 +18,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/cerbercrypt")
+@Action(path = "/user/plugin/bgbilling/proto/cerbercrypt", pathId = true)
 public class CerberCryptAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/cerbercrypt";
 
