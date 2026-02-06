@@ -432,11 +432,14 @@ $$.ui = new function () {
 	 * @param {String} id the elements' CSS ID
 	 */
 	const inputFocus = (id) => {
-		// without the timeout doesn't work in FF
-		setTimeout(function () {
-			// mouseover() is needed to show the datepicker
-			$(document.getElementById(id)).mouseover().focus()[0].setSelectionRange(0, 0);
-		}, 0);
+		const element = document.getElementById(id);
+		if (element) {
+			// without the timeout doesn't work in FF
+			setTimeout(function () {
+				// mouseover() is needed to show the datepicker
+				$(element).mouseover().focus()[0].setSelectionRange(0, 0);
+			}, 0);
+		}
 	}
 
 	/**
