@@ -184,8 +184,8 @@
 
 		<item title="Плагины">
 			<item title="CashCheck">
-				<item title="Просмотр доступных регистраторов(ККМ)" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction:registratorList"/>
-				<item title="Печать чека" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction:printCheck"/>
+				<item title="Просмотр доступных регистраторов(ККМ)" action="/user/plugin/bgbilling/proto/cashcheck:registratorList, ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction:registratorList"/>
+				<item title="Печать чека" action="/user/plugin/bgbilling/proto/cashcheck:printCheck, ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction:printCheck"/>
 			</item>
 			<item title="HelpDesk">
 				<item title="Получение вложения" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:getAttach"/>
