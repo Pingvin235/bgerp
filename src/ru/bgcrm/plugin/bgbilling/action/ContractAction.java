@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.struts.action;
+package ru.bgcrm.plugin.bgbilling.action;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -31,6 +31,7 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
+import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -38,11 +39,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-/**
- * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в
- * {@link ru.bgcrm.plugin.bgbilling.action.proto.ContractAction}. Такие методы помечены как устаревшие.
- */
-@Action(path = "/user/plugin/bgbilling/contract")
+@Action(path = "/user/plugin/bgbilling/contract", pathId = true)
 public class ContractAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
