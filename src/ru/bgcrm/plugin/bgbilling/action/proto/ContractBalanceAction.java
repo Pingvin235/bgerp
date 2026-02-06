@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 
@@ -25,7 +26,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractBalanceDetail;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractBalanceGeneral;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractCharge;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractPayment;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;

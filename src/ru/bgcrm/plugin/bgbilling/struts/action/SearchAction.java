@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.w3c.dom.Document;
 
 import ru.bgcrm.model.Page;

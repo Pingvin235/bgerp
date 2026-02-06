@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
@@ -51,7 +52,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ParameterType;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.plugin.bgbilling.proto.model.script.ContractScriptLogItem;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.struts.form.Response;

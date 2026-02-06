@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
@@ -19,7 +20,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDeviceInterface;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetServiceType;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetSessionLog;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

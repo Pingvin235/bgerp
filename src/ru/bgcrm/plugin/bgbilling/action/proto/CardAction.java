@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
 import org.bgerp.model.base.IdTitle;
@@ -11,7 +12,6 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CardDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.card.CardActivationData;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

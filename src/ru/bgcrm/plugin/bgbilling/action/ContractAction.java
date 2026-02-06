@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
@@ -31,7 +32,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.form.DynActionForm;

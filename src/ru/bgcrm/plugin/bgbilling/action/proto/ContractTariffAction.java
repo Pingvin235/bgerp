@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
@@ -13,7 +14,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractPersonalTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffOption;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;

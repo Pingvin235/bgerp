@@ -4,6 +4,7 @@ import java.time.YearMonth;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 
@@ -11,7 +12,6 @@ import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.RscmDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.rscm.RscmService;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;

@@ -3,13 +3,13 @@ package ru.bgcrm.plugin.bgbilling.action.proto;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.base.BaseAction;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.NPayDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.npay.NPayService;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
