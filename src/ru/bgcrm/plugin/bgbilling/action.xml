@@ -177,8 +177,8 @@
 				<item title="Удаление услуги" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceDelete" />
 			</item>
 			<item title="Card">
-				<item title="Просмотр в договоре" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CardAction:contractInfo" />
-				<item title="Активация карты" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CardAction:activateCard" />
+				<item title="Просмотр в договоре" action="/user/plugin/bgbilling/proto/card:contractInfo, ru.bgcrm.plugin.bgbilling.proto.struts.action.CardAction:contractInfo" />
+				<item title="Активация карты" action="/user/plugin/bgbilling/proto/card:activateCard, ru.bgcrm.plugin.bgbilling.proto.struts.action.CardAction:activateCard" />
 			</item>
 		</item>
 
