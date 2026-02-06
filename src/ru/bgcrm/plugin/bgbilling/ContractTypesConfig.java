@@ -17,7 +17,7 @@ public class ContractTypesConfig extends Config {
     }
 
     public ContractTypesConfig(ConfigMap config, String prefix) {
-        super(config);
+        super(null);
 
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed(prefix).entrySet()) {
             int id = me.getKey();

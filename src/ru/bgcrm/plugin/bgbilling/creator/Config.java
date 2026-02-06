@@ -54,7 +54,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     private final List<ParameterGroupTitlePatternRule> paramGroupRuleList = new ArrayList<>();
 
     public Config(ConfigMap setup) {
-        super(setup);
+        super(null);
 
         final String prefix = "bgbilling:creator.";
 
