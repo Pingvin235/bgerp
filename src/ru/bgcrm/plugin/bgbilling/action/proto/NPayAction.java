@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.struts.action;
+package ru.bgcrm.plugin.bgbilling.action.proto;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/npay")
+@Action(path = "/user/plugin/bgbilling/proto/npay", pathId = true)
 public class NPayAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/npay";
 

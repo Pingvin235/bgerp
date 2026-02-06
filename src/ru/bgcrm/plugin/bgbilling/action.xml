@@ -134,10 +134,10 @@
 			</item>
 
 			<item title="NPay">
-				<item title="Просмотр списка абонплат" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceList" />
-				<item title="Открытие абонплаты для редактирования" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceGet" />
-				<item title="Изменение абонплаты" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceUpdate" />
-				<item title="Удаление абонплаты" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceDelete" />
+				<item title="Просмотр списка абонплат" action="/user/plugin/bgbilling/proto/npay:serviceList, ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceList" />
+				<item title="Открытие абонплаты для редактирования" action="/user/plugin/bgbilling/proto/npay:serviceGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceGet" />
+				<item title="Изменение абонплаты" action="/user/plugin/bgbilling/proto/npay:serviceUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceUpdate" />
+				<item title="Удаление абонплаты" action="/user/plugin/bgbilling/proto/npay:serviceDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceDelete" />
 			</item>
 
 			<item title="CerberCrypt">
