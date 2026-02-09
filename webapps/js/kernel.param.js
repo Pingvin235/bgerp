@@ -182,26 +182,53 @@ $$.param = new function () {
 		}
 
 		/**
-		 * Adds a new value in treecount editor.
-		 * @param {Boolean} multiple multiple values supported.
-		 * @param {jQuery} $table values table selector.
-		 * @param {Array} errors array with two alerted errors.
-		 * @returns AJAX promise.
+		 * Toggles add button visibility in treecount parameter editor.
+		 * @param {HTMLElement} element any element inside the editor.
+		 * @param {*} multiple multiple values supported.
 		 */
-		const addValue = (multiple, $table, errors) => {
-			return addValueCount($table, errors, "parameterTreeCountAddValue", multiple);
+		const toggleAddButton = (element, multiple) => {
+			if (multiple) {
+				return;
+			}
+
+			const table = element.closest('table');
+			$(table.querySelector('tr:first-child button')).toggle(table.rows.length === 1);
 		}
 
-		const editorToggle = (multiple, element) => {
-			const table = element.tagName === 'TABLE' ? element : element.closest('table');
-			const editorRow = table.rows[table.rows.length - 1];
-			$(editorRow).toggle(multiple || table.rows.length === 2);
+		/**
+		 * Adds a new empty value to treecount parameter editor.
+		 * @param {HTMLButtonElement} button add button that was clicked.
+		 * @param {Boolean} multiple multiple values supported.
+		 */
+		const addValue = (button, multiple) => {
+			$$.ajax
+				.post("/user/parameter.do?method=parameterTreeCountAddValue&paramId=" + button.form.paramId.value, { html: true })
+				.done(result => {
+					const $table = $(button).closest('table');
+					// JS native insertAdjacentHTML('afterend', result) doesn't work here, because of not called JS in result
+					$table.find('tr:last').after(result);
+					toggleAddButton(button, multiple);
+					// open the tree
+					$table.find('tr:last td:first-child a').click();
+				})
 		}
 
+		/**
+		 * Deletes a value in treecount parameter editor.
+		 * @param {HTMLButtonElement} button deletion button.
+		 * @param {Boolean} multiple multiple values supported.
+		 */
+		const delValue = (button, multiple) => {
+			const tr = button.closest('tr');
+			const parent = tr.parentElement;
+			tr.remove();
+			toggleAddButton(parent, multiple);
+		}
 		// public functions
 		this.treeOpen = treeOpen;
 		this.treeClose = treeClose;
+		this.toggleAddButton = toggleAddButton;
 		this.addValue = addValue;
-		this.editorToggle = editorToggle;
+		this.delValue = delValue;
 	}
 }

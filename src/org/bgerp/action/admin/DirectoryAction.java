@@ -22,6 +22,7 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.sql.LikePattern;
 
+import javassist.NotFoundException;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterGroup;
@@ -138,6 +139,8 @@ public class DirectoryAction extends BaseAction {
 
         if (form.getId() > 0) {
             parameter = paramDAO.getParameter(form.getId());
+            if (parameter == null)
+                throw new NotFoundException("Parameter not found: " + form.getId());
         }
 
         parameter.setTitle(form.getParam("title"));

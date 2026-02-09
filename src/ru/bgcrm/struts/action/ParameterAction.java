@@ -555,12 +555,17 @@ public class ParameterAction extends BaseAction {
 
                 for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
                     String itemId = itemIds.get(i);
-                    BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
+                    String itemCount = itemCounts.get(i);
+                    if (Utils.isBlankString(itemId) && Utils.isBlankString(itemCount))
+                        continue;
 
-                    if (Utils.isBlankString(itemId) || BigDecimal.ZERO.equals(itemCount))
-                        throw new BGIllegalArgumentException("itemCount");
+                    if (Utils.isBlankString(itemId))
+                        throw new BGMessageException("No value chosen");
 
-                    values.put(itemId, itemCount);
+                    if (Utils.isBlankString(itemCount))
+                        throw new BGMessageException("No quantity defined");
+
+                    values.put(itemId, Utils.parseBigDecimal(itemCount));
                 }
 
                 paramChangingProcess(con, form, parameter, id, paramValue = values);
@@ -583,6 +588,12 @@ public class ParameterAction extends BaseAction {
     }
 
     public ActionForward parameterTreeCountAddValue(DynActionForm form, ConnectionSet conSet) {
+        var parameter = ParameterCache.getParameter(form.getParamInt("paramId"));
+        if (parameter != null) {
+            form.setRequestAttribute("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
+            form.setRequestAttribute("multiple", parameter.getConfigMap().getBoolean("multiple"));
+        }
+
         return html(conSet, form, PATH_JSP + "/edit/treecount/value_row.jsp");
     }
 

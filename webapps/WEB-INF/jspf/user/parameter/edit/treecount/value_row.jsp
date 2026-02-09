@@ -3,26 +3,26 @@
 
 <%--
 Incoming variables:
-	multiple or form.param.multiple
-	itemId or form.param.itemId
-	itemTitle or form.param.itemTitle
-	itemCount or form.param.itemCount
+	treeRootNode - tree root node
+	multiple     - multiple values
+Optional for a value:
+	itemId       - id
+	itemTitle    - title
+	itemCount    - count
 --%>
 
 <tr>
 	<td>
-		<a href="#" onclick="$$.param.treecount.treeOpen(this); return false;">${not empty itemTitle ? itemTitle : form.param.itemTitle}</a>
+		<a href="#" onclick="$$.param.treecount.treeOpen(this); return false;"><c:out value="${itemTitle}" default="undefined"/></a>
 		<div style="display: none;">
-			<ui:tree-single rootNode="${treeRootNode}" name="itemId" nameTitle="itemTitle" value="${not empty itemId ? itemId : form.param.itemId}"
-				style="height: 20em; overflow: auto;"/>
+			<ui:tree-single rootNode="${treeRootNode}" name="itemId" nameTitle="itemTitle" value="${itemId}" style="height: 20em; overflow: auto;"/>
 			<ui:button type="ok" styleClass="mt1 btn-white" onclick="$$.param.treecount.treeClose(this, 'itemTitle'); return false;"/>
 		</div>
 	</td>
 	<td>
-		<input type="text" name="itemCount" value="${not empty itemCount ? itemCount : form.param.itemCount}" size="4"
-			onkeydown="return isNumberKey(event)" title="${l.l('Use dot as a decimal separator')}"/>
+		<ui:input-decimal name="itemCount" value="${itemCount}" digits="2" size="4" title="${l.l('Use dot as a decimal separator')}"/>
 	</td>
 	<td>
-		<button class="btn-white icon" onclick="$(this).closest('tr').remove(); $$.param.treecount.editorToggle(${not empty multiple ? multiple : form.param.multiple}, this);"><i class='ti-trash'></i></button>
+		<button type="button" class="btn-white btn-small icon" onclick="$$.param.treecount.delValue(this, ${multiple})"><i class='ti-trash'></i></button>
 	</td>
 </tr>
