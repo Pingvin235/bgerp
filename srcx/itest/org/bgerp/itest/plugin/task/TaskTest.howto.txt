@@ -1,2 +1,3 @@
-# When 'deadline' parameter is changed:
-- A task has to be created and shown on the process tab
+# Set the 'deadline' parameter to the past:
+- A task has to be created and shown on the 'Tasks' tab
+- After ~ a minute the notification popup news has to be shown

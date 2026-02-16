@@ -9,6 +9,7 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
+import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.param.Parameter;
 import org.testng.annotations.Test;
 
@@ -42,6 +43,8 @@ public class TaskTest {
         int processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, props).getId();
 
         var process = ProcessHelper.addProcess(processTypeId, TITLE);
+        ProcessHelper.addGroup(process, UserTest.groupAdminsId);
+        ProcessHelper.addExecutor(process, UserTest.USER_ADMIN_ID, UserTest.groupAdminsId);
 
         MessageHelper.addHowToTestNoteMessage(process.getId(), this);
     }

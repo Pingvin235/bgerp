@@ -1,0 +1,1 @@
+A: Plugin Task cleanup, l10n and doc. https://bgerp.org/change/0/doc/plugin/task
