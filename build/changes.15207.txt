@@ -1,0 +1,1 @@
+A: Plugin 'Get OLT'. https://bgerp.org/change/0/doc/plugin/bgb/getolt
