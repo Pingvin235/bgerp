@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +27,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
-import org.bgerp.action.FileAction;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
@@ -69,7 +68,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/parameter")
+@Action(path = "/user/parameter", pathId = true)
 public class ParameterAction extends BaseAction {
     protected static final String PATH_JSP = PATH_JSP_USER + "/parameter";
 

@@ -7,7 +7,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/open/parameter")
-public class ParameterAction extends ru.bgcrm.struts.action.ParameterAction {
+public class ParameterAction extends org.bgerp.action.ParameterAction {
     @Override
     public ActionForward parameterList(DynActionForm form, ConnectionSet conSet) throws Exception {
         super.parameterListInternal(form, conSet);

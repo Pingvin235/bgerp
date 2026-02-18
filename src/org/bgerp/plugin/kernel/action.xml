@@ -138,21 +138,23 @@
 	</item>
 
 	<item title="Parameters">
-		<item title="List" action="ru.bgcrm.struts.action.ParameterAction:parameterList">
+		<item title="List" action="/user/parameter:parameterList, /user/parameter:parameterList, ru.bgcrm.struts.action.ParameterAction:parameterList">
 			<b>parameterIds</b> - id параметров через запятую разрешенных для просмотра<br/>
 			<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для просмотра<br/>
 			<b>tags</b> - теги через запятую тегированных параметров, которые разрешено отображать<br/>
 			<b>offEncrypt</b> - 1, если разрешено просматривать зашифрованные значения<br/>
 		</item>
-		<item action="ru.bgcrm.struts.action.ParameterAction:parameterUpdate, ru.bgcrm.struts.action.ParameterAction:parameterGet,
+		<item action="/user/parameter:parameterUpdate, /user/parameter:parameterGet,
+			/user/parameter:parameterListCountAddValue, /user/parameter:parameterPhoneAddValue, /user/parameter:parameterTreeCountAddValue,
+			ru.bgcrm.struts.action.ParameterAction:parameterUpdate, ru.bgcrm.struts.action.ParameterAction:parameterGet,
 			ru.bgcrm.struts.action.ParameterAction:parameterListCountAddValue, ru.bgcrm.struts.action.ParameterAction:parameterPhoneAddValue, ru.bgcrm.struts.action.ParameterAction:parameterTreeCountAddValue"
 			title="Edit">
 			<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
 			<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для изменения<br/>
 			<b>tags</b> - теги через запятую тегированных параметров, которые разрешено править<br/>
 		</item>
-		<item title="Change Log" action="ru.bgcrm.struts.action.ParameterAction:parameterLog"/>
-		<item title="Object Properties Change Log" action="ru.bgcrm.struts.action.ParameterAction:entityLog"/>
+		<item title="Change Log" action="/user/parameter:parameterLog, ru.bgcrm.struts.action.ParameterAction:parameterLog"/>
+		<item title="Object Properties Change Log" action="/user/parameter:entityLog, ru.bgcrm.struts.action.ParameterAction:entityLog"/>
 	</item>
 
 	<item title="File">
