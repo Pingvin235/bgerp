@@ -61,7 +61,7 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.ParamChangingEvent;
-import ru.bgcrm.event.client.ProcessChangedEvent;
+import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
@@ -258,7 +258,7 @@ public class WorkAction extends BaseAction {
                         ProcessAction.processStatusUpdate(form, con, process, change);
                     }
 
-                    form.getResponse().addEvent(new ProcessChangedEvent(process.getId()));
+                    form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
                 }
                 // удаление времени
                 else {
@@ -266,7 +266,7 @@ public class WorkAction extends BaseAction {
 
                     new WorkTaskDAO(con).removeTaskForProcess(processId);
 
-                    form.getResponse().addEvent(new ProcessChangedEvent(process.getId()));
+                    form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
                 }
             }
         }

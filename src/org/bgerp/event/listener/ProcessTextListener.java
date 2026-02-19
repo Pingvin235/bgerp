@@ -68,7 +68,7 @@ public class ProcessTextListener {
         String title = Utils.maskNull(new Expression(context).executeGetString(expression));
         if (!title.equals(process.getTitle())) {
             new ProcessDAO(conSet.getConnection()).updateProcessTitle(process.getId(), title);
-            form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessChangedEvent(process.getId()));
+            form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessOpenEvent(process.getId()));
             log.info("Update title '{}' for process {}", title, process.getId());
         }
     }
@@ -80,7 +80,7 @@ public class ProcessTextListener {
         if (!description.equals(process.getDescription())) {
             process.setDescription(description);
             new ProcessDAO(conSet.getConnection()).updateProcess(process);
-            form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessChangedEvent(process.getId()));
+            form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessOpenEvent(process.getId()));
             log.info("Update description '{}' for process {}", description, process.getId());
         }
     }

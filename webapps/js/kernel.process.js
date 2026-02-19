@@ -196,15 +196,9 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 }
 
 // processing client events
-
-$(() => {
-	const processProcessClientEvents = (event) => {
-		$$.process.open(event.id);
-	};
-
-	$$.event.addProcessor('ru.bgcrm.event.client.ProcessChangedEvent', processProcessClientEvents);
-	$$.event.addProcessor('ru.bgcrm.event.client.ProcessOpenEvent', processProcessClientEvents);
-})
+$$.event.addProcessor('ru.bgcrm.event.client.ProcessOpenEvent', (event) => {
+	$$.process.open(event.id);
+});
 
 $$.event.addProcessor('ru.bgcrm.event.client.ProcessCloseEvent', (event) => {
 	removeCommandDiv( "process-" + event.id );

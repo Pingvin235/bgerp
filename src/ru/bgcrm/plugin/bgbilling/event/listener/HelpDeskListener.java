@@ -22,7 +22,7 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.ParamChangedEvent;
-import ru.bgcrm.event.client.ProcessChangedEvent;
+import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
@@ -160,7 +160,7 @@ public class HelpDeskListener {
                         messageDao.updateMessageProcess(msg);
                     }
                 }
-                e.getForm().getResponse().addEvent(new ProcessChangedEvent(e.getProcess().getId()));
+                e.getForm().getResponse().addEvent(new ProcessOpenEvent(e.getProcess().getId()));
             }
         }
     }

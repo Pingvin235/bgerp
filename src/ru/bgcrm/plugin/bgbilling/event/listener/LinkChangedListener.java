@@ -12,7 +12,7 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.client.ProcessChangedEvent;
+import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.CommonObjectLink;
@@ -88,7 +88,7 @@ public class LinkChangedListener {
 
         if (groupsChanged) {
             processDao.updateProcessGroups(process.getGroups(), processId);
-            event.getForm().getResponse().addEvent(new ProcessChangedEvent(processId));
+            event.getForm().getResponse().addEvent(new ProcessOpenEvent(processId));
         }
 
         if (type.getProperties().getConfigMap().getBoolean("bgbilling:linkCustomerOnContractLink", true)) {
