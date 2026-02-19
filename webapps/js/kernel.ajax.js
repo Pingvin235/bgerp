@@ -174,12 +174,12 @@ $$.ajax = new function () {
 		} else {
 			const existingDfd = $target.data(LOAD_DFD_KEY);
 			if (existingDfd) {
-				if (existingDfd.state() === 'resolved') {
-					debug("Existing resolved dfd", existingDfd, input);
+				if (existingDfd.dfd.state() === 'resolved') {
+					debug("Existing resolved dfd", existingDfd.url, input);
 					$target.removeData(LOAD_DFD_KEY);
 				} else {
-					console.error("Existing not resolved dfd", existingDfd, input);
-					return existingDfd;
+					console.error("Existing not resolved dfd", existingDfd.url, input);
+					return existingDfd.dfd;
 				}
 			}
 
