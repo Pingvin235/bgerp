@@ -1,6 +1,0 @@
-<item title="Plugin GetOLT">
-	<item title="Просмотр ONU" action="/user/plugin/getolt/getolt:null"/>
-	<item title="Обновление порта" action="/user/plugin/getolt/getolt:refreshPort"/>
-	<item title="Перезагрузка ONU" action="/user/plugin/getolt/getolt:rebootOnu"/>
-	<item title="Активация/замена ONU" action="/user/plugin/getolt/getolt:activateOnu"/>
-</item>
