@@ -1,3 +1,4 @@
 A: Asterisk outgoing call URL in sip:<number>@<host> format. https://bgerp.org/change/0/doc/plugin/asterisk/index.html#setup-plugin-outgoing
+C: Asterisk AMI processing listener improvements.
 A: JEXL Standard Process Context for generated Title. https://bgerp.org/change/0/doc/kernel/process/index.html#setup-type-title
 A: JEXL Standard Process Context for generated Description. https://bgerp.org/change/0/doc/kernel/process/index.html#setup-type-description
