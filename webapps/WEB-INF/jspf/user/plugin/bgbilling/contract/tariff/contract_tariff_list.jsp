@@ -13,7 +13,7 @@
 </c:url>
 
 <ui:button type="add" onclick="$$.ajax.load('${url}', $('#${uiid}').parent());"/>
-<table class="data hl" id="${uiid}">
+<table class="data mt1 hl" id="${uiid}">
 	<tr>
 		<td width="30"></td>
 		<td>Позиция</td>
@@ -28,7 +28,7 @@
 				<c:param name="id" value="${tariff.getId()}"/>
 			</c:url>
 			<c:url var="delUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
-				<c:param name="method" value="deleteСontractTariff"/>
+				<c:param name="method" value="deleteContractTariff"/>
 				<c:param name="contractId" value="${form.param.contractId}"/>
 				<c:param name="billingId" value="${form.param.billingId}"/>
 				<c:param name="id" value="${tariff.id}"/>
