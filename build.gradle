@@ -151,6 +151,7 @@ dependencies {
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.javassist:javassist:3.30.2-GA'
     implementation 'org.json:json:20250517'
+    implementation 'commons-net:commons-net:3.11.1'
     implementation 'com.cronutils:cron-utils:9.2.1'
 
     // documentation library
