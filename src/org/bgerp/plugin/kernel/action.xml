@@ -17,8 +17,8 @@
 		<item allowAll="1" action="/user/news:newsGet, org.bgerp.action.NewsAction:newsGet"/>
 	</item>
 	<item title="Address">
-		<item title="Addresses" action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address">
-			<item title="Edit" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate, ru.bgcrm.struts.action.DirectoryAddressAction:addressGet">
+		<item title="Directory" action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:addressGet, ru.bgcrm.struts.action.DirectoryAddressAction:address">
+			<item title="Edit" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
 				<b>cityIds</b> - comma-separated allowed city IDs
 			</item>
 			<item title="Delete" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete">

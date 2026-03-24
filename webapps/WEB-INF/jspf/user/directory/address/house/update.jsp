@@ -65,13 +65,18 @@
 	</div>
 
 	<div class="mt1 in-mr1">
+		<c:set var="update" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate')}"/>
 		<c:choose>
 			<c:when test="${not empty form.param.inlineEditor}">
-				<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.load('${form.returnUrl}', $(this.form).closest('div')))">OK</button>
+				<c:if test="${update}">
+					<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.load('${form.returnUrl}', $(this.form).closest('div')))">OK</button>
+				</c:if>
 				<button type="button" class="btn-white" onclick="$$.ajax.load('${form.returnUrl}', $(this.form).closest('div'))">${l.l('Cancel')}</button>
 			</c:when>
 			<c:otherwise>
-				<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${form.returnUrl}', this))">OK</button>
+				<c:if test="${update}">
+					<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${form.returnUrl}', this))">OK</button>
+				</c:if>
 				<button type="button" class="btn-white" onclick="$$.ajax.loadContent('${form.returnUrl}', this)">${l.l('Cancel')}</button>
 
 				<shell:state text="${l.l('Редактор дома')}" help="kernel/setup.html#address"/>
