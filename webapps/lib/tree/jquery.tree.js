@@ -159,10 +159,11 @@
 	function checkNodeSelected($node) {
 		var result = null;
 
-		var checked = $node.find("> label > input:checkbox").is(":checked");
+		const $checkbox = $node.find("> label > input:checkbox");
+		const checked = $checkbox.is(":checked");
 
 		var $subNodes = $node.find("> ul > li");
-		if ($subNodes.length == 0) {
+		if ($subNodes.length == 0 || (checked && $checkbox.val())) {
 			result = checked ? 2 : 0;
 		}
 		else {
@@ -188,7 +189,7 @@
 				.addClass(CLASS_JQUERY_TREE_CHECKED)
 				.removeClass(CLASS_JQUERY_TREE_UNCHECKED);
 
-			$node.find("> label > input:checkbox").attr('checked', 'true');
+			$checkbox.attr('checked', 'true');
 		}
 
 		return result;
@@ -245,11 +246,13 @@
 	 * @param {Object} checkboxElement текущий чекбокс
 	 */
 	function checkCheckbox(checkboxElement) {
-		// чекнем/анчекнем нижележащие чекбоксы
-		$(checkboxElement).closest('li').find('input:checkbox').each(function () {
-			this.checked = checkboxElement.checked;
-			setLabelClass(this);
-		});
+		if (!checkboxElement.value) {
+			// чекнем/анчекнем нижележащие чекбоксы
+			$(checkboxElement).closest('li').find('input:checkbox').each(function () {
+				this.checked = checkboxElement.checked;
+				setLabelClass(this);
+			});
+		}
 		checkParentCheckboxes(checkboxElement);
 	};
 
