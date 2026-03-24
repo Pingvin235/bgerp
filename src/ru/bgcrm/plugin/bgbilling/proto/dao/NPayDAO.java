@@ -35,7 +35,7 @@ public class NPayDAO extends BillingModuleDAO {
             req.setParam("objectId", 0);
             req.setParam("entityModuleId", -1);
             req.setParam("entityId", -1);
-            req.setParam("actualItemsOnly", true);
+            req.setParam("actualItemsOnly", false);
             req.setParam("actualItemsDate", new Date());
             return readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, NPayService.class));
