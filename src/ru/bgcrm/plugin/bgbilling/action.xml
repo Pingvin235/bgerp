@@ -77,7 +77,7 @@
 			<item title="Открытие на правку тарифа договора" action="/user/plugin/bgbilling/proto/contractTariff:getContractTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:getContractTariff"/>
 			<item action="/user/plugin/bgbilling/proto/contractTariff:updateContractTariff, /user/plugin/bgbilling/proto/contractTariff:tariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:updateContractTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariff"
 				title="Изменение глобальных тарифов договора"/>
-			<item title="Удаление глобальных тарифов договора" action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteСontractTariff"/>
+			<item title="Удаление глобальных тарифов договора" action="/user/plugin/bgbilling/proto/contractTariff:deleteContractTariff, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteContractTariff"/>
 			<item title="Просмотр тарифных опции договора" action="/user/plugin/bgbilling/proto/contractTariff:tariffOptionList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionList"/>
 			<item title="Просмотр доступных тарифных опции договора" action="/user/plugin/bgbilling/proto/contractTariff:tariffOptionEditor, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionEditor"/>
 			<item title="Добавление тарифных опции договора" action="/user/plugin/bgbilling/proto/contractTariff:activateTariffOption, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:activateTariffOption"/>

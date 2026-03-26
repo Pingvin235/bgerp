@@ -143,7 +143,7 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteСontractTariff(DynActionForm form, ConnectionSet conSet) {
+    public ActionForward deleteContractTariff(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
