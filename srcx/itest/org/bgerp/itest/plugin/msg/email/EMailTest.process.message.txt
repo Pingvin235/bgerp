@@ -1,3 +1,6 @@
+The message header must be bold, the read button must be shown.
+Once pressed, the button has to disappear and the header font get back to normal.
+
 When replying on this message, check that 'TO' and 'CC' recipients are correctly filled out.
 When saving the reply without subject a confirmation has to be shown.
 When attachment is mentioned in a message text, a confirmation has to be shown when saving message without it.

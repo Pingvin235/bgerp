@@ -64,8 +64,8 @@ public class EMailTest {
             .withTypeId(messageType.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
             .withFrom("test@bgerp.org")
             .withTo(messageType.getEmail() + ", test1@bgerp.org, CC: test2@bgerp.org, test3@bgerp.org, BCC: test4@bgerp.org")
-            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-2)))).withToTime(Date.from(Instant.now().plus(Duration.ofDays(-1)))).withUserId(UserTest.userFelixId)
-            .withSubject(TITLE + " Incoming Message").withText(ResourceHelper.getResource(this, "process.message.txt"));
+            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-2)))).withUserId(UserTest.userFelixId)
+            .withSubject(TITLE + " Incoming Unread Message").withText(ResourceHelper.getResource(this, "process.message.txt"));
         MessageHelper.addMessage(m);
     }
 }

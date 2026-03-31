@@ -173,7 +173,7 @@ public class MessageTypeEmail extends MessageType {
     }
 
     public boolean isReadable() {
-        return false;
+        return true;
     }
 
     @Override
