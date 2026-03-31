@@ -26,10 +26,6 @@
 
 <script src="/lib/sprintf.js"></script>
 
-<script src="/lib/context_menu/context.js"></script>
-<link type="text/css" href="/lib/context_menu/context.bootstrap.css" rel="stylesheet"/>
-<link type="text/css" href="/lib/context_menu/context.standalone.css" rel="stylesheet"/>
-
 <script src="${u:fileNameWithLastModTime('/lib/ctable/ctable.js')}"></script>
 <link type="text/css" href="${u:fileNameWithLastModTime('/lib/ctable/ctable.css')}" rel="stylesheet"/>
 
