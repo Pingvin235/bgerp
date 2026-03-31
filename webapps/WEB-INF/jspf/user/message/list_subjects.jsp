@@ -4,6 +4,7 @@
 <u:sc>
 	<%-- table ID --%>
 	<c:set var="uiid" value="${u:uiid()}"/>
+	<c:set var="today" value="<%=new java.util.Date()%>"/>
 
 	<c:choose>
 		<c:when test="${form.param.processed eq 1}">
@@ -14,6 +15,7 @@
 					<td>${l.l('Subject')}</td>
 					<td>${l.l('From')}</td>
 					<td>${l.l('Time')}</td>
+					<td>${l.l('User')}</td>
 					<td>${l.l('Process')}</td>
 				</tr>
 
@@ -27,7 +29,11 @@
 						<td>${config.typeMap[item.typeId].title}</td>
 						<td>${item.subject}</td>
 						<td>${item.from}</td>
-						<td>${tu.format(item.fromTime, 'ymdhm')}</td>
+						<td>${tu.daysDelta(today, item.fromTime) eq 0 ?
+								tu.format(item.fromTime, 'HH:mm') :
+								tu.format(item.fromTime, 'ymdhm')
+							}</td>
+						<td><ui:user-link id="${item.userId}"/></td>
 						<td><ui:process-link process="${item.process}"/></td>
 					</tr>
 				</c:forEach>
@@ -64,9 +70,8 @@
 						<td>${l.l('Subject')}</td>
 						<td>${l.l('From')}</td>
 						<td>${l.l('Time')}</td>
+						<td>${l.l('User')}</td>
 					</tr>
-
-					<c:set var="today" value="<%=new java.util.Date()%>"/>
 
 					<c:forEach var="item" items="${frd.list}">
 						<c:url var="url" value="/user/message.do">
@@ -90,6 +95,7 @@
 									tu.format(item.fromTime, 'ymdhm')
 								}
 							</td>
+							<td><ui:user-link id="${item.userId}"/></td>
 						</tr>
 					</c:forEach>
 				</table>

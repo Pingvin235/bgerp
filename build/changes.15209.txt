@@ -1,0 +1,3 @@
+C: Delete many unused JS libraries
+A: 'From' filter of not processed messages. https://bgerp.org/change/0/doc/kernel/message/index.html#usage-queue
+A: 'User' column in message queue. https://bgerp.org/change/0/doc/kernel/message/index.html#usage-queue

@@ -5,7 +5,7 @@
 <%@ attribute name="text" description="Text instead of user title"%>
 
 <ui:when type="user">
-	<c:if test="${not empty id}"><%--
+	<c:if test="${id gt 0}"><%--
 		--%><a href="/user/profile#${id}" onclick="$$.shell.followLink(this.href, event)" title="ID: ${id}">${not empty text ? text : ctxUserMap[id].title}</a><%--
 --%></c:if>
 </ui:when>
