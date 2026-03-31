@@ -16,7 +16,6 @@
 <link type="text/css" href="/lib/timepicker-1.3/jquery-ui-timepicker.css" rel="stylesheet"/>
 
 <script src="/lib/jquery.serializeanything.js"></script>
-<script src="/lib/jquery.base64.js"></script>
 
 <script src="/lib/tree/jquery.tree.js"></script>
 <link type="text/css" href="/lib/tree/jquery.tree.css" rel="stylesheet"/>
