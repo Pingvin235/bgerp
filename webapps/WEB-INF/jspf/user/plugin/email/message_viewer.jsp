@@ -4,7 +4,7 @@
 <h2>Email</h2>
 
 <b>${l.l('Тема')}:</b> ${message.subject}<br/>
-<b>${l.l('От')}:</b> <a href="mailto:${message.from}">${message.from}</a><br/>
+<b>${l.l('From')}:</b> <a href="mailto:${message.from}">${message.from}</a><br/>
 <b>${l.l('Текст')}:</b><br/>
 	<ui:text-prepare text="${message.text}"/>
 <c:if test="${not empty message.attachList}">

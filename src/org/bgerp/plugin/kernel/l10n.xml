@@ -262,7 +262,7 @@
 	<p><ru>Обратная</ru><en>Descending</en></p>
 	<p><ru>Прямая</ru><en>Ascending</en></p>
 	<p><ru>Тема</ru><en>Subject</en></p>
-	<p><ru>От</ru><en>From</en></p>
+	<p><en>From</en><ru>От</ru></p>
 	<p><ru>Кому</ru><en>To</en></p>
 	<p><ru>Обработаны</ru><en>Processed</en></p>
 	<p><ru>Сортировка</ru><en>Sorting</en></p>
@@ -408,7 +408,6 @@
 	<p><ru>ПРОЦЕСС</ru><en>PROCESS</en></p>
 	<p><ru>Дата от</ru><en>Date from</en></p>
 	<p><ru>Дата по</ru><en>Date to</en></p>
-	<p><ru>Отправитель</ru><en>Sender</en></p>
 	<p><ru>выберите контрагента</ru><en>choose customer</en></p>
 	<p><ru>Слить с</ru><en>Merge with</en></p>
 	<p><ru>Выберите контрагента</ru><en>Choose customer</en></p>
