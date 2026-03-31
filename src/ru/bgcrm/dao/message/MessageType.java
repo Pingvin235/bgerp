@@ -210,11 +210,12 @@ public abstract class MessageType extends IdTitle {
 
     /**
      * List of unprocessed messages from storage, for example - E-Mails from IMAP folder.
-     * @param conSet
+     * @param conSet DB connections
+     * @param from optional substring filter by sender
      * @return
      * @throws Exception
      */
-    public List<Message> newMessageList(ConnectionSet conSet) throws Exception {
+    public List<Message> newMessageList(ConnectionSet conSet, String from) throws Exception {
         return Collections.emptyList();
     }
 

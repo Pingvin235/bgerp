@@ -20,6 +20,7 @@ import org.bgerp.model.Pageable;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.param.ParameterPhoneValue;
@@ -138,13 +139,14 @@ public class MessageTypeCall extends MessageType {
     }
 
     @Override
-    public List<Message> newMessageList(ConnectionSet conSet) throws SQLException {
+    public List<Message> newMessageList(ConnectionSet conSet, String from) throws SQLException {
         Pageable<Message> searchResult = new Pageable<>();
 
         new MessageSearchDAO(conSet.getConnection())
             .withTypeId(id)
             .withDirection(Message.DIRECTION_INCOMING)
             .withProcessed(false)
+            .withFrom(LikePattern.SUB.get(from))
             .search(searchResult);
 
         return searchResult.getList();

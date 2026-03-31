@@ -293,6 +293,7 @@ public class MessageAction extends BaseAction {
                 k -> allowedTypeIds.isEmpty() || allowedTypeIds.contains(k));
 
         int typeId = form.getParamInt("typeId", -1);
+        String from = form.getParam("from");
 
         if (processed) {
             new MessageSearchDAO(conSet.getConnection())
@@ -301,7 +302,7 @@ public class MessageAction extends BaseAction {
                 .withRead(form.getParamBoolean("read", null))
                 .withAttach(form.getParamBoolean("attach", null))
                 .withDateFrom(form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null))
-                .withFrom(LikePattern.SUB.get(form.getParam("from")))
+                .withFrom(LikePattern.SUB.get(from))
                 .order(reverseOrder ? MessageSearchDAO.Order.FROM_TIME_DESC : MessageSearchDAO.Order.FROM_TIME)
                 .search(new Pageable<>(form));
         } else {
@@ -316,7 +317,7 @@ public class MessageAction extends BaseAction {
                 executors.execute(() -> {
                     // when the external system isn't available, an empty table of messages should be however shown
                     try {
-                        result.addAll(type.newMessageList(conSet));
+                        result.addAll(type.newMessageList(conSet, from));
                     } catch (Exception e) {
                         log.error(e);
                     }

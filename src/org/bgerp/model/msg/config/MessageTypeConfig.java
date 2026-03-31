@@ -109,7 +109,7 @@ public class MessageTypeConfig extends Config {
         }
 
         @Override
-        public List<Message> newMessageList(ConnectionSet conSet) {
+        public List<Message> newMessageList(ConnectionSet conSet, String from) {
             return Collections.emptyList();
         }
 

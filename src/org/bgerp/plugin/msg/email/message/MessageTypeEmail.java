@@ -232,7 +232,7 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
-    public synchronized List<Message> newMessageList(ConnectionSet conSet) throws Exception {
+    public synchronized List<Message> newMessageList(ConnectionSet conSet, String from) throws Exception {
         List<Message> result = new ArrayList<>();
 
         long time = System.currentTimeMillis();
@@ -245,6 +245,8 @@ public class MessageTypeEmail extends MessageType {
             incomingFolder.open(Folder.READ_ONLY);
 
             result = incomingCache.list(incomingFolder);
+            if (Utils.notBlankString(from))
+                result = result.stream().filter(m -> m.getFrom() != null && m.getFrom().toLowerCase().contains(from.toLowerCase())).toList();
 
             log.debug("{} new message list time: {} ms.", getEmail(), System.currentTimeMillis() - time);
         }
