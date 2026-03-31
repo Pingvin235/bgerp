@@ -189,6 +189,17 @@ $$.ui = new function () {
 		$(document).find("ul.ui-menu:visible[role=menu]").menu().hide();
 	}
 
+	const format = (date) => {
+		// Months start at 0!
+		let mm = date.getMonth() + 1;
+		if (mm < 10) mm = '0' + mm;
+
+		let dd = date.getDate();
+		if (dd < 10) dd = '0' + dd;
+
+		return dd + '.' + mm + '.' + date.getFullYear();
+	}
+
 	const monthDaysSelectInit = ($div) => {
 		const debug = $$.debug('uiMonthDaysSelect');
 
@@ -214,8 +225,8 @@ $$.ui = new function () {
 			if (!dayTo)
 				dayTo = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
-			$dateFromHidden.val(new Date(date.getFullYear(), date.getMonth(), dayFrom).format("dd.mm.yyyy"));
-			$dateToHidden.val(new Date(date.getFullYear(), date.getMonth(), dayTo).format("dd.mm.yyyy"));
+			$dateFromHidden.val(format(new Date(date.getFullYear(), date.getMonth(), dayFrom)));
+			$dateToHidden.val(format(new Date(date.getFullYear(), date.getMonth(), dayTo)));
 
 			debug('update: ', dayFrom, dayTo);
 		};
@@ -241,7 +252,7 @@ $$.ui = new function () {
 			// TODO: Use global month names.
 			$title.text($.datepicker._defaults.monthNames[date.getMonth()] + " " + date.getFullYear());
 
-			$dateFromHidden.val(new Date(date.getFullYear(), date.getMonth(), 1).format("dd.mm.yyyy"));
+			$dateFromHidden.val(format(new Date(date.getFullYear(), date.getMonth(), 1)));
 
 			debug('update: ', $dateFromHidden.val());
 		};
