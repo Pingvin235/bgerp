@@ -9,7 +9,7 @@
 	<h1>${l.l('Написать сообщение')}</h1>
 	<div class="in-inline-block w100p">
 		<div style="width: 50%;">
-			<h2>${l.l('Тема')} *</h2>
+			<h2>${l.l('Subject')} *</h2>
 			<input type="text" name="subject" class="w100p"/>
 		</div><%--
 	--%><div class="pl1" style="width: 50%;">

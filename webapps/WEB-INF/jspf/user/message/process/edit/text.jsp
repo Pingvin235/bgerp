@@ -10,7 +10,7 @@
 		</c:if>
 	</div>
 	<div class="w100p ${not empty templates ? 'pl1' : ''}">
-		<h2>${l.l('Тема')}</h2>
+		<h2>${l.l('Subject')}</h2>
 		<input type="text" name="subject" style="width: 100%;" value="${message.subject}"/>
 	</div>
 </div>

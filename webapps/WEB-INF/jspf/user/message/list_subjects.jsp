@@ -11,7 +11,7 @@
 				<tr>
 					<td width="30">ID</td>
 					<td>${l.l('Type')}</td>
-					<td>${l.l('Тема')}</td>
+					<td>${l.l('Subject')}</td>
 					<td>${l.l('From')}</td>
 					<td>${l.l('Time')}</td>
 					<td>${l.l('Process')}</td>
@@ -61,7 +61,7 @@
 						<c:if test="${form.param.typeId le 0}">
 							<td>${l.l('Type')}</td>
 						</c:if>
-						<td>${l.l('Тема')}</td>
+						<td>${l.l('Subject')}</td>
 						<td>${l.l('From')}</td>
 						<td>${l.l('Time')}</td>
 					</tr>

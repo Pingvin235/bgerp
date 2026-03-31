@@ -261,7 +261,7 @@
 	<p><ru>все</ru><en>all</en></p>
 	<p><ru>Обратная</ru><en>Descending</en></p>
 	<p><ru>Прямая</ru><en>Ascending</en></p>
-	<p><ru>Тема</ru><en>Subject</en></p>
+	<p><en>Subject</en><ru>Тема</ru></p>
 	<p><en>From</en><ru>От</ru></p>
 	<p><ru>Кому</ru><en>To</en></p>
 	<p><ru>Обработаны</ru><en>Processed</en></p>
