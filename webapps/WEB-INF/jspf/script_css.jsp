@@ -43,8 +43,6 @@
 <script src="/lib/combobox/combo.js"></script>
 <link type="text/css" href="/lib/combobox/combo.css" rel="stylesheet"/>
 
-<script src="/lib/date-time-format.js"></script>
-
 <script src="${u:fileNameWithLastModTime('/lib/preview/preview.js')}"></script>
 <link type="text/css" href="${u:fileNameWithLastModTime('/lib/preview/style.css')}" rel="stylesheet"/>
 
