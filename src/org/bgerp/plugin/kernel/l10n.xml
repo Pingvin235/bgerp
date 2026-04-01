@@ -135,8 +135,7 @@
 	<p><ru>Дата закрытия</ru><en>Сlosing date</en></p>
 	<p><en>Type</en><ru>Тип</ru></p>
 	<p><en>Open</en><ru>Открытые</ru></p>
-	<p><en>Closed</en><ru>Закрытые</ru></p>
-	<p><sys>process.closed</sys><en>Closed</en><ru>Закрыт</ru></p>
+	<p><en>Closed</en><ru>Закрыт</ru></p>
 	<p><en>Records</en><ru>Записей</ru></p>
 	<p><ru>Стр.</ru><en>Page</en></p>
 	<p><ru>из</ru><en>of</en></p>

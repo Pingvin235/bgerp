@@ -83,7 +83,7 @@
 
 				<div class="separator"/>
 
-				<ui:combo-single name="open" prefixText="${l.l('process.closed')}:">
+				<ui:combo-single name="open" prefixText="${l.l('Closed')}:">
 					<jsp:attribute name="valuesHtml">
 						<li value="1">${l.l('Open')}</li>
 						<li value="0">${l.l('Closed')}</li>

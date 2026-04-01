@@ -116,7 +116,7 @@
 			<%@ include file="process_status_current.jsp"%>
 		</div>
 		<c:if test="${process.closeUserId gt 0}">
-			<div class="pb05">Закрыт: ${tu.format(process.closeTime, 'ymdhms')} (<ui:user-link id="${process.closeUserId}"/>)</div>
+			<div class="pb05">${l.l('Closed')}: ${tu.format(process.closeTime, 'ymdhms')} (<ui:user-link id="${process.closeUserId}"/>)</div>
 		</c:if>
 	</div>
 </u:sc>
