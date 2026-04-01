@@ -48,9 +48,7 @@
 								onSelect="$('#${searchBlockId} > .filter').hide(); $('#${searchBlockId} > .filter#' + this.value).show();">
 								<jsp:attribute name="valuesHtml">
 									<c:forEach var="item" items="${messageType.searchMap}">
-										<c:if test="${not empty item.value.jsp}">
-											<li value="${item.key}">${item.value.title}</li>
-										</c:if>
+										<li value="${item.key}">${item.value.title}</li>
 									</c:forEach>
 								</jsp:attribute>
 							</ui:combo-single>
