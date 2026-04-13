@@ -18,8 +18,6 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.model.process.queue.column.Column;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterCustomerParam;
-import org.bgerp.model.process.queue.filter.FilterExecutors;
-import org.bgerp.model.process.queue.filter.FilterGrEx;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
 import org.bgerp.model.process.queue.filter.FilterList;
 import org.bgerp.model.process.queue.filter.FilterOpenClose;
@@ -30,7 +28,6 @@ import org.bgerp.util.sql.LikePattern;
 import ru.bgcrm.dao.ParamValueSelect;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.QueueSelectParams;
-import ru.bgcrm.dao.process.Tables;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterAddressValue;
@@ -263,25 +260,7 @@ public class ProcessQueueDAO extends ProcessDAO {
         for (Filter f : filterList.getFilterList()) {
             final String type = f.getType();
 
-            if ("groups".equals(type)) {
-                Filter filter = f;
-
-                String groupIds = Utils.toString(form.getParamValues("group"));
-                if (Utils.isBlankString(groupIds) && filter.getOnEmptyValues().size() > 0) {
-                    groupIds = Utils.toString(filter.getOnEmptyValues());
-                }
-
-                // При выборе текущего исполнителя фильтр по группам не учитывался - убрал.
-                if (Utils.notBlankString(groupIds) /*&& !currentUserMode*/) {
-                    joinPart.append(SQL_INNER_JOIN);
-                    joinPart.append(Tables.TABLE_PROCESS_GROUP);
-                    joinPart.append("AS ig ON process.id=ig.process_id AND ig.group_id IN(");
-                    joinPart.append(groupIds);
-                    joinPart.append(")");
-                }
-            } else if (f instanceof FilterExecutors filter) {
-                filter.apply(form, params);
-            } else if ("create_user".equals(type)) {
+            if ("create_user".equals(type)) {
                 var userIds = form.getParamValues("create_user");
                 if (!userIds.isEmpty()) {
                     wherePart
@@ -297,8 +276,6 @@ public class ProcessQueueDAO extends ProcessDAO {
                         .append(Utils.toString(userIds))
                         .append(") ");
                 }
-            } else if (f instanceof FilterGrEx filter) {
-                filter.apply(form, params);
             } else if (f instanceof FilterProcessType) {
                 Filter filter = f;
 
@@ -365,8 +342,6 @@ public class ProcessQueueDAO extends ProcessDAO {
                 joinPart.append(
                         "AS param_list ON " + customerLinkAlias + ".object_id=param_list.id AND param_list.param_id="
                                 + paramId + " AND param_list.value IN(" + values + ")");
-            } else if (f instanceof FilterParam filter) {
-                filter.apply(form, params);
             } else if ("status".equals(type)) {
                 String statusIds = f.getValues(form, "status");
 
@@ -484,6 +459,8 @@ public class ProcessQueueDAO extends ProcessDAO {
                         log.error( "Incorrect linkObject filter( " + filter.getId() + " )! Not a valid value \"whatFiltered\". " );
                     }
                 }
+            } else {
+                f.apply(form, params);
             }
         }
     }

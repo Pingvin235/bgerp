@@ -25,6 +25,7 @@ import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterCustomerParam;
 import org.bgerp.model.process.queue.filter.FilterExecutors;
 import org.bgerp.model.process.queue.filter.FilterGrEx;
+import org.bgerp.model.process.queue.filter.FilterGroups;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
 import org.bgerp.model.process.queue.filter.FilterList;
 import org.bgerp.model.process.queue.filter.FilterOpenClose;
@@ -274,9 +275,11 @@ public class Queue extends IdTitle {
             try {
                 String type = filter.get("type", "");
 
-                if (Strings.CS.equalsAny(type, "status", "groups", "close_date", "create_date", "status_date", "code", "description",
+                if (Strings.CS.equalsAny(type, "status", "close_date", "create_date", "status_date", "code", "description",
                         "message:systemId", "create_user", "close_user")) {
                     filterList.add(new Filter(id, filter));
+                } else if ("groups".equals(type)) {
+                    filterList.add(new FilterGroups(id, filter));
                 } else if ("executors".equals(type)) {
                     filterList.add(new FilterExecutors(id, filter));
                 } else if ("grex".equals(type)) {
