@@ -18,6 +18,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     private final String msgLinkChange;
     private final String msgDefaultAnswer;
     private final String msgUrlHelp;
+    private final String botUrl;
     private final String proxyHost;
     private final String proxyPort;
     private final String proxyType;
@@ -34,6 +35,7 @@ public class Config extends org.bgerp.app.cfg.Config {
         userParamId = config.getInt("userParamId", -1);
         processParamId = config.getInt("processParamId", -1);
 
+        botUrl = config.get("botUrl", "");
         proxyHost = config.get("proxyHost");
         proxyPort = config.get("proxyPort");
         proxyType = config.get("proxyType");
@@ -88,6 +90,10 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     public String getMsgUrlHelp() {
         return msgUrlHelp;
+    }
+
+    public String getBotUrl() {
+        return botUrl;
     }
 
     public String getProxyHost() {

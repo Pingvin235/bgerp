@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.cache.UserCache;
 import org.bgerp.dao.param.ParamValueDAO;
@@ -22,6 +20,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
@@ -84,6 +84,9 @@ public class Bot extends TelegramLongPollingBot {
         TelegramBotsApi botapi = new TelegramBotsApi(DefaultBotSession.class);
         DefaultBotOptions botOptions = new DefaultBotOptions();
         Config config = Setup.getSetup().getConfig(Config.class);
+        if (Utils.notBlankString(config.getBotUrl())) {
+            botOptions.setBaseUrl(config.getBotUrl());
+        }
         if (config.getProxyHost() != null) {
             botOptions.setProxyHost(config.getProxyHost());
             botOptions.setProxyPort(Utils.parseInt(config.getProxyPort(), -1));
@@ -205,7 +208,7 @@ public class Bot extends TelegramLongPollingBot {
     void sendMessage(String chatId, String text, String parseMode) {
         SendMessage message = SendMessage.builder()
                 .chatId(chatId)
-                .text(escapeSpecialCharacters(text))
+                .text(text)
                 .parseMode(parseMode)
                 .build();
         try {
