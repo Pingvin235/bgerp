@@ -122,8 +122,6 @@ public class NewsDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateNewsUsers(News news, Set<Integer> userIds) throws SQLException {
-        deleteNewsUser(news.getId());
-
         news.setId(updateNews(news));
         for (Integer userId : userIds) {
             updateNewsUser(news, userId);
@@ -220,11 +218,6 @@ public class NewsDAO extends CommonDAO {
 
         UserNewsCache.flushCache(con, newsUserIds);
 
-        deleteNewsUser(newsId);
-    }
-
-    private void deleteNewsUser(int newsId) throws SQLException {
-        PreparedStatement ps;
         ps = con.prepareStatement("DELETE FROM " + TABLE_NEWS_USER + " WHERE news_id=?");
         ps.setInt(1, newsId);
         ps.executeUpdate();
