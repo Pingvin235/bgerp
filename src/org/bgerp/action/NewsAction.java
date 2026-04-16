@@ -136,7 +136,7 @@ public class NewsAction extends BaseAction {
     }
 
     public ActionForward newsDelete(DynActionForm form, Connection con) throws Exception {
-        new NewsDAO(con).deleteNews(form.getId());
+        new NewsDAO(con).deleteNews(form.getIdOrThrow());
 
         return json(con, form);
     }

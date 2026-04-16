@@ -288,6 +288,14 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
+     * @return request parameter {@code id} or throws an exception if it's not positive
+     * @throws BGIllegalArgumentException if parameter {@code id} is missing or not positive
+     */
+    public int getIdOrThrow() throws BGIllegalArgumentException {
+        return getParamInt(PARAM_ID, Utils::isPositive);
+    }
+
+    /**
      * @return request parameter {@code requestUrl}
      */
     public String getRequestUrl() {
