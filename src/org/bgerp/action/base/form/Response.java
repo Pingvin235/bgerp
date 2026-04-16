@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.form;
+package org.bgerp.action.base.form;
 
 import ru.bgcrm.model.Page;
 

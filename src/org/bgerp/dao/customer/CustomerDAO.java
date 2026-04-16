@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.bgerp.action.base.form.Response;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.dao.expression.ParamExpressionObject;
@@ -35,7 +36,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.Pattern;
 import ru.bgcrm.model.param.address.AddressHouse;
-import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.Utils;
 
 public class CustomerDAO extends CommonDAO {

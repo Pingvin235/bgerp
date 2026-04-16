@@ -62,7 +62,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -182,14 +181,13 @@ public class ParameterAction extends BaseAction {
             throw new BGMessageException("Параметр не найден.");
         }
 
-        Response resp = form.getResponse();
         request.setAttribute("parameter", parameter);
 
         boolean offEncryption = form.getPermission().getBoolean("offEncrypt", false);
 
         if ("encrypted".equals(parameter.getConfigMap().get("encrypt")) && !offEncryption) {
             if (Parameter.TYPE_TEXT.equals(parameter.getType()) || Parameter.TYPE_BLOB.equals(parameter.getType())) {
-                resp.setData("value", l.l("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>"));
+                form.setResponseData("value", l.l("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>"));
 
                 return html(conSet,  form, PATH_JSP + "/edit.jsp");
             }
@@ -204,24 +202,24 @@ public class ParameterAction extends BaseAction {
 
                     AddressHouse house = addressDAO.getAddressHouse(houseId, true, true, true);
                     if (house != null) {
-                        resp.setData("house", house);
+                        form.setResponseData("house", house);
                     }
                 }
 
-                resp.setData("address", addressValue);
+                form.setResponseData("address", addressValue);
             }
             case BLOB -> {
-                resp.setData("value", paramDAO.getParamBlob(id, paramId));
+                form.setResponseData("value", paramDAO.getParamBlob(id, paramId));
             }
             case DATE, DATETIME -> {
                 if (Parameter.TYPE_DATE.equals(parameter.getType())) {
-                    resp.setData("value", paramDAO.getParamDate(id, paramId));
+                    form.setResponseData("value", paramDAO.getParamDate(id, paramId));
                 } else if (Parameter.TYPE_DATETIME.equals(parameter.getType())) {
-                    resp.setData("value", paramDAO.getParamDateTime(id, paramId));
+                    form.setResponseData("value", paramDAO.getParamDateTime(id, paramId));
                 }
             }
             case EMAIL -> {
-                resp.setData("values", paramDAO.getParamEmail(id, paramId).values());
+                form.setResponseData("values", paramDAO.getParamEmail(id, paramId).values());
             }
             case FILE -> {
                 //TODO: Сделать поддержку разных типов.
@@ -243,31 +241,31 @@ public class ParameterAction extends BaseAction {
                 return null;
             }
             case LIST -> {
-                resp.setData("values", paramDAO.getParamListWithComments(id, paramId));
+                form.setResponseData("values", paramDAO.getParamListWithComments(id, paramId));
                 listValues(form, parameter);
                 request.setAttribute("listParamConfig", parameter.getConfigMap().getConfig(ListParamConfig.class));
             }
             case LISTCOUNT -> {
-                resp.setData("values", paramDAO.getParamListCount(id, paramId));
+                form.setResponseData("values", paramDAO.getParamListCount(id, paramId));
                 listValues(form, parameter);
             }
             case MONEY -> {
-                resp.setData("value", paramDAO.getParamMoney(id, paramId));
+                form.setResponseData("value", paramDAO.getParamMoney(id, paramId));
             }
             case PHONE -> {
-                resp.setData("value", paramDAO.getParamPhone(id, paramId));
+                form.setResponseData("value", paramDAO.getParamPhone(id, paramId));
             }
             case TEXT -> {
-                resp.setData("value", paramDAO.getParamText(id, paramId));
+                form.setResponseData("value", paramDAO.getParamText(id, paramId));
             }
             case TREE -> {
-                resp.setData("values", paramDAO.getParamTree(id, paramId));
-                resp.setData("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
+                form.setResponseData("values", paramDAO.getParamTree(id, paramId));
+                form.setResponseData("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
             }
             case TREECOUNT -> {
-                resp.setData("values", paramDAO.getParamTreeCount(id, paramId));
-                resp.setData("treeValues", ParameterCache.getTreeParamValues(paramId));
-                resp.setData("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
+                form.setResponseData("values", paramDAO.getParamTreeCount(id, paramId));
+                form.setResponseData("treeValues", ParameterCache.getTreeParamValues(paramId));
+                form.setResponseData("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
             }
         }
 

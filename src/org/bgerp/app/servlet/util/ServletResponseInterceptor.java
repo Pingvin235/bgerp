@@ -45,7 +45,7 @@ public class ServletResponseInterceptor extends HttpServletResponseWrapper {
     }
 
     /**
-     * Renders JSP page. Clears {@link ru.bgcrm.struts.form.Response#getData()} in {@link DynActionForm#getResponse()}.
+     * Renders JSP page. Clears {@link org.bgerp.action.base.form.Response#getData()} in {@link DynActionForm#getResponse()}.
      * @param form form object, contains servlet request and response.
      * @param jsp path to JSP pattern, starting from webapps.
      * @param approxSize expected size of resulting HTML.

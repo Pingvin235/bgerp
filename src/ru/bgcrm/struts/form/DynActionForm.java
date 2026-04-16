@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.action.base.Actions;
 import org.bgerp.action.base.BaseAction;
+import org.bgerp.action.base.form.Response;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.l10n.Localization;

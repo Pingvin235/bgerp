@@ -54,7 +54,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.plugin.bgbilling.proto.model.script.ContractScriptLogItem;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -201,8 +200,6 @@ public class ContractAction extends BaseAction {
 
         ContractParamDAO paramDAO = new ContractParamDAO(form.getUser(), billingId);
 
-        Response resp = form.getResponse();
-
         if (paramType <= 0) {
             throw new BGMessageExceptionWithoutL10n("Параметр не поддерживается для редактирования");
         }
@@ -219,17 +216,17 @@ public class ContractAction extends BaseAction {
 
                     AddressHouse house = new AddressDAO(conSet.getConnection()).getAddressHouse(houseId, true, true, true);
                     if (house != null) {
-                        resp.setData("house", house);
+                        form.setResponseData("house", house);
                     }
                 }
-                resp.setData("address", addressValue);
+                form.setResponseData("address", addressValue);
                 break;
             }
             case ParameterType.ContractType.TYPE_DATE: {
                 break;
             }
             case ParameterType.ContractType.TYPE_LIST: {
-                resp.setData("value", paramDAO.getListParamValue(contractId, paramId));
+                form.setResponseData("value", paramDAO.getListParamValue(contractId, paramId));
                 break;
             }
             case ParameterType.ContractType.TYPE_PHONE: {
@@ -237,7 +234,7 @@ public class ContractAction extends BaseAction {
                 break;
             }
             case ParameterType.ContractType.TYPE_EMAIL: {
-                resp.setData("emails", paramDAO.getEmailParam(contractId, paramId));
+                form.setResponseData("emails", paramDAO.getEmailParam(contractId, paramId));
                 break;
             }
             default: {
