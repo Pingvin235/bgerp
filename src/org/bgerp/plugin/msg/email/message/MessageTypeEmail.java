@@ -65,8 +65,10 @@ public class MessageTypeEmail extends MessageType {
     private static final Log log = Log.getLog();
 
     @Deprecated
-    public static final String RE_PREFIX = "Re: ";
+    private static final String RE_PREFIX = "Re: ";
     private static final String AUTOREPLY_SYSTEM_ID = "autoreply";
+
+    private final Setup setup;
 
     private final String encoding;
 
@@ -92,8 +94,10 @@ public class MessageTypeEmail extends MessageType {
 
     private final FolderCache incomingCache = new FolderCache(this);
 
-    public MessageTypeEmail(Setup setup, int id, ConfigMap config) throws BGMessageException {
-        super(setup, id, config.get("title"), config);
+    public MessageTypeEmail(int id, ConfigMap config) throws BGMessageException {
+        super(id, config.get("title"), config);
+
+        setup = Setup.getSetup();
 
         var l = Localization.getLocalizer(Localization.getLang(), Plugin.ID);
 

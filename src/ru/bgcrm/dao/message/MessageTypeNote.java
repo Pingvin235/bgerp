@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Map;
 
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.l10n.Localization;
@@ -32,8 +31,8 @@ public class MessageTypeNote extends MessageType {
 
     private final boolean createUnread;
 
-    public MessageTypeNote(Setup setup, int id, ConfigMap config) {
-        super(setup, id, config.get("title"), config);
+    public MessageTypeNote(int id, ConfigMap config) {
+        super(id, config.get("title"), config);
         createUnread = config.getBoolean("create.unread");
     }
 

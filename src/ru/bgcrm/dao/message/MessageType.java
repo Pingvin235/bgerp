@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
@@ -37,15 +36,13 @@ public abstract class MessageType extends IdTitle {
 
     private MessageTypeContactSaver contactSaver;
 
-    protected final Setup setup;
     protected final ConfigMap configMap;
     private final boolean checkEmptySubject;
 
     private volatile boolean reading;
     protected volatile Integer unprocessedMessagesCount;
 
-    protected MessageType(Setup setup, int id, String title, ConfigMap config) {
-        this.setup = setup;
+    protected MessageType(int id, String title, ConfigMap config) {
         this.configMap = config;
 
         this.id = id;

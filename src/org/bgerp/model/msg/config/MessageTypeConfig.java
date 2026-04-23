@@ -10,8 +10,7 @@ import java.util.TreeMap;
 
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Preferences;
-import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.model.msg.Message;
 import org.bgerp.util.Dynamic;
@@ -52,7 +51,7 @@ public class MessageTypeConfig extends Config {
                 @SuppressWarnings("unchecked")
                 Class<? extends MessageType> typeClass = (Class<? extends MessageType>) Bean.getClass(pm.get("class"));
 
-                MessageType type = typeClass.getConstructor(Setup.class, int.class, ConfigMap.class).newInstance(Setup.getSetup(), id, pm);
+                MessageType type = typeClass.getConstructor(int.class, ConfigMap.class).newInstance(id, pm);
 
                 type.setId(id);
 
@@ -92,7 +91,7 @@ public class MessageTypeConfig extends Config {
 
     private static class MessageTypeUnknown extends MessageType {
         public MessageTypeUnknown(int id) {
-            super(null, id, "??? " + id, new Preferences());
+            super(id, "??? " + id, SimpleConfigMap.EMPTY);
         }
 
         @Override

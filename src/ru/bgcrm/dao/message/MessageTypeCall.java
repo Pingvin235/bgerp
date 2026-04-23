@@ -44,8 +44,8 @@ public class MessageTypeCall extends MessageType {
      */
     private volatile String callingSuffix;
 
-    public MessageTypeCall(Setup setup, int id, ConfigMap config) {
-        super(setup, id, config.get("title"), config);
+    public MessageTypeCall(int id, ConfigMap config) {
+        super(id, config.get("title"), config);
     }
 
     @Override

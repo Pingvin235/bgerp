@@ -92,8 +92,8 @@ public class MessageTypeHelpDesk extends MessageType {
     // событие о новых сообщениях
     private final boolean newMessageEvent;
 
-    public MessageTypeHelpDesk(Setup setup, int id, ConfigMap config) {
-        super(setup, id, config.get("title"), config);
+    public MessageTypeHelpDesk(int id, ConfigMap config) {
+        super(id, config.get("title"), config);
         this.billingId = config.get("billingId");
 
         String userName = config.get("user", "");
