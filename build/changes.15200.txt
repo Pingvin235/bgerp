@@ -1,0 +1,1 @@
+C: Show popup news subject in dialog title

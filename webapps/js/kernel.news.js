@@ -1,24 +1,18 @@
 // "use strict";
 
 $$.news = new function () {
-	const showPopupMessage = (title, message) => {
-		const $messageDiv = $("<div>" + message + "</div>");
-
-		$("body").append($messageDiv);
+	const showPopupNews = (html) => {
+		const $messageDiv = $(html).appendTo($('body'));
 
 		$($messageDiv).dialog({
-			autoOpen: false,
 			show: "slide",
 			hide: "explode",
 			resizable: false,
 			position: { my: "center top", at: "center top+100px", of: window },
-			title: title,
 			close: () => {
 				$messageDiv.remove();
 			}
 		});
-
-		$messageDiv.dialog("open");
 	}
 
 	// events
@@ -53,9 +47,9 @@ $$.news = new function () {
 		if (event.popupNews) {
 			event.popupNews.forEach(function (id) {
 				$$.ajax
-					.post('/user/news.do?method=newsGet&newsId=' + id, {html: true})
+					.post('/user/news.do?method=newsGet&newsId=' + id, { html: true })
 					.done(result => {
-						showPopupMessage(message['News'], result);
+						showPopupNews(result);
 					});
 			});
 		}
