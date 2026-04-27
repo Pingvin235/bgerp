@@ -30,20 +30,14 @@ $$.event = new function () {
 		eventProcessors = {};
 	}
 
-	// events
-	const processEvent = (event) => {
-		if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
-			$$.shell.contentLoad("/user/message/queue").done(() => {
-				$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?method=messageList'));
-			});
-		}
-		else if (event.className == 'ru.bgcrm.event.client.UrlOpenEvent') {
-			$$.shell.contentLoad(event.url);
-		}
-	}
+	// processing client events
+	addProcessor('ru.bgcrm.event.client.MessageOpenEvent', (event) => {
+		$$.shell.contentLoad("/user/message/queue").done(() => {
+			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?method=messageList'));
+		});
+	});
 
-	addProcessor('ru.bgcrm.event.client.MessageOpenEvent', processEvent);
-	addProcessor('ru.bgcrm.event.client.UrlOpenEvent', processEvent);
+	addProcessor('ru.bgcrm.event.client.UrlOpenEvent', () => $$.shell.contentLoad(event.url));
 
 	// public functions
 	this.addProcessor = addProcessor;

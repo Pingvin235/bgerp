@@ -88,5 +88,6 @@ $$.news = new function () {
 		$messagesLink.html(messagesCount);
 	}
 
+	// processing client events
 	$$.event.addProcessor('org.bgerp.event.client.NewsInfoEvent', processEvent);
 }

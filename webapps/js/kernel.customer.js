@@ -38,7 +38,7 @@ $$.customer = new function() {
 		$("#customer_title_" + customerId).text(customerTitle);
 	}
 
-	// events
+	// processing client events
 	$$.event.addProcessor('ru.bgcrm.event.client.CustomerTitleChangedEvent', (event) => changeTitle(event.id, event.title));
 	$$.event.addProcessor('ru.bgcrm.event.client.CustomerOpenEvent', (event) => open(event.id));
 

@@ -132,11 +132,8 @@ $$.bgbilling = new function () {
 		this.dateToUpdate = dateToUpdate;
 	}
 
-	// events
-	const processContractOpenEvent = (event) => {
-		contract.open(event.billingId, event.contractId);
-	}
-	$$.event.addProcessor('ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent', processContractOpenEvent);
+	// processing client events
+	$$.event.addProcessor('ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent', (event) => contract.open(event.billingId, event.contractId));
 
 	// public objects
 	this.contract = contract;
