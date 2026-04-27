@@ -1,8 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
-
 <c:set var="uiid" value="${u:uiid()}" scope="request"/>
 
 <c:set var="linkedObjects" value="['0'"/>
@@ -11,9 +9,11 @@
 </c:forEach>
 <c:set var="linkedObjects">${linkedObjects}]</c:set>
 
+<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ProcessCustomerLinkRoleConfig')}"/>
+
 <c:set var="script">
 	var customerLinkRoles = [];
-	<c:forEach var="item" items="${customerLinkRoleConfig.modeList}">
+	<c:forEach var="item" items="${customerLinkRoleConfig.list}">
 		customerLinkRoles.push( ['${item.id}', '${item.title}'] );
 	</c:forEach>
 
@@ -65,7 +65,7 @@
 						onclick="$$.ajax.post('${deleteAjaxUrl}').done(() =>{ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); })"/>
 		</c:set>
 
-		<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkObjectType]}"/>
+		<c:set var="customerLinkRole" value="${customerLinkRoleConfig.map[item.linkObjectType]}"/>
 
 		<c:if test="${not empty customerLinkRole}">
 			<tr title="ID: ${item.linkObjectId}">

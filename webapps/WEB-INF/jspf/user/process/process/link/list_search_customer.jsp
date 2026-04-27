@@ -1,8 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
-
 <h2>${l.l('Найдено')}: ${form.page.recordCount}, ${l.l('отображено')}: ${frd.list.size()}</h2>
 
 <table class="data">
@@ -12,6 +10,9 @@
 		<td width="100%">${l.l('Title')}</td>
 		<td>${l.l('Type')}</td>
 	</tr>
+
+	<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ProcessCustomerLinkRoleConfig')}"/>
+
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>
@@ -28,7 +29,7 @@
 			<td>${item.id}</td>
 			<td><ui:customer-link id="${item.id}" text="${item.title}"/></td>
 			<td nowrap="nowrap">
-				<ui:combo-single style="width: 100%;" list="${customerLinkRoleConfig.modeList}" onSelect="$$.process.link.customerRoleChanged(this)"/>
+				<ui:combo-single style="width: 100%;" list="${customerLinkRoleConfig.list}" onSelect="$$.process.link.customerRoleChanged(this)"/>
 			</td>
 		</tr>
 	</c:forEach>

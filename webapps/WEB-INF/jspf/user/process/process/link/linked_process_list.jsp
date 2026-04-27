@@ -102,7 +102,7 @@
 							<c:set var="linkedObjectType" value="${item.second}" scope="request" />
 							<c:choose>
 								<c:when test="${linkedObjectType.startsWith('customer' ) }">
-									${customerLinkRoleConfig.modeMap[linkedObjectType]}
+									${customerLinkRoleConfig.map[linkedObjectType]}
 								</c:when>
 								<c:otherwise>
 									<plugin:include endpoint="user.process.linked.list.jsp"/>

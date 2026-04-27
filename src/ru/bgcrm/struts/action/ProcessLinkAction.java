@@ -17,6 +17,7 @@ import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.customer.config.ProcessCustomerLinkRoleConfig;
 import org.bgerp.model.process.ProcessCreateType;
 import org.bgerp.model.process.queue.filter.Filter;
 import org.bgerp.model.process.queue.filter.FilterLinkObject;
@@ -32,7 +33,6 @@ import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.customer.config.ProcessLinkModesConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -83,7 +83,7 @@ public class ProcessLinkAction extends ProcessAction {
             queue.replaceRowsForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
         } else {
-            form.setRequestAttribute("customerLinkRoleConfig", setup.getConfig(ProcessLinkModesConfig.class));
+            form.setRequestAttribute("customerLinkRoleConfig", setup.getConfig(ProcessCustomerLinkRoleConfig.class));
 
             new ProcessLinkSearchDAO(conSet.getConnection(), form)
                 .withLinkObjectTypeLike(LikePattern.START.get(objectType))
