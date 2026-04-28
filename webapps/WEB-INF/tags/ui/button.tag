@@ -36,7 +36,7 @@
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Вырезать')}" class="btn-white icon ${styleClass}" onclick="${onclick};"><i class="ti-cut"></i></button>
 	</c:when>
 	<c:when test="${type eq 'out'}">
-		<button type="button" id="${id}" title="${not empty title ? title : l.l('Вывести')}" class="btn-grey icon ${styleClass}" onclick="${onclick};"><i class="ti-control-play"></i></button>
+		<button type="button" id="${id}" name="out" title="${not empty title ? title : l.l('Вывести')}" class="btn-grey icon ${styleClass}" onclick="${onclick};"><i class="ti-control-play"></i></button>
 	</c:when>
 	<c:when test="${type eq 'run'}">
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Run')}" class="btn-grey icon ${styleClass}" onclick="${onclick};"><i class="ti-control-play"></i></button>
