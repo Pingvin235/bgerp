@@ -46,7 +46,7 @@ $$.param = new function () {
 
 		$a.hover(
 			(e) => {
-				$$.ui.menuInit($a, $ul, 'left', true);
+				$$.ui.menuInit($a, $ul, 'left:right', true);
 			}
 		);
 	}

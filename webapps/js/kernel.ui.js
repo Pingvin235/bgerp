@@ -141,7 +141,7 @@ $$.ui = new function () {
 	 * Inits popup menu
 	 * @param {jQuery} $launcher selector of start button
 	 * @param {jQuery} $ul selector to <ul> of menu
-	 * @param {*} align 'left' or 'right'
+	 * @param {*} align 'left', 'right', 'right:left', 'left:right'
 	 * @param {*} show when true - show menu immediately, otherwise adds a click listener
 	 */
 	const menuInit = ($launcher, $ul, align, show) => {
@@ -167,9 +167,16 @@ $$.ui = new function () {
 
 			$$.ui.dropsHide();
 
+			let alignAt = align;
+			const pos = align.indexOf(':');
+			if (pos > 0) {
+				alignAt = align.substr(pos + 1);
+				align = align.substr(0, pos);
+			}
+
 			$ul.show().position({
 				my: align + " top",
-				at: align + " bottom",
+				at: alignAt + " bottom",
 				of: $launcher
 			});
 
