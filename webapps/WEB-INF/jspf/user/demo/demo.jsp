@@ -48,10 +48,12 @@
 <div>
 	<p:check action="${form.requestURI}:formSend">
 		<h2>Send Form with Parameter Validation</h2>
-		<form action="${form.requestURI}">
+		<form action="${form.requestURI}" onsubmit="this.out.click(); return false;">
+			<%-- the input is required if there are more than one text input in the form --%>
+			<input type="submit" hidden/>
 			<input type="hidden" name="method" value="formSend"/>
 			<input name="title" type="text" size="50" placeholder="Title"/>
-			<button type="button" class="btn-grey ml1" onclick="
+			<button type="button" name="out" class="btn-grey ml1" onclick="
 				$$.ajax.post(this.form).done((result) =>
 					$$.shell.message.show(result.data.messageTitle, result.data.messageText)
 				)
