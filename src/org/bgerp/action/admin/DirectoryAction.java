@@ -62,8 +62,8 @@ public class DirectoryAction extends BaseAction {
         new Directory("processParameter", "Process parameters", "parameterList", Process.OBJECT_TYPE),
         new Directory("userParameter", "User parameters", "parameterList", User.OBJECT_TYPE),
         new Directory("customerParameter", "Customer parameters", "parameterList", Customer.OBJECT_TYPE),
-        new Directory("customerParameterGroup", "Customer parameters groups", "parameterGroupList", null),
-        new Directory("customerPatternTitle", "Customer title patterns", "patternTitleList", null),
+        new Directory("customerParameterGroup", "Customer parameters groups", "parameterGroupList", Customer.OBJECT_TYPE),
+        new Directory("customerPatternTitle", "Customer title patterns", "patternTitleList", Customer.OBJECT_TYPE),
         new Directory("addressCityParameter", "City parameters", "parameterList", AddressCity.OBJECT_TYPE),
         new Directory("addressStreetParameter", "Street parameters", "parameterList", AddressStreet.OBJECT_TYPE),
         new Directory("addressHouseParameter", "House parameters", "parameterList", AddressHouse.OBJECT_TYPE)
