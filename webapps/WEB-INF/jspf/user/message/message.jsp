@@ -37,42 +37,46 @@
 						<jsp:include page="/WEB-INF/jspf/user/process/tree/process_type_tree.jsp"/>
 					</div>
 
+					<c:set var="customer" value="${frd.customer}"/>
+
 					<div class="mt1">
 						<h2>${l.l('Привязать')}</h2>
 
-						<c:set var="searchBlockId" value="${u:uiid()}"/>
-						<c:set var="searchResultId" value="${u:uiid()}"/>
+						<c:if test="${empty customer}">
+							<c:set var="searchBlockId" value="${u:uiid()}"/>
+							<c:set var="searchResultId" value="${u:uiid()}"/>
 
-						<div class="in-inline-block" id="${searchBlockId}">
-							<ui:combo-single name="searchId" prefixText="${l.l('Поиск')}:" styleClass="mr1"
-								onSelect="$('#${searchBlockId} > .filter').hide(); $('#${searchBlockId} > .filter#' + this.value).show();">
-								<jsp:attribute name="valuesHtml">
-									<c:forEach var="item" items="${messageType.searchMap}">
-										<li value="${item.key}">${item.value.title}</li>
-									</c:forEach>
-								</jsp:attribute>
-							</ui:combo-single>
+							<div class="in-inline-block" id="${searchBlockId}">
+								<ui:combo-single name="searchId" prefixText="${l.l('Поиск')}:" styleClass="mr1"
+									onSelect="$('#${searchBlockId} > .filter').hide(); $('#${searchBlockId} > .filter#' + this.value).show();">
+									<jsp:attribute name="valuesHtml">
+										<c:forEach var="item" items="${messageType.searchMap}">
+											<li value="${item.key}">${item.value.title}</li>
+										</c:forEach>
+									</jsp:attribute>
+								</ui:combo-single>
 
-							<c:set var="searchScript">
-								const searchId = this.form.searchId.value;
-								const url = '/user/message.do?typeId=${form.param.typeId}&messageId=' + encodeURIComponent('${form.param.messageId}') +
-									'&searchId=' + searchId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}') +
-									'&' + $(this.form).find('.filter#' + searchId).serializeAnything();
-								$$.ajax.load(url, $('#${uiid}').parent(), {control: this});
-							</c:set>
+								<c:set var="searchScript">
+									const searchId = this.form.searchId.value;
+									const url = '/user/message.do?typeId=${form.param.typeId}&messageId=' + encodeURIComponent('${form.param.messageId}') +
+										'&searchId=' + searchId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}') +
+										'&' + $(this.form).find('.filter#' + searchId).serializeAnything();
+									$$.ajax.load(url, $('#${uiid}').parent(), {control: this});
+								</c:set>
 
-							<c:set var="searchOnEnter" scope="request">onkeypress="if (enterPressed(event)) {${searchScript}; return false;}"</c:set>
+								<c:set var="searchOnEnter" scope="request">onkeypress="if (enterPressed(event)) {${searchScript}; return false;}"</c:set>
 
-							<c:forEach var="item" items="${messageType.searchMap}">
-								<c:if test="${not empty item.value.jsp}">
-									<div class="filter mr1" id="${item.key}" style="${form.param.searchId eq item.key ? '' : 'display: none;'}">
-										<jsp:include page="${item.value.jsp}"/>
-									</div>
-								</c:if>
-							</c:forEach>
+								<c:forEach var="item" items="${messageType.searchMap}">
+									<c:if test="${not empty item.value.jsp}">
+										<div class="filter mr1" id="${item.key}" style="${form.param.searchId eq item.key ? '' : 'display: none;'}">
+											<jsp:include page="${item.value.jsp}"/>
+										</div>
+									</c:if>
+								</c:forEach>
 
-							<button type="button" class="btn-grey" onclick="${searchScript}">${l.l('Искать')}</button>
-						</div>
+								<button type="button" class="btn-grey" onclick="${searchScript}">${l.l('Искать')}</button>
+							</div>
+						</c:if>
 
 						<div id="${searchResultId}">
 							<%@ include file="message_search_result.jsp"%>
@@ -86,7 +90,10 @@
 						<div class="hint">${l.l('Краткое описание процесса')}</div>
 
 						<div class="mt1">
-							<%@ include file="process_link_params.jsp"%>
+							<c:if test="${empty customer}">
+								<%@ include file="process_link_params.jsp"%>
+							</c:if>
+							<% out.flush(); %>
 
 							<%-- TODO: Make button disabled <p:check action="/user/message:processCreate"> --%>
 							<button class="btn-grey" type="button" onclick="

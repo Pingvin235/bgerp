@@ -27,6 +27,8 @@ public class Message extends Id {
     private int processId;
     private Process process;
 
+    private int customerId;
+
     // тип сообщения
     private int typeId = -1;
     // направение сообщения
@@ -100,6 +102,14 @@ public class Message extends Id {
     public Message withProcess(Process value) {
         setProcess(value);
         return this;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public Date getFromTime() {

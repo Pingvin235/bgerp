@@ -22,4 +22,8 @@ public class MessageOpenEvent extends ClientEvent {
     public String getSystemId() {
         return message.getSystemId();
     }
+
+    public int getCustomerId() {
+        return message.getCustomerId();
+    }
 }

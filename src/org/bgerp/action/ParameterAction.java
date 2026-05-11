@@ -35,6 +35,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.FileDataDAO;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.customer.CustomerLogDAO;
 import org.bgerp.dao.expression.Expression;
 import org.bgerp.dao.param.ParamLogDAO;
@@ -139,6 +140,9 @@ public class ParameterAction extends BaseAction {
 
             // used in plugin/asterisk/param_menu_items.jsp
             form.setRequestAttribute("process", process);
+        } else if (Customer.OBJECT_TYPE.equals(objectType)) {
+            // used in plugin/asterisk/param_menu_items.jsp
+            form.setRequestAttribute("customer", new CustomerDAO(conSet.getConnection()).getCustomerById(id));
         }
 
         Set<Integer> restrictedParamIds = Utils.toIntegerSet(form.getPermission().get("restrictedParameterIds"));

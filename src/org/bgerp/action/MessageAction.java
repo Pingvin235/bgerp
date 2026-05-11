@@ -23,6 +23,7 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.dao.customer.CustomerDAO;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
@@ -31,6 +32,7 @@ import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.model.msg.config.TagConfig;
 import org.bgerp.model.msg.config.TemplateConfig;
 import org.bgerp.model.process.ProcessCreateType;
+import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.sql.LikePattern;
@@ -365,6 +367,7 @@ public class MessageAction extends BaseAction {
     private void linksSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
         var type = getType(form.getParamInt("typeId"));
         var message = type.newMessageGet(conSet, form.getParam("messageId"));
+        int customerId = form.getParamInt("customerId");
 
         final var searchMap = type.getSearchMap();
 
@@ -378,32 +381,38 @@ public class MessageAction extends BaseAction {
                 search.search(form, conSet, message, searchedList);
                 form.setResponseData("searchedList", searchedList);
             }
-        }
-        // only searches without JSP
-        else {
-            var searches = searchMap.values().stream()
-                .filter(s -> Utils.isBlankString(s.getJsp()))
-                .collect(Collectors.toList());
-            if (!searches.isEmpty()) {
-                Set<CommonObjectLink> searchedList = Collections.synchronizedSet(new LinkedHashSet<>());
+        } else {
+            // the call was initiated from customer parameters
+            if (customerId > 0) {
+                var customer = new CustomerDAO(conSet.getSlaveConnection()).getCustomerById(customerId);
+                form.setResponseData("customer", customer);
+                form.setResponseData("searchedList", List.of(new ProcessLink(0, "customer", customerId, customer.getTitle())));
+            } else {
+                // only searches without JSP
+                var searches = searchMap.values().stream()
+                    .filter(s -> Utils.isBlankString(s.getJsp()))
+                    .collect(Collectors.toList());
+                if (!searches.isEmpty()) {
+                    Set<CommonObjectLink> results = Collections.synchronizedSet(new LinkedHashSet<>());
 
-                var executors = Executors.newFixedThreadPool(searches.size());
+                    var executors = Executors.newFixedThreadPool(searches.size());
 
-                for (var search : searches) {
-                    executors.execute(() -> {
-                        try {
-                            search.search(form, conSet, message, searchedList);
-                        } catch (Exception e) {
-                            log.error(e);
-                        }
-                    });
+                    for (var search : searches) {
+                        executors.execute(() -> {
+                            try {
+                                search.search(form, conSet, message, results);
+                            } catch (Exception e) {
+                                log.error(e);
+                            }
+                        });
+                    }
+
+                    executors.shutdown();
+                    if (!executors.awaitTermination(2, TimeUnit.MINUTES))
+                        log.error("Timeout waiting threads");
+
+                    form.setResponseData("searchedList", results);
                 }
-
-                executors.shutdown();
-                if (!executors.awaitTermination(2, TimeUnit.MINUTES))
-                    log.error("Timeout waiting threads");
-
-                form.setResponseData("searchedList", searchedList);
             }
         }
     }

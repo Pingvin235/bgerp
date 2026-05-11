@@ -55,10 +55,8 @@ public class MessageTypeCallListener implements EventListener<Event> {
             if (reg != null) {
                 var message = reg.getMessageForOpen();
                 if (message != null) {
-                    if (message.getProcessId() > 0)
-                        event.getForm().getResponse().addEvent(new ProcessOpenEvent(message.getProcessId()));
-                    else
-                        event.getForm().getResponse().addEvent(new MessageOpenEvent(message));
+                    event.getForm().getResponse()
+                            .addEvent(message.getProcessId() > 0 ? new ProcessOpenEvent(message.getProcessId()) : new MessageOpenEvent(message));
                     reg.setMessageForOpen(null);
                 }
             }

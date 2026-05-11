@@ -20,4 +20,3 @@
 	</ui:combo-single>
 </c:if>
 
-<% out.flush(); %>

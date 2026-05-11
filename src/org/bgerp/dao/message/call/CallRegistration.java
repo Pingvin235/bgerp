@@ -30,8 +30,8 @@ public class CallRegistration {
         this.messageForOpen = value;
     }
 
-    public void outCall(String number, int processId) {
-        outCall = new OutCall(number, processId);
+    public void outCall(String number, int processId, int customerId) {
+        outCall = new OutCall(number, processId, customerId);
     }
 
     public OutCall getOutCall() {

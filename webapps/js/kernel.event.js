@@ -33,7 +33,7 @@ $$.event = new function () {
 	// processing client events
 	addProcessor('ru.bgcrm.event.client.MessageOpenEvent', (event) => {
 		$$.shell.contentLoad("/user/message/queue").done(() => {
-			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?method=messageList'));
+			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&customerId=' + event.customerId + '&returnUrl=' + encodeURIComponent('/user/message.do?method=messageList'));
 		});
 	});
 

@@ -72,11 +72,15 @@ public class MessageCallAction extends BaseAction {
         var type = getCallMessageType(form);
 
         int processId = form.getParamInt("processId");
+        int customerId = form.getParamInt("customerId");
+        if (processId <= 0 && customerId <= 0)
+            throw new BGIllegalArgumentException();
+
         String number = form.getParam("number", Utils::notBlankString);
 
         var reg = type.getRegistrationByUser(form.getUserId());
         if (reg != null)
-            reg.outCall(number, processId);
+            reg.outCall(number, processId, customerId);
 
         return json(conSet, form);
     }
@@ -85,16 +89,22 @@ public class MessageCallAction extends BaseAction {
         var type = getCallMessageType(form);
 
         var reg = getRegistrationOrThrow(form, type);
+        String number = form.getParam("number", Utils::notBlankString);
+        int direction = form.getParamInt("direction", value -> value == Message.DIRECTION_INCOMING || value == Message.DIRECTION_OUTGOING);
 
         var message = new Message();
-        message.setDirection(Message.DIRECTION_INCOMING);
+        message.setDirection(direction);
         message.setTypeId(type.getId());
         message.setUserId(reg.getUserId());
         message.setText("");
-        message.setFrom(form.getParam("testCallFrom", "+734702"));
-        message.setTo(reg.getNumber());
+        message.setFrom(direction == Message.DIRECTION_INCOMING ? number : reg.getNumber());
+        message.setTo(direction == Message.DIRECTION_INCOMING ? reg.getNumber() : number);
         message.setFromTime(new Date());
         message.setSystemId(String.valueOf(System.currentTimeMillis()));
+        if (direction == Message.DIRECTION_OUTGOING) {
+            message.setProcessId(form.getParamInt("processId"));
+            message.setCustomerId(form.getParamInt("customerId"));
+        }
 
         type.updateMessage(con, form, message);
 
