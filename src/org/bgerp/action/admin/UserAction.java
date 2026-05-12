@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action.admin;
+package org.bgerp.action.admin;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,7 +33,7 @@ import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/admin/user")
+@Action(path = "/admin/user", pathId = true)
 public class UserAction extends org.bgerp.action.base.BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/user";
 

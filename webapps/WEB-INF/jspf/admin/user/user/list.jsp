@@ -31,7 +31,7 @@
 		</jsp:attribute>
 	</ui:combo-single>
 
-	<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.admin.UserAction:userList')}"/>
+	<c:set var="perm" value="${ctxUser.getPerm('/admin/user:userList')}"/>
 	<c:if test="${empty perm['allowOnlyGroups'] or not empty perm['allowFilterGroups']}">
 		<ui:select-single name="group"
 			list="${ctxUserGroupFullTitledList}" map="${ctxUserGroupFullTitledMap}"

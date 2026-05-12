@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.admin.UserAction:userUpdate')}" />
+<c:set var="perm" value="${ctxUser.getPerm('/admin/user:userUpdate')}" />
 <c:set var="user" value="${frd.user}" />
 <c:set var="grantedPermission" value="${frd.grantedPermission}" scope="request" />
 

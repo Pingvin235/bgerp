@@ -42,15 +42,15 @@
 
 	<ui:menu-item title="${l.l('Parameters')}" href="admin/param" icon="ti-palette" action="/admin/directory:null" />
 
-	<ui:menu-group title="${l.l('Пользователи')}" icon="ti-user">
+	<ui:menu-group title="${l.l('User')}" icon="ti-user">
 		<ui:menu-item title="${l.l('Permission Sets')}" href="admin/user/permset"
-			action="ru.bgcrm.struts.action.admin.UserAction:permsetList" />
+			action="/admin/user:permsetList" />
 
 		<ui:menu-item title="${l.l('Groups')}" href="admin/user/group"
-			action="ru.bgcrm.struts.action.admin.UserAction:groupList" />
+			action="/admin/user:groupList" />
 
 		<ui:menu-item title="${l.l('Пользователи')}" href="admin/user"
-			action="ru.bgcrm.struts.action.admin.UserAction:userList"/>
+			action="/admin/user:userList"/>
 	</ui:menu-group>
 
 	<ui:menu-group title="${l.l('Процессы')}" icon="ti-control-shuffle">
