@@ -182,45 +182,40 @@
 	<item title="Administration">
 		<item title="User">
 			<item title="Users">
-				<item title="Просмотр пользователей" action="/admin/user:userList, ru.bgcrm.struts.action.admin.UserAction:userList">
-					<b>allowOnlyGroups</b> - коды разрешённых к просмотру групп, коды групп через запятую<br/>
-					<b>allowFilterGroups</b> - коды разрешённых к просмотру групп, которые будут отображаться в фильтре по группе, коды групп через запятую<br/>
+				<item title="View" action="/admin/user:userList, ru.bgcrm.struts.action.admin.UserAction:userList">
+					<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
+					<b>allowFilterGroups</b> - comma-separated group IDs, presented in the group filter<br/>
 				</item>
-				<item title="Просмотр пользователя" action="/admin/user:userGet, ru.bgcrm.struts.action.admin.UserAction:userGet"/>
-				<item title="Изменение пользователя" action="/admin/user:userUpdate, ru.bgcrm.struts.action.admin.UserAction:userUpdate">
-					<b>setConfigVars</b> - переменные для установки в конфигурацию пользователя: переменная1=значение1;переменная2=значение2..<br/>
-					<b>groupSet</b> - принудительно устанавливаемые в создаваемом пользователе группы, коды групп через запятую.<br/>
-					<b>permsetSet</b> - принудительно устанавливаемые в создаваемом пользователе наборы прав, коды наборов через запятую.<br/>
-					<b>queueSet</b> - принудительно устанавливаемые в создаваемом пользователе очереди процессов, коды очередей через запятую.<br/>
-					<b>permDisable</b> - запрет обновления прав пользователя, 1<br/>
-					<b>configDisable</b> - запрет обновления конфигурации пользователя, 1<br/>
-					<b>allowPermsetSet</b> - ограничить список наборов прав, которые пользователь может указать при создании/изменении, коды наборов прав через запятую<br/>
+				<item title="Edit" action="/admin/user:userUpdate, /admin/user:userGet, ru.bgcrm.struts.action.admin.UserAction:userUpdate, ru.bgcrm.struts.action.admin.UserAction:userGet">
+					<b>configDisable</b> - 1 - do not update user configuration<br/>
+					<b>setConfigVars</b> - key1=value1;key2=value2 - pairs to be added to a created user config<br/>
+					<b>permsetSet</b> - comma-separated permission set IDs for a created user, not updated in a user after<br/>
+					<b>groupSet</b> - comma-separated group IDs for a created user, not updated in a user after<br/>
+					<b>queueSet</b> - comma-separated process queue IDs for a created user, not updated in a user after<br/>
+					<b>permDisable</b> - 1 - do not update user permissions<br/>
 				</item>
-				<item title="Удаление пользователя" action="/admin/user:userDelete, ru.bgcrm.struts.action.admin.UserAction:userDelete"/>
-				<item title="Просмотр групп пользователя" action="/admin/user:userGroupList, ru.bgcrm.struts.action.admin.UserAction:userGroupList"/>
-				<item title="Добавление группы пользователя" action="/admin/user:userAddGroup, ru.bgcrm.struts.action.admin.UserAction:userAddGroup">
-					<b>allowOnlyGroups</b> - коды разрешенных к добавлению групп, коды групп через запятую<br/>
-				</item>
-				<item title="Удаление группы пользователя" action="/admin/user:userRemoveGroup, ru.bgcrm.struts.action.admin.UserAction:userRemoveGroup">
-					<b>allowOnlyGroups</b> - коды разрешенных к удалению групп, коды групп через запятую<br/>
-				</item>
-				<item title="Закрытие периода группы пользователя" action="/admin/user:userClosePeriodGroup, ru.bgcrm.struts.action.admin.UserAction:userClosePeriodGroup">
-					<b>allowOnlyGroups</b> - коды разрешенных к закрытию периода групп, коды групп через запятую<br/>
+				<item title="Delete" action="/admin/user:userDelete, ru.bgcrm.struts.action.admin.UserAction:userDelete"/>
+				<item title="Groups" action="/admin/user:userGroupList, ru.bgcrm.struts.action.admin.UserAction:userGroupList">
+					<item title="Add" action="/admin/user:userAddGroup, ru.bgcrm.struts.action.admin.UserAction:userAddGroup">
+						<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
+					</item>
+					<item title="Delete" action="/admin/user:userRemoveGroup, ru.bgcrm.struts.action.admin.UserAction:userRemoveGroup">
+						<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
+					</item>
+					<item title="Close Date" action="/admin/user:userClosePeriodGroup, ru.bgcrm.struts.action.admin.UserAction:userClosePeriodGroup">
+						<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
+					</item>
 				</item>
 			</item>
-			<item title="Группы">
-				<item title="Просмотр групп" action="/admin/user:groupList, ru.bgcrm.struts.action.admin.UserAction:groupList"/>
-				<item title="Просмотр группы" action="/admin/user:groupGet, ru.bgcrm.struts.action.admin.UserAction:groupGet"/>
-				<item title="Изменение группы" action="/admin/user:groupUpdate, ru.bgcrm.struts.action.admin.UserAction:groupUpdate"/>
-				<item title="Удаление группы" action="/admin/user:groupDelete, ru.bgcrm.struts.action.admin.UserAction:groupDelete"/>
-				<item title="Перемещение группы" action="/admin/user:groupInsertMark, ru.bgcrm.struts.action.admin.UserAction:groupInsertMark"/>
+			<item title="Groups" action="/admin/user:groupList, ru.bgcrm.struts.action.admin.UserAction:groupList">
+				<item title="Edit" action="/admin/user:groupUpdate, /admin/user:groupGet, ru.bgcrm.struts.action.admin.UserAction:groupUpdate, ru.bgcrm.struts.action.admin.UserAction:groupGet"/>
+				<item title="Delete" action="/admin/user:groupDelete, ru.bgcrm.struts.action.admin.UserAction:groupDelete"/>
+				<item title="Move" action="/admin/user:groupInsertMark, ru.bgcrm.struts.action.admin.UserAction:groupInsertMark"/>
 			</item>
-			<item title="Наборы прав">
-				<item title="Просмотр наборов" action="/admin/user:permsetList, ru.bgcrm.struts.action.admin.UserAction:permsetList"/>
-				<item title="Просмотр набора" action="/admin/user:permsetGet, ru.bgcrm.struts.action.admin.UserAction:permsetGet"/>
-				<item title="Изменение набора" action="/admin/user:permsetUpdate, ru.bgcrm.struts.action.admin.UserAction:permsetUpdate"/>
-				<item title="Удаление набора" action="/admin/user:permsetDelete, ru.bgcrm.struts.action.admin.UserAction:permsetDelete"/>
-				<item title="Замена прав в наборе" action="/admin/user:permsetReplacePermissions, ru.bgcrm.struts.action.admin.UserAction:permsetReplacePermissions"/>
+			<item title="Permission Sets" action="/admin/user:permsetList, ru.bgcrm.struts.action.admin.UserAction:permsetList">
+				<item title="Edit" action="/admin/user:permsetUpdate, /admin/user:permsetGet, ru.bgcrm.struts.action.admin.UserAction:permsetUpdate, ru.bgcrm.struts.action.admin.UserAction:permsetGet"/>
+				<item title="Delete" action="/admin/user:permsetDelete, ru.bgcrm.struts.action.admin.UserAction:permsetDelete"/>
+				<item title="Replace Permissions" action="/admin/user:permsetReplacePermissions, ru.bgcrm.struts.action.admin.UserAction:permsetReplacePermissions"/>
 			</item>
 		</item>
 

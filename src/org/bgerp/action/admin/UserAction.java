@@ -272,7 +272,8 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
 
         String setConfVars = perm.get("setConfigVars");
         if (Utils.notBlankString(setConfVars)) {
-            user.setConfig(user.getConfig() + "\n" + setConfVars.replace(';', '\n'));
+            if (id <= 0)
+                user.setConfig(user.getConfig() + "\n" + setConfVars.replace(';', '\n'));
         }
 
         String permsetSet = perm.get("permsetSet", "");
@@ -285,7 +286,6 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
         }
 
         String groupSet = perm.get("groupSet", "");
-
         if (Utils.notBlankString(groupSet)) {
             if (id <= 0) {
                 user.setGroupIds(Utils.toIntegerSet(groupSet));
