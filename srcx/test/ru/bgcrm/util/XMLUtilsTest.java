@@ -2,6 +2,7 @@ package ru.bgcrm.util;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 import org.bgerp.util.xml.XMLUtils;
 import org.junit.Assert;
@@ -44,5 +45,9 @@ public class XMLUtilsTest {
         Assert.assertEquals("Line\nbreak.", XMLUtils.getElementText(XMLUtils.getNode(doc, "item2")));
         Assert.assertEquals("Formatted HTML <b>text</b><br/>\nwith linebreaks and <i>so on</i>.", XMLUtils.getElementText(XMLUtils.getNode(doc, "item3")));
         Assert.assertEquals("Текст на Великом и Могучем", XMLUtils.getElementText(XMLUtils.getNode(doc, "item4")));
+        Assert.assertEquals("\n\t<item1>Simple text.</item1>\n\t\n" +
+                        "\t<item3>Formatted HTML <b>text</b><br/>\n" +
+                        "with linebreaks and <i>so on</i>.</item3>\n\t\n",
+                        XMLUtils.getElementText(doc.getDocumentElement(), Set.of("item2", "item4")));
     }
 }

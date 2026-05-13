@@ -3,6 +3,7 @@ package org.bgerp.util.xml;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,10 +30,20 @@ public class XMLUtils {
 
     /***
      * Extracts content of a XML element as a string with all sub-tags.
-     * @param node the element node.
-     * @return
+     * @param node the element node
+     * @return the nodes' content
      */
     public static String getElementText(Node node) {
+        return getElementText(node, null);
+    }
+
+    /***
+     * Extracts content of a XML element as a string with all sub-tags.
+     * @param node the element node
+     * @param skipNodeNames if not {@code null} - node names to be skipped
+     * @return the nodes' content
+     */
+    public static String getElementText(Node node, Set<String> skipNodeNames) {
         StringBuffer reply = new StringBuffer();
 
         NodeList children = node.getChildNodes();
@@ -41,7 +52,7 @@ public class XMLUtils {
 
             if ((child instanceof CharacterData && !(child instanceof Comment)) || child instanceof EntityReference) {
                 reply.append(child.getNodeValue());
-            } else if (child.getNodeType() == Node.ELEMENT_NODE) {
+            } else if (child.getNodeType() == Node.ELEMENT_NODE && (skipNodeNames == null || !skipNodeNames.contains(child.getNodeName()))) {
                 if (child.getChildNodes().getLength() == 0) {
                     reply.append("<").append(child.getNodeName()).append("/>");
                 } else {

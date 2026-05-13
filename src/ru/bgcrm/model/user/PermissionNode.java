@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.base.Actions;
@@ -168,9 +169,8 @@ public class PermissionNode {
 
         loadChildren(l, node);
 
-        if (Utils.notEmptyString(action) && children.isEmpty()) {
-            description = XMLUtils.getElementText(node);
-        }
+        if (Utils.notEmptyString(action))
+            description = XMLUtils.getElementText(node, Set.of("item")).trim();
 
         validateAction();
     }
