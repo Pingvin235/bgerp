@@ -127,17 +127,6 @@ public class XMLUtils {
         }
     }
 
-    /**
-     * Установка значения атрибута, только если оно не равно null.
-     * @param element элемент
-     * @param name имя аттрибута
-     * @param value значение аттрибута
-     */
-    public static void setAttribute(org.w3c.dom.Element element, String name, String value) {
-        if (value != null)
-            element.setAttribute(name, value);
-    }
-
     public static Document parseDocument(InputStream stream) {
         return parseDocument(new InputSource(stream));
     }
