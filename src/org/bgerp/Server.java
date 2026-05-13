@@ -129,9 +129,9 @@ public class Server extends Tomcat {
         context.setWorkDir(TOMCAT_WORK_DIR);
         context.setUseNaming(false);
 
-        /* Similar to XML configuration: <CookieProcessor sameSiteCookies="strict" /> */
+        /* Similar to XML configuration: <CookieProcessor sameSiteCookies="strict|lax|none" /> */
         var cookieProcessor = new Rfc6265CookieProcessor();
-        cookieProcessor.setSameSiteCookies("strict");
+        cookieProcessor.setSameSiteCookies("lax");
         context.setCookieProcessor(cookieProcessor);
 
         context.getJarScanner().setJarScanFilter((type, name) -> {
