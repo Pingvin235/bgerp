@@ -57,28 +57,46 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     private void createOrUpdateUser(AuthEvent event, AuthResult result) {
         var user = event.getUser();
-        if (user == null
-            || !user.getGroupIds().equals(result.getUser().getGroupIds())
-            || !user.getTitle().equals(result.getUser().getTitle())) {
-            log.debug("Create or update user {} from {}", user, result.getUser());
+        if (user == null) {
+            user = result.getUser();
+
+            log.info("Creating new user with login: {}", user.getLogin());
 
             try (var con = Setup.getSetup().getDBConnectionFromPool()) {
                 var dao = new UserDAO(con);
-                if (user == null)
-                    user = result.getUser();
 
-                user.setTitle(result.getUser().getTitle());
-                dao.updateUser(user);
                 user.setGroupIds(result.getUser().getGroupIds());
-                dao.updateUserGroups(user);
+                dao.updateUser(user);
 
-                // TODO: Duplicated groups!!
-                // Title with :
                 event.setUser(user);
 
                 UserCache.flush(con);
             } catch (SQLException e) {
                 log.error(e);
+            }
+        } else {
+            boolean titleUpdate = !user.getTitle().equals(result.getUser().getTitle());
+            boolean groupsUpdate = !user.getGroupIds().equals(result.getUser().getGroupIds());
+
+            if (titleUpdate || groupsUpdate) {
+                log.info("Updating user with login: {}, title: {}, groups: {}", user.getLogin(), titleUpdate, groupsUpdate);
+
+                try (var con = Setup.getSetup().getDBConnectionFromPool()) {
+                    var dao = new UserDAO(con);
+
+                    if (titleUpdate) {
+                        user.setTitle(result.getUser().getTitle());
+                        dao.updateUser(user);
+                    }
+
+                    if (groupsUpdate) {
+                        dao.updateUserGroups(user.getId(), user.getGroupIds(), result.getUser().getGroupIds());
+                    }
+
+                    UserCache.flush(con);
+                } catch (SQLException e) {
+                    log.error(e);
+                }
             }
         }
     }

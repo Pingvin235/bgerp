@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -579,11 +580,10 @@ public class UserDAO extends CommonDAO {
         ps.close();
     }
 
-    public List<UserGroup> getUserGroupList(int userId, Date date) {
+    public List<UserGroup> getUserGroupList(int userId, Date date) throws SQLException {
         List<UserGroup> result = new ArrayList<>();
 
-        try {
-            PreparedQuery pq = new PreparedQuery(con);
+        try (var pq = new PreparedQuery(con)) {
             pq.addQuery("SELECT * FROM " + TABLE_USER_GROUP + " WHERE user_id=? ");
             pq.addInt(userId);
 
@@ -599,12 +599,13 @@ public class UserDAO extends CommonDAO {
             while (rs.next()) {
                 result.add(getUserGroupFromRs(rs));
             }
-            pq.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
 
         return result;
+    }
+
+    private UserGroup getUserGroupFromRs(ResultSet rs) throws SQLException {
+        return new UserGroup(rs.getInt("group_id"), rs.getTimestamp("date_from"), rs.getTimestamp("date_to"));
     }
 
     /**
@@ -626,8 +627,34 @@ public class UserDAO extends CommonDAO {
         }
     }
 
-    private UserGroup getUserGroupFromRs(ResultSet rs) throws SQLException {
-        return new UserGroup(rs.getInt("group_id"), rs.getTimestamp("date_from"), rs.getTimestamp("date_to"));
+    /**
+     * Update a user groups from the current day, all the missing ones are closed by the day before
+     * @param id the user ID
+     * @param currentGroupIds current group IDs
+     * @param groupIds new group IDs
+     * @throws SQLException
+     */
+    public void updateUserGroups(int id, Set<Integer> currentGroupIds, Set<Integer> groupIds) throws SQLException {
+        Collection<Integer> closeIds = CollectionUtils.subtract(currentGroupIds, groupIds);
+        if (!closeIds.isEmpty()) {
+            String query = SQL_UPDATE + TABLE_USER_GROUP + SQL_SET + "date_to=SUBDATE(CURDATE(), 1)" + SQL_WHERE + "user_id=? AND date_to IS NULL AND group_id IN (" + Utils.toString(closeIds) + ")";
+            try (var ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+        }
+
+        Collection<Integer> openIds = CollectionUtils.subtract(groupIds, currentGroupIds);
+        if (!openIds.isEmpty()) {
+            String query = SQL_INSERT_INTO + TABLE_USER_GROUP + "(user_id, date_from, group_id)" + SQL_VALUES + "(?, CURDATE(), ?)";
+            try (var ps = con.prepareStatement(query)) {
+                ps.setInt(1, id);
+                for (int groupId : openIds) {
+                    ps.setInt(2, groupId);
+                    ps.executeUpdate();
+                }
+            }
+        }
     }
 
     public void closeUserGroupPeriod(int userId, int groupId, Date date, Date dateFrom, Date dateTo)
