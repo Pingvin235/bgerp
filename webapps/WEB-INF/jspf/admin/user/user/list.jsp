@@ -22,7 +22,7 @@
 	<%@ include file="user_status_const.jsp"%>
 
 	<ui:combo-single name="status" value="${form.param.status}" onSelect="${showCode}"
-		prefixText="${l.l('Status')}:" widthTextValue="70px">
+		prefixText="${l.l('Status')}:" widthTextValue="6em">
 		<jsp:attribute name="valuesHtml">
 			<li value="${STATUS_ACTIVE}">${l.l('Active')}</li>
 			<li value="${STATUS_DISABLED}">${l.l('Blocked')}</li>
@@ -37,13 +37,13 @@
 			list="${ctxUserGroupFullTitledList}" map="${ctxUserGroupFullTitledMap}"
 			availableIdSet="${u.toIntegerSet(perm['allowFilterGroups'])}"
 			value="${form.param.group}"
-			onSelect="${showCode}" placeholder="${l.l('Group')}" style="width: 200px;"/>
+			onSelect="${showCode}" placeholder="${l.l('Group')}" style="width: 15em;"/>
 
 		<ui:date-time name="date" placeholder="${l.l('Гр. на дату')}" value="${form.param.date}"/>
 	</c:if>
 
 	<ui:select-single list="${ctxUserPermsetList}" name="permset" value="${form.param.permset}"
-		onSelect="${showCode}" placeholder="${l.l('Набор прав')}" style="width: 200px;"/>
+		onSelect="${showCode}" placeholder="${l.l('Набор прав')}" style="width: 15em;"/>
 
 	<ui:button type="out" onclick="$$.ajax.loadContent(this);"/>
 
