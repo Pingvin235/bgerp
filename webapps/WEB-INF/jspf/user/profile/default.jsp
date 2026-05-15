@@ -4,13 +4,16 @@
 <c:set var="requestUserId" value="${form.param.userId}" />
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<%@ include file="/WEB-INF/jspf/admin/user/user/user_status_const.jsp"%>
-
 <div class="center1020">
 	<c:choose>
 		<c:when test="${empty requestUserId || requestUserId == form.userId}">
-			<h1>${l.l('Main Properties')}</h1>
-			<c:import url="/user/profile.do?method=settings"/>
+			<%@ include file="/WEB-INF/jspf/admin/user/user/user_status_const.jsp"%>
+
+			<%-- hide for external users --%>
+			<c:if test="${ctxUser.status eq STATUS_ACTIVE}">
+				<h1>${l.l('Main Properties')}</h1>
+				<c:import url="/user/profile.do?method=settings"/>
+			</c:if>
 
 			<h1>${l.l('Additional Properties')}</h1>
 			<c:import url="/user/profile.do?method=settings&subAction=parameters&requestUserId=${requestUserId}"/>
