@@ -31,24 +31,16 @@ public class ProfileAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/default.jsp");
     }
 
-    public ActionForward settings(DynActionForm form, Connection con) throws Exception {
-        int requestedUserId = form.getParamInt("requestUserId", 0);
+    public ActionForward settings(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return html(conSet, form, PATH_JSP + "/settings.jsp");
+    }
 
-        UserDAO userDAO = new UserDAO(con);
-        User user = UserCache.getUser(requestedUserId > 0 ? requestedUserId : form.getUserId());
-        String subAction = form.getParam("subAction") == null ? "" : form.getParam("subAction");
+    public ActionForward parameters(DynActionForm form, ConnectionSet conSet) throws Exception {
+        int userId = form.getParamInt("requestUserId", form.getUserId());
 
-        if (user != null) {
-            form.setResponseData("user", user);
-            form.setResponseData("userGroupList", UserCache.getUserGroupList(user.getId(), new Date()));
-            form.setResponseData("grantedPermission", userDAO.getPermissions(user.getId()));
-        }
+        form.setResponseData("userGroupList", UserCache.getUserGroupList(userId, new Date()));
 
-        if (subAction.equals("parameters")) {
-            return html(con, form, PATH_JSP + "/parameters.jsp");
-        }
-
-        return html(con, form, PATH_JSP + "/settings.jsp");
+        return html(conSet, form, PATH_JSP + "/parameters.jsp");
     }
 
     public ActionForward updateSettings(DynActionForm form, Connection con) throws Exception {

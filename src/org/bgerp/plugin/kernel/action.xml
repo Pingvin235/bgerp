@@ -156,6 +156,17 @@
 		<item title="Object Properties Change Log" action="/user/parameter:entityLog, ru.bgcrm.struts.action.ParameterAction:entityLog"/>
 	</item>
 
+	<item title="User">
+		<item title="Profile" action="/user/profile:getUserProfile, ru.bgcrm.struts.action.ProfileAction:getUserProfile">
+			<item title="Own Main Properties" action="/user/profile:updateSettings, /user/profile:settings, ru.bgcrm.struts.action.ProfileAction:updateSettings"/>
+
+			<item title="Groups and Parameters" action="/user/profile:parameters"/>
+
+			<item title="Own Interface Options" action="/user/profile:updatePersonalization"/>
+		</item>
+		<item title="List of users" action="ru.bgcrm.struts.action.UserAction:userList"/>
+	</item>
+
 	<item title="File">
 		<item title="Download" action="org.bgerp.action.FileAction:null, ru.bgcrm.struts.action.FileAction:null"/>
 		<item allowAll="1" action="org.bgerp.action.FileAction:temporaryUpload"/>
@@ -169,14 +180,6 @@
 		<item title="Удаление привязки" action="ru.bgcrm.struts.action.LinkAction:deleteLink"/>
 		<item title="Удаление привязок объекта" action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo"/>
 		<item title="Удаление привязок определённого типа" action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType"/>
-	</item>
-
-	<item title="User">
-		<item title="List of users" action="ru.bgcrm.struts.action.UserAction:userList"/>
-		<item title="Edit Profile" action="/user/profile:updateSettings, ru.bgcrm.struts.action.ProfileAction:updateSettings"/>
-		<item allowAll="1" action="/user/profile:getUserProfile, ru.bgcrm.struts.action.ProfileAction:getUserProfile"/>
-		<item allowAll="1" action="/user/profile:settings, ru.bgcrm.struts.action.ProfileAction:settings"/>
-		<item allowAll="1" action="/user/profile:updatePersonalization, ru.bgcrm.struts.action.ProfileAction:updatePersonalization"/>
 	</item>
 
 	<item title="Administration">

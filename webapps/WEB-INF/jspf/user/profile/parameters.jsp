@@ -4,30 +4,28 @@
 <c:set var="requestUserId" value="${form.param.requestUserId}" />
 
 <div>
-<c:if test="${requestUserId > 0}">
-	<h2>${l.l('Groups')}</h2>
+	<c:if test="${requestUserId > 0}">
+		<h1>${l.l('Groups')}</h1>
 
-	<c:set var="readOnly" value="${true}" />
-	<c:set var="user" value="${frd.user}" />
-	<c:set var="userGroupList" value="${frd.userGroupList}" />
-	<%@ include file="/WEB-INF/jspf/admin/user/user/update_usergroup.jsp"%>
+		<c:set var="readOnly" value="${true}" />
+		<c:set var="user" value="${frd.user}" />
+		<c:set var="userGroupList" value="${frd.userGroupList}" />
+		<%@ include file="/WEB-INF/jspf/admin/user/user/update_usergroup.jsp"%>
 
-	<h2>${l.l('Parameters')}</h2>
-</c:if>
-<c:if test="${form.userId != '-1' }">
-		<div id="userParameters">
-			<c:url var="url" value="/user/parameter.do">
-				<c:param name="method" value="parameterList" />
-
-				<c:if test="${not empty requestUserId && requestUserId != form.userId}">
-					<c:param name="readOnly" value="1"/>
-					<c:param name="logDisable" value="1"/>
-				</c:if>
-
-				<c:param name="id" value="${requestUserId > 0 ? requestUserId : form.userId}" />
-				<c:param name="objectType" value="user" />
-			</c:url>
-			<c:import url="${url}" />
-		</div>
+		<h1>${l.l('Parameters')}</h1>
 	</c:if>
+	<div>
+		<c:url var="url" value="/user/parameter.do">
+			<c:param name="method" value="parameterList" />
+
+			<c:if test="${not empty requestUserId && requestUserId != form.userId}">
+				<c:param name="readOnly" value="1"/>
+				<c:param name="logDisable" value="1"/>
+			</c:if>
+
+			<c:param name="id" value="${requestUserId > 0 ? requestUserId : form.userId}" />
+			<c:param name="objectType" value="user" />
+		</c:url>
+		<c:import url="${url}" />
+	</div>
 </div>

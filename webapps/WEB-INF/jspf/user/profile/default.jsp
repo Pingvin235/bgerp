@@ -10,109 +10,108 @@
 			<%@ include file="/WEB-INF/jspf/admin/user/user/user_status_const.jsp"%>
 
 			<%-- hide for external users --%>
-			<c:if test="${ctxUser.status eq STATUS_ACTIVE}">
+			<c:if test="${ctxUser.status eq STATUS_ACTIVE and ctxUser.checkPerm('/user/profile:updateSettings')}">
 				<h1>${l.l('Main Properties')}</h1>
 				<c:import url="/user/profile.do?method=settings"/>
 			</c:if>
 
-			<h1>${l.l('Additional Properties')}</h1>
-			<c:import url="/user/profile.do?method=settings&subAction=parameters&requestUserId=${requestUserId}"/>
+			<p:check action="/user/profile:parameters">
+				<c:import url="/user/profile.do?method=parameters&requestUserId=${requestUserId}"/>
+			</p:check>
 
-			<h1>${l.l('Interface Options')}</h1>
+			<p:check action="/user/profile:updatePersonalization">
+				<h1>${l.l('Interface Options')}</h1>
+				<html:form action="/user/profile">
+					<input type="hidden" name="method" value="updatePersonalization"/>
 
-			<html:form action="/user/profile">
-				<input type="hidden" name="method" value="updatePersonalization"/>
+					<table class="data">
+						<tr>
+							<td>${l.l('Option')}</td>
+							<td width="100%">${l.l('Value')}</td>
+						</tr>
 
-				<table class="data">
-					<tr>
-						<td>${l.l('Option')}</td>
-						<td width="100%">${l.l('Value')}</td>
-					</tr>
+						<%-- default option value must be the same as then reading the option!!! --%>
+						<tr>
+							<td nowrap="nowrap">
+								${l.l('Максимальное число объектов в буфере')}
+							</td>
+							<td>
+								<c:set var="key" value="iface.buffer.maxObjects"/>
+								<input type="text" name="${key}" value="${ctxUser.pers.get(key, '15')}" size="10"/>
+							</td>
+						</tr>
 
-					<%-- default option value must be the same as then reading the option!!! --%>
-					<tr>
-						<td nowrap="nowrap">
-							${l.l('Максимальное число объектов в буфере')}
-						</td>
-						<td>
-							<c:set var="key" value="iface.buffer.maxObjects"/>
-							<input type="text" name="${key}" value="${ctxUser.pers.get(key, '15')}" size="10"/>
-						</td>
-					</tr>
+						<tr>
+							<td nowrap="nowrap">
+								${l.l('Extend right process card area on scroll down')}
+							</td>
+							<td>
+								<c:set var="key" value="iface.process.card.extend.right.on.scroll.down"/>
+								<ui:combo-single name="${key}" value="${ctxUser.pers.get(key, '1')}" widthTextValue="15em">
+									<jsp:attribute name="valuesHtml">
+										<li value="1">${l.l('Yes')}</li>
+										<li value="0">${l.l('No')}</li>
+									</jsp:attribute>
+								</ui:combo-single>
+							</td>
+						</tr>
 
-					<tr>
-						<td nowrap="nowrap">
-							${l.l('Extend right process card area on scroll down')}
-						</td>
-						<td>
-							<c:set var="key" value="iface.process.card.extend.right.on.scroll.down"/>
-							<ui:combo-single name="${key}" value="${ctxUser.pers.get(key, '1')}" widthTextValue="15em">
-								<jsp:attribute name="valuesHtml">
-									<li value="1">${l.l('Yes')}</li>
-									<li value="0">${l.l('No')}</li>
-								</jsp:attribute>
-							</ui:combo-single>
-						</td>
-					</tr>
+						<tr>
+							<td nowrap="nowrap">
+								Input Date
+							</td>
+							<td>
+								<c:set var="key" value="iface.input.date"/>
+								<ui:combo-single name="${key}" value="${ctxUser.pers.get(key, '')}" widthTextValue="15em">
+									<jsp:attribute name="valuesHtml">
+										<li value="">jQuery</li>
+										<li value="native">Native</li>
+									</jsp:attribute>
+								</ui:combo-single>
+							</td>
+						</tr>
 
-					<tr>
-						<td nowrap="nowrap">
-							Input Date
-						</td>
-						<td>
-							<c:set var="key" value="iface.input.date"/>
-							<ui:combo-single name="${key}" value="${ctxUser.pers.get(key, '')}" widthTextValue="15em">
-								<jsp:attribute name="valuesHtml">
-									<li value="">jQuery</li>
-									<li value="native">Native</li>
-								</jsp:attribute>
-							</ui:combo-single>
-						</td>
-					</tr>
+						<plugin:include endpoint="user.profile.options.jsp"/>
+					</table>
 
-					<plugin:include endpoint="user.profile.options.jsp"/>
-				</table>
+					<c:set var="configTextUiid" value="${u:uiid()}"/>
+					<c:set var="saveCommand" value="$$.ajax.post(this).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })"/>
 
-				<c:set var="configTextUiid" value="${u:uiid()}"/>
-				<c:set var="saveCommand" value="$$.ajax.post(this).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })"/>
+					<div class="mt1">
+						<button class="btn-grey" type="button" onclick="${saveCommand}">${l.l('Сохранить опции')}</button>
+						<button class="btn-white ml2" type="button"
+							onclick="$('#${configTextUiid}').toggle(); $(this).toggleClass(['btn-white', 'btn-blue'])" title="${l.l('Показать текст конфигурации опций')}">${l.l('Текст')}</button>
+					</div>
 
-				<div class="mt1">
-					<button class="btn-grey" type="button" onclick="${saveCommand}">${l.l('Сохранить опции')}</button>
-					<button class="btn-white ml2" type="button"
-						onclick="$('#${configTextUiid}').toggle(); $(this).toggleClass(['btn-white', 'btn-blue'])" title="${l.l('Показать текст конфигурации опций')}">${l.l('Текст')}</button>
-				</div>
+					<div id="${configTextUiid}" style="display: none;">
+						<h2>${l.l('Текст конфигурации опций')}</h2>
 
-				<div id="${configTextUiid}" style="display: none;">
-					<h2>${l.l('Текст конфигурации опций')}</h2>
+						<textarea style="width: 100%; height: 400px; resize: vertical;">${ctxUser.pers.getDataString().replace('&', '&amp;')}</textarea>
 
-					<textarea style="width: 100%; height: 400px; resize: vertical;">${ctxUser.pers.getDataString().replace('&', '&amp;')}</textarea>
-
-					<button class="btn-grey mt1 icon" type="button" name="reset" title="${l.l('Delete all the stored personalization options')}" onclick="
-						if (!confirm('${l.l('Reset all the user personalizations?')}')) return;
-						this.value = 1; ${saveCommand}">
-						<i class="ti-eraser"></i>
-						${l.l('Reset')}
-					</button>
-				</div>
-			</html:form>
+						<button class="btn-grey mt1 icon" type="button" name="reset" title="${l.l('Delete all the stored personalization options')}" onclick="
+							if (!confirm('${l.l('Reset all the user personalizations?')}')) return;
+							this.value = 1; ${saveCommand}">
+							<i class="ti-eraser"></i>
+							${l.l('Reset')}
+						</button>
+					</div>
+				</html:form>
+			</p:check>
 		</c:when>
 		<c:otherwise>
-			<div>
-				<c:url var="url" value="/user/profile.do">
-					<c:param name="method" value="settings"/>
-					<c:param name="subAction" value="parameters"/>
+			<p:check action="/user/profile:parameters">
+				<c:import url="/user/profile.do?method=parameters&requestUserId=${requestUserId}"/>
+			</p:check>
+
+			<p:check action="/user/news:newsEdit">
+				<c:url var="createUrl" value="/user/news.do">
+					<c:param name="method" value="newsEdit"/>
 					<c:param name="requestUserId" value="${requestUserId}"/>
+					<c:param name="returnUrl" value="${form.requestUrl}"/>
 				</c:url>
-				<c:import url="${url}"/>
-			</div>
 
-			<c:url var="createUrl" value="/user/news.do">
-				<c:param name="method" value="newsEdit"/>
-				<c:param name="requestUserId" value="${requestUserId}"/>
-				<c:param name="returnUrl" value="${form.requestUrl}"/>
-			</c:url>
-
-			<button class="btn-grey mt1" type="button" onclick="$$.ajax.loadContent('${createUrl}', this);">${l.l('Послать персональную новость')}</button>
+				<button class="btn-grey mt1" type="button" onclick="$$.ajax.loadContent('${createUrl}', this);">${l.l('Послать персональную новость')}</button>
+			</p:check>
 		</c:otherwise>
 	</c:choose>
 </div>
