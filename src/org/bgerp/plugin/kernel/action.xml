@@ -37,7 +37,6 @@
 		<item title="Edit" action="/user/customer:customerUpdate, /user/customer:customerGet, ru.bgcrm.struts.action.CustomerAction:customerUpdate, ru.bgcrm.struts.action.CustomerAction:customerGet"/>
 		<item title="Delete" action="/user/customer:customerDelete, ru.bgcrm.struts.action.CustomerAction:customerDelete"/>
 		<item title="Merge" action="/user/customer:customerMerge, ru.bgcrm.struts.action.CustomerAction:customerMerge"/>
-		<!-- <item title="Контекстный поиск контрагентов" action="ru.bgcrm.struts.action.CustomerAction:customerTitleList"/> -->
 	</item>
 
 	<item title="Log" action="/user/log:null, /user/log:log, /user/log:download, ru.bgcrm.struts.action.LogAction:null, ru.bgcrm.struts.action.LogAction:log, ru.bgcrm.struts.action.LogAction:download"/>
@@ -82,7 +81,7 @@
 			<item title="Get Properties" action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet"/>
 			<item title="Show" action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow"/>
 			<item title="Process creation editor" action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree">
-				<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
+				<b>onlyPermittedTypes</b> - 1 — only process types whose allowed groups include the current user; 0 — no restrictions
 			</item>
 			<item title="Action" action="ru.bgcrm.struts.action.ProcessQueueAction:processAction, ru.bgcrm.struts.action.ProcessAction:processDoCommands"/>
 			<item title="Processor" action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke"/>
@@ -104,9 +103,9 @@
 			<item title="Add to description" action="/user/process:processDescriptionAdd, ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd"/>
 			<item title="Edit groups" action="/user/process:processGroupsUpdate, /user/process:processGroupsEdit, ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate, ru.bgcrm.struts.action.ProcessAction:processGroupsEdit"/>
 			<item title="Edit executors" action="/user/process:processExecutorsUpdate, /user/process:processExecutorsEdit, ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate, ru.bgcrm.struts.action.ProcessAction:processExecutorsEdit">
-				<b>allowOnlyGroups</b> - id групп через запятую, в которых возможно изменение исполнителей<br/>
-				<b>allowOnlyUsers</b> - id исполнителей через запятую, которых можно удалять/добавлять<br/>
-				<b>allowOnlyProcessTypeIds</b> - id типов процессов через запятую, в которых разрешено изменение исполнителей<br/>
+				<b>allowOnlyGroups</b> - comma-separated allowed user group IDs<br/>
+				<b>allowOnlyUsers</b> - comma-separated allowed user IDs<br/>
+				<b>allowOnlyProcessTypeIds</b> - comma-separated allowed process type IDs<br/>
 			</item>
 			<item title="Swap executors" action="/user/process:processExecutorsSwap, ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap"/>
 			<item title="Edit type" action="/user/process:processTypeUpdate, /user/process:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate"/>
@@ -126,7 +125,7 @@
 
 		<item title="Object linked processes">
 			<item title="View linked processes" action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList">
-				<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
+				<b>onlyPermittedTypes</b> - 1 — only process types whose allowed groups include the current user; 0 — no restrictions
 			</item>
 			<item title="Create linked process" action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate"/>
 		</item>
@@ -139,19 +138,19 @@
 
 	<item title="Parameters">
 		<item title="List" action="/user/parameter:parameterList, /user/parameter:parameterList, ru.bgcrm.struts.action.ParameterAction:parameterList">
-			<b>parameterIds</b> - id параметров через запятую разрешенных для просмотра<br/>
-			<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для просмотра<br/>
-			<b>tags</b> - теги через запятую тегированных параметров, которые разрешено отображать<br/>
-			<b>offEncrypt</b> - 1, если разрешено просматривать зашифрованные значения<br/>
+			<b>parameterIds</b> - comma-separated allowed parameter IDs<br/>
+			<b>restrictedParameterIds</b> - comma-separated denied parameter IDs<br/>
+			<b>tags</b> - comma-separated allowed parameter tags<br/>
+			<b>offEncrypt</b> - 1, to see 'encrypted' text values<br/>
 		</item>
 		<item action="/user/parameter:parameterUpdate, /user/parameter:parameterGet,
 			/user/parameter:parameterListCountAddValue, /user/parameter:parameterPhoneAddValue, /user/parameter:parameterTreeCountAddValue,
 			ru.bgcrm.struts.action.ParameterAction:parameterUpdate, ru.bgcrm.struts.action.ParameterAction:parameterGet,
 			ru.bgcrm.struts.action.ParameterAction:parameterListCountAddValue, ru.bgcrm.struts.action.ParameterAction:parameterPhoneAddValue, ru.bgcrm.struts.action.ParameterAction:parameterTreeCountAddValue"
 			title="Edit">
-			<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
-			<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для изменения<br/>
-			<b>tags</b> - теги через запятую тегированных параметров, которые разрешено править<br/>
+			<b>parameterIds</b> - comma-separated allowed parameter IDs<br/>
+			<b>restrictedParameterIds</b> - comma-separated denied parameter IDs<br/>
+			<b>tags</b> - comma-separated allowed parameter tags<br/>
 		</item>
 		<item title="Change Log" action="/user/parameter:parameterLog, ru.bgcrm.struts.action.ParameterAction:parameterLog"/>
 		<item title="Object Properties Change Log" action="/user/parameter:entityLog, ru.bgcrm.struts.action.ParameterAction:entityLog"/>
@@ -163,6 +162,7 @@
 		<item allowAll="1" action="org.bgerp.action.FileAction:temporaryDelete"/>
 	</item>
 
+	<!-- used only in BGBilling plugin for linking contracts to customers, after modifying that delete those completely -->
 	<item title="Привязки">
 		<item title="Просмотр привязок" action="ru.bgcrm.struts.action.LinkAction:linkList"/>
 		<item title="Добавление привязки" action="ru.bgcrm.struts.action.LinkAction:addLink"/>
