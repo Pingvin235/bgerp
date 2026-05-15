@@ -4,22 +4,18 @@
 <c:set var="requestUserId" value="${form.param.userId}" />
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="createUrl" value="news.do">
-	<c:param name="method" value="newsEdit"></c:param>
-	<c:param name="requestUserId" value="${requestUserId}"></c:param>
-	<c:param name="returnUrl" value="${form.requestUrl}"/>
-</c:url>
+<%@ include file="/WEB-INF/jspf/admin/user/user/user_status_const.jsp"%>
 
 <div class="center1020">
 	<c:choose>
 		<c:when test="${empty requestUserId || requestUserId == form.userId}">
-			<h2>${l.l('Properties')}</h2>
+			<h1>${l.l('Main Properties')}</h1>
 			<c:import url="/user/profile.do?method=settings"/>
 
-			<h2>${l.l('Parameters (saved immediately)')}</h2>
+			<h1>${l.l('Additional Properties')}</h1>
 			<c:import url="/user/profile.do?method=settings&subAction=parameters&requestUserId=${requestUserId}"/>
 
-			<h2>${l.l('Interface Options')}</h2>
+			<h1>${l.l('Interface Options')}</h1>
 
 			<html:form action="/user/profile">
 				<input type="hidden" name="method" value="updatePersonalization"/>
@@ -106,6 +102,12 @@
 				</c:url>
 				<c:import url="${url}"/>
 			</div>
+
+			<c:url var="createUrl" value="/user/news.do">
+				<c:param name="method" value="newsEdit"/>
+				<c:param name="requestUserId" value="${requestUserId}"/>
+				<c:param name="returnUrl" value="${form.requestUrl}"/>
+			</c:url>
 
 			<button class="btn-grey mt1" type="button" onclick="$$.ajax.loadContent('${createUrl}', this);">${l.l('Послать персональную новость')}</button>
 		</c:otherwise>

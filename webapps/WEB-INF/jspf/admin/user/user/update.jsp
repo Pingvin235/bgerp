@@ -11,7 +11,7 @@
 	<input type="hidden" name="method" value="userUpdate" />
 	<html:hidden property="id" />
 
-	<h1>${l.l('Main properties (Save/Cancel via OK/Cancel)')}</h1>
+	<h1>${l.l('Main Properties')} (${l.l('Save/Cancel via OK/Cancel')})</h1>
 
 	<div class="separator"/>
 
@@ -132,7 +132,7 @@
 </div>
 
 <c:if test="${form.id gt 0}">
-	<h1>${l.l('Additional properties (saved immediately)')}</h1>
+	<h1>${l.l('Additional Properties')} (${l.l('saved immediately')})</h1>
 
 	<div class="separator"/>
 

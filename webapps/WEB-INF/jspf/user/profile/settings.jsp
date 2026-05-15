@@ -19,20 +19,20 @@
 		<tr>
 			<td>${l.l('Name')}</td>
 			<td>
-				<input id="userName" name="userName" type="text" size="30" value="${user.title}"/>
+				<input name="userName" type="text" size="30" value="${user.title}"/>
 			</td>
 		</tr>
 		<tr>
 			<td>${l.l('Login')}</td>
-			<td><input id="userLogin" name="userLogin" type="text" size="30" value="${user.login}"/></td>
+			<td><input name="userLogin" type="text" size="30" value="${user.login}"/></td>
 		</tr>
 		<tr>
 			<td>${l.l('Password')}</td>
-			<td><input id="userPassword" name="userPassword" type="password" size="30" value="${user.password}"/></td>
+			<td><input name="userPassword" type="password" size="30" value="${user.password}"/></td>
 		</tr>
 		<tr>
 			<td>${l.l('Comment')}</td>
-			<td><input id="userDescription" name="userDescription" type="text" size="30" value="${user.description}"/></td>
+			<td><input name="userDescription" type="text" size="30" value="${user.comment}"/></td>
 		</tr>
 	</table>
 
