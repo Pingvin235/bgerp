@@ -193,19 +193,19 @@
 					<b>groupSet</b> - comma-separated group IDs for a created user, not updated in a user after<br/>
 					<b>queueSet</b> - comma-separated process queue IDs for a created user, not updated in a user after<br/>
 					<b>permDisable</b> - 1 - do not update user permissions<br/>
+					<item title="Groups" action="/admin/user:userGroupList, ru.bgcrm.struts.action.admin.UserAction:userGroupList">
+						<item title="Add" action="/admin/user:userAddGroup, ru.bgcrm.struts.action.admin.UserAction:userAddGroup">
+							<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
+						</item>
+						<item title="Delete" action="/admin/user:userRemoveGroup, ru.bgcrm.struts.action.admin.UserAction:userRemoveGroup">
+							<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
+						</item>
+						<item title="Close Date" action="/admin/user:userClosePeriodGroup, ru.bgcrm.struts.action.admin.UserAction:userClosePeriodGroup">
+							<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
+						</item>
+					</item>
 				</item>
 				<item title="Delete" action="/admin/user:userDelete, ru.bgcrm.struts.action.admin.UserAction:userDelete"/>
-				<item title="Groups" action="/admin/user:userGroupList, ru.bgcrm.struts.action.admin.UserAction:userGroupList">
-					<item title="Add" action="/admin/user:userAddGroup, ru.bgcrm.struts.action.admin.UserAction:userAddGroup">
-						<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
-					</item>
-					<item title="Delete" action="/admin/user:userRemoveGroup, ru.bgcrm.struts.action.admin.UserAction:userRemoveGroup">
-						<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
-					</item>
-					<item title="Close Date" action="/admin/user:userClosePeriodGroup, ru.bgcrm.struts.action.admin.UserAction:userClosePeriodGroup">
-						<b>allowOnlyGroups</b> - comma-separated allowed group IDs<br/>
-					</item>
-				</item>
 			</item>
 			<item title="Groups" action="/admin/user:groupList, ru.bgcrm.struts.action.admin.UserAction:groupList">
 				<item title="Edit" action="/admin/user:groupUpdate, /admin/user:groupGet, ru.bgcrm.struts.action.admin.UserAction:groupUpdate, ru.bgcrm.struts.action.admin.UserAction:groupGet"/>

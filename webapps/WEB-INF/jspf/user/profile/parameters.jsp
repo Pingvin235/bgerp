@@ -7,7 +7,7 @@
 <c:if test="${requestUserId > 0}">
 	<h2>${l.l('Groups')}</h2>
 
-	<c:set var="readOnly" value="true" />
+	<c:set var="readOnly" value="${true}" />
 	<c:set var="user" value="${frd.user}" />
 	<c:set var="userGroupList" value="${frd.userGroupList}" />
 	<%@ include file="/WEB-INF/jspf/admin/user/user/update_usergroup.jsp"%>

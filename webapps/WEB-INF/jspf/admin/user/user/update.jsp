@@ -137,18 +137,20 @@
 	<div class="separator"/>
 
 	<div style="display: flex;" class="mt1 in-va-top in-pr1">
-		<div style="flex-grow: 1;">
-			<h2>${l.l('Groups')}</h2>
-			<%-- extra wrapper to do not rewrite the label before on reload --%>
-			<div>
-				<c:url var="url" value="/admin/user.do">
-					<c:param name="method" value="userGroupList" />
-					<c:param name="id" value="${form.id}" />
-					<c:param name="objectType" value="user" />
-				</c:url>
-				<c:import url="${url}" />
+		<p:check action="/admin/user:userGroupList">
+			<div style="flex-grow: 1;">
+				<h2>${l.l('Groups')}</h2>
+				<%-- extra wrapper to do not rewrite the label before on reload --%>
+				<div>
+					<c:url var="url" value="/admin/user.do">
+						<c:param name="method" value="userGroupList" />
+						<c:param name="id" value="${form.id}" />
+						<c:param name="objectType" value="user" />
+					</c:url>
+					<c:import url="${url}" />
+				</div>
 			</div>
-		</div>
+		</p:check>
 		<div style="flex-grow: 1;">
 			<div>
 				<c:url var="url" value="/user/parameter.do">

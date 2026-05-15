@@ -1,6 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
+<%--
+Incoming variables:
+	user - the User object
+	userGroupList - list of UserGroup objects
+	readOnly - boolean, do not show edit buttons
+--%>
+
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <c:set var="reloadScript">$$.ajax.load('${form.requestUrl}', $('#addGroup${uiid}').parent());</c:set>
@@ -35,16 +42,23 @@
 	<html:hidden property="id" />
 
 	<div class="in-mr1">
-		<ui:button type="add" onclick="$('#showGroup${uiid}').hide(); $('#addGroup${uiid}').show();"/>
+		<c:if test="${not readOnly and ctxUser.checkPerm('/admin/user:userAddGroup')}">
+			<ui:button type="add" onclick="$('#showGroup${uiid}').hide(); $('#addGroup${uiid}').show();" styleClass="mr1"/>
+		</c:if>
 
-		<ui:date-time styleClass="ml1" name="date" value="${form.param.date}" placeholder="${l.l('На дату')}"/>
+		<ui:date-time name="date" value="${form.param.date}" placeholder="${l.l('На дату')}"/>
 
 		<ui:button type="run" onclick="$$.ajax.load(this.form, $('#showGroup${uiid}').parent())"/>
 	</div>
 
 	<table class="data mt1 hl">
+		<c:set var="permDel" value="${not readOnly and ctxUser.checkPerm('/admin/user:userRemoveGroup')}"/>
+		<c:set var="permClose" value="${not readOnly and ctxUser.checkPerm('/admin/user:userClosePeriodGroup')}"/>
+
 		<tr>
-			<td width="100">&nbsp;</td>
+			<c:if test="${permDel or permClose}">
+				<td width="100">&nbsp;</td>
+			</c:if>
 			<td width="100">${l.l('Period')}</td>
 			<td width="100%">${l.l('Group')}</td>
 		</tr>
@@ -58,16 +72,22 @@
 			<c:forEach var="item" items="${list}">
 				<c:if test="${item.id eq value.groupId}">
 					<tr>
-						<td nowrap="nowrap">
-							<ui:button type="del" styleClass="btn-small"
-								onclick="$$.ajax
-									.post('/admin/user.do?method=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${tu.format(value.dateFrom, 'ymd')}&dateTo=${tu.format(value.dateTo, 'ymd')}')
-									.done(() => { $(this).parents('tr').first().remove(); })
-								"/>
-							<button type="button" class="btn-white btn-small icon" title="${l.l('Закрыть период')}"
-								onclick="$('#closeGroupId${uiid}').val(${item.id}); $('#dateFrom${uiid}').val('${tu.format(value.dateFrom, 'ymd')}'); $('#dateTo${uiid}').val('${tu.format(value.dateTo, 'ymd')}'); $('#showGroup${uiid}').hide(); $('#closeGroup${uiid}').show();"
-							><i class="ti-control-skip-forward"></i></button>
-						</td>
+						<c:if test="${permDel or permClose}">
+							<td nowrap="nowrap">
+								<c:if test="${permDel}">
+									<ui:button type="del" styleClass="btn-small"
+										onclick="$$.ajax
+											.post('/admin/user.do?method=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${tu.format(value.dateFrom, 'ymd')}&dateTo=${tu.format(value.dateTo, 'ymd')}')
+											.done(() => { $(this).parents('tr').first().remove(); })
+										"/>
+								</c:if>
+								<c:if test="${permClose}">
+									<button type="button" class="btn-white btn-small icon" title="${l.l('Закрыть период')}"
+										onclick="$('#closeGroupId${uiid}').val(${item.id}); $('#dateFrom${uiid}').val('${tu.format(value.dateFrom, 'ymd')}'); $('#dateTo${uiid}').val('${tu.format(value.dateTo, 'ymd')}'); $('#showGroup${uiid}').hide(); $('#closeGroup${uiid}').show();"
+									><i class="ti-control-skip-forward"></i></button>
+								</c:if>
+							</td>
+						</c:if>
 						<td nowrap="nowrap">${tu.format(value.dateFrom, 'ymd')} - ${tu.format(value.dateTo, 'ymd')}</td>
 						<td>${item.titleWithPath}</td>
 					</tr>
