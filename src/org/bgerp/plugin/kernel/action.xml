@@ -173,10 +173,10 @@
 
 	<item title="User">
 		<item title="List of users" action="ru.bgcrm.struts.action.UserAction:userList"/>
-		<item title="Update profile" action="ru.bgcrm.struts.action.ProfileAction:updateSettings"/>
-		<item allowAll="1" action="ru.bgcrm.struts.action.ProfileAction:getUserProfile"/>
-		<item allowAll="1" action="ru.bgcrm.struts.action.ProfileAction:settings"/>
-		<item allowAll="1" action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization"/>
+		<item title="Edit Profile" action="/user/profile:updateSettings, ru.bgcrm.struts.action.ProfileAction:updateSettings"/>
+		<item allowAll="1" action="/user/profile:getUserProfile, ru.bgcrm.struts.action.ProfileAction:getUserProfile"/>
+		<item allowAll="1" action="/user/profile:settings, ru.bgcrm.struts.action.ProfileAction:settings"/>
+		<item allowAll="1" action="/user/profile:updatePersonalization, ru.bgcrm.struts.action.ProfileAction:updatePersonalization"/>
 	</item>
 
 	<item title="Administration">

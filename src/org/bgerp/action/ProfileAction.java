@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -18,7 +18,7 @@ import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/profile")
+@Action(path = "/user/profile", pathId = true)
 public class ProfileAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/profile";
 
