@@ -157,10 +157,13 @@
 	</item>
 
 	<item title="User">
-		<item title="Profile" action="/user/profile:getUserProfile, ru.bgcrm.struts.action.ProfileAction:getUserProfile">
+		<item title="Profile" action="/user/profile:null, ru.bgcrm.struts.action.ProfileAction:getUserProfile">
 			<item title="Own Main Properties" action="/user/profile:updateSettings, /user/profile:settings, ru.bgcrm.struts.action.ProfileAction:updateSettings"/>
 
-			<item title="Groups and Parameters" action="/user/profile:parameters"/>
+			<item title="Groups and Parameters" action="/user/profile:parameters">
+				<item title="Edit Own Parameter" action="/user/profile:updateOwnParameter"/>
+				<item title="Edit Others Parameter" action="/user/profile:updateOthersParameter"/>
+			</item>
 
 			<item title="Own Interface Options" action="/user/profile:updatePersonalization"/>
 		</item>

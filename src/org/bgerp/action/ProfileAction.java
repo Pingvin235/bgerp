@@ -11,6 +11,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.UserCache;
 
 import ru.bgcrm.dao.user.UserDAO;
+import ru.bgcrm.model.user.PermissionActionMethodException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -24,10 +25,6 @@ public class ProfileAction extends BaseAction {
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
-        return getUserProfile(form, conSet);
-    }
-
-    public ActionForward getUserProfile(DynActionForm form, ConnectionSet conSet) throws Exception {
         return html(conSet, form, PATH_JSP + "/default.jsp");
     }
 
@@ -41,6 +38,14 @@ public class ProfileAction extends BaseAction {
         form.setResponseData("userGroupList", UserCache.getUserGroupList(userId, new Date()));
 
         return html(conSet, form, PATH_JSP + "/parameters.jsp");
+    }
+
+    public ActionForward updateOwnParameter(DynActionForm form, ConnectionSet conSet) {
+        throw new PermissionActionMethodException();
+    }
+
+    public ActionForward updateOthersParameter(DynActionForm form, ConnectionSet conSet) {
+        throw new PermissionActionMethodException();
     }
 
     public ActionForward updateSettings(DynActionForm form, Connection con) throws Exception {

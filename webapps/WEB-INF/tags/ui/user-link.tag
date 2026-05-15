@@ -5,9 +5,12 @@
 <%@ attribute name="text" description="Text instead of user title"%>
 
 <ui:when type="user">
-	<c:if test="${id gt 0}"><%--
-		--%><a href="/user/profile#${id}" onclick="$$.shell.followLink(this.href, event)" title="ID: ${id}">${not empty text ? text : ctxUserMap[id].title}</a><%--
---%></c:if>
+	<c:choose>
+		<c:when test="${id gt 0 and ctxUser.checkPerm('/user/profile:null')}"><%--
+			--%><a href="/user/profile#${id}" onclick="$$.shell.followLink(this.href, event)" title="ID: ${id}">${not empty text ? text : ctxUserMap[id].title}</a><%--
+	--%></c:when>
+		<c:otherwise>${ctxUserMap[id].title}</c:otherwise>
+	</c:choose>
 </ui:when>
 <ui:when type="open">
 	<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProfileAction$Config')}"/>

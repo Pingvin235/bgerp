@@ -4,13 +4,6 @@
 <html:form action="${form.requestURI}">
 	<input type="hidden" name="method" value="updateSettings"/>
 
-	<c:set var="user" value="${frd.user}" />
-
-	<c:url var="url" value="${form.requestURI}">
-		<c:param name="method" value="getUserProfile"/>
-		<c:param name="userId" value="${ctxUser.id}"/>
-	</c:url>
-
 	<table class="data">
 		<tr>
 			<td>${l.l('Свойство')}</td>
@@ -36,5 +29,8 @@
 		</tr>
 	</table>
 
+	<c:url var="url" value="${form.requestURI}">
+		<c:param name="userId" value="${ctxUser.id}"/>
+	</c:url>
 	<button class="btn-grey mt1" type="button" onclick="$$.ajax.post(this).done($$.ajax.loadContent('${url}', this))">${l.l('Сохранить свойства')}</button>
 </html:form>

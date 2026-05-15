@@ -11,7 +11,6 @@
 		<c:param name="paramId" value="${pid}"/>
 	</c:forEach>
 	<c:param name="readOnly" value="1"/>
-	<c:param name="logDisable" value="1"/>
 	<c:param name="showId" value="0"/>
 </c:url>
 <c:import url="${url}"/>
