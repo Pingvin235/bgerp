@@ -30,6 +30,11 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.TimeUtils;
 
+/**
+ * In-memory cache of user-related data
+ *
+ * @author Shamil Vakhitov
+ */
 public class UserCache extends Cache<UserCache> {
     private static final Log log = Log.getLog();
 
@@ -63,19 +68,6 @@ public class UserCache extends Cache<UserCache> {
 
     public static Group getUserGroup(final int groupId) {
         return HOLDER.getInstance().userGroupMap.get(groupId);
-    }
-
-    @Deprecated
-    public static int getUserGroupChildCount(final int groupId) {
-        int result = 0;
-
-        for (final Group group : HOLDER.getInstance().userGroupList) {
-            if (group.getParentId() == groupId) {
-                result++;
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -133,23 +125,6 @@ public class UserCache extends Cache<UserCache> {
         for (final Group group : HOLDER.getInstance().userGroupList) {
             if (group.getParentId() == groupId) {
                 resultSet.add(group);
-            }
-        }
-
-        return resultSet;
-    }
-
-    public static Set<Group> getUserGroupChildFullSet(final int groupId) {
-        final Set<Group> resultSet = new HashSet<>();
-        resultSet.addAll(getUserGroupChildSet(groupId));
-
-        if (resultSet.size() > 0) {
-            final List<Group> groupList = new ArrayList<>(resultSet);
-
-            for (int i = 0; i < groupList.size(); i++) {
-                if (groupList.get(i).getChildCount() > 0) {
-                    resultSet.addAll(getUserGroupChildFullSet(groupList.get(i).getId()));
-                }
             }
         }
 
