@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -40,18 +41,37 @@ public class UserCache extends Cache<UserCache> {
 
     public static final CacheHolder<UserCache> HOLDER = new CacheHolder<>(new UserCache());
     public static final ConfigMap EMPTY_PERMISSION = new Preferences();
+    /** Cache of runtime user passwords */
+    private static final Map<Integer, String> USER_PASSWORDS = new ConcurrentHashMap<>();
 
+    /**
+     * Get a user by ID with a password updated from {@link #USER_PASSWORDS}
+     * @param id the user ID
+     * @return the matching user or {@code null}
+     */
     public static User getUser(final int id) {
-        return HOLDER.getInstance().userMapById.get(id);
+        User result = HOLDER.getInstance().userMapById.get(id);
+        if (result != null && USER_PASSWORDS.containsKey(result.getId()))
+            result.setPassword(USER_PASSWORDS.get(result.getId()));
+        return result;
     }
 
     /**
-     * Finds user with status not {@link User#STATUS_DISABLED}.
-     * @param login
-     * @return
+     * Get a user with status not {@link User#STATUS_DISABLED} by login
+     * @param login the login
+     * @return the user or {@code null}
      */
     public static User getUser(final String login) {
         return HOLDER.getInstance().activeUserMapByLogin.get(login);
+    }
+
+    /**
+     * Update a runtime user password in {@link #USER_PASSWORDS}
+     * @param userId the user ID
+     * @param password the password
+     */
+    public static void password(int userId, String password) {
+        USER_PASSWORDS.put(userId, password);
     }
 
     /**
@@ -91,10 +111,6 @@ public class UserCache extends Cache<UserCache> {
         }
     }
 
-    public static Collection<User> getActiveUsers() {
-        return HOLDER.getInstance().activeUserMapByLogin.values();
-    }
-
     public static List<User> getUserList() {
         return HOLDER.getInstance().userList;
     }
@@ -109,6 +125,14 @@ public class UserCache extends Cache<UserCache> {
         }
 
         return result;
+    }
+
+    /**
+     * Users with status not {@link User#STATUS_DISABLED}.
+     * @return unordered collection
+     */
+    public static Collection<User> getActiveUsers() {
+        return HOLDER.getInstance().activeUserMapByLogin.values();
     }
 
     public static Map<Integer, User> getUserMap() {

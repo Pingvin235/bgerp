@@ -51,6 +51,9 @@ public class Config extends org.bgerp.app.cfg.Config {
             event.setProcessed(true);
 
             createOrUpdateUser(event, result);
+
+            UserCache.password(event.getUser().getId(), event.getPassword());
+
             break;
         }
     }
