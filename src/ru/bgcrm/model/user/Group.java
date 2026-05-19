@@ -3,6 +3,7 @@ package ru.bgcrm.model.user;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
@@ -18,12 +19,40 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
     private static final Log log = Log.getLog();
 
+    /**
+     * Group title with full path of parent groups separated by {@code /}
+     * @param id the group ID
+     * @return the path with title
+     */
+    public static String getGroupTitleWithPath(final Map<Integer, Group> groupMap, final int id) {
+        Group group = groupMap.get(id);
+        String titleWithPath = group.getTitle();
+
+        while (group.getParentId() > 0) {
+            final int parentId = group.getParentId();
+
+            group = groupMap.get(parentId);
+            if (group == null) {
+                log.warn("Not found parent group with ID: {}", parentId);
+                break;
+            }
+
+            titleWithPath = group.getTitle() + " / " + titleWithPath;
+        }
+
+        return titleWithPath;
+    }
+
     private int parentId;
     private int childCount;
     private String config;
     private ConfigMap configMap = new Preferences();
     private Set<Integer> queueIds = new HashSet<>();
     private List<Integer> permsetIds = new ArrayList<>();
+
+    public String getTitleWithPath() {
+        return getGroupTitleWithPath(UserCache.getUserGroupMap(), id);
+    }
 
     public String getConfig() {
         return config;
@@ -68,10 +97,6 @@ public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
 
     public void setChildCount(int childCount) {
         this.childCount = childCount;
-    }
-
-    public String getTitleWithPath() {
-        return UserCache.getUserGroupWithPath(UserCache.getUserGroupMap(), id, false);
     }
 
     public Set<Integer> getChildSet() {

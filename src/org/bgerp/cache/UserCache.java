@@ -45,10 +45,6 @@ public class UserCache extends Cache<UserCache> {
         return HOLDER.getInstance().userMapById.get(id);
     }
 
-    public static Map<Integer, User> getUserMap() {
-        return HOLDER.getInstance().userMapById;
-    }
-
     /**
      * Finds user with status not {@link User#STATUS_DISABLED}.
      * @param login
@@ -56,18 +52,6 @@ public class UserCache extends Cache<UserCache> {
      */
     public static User getUser(final String login) {
         return HOLDER.getInstance().activeUserMapByLogin.get(login);
-    }
-
-    public static List<User> getUserList() {
-        return HOLDER.getInstance().userList;
-    }
-
-    public static Collection<User> getActiveUsers() {
-        return HOLDER.getInstance().activeUserMapByLogin.values();
-    }
-
-    public static Group getUserGroup(final int groupId) {
-        return HOLDER.getInstance().userGroupMap.get(groupId);
     }
 
     /**
@@ -107,6 +91,14 @@ public class UserCache extends Cache<UserCache> {
         }
     }
 
+    public static Collection<User> getActiveUsers() {
+        return HOLDER.getInstance().activeUserMapByLogin.values();
+    }
+
+    public static List<User> getUserList() {
+        return HOLDER.getInstance().userList;
+    }
+
     public static List<User> getUserList(final Set<Integer> groupIds) {
         final List<User> result = new ArrayList<>();
 
@@ -119,16 +111,28 @@ public class UserCache extends Cache<UserCache> {
         return result;
     }
 
-    public static Set<Group> getUserGroupChildSet(final int groupId) {
-        final Set<Group> resultSet = new HashSet<>();
+    public static Map<Integer, User> getUserMap() {
+        return HOLDER.getInstance().userMapById;
+    }
 
-        for (final Group group : HOLDER.getInstance().userGroupList) {
-            if (group.getParentId() == groupId) {
-                resultSet.add(group);
-            }
+    public static Group getUserGroup(final int groupId) {
+        return HOLDER.getInstance().userGroupMap.get(groupId);
+    }
+
+    public static List<Group> getGroupPath(final int id) {
+        final List<Group> result = new ArrayList<>();
+
+        final var groupMap = HOLDER.getInstance().userGroupMap;
+
+        Group group = new Group();
+        group.setParentId(id);
+
+        while (group.getParentId() != 0) {
+            group = groupMap.get(group.getParentId());
+            result.add(0, group);
         }
 
-        return resultSet;
+        return result;
     }
 
     public static List<Group> getUserGroupList() {
@@ -149,78 +153,6 @@ public class UserCache extends Cache<UserCache> {
         return getUserGroupFullTitledList().stream()
             .map(group -> new IdStringTitle(group.getId() + ":" + roleId, group.getTitle()))
             .collect(Collectors.toList());
-    }
-
-    public static Map<Integer, Group> getUserGroupMap() {
-        return HOLDER.getInstance().userGroupMap;
-    }
-
-    public static Map<Integer, Group> getUserGroupFullTitledMap() {
-        return HOLDER.getInstance().userGroupFullTitledMap;
-    }
-
-    /**
-     * @return alphabetically sorted list with all permission sets.
-     */
-    public static List<Permset> getUserPermsetList() {
-        return HOLDER.getInstance().userPermsetList;
-    }
-
-    /**
-     * @return map with all use permission sets, key - ID
-     */
-    public static Map<Integer, Permset> getUserPermsetMap() {
-        return HOLDER.getInstance().userPermsetMap;
-    }
-
-    public static void flush(final Connection con) {
-        HOLDER.flush(con);
-    }
-
-    public static List<Group> getGroupPath(final int id) {
-        final List<Group> result = new ArrayList<>();
-
-        Group group = new Group();
-        group.setParentId(id);
-
-        while (group.getParentId() != 0) {
-            group = HOLDER.getInstance().userGroupMap.get(group.getParentId());
-            result.add(0, group);
-        }
-
-        return result;
-    }
-
-    /**
-     * "Возвращает полный путь к корневой группе в виде строки (например: Администратор -> Помощник -> Помощник помощника)"
-     * @param id группы
-     * @return Строка с полным путем к корневой группе, либо title группы, если нет родительской группы
-     */
-    public static String getUserGroupWithPath(final Map<Integer, Group> groupMap, final int id, final boolean withId) {
-        Group group = groupMap.get(id);
-        String titleWithPath = group.getTitle();
-
-        if (withId) {
-            titleWithPath += " (" + group.getId() + ")";
-        }
-
-        while (group.getParentId() > 0) {
-            final int parentId = group.getParentId();
-
-            group = groupMap.get(parentId);
-            if (group == null) {
-                log.warn("Not found parent group with ID: {}", parentId);
-                break;
-            }
-
-            if (withId) {
-                titleWithPath = group.getTitle() + " (" + group.getId() + ") " + " / " + titleWithPath;
-            } else {
-                titleWithPath = group.getTitle() + " / " + titleWithPath;
-            }
-        }
-
-        return titleWithPath;
     }
 
     public static List<UserGroup> getUserGroupList(final int id) {
@@ -250,6 +182,44 @@ public class UserCache extends Cache<UserCache> {
         }
 
         return resultList;
+    }
+
+    public static Map<Integer, Group> getUserGroupMap() {
+        return HOLDER.getInstance().userGroupMap;
+    }
+
+    public static Map<Integer, Group> getUserGroupFullTitledMap() {
+        return HOLDER.getInstance().userGroupFullTitledMap;
+    }
+
+    public static Set<Group> getUserGroupChildSet(final int groupId) {
+        final Set<Group> resultSet = new HashSet<>();
+
+        for (final Group group : HOLDER.getInstance().userGroupList) {
+            if (group.getParentId() == groupId) {
+                resultSet.add(group);
+            }
+        }
+
+        return resultSet;
+    }
+
+    /**
+     * @return alphabetically sorted list with all permission sets.
+     */
+    public static List<Permset> getUserPermsetList() {
+        return HOLDER.getInstance().userPermsetList;
+    }
+
+    /**
+     * @return map with all use permission sets, key - ID
+     */
+    public static Map<Integer, Permset> getUserPermsetMap() {
+        return HOLDER.getInstance().userPermsetMap;
+    }
+
+    public static void flush(final Connection con) {
+        HOLDER.flush(con);
     }
 
     // end of static part
@@ -321,7 +291,7 @@ public class UserCache extends Cache<UserCache> {
             result.userGroupFullTitledList = new ArrayList<>();
             for (final Group group : result.userGroupList) {
                 final Group fullTitled = group.clone();
-                fullTitled.setTitle(UserCache.getUserGroupWithPath(result.userGroupMap, group.getId(), false));
+                fullTitled.setTitle(Group.getGroupTitleWithPath(result.userGroupMap, group.getId()));
                 result.userGroupFullTitledList.add(fullTitled);
             }
 
