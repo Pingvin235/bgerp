@@ -15,6 +15,11 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.user.UserDAO;
 
+/**
+ * Plugin configuration
+ *
+ * @author Shamil Vakhitov
+ */
 public class Config extends org.bgerp.app.cfg.Config {
     private static final Log log = Log.getLog();
 
@@ -28,18 +33,20 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     private List<LdapAuthConfig> ldap(ConfigMap config, boolean validate) {
         var result = new ArrayList<LdapAuthConfig>();
+
         for (var me : config.subIndexed(Plugin.ID + ":ldap.").entrySet()) {
             try {
                 result.add(new LdapAuthConfig(me.getKey(), me.getValue()));
             } catch (InitStopException e) {}
         }
         log.debug("Loaded {} LDAP configurations", result.size());
+
         return Collections.unmodifiableList(result);
     }
 
     public void auth(AuthEvent event) {
         log.debug("Processing auth, login: {}", event.getLogin());
-        // TODO: Parallel requesting in many threads.
+        // TODO: Parallel requesting in many threads
         for (LdapAuthConfig ldap : this.ldap) {
             var result = ldap.auth(event.getLogin(), event.getPassword());
             if (!result.isSuccess()) {

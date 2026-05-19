@@ -46,18 +46,18 @@ public class LdapAuthConfigTest {
                 passwordOk[0] = "HerWam".equals(password);
                 searchFilterOk[0] = "sAMAccountName=bgrptest".equals(searchFilter);
 
-                var attrs = new BasicAttributes();
+                var result = new BasicAttributes();
 
                 var attr = new BasicAttribute("memberOf");
                 attr.add("CN=VPN Koronavirus OZNA,OU=RDP-LIMIT,DC=ozna,DC=corp");
                 attr.add("CN=Пользователи VPN-ОЗНА,OU=RDP-LIMIT,DC=ozna,DC=corp");
-                attrs.put(attr);
+                result.put(attr);
 
                 attr = new BasicAttribute("name");
                 attr.add("New Пользователь");
-                attrs.put(attr);
+                result.put(attr);
 
-                return attrs;
+                return result;
             }
         };
 

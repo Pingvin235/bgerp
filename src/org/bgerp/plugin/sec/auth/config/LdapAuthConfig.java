@@ -26,7 +26,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
 /**
- * LDAP auth.
+ * LDAP auth
  *
  * @author Shamil Vakhitov
  */
@@ -44,6 +44,7 @@ public class LdapAuthConfig extends Config {
 
     LdapAuthConfig(int id, ConfigMap config) throws InitStopException {
         super(null);
+
         this.title = config.get("title", String.valueOf(id));
         this.url = config.get("url");
         this.loginExpression = config.get("login.expression");
@@ -52,6 +53,7 @@ public class LdapAuthConfig extends Config {
         this.searchAttributes = config.get("search.attributes");
         this.groupIdsExpression = config.get("group.ids.expression");
         this.titleExpression = config.get("title.expression", "attrs.value(\"name\")");
+
         initWhen(Utils.notBlankStrings(url, loginExpression, searchBase, searchExpression, groupIdsExpression,
                 titleExpression));
     }
@@ -72,16 +74,18 @@ public class LdapAuthConfig extends Config {
 
     private User user(String login, String password, LDAPAttributes attrs) throws NamingException {
         log.debug("Found LDAP attributes for login {}: {}", login, attrs);
-        var user = new User(login, "");
-        user.setStatus(User.STATUS_EXTERNAL);
-        user.setTitle(new Expression(Map.of("attrs", attrs)).executeGetString(titleExpression));
-        user.setGroupIds(getGroupIds(attrs));
-        return user;
+
+        var result = new User(login, "");
+        result.setStatus(User.STATUS_EXTERNAL);
+        result.setTitle(new Expression(Map.of("attrs", attrs)).executeGetString(titleExpression));
+        result.setGroupIds(getGroupIds(attrs));
+
+        return result;
     }
 
     @VisibleForTesting
     protected Attributes searchAttributes(String login, String password, String searchFilter) throws NamingException, NotFoundException {
-        DirContext context = new InitialDirContext(buildEnvironment(login, password));
+        DirContext context = new InitialDirContext(environment(login, password));
         SearchControls constraints = new SearchControls();
         constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
         if (Utils.notBlankString(searchAttributes))
@@ -95,15 +99,16 @@ public class LdapAuthConfig extends Config {
             throw new NotFoundException("User not found");
     }
 
-    private Hashtable<String, String> buildEnvironment(String login, String password) {
-        Hashtable<String, String> env = new Hashtable<>();
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, url);
-        env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, new Expression(Map.of("login", login)).executeGetString(loginExpression));
-        env.put(Context.SECURITY_CREDENTIALS, password);
-        // env.put( Context.REFERRAL, "follow" );
-        return env;
+    private Hashtable<String, String> environment(String login, String password) {
+        Hashtable<String, String> result = new Hashtable<>();
+
+        result.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+        result.put(Context.PROVIDER_URL, url);
+        result.put(Context.SECURITY_AUTHENTICATION, "simple");
+        result.put(Context.SECURITY_PRINCIPAL, new Expression(Map.of("login", login)).executeGetString(loginExpression));
+        result.put(Context.SECURITY_CREDENTIALS, password);
+
+        return result;
     }
 
     @SuppressWarnings("unchecked")

@@ -12,7 +12,9 @@ import javax.naming.directory.Attributes;
 import ru.bgcrm.util.Utils;
 
 /**
- * Supporting class for handling LDAP attributes.
+ * Supporting class for handling LDAP attributes
+ *
+ * @author Shamil Vakhitov
  */
 public class LDAPAttributes {
     private final Attributes attrs;

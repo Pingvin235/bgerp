@@ -3,8 +3,8 @@ package org.bgerp.plugin.sec.auth;
 import ru.bgcrm.model.user.User;
 
 /**
- * Auth result.
- * 
+ * Auth result
+ *
  * @author Shamil Vakhitov
  */
 public class AuthResult {
@@ -13,7 +13,7 @@ public class AuthResult {
     private final Throwable exception;
 
     /**
-     * Successful auth constructor. 
+     * Successful auth constructor.
      * @param user
      */
     public AuthResult(User user) {
