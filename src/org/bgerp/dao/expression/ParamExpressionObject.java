@@ -253,16 +253,16 @@ public class ParamExpressionObject implements ExpressionObject {
 
     /**
      * Set parameter value(s) out of a string representation, the following parameter types are not supported:
-     * {@link Parameter.Type.ADDRESS}, {@link Parameter.Type.FILE}, {@link Parameter.Type.LIST}, {@link Parameter.Type.LISTCOUNT},
-     * {@link Parameter.Type.TREE}, {@link Parameter.Type.TREECOUNT}<br>
+     * {@link Parameter.Type#ADDRESS}, {@link Parameter.Type#FILE}, {@link Parameter.Type#LIST}, {@link Parameter.Type#LISTCOUNT},
+     * {@link Parameter.Type#TREE}, {@link Parameter.Type#TREECOUNT}<br>
      * The {@code value} treated as:<br>
-     * - {@link Parameter.Type.BLOB} - string value<br>
-     * - {@link Parameter.Type.DATE} - formatted date string<br>
-     * - {@link Parameter.Type.DATETIME} - formatted datetime string<br>
-     * - {@link Parameter.Type.EMAIL} - comma-separated email addresses with possible display names<br>
-     * - {@link Parameter.Type.MONEY} - dot-separated decimal number<br>
-     * - {@link Parameter.Type.PHONE} - phone-separated phone numbers without format, only E164 digits<br>
-     * - {@link Parameter.Type.TEXT} - string value<br>
+     * - {@link Parameter.Type#BLOB} - string value<br>
+     * - {@link Parameter.Type#DATE} - formatted date string<br>
+     * - {@link Parameter.Type#DATETIME} - formatted datetime string<br>
+     * - {@link Parameter.Type#EMAIL} - comma-separated email addresses with possible display names<br>
+     * - {@link Parameter.Type#MONEY} - dot-separated decimal number<br>
+     * - {@link Parameter.Type#PHONE} - phone-separated phone numbers without format, only E164 digits<br>
+     * - {@link Parameter.Type#TEXT} - string value<br>
      * @param paramId the parameter ID
      * @param value the string representation
      * @throws SQLException

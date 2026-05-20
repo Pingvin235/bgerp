@@ -1,0 +1,2 @@
+A: Improved User Profile permissions.
+A: Auth LDAP user update JEXL expression. https://bgerp.org/change/0/doc/plugin/sec/auth/index.html#setup-ldap

@@ -13,13 +13,13 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import org.bgerp.app.cfg.Config;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.expression.Expression;
 import org.bgerp.plugin.sec.auth.AuthResult;
 import org.bgerp.util.Log;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import javassist.NotFoundException;
 import ru.bgcrm.model.user.User;
@@ -41,6 +41,7 @@ public class LdapAuthConfig extends Config {
     private final String searchAttributes;
     private final String groupIdsExpression;
     private final String titleExpression;
+    private final String updateExpression;
 
     LdapAuthConfig(int id, ConfigMap config) throws InitStopException {
         super(null);
@@ -53,16 +54,18 @@ public class LdapAuthConfig extends Config {
         this.searchAttributes = config.get("search.attributes");
         this.groupIdsExpression = config.get("group.ids.expression");
         this.titleExpression = config.get("title.expression", "attrs.value(\"name\")");
+        this.updateExpression = config.get("update.expression");
 
-        initWhen(Utils.notBlankStrings(url, loginExpression, searchBase, searchExpression, groupIdsExpression,
-                titleExpression));
+        initWhen(Utils.notBlankStrings(url, loginExpression, searchBase, searchExpression));
     }
 
     public AuthResult auth(String login, String password) {
         try {
             String searchFilter = new Expression(Map.of("login", login)).executeGetString(this.searchExpression);
-            Attributes attrs = searchAttributes(login, password, searchFilter);
-            return new AuthResult(user(login, password, new LDAPAttributes(attrs)));
+            var attrs = new LDAPAttributes(searchAttributes(login, password, searchFilter));
+            UpdateExpression updateExpression = Utils.notBlankString(this.updateExpression) ? new UpdateExpression(this.updateExpression, Map.of("attrs", attrs)) : null;
+
+            return new AuthResult(user(login, password, attrs), updateExpression);
         } catch (CommunicationException e) {
             log.error("LDAP communication exception", e);
             return new AuthResult(e.getCause());
@@ -77,8 +80,10 @@ public class LdapAuthConfig extends Config {
 
         var result = new User(login, "");
         result.setStatus(User.STATUS_EXTERNAL);
-        result.setTitle(new Expression(Map.of("attrs", attrs)).executeGetString(titleExpression));
-        result.setGroupIds(getGroupIds(attrs));
+        if (Utils.notBlankString(groupIdsExpression))
+            result.setGroupIds(getGroupIds(attrs));
+        if (Utils.notBlankString(titleExpression))
+            result.setTitle(new Expression(Map.of("attrs", attrs)).executeGetString(titleExpression));
 
         return result;
     }

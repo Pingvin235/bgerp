@@ -80,6 +80,9 @@ public class Config extends org.bgerp.app.cfg.Config {
 
                 event.setUser(user);
 
+                if (result.hasUpdateExpression())
+                    result.doUpdateExpression(con, user);
+
                 UserCache.flush(con);
             } catch (SQLException e) {
                 log.error(e);
@@ -87,9 +90,11 @@ public class Config extends org.bgerp.app.cfg.Config {
         } else {
             boolean titleUpdate = !user.getTitle().equals(result.getUser().getTitle());
             boolean groupsUpdate = !user.getGroupIds().equals(result.getUser().getGroupIds());
+            boolean updateExpression = result.hasUpdateExpression();
 
-            if (titleUpdate || groupsUpdate) {
-                log.info("Updating user with login: {}, title: {}, groups: {}", user.getLogin(), titleUpdate, groupsUpdate);
+            if (titleUpdate || groupsUpdate || updateExpression) {
+                log.info("Updating user with login: {}, title: {}, groups: {}, expression: {}", user.getLogin(), titleUpdate, groupsUpdate,
+                        updateExpression);
 
                 try (var con = Setup.getSetup().getDBConnectionFromPool()) {
                     var dao = new UserDAO(con);
@@ -99,9 +104,11 @@ public class Config extends org.bgerp.app.cfg.Config {
                         dao.updateUser(user);
                     }
 
-                    if (groupsUpdate) {
+                    if (groupsUpdate)
                         dao.updateUserGroups(user.getId(), user.getGroupIds(), result.getUser().getGroupIds());
-                    }
+
+                    if (updateExpression)
+                        result.doUpdateExpression(con, user);
 
                     UserCache.flush(con);
                 } catch (SQLException e) {

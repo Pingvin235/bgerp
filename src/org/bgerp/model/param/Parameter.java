@@ -1,7 +1,6 @@
 package org.bgerp.model.param;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
