@@ -1,48 +1,95 @@
 package ru.bgcrm.model.param;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.bgerp.app.exception.BGMessageException;
 
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import ru.bgcrm.util.Utils;
 
 public class ParameterEmailValue {
-    /** Email value. */
+    /**
+     * Parse list of email values out of a comma-separated string
+     * @param values the source string
+     * @return the list of values
+     */
+    public static final List<ParameterEmailValue> of(String values) {
+        var result = new ArrayList<ParameterEmailValue>();
+
+        for (String token : Utils.toList(values)) {
+            try {
+                var address = InternetAddress.parse(token)[0];
+                var value = new ParameterEmailValue();
+                value.setValue(address.getAddress());
+                value.setComment(Utils.maskNull(address.getPersonal()));
+                result.add(value);
+            } catch (AddressException | BGMessageException e) {
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Unified representation 'email' parameter values as a string
+     * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+     * @param values the parameter values
+     * @return the comma-separated string with {@link #toString()} generated parts
+     */
+    public static final String toString(Collection<ParameterEmailValue> values) {
+        return Utils.toString(values);
+    }
+
+    /** email value */
     private String value;
-    /** Name of person. */
+    /** Display name, personal */
     private String comment;
 
     public ParameterEmailValue() {}
 
-    public ParameterEmailValue(String email) {
-        this.value = email;
+    /**
+     * Public constructor
+     * @param value the email value
+     */
+    public ParameterEmailValue(String value) {
+        this.value = value;
         this.comment = "";
     }
 
-    public ParameterEmailValue(String email, String comment) {
-        this.value = email;
+    /**
+     * Public constructor
+     * @param value the email value
+     * @param comment the display name
+     */
+    public ParameterEmailValue(String value, String comment) {
+        this.value = value;
         this.comment = comment;
     }
 
     /**
-     * Setter.
-     * @param value Email value.
-     * @throws BGMessageException when not Email value is being set.
+     * Setter
+     * @param value email value
+     * @throws BGMessageException when not correct email value is being set
      */
     public void setValue(String value) throws BGMessageException {
         if (!Utils.isValidEmail(value)) {
-            throw new BGMessageException("Неверное значение параметра email!");
+            throw new BGMessageException("Incorrect email value: {}", value);
         }
         this.value = value;
     }
 
     /**
-     * @return Email value.
+     * @return email value
      */
     public String getValue() {
         return value;
     }
 
     /**
-     * @return part of Email before {@code @}.
+     * @return part of email before {@code @}
      */
     public String getUsername() {
         if (value.indexOf("@") == -1) {
@@ -52,7 +99,7 @@ public class ParameterEmailValue {
     }
 
     /**
-     * @return part of Email after  {@code @}.
+     * @return part of email after {@code @}
      */
     public String getDomain() {
         try {
@@ -63,12 +110,16 @@ public class ParameterEmailValue {
     }
 
     /**
-     * @return person's title.
+     * @return display name
      */
     public String getComment() {
         return comment;
     }
 
+    /**
+     * Setter for a display name
+     * @param comment the title
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -78,16 +129,6 @@ public class ParameterEmailValue {
         if (Utils.notBlankString(comment))
             return comment + " <" + value  + ">";
         return value;
-    }
-
-    public static final String toString(Iterable<ParameterEmailValue> emails) {
-        var result = new StringBuilder();
-        for (ParameterEmailValue val : emails) {
-            if (result.length() > 0)
-                result.append(", ");
-            result.append(val.toString());
-        }
-        return result.toString();
     }
 
     @Override

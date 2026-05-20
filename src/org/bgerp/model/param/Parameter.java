@@ -67,16 +67,6 @@ public class Parameter extends IdTitleComment {
             return NAME_MAP.get(name);
         }
 
-        /**
-         * Unified representation 'email' parameter values as a string.
-         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
-         * @param values the parameter values
-         * @return
-         */
-        public static String emailToString(Collection<ParameterEmailValue> values) {
-            return Utils.toString(values, "", ", ");
-        }
-
          /**
          * Unified representation 'list' parameter values as a string.
          * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.

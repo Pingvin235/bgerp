@@ -20,7 +20,9 @@ import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.param.ParameterAddressValue;
+import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
+import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -46,9 +48,10 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Возвращает список строк со значениями адресного параметра, формат указан.
+     * Select address parameter values strings
      * @param paramId the parameter ID
-     * @return
+     * @param formatName optional address format, {@code null} for using the default one
+     * @return list of address strings
      */
     public List<String> addressValues(int paramId, String formatName) {
         List<String> result = new ArrayList<>();
@@ -62,7 +65,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Selects set with city IDs of parameter with type {@code address}
+     * Select set with city IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -78,7 +81,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Selects set with street IDs of parameter with type {@code address}
+     * Select set with street IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -94,7 +97,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Selects set with quarter IDs of parameter with type {@code address}
+     * Select set with quarter IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -110,7 +113,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Selects set with area IDs of parameter with type {@code address}
+     * Select set with area IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -144,7 +147,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Selects value IDs of {@code list} and {@code listcount} parameter types
+     * Select value IDs of {@code list} and {@code listcount} parameter types
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -167,7 +170,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Selects parameter values for the current object
+     * Select parameter values for the current object
      * @param paramId the parameter ID
      * @param format optional format of the result:<br>
      * <br>{@code nf} for param type {@code phone} returns {@link ParameterTypePhone} object
@@ -191,20 +194,11 @@ public class ParamExpressionObject implements ExpressionObject {
                 case DATETIME -> {
                     return TimeUtils.format(paramDao.getParamDateTime(objectId, paramId), param.getDateParamFormat());
                 }
-                case PHONE -> {
-                    ParameterPhoneValue value = paramDao.getParamPhone(objectId, paramId);
-                    if ("nf".equals(format))
-                        return value;
-                    return value != null ? value.toString() : "";
-                }
-                case TEXT -> {
-                    return Utils.maskNull(paramDao.getParamText(objectId, paramId));
+                case EMAIL -> {
+                    return ParameterEmailValue.toString(paramDao.getParamEmail(objectId, paramId).values());
                 }
                 case FILE -> {
                     return Utils.toString(paramDao.getParamFile(objectId, paramId).values().stream().map(FileData::getTitle).toList());
-                }
-                case EMAIL -> {
-                    return Parameter.Type.emailToString(paramDao.getParamEmail(objectId, paramId).values());
                 }
                 case LIST -> {
                     return Parameter.Type.listToString(paramId, paramDao.getParamListWithComments(objectId, paramId));
@@ -215,6 +209,15 @@ public class ParamExpressionObject implements ExpressionObject {
                 case MONEY -> {
                     return Utils.format(paramDao.getParamMoney(objectId, paramId));
                 }
+                case PHONE -> {
+                    ParameterPhoneValue value = paramDao.getParamPhone(objectId, paramId);
+                    if ("nf".equals(format))
+                        return value;
+                    return value != null ? value.toString() : "";
+                }
+                case TEXT -> {
+                    return Utils.maskNull(paramDao.getParamText(objectId, paramId));
+                }
                 case TREE -> {
                     return Parameter.Type.treeToString(paramId, paramDao.getParamTree(objectId, paramId));
                 }
@@ -222,7 +225,6 @@ public class ParamExpressionObject implements ExpressionObject {
                     return Parameter.Type.treeCountToString(paramId, paramDao.getParamTreeCount(objectId, paramId));
                 }
             }
-
         } catch (SQLException e) {
             log.error(e);
             return e.getMessage();
@@ -232,21 +234,71 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Selects parameter values for the current object.
-     * @param paramId the parameter ID.
-     * @return string representation of the parameter value.
+     * Select parameter values for the current object
+     * @param paramId the parameter ID
+     * @return string representation of the parameter value
      */
     public String val(int paramId) {
         return (String) val(paramId, null);
     }
 
     /**
-     * Selects parameter values for the current object.
-     * @param paramId the parameter ID.
-     * @return string representation of the parameter value.
+     * Select parameter values for the current object
+     * @param paramId the parameter ID
+     * @return string representation of the parameter value
      */
     public String getValue(int paramId) {
         return val(paramId);
+    }
+
+    /**
+     * Set parameter value(s) out of a string representation, the following parameter types are not supported:
+     * {@link Parameter.Type.ADDRESS}, {@link Parameter.Type.FILE}, {@link Parameter.Type.LIST}, {@link Parameter.Type.LISTCOUNT},
+     * {@link Parameter.Type.TREE}, {@link Parameter.Type.TREECOUNT}<br>
+     * The {@code value} treated as:<br>
+     * - {@link Parameter.Type.BLOB} - string value<br>
+     * - {@link Parameter.Type.DATE} - formatted date string<br>
+     * - {@link Parameter.Type.DATETIME} - formatted datetime string<br>
+     * - {@link Parameter.Type.EMAIL} - comma-separated email addresses with possible display names<br>
+     * - {@link Parameter.Type.MONEY} - dot-separated decimal number<br>
+     * - {@link Parameter.Type.PHONE} - phone-separated phone numbers without format, only E164 digits<br>
+     * - {@link Parameter.Type.TEXT} - string value<br>
+     * @param paramId the parameter ID
+     * @param value the string representation
+     * @throws SQLException
+     */
+    public void sval(int paramId, String value) throws SQLException {
+        Parameter param = ParameterCache.getParameter(paramId);
+        switch (Parameter.Type.of(param.getType())) {
+            case ADDRESS, FILE, LIST, LISTCOUNT, TREE, TREECOUNT -> {
+                throw new UnsupportedOperationException();
+            }
+            case BLOB -> {
+                paramDao.updateParamBlob(objectId, paramId, value);
+            }
+            case DATE -> {
+                paramDao.updateParamDate(objectId, paramId, TimeUtils.parse(value, param.getDateParamFormat()));
+            }
+            case DATETIME -> {
+                paramDao.updateParamDateTime(objectId, paramId, TimeUtils.parse(value, param.getDateParamFormat()));
+            }
+            case EMAIL -> {
+                paramDao.updateParamEmail(objectId, paramId, ParameterEmailValue.of(value));
+            }
+            case MONEY -> {
+                paramDao.updateParamMoney(objectId, paramId, Utils.parseBigDecimal(value));
+            }
+            case PHONE -> {
+                var phone = new ParameterPhoneValue();
+                for (String token : Utils.toList(value))
+                    phone.addItem(new ParameterPhoneValueItem(token, ""));
+
+                paramDao.updateParamPhone(objectId, paramId, phone);
+            }
+            case TEXT -> {
+                paramDao.updateParamText(objectId, paramId, value);
+            }
+        }
     }
 
     // DEPRECATED

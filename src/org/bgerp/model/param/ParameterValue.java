@@ -77,7 +77,7 @@ public class ParameterValue {
             } else if (TYPE_DATETIME.equals(type)) {
                 result = TimeUtils.format((Date) value, TimeUtils.FORMAT_TYPE_YMDHMS);
             } else if (TYPE_EMAIL.equals(type)) {
-                result = Parameter.Type.emailToString(((SortedMap<Integer, ParameterEmailValue>) value).values());
+                result = ParameterEmailValue.toString(((SortedMap<Integer, ParameterEmailValue>) value).values());
             } else if (TYPE_LIST.equals(type)) {
                 result = Parameter.Type.listToString(parameter.getId(), (Map<Integer, String>) value);
             } else if (TYPE_LISTCOUNT.equals(type)) {

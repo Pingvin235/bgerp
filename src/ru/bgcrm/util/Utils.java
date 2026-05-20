@@ -97,10 +97,10 @@ public class Utils {
     }
 
     /**
-     * Converts an object's string representation to a decimal object.
-     * @param obj the object.
-     * @param defaultValue the default value in case of parsing exception.
-     * @return decimal object, {@code defaultValue} for any unparsable value.
+     * Convert an object's string representation to a decimal object
+     * @param obj the object
+     * @param defaultValue the default value in case of parsing exception
+     * @return decimal object, {@code defaultValue} for any unparsable value
      */
     public static BigDecimal parseBigDecimal(final Object obj, final BigDecimal defaultValue) {
         try {
@@ -111,9 +111,9 @@ public class Utils {
     }
 
     /**
-     * Converts an object's string representation to a decimal object.
-     * @param obj the object.
-     * @return decimal object, {@code null} when {@code str} was {@code null}, {@link BigDecimal#ZERO} for any unparsable value.
+     * Convert an object's string representation to a decimal object
+     * @param obj the object
+     * @return decimal object, {@code null} when {@code obj} was {@code null}, {@link BigDecimal#ZERO} for any unparsable value
      */
     public static BigDecimal parseBigDecimal(final Object obj) {
         if (obj == null)
