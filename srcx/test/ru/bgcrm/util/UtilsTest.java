@@ -86,6 +86,22 @@ public class UtilsTest {
     }
 
     @Test
+    public void testParseInt() {
+        Assert.assertEquals(42, Utils.parseInt(" 42 "));
+        Assert.assertEquals(43, Utils.parseInt("43"));
+        Assert.assertEquals(42, Utils.parseInt("sdfs", 42));
+        Assert.assertEquals(0, Utils.parseInt("ddd"));
+    }
+
+    @Test
+    public void testParseLong() {
+        Assert.assertEquals(42L, Utils.parseLong(" 42 "));
+        Assert.assertEquals(43L, Utils.parseLong("43"));
+        Assert.assertEquals(42L, Utils.parseLong("sdfs", 42L));
+        Assert.assertEquals(0, Utils.parseLong("ddd"));
+    }
+
+    @Test
     public void getGetObjectTitles() {
         List<IdTitle> list = List.of(new IdTitle(1, "A"), new IdTitle(2, "B"), new IdTitle(3, "C"));
         Map<Integer, IdTitle> map = list.stream().collect(Collectors.toMap(IdTitle::getId, Function.identity()));

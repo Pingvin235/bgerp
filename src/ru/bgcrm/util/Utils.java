@@ -49,48 +49,48 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку в int, в случае ошибки возращает 0.
-     * @param str входная строка
-     * @return число преобразованное из строки или 0 в случае ошибки
+     * Convert a string to an int, return {@code 0} in case of error
+     * @param str the input string
+     * @return the number converted from the string, or {@code 0} in case of error
      */
     public static int parseInt(String str) {
         return parseInt(str, 0);
     }
 
     /**
-     * Преобразует строку в int, в случае ошибки возращает defaultValue.
-     * @param str входная строка
-     * @param defaultValue значение возращаемое в случае ошибки при преобразовании
-     * @return число преобразованное из строки или defaultValue в случае ошибки
+     * Convert a string to an int, return a default value in case of error
+     * @param str the input string
+     * @param defaultValue the default value in case of error
+     * @return the number converted from the string, or {@code defaultValue} in case of error
      */
     public static int parseInt(String str, int defaultValue) {
         int value = defaultValue;
         try {
-            value = Integer.parseInt(str);
+            value = Integer.parseInt(str.trim());
         } catch (Exception ex) {
         }
         return value;
     }
 
     /**
-     * Преобразует строку в long, в случае ошибки возращает 0.
-     * @param str входная строка
-     * @return число преобразованное из строки или 0 в случае ошибки
+     * Convert a string to a long, return {@code 0} in case of error
+     * @param str the input string
+     * @return the number converted from the string, or {@code 0} in case of error
      */
     public static long parseLong(String str) {
         return parseLong(str, 0L);
     }
 
     /**
-     * Преобразует строку в long, в случае ошибки возращает defaultValue.
-     * @param str входная строка
-     * @param defaultValue значение возращаемое в случае ошибки при преобразовании
-     * @return число преобразованное из строки или defaultValue в случае ошибки
+     * Convert a string to a long, return a default value in case of error
+     * @param str the input string
+     * @param defaultValue the default value in case of error
+     * @return the number converted from the string, or {@code defaultValue} in case of error
      */
     public static long parseLong(String str, long defaultValue) {
         long value = defaultValue;
         try {
-            value = Long.parseLong(str);
+            value = Long.parseLong(str.trim());
         } catch (Exception ex) {
         }
         return value;
