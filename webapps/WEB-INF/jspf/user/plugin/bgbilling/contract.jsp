@@ -48,6 +48,17 @@
 				</c:url>
 				$tabs.tabs( 'add', "${url}", "Документы" );
 			</c:if>
+
+			<c:set var="plugin" value="${ctxPluginManager.pluginMap['getolt']}"/>
+			<c:if test="${not empty plugin}">
+				<c:url var="url" value="/user/plugin/getolt/getolt.do">
+					<c:param name="method" value="contractOnu"/>
+					<c:param name="billingId" value="${billingId}"/>
+					<c:param name="contractId" value="${contractId}"/>
+					<c:param name="contractNumber" value="${contractTitle}"/>
+				</c:url>
+				$tabs.tabs( 'add', "${url}", "GetOLT" );
+			</c:if>
 		})
 	</script>
 
