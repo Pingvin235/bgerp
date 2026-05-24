@@ -18,12 +18,18 @@ $$.shell.login = new function () {
 	const post = () => {
 		const $msg = $errorMessage().text("");
 
+		const $login = $('input[name="j_username"]');
+		const login = $login.val();
+		const pos = login.indexOf('@');
+		if (pos > 0)
+			$login.val(login.substring(0, pos));
+
 		return $.ajax({
 			url: "/login.do",
 			method: "POST",
 			dataType: "json",
 			data: {
-				j_username: $('input[name="j_username"]').val(),
+				j_username: $login.val(),
 				j_password: $('input[name="j_password"]').val(),
 				responseType: "json"
 			}
