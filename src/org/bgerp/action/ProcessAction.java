@@ -627,7 +627,7 @@ public class ProcessAction extends BaseAction {
                 IdStringTitle meItem = null;
 
                 for (var user : UserCache.getUserList()) {
-                    if (!user.getGroupIds().contains(group.getId()) || user.getStatus() != User.STATUS_ACTIVE)
+                    if (!user.getGroupIds().contains(group.getId()) || user.getStatus() == User.STATUS_DISABLED)
                         continue;
 
                     String userGroupAndRole = user.getId() + ":" + group.getId() + ":" + role.getId();

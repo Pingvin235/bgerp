@@ -114,7 +114,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
 
         Collection<Integer> activeUserIds = userIds.stream()
                 .map(UserCache::getUser)
-                .filter(user -> user != null && user.getStatus() == User.STATUS_ACTIVE)
+                .filter(user -> user != null && user.getStatus() != User.STATUS_DISABLED)
                 .map(User::getId)
                 .collect(Collectors.toList());
 
