@@ -1,0 +1,5 @@
+Think about
+- Move all the user actions from the package except BaseAction to action.user subpackage
+- Move 'action.admin' package to 'action.user' to have 'action.user.admin'
+
+

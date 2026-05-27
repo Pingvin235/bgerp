@@ -9,9 +9,9 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.base.Actions;
+import org.bgerp.action.base.Invoker;
 import org.bgerp.action.base.TitledAction;
 import org.bgerp.action.base.TitledActionFactory;
-import org.bgerp.action.util.Invoker;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
