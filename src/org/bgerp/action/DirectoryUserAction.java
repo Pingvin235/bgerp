@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.util.Date;
 
@@ -13,8 +13,8 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/directory/user")
-public class UserAction extends BaseAction {
+@Action(path = "/user/directory/user", pathId = true)
+public class DirectoryUserAction extends BaseAction {
 
     public ActionForward userList(DynActionForm form, ConnectionSet conSet) throws Exception {
         Pageable<User> searchResult = new Pageable<>(form);

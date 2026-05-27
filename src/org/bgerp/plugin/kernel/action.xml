@@ -167,7 +167,7 @@
 
 			<item title="Own Interface Options" action="/user/profile:updatePersonalization"/>
 		</item>
-		<item title="List of users" action="ru.bgcrm.struts.action.UserAction:userList"/>
+		<item title="List of users" action="/user/directory/user:userList, ru.bgcrm.struts.action.UserAction:userList"/>
 	</item>
 
 	<item title="File">
