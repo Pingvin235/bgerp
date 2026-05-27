@@ -1,1 +1,0 @@
-A: Extend git-clean-branches.sh script. https://bgerp.org/change/0/doc/project/workflow.html#change-git-cleanup

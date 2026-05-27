@@ -1,3 +1,0 @@
-A: Outgoing Asterisk calls to customer number. https://bgerp.org/change/0/doc/plugin/asterisk/index.html#usage-outgoing
-A: JEXL number resolving from AMI events. https://bgerp.org/change/0/doc/plugin/asterisk/index.html#setup-plugin-resolve
-C: Right location for parameters popup menu.

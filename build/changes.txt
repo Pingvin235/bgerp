@@ -1,6 +1,34 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+27.05.2026 14:28:20 2605
+
+27.05.2026 14:27:33 2605
+A: [14795] Files count and total size
+C: [15147] Unified editor for parameter type 'treecount'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-treecount
+C: [15200] Show popup news subject in dialog title
+A: [15201] Plugin Task cleanup, l10n and doc. https://bgerp.org/version/3.0/doc/plugin/task
+A: [15203] Extend git-clean-branches.sh script. https://bgerp.org/version/3.0/doc/project/workflow.html#change-git-cleanup
+A: [15206] Publish doc.zip for Master Release
+A: [15207] Plugin 'Get OLT'. https://bgerp.org/version/3.0/doc/plugin/bgb/getolt
+A: [15208] Gradle task 'publishReleaseFix'. https://bgerp.org/version/3.0/doc/project/workflow.html#build-release-fix
+C: [15209] Delete many unused JS libraries
+A: [15209] 'From' filter of not processed messages. https://bgerp.org/version/3.0/doc/kernel/message/index.html#usage-queue
+A: [15209] 'User' column in message queue. https://bgerp.org/version/3.0/doc/kernel/message/index.html#usage-queue
+A: [15210] Asterisk outgoing call URL in sip:<number>@<host> format. https://bgerp.org/version/3.0/doc/plugin/asterisk/index.html#setup-plugin-outgoing
+C: [15210] Asterisk AMI processing listener improvements.
+A: [15210] JEXL Standard Process Context for generated title. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-title
+A: [15210] JEXL Standard Process Context for generated description. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-description
+A: [15214] Plugin Get OLT. https://bgerp.org/version/3.0/doc/plugin/bgb/getolt
+A: [15219] Plugin MAX. https://bgerp.org/version/3.0/doc/plugin/msg/max
+A: [15225] Configurable Telegram Bot URL
+A: [15226] Outgoing Asterisk calls to customer number. https://bgerp.org/version/3.0/doc/plugin/asterisk/index.html#usage-outgoing
+A: [15226] JEXL number resolving from AMI events. https://bgerp.org/version/3.0/doc/plugin/asterisk/index.html#setup-plugin-resolve
+C: [15226] Right location for parameters popup menu.
+A: [15230] Improved User Profile permissions.
+A: [15230] Auth LDAP user update JEXL expression. https://bgerp.org/version/3.0/doc/plugin/sec/auth/index.html#setup-ldap
+C: [15232] Delete from login part after '@' on auth
+
 20.01.2026 16:02:11 2601
 A: [14799] GIT integration for Custom. https://bgerp.org/version/3.0/doc/plugin/git/index.html#usage-custom
 A: [14799] Dialog examples in Demo tool
