@@ -161,9 +161,8 @@
 					<item title="Редактирование интерфейса в сервисе" action="/user/plugin/bgbilling/proto/inet:interfaceListGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:interfaceListGet"/>
 					<item title="Получение vlan в сервисе" action="/user/plugin/bgbilling/proto/inet:getFreeVlan, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:getFreeVlan"/>
 					<item title="Получение устройства в сервисе" action="/user/plugin/bgbilling/proto/inet:devicesGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:devicesGet"/>
-
 				</item>
-				<item title="Отчёт">
+				<item title="Отчёт" action="/user/plugin/bgbilling/proto/inet:null">
 					<item title="Активные сессии" action="/user/plugin/bgbilling/proto/inet:sessionAliveContractList, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionAliveContractList"/>
 					<item title="Лог сессий" action="/user/plugin/bgbilling/proto/inet:sessionLogContractList, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionLogContractList"/>
 					<item title="Сбросить соединение (отключить)" action="/user/plugin/bgbilling/proto/inet:connectionClose, ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionClose"/>

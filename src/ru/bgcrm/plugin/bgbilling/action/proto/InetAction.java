@@ -30,6 +30,11 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class InetAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/inet";
 
+    @Override
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return html(conSet, form, PATH_JSP + "/contract_report.jsp");
+    }
+
     public ActionForward serviceTree(DynActionForm form, ConnectionSet conSet) {
         InetDAO inetDao = new InetDAO(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 

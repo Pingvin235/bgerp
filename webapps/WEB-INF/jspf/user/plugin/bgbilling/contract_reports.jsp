@@ -10,10 +10,14 @@ $(function () {
 	<c:forEach var="item" items="${contract.moduleList}">
 		<c:choose>
 			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.bill.client' or item.clientPackage eq 'bitel.billing.module.services.bill'}">
-				$tabs.tabs('add', '/user/plugin/bgbilling/proto/bill.do?method=documentList&billingId=${billingId}&contractId=${contractId}&moduleId=${item.moduleId}', '${item.title}');
+				<p:check action="/user/plugin/bgbilling/proto/bill:documentList">
+					$tabs.tabs('add', '/user/plugin/bgbilling/proto/bill.do?method=documentList&billingId=${billingId}&contractId=${contractId}&moduleId=${item.moduleId}', '${item.title}');
+				</p:check>
 			</c:when>
 			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client' or item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.client'}">
-				$tabs.tabs('add', '/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/inet/contract_report.jsp&billingId=${billingId}&contractId=${contractId}&moduleId=${item.moduleId}', '${item.title}');
+				<p:check action="/user/plugin/bgbilling/proto/inet:null">
+					$tabs.tabs('add', '/user/plugin/bgbilling/proto/inet.do?billingId=${billingId}&contractId=${contractId}&moduleId=${item.moduleId}', '${item.title}');
+				</p:check>
 			</c:when>
 			<c:otherwise></c:otherwise>
 		</c:choose>
