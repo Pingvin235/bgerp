@@ -111,6 +111,9 @@ public class UserCache extends Cache<UserCache> {
         }
     }
 
+    /**
+     * @return all users sorted by title
+     */
     public static List<User> getUserList() {
         return HOLDER.getInstance().userList;
     }

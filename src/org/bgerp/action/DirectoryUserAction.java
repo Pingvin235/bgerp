@@ -1,13 +1,13 @@
 package org.bgerp.action;
 
-import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
-import org.bgerp.model.Pageable;
-import org.bgerp.util.sql.LikePattern;
+import org.bgerp.cache.UserCache;
 
-import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -17,14 +17,12 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class DirectoryUserAction extends BaseAction {
 
     public ActionForward userList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Pageable<User> searchResult = new Pageable<>(form);
-        new UserDAO(conSet.getSlaveConnection()).searchUser(searchResult,
-                LikePattern.SUB.get(form.getParam("title")),
-                form.getParamValues("group"), null, new Date(), form.getParamValues("permset"), 0);
+        Set<Integer> groupIds = form.getParamValues("group");
 
-        for (User user : searchResult.getList()) {
-            user.setPassword("");
-        }
+        form.setResponseData("list", UserCache.getUserList().stream()
+            .filter(user -> user.getStatus() != User.STATUS_DISABLED && (groupIds.isEmpty() || !CollectionUtils.intersection(groupIds, user.getGroupIds()).isEmpty()))
+            .collect(Collectors.toList())
+        );
 
         return html(conSet, form, PATH_JSP_USER + "/directory/user/list.jsp");
     }
