@@ -22,6 +22,10 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class BillAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/bill";
 
+    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) {
+        return html(conSet, form, PATH_JSP + "/contract_info.jsp");
+    }
+
     public ActionForward attributeList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");

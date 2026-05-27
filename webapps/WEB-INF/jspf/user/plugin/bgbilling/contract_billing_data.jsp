@@ -197,7 +197,7 @@
 								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.rscm.client'}">rscm.do?method=serviceList&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client' or item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.client'}">inet.do?method=serviceTree&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.card' or item.clientPackage eq 'ru.bitel.bgbilling.modules.card.client'}">card.do?method=contractInfo&moduleId=${item.moduleId}</c:when>
-								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.bill' or item.clientPackage eq 'ru.bitel.bgbilling.modules.bill.client'}">/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/bill/contract_info.jsp&moduleId=${item.moduleId}</c:when>
+								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.bill' or item.clientPackage eq 'ru.bitel.bgbilling.modules.bill.client'}">bill.do?method=contractInfo&&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.cerbercrypt.client'}">/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/cerbercrypt/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 								<c:otherwise>dev</c:otherwise>
 							</c:choose>

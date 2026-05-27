@@ -123,7 +123,7 @@
 			<item title="Просмотр модулей" action="/user/plugin/bgbilling/proto/contract:moduleList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:moduleList"/>
 			<item title="Изменение модулей" action="/user/plugin/bgbilling/proto/contract:updateModules, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateModules"/>
 
-			<item title="Bill">
+			<item title="Bill" action="/user/plugin/bgbilling/proto/bill:contractInfo">
 				<item title="Просмотр атрибутов" action="/user/plugin/bgbilling/proto/bill:attributeList, /user/plugin/bgbilling/proto/bill:attributeList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:attributeList" />
 				<item title="Просмотр типов документов" action="/user/plugin/bgbilling/proto/bill:docTypeList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeList" />
 				<item title="Добавление типа документа" action="/user/plugin/bgbilling/proto/bill:docTypeAdd, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction:docTypeAdd" />
