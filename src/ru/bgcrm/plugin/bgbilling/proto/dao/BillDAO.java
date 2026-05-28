@@ -27,7 +27,6 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class BillDAO extends BillingModuleDAO {
-    private static final String BILL_MODULE_ID = "bill";
     private static final String BILL_MODULE = "ru.bitel.bgbilling.modules.bill";
 
     public BillDAO(User user, String billingId, int moduleId) {
@@ -62,7 +61,7 @@ public class BillDAO extends BillingModuleDAO {
             }).collect(Collectors.toList());
         } else {
             Request req = new Request();
-            req.setModule(BILL_MODULE_ID);
+            req.setModule("bill");
             req.setAction("Attribute");
             req.setModuleID(moduleId);
             req.setContractId(contractId);
@@ -83,53 +82,83 @@ public class BillDAO extends BillingModuleDAO {
         return result;
     }
 
-    /* http://billing:8081/executer?module=bill&action=DocTypeList&mid=10&type=bill&BGBillingSecret=EYCgQrk02huqe5maTPTTZPdX&cid=1783&
-    [ length = 1018 ] xml = <?xml version="1.0" encoding="UTF-8"?><data secret="78E9394018B4F006CF649748BE860984" status="ok"><list_select><item id="5" title="Предоплата"/><item id="19" title="Хостинг"/></list_select><list_avaliable><item id="18" title="Предоплата услуг технической поддержки"/><item id="1" title="Продажа ПО (5.x)"/><item id="33" title="Продажа ПО (6.х)"/><item id="32" title="Продажа ПО (экспорт $)"/><item id="25" title="Продажа ПО (экспорт)"/><item id="24" title="Продление домена (COM)"/><item id="35" title="Продление домена (PRO)"/><item id="20" title="Продление домена (RU)"/><item id="26" title="Продление домена (SU)"/><item id="30" title="Продление домена (РФ)"/><item id="31" title="Работы по настройке программного продукта (модули DialUp, IPN, Bill, Npay)"/><item id="27" title="Регистрация домена (COM)"/><item id="21" title="Регистрация домена (RU)"/><item id="29" title="Регистрация домена (SU)"/><item id="28" title="Регистрация домена (РФ)"/><item id="3" title="Техническая поддержка"/></list_avaliable></data>
-     */
     public Pair<List<IdTitle>, List<IdTitle>> getContractDocTypeList(int contractId, String type) {
-        List<IdTitle> listSelected = new ArrayList<>();
-        List<IdTitle> listAvailable = new ArrayList<>();
+        List<IdTitle> listSelected = null;
+        List<IdTitle> listAvailable = null;
 
-        Request req = new Request();
-        req.setModule(BILL_MODULE_ID);
-        req.setAction("DocTypeList");
-        req.setModuleID(moduleId);
-        req.setContractId(contractId);
-        req.setAttribute("type", type);
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(BILL_MODULE, moduleId, "BillService", "documentTypes");
+            req.setParamContractId(contractId);
+            req.setParam("documentType", type.toUpperCase());
 
-        Document document = transferData.postData(req, user);
-        for (Element rowElement : XMLUtils.selectElements(document, "/data/list_select/item")) {
-            listSelected.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
-        }
-        for (Element rowElement : XMLUtils.selectElements(document, "/data/list_avaliable/item")) {
-            listAvailable.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
+            JsonNode ret = transferData.postDataReturn(req, user);
+
+            JsonNode node = ret.get("selectList");
+            if (node != null)
+                listSelected = readJsonValue(node.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+
+            node = ret.get("avaliableList");
+            if (node != null)
+                listAvailable = readJsonValue(node.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+        } else {
+            listSelected = new ArrayList<>();
+            listAvailable = new ArrayList<>();
+
+            Request req = new Request();
+            req.setModule("bill");
+            req.setAction("DocTypeList");
+            req.setModuleID(moduleId);
+            req.setContractId(contractId);
+            req.setAttribute("type", type);
+
+            Document document = transferData.postData(req, user);
+            for (Element rowElement : XMLUtils.selectElements(document, "/data/list_select/item")) {
+                listSelected.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
+            }
+            for (Element rowElement : XMLUtils.selectElements(document, "/data/list_avaliable/item")) {
+                listAvailable.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
+            }
         }
 
         return new Pair<>(listSelected, listAvailable);
     }
 
-    //http://billing:8081/executer?module=bill&selectedItems=5&action=ContractDocTypeAdd&mid=10&BGBillingSecret=M9xZ2FFsNBkYCjSGO3sRNMCn&cid=1783&
     public void contractDocTypeAdd(int contractId, String typeIds) {
-        Request req = new Request();
-        req.setModule(BILL_MODULE_ID);
-        req.setAction("ContractDocTypeAdd");
-        req.setModuleID(moduleId);
-        req.setContractId(contractId);
-        req.setAttribute("selectedItems", typeIds);
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(BILL_MODULE, moduleId, "BillService", "docTypeContractAdd");
+            req.setParamContractId(contractId);
+            req.setParam("docTypeIds", Utils.toList(typeIds));
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule("bill");
+            req.setAction("ContractDocTypeAdd");
+            req.setModuleID(moduleId);
+            req.setContractId(contractId);
+            req.setAttribute("selectedItems", typeIds);
+
+            transferData.postData(req, user);
+        }
     }
 
-    //http://billing:8081/executer?module=bill&selectedItems=5&action=ContractDocTypeDelete&mid=10&BGBillingSecret=OKcy3Ss6yHxtoYTv3JofEEHC&cid=1783&
     public void contractDocTypeDelete(int contractId, String typeIds) {
-        Request req = new Request();
-        req.setModule(BILL_MODULE_ID);
-        req.setAction("ContractDocTypeDelete");
-        req.setModuleID(moduleId);
-        req.setContractId(contractId);
-        req.setAttribute("selectedItems", typeIds);
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(BILL_MODULE, moduleId, "BillService", "docTypeContractDelete");
+            req.setParamContractId(contractId);
+            req.setParam("docTypeIds", Utils.toList(typeIds));
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule("bill");
+            req.setAction("ContractDocTypeDelete");
+            req.setModuleID(moduleId);
+            req.setContractId(contractId);
+            req.setAttribute("selectedItems", typeIds);
+
+            transferData.postData(req, user);
+        }
     }
 
     /*http://billing:8081/executer?module=bill&pageSize=25&action=ContractBill&mid=10&BGBillingSecret=gwO1TWeDulp54LbGpgvVo153&cid=699&pageIndex=1&
@@ -137,7 +166,7 @@ public class BillDAO extends BillingModuleDAO {
     <table pageCount="1" pageIndex="1" pageSize="25" recordCount="19"><data><row create_dt="05.08.2013" id="3403" month="2013.08" number="В-02392" pay_dt="21.08.2013" status="оплачен" summ="121000.00" type="3" type_title="Техническая поддержка" unload_status="не выгружен" who_created="Шамиль Вахитов" who_payed="Кирилл Сергеев"/><row create_dt="10.01.2013" id="2967" month="2013.01" number="В-02208" pay_dt="22.01.2013" status="оплачен" summ="45000.00" type="3" type_title="Техническая поддержка" unload_status="не выгружен" who_created="Шамиль Вахитов" who_payed="Кирилл Сергеев"/><row create_dt="18.10.2012" id="2775" month="2012.10" number="В-02103" pay_dt="29.10.2012" status="оплачен" summ="63000.00" type="3" type_title="Техническая поддержка" unload_status="не выгружен" who_created="Шамиль Вахитов" who_payed="Кирилл Сергеев"/><row create_dt="13.06.2012" id="2456" month="2012.05" number="В-01919" pay_dt="25.06.2012" status="оплачен" summ="126000.00" type="3" type_title="Техническая поддержка" unload_status="не выгружен" who_created="Шамиль Вахитов" who_payed="Кирилл Сергеев"/><row create_dt="11.01.2012" id="2102" month="2012.01" number="В-01743" pay_dt="13.01.2012" status="оплачен" summ="139500.00" type="3" type_title="Техническая поддержка" unload_status="не выгружен" who_created="Шамиль Вахитов" who_payed="Кирилл Сергеев"/><row create_dt="25.10.2011" id="1932" month="2011.10" number="...*/
     public void searchBillList(int contractId, Pageable<Bill> searchResult) {
         Request req = new Request();
-        req.setModule(BILL_MODULE_ID);
+        req.setModule("bill");
         req.setAction("ContractBill");
         req.setModuleID(moduleId);
         req.setContractId(contractId);
@@ -163,7 +192,7 @@ public class BillDAO extends BillingModuleDAO {
     [ length = 1575 ] xml = <?xml version="1.0" encoding="UTF-8"?><data secret="28F56F1AD23578C3F6F1ED6A27553FC2" status="ok"><table pageCount="1" pageIndex="1" pageSize="25" recordCount="9"><data><row create_dt="21.08.2013" id="1505" month="2013.08" number="A-00312" show_ready="true" summ="121000.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="22.01.2013" id="1215" month="2013.01" number="A-00038" show_ready="true" summ="45000.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="29.10.2012" id="1054" month="2012.10" number="A-00459" show_ready="true" summ="63000.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="26.06.2012" id="855" month="2012.06" number="A-00275" show_ready="true" summ="126000.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="13.01.2012" id="577" month="2012.01" number="A-00015" show_ready="true" summ="139500.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="26.12.2011" id="548" month="2011.12" number="A-00376" show_ready="true" summ="100900.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="26.12.2011" id="547" month="2011.12" number="A-00375" show_ready="true" summ="94000.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="20.06.2011" id="227" month="2011.06" number="A-00577" show_ready="true" summ="94000.00" type="4" type_title="Акт техническая поддержка"/><row create_dt="11.03.2011" id="107" month="2011.03" number="A-00087" show_ready="true" summ="96000....*/
     public void searchInvoiceList(int contractId, Pageable<Invoice> searchResult) {
         Request req = new Request();
-        req.setModule(BILL_MODULE_ID);
+        req.setModule("bill");
         req.setAction("ContractInvoice");
         req.setModuleID(moduleId);
         req.setContractId(contractId);
@@ -195,7 +224,7 @@ public class BillDAO extends BillingModuleDAO {
     // http://billing:8081/executer?module=bill&summComment=0.00%3B&ids=3857%3A%3B&value=true&action=SetPayed&mid=10&date=04.05.2014&BGBillingSecret=a2bJiB7xQgwCpp6Tb7S309jw
     public void setPayed(String ids, boolean value, Date date, BigDecimal summa, String comment) {
         Request req = new Request();
-        req.setModule(BILL_MODULE_ID);
+        req.setModule("bill");
         req.setAction("SetPayed");
         req.setModuleID(moduleId);
         req.setAttribute("value", value);
@@ -210,7 +239,7 @@ public class BillDAO extends BillingModuleDAO {
     /*http://billing:8081/executer?module=bill&action=ViewDocs&codes=3403&contentType=application%2Fpdf&mid=10&type=bill&*/
     public byte[] getDocumentsPdf(String ids, String type) {
         Request req = new Request();
-        req.setModule(BILL_MODULE_ID);
+        req.setModule("bill");
         req.setAction("ViewDocs");
         req.setModuleID(moduleId);
         req.setAttribute("type", type);
