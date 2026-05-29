@@ -45,7 +45,7 @@
 			</td>
 			<td nowrap="nowrap">${tu.format(item.date, 'ymd')}</td>
 			<td>${item.serviceTitle}</td>
-			<td>${item.amount}</td>
+			<td>${item.amountStr}</td>
 			<td>${item.unit}</td>
 			<td>${item.comment}</td>
 		</tr>

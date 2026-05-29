@@ -2,24 +2,35 @@ package ru.bgcrm.plugin.bgbilling.proto.model.rscm;
 
 import java.util.Date;
 
-public class RscmService {
-    private int id;
+import org.bgerp.model.base.Id;
+
+public class RscmService extends Id {
+    private int contractId;
     private int serviceId;
     private String serviceTitle;
     private int objectId;
     private String objectTitle;
     private Date date;
-    private String comment;
     private int amount;
+    private int amountUp;
+    private int amountDown;
     private String unit;
-    private int contractId;
+    private String comment;
+
+    public int getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
+    }
 
     public int getServiceId() {
         return serviceId;
     }
 
-    public void setServiceId(int sid) {
-        this.serviceId = sid;
+    public void setServiceId(int value) {
+        this.serviceId = value;
     }
 
     public String getServiceTitle() {
@@ -46,14 +57,6 @@ public class RscmService {
         this.objectTitle = objectTitle;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -62,20 +65,33 @@ public class RscmService {
         this.date = date;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public int getAmount() {
-        return amount;
+        return amount > 0 ? amount : amountUp;
     }
 
-    public void setAmount(int count) {
-        this.amount = count;
+    public void setAmount(int value) {
+        this.amount = value;
+        setAmountUp(value);
+    }
+
+    public int getAmountUp() {
+        return amountUp;
+    }
+
+    public void setAmountUp(int value) {
+        this.amountUp = value;
+    }
+
+    public int getAmountDown() {
+        return amountDown;
+    }
+
+    public void setAmountDown(int value) {
+        this.amountDown = value;
+    }
+
+    public String getAmountStr() {
+        return String.valueOf(amount > 0 ? amount : amountUp);
     }
 
     public String getUnit() {
@@ -86,11 +102,11 @@ public class RscmService {
         this.unit = unit;
     }
 
-    public int getContractId() {
-        return contractId;
+    public String getComment() {
+        return comment;
     }
 
-    public void setContractId(int contractId) {
-        this.contractId = contractId;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
