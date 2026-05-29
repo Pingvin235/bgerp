@@ -1,5 +1,5 @@
 <item title="Плагин BGBilling">
-	<item title="Поиск договоров" action="/user/plugin/bgbilling/proto/contract:searchContract, /user/plugin/bgbilling/proto/contract:getParamList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getParamList, ru.bgcrm.plugin.bgbilling.struts.action.SearchAction:contractSearch">
+	<item title="Поиск договоров" action="/user/plugin/bgbilling/proto/contract:searchContract, /user/plugin/bgbilling/proto/contract:getParamList, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract, ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getParamList">
 		<b>billingIds</b> - разделённые запятыми ID биллинга, разрешённые для поиска<br/>
 	</item>
 	<item title="Контрагент">
