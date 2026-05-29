@@ -139,7 +139,7 @@
 				<item title="Удаление абонплаты" action="/user/plugin/bgbilling/proto/npay:serviceDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction:serviceDelete" />
 			</item>
 
-			<item title="CerberCrypt">
+			<item title="CerberCrypt" action="/user/plugin/bgbilling/proto/cerbercrypt:contractInfo">
 				<item title="Просмотр списка карт доступа" action="/user/plugin/bgbilling/proto/cerbercrypt:cardPacketList, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:cardPacketList" />
 				<item title="Получение списка карт договора" action="/user/plugin/bgbilling/proto/cerbercrypt:contractCards, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:contractCards" />
 				<item title="Получение списка пакетов" action="/user/plugin/bgbilling/proto/cerbercrypt:getPacketList, ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:getPacketList" />

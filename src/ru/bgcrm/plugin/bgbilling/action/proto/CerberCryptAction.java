@@ -22,6 +22,10 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class CerberCryptAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/cerbercrypt";
 
+    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) {
+        return html(conSet, form, PATH_JSP + "/contract_info.jsp");
+    }
+
     public ActionForward cardPacketList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
