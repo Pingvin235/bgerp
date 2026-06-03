@@ -1,6 +1,5 @@
 <item title="Плагин Document">
-	<item title="Документы">
-		<item title="Просмотр документов" action="/user/plugin/document/document:null, ru.bgcrm.plugin.document.action.DocumentAction:null, ru.bgcrm.plugin.document.struts.action.DocumentAction:null"/>
+	<item title="Документы" action="/user/plugin/document/document:null, /user/plugin/document/document:additionalParameters, ru.bgcrm.plugin.document.action.DocumentAction:null, ru.bgcrm.plugin.document.struts.action.DocumentAction:null">
 		<item title="Выгрузка документа" action="/user/plugin/document/document:uploadDocument, ru.bgcrm.plugin.document.action.DocumentAction:uploadDocument, ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument"/>
 		<item title="Генерация документа" action="/user/plugin/document/document:generateDocument, ru.bgcrm.plugin.document.action.DocumentAction:generateDocument, ru.bgcrm.plugin.document.struts.action.DocumentAction:generateDocument"/>
 		<item title="Удаление документа" action="/user/plugin/document/document:deleteDocument, ru.bgcrm.plugin.document.action.DocumentAction:deleteDocument, ru.bgcrm.plugin.document.struts.action.DocumentAction:deleteDocument"/>

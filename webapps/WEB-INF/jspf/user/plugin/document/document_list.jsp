@@ -22,7 +22,7 @@
 					var $selected = $('#${selectUiid}').find('li[selected]');
 					if( $selected.length > 0 )
 					{
-						$$.ajax.load( '/user/empty.do?patternId='+$selected.val()+'&forwardFile=' + '/WEB-INF/jspf/user/plugin/document/additional_parameters.jsp' , $('#${dynamParamDivUiid}') );
+						$$.ajax.load('${form.requestURI}?method=additionalParameters&scope=${form.param.scope}&patternId=' + $selected.val(), $('#${dynamParamDivUiid}'));
 
 						$('#${saveUiid}').toggle($selected.attr('save') == 'true');
 						$('#${streamUiid}').toggle($selected.attr('stream') == 'true');

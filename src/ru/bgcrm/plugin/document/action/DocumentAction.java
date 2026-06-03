@@ -20,6 +20,7 @@ import org.bgerp.app.cfg.bean.Bean;
 import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.event.iface.EventListener;
 import org.bgerp.app.exception.BGException;
+import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.cache.ProcessTypeCache;
 import org.bgerp.dao.FileDataDAO;
 import org.bgerp.model.Pageable;
@@ -68,6 +69,18 @@ public class DocumentAction extends BaseAction {
         form.setRequestAttribute("patternList", patterns);
 
         return html(con, form, PATH_JSP + "/document_list.jsp");
+    }
+
+    public ActionForward additionalParameters(DynActionForm form, ConnectionSet conSet) throws BGIllegalArgumentException  {
+        String scope = form.getParam("scope", Utils::notBlankString);
+        int patternId = form.getParamInt("patternId", Utils::isPositive);
+
+        var pattern = setup.getConfig(Config.class).getPattern(scope, patternId);
+        String additionalParametersJsp = pattern.getAdditionalParametersJsp();
+        if (Utils.notBlankString(additionalParametersJsp))
+            return html(conSet, form, additionalParametersJsp);
+        else
+            return null;
     }
 
     public ActionForward uploadDocument(DynActionForm form, Connection con) throws Exception {

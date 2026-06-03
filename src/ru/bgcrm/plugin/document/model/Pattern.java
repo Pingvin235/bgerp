@@ -46,6 +46,8 @@ public class Pattern extends IdTitle implements GetJsp {
     // JSP шаблон, генерирует HTML вывод, либо подготавливает данные
     private final String jsp;
 
+    private final String additionalParametersJsp;
+
     // макросы позиций, устаревший метод
     @Deprecated
     private ConfigMap positionMap;
@@ -61,6 +63,7 @@ public class Pattern extends IdTitle implements GetJsp {
         this.documentTitle = params.get("documentTitle");
         this.xslt = params.get("xslt");
         this.jsp = params.get("jsp");
+        this.additionalParametersJsp = params.get("additionalParametersJsp");
 
         String type = params.get("type");
 
@@ -141,6 +144,10 @@ public class Pattern extends IdTitle implements GetJsp {
     @Override
     public String getJsp() {
         return jsp;
+    }
+
+    public String getAdditionalParametersJsp() {
+        return additionalParametersJsp;
     }
 
     public boolean isResultSave() {
