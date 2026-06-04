@@ -7,10 +7,10 @@ messageType.100.host=imappro.zoho.eu
 messageType.100.pswd=fafTc?r2
 messageType.100.mail.smtp.host=smtppro.zoho.eu
 messageType.100.sign.expression={@SIGN_TEXT}
-messageType.100.search.{@inc:cnt}.title=By EMail
-messageType.100.search.{@cnt}.class=MessageTypeSearchEmail
-messageType.100.search.{@inc:cnt}.title=Customer by Title
-messageType.100.search.{@cnt}.class=MessageTypeSearchCustomerByTitle
+messageType.100.search.100.title=Customer by email (auto)
+messageType.100.search.100.class=MessageTypeSearchEmail
+messageType.100.search.101.title=Customer by title
+messageType.100.search.101.class=MessageTypeSearchCustomerByTitle
 messageType.100.saver.class=MessageTypeContactSaverEmail
 messageType.100.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 
