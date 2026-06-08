@@ -323,35 +323,35 @@ public class ParameterAction extends BaseAction {
             }
         }
 
-        // проверка параметров, которые должны быть заполнены
+        // parameters required to be filled in
         final String requireParamName = "requireBeforeFillParamIds";
 
         Set<Integer> requireBeforeParams = Utils.toIntegerSet(parameter.getConfigMap().get(requireParamName, ""));
         for (int requireParamId : requireBeforeParams) {
             Parameter requireParam = ParameterCache.getParameter(requireParamId);
             if (requireParam == null) {
-                throw new BGMessageException(
-                        "Параметр с кодом " + requireParamId + " не существует.\nУказан в " + requireParamName + " конфигурации параметра.");
+                throw new BGMessageException("Parameter with ID {} does not exist. Specified in the '{}' parameter configuration.", requireParamId,
+                        requireParamName);
             }
 
             if (!paramValueDAO.isParameterFilled(id, requireParam)) {
-                throw new BGMessageException("Параметр '" + requireParam.getTitle() + "' не заполнен.");
+                throw new BGMessageException("The '{}' parameter is not filled in", requireParam.getTitle());
             }
         }
 
-        // проверка параметров, которые не должны быть заполнены
+        // parameters required to be empty
         final String requireEmptyParamName = "requireBeforeEmptyParamIds";
 
         Set<Integer> requireEmptyBeforeParams = Utils.toIntegerSet(parameter.getConfigMap().get(requireEmptyParamName, ""));
         for (int requireParamId : requireEmptyBeforeParams) {
             Parameter requireParam = ParameterCache.getParameter(requireParamId);
             if (requireParam == null) {
-                throw new BGMessageException(
-                        "Параметр с кодом " + requireParamId + " не существует.\nУказан в " + requireEmptyParamName + " конфигурации параметра.");
+                throw new BGMessageException("Parameter with ID {} does not exist. Specified in the '{}' parameter configuration.", requireParamId,
+                        requireEmptyParamName);
             }
 
             if (paramValueDAO.isParameterFilled(id, requireParam)) {
-                throw new BGMessageException("Параметр '" + requireParam.getTitle() + "' заполнен.");
+                throw new BGMessageException("The '{}' parameter is filled in", requireParam.getTitle());
             }
         }
 

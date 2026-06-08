@@ -680,6 +680,12 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Additional Properties</en><ru>Дополнительные свойства</ru></p>
 	<p><en>saved immediately</en><ru>сохраняются сразу</ru></p>
 	<p><en>Incorrect email value: {}</en><ru>Неверное значение email: {}</ru></p>
+	<p><en>The '{}' parameter is not filled in</en><ru>Параметр '{}' не заполнен</ru></p>
+	<p><en>The '{}' parameter is filled in</en><ru>Параметр '{}' заполнен</ru></p>
+	<p>
+		<en>Parameter with ID {} does not exist. Specified in the '{}' parameter configuration.</en>
+		<ru>Параметр с ID  {} не существует.\nУказан в ' {}'  конфигурации параметра.</ru>
+	</p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
