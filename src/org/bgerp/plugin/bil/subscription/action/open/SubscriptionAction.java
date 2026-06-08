@@ -17,7 +17,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/open/plugin/subscription/subscription")
 public class SubscriptionAction extends BaseAction {
-    private static final String JSP_PATH = Plugin.PATH_JSP_OPEN;
+    private static final String PATH_JSP = Plugin.PATH_JSP_OPEN;
 
     // not more often request from a single IP as one per 10 min.
     // private static final AntiSpam ORDER_ANTI_SPAM = new AntiSpam(Duration.ofMinutes(10));
@@ -45,7 +45,7 @@ public class SubscriptionAction extends BaseAction {
         if (config.getParamLimitId() > 0)
             form.setRequestAttribute("limits", org.bgerp.cache.ParameterCache.getListParamValues(config.getParamLimitId()));
 
-        return html(conSet, form, JSP_PATH + "/subscription.jsp");
+        return html(conSet, form, PATH_JSP + "/subscription.jsp");
     }
 
     public ActionForward calc(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -56,6 +56,6 @@ public class SubscriptionAction extends BaseAction {
         BigDecimal cost = new SubscriptionDAO(conSet.getSlaveConnection()).getCost(subscription, limitId, processIds);
         form.setResponseData("cost", cost);
 
-        return html(conSet, form, JSP_PATH + "/subscription_calc.jsp");
+        return html(conSet, form, PATH_JSP + "/subscription_calc.jsp");
     }
 }
