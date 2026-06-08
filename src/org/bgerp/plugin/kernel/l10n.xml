@@ -346,7 +346,7 @@
 	<p><en>Possible processes</en><ru>Возможные процессы</ru></p>
 	<p><ru>Выберите тип</ru><en>Select type</en></p>
 	<p><ru>Краткое описание процесса</ru><en>Brief description of the process</en></p>
-	<p><ru>Сообщение</ru><en>Message</en></p>
+	<p><en>Message</en><ru>Сообщение</ru></p>
 	<p><ru>Уведомление</ru><en>Notification</en></p>
 	<p><ru>Контакт</ru><en>Contact</en></p>
 	<p><en>Open only</en><ru>Только открытые</ru></p>
