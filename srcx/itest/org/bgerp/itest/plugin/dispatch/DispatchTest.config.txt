@@ -12,5 +12,5 @@ dispatch:manageEmail.mail.smtp.user=demo@bgerp.org
 dispatch:manageEmail.mail.smtp.pswd=fafTc?r2
 
 # scheduler
-scheduler.task.dispatchCommands.class=ru.bgcrm.plugin.dispatch.CommandProcessor
-scheduler.task.dispatchSender.class=ru.bgcrm.plugin.dispatch.MessageSender
+scheduler.task.dispatchCommands.class=DispatchCommandProcessor
+scheduler.task.dispatchSender.class=DispatchMessageSender
