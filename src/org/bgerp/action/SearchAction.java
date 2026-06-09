@@ -80,7 +80,8 @@ public class SearchAction extends BaseAction {
 
             customerDao.searchCustomerList(result, LikePattern.SUB.get(title));
 
-            return html(conSet, form, JSP_CUSTOMER);
+            return html(conSet, form, Utils.isBlankString(form.getParam("wizard")) ? JSP_CUSTOMER
+                    : BaseAction.PATH_JSP_USERMOB + "/process/process/wizard/step_link_customer_search_result.jsp");
         } /* else if ("group".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<>(form);
 

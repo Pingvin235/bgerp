@@ -31,7 +31,7 @@
 			<input type="hidden" name="method" value="customerSearch"/>
 			<input type="hidden" name="searchBy" value="title"/>
 			<input type="hidden" name="processId" value="${process.id}"/>
-			<input type="hidden" name="forwardFile" value="/WEB-INF/jspf/usermob/process/process/wizard/step_link_customer_search_result.jsp"/>
+			<input type="hidden" name="wizard" value="1"/>
 			<input type="hidden" name="returnChildUiid" value="${uiid}"/>
 
 			<div style="display: table-cell; width: 100%;">
