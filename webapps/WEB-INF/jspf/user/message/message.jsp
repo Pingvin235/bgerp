@@ -155,7 +155,7 @@
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="objectType" value="process"/>
 							<c:param name="processTypeId" value="${process.typeId}"/>
-							<c:param name="header" value="${l.l('Привязки')}"/>
+							<c:param name="header" value="${l.l('Links')}"/>
 						</c:url>
 
 						<c:remove var="form"/>

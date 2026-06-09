@@ -61,7 +61,7 @@
 									<c:param name="processTypeId" value="${process.typeId}"/>
 								</c:url>
 
-								$tabs.tabs("add", "${url}", "${l.l('Привязки')}");
+								$tabs.tabs("add", "${url}", "${l.l('Links')}");
 							</c:if>
 
 							<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.messages', 'processShowMessages') eq '1'}">
@@ -117,7 +117,7 @@
 										<c:param name="method" value="linkList"/>
 										<c:param name="id" value="${process.id}"/>
 										<c:param name="objectType" value="process"/>
-										<c:param name="header" value="${l.l('Привязки')}"/>
+										<c:param name="header" value="${l.l('Links')}"/>
 										<c:param name="processTypeId" value="${process.typeId}"/>
 									</c:url>
 

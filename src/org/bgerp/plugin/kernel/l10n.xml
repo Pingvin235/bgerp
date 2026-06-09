@@ -181,7 +181,7 @@
 	<p><ru>Фильтры</ru><en>Filters</en></p>
 	<p><ru>Сорт.</ru><en>Order</en></p>
 	<p><ru>Слить в существующий</ru><en>Merge to existing</en></p>
-	<p><ru>Привязки</ru><en>Links</en></p>
+	<p><en>Links</en><ru>Привязки</ru></p>
 	<p><ru>Привязать объект из буфера</ru><en>Link object from buffer</en></p>
 	<p><ru>Привязать иной объект</ru><en>Link another object</en></p>
 	<p><ru>Строка поиска контрагента</ru><en>Customer search string</en></p>
