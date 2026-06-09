@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.cache.UserCache;
@@ -109,7 +109,7 @@ public class ReportProcessAction extends ReportActionBase {
                 final var dateTo = form.getParamDate("dateTo", new Date(), true);
 
                 final var mode = form.getParam("mode", "create", true, null);
-                if (!StringUtils.equalsAny(mode, "create", "close"))
+                if (!Strings.CS.equalsAny(mode, "create", "close"))
                     throw new BGIllegalArgumentException();
 
                 final boolean isModeCreate = "create".equals(mode);
