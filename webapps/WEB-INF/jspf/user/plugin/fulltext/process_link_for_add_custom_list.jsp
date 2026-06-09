@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<p:check action="ru.bgcrm.plugin.fulltext.action.SearchAction:search">
+<p:check action="/user/plugin/fulltext/search:search">
 	<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.fulltext.model.Config')}"/>
 
 	<c:if test="${not empty config and config.objectTypeMap.containsKey('customer')}">

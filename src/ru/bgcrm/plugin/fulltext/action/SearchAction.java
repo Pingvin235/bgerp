@@ -13,7 +13,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/fulltext/search")
+@Action(path = "/user/plugin/fulltext/search", pathId = true)
 public class SearchAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
