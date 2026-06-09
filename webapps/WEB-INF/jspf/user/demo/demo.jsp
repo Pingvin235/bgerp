@@ -54,7 +54,7 @@
 			<input type="hidden" name="method" value="formSend"/>
 			<input name="title" type="text" size="50" placeholder="Title"/>
 			<button type="button" name="out" class="btn-grey ml1" onclick="
-				$$.ajax.post(this.form).done((result) =>
+				$$.ajax.post(this).done((result) =>
 					$$.shell.message.show(result.data.messageTitle, result.data.messageText)
 				)
 			">Send</button>

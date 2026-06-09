@@ -54,11 +54,17 @@ public class DemoAction extends org.bgerp.action.open.DemoAction {
         return html(conSet, form, PATH_JSP + "/tab.jsp");
     }
 
-    public ActionForward formSend(DynActionForm form, ConnectionSet conSet) throws BGIllegalArgumentException {
+    public ActionForward formSend(DynActionForm form, ConnectionSet conSet) throws BGIllegalArgumentException, InterruptedException {
         String title = form.getParam("title", Utils::notBlankString);
+
+        // simulation of logic
+        Thread.sleep(Duration.ofSeconds(5));
+
         form.setResponseData("messageTitle", "The form was successfully accepted");
         form.setResponseData("messageText", Log.format("The sent value was: <b>{}</b>", title));
+
         log.info("formSend was called, title: {}", title);
+
         return json(conSet, form);
     }
 
