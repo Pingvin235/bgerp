@@ -111,38 +111,7 @@ public class SearchAction extends BaseAction {
                     .search(result);
 
             return html(conSet, form, JSP_CUSTOMER_PARAM);
-        } /* else if ("email".equals(searchBy)) {
-            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<>(form);
-
-            String email = form.getParam("email");
-
-            customerDao.searchCustomerListByEmail(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
-                    email);
-
-            return html(con, form, JSP_CUSTOMER_PARAM);
-        } else if ("phone".equals(searchBy)) {
-            Pageable<Customer> result = new Pageable<>(form);
-            String phone = form.getParam("phone");
-
-            List<Integer> paramIds = Utils.toIntegerList(form.getParam("phoneParamIds"));
-            if (paramIds.size() > 0) {
-                customerDao.searchCustomerListByPhone(result, paramIds, phone);
-            } else {
-                customerDao.searchCustomerListByPhone(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
-                        phone);
-            }
-
-            return html(con, form, JSP_CUSTOMER_PARAM);
-        } else if ("linkedObjectTitle".equals(searchBy)) {
-            Pageable<Customer> result = new Pageable<>(form);
-
-            String linkedObjectTitle = form.getParam("linkedObjectTitle");
-            String linkedObjectTypeLike = form.getParam("linkedObjectTypeLike");
-
-            customerDao.searchCustomerByLinkedObjectTitle(result, linkedObjectTypeLike, linkedObjectTitle);
-
-            return html(con, form, JSP_CUSTOMER);
-        }*/
+        }
 
         return html(conSet, form, JSP_DEFAULT);
     }
