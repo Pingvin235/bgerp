@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h2>${l.l('Выберите тип')}</h2>
+<h2>${l.l('Type')}</h2>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
