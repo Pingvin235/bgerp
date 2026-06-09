@@ -1,3 +1,4 @@
 <item title="Plugin FullText">
-	<item title="Full Text Search" action="/user/plugin/fulltext/search:search, ru.bgcrm.plugin.fulltext.action.SearchAction:search, ru.bgcrm.plugin.fulltext.struts.action.SearchAction:search"/>
+	<item title="Search" action="/user/plugin/fulltext/search:search, ru.bgcrm.plugin.fulltext.action.SearchAction:search, ru.bgcrm.plugin.fulltext.struts.action.SearchAction:search"/>
+	<item title="Search Process Customer Link" action="/user/plugin/fulltext/search:customerSearchProcessLink"/>
 </item>

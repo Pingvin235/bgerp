@@ -39,4 +39,10 @@ public class SearchAction extends BaseAction {
     private ActionForward forward(ConnectionSet conSet, DynActionForm form, String objectType) {
         return html(conSet, form, PATH_JSP + "/search_result_" + objectType + ".jsp");
     }
+
+    public ActionForward customerSearchProcessLink(DynActionForm form, ConnectionSet conSet) throws Exception {
+        String filter = form.getParam("filter", "").trim();
+        new SearchDAO(conSet.getSlaveConnection()).searchCustomer(new Pageable<>(form), filter);
+        return html(conSet, form, BaseAction.PATH_JSP_USER + "/process/process/link/list_search_customer.jsp");
+    }
 }

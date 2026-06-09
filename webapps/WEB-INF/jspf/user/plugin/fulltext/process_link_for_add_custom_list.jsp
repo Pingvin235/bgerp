@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<p:check action="/user/plugin/fulltext/search:search">
+<p:check action="/user/plugin/fulltext/search:customerSearchProcessLink">
 	<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.fulltext.model.Config')}"/>
 
 	<c:if test="${not empty config and config.objectTypeMap.containsKey('customer')}">
@@ -16,9 +16,7 @@
 
 			${linkObjectForms}
 			<form action="/user/plugin/fulltext/search.do" id="${id}" style="display: none;" onsubmit="$$.ajax.load(this, $('#${resultUiid}')); return false;">
-				<input type="hidden" name="method" value="search"/>
-				<input type="hidden" name="objectType" value="customer"/>
-				<input type="hidden" name="forwardFile" value="/WEB-INF/jspf/user/process/process/link_list_search_customer.jsp"/>
+				<input type="hidden" name="method" value="customerSearchProcessLink"/>
 				<input type="hidden" name="processId" value="${form.id}"/>
 
 				<ui:input-text style="width: 100%;" name="filter" placeholder="${l.l('Строка поиска контрагента')}"
