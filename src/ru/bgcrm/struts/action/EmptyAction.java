@@ -12,14 +12,13 @@ import ru.bgcrm.util.sql.ConnectionSet;
  *
  * @author Shamil Vakhitov
  */
+@Deprecated
 @Action(path = "/user/empty")
 public class EmptyAction extends BaseAction {
-    public EmptyAction() {
-        super();
-    }
-
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
+        log.warnd("Deprecated 'empty' action was called with forwardFile={}", form.getForwardFile());
+
         var request = form.getHttpRequest();
         log.debug("r: {}; f: {}; q: {}", request, form, request.getQueryString());
         return html(conSet, form, form.getForwardFile());
