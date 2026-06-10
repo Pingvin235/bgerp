@@ -1,10 +1,7 @@
 <item title="Plugin Report">
 	<item title="Reports" actionFactory="org.bgerp.plugin.report.action.ReportActionBase$Factory">
 	</item>
-	<item title="JSP Reports">
-		<item title="List" action="org.bgerp.plugin.report.action.ReportAction:null, ru.bgcrm.plugin.report.struts.action.ReportAction:null">
-			<b>allowedReports</b> - comma separated IDs of allowed JSP reports<br/>
-		</item>
-		<item title="Show" action="org.bgerp.plugin.report.action.ReportAction:get, ru.bgcrm.plugin.report.struts.action.ReportAction:get"/>
+	<item title="JSP Reports" action="/user/plugin/report/report:null, /user/plugin/report/report:get, org.bgerp.plugin.report.action.ReportAction:null, ru.bgcrm.plugin.report.struts.action.ReportAction:null">
+		<b>allowedReports</b> - comma separated IDs of allowed JSP reports<br/>
 	</item>
 </item>
