@@ -303,24 +303,21 @@ public abstract class BaseAction extends DispatchAction {
     }
 
     /**
-     * JSP forward.
-     * @param con SQL connection.
-     * @param form form object.
-     * @param path JSP path.
+     * JSP forward
+     * @param con SQL connection
+     * @param form form object
+     * @param path JSP path
      * @return
      */
     protected ActionForward html(Connection con, DynActionForm form, String path) {
-        String forwardFile = form != null ? form.getForwardFile() : null;
-        if (Utils.notBlankString(forwardFile))
-            path = forwardFile;
         return html(new SingleConnectionSet(con), form, path);
     }
 
     /**
-     * JSP forward.
-     * @param conSet set of SQL connections.
-     * @param form form object.
-     * @param path JSP path.
+     * JSP forward
+     * @param conSet set of SQL connections
+     * @param form form object
+     * @param path JSP path
      * @return
      */
     protected ActionForward html(ConnectionSet conSet, DynActionForm form, String path) {
@@ -353,34 +350,29 @@ public abstract class BaseAction extends DispatchAction {
      */
     protected ActionForward json(ConnectionSet conSet, DynActionForm form) {
         try {
-            // FIXME: Check this hack for usages and remove.
-            if (Utils.notBlankString(form.getForwardFile())) {
-                return new ActionForward(form.getForwardFile());
-            } else {
-                if (conSet != null) {
-                    conSet.commit();
-                }
-
-                HttpServletResponse response = form.getHttpResponse();
-
-                response.setContentType("application/json; charset=" + StandardCharsets.UTF_8.name());
-                PrintWriter out = form.getHttpResponseWriter();
-
-                // TODO: Remove the callback magic together with sendAJAXCommandAsync JS function on FE.
-                String callback = form.getParam("callback");
-                if (!Utils.isEmptyString(callback)) {
-                    out.write(callback + "(");
-                }
-
-                ObjectWriter objectWriter = MAPPER.writer();
-                out.write(objectWriter.writeValueAsString(form.getResponse()));
-
-                if (!Utils.isEmptyString(callback)) {
-                    out.write(");");
-                }
-
-                out.close();
+            if (conSet != null) {
+                conSet.commit();
             }
+
+            HttpServletResponse response = form.getHttpResponse();
+
+            response.setContentType("application/json; charset=" + StandardCharsets.UTF_8.name());
+            PrintWriter out = form.getHttpResponseWriter();
+
+            // TODO: Remove the callback magic together with sendAJAXCommandAsync JS function on FE.
+            String callback = form.getParam("callback");
+            if (!Utils.isEmptyString(callback)) {
+                out.write(callback + "(");
+            }
+
+            ObjectWriter objectWriter = MAPPER.writer();
+            out.write(objectWriter.writeValueAsString(form.getResponse()));
+
+            if (!Utils.isEmptyString(callback)) {
+                out.write(");");
+            }
+
+            out.close();
         } catch (Exception e) {
             log.error(e);
         }
