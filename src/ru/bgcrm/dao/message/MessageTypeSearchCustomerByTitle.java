@@ -27,7 +27,7 @@ public class MessageTypeSearchCustomerByTitle extends MessageTypeSearch {
     @Override
     public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) {
         Pageable<Customer> searchResult = new Pageable<>();
-        new CustomerDAO(conSet.getConnection()).searchCustomerList(searchResult, "%" + form.getParam("title") + "%");
+        new CustomerDAO(conSet.getConnection()).searchCustomerList(searchResult, "%" + form.getParam("customerTitle") + "%");
 
         for (Customer customer : searchResult.getList()) {
             result.add(new CommonObjectLink(0, Customer.OBJECT_TYPE, customer.getId(), customer.getTitle()));

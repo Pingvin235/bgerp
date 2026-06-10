@@ -1,6 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
+<%--
+Incoming variables:
+        searchTabsUiid - ID of tab div with message
+--%>
 <u:sc>
 	<table class="data mt05">
 		<tr>

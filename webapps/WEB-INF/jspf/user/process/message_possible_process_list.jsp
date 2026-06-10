@@ -25,7 +25,9 @@
 	<c:param name="messageId" value="${form.param.messageId}"/>
 </c:url>
 
-<table class="data mt1 hl">
+<c:set var="uiid" value="${u:uiid()}"/>
+
+<table id="${uiid}" class="data mt1 hl">
 	<tr>
 		<td class="min">&nbsp;</td>
 		<td>${l.l('Process')}</td>
@@ -57,3 +59,9 @@
 		</tr>
 	</c:forEach>
 </table>
+
+<script>
+	$(function () {
+		$$.ui.ifaceStateTabUpdate('${uiid}', ' [${frd.list.size()}]');
+	})
+</script>

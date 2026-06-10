@@ -336,14 +336,13 @@
 	<p><ru>Сбросить выделение</ru><en>Reset selection</en></p>
 	<p><ru>Лог изменений параметров</ru><en>Parameter change log</en></p>
 	<p><ru>Обработка</ru><en>Processing</en></p>
-	<p><en>Set a new process</en><ru>Установить новый процесс</ru></p>
+	<p><en>New Process</en><ru>Новый процесс</ru></p>
 	<p><ru>Привязать</ru><en>Link</en></p>
 	<p><ru>Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.</ru><en>Provide the code to bind the process. Code "0" - to decouple the message from the process.</en></p>
 	<p><en>From number</en><ru>С номера</ru></p>
 	<p><en>To number</en><ru>На номер</ru></p>
-	<p><ru>Время начала</ru><en>Start time</en></p>
 	<p><en>Set the process by ID</en><ru>Установить процесс по ID</ru></p>
-	<p><en>Possible processes</en><ru>Возможные процессы</ru></p>
+	<p><en>Use Existing</en><ru>Использовать существующий</ru></p>
 	<p><ru>Краткое описание процесса</ru><en>Brief description of the process</en></p>
 	<p><en>Message</en><ru>Сообщение</ru></p>
 	<p><ru>Уведомление</ru><en>Notification</en></p>
@@ -402,7 +401,6 @@
 	<p><ru>Закрыл</ru><en>Closed by</en></p>
 	<p><ru>Цвет для счетчика фильтра</ru><en>Color for filter's counter</en></p>
 	<p><ru>Удалить выбранные</ru><en>Delete Selected</en></p>
-	<p><ru>ПРОЦЕСС</ru><en>PROCESS</en></p>
 	<p><ru>Дата от</ru><en>Date from</en></p>
 	<p><ru>Дата по</ru><en>Date to</en></p>
 	<p><ru>выберите контрагента</ru><en>choose customer</en></p>
@@ -435,7 +433,7 @@
 	<p><ru>Внешние</ru><en>External</en></p>
 	<p><ru>Внешний</ru><en>External</en></p>
 	<p><ru>Занять</ru><en>Occupy</en></p>
-	<p><ru>Звонок</ru><en></en>Call</p>
+	<p><en>Call</en><ru>Звонок</ru></p>
 	<p><ru>Перезапустить</ru><en>Restart</en></p>
 	<p><en>Intermediate save</en><ru>Промежуточное сохранение</ru></p>
 	<p><en>Use dot as a decimal separator</en><ru>Используйте точку как десятичный разделитель</ru></p>

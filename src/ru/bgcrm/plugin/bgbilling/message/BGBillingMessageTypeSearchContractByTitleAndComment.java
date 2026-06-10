@@ -34,16 +34,15 @@ public class BGBillingMessageTypeSearchContractByTitleAndComment extends Message
     }
 
     @Override
-    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
-            {
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) {
         DBInfo dbInfo = DBInfoManager.getDbInfo(billingId);
         if (dbInfo == null) {
             log.warn("Billing not found: " + billingId);
             return;
         }
 
-        String title = form.getParam("title");
-        String comment = form.getParam("comment");
+        String title = form.getParam("bgbillingTitle");
+        String comment = form.getParam("bgbillingComment");
 
         if ((Utils.isBlankString(title) && Utils.isBlankString(comment))
                 || (Utils.notBlankString(title) && title.length() < 3)
