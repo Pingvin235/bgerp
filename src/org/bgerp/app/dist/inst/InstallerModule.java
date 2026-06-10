@@ -30,8 +30,7 @@ import com.google.common.annotations.VisibleForTesting;
 import ru.bgcrm.util.ZipUtils;
 
 /**
- * Processor of a ZIP file with updates.
- * All the reports are intentionally written to STDOUT.
+ * Processor of a ZIP update package
  *
  * @author Shamil Vakhitov
  */
@@ -44,31 +43,30 @@ public class InstallerModule {
     private static final String SUFFIX_ORIG = ".orig";
     private static final String INFIX_BAK = ".bak.";
 
-    /** Directory with files. */
-    public static final String ENTRY_CONTENT = "content";
+    /** Directory with files */
+    private static final String ENTRY_CONTENT = "content";
     private static final int ENTRY_CONTENT_LENGTH = ENTRY_CONTENT.length();
 
     public static final String ENTRY_MODULE_PROPERTIES = "module.properties";
 
-    private static final Set<String> CLEANED_DIRS_UPDATE = Set.of(
-        // TODO: docpattern, report, scripts
+    // TODO: make separated checker for: docpattern, report, scripts
+    private static final Set<String> UPDATE_DIRS = Set.of(
         // dirs for removing
         "action",
         "plugin",
-        // report,
         // actual dirs
         "webapps"
     );
 
-    private static final Set<String> CLEANED_DIRS_UPDATE_LIB = Set.of(
+    private static final Set<String> UPDATE_LIB_DIRS = Set.of(
         "lib/ext"
     );
 
-    /** A directory to be updated. */
+    /** A directory to be updated */
     private final File targetDir;
-    /** All overwritten file paths. */
+    /** All overwritten file paths */
     private final List<String> paths = new ArrayList<>(100);
-    /** Path prefixes to be cleaned up of not more presented files. */
+    /** Path prefixes to be cleaned up of not more presented files */
     private final Set<String> cleanedDirs;
 
     private final Report report = new Report();
@@ -86,9 +84,9 @@ public class InstallerModule {
             throw new IllegalArgumentException("Module info was not found or incorrect");
 
         if ("update".equals(mi.getName()))
-            cleanedDirs = CLEANED_DIRS_UPDATE;
+            cleanedDirs = UPDATE_DIRS;
         else if ("update_lib".equals(mi.getName()))
-            cleanedDirs = CLEANED_DIRS_UPDATE_LIB;
+            cleanedDirs = UPDATE_LIB_DIRS;
         else
             throw new IllegalArgumentException("Unsupported module: " + mi.getName());
 
@@ -236,6 +234,7 @@ public class InstallerModule {
         var dir = new File(targetDir, dirPath);
 
         var innerPaths = paths.stream().filter(p -> p.startsWith(dirPath)).collect(Collectors.toSet());
+        // no files for the directory in the update package
         if (innerPaths.isEmpty()) {
             delete(dirPath, dir);
             return;
@@ -287,11 +286,11 @@ public class InstallerModule {
     }
 
     public static class Report {
-         /** Updated files. */
+         /** Updated files */
         private final Set<String> replaced = new TreeSet<>();
-        /** Removed excess files. */
+        /** Removed excess files */
         private final Set<String> removed = new TreeSet<>();
-        /** Files, which will be removed in future. */
+        /** Files, which will be removed in future */
         private final Set<String> removeSoon = new TreeSet<>();
 
         public Set<String> getReplaced() {
