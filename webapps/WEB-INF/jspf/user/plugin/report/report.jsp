@@ -10,7 +10,7 @@
 	map="${config.reportMap}" list="${config.reportList}" available="${allowedReports}"
 	widthTextValue="20em">
 	<jsp:attribute name="valuesHtml">
-		<li value="-1">-- ${l.l('выберите отчёт')} --</li>
+		<li value="-1">-- ${l.l('select report')} --</li>
 	</jsp:attribute>
 	<jsp:attribute name="onSelect">
 		if (this.value)
@@ -18,5 +18,5 @@
 	</jsp:attribute>
 </ui:combo-single>
 
-<shell:title text="${l.l('Отчёты')}"/>
+<shell:title text="${l.l('Reports')}"/>
 <shell:state moveSelector="#${uiid}"/>

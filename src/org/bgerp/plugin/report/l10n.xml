@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
-	<p><ru>выберите отчёт</ru><en>select report</en></p>
-	<p><ru>Отчёты</ru><en>Reports</en></p>
-	<p><ru>JSP Отчёты</ru><en>JSP Reports</en></p>
+	<p><en>select report</en><ru>выберите отчёт</ru></p>
+	<p><en>Reports</en><ru>Отчёты</ru></p>
+	<p><en>JSP Reports</en><ru>JSP Отчёты</ru></p>
 	<p><en>Report</en><ru>Отчёт</ru></p>
-	<p><ru>Столбчатая диаграмма</ru><en>Bar chart</en></p>
-	<p><ru>График</ru><en>Liniar chart</en></p>
 	<p><en>Quantities by process types</en><ru>Количества по типам процессов</ru></p>
 	<p><en>Quantities by executors</en><ru>Количества по исполнителям</ru></p>
 	<!--
