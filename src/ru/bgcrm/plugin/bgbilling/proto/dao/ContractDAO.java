@@ -58,6 +58,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractCreateData;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractSearchDto;
+import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttr;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
@@ -345,6 +346,13 @@ public class ContractDAO extends BillingDAO {
         addSearchResult(result, page, req);
     }
 
+    /**
+     * Search contracts by phone parameters
+     * @param result result
+     * @param options contract search options
+     * @param paramIds parameter IDs
+     * @param phone SQL LIKE filter with phone
+     */
     public void searchContractByPhoneParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String phone) {
         final Page page = result.getPage();
 
@@ -355,12 +363,12 @@ public class ContractDAO extends BillingDAO {
             req.setParam("entityFilter", List.of(Map.of(
                 "type", "Phone",
                 "entitySpecAttrIds", Utils.toString(paramIds),
-                "mode", 2,
+                "mode", EntityAttr.MODE_LIKE,
                 "value", phone
             )));
-            req.setParam("subContracts", false);
-            req.setParam("closed", true);
-            req.setParam("hidden", true);
+            req.setParam("subContracts", options.showSub);
+            req.setParam("closed", options.showClosed);
+            req.setParam("hidden", options.showHidden);
             req.setParam("page", page);
 
             JsonNode data = transferData.postData(req, user);

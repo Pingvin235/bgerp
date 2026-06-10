@@ -1,6 +1,10 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.entity;
 
 public abstract class EntityAttr {
+    public static final int MODE_EQ = 0;
+    public static final int MODE_LIKE = 1;
+    public static final int MODE_REGEX = 2;
+
     private EntitySpecAttrType type;
     private int entityId;
     private int entitySpecAttrId;
