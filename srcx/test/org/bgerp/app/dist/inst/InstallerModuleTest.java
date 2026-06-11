@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
@@ -115,10 +116,14 @@ public class InstallerModuleTest extends InstallerModule {
     @Test
     public void testFilesUpdate() throws Exception {
         var zip = getUpdateZip("update", Map.of(
-            "content/webapps/js/sub/file3.js", "new"
+            "content/webapps/js/sub/file3.js", "new",
+            "content/webapps/WEB-INF/jspf/admin/custom/custom.jsp", "new"
         ));
 
         var target = addDir(testDir, "test-files-update");
+
+        var libExt = addDir(testDir, "lib/ext");
+        var libExtLib = addFile(libExt, "test.jar", "jar");
 
         var webappsJs = addDir(target, "webapps/js");
 
@@ -129,31 +134,35 @@ public class InstallerModuleTest extends InstallerModule {
         var webappsJsOldSubDir = addDir(webappsJs, "old-subdir");
         addFile(webappsJsOldSubDir, "old-file", "old");
 
+        var webappsWebInfJspf = addDir(target, "webapps/WEB-INF/jspf");
+        var dir = addDir(webappsWebInfJspf, "admin/custom");
+        var jspFile = addFile(dir, "custom.jsp", "old");
+        addDir(webappsWebInfJspf, "admin/customer");
+
+        addFile(webappsWebInfJspf, "custom/old-mode/some-file.jsp", "");
+        addFile(webappsWebInfJspf, "another-old-mode/custom/some-file.jsp", "");
+        addFile(webappsWebInfJspf, "custom.plugin/some-file.jsp", "");
+
         var plugin = addDir(target, "plugin");
 
-        var libExt = addDir(testDir, "lib/ext");
-        var libExtLib = addFile(libExt, "test.jar", "jar");
-
         var report = new InstallerModule(null, target, zip).getReport();
+
         var replaced = report.getReplaced();
+        Assert.assertEquals(Set.of("webapps/WEB-INF/jspf/admin/custom/custom.jsp"), replaced);
+        Assert.assertEquals("new", IOUtils.toString(jspFile.toURI(), StandardCharsets.UTF_8));
+
         var removed = report.getRemoved();
-        var removeSoon = report.getRemoveSoon();
-
-        Assert.assertEquals(0, replaced.size());
-
-        Assert.assertTrue(removeSoon.contains("webapps/js/sub/file3.js.orig"));
-        Assert.assertEquals("new", IOUtils.toString(new File(webappsJsSub, "file3.js.orig").toURI(), StandardCharsets.UTF_8));
-        Assert.assertEquals("new-changed", IOUtils.toString(new File(webappsJsSub, "file3.js").toURI(), StandardCharsets.UTF_8));
-
-        Assert.assertTrue(removed.contains("webapps/js/old-subdir"));
-        Assert.assertFalse(webappsJsOldSubDir.exists());
-
-        Assert.assertFalse(removed.contains("action"));
-        Assert.assertTrue(removed.contains("plugin"));
-        Assert.assertFalse(plugin.exists());
-
+        Assert.assertEquals(Set.of("plugin", "webapps/js/old-subdir", "webapps/WEB-INF/jspf/admin/customer"), removed);
         Assert.assertTrue(libExt.exists());
         Assert.assertTrue(libExtLib.exists());
+        Assert.assertFalse(plugin.exists());
+        Assert.assertFalse(webappsJsOldSubDir.exists());
+
+        var removeSoon = report.getRemoveSoon();
+        Assert.assertEquals(Set.of("webapps/WEB-INF/jspf/another-old-mode", "webapps/WEB-INF/jspf/custom", "webapps/WEB-INF/jspf/custom.plugin",
+                "webapps/js/sub/file3.js.orig"), removeSoon);
+        Assert.assertEquals("new", IOUtils.toString(new File(webappsJsSub, "file3.js.orig").toURI(), StandardCharsets.UTF_8));
+        Assert.assertEquals("new-changed", IOUtils.toString(new File(webappsJsSub, "file3.js").toURI(), StandardCharsets.UTF_8));
 
         System.out.println(report);
     }

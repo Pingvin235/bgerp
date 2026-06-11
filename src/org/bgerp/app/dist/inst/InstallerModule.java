@@ -23,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.inst.call.InstallationCall;
+import org.bgerp.custom.Custom;
 import org.bgerp.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -49,10 +50,11 @@ public class InstallerModule {
 
     public static final String ENTRY_MODULE_PROPERTIES = "module.properties";
 
-    // TODO: make separated checker for: docpattern, report, scripts
+    // TODO: make separated checker for: docpattern, report
     private static final Set<String> UPDATE_DIRS = Set.of(
         // dirs for removing
         "action",
+        "scripts",
         "plugin",
         // actual dirs
         "webapps"
@@ -273,12 +275,28 @@ public class InstallerModule {
         if (!file.exists())
             return;
 
-        if (path.contains("custom/") || path.contains("/custom")) {
+        if (isCustomDirectory(file)) {
             report.removeSoon.add(path);
         } else {
             report.removed.add(path);
             FileUtils.deleteQuietly(file);
         }
+    }
+
+    private boolean isCustomDirectory(File file) {
+        if (!file.isDirectory())
+            return false;
+
+        String name = file.getName();
+        if ("custom".equals(name) || name.startsWith(Custom.PLUGIN_ID_PREFIX))
+            return true;
+
+        for (File innerFile : file.listFiles()) {
+            if (isCustomDirectory(innerFile))
+                return true;
+        }
+
+        return false;
     }
 
     public Report getReport() {

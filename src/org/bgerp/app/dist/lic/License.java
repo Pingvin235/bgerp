@@ -18,6 +18,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.user.LoginStat;
+import org.bgerp.custom.Custom;
 import org.bgerp.event.client.LicenseEvent;
 import org.bgerp.model.base.Message;
 import org.bgerp.util.TimeConvert;
@@ -227,7 +228,7 @@ public class License {
         final Set<String> plugins = plugins();
 
         Set<String> missing = PluginManager.getInstance().getPluginList().stream()
-            .filter(p -> !p.isSystem() && !p.getId().startsWith("custom."))
+            .filter(p -> !p.isSystem() && !p.getId().startsWith(Custom.PLUGIN_ID_PREFIX))
             .map(Plugin::getId)
             .filter(id -> !plugins.contains(id))
             .collect(Collectors.toSet());

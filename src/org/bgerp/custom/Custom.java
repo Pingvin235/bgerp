@@ -39,6 +39,8 @@ public class Custom {
 
     public static final String PACKAGE = "org.bgerp.plugin.custom";
 
+    public static final String PLUGIN_ID_PREFIX = "custom.";
+
     private static final String DIR_NAME = "custom";
     public static final File DIR = new File(DIR_NAME);
 
