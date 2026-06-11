@@ -149,9 +149,7 @@ public class ContractDAO extends BillingDAO {
                 req.setParam("fc", -1);
                 req.setParam("groupMask", 0);
                 req.setParam("entityFilter", null);
-                req.setParam("subContracts", searchOptions.showSub);
-                req.setParam("closed", searchOptions.showClosed);
-                req.setParam("hidden", searchOptions.showHidden);
+                applySearchOptions(searchOptions, req);
                 req.setParam("page", searchResult.getPage());
 
                 JsonNode data = transferData.postData(req, user);
@@ -366,9 +364,7 @@ public class ContractDAO extends BillingDAO {
                 "mode", EntityAttr.MODE_LIKE,
                 "value", phone
             )));
-            req.setParam("subContracts", options.showSub);
-            req.setParam("closed", options.showClosed);
-            req.setParam("hidden", options.showHidden);
+            applySearchOptions(options, req);
             req.setParam("page", page);
 
             JsonNode data = transferData.postData(req, user);
@@ -473,6 +469,18 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("del", Utils.booleanToStringInt(options.showHidden));
             req.setAttribute("show_sub", Utils.booleanToStringInt(options.showSub));
             req.setAttribute("show_closed", Utils.booleanToStringInt(options.showClosed));
+        }
+    }
+
+    private void applySearchOptions(SearchOptions options, RequestJsonRpc req) {
+        if (options == null) {
+            req.setParam("subContracts", false);
+            req.setParam("closed", true);
+            req.setParam("hidden", true);
+        } else {
+            req.setParam("subContracts", options.showSub);
+            req.setParam("closed", options.showClosed);
+            req.setParam("hidden", options.showHidden);
         }
     }
 
