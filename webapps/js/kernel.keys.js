@@ -37,11 +37,11 @@ $$.keys = new function () {
 	/**
 	 * Validates text inputs for entering numeric values only, possible with decimal separator.
 	 * @param {Event} e 'onkeydown' or another event with 'key' property of 'text' input
-	 * @param {Number} digits amount of digits after dot, if not defined than 2
+	 * @param {Number} digits amount of digits after dot, if not defined then 2
 	 * @return {Boolean} is input change allowed
 	 */
 	function numericPressed(e, digits) {
-		if (digits === undefined)
+		if (!(digits >= 0))
 			digits = 2;
 
 		if (e.ctrlKey || ['Backspace', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Delete'].includes(e.key))
@@ -53,9 +53,10 @@ $$.keys = new function () {
 		const valueCandidate = value.substring(0, target.selectionStart) + e.key + value.substring(target.selectionEnd);
 
 		let result = !isNaN(valueCandidate);
-		if (result && digits > 0) {
+		if (result) {
 			const pos = valueCandidate.indexOf('.');
-			result = pos < 0 || valueCandidate.length - pos - 2 < digits;
+			if (pos > 0)
+				result = digits > 0 && valueCandidate.length - pos - 2 < digits;
 		}
 
 		return result;
