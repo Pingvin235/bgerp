@@ -41,14 +41,13 @@
 						</p:check>
 					</c:when>
 					<c:otherwise>
-						<form action="/user/message/call.do" style="display: inline-block;">
+						<form action="/user/message/call.do" onsubmit="this.out.click(); return false;" style="display: inline-block;">
 							<input type="hidden" name="method" value="numberRegister"/>
 							<input type="hidden" name="typeId" value="${type.id}"/>
 
 							<input type="text" name="number" placeholder="${type.title}, ${l.l('number')}" class="" value="${type.getUserOfferedNumber(ctxUser.id)}"/>
 
-							<c:set var="code">
-								$$.ajax
+							<button type="button" name="out" class="btn-grey ml1" onclick="$$.ajax
 									.post(this)
 									.done((result) => {
 										const user = result.data.regUser;
@@ -58,10 +57,7 @@
 										$$.ajax
 											.post($$.ajax.formUrl(this.form) + '&check=0')
 											.done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()));
-									})
-							</c:set>
-
-							<button type="button" class="btn-grey ml1" onclick="${code}">${l.l('Занять')}</button>
+									})">${l.l('Занять')}</button>
 						</form>
 					</c:otherwise>
 				</c:choose>
