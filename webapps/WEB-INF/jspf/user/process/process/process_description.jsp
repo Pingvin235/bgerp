@@ -58,7 +58,7 @@
 			<input type="hidden" name="id" value="${process.id}"/>
 			<input type="hidden" name="method" value="processDescriptionAdd"/>
 
-			<input type="text" name="description" class="mb1 mt1" style="width: 100%;" onkeypress="if( enterPressed( event )){ ${command} }"/>
+			<input type="text" name="description" class="mb1 mt1" style="width: 100%;" onkeypress="if ($$.keys.enterPressed(event)) { ${command} }"/>
 
 			<button class="btn-grey" type="button" onClick="${command}">OK</button>
 			<button class="btn-white ml1" type="button" onClick="$('#${uiid} #editorAdd').hide(); $('#${uiid} #show').show(); return false;">${l.l('Cancel')}</button>

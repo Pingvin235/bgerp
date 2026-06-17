@@ -45,7 +45,7 @@ Incoming variables:
 					<input type="hidden" name="newItemTitle"/>
 				</td>
 				<td>
-					<input name="newItemCount" size="4" onkeydown="if (enterPressed(event)) { ${addCommand} }; return isNumberKey(event)" title="${l.l('Use dot as a decimal separator')}.&nbsp;${l.l('Press Enter to add a value')}."/>
+					<input name="newItemCount" size="4" onkeydown="if ($$.keys.enterPressed(event)) { ${addCommand} }; return isNumberKey(event)" title="${l.l('Use dot as a decimal separator')}.&nbsp;${l.l('Press Enter to add a value')}."/>
 				</td>
 				<td>
 					<ui:button type="add" onclick="${addCommand}"/>

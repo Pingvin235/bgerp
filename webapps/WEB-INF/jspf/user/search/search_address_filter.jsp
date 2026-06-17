@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <u:sc>
-	<c:set var="ep" value="if (!enterPressed(event)) return;"/>
+	<c:set var="ep" value="if (!$$.keys.enterPressed(event)) return;"/>
 	<div>
 		<html:hidden property="streetId"/>
 		<html:hidden property="houseId"/>

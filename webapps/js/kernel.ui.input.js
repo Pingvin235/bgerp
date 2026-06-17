@@ -8,8 +8,6 @@ $$.ui.input = new function () {
 
 	// TODO: Move $$.ui.inputTextInit here
 
-	// TODO: Move isNumberKey here
-
 	this.decimal = new function () {
 		const onkeydown = (event, digits) => {
 			return isNumberKey(event, digits);

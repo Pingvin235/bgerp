@@ -1,26 +1,47 @@
 // "use strict";
 
-// global key's state, pressed 'alt' etc.
+/**
+ * Plus key event handling functions
+ */
 $$.keys = new function () {
+	/** Global pressed key codes */
+	const pressed = [];
+
 	window.onkeydown = (e) => {
-		$$.keys[e.keyCode] = 1;
+		pressed[e.keyCode] = 1;
 		setTimeout(function () {
-			delete $$.keys[e.keyCode]
+			delete pressed[e.keyCode]
 		}, 4000);
 	};
 
 	window.onkeyup = (e) => {
-		delete $$.keys[e.keyCode];
+		delete pressed[e.keyCode];
 	};
 
-	// public functions
-	this.altPressed = () => {
-		return !!$$.keys[18];
+	/**
+	 * @returns {Boolean} is 'Alt' button pressed down globally
+	 */
+	const altPressed = () => {
+		return !!pressed[18];
 	}
+
+	/**
+	 * Check if 'Enter' was pressed in a keypress or keydown event
+	 * @param {Event} e the event
+	 * @returns {Boolean} is the key was pressed in the event
+	 */
+	const enterPressed = (e) => {
+		return e.which == 13;
+	}
+
+	// public functions
+	this.altPressed = altPressed;
+	this.enterPressed = enterPressed;
 }
 
 function enterPressed(e) {
-	return e.which == 13;
+	console.warn($$.deprecated);
+	return $$.keys.enterPressed(e);
 }
 
 /**

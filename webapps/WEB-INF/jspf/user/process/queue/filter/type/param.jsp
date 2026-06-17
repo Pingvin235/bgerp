@@ -147,7 +147,7 @@
 
 		<c:when test="${type == 'text' || type == 'blob'}">
 			<c:set var="code">
-				<input type="text" name="param${filter.parameter.id}value" placeholder="${title}" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
+				<input type="text" name="param${filter.parameter.id}value" placeholder="${title}" size="20" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand} }"/>
 			</c:set>
 
 			<%@ include file="../item.jsp"%>

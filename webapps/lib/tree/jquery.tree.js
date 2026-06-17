@@ -82,7 +82,7 @@
 
 				.parent('.' + CLASS_JQUERY_TREE_CONTROLS).find('.' + CLASS_JQUERY_TREE_FILTER_INPUT)
 				.keypress(function (event) {
-					if (enterPressed(event)) {
+					if ($$.keys.enterPressed(event)) {
 						event.preventDefault();
 						filter(tree, $(this).val().toLowerCase());
 						$(tree).prev('.' + CLASS_JQUERY_TREE_CONTROLS).find('span.' + CLASS_JQUERY_TREE_EXPAND_ALL).click();

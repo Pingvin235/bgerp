@@ -31,7 +31,7 @@
 				<tr class="in-pt05 in-pr05">
 					<td>Комментарий:</td>
 					<td>
-						<input name="comment" onkeypress="if( enterPressed( event ) ){ ${saveCommand}; return false; }" style="width: 100%"/>
+						<input name="comment" onkeypress="if ($$.keys.enterPressed(event)) { ${saveCommand}; return false; }" style="width: 100%"/>
 					</td>
 					<td>
 						<button type="button" type="button" class="btn-grey ml05" style="float: right;" onclick="${saveCommand}">Изменить</button>

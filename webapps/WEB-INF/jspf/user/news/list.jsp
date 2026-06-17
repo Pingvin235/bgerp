@@ -15,7 +15,7 @@
 		<input type="hidden" name="method" value="newsList"/>
 		<ui:button type="add" onclick="$$.ajax.loadContent('${createUrl}', this);"/>
 
-		<input type="text" size="30" onkeypress="if (enterPressed(event)) { ${showCode} }" placeholder="${l.l('Фильтр по тексту')}" name="text" value="${form.param['text']}" class="ml1"/>
+		<input type="text" size="30" onkeypress="if ($$.keys.enterPressed(event)) { ${showCode} }" placeholder="${l.l('Фильтр по тексту')}" name="text" value="${form.param['text']}" class="ml1"/>
 
 		<ui:combo-single name="read" value="${form.param['read']}" widthTextValue="100px" onSelect="${showCode}">
 			<jsp:attribute name="valuesHtml">

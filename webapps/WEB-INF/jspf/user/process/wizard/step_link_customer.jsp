@@ -39,7 +39,7 @@
 						id="customerTitle"
 						style="width: 100%;" id="${inputUiid}"
 						value="${stepData.customer.title}"
-						onkeypress="if( enterPressed( event ) ){ ${sendFormCommand} }"/>
+						onkeypress="if ($$.keys.enterPressed(event)) { ${sendFormCommand} }"/>
 			</div>
 
 			<div style="display: table-cell; white-space: nowrap;">

@@ -273,10 +273,10 @@
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'code' ) }">
-									<input type="text" value="${savedParamsFilters.get( 'code' )}" name="code" placeholder="Код" size="6" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" value="${savedParamsFilters.get( 'code' )}" name="code" placeholder="Код" size="6" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 								</c:when>
 								<c:otherwise>
-									<input type="text" name="code" placeholder="Код" size="6" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" name="code" placeholder="Код" size="6" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 								</c:otherwise>
 							</c:choose>
 						</c:set>
@@ -362,10 +362,10 @@
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'description' ) }">
-									<input type="text" value="${savedParamsFilters.get( 'description' )}" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" value="${savedParamsFilters.get( 'description' )}" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 								</c:when>
 								<c:otherwise>
-									<input type="text" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 								</c:otherwise>
 							</c:choose>
 						</c:set>
@@ -377,7 +377,7 @@
 
 						<c:set var="title" value="${l.l('Customer')}"/>
 						<c:set var="code">
-							<input type="text" value="${ savedParamsFilters.get( 'linkedCustomer:title' ) }" name="linkedCustomer:title" placeholder="${l.l('Customer')}" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
+							<input type="text" value="${ savedParamsFilters.get( 'linkedCustomer:title' ) }" name="linkedCustomer:title" placeholder="${l.l('Customer')}" size="20" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand} }"/>
 						</c:set>
 						<%@ include file="filter/item.jsp"%>
 					</c:if>
@@ -387,7 +387,7 @@
 
 						<c:set var="title" value="${filter.title}"/>
 						<c:set var="code">
-							<input type="text" value="${savedParamsFilters.get('message:systemId')}" name="message:systemId" placeholder="${filter.title}" size="6" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+							<input type="text" value="${savedParamsFilters.get('message:systemId')}" name="message:systemId" placeholder="${filter.title}" size="6" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 						</c:set>
 						<%@ include file="filter/item.jsp"%>
 					</c:if>
@@ -548,7 +548,7 @@
 						<c:set var="title" value="${not empty filterFromList.title ? filterFromList.title : 'Код привязки'}"/>
 
 						<c:set var="code">
-							<input type="text" name="${filterFromList.paramName}" placeholder="${title}" size="6" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+							<input type="text" name="${filterFromList.paramName}" placeholder="${title}" size="6" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 						</c:set>
 						<%@ include file="filter/item.jsp"%>
 					</c:if>

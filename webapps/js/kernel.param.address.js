@@ -118,7 +118,7 @@ function addAddressSearch(containerSelector) {
 function addressSearchCountry( f, e )
 {
 	f.form.elements['searchMode'].value = 'country';
-	if ( e == undefined || enterPressed( e ) )
+	if (e == undefined || $$.keys.enterPressed(e))
 	{
 		f.form.elements['addressCountryId'].value = '';
 		addressClearCity( f );
@@ -130,7 +130,7 @@ function addressSearchCountry( f, e )
 function addressSearchCity( f, e )
 {
 	f.form.elements['searchMode'].value = 'city';
-	if ( e == undefined || enterPressed( e ) )
+	if (e == undefined || $$.keys.enterPressed(e))
 	{
 		f.form.elements['addressCityId'].value = '';
 		addressClearItem( f );
@@ -142,7 +142,7 @@ function addressSearchCity( f, e )
 function addressSearchItem( f, e )
 {
 	f.form.elements['searchMode'].value = 'item';
-	if ( e == undefined || enterPressed( e ) )
+	if (e == undefined || $$.keys.enterPressed(e))
 	{
 		f.form.elements['addressItemId'].value = '';
 		if ( f.form.elements['addressHouse'] )
@@ -157,7 +157,7 @@ function addressSearchItem( f, e )
 function addressSearchHouse( f, e )
 {
 	f.form.elements['searchMode'].value = 'house';
-	if ( e == undefined || enterPressed( e ) )
+	if (e == undefined || $$.keys.enterPressed(e))
 	{
 		$$.ajax.loadContent(f.form);
 	}

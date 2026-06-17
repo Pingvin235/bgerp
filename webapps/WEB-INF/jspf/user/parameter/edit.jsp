@@ -32,7 +32,7 @@
 	<%-- этот хитрый атрибут changed ловится в некоторых местах, например в мастере, чтобы перегрузить всё,
 		 кнопки сохранения в этом случае скрыты --%>
 	<c:set var="changeAttrs">onchange="$(this).attr( 'changed', '1');"</c:set>
-	<c:set var="onEnter">onkeypress="if (enterPressed(event)){ ${saveCommand} }"</c:set>
+	<c:set var="onEnter">onkeypress="if ($$.keys.enterPressed(event)) { ${saveCommand} }"</c:set>
 	<c:set var="saveOn" value="${u.maskEmpty(parameter.configMap.saveOn, 'editor')}"/>
 
 	<c:set var="onBlur" value=""/>
@@ -167,7 +167,7 @@
 			</c:when>
 
 			<c:when test="${parameter.type eq 'money'}">
-				<input id="${focusFieldUiid}" type="text" name="value" value="${frd.value}" size="10" onkeydown="if (enterPressed(event)){ ${saveCommand} }; return isNumberKey(event)" ${changeAttrs} ${onBlur}/>
+				<input id="${focusFieldUiid}" type="text" name="value" value="${frd.value}" size="10" onkeydown="if ($$.keys.enterPressed(event)) { ${saveCommand} }; return isNumberKey(event)" ${changeAttrs} ${onBlur}/>
 				<span class="hint">${l.l('Use dot as a decimal separator')}</span>
 			</c:when>
 

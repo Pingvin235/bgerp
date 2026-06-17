@@ -54,7 +54,7 @@
 		<ui:date-time type="ymd" name="dateTo" value="${form.param.dateTo}" placeholder="${l.l('Дата по')}"/>
 	</c:if>
 
-	<input type="text" name="from" value="${form.param.from}" onkeypress="if (enterPressed(event)) { ${script}; return false; }" placeholder="${l.l('From')}"/>
+	<input type="text" name="from" value="${form.param.from}" onkeypress="if ($$.keys.enterPressed(event)) { ${script}; return false; }" placeholder="${l.l('From')}"/>
 
 	<ui:combo-single
 		name="order" value="${form.param.order}" prefixText="${l.l('Сортировка')}:"
