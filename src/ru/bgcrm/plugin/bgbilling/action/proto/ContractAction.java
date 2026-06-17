@@ -32,7 +32,6 @@ import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
@@ -77,16 +76,13 @@ public class ContractAction extends BaseAction {
         boolean showHidden = form.getParamBoolean("show_invisible", false);
         SearchOptions searchOptions = new SearchOptions(showHidden, showClosed, showSub);
 
-        User user = form.getUser();
-
         if (Utils.notBlankString(searchBy)) {
-            ContractDAO contractDAO = new ContractDAO(user, billingId);
+            ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
 
             if ("address".equals(searchBy)) {
-                Set<Integer> addressParamIds = Utils.toIntegerSet(setup.get(Plugin.ID + ":search.contract.param.address.paramIds"));
-                Pageable<ParameterSearchedObject<Contract>> res = new Pageable<>(form);
-                contractDAO.searchContractByAddressParam(res, searchOptions, addressParamIds, form.getParamInt("streetId"),
+                contractDAO.searchContractByAddressParam(new Pageable<>(form), searchOptions, form.getParamInt("streetId"),
                         form.getParamInt("houseId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
+            // searchBy='address' + searchBySuffix='Object'
             } else if ("addressObject".equals(searchBy)) {
                 Pageable<ParameterSearchedObject<Contract>> result = new Pageable<>(form);
                 contractDAO.searchContractByObjectAddressParam(result, searchOptions, null, form.getParamInt("streetId"), form.getParam("house"),

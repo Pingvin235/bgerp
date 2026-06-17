@@ -1,0 +1,1 @@
+A: BGBilling search contracts by address in message processing. https://bgerp.org/change/0/doc/plugin/bgbilling/index.html#setup-config-message-search-address

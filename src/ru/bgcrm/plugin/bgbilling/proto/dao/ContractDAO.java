@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.app.exception.BGMessageExceptionWithoutL10n;
@@ -48,6 +49,7 @@ import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
@@ -271,8 +273,10 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public void searchContractByAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options, Set<Integer> paramIds,
-            int streetId, int houseId, String house, String flat, String room) {
+    public void searchContractByAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options, int streetId, int houseId,
+            String house, String flat, String room) {
+        Set<Integer> paramIds = Utils.toIntegerSet(Setup.getSetup().get(Plugin.ID + ":search.contract.param.address.paramIds"));
+
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -312,7 +316,8 @@ public class ContractDAO extends BillingDAO {
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
                 if (dbInfo.versionCompare("9.2404") >= 0) {
                     final String comment = item.getAttribute("comment");
-                    Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), comment);
+                    Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"),
+                            StringUtils.substringBefore(comment, "[").trim());
                     list.add(new ParameterSearchedObject<>(contract, 0, StringUtils.substringBetween(comment, "[", "]").trim()));
                 } else {
                     final String fullTitle = item.getAttribute("title");
@@ -475,8 +480,8 @@ public class ContractDAO extends BillingDAO {
     private void applySearchOptions(SearchOptions options, RequestJsonRpc req) {
         if (options == null) {
             req.setParam("subContracts", false);
-            req.setParam("closed", true);
-            req.setParam("hidden", true);
+            req.setParam("closed", false);
+            req.setParam("hidden", false);
         } else {
             req.setParam("subContracts", options.showSub);
             req.setParam("closed", options.showClosed);

@@ -53,29 +53,12 @@ function addCustomQuarterSearch( selector , areaIdSelector ,cityId)
 	});
 }
 
-
-// добавляет контекстный поиск по улице инпуту
-function addStreetSearch(selector) {
-	// список с улицами
-	$(selector + " input[name='street']").autocomplete({
-		minLength: 3,
-		source: function (request, response) {
-			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "streetSearch", "title": request.term, "page.pageIndex": "0" });
-			$$.ajax.post(url).done((ajaxResponse) => {
-				response($.map(ajaxResponse.data.list, function (item) {
-					return { label: item.addressCity.title + " - " + item.title, value: item.addressCity.title + " - " + item.title, id: item.id };
-				}));
-			});
-		},
-		select: function (event, ui) {
-			this.form.elements['streetId'].value = ui.item.id;
-		}
-	});
-}
-
-//добавляет контекстный поиск по улице инпуту без формы
+/**
+ * Add context street search
+ * @param {String} selector
+ * @param {String} streetIdSelector
+ */
 function addCustomStreetSearch(selector, streetIdSelector) {
-	// список с улицами
 	$(selector).autocomplete({
 		minLength: 3,
 		source: function (request, response) {
@@ -92,37 +75,19 @@ function addCustomStreetSearch(selector, streetIdSelector) {
 	});
 }
 
-//добавляет контекстный поиск по дому инпуту
-function addHouseSearch(formSelector) {
-	const form = document.querySelector(formSelector);
+/**
+ * Add context house search
+ * @param {String} selector CSS selector of house input
+ * @param {String} streetIdSelector CSS selector of street ID input
+ * @param {String} houseIdSelector CSS selector of house ID input
+ */
+function addCustomHouseSearch(selector, streetIdSelector, houseIdSelector) {
+	$(selector).on("keyup", () => $(houseIdSelector).val(""));
 
-	form.house.addEventListener("keyup", () => form.houseId.value = "");
-
-	$(form.house).autocomplete({
+	$(selector).autocomplete({
 		minLength: 0,
 		source: function (request, response) {
-			const streetId = form.streetId.value;
-			if (streetId > 0) {
-				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "houseSearch", "streetId": streetId, "house": request.term });
-				$$.ajax.post(url).done((ajaxResponse) => {
-					response($.map(ajaxResponse.data.list, function (item) {
-						return { label: item.houseAndFrac, value: item.houseAndFrac, id: item.id };
-					}));
-				});
-			}
-		},
-		select: function (event, ui) {
-			form.houseId.value = ui.item.id;
-		}
-	});
-}
-
-//добавляет контекстный поиск по дому инпуту
-function addCustomHouseSearch(selector, streetIdSelector, houseIdSelector) {
-	$(selector).autocomplete({
-		minLength: 1,
-		source: function (request, response) {
-			var streetId = $(streetIdSelector).val();
+			const streetId = $(streetIdSelector).val();
 			if (streetId > 0) {
 				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "houseSearch", "streetId": streetId, "house": request.term });
 				$$.ajax.post(url).done((ajaxResponse) => {
@@ -138,10 +103,13 @@ function addCustomHouseSearch(selector, streetIdSelector, houseIdSelector) {
 	});
 }
 
-// добавляет контекстный поиск по улице и дому
-function addAddressSearch(selector) {
-	addStreetSearch(selector);
-	addHouseSearch(selector);
+/**
+ * Add context street and house searches
+ * @param {String} containerSelector CSS selector of inputs container
+ */
+function addAddressSearch(containerSelector) {
+	addCustomStreetSearch(containerSelector + " input[name=street]", containerSelector + " input[name=streetId]");
+	addCustomHouseSearch(containerSelector + " input[name=house]", containerSelector + " input[name=streetId]", containerSelector + " input[name=houseId]");
 }
 
 //

@@ -34,6 +34,10 @@ messageType.50.search.201.title=Договор по номеру и примеч
 messageType.50.search.201.class=BGBillingMessageTypeSearchContractByTitleAndComment
 messageType.50.search.201.billingId=bill
 
+messageType.50.search.202.title=Договор по адресу
+messageType.50.search.202.class=BGBillingMessageTypeSearchContractByAddress
+messageType.50.search.202.billingId=bill
+
 messageType.100.search.200.title=Договор по email (авто)
 messageType.100.search.200.class=BGBillingMessageTypeSearchEmail
 messageType.100.search.200.billingId=bill
@@ -42,6 +46,10 @@ messageType.100.search.200.paramIds=15
 messageType.100.search.201.title=Договор по номеру и примечанию
 messageType.100.search.201.class=BGBillingMessageTypeSearchContractByTitleAndComment
 messageType.100.search.201.billingId=bill
+
+messageType.100.search.202.title=Договор по адресу
+messageType.100.search.202.class=BGBillingMessageTypeSearchContractByAddress
+messageType.100.search.202.billingId=bill
 
 messageType.200.title=BGBilling HelpDesk
 messageType.200.billingId={@BILLING_ID}
