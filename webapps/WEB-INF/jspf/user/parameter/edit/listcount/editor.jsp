@@ -45,7 +45,7 @@ Incoming variables:
 					<input type="hidden" name="newItemTitle"/>
 				</td>
 				<td>
-					<input name="newItemCount" size="4" onkeydown="if ($$.keys.enterPressed(event)) { ${addCommand} }; return isNumberKey(event)" title="${l.l('Use dot as a decimal separator')}.&nbsp;${l.l('Press Enter to add a value')}."/>
+					<input name="newItemCount" size="4" onkeydown="if ($$.keys.enterPressed(event)) { ${addCommand} }; return $$.keys.numericPressed(event)" title="${l.l('Use dot as a decimal separator')}.&nbsp;${l.l('Press Enter to add a value')}."/>
 				</td>
 				<td>
 					<ui:button type="add" onclick="${addCommand}"/>
@@ -56,7 +56,7 @@ Incoming variables:
 	<c:otherwise>
 		<div style="display: flex;">
 			<ui:select-single name="itemId" list="${listValues}" value="${u.getFirst(values.keySet())}" styleClass="w100p" inputAttrs="autofocus"/>
-			<input name="itemCount" value="${u.format(u.getFirst(values.entrySet()).value)}" size="4" onkeydown="return isNumberKey(event)" class="ml1"/>
+			<input name="itemCount" value="${u.format(u.getFirst(values.entrySet()).value)}" size="4" onkeydown="return $$.keys.numericPressed(event)" class="ml1"/>
 		</div>
 	</c:otherwise>
 </c:choose>

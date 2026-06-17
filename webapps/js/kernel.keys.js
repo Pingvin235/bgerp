@@ -34,41 +34,40 @@ $$.keys = new function () {
 		return e.which == 13;
 	}
 
+	/**
+	 * Validates text inputs for entering numeric values only, possible with decimal separator.
+	 * @param {Event} e 'onkeydown' or another event with 'key' property of 'text' input
+	 * @param {Number} digits amount of digits after dot, if not defined than 2
+	 * @return {Boolean} is input change allowed
+	 */
+	function numericPressed(e, digits) {
+		if (digits === undefined)
+			digits = 2;
+
+		if (e.ctrlKey || ['Backspace', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Delete'].includes(e.key))
+			return true;
+
+		const target = e.target;
+		const value = target.value;
+
+		const valueCandidate = value.substring(0, target.selectionStart) + e.key + value.substring(target.selectionEnd);
+
+		let result = !isNaN(valueCandidate);
+		if (result && digits > 0) {
+			const pos = valueCandidate.indexOf('.');
+			result = pos < 0 || valueCandidate.length - pos - 2 < digits;
+		}
+
+		return result;
+	}
+
 	// public functions
 	this.altPressed = altPressed;
 	this.enterPressed = enterPressed;
+	this.numericPressed = numericPressed;
 }
 
 function enterPressed(e) {
 	console.warn($$.deprecated);
 	return $$.keys.enterPressed(e);
 }
-
-/**
- * Validates text inputs for entering numeric values only, possible with decimal separator.
- * @param {Event} e 'onkeydown' or another event with 'key' property of 'text' input
- * @param {Number} digits amount of digits after dot, if not defined than 2
- * @return {Boolean} is input change allowed
- */
-function isNumberKey(e, digits) {
-	if (digits === undefined)
-		digits = 2;
-
-	if (e.ctrlKey || ['Backspace', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Delete'].includes(e.key))
-		return true;
-
-	const target = e.target;
-	const value = target.value;
-
-	const valueCandidate = value.substring(0, target.selectionStart) + e.key + value.substring(target.selectionEnd);
-
-	let result = !isNaN(valueCandidate);
-	if (result && digits > 0) {
-		const pos = valueCandidate.indexOf('.');
-		result = pos < 0 || valueCandidate.length - pos - 2 < digits;
-	}
-
-	return result;
-}
-
-

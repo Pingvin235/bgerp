@@ -167,7 +167,7 @@
 			</c:when>
 
 			<c:when test="${parameter.type eq 'money'}">
-				<input id="${focusFieldUiid}" type="text" name="value" value="${frd.value}" size="10" onkeydown="if ($$.keys.enterPressed(event)) { ${saveCommand} }; return isNumberKey(event)" ${changeAttrs} ${onBlur}/>
+				<input id="${focusFieldUiid}" type="text" name="value" value="${frd.value}" size="10" onkeydown="if ($$.keys.enterPressed(event)) { ${saveCommand} }; return $$.keys.numericPressed(event)" ${changeAttrs} ${onBlur}/>
 				<span class="hint">${l.l('Use dot as a decimal separator')}</span>
 			</c:when>
 

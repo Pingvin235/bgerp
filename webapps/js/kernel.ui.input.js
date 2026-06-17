@@ -10,7 +10,7 @@ $$.ui.input = new function () {
 
 	this.decimal = new function () {
 		const onkeydown = (event, digits) => {
-			return isNumberKey(event, digits);
+			return $$.keys.numericPressed(event, digits);
 		}
 
 		/**
@@ -42,7 +42,7 @@ $$.ui.input = new function () {
 
 			event.key = paste;
 
-			if (isNumberKey(event, digits))
+			if ($$.keys.numericPressed(event, digits))
 				target.value = value.substring(0, selectionStart) + paste + value.substring(selectionEnd);
 
 			debug('onpaste', event, selectionStart, selectionEnd, pasted);

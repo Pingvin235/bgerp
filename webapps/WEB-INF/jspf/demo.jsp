@@ -126,7 +126,7 @@ cmd do && cmd undo
 	<div class="in-table-cell">
 		<div>
 			<b>Dot separated decimal</b><br/>
-			<input type="text" onkeydown="return isNumberKey(event)" size="10"/>
+			<input type="text" onkeydown="return $$.keys.numericPressed(event)" size="10"/>
 			<span class="hint">Dot-separated decimal values, e.g. money</span>
 		</div>
 		<div class="pl1">

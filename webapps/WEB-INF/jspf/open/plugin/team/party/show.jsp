@@ -62,7 +62,7 @@
 					<tr>
 						<td><input type="text" name="member" class="w100p"/></td>
 						<td><input type="text" name="description" class="w100p"/></td>
-						<td><input type="text" name="amount" onkeydown="return isNumberKey(event)" class="w100p"/></td>
+						<td><input type="text" name="amount" onkeydown="return $$.keys.numericPressed(event)" class="w100p"/></td>
 						<td>
 							<ui:button type="add" onclick="
 								$$.ajax.post(this).done(() => {

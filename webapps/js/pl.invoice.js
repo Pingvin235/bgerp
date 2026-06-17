@@ -23,7 +23,7 @@ $$.invoice = new function() {
 				<td><input type='text' name='pos_title' value='" + $li.text() + "' style='width: 100%;'/></td>\
 				<td><input type='text' name='pos_quantity' value='" + $tr.find("input[name='add_quantity']").val() + "' size='2'/></td>\
 				<td><input type='text' name='pos_unit' value='" + $tr.find("input[name='add_unit']").val() + "' size='2'/></td>\
-				<td><input type='text' name='pos_amount' value='" + $tr.find("input[name='add_amount']").val() + "' onkeydown='return isNumberKey(event)' size='5'/></td>\
+				<td><input type='text' name='pos_amount' value='" + $tr.find("input[name='add_amount']").val() + "' onkeydown='return $$.keys.numericPressed(event)' size='5'/></td>\
 				<td><button onclick=\"$(this).closest('tr').remove()\" class='btn-white icon'><i class='ti-trash'></i></button></td>\
 			</tr>");
 	}

@@ -38,9 +38,9 @@
 			<td colspan="2">
 				<ui:combo-single list="${frd.positions}" style="width: 100%;"/>
 			</td>
-			<td><input type="text" name="add_quantity" value="1" onkeydown="return isNumberKey(event)" size="2"/></td>
+			<td><input type="text" name="add_quantity" value="1" onkeydown="return $$.keys.numericPressed(event)" size="2"/></td>
 			<td><input type="text" name="add_unit" value="${l.l('шт.')}" size="3"/></td>
-			<td><input type="text" name="add_amount" value="0.00" onkeydown="return isNumberKey(event)" size="5"/></td>
+			<td><input type="text" name="add_amount" value="0.00" onkeydown="return $$.keys.numericPressed(event)" size="5"/></td>
 			<td><ui:button type="add" onclick="$$.invoice.addPosition(this)"/></td>
 		</tr>
 	</table>

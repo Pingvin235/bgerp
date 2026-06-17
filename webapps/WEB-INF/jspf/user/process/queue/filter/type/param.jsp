@@ -138,8 +138,8 @@
 				<span>${title}</span>
 				<input type="checkbox" name="param${filter.parameter.id}empty"/>
 				<span>${l.l('Undefined')}&nbsp;${l.l('or')}</span>
-				<input type="text" name="param${filter.parameter.id}From" size="3" onkeydown="return isNumberKey(event)" placeholder="${l.l('range.from')}"/>
-				<input type="text" name="param${filter.parameter.id}To" size="3" onkeydown="return isNumberKey(event)" placeholder="${l.l('range.to')}"/>
+				<input type="text" name="param${filter.parameter.id}From" size="3" onkeydown="return $$.keys.numericPressed(event)" placeholder="${l.l('range.from')}"/>
+				<input type="text" name="param${filter.parameter.id}To" size="3" onkeydown="return $$.keys.numericPressed(event)" placeholder="${l.l('range.to')}"/>
 			</c:set>
 
 			<%@ include file="../item.jsp"%>
