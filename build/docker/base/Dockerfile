@@ -1,5 +1,5 @@
-# https://github.com/MariaDB/mariadb-docker/blob/a272347802e1764dd8c0e15ba2b2abfeeadb3bb6/11.4/Dockerfile
-FROM mariadb:11.4.7-noble
+# https://github.com/MariaDB/mariadb-docker/blob/master/12.3/Dockerfile
+FROM mariadb:12.3.2-noble
 
 # mysql
 #======
@@ -21,7 +21,7 @@ RUN sed -i '/\[mariadbd\]/a sql-mode= ' /etc/mysql/mariadb.conf.d/50-server.cnf;
 # avoids errors with 'apt-get update' running after
 RUN rm /etc/apt/sources.list.d/mariadb.list
 
-# java, taken from: https://github.com/adoptium/containers/blob/main/21/jdk/ubuntu/noble/Dockerfile
+# java, taken from: https://github.com/adoptium/containers/blob/main/25/jdk/ubuntu/noble/Dockerfile
 #================================================================================================================
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH=$JAVA_HOME/bin:$PATH
@@ -32,11 +32,6 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 RUN set -eux; \
     apt-get update; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        # curl required for historical reasons, see https://github.com/adoptium/containers/issues/255
-        curl \
-        wget \
-        # gnupg required to verify the signature
-        gnupg \
         # java.lang.UnsatisfiedLinkError: libfontmanager.so: libfreetype.so.6: cannot open shared object file: No such file or directory
         # java.lang.NoClassDefFoundError: Could not initialize class sun.awt.X11FontManager
         # https://github.com/docker-library/openjdk/pull/235#issuecomment-424466077
@@ -55,36 +50,39 @@ RUN set -eux; \
     locale-gen en_US.UTF-8; \
     rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_VERSION=jdk-21.0.7+6
+ENV JAVA_VERSION=jdk-25.0.3+9
 
 RUN set -eux; \
     ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in \
        amd64) \
-         ESUM='974d3acef0b7193f541acb61b76e81670890551366625d4f6ca01b91ac152ce0'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_x64_linux_hotspot_21.0.7_6.tar.gz'; \
+         ESUM='69264a7a211bf5029830d07bc3370f879769d62ebc5b5488e90c9343a2da0e1f'; \
+         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_x64_linux_hotspot_25.0.3_9.tar.gz'; \
          ;; \
        arm64) \
-         ESUM='31dba70ba928c78c20d62049ac000f79f7a7ab11f9d9c11e703f52d60aa64f93'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.7_6.tar.gz'; \
+         ESUM='3e4287cb98870ba824ed698854bdc27cff984254caf66dd12cc291e7bfdde26b'; \
+         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_aarch64_linux_hotspot_25.0.3_9.tar.gz'; \
          ;; \
        ppc64el) \
-         ESUM='2ddc0dc14b07d9e853875aac7f84c23826fff18b9cea618c93efe0bcc8f419c2'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.7_6.tar.gz'; \
+         ESUM='72b0fbb201716ca465ab704ec0fb12971abab3fdde5ae8d03b125a273522cf05'; \
+         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_ppc64le_linux_hotspot_25.0.3_9.tar.gz'; \
          ;; \
        riscv64) \
-         ESUM='d75f33ee7f9e5532bce263db83443ffed7d9bae7ff3ed41e48d137808adfe513'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_riscv64_linux_hotspot_21.0.7_6.tar.gz'; \
+         ESUM='3b23af7f7dfe82e1dc66509cb825d82d08372f2e7f66ae85a7fdb42a4c84bfcc'; \
+         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_riscv64_linux_hotspot_25.0.3_9.tar.gz'; \
          ;; \
        s390x) \
-         ESUM='216edbccab2d677639c90d2cb09dfa39c257788a62b8b83d879528c447b9ad33'; \
-         BINARY_URL='https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_s390x_linux_hotspot_21.0.7_6.tar.gz'; \
+         ESUM='24b497d10acb6ee706ca30e1c8a929785c250cad54c5c12f1f8f93c3c06a53f7'; \
+         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_s390x_linux_hotspot_25.0.3_9.tar.gz'; \
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
          exit 1; \
          ;; \
     esac; \
+    savedAptMark="$(apt-mark showmanual)"; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends wget gnupg; \
     wget --progress=dot:giga -O /tmp/openjdk.tar.gz ${BINARY_URL}; \
     wget --progress=dot:giga -O /tmp/openjdk.tar.gz.sig ${BINARY_URL}.sig; \
     export GNUPGHOME="$(mktemp -d)"; \
@@ -101,6 +99,10 @@ RUN set -eux; \
         --no-same-owner \
     ; \
     rm -f /tmp/openjdk.tar.gz ${JAVA_HOME}/lib/src.zip; \
+    apt-mark auto '.*' > /dev/null; \
+    apt-mark manual $savedAptMark > /dev/null; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+    rm -rf /var/lib/apt/lists/*; \
     # https://github.com/docker-library/openjdk/issues/331#issuecomment-498834472
     find "$JAVA_HOME/lib" -name '*.so' -exec dirname '{}' ';' | sort -u > /etc/ld.so.conf.d/docker-openjdk.conf; \
     ldconfig; \

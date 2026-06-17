@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'idea'
-    // id "org.sonarqube" version "3.3"
 }
 
 repositories {
@@ -295,7 +294,7 @@ tasks.withType(JavaCompile) {
 }
 
 tasks.withType(JavaExec) {
-    jvmArgs "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", "--add-opens", "java.base/java.io=ALL-UNNAMED"
+    jvmArgs "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", "--add-opens", "java.base/java.io=ALL-UNNAMED", "--enable-native-access", "ALL-UNNAMED"
 }
 
 // 'compileJava' is executed prior to 'classes' from 'dependsOn'
