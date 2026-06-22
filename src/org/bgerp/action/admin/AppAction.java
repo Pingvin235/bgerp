@@ -40,7 +40,7 @@ public class AppAction extends BaseAction {
 
     @Dynamic
     public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log",
-            new Options().withDownloadEnabled().withHighlighter(Highlighter.LOG_WARN).withDeletionEnabled().withOrder(Order.NORMAL_FS), "*bgerp*", "*mail*");
+            new Options().withDownloadEnabled().withHighlighter(Highlighter.LOG_WARN).withDeletionEnabled().withDeletionByClear("*.log").withOrder(Order.NORMAL_FS), "*bgerp*", "*mail*");
     @Dynamic
     public static final Files LOG_ACCESS = new Files(AppAction.class, "logAccess", AccessLogValve.DIR,
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC), "*");

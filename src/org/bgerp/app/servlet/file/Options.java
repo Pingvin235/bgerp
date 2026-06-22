@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+
 /**
  * Files fluent options.
  *
@@ -11,8 +13,9 @@ import java.util.List;
  */
 public class Options {
     private Order order;
-    private boolean deletionEnabled;
     private boolean downloadEnabled;
+    private boolean deletionEnabled;
+    private WildcardFileFilter deletionByClear;
     private final List<Highlighter> highlighters = new ArrayList<>();
 
     public Options withOrder(Order value) {
@@ -27,6 +30,16 @@ public class Options {
 
     public Options withDeletionEnabled() {
         deletionEnabled = true;
+        return this;
+    }
+
+    /**
+     * File wildcards for those deletion should be replaced by clean operation
+     * @param wildcards the wildcards
+     * @return
+     */
+    public Options withDeletionByClear(String... wildcards) {
+        deletionByClear = WildcardFileFilter.builder().setWildcards(wildcards).get();
         return this;
     }
 
@@ -45,6 +58,15 @@ public class Options {
 
     public boolean isDeletionEnabled() {
         return deletionEnabled;
+    }
+
+    /**
+     * Should deletion for a file be replaced by clean operation
+     * @param file the file
+     * @return
+     */
+    public boolean isDeletionByClear(File file) {
+        return deletionByClear != null && deletionByClear.accept(file);
     }
 
     /**

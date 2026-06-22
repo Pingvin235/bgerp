@@ -48,7 +48,7 @@
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Close')}" class="btn-white icon ${styleClass}" onclick="${onclick};"><i class="ti-close"></i></button>
 	</c:when>
 	<c:when test="${type eq 'clear'}">
-		<button type="button" id="${id}" title="${not empty title ? title : l.l('Очистить')}" class="btn-white icon ${styleClass}" onclick="${onclick};"><i class="ti-close"></i></button>
+		<button type="button" id="${id}" title="${not empty title ? title : l.l('Очистить')}" class="btn-white icon ${styleClass}" onclick="${onclick};"><i class="ti-eraser"></i></button>
 	</c:when>
 	<c:when test="${type eq 'back'}">
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Close')}" class="btn-white icon ${styleClass}" onclick="${onclick};"><i class="ti-arrow-left"></i></button>

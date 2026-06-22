@@ -5,7 +5,8 @@
 <%@ attribute name="maxCount" type="java.lang.Integer" description="Maximum count of shown files"%>
 <%@ attribute name="requestUrl" description="Request URL for reloading, required when deletion is enabled"%>
 
-<c:set var="deletionEnabled" value="${files.options.deletionEnabled and not empty requestUrl and ctxUser.checkPerm(files.deletePermissionAction)}"/>
+<c:set var="options" value="${files.options}"/>
+<c:set var="deletionEnabled" value="${options.deletionEnabled and not empty requestUrl and ctxUser.checkPerm(files.deletePermissionAction)}"/>
 
 <c:set var="fileList" value="${files.list()}"/>
 
@@ -25,7 +26,7 @@
 					<c:set var="a">
 						<c:choose>
 							<c:when test="${file.file}">
-								<c:if test="${files.options.downloadEnabled and ctxUser.checkPerm(files.downloadPermissionAction)}">
+								<c:if test="${options.downloadEnabled and ctxUser.checkPerm(files.downloadPermissionAction)}">
 									<c:url var="url" value="${files.downloadURL}">
 										<c:param name="name">${file.name}</c:param>
 									</c:url>
@@ -38,7 +39,7 @@
 						</c:choose>
 					</c:set>
 					${a}
-					<c:set var="highlighter" value="${files.options.highlighter(file)}"/>
+					<c:set var="highlighter" value="${options.highlighter(file)}"/>
 					<c:choose>
 						<c:when test="${empty highlighter}">${file.name}</c:when>
 						<c:otherwise>
@@ -60,7 +61,7 @@
 							<c:url var="url" value="${files.deleteURL}">
 								<c:param name="name">${file.name}</c:param>
 							</c:url>
-							<ui:button type="del" styleClass="btn-small"
+							<ui:button type="${options.isDeletionByClear(file) ? 'clear' : 'del'}" styleClass="btn-small"
 								onclick="$$.ajax.post('${url}', {control: this}).done(() => $$.ajax.loadContent('${requestUrl}', this))"/>
 						</c:if>
 					</td>

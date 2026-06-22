@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -191,10 +192,16 @@ public class Files {
      * Delete file(s)
      * @param form form with {@code name} parameter values, containing the file name(s)
      * @return the {@code form}
+     * @throws FileNotFoundException
      */
-    public DynActionForm delete(DynActionForm form) {
-        for (String name : form.getParamValuesStr("name"))
-            FileUtils.deleteQuietly(new File(basedir.toFile(), name));
+    public DynActionForm delete(DynActionForm form) throws FileNotFoundException {
+        for (String name : form.getParamValuesStr("name")) {
+            File file = new File(basedir.toFile(), name);
+            if (options.isDeletionByClear(file))
+                new PrintWriter(file).close();
+            else
+                FileUtils.deleteQuietly(file);
+        }
 
         return form;
     }
