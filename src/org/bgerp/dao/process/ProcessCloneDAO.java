@@ -36,35 +36,35 @@ public class ProcessCloneDAO extends CommonDAO {
     public Process clone(int id) throws SQLException, NotFoundException {
         var dao = new ProcessDAO(con, form);
 
-        var process = dao.getProcessOrThrow(id);
+        var orig = dao.getProcessOrThrow(id);
 
-        var type = ProcessTypeCache.getProcessTypeOrThrow(process.getTypeId());
+        var type = ProcessTypeCache.getProcessTypeOrThrow(orig.getTypeId());
 
         var clone = new Process();
         clone.setCreateTime(new Date());
         clone.setCreateUserId(form.getUserId());
 
-        clone.setTypeId(process.getTypeId());
-        clone.setStatusId(process.getStatusId());
-        clone.setPriority(process.getPriority());
-        clone.setDescription(process.getDescription());
+        clone.setTypeId(orig.getTypeId());
+        clone.setStatusId(orig.getStatusId());
+        clone.setPriority(orig.getPriority());
+        clone.setDescription(orig.getDescription());
 
         dao.updateProcess(clone);
 
-        dao.updateProcessGroups(process.getGroups(), clone.getId());
-        dao.updateProcessExecutors(process.getExecutors(), clone.getId());
+        dao.updateProcessGroups(orig.getGroups(), clone.getId());
+        dao.updateProcessExecutors(orig.getExecutors(), clone.getId());
 
         StatusChange change = new StatusChange();
         change.setDate(new Date());
-        change.setProcessId(process.getId());
+        change.setProcessId(clone.getId());
         change.setUserId(form.getUserId());
-        change.setComment(form.l.l("Process cloned from {}", process.getId()));
-        change.setStatusId(process.getStatusId());
+        change.setComment(form.l.l("Process cloned from {}", orig.getId()));
+        change.setStatusId(orig.getStatusId());
 
-        new StatusChangeDAO(con).changeStatus(process, null, change);
+        new StatusChangeDAO(con).changeStatus(clone, null, change);
 
         if (params)
-            new ParamValueDAO(con).copyParams(process.getId(), clone.getId(), type.getProperties().getParameterIds());
+            new ParamValueDAO(con).copyParams(orig.getId(), clone.getId(), type.getProperties().getParameterIds());
 
         return clone;
     }
