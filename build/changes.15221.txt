@@ -1,0 +1,1 @@
+A: Plugin Yandex Messenger. https://bgerp.org/change/0/doc/plugin/msg/ymsg
