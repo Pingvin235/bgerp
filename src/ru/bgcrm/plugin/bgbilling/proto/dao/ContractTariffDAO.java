@@ -433,7 +433,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
     /**
      * Изменяет либо добавляет группу тарифов договора.
-     * @param id <= 0 - добавление группы тарифов, иначе - код изменяемой записи.
+     * @param id &lt;= 0 - добавление группы тарифов, иначе - код изменяемой записи.
      * @param contractId код договора.
      * @param tariffGroupId год группы тарифов.
      * @param dateFrom с даты.

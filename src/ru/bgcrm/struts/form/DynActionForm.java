@@ -379,7 +379,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Area ID is used in {@link BaseAction#restoreRequestParams()} for preserving request parameters.
+     * Area ID is used in {@link BaseAction#restoreRequestParams(java.sql.Connection, DynActionForm, boolean, boolean, String...)} for preserving request parameters.
      * @return request parameter {@code areaId} or {@link #action} if it was empty or missing.
      */
     public String getAreaId() {

@@ -10,7 +10,7 @@ import ru.bgcrm.dao.CommonDAO;
 
 /**
  * Builder DAO for retrieving next invoice counter number.
- * At the end of uniqueness selection functions must be called {@link #get()},
+ * At the end of uniqueness selection functions must be called {@link #next()},
  * performing the SQL query and returning required value.
  * Used from scripts.
  *

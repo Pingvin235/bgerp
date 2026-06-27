@@ -171,7 +171,7 @@ public class XMLUtils {
      * @param doc документ
      * @param nodeName имя узла
      * @return узел
-     * @see findElement
+     * @see #getElement(Document, String)
      */
     public static Node getNode(Document doc, String nodeName) {
         Node node = null;

@@ -48,8 +48,8 @@ public class IpNet {
 
     /**
      * Возвращает строковое представление подсети.
-     * @param subnet
-     * @param mask
+     * @param addressFrom
+     * @param addressTo
      * @return
      */
     public static String toString(final byte[] addressFrom, final byte[] addressTo) {

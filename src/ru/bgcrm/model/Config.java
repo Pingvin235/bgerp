@@ -150,7 +150,7 @@ public class Config implements LastModifySupport {
     }
 
     /**
-     * Selects includes from global configuration like: include.<id>=1.
+     * Selects includes from global configuration like: {@code include.<id>=1}.
      *
      * @param configDao configuration selector.
      * @param data configuration raw data, containing includes.

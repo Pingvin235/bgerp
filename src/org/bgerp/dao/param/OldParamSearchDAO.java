@@ -42,10 +42,8 @@ public class OldParamSearchDAO extends CommonDAO {
 
     /**
      * Добавление INNER JOIN фильтров по параметрам, пока поддерживается только значение вида для списковых.
-     * param:<code>:value in 1,2,3
+     * {@code param:<code>:value in 1,2,3}
      * @param objectId
-     * @param valuesCache
-     * @param equation
      * @return
      */
     public static String getParamJoinFilters(String expression, String objectId) throws SQLException {

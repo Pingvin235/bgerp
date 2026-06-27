@@ -376,7 +376,7 @@ public class ConnectionPool {
     /**
      * Возвращает соединение с Slave БД из пула. Если Slave БД не определены в
      * конфигурации - возвращает из Master пула.
-     * @param masterOnNull если false то при отсутсвии slave баз вернет null.
+     * @param master если false то при отсутсвии slave баз вернет null.
      * @return
      */
     public final Connection getDBSlaveConnectionFromPool(final Connection master) {

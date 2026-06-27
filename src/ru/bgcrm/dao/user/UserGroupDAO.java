@@ -165,7 +165,7 @@ public class UserGroupDAO extends CommonDAO {
     /**
      * true если можно добавить скрипт с таким именем в данный каталог
      * @param parentId
-     * @param name
+     * @param title
      * @return
      */
     public boolean checkGroup(int id, int parentId, String title) throws SQLException {

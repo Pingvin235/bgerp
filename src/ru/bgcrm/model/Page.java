@@ -87,7 +87,6 @@ public class Page {
 
     /**
      * Generates page {@code LIMIT offset, rows} query.
-     * @param page page instance.
      * @return
      */
     public String getLimitSql() {
@@ -104,7 +103,7 @@ public class Page {
     /**
      * Set record count and calculated amount of pages
      * @param recordCount
-     * @see {@link ru.bgcrm.dao.CommonDAO#foundRows()}
+     * @see ru.bgcrm.dao.CommonDAO#foundRows(java.sql.Statement)
      */
     public void setRecordCount(int recordCount) {
         this.recordCount = recordCount;

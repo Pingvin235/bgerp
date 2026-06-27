@@ -35,7 +35,7 @@ public class ParameterEmailValue {
 
     /**
      * Unified representation 'email' parameter values as a string
-     * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+     * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
      * @param values the parameter values
      * @return the comma-separated string with {@link #toString()} generated parts
      */

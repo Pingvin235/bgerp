@@ -67,7 +67,7 @@ public class Parameter extends IdTitleComment {
 
          /**
          * Unified representation 'list' parameter values as a string.
-         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values with comments
          * @return
@@ -86,7 +86,7 @@ public class Parameter extends IdTitleComment {
 
         /**
          * Unified representation 'listcount' parameter values as a string.
-         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values
          * @return
@@ -105,7 +105,7 @@ public class Parameter extends IdTitleComment {
 
         /**
          * Unified representation 'tree' parameter values as a string.
-         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values
          * @return
@@ -124,7 +124,7 @@ public class Parameter extends IdTitleComment {
 
         /**
          * Unified representation 'treecount' parameter values as a string.
-         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean) for process queues.
+         * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values
          * @return

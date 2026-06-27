@@ -208,7 +208,8 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromObjectId исходный объект.
      * @param toObjectId целевой объект.
      * @param copyMapping конфигурация.
-     * @throws SQLException, BGException
+     * @throws SQLException
+     * @throws BGException
      */
     public void copyParams(int fromObjectId, int toObjectId, String copyMapping) throws SQLException, BGException {
         if (Utils.isBlankString(copyMapping)) {
@@ -232,7 +233,8 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromObjectId object ID исходного.
      * @param toObjectId object ID целевого.
      * @param paramIds коды параметров.
-     * @throws SQLException, BGException
+     * @throws SQLException
+     * @throws BGException
      */
     public void copyParams(int fromObjectId, int toObjectId, Collection<Integer> paramIds) throws SQLException, BGException {
         for (int paramId : paramIds) {
@@ -1646,7 +1648,7 @@ public class ParamValueDAO extends CommonDAO {
      * Selects a value for parameter type 'email'.
      * @param id object ID
      * @param paramId param ID
-     * @position param value position.
+     * @param position param value position.
      * @return
      * @throws SQLException
      */

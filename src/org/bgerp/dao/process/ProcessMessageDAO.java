@@ -19,9 +19,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class ProcessMessageDAO extends ProcessDAO {
-    /**
-     * @inheritDoc
-     */
     public ProcessMessageDAO(Connection con, DynActionForm form) {
         super(con, form);
     }

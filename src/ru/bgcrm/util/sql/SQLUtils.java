@@ -90,7 +90,6 @@ public class SQLUtils {
      * @param tableName имя проверяемой таблицы
      * @return true - таблица существует, false - таблица не существует
      * или нет доступа к БД
-     * @throws SQLException если возникают проблемы с доступом к БД
      */
     public static boolean tableExists(Connection con, String tableName) {
         boolean result = false;

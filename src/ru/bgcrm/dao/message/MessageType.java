@@ -108,7 +108,7 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * Message type is currently running {@link #newMessageList(ConnectionSet)}.
+     * Message type is currently running {@link #newMessageList(ConnectionSet, String)}.
      * @return
      */
     public boolean isReading() {

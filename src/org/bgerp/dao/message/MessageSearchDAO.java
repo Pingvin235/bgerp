@@ -115,7 +115,7 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by {@link Message#isProcessed()}.
+     * Filter by processed flag.
      * @param value
      * @return
      */

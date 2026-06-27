@@ -122,7 +122,7 @@ public class Utils {
     }
 
     /**
-     * Вызывает функию {@link #parseBoolean(String, boolean)} со вторым параметром false.
+     * Вызывает функию {@link #parseBoolean(String, Boolean)} со вторым параметром false.
      * @param str
      * @return
      */
@@ -469,10 +469,10 @@ public class Utils {
     }
 
     /**
-     * Converts a string with obitary delimeter chars to set of strings.
-     * @param value incoming string.
-     * @param delims delimeter chars.
-     * @return set of tokens, each of that is not empty string.
+     * Joins configuration lines to a single string with a separator.
+     * @param config configuration lines.
+     * @param separator separator placed after each line.
+     * @return joined string.
      */
     public static final String toText(List<String> config, String separator) {
         StringBuilder sb = new StringBuilder();
@@ -891,7 +891,7 @@ public class Utils {
 
     /**
      * The method does special JSP-specific type converting, therefore must not be called from Java code.
-     * @see {@link Bean#newInstance(String)).
+     * @see org.bgerp.app.cfg.bean.Bean#newInstance(String)
      */
     @Deprecated
     public static Object newInstance(String className, Object... args) throws Exception {

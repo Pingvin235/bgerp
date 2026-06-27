@@ -36,10 +36,12 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @param contractParamId billing contract parameter ID, must has a same type as {@param processParamId}
      * @param contractParamType contract parameter type, empty string if the type is the same with {@param processParamId}
      * @param processParamId process parameter ID, also defines a type, supported parameter types:
-     * <li>{@code address} from {@code address} type of contract parameter
-     * <li>{@code date} from {@code date} type of contract parameter
-     * <li>{@code blob}, {@code text} from {@code text}, {@code address}, {@code phone} types of contract parameter
-     * <li>{@code phone} from {@code phone} type of contract parameter
+     * <ul>
+     * <li>{@code address} from {@code address} type of contract parameter</li>
+     * <li>{@code date} from {@code date} type of contract parameter</li>
+     * <li>{@code blob}, {@code text} from {@code text}, {@code address}, {@code phone} types of contract parameter</li>
+     * <li>{@code phone} from {@code phone} type of contract parameter</li>
+     * </ul>
      */
     public void cp(int contractParamId, String contractParamType, int processParamId) throws Exception {
         Process process = (Process)context.get(ProcessExpressionObject.KEY);

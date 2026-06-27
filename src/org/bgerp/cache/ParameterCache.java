@@ -112,7 +112,7 @@ public class ParameterCache extends Cache<ParameterCache> {
 
     /**
      * List of values for parameter with type 'list'.
-     * @param param
+     * @param paramId
      * @return
      */
     public static List<IdTitle> getListParamValues(int paramId) {

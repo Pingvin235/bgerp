@@ -141,35 +141,35 @@ public class UtilFunction {
     }
 
     /**
-     * @see JSP function checkedFromCollection.
+     * @see "JSP function checkedFromCollection"
      */
     public static String checked(Object collection, Object object) {
         return string(collection, object, "checked='1'");
     }
 
     /**
-     * @see JSP function checkedFromBool.
+     * @see "JSP function checkedFromBool"
      */
     public static String checked(Boolean object) {
         return string(object, "checked='1'");
     }
 
     /**
-     * @see JSP function selectedFromCollection.
+     * @see "JSP function selectedFromCollection"
      */
     public static String selected(Object collection, Object object) {
         return string(collection, object, "selected='1'");
     }
 
     /**
-     * @see JSP function checkedFromBool.
+     * @see "JSP function checkedFromBool"
      */
     public static String selected(Boolean object) {
         return string(object, "selected='1'");
     }
 
     /**
-     * @see JSP function int.
+     * @see "JSP function int"
      */
     public static Integer getInt(Object value) {
         if (value == null) {

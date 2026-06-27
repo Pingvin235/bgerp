@@ -33,7 +33,7 @@ public class TitledAction implements Title {
     }
 
     /**
-     * href, used for user interfaces, passed to <ui:menu-item> tag.
+     * href, used for user interfaces, passed to {@code <ui:menu-item>} tag.
      * @return
      */
     public String getHref() {

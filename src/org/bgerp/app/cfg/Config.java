@@ -56,7 +56,6 @@ public abstract class Config {
      * Throws validation exception.
      * @param message
      * @param args
-     * @return
      * @throws BGMessageException
      */
     protected void throwValidationException(String message, Object... args) throws BGMessageException {

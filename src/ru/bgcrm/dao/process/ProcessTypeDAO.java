@@ -379,7 +379,7 @@ public class ProcessTypeDAO extends CommonDAO {
     /**
      * Проверяет наличие в родительском типе дочернего с указанным названием.
      * @param parentId
-     * @param name
+     * @param title
      * @return
      */
     public boolean checkType(int id, int parentId, String title) throws Exception {

@@ -110,8 +110,7 @@ public class Bean {
 
     /**
      * Creates an object of a given class, loaded with {@link Bean#getClass(String)}.
-     * @param className the full class name or a simple {@link Bean} name.
-     * @param args optional constructor arguments.
+     * @param name the full class name or a simple {@link Bean} name.
      * @return created object instance.
      */
     @SuppressWarnings("unchecked")

@@ -13,7 +13,7 @@ public class BGException extends RuntimeException {
     /**
      * Constructor with pattern and replacements for {@link Log#format(String, Object...)}.
      * @param pattern message pattern.
-     * @param params parameters for replacements in {@code pattern}.
+     * @param args parameters for replacements in {@code pattern}.
      */
     public BGException(String pattern, Object... args) {
         super(Log.format(pattern, args));

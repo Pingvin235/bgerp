@@ -181,7 +181,8 @@ public class FileDataDAO extends CommonDAO {
      * Moves batch of files placed in the root dir to subdirectories yyyy/MM/dd.
      * @param batchSize batch size.
      * @return is there something more to move.
-     * @throws SQLException, IOException
+     * @throws SQLException
+     * @throws IOException
      */
     public boolean moveBatch(int batchSize) throws SQLException, IOException {
         var files = storeDir.list();

@@ -14,8 +14,10 @@ import ru.bgcrm.util.Utils;
 
 /**
  * Runnable task, performing optimizations in permission storing tables {@link Tables#TABLE_USER_PERMISSION} and {@link Tables#TABLE_PERMSET_PERMISSION}.<br>
- * <li> Delete not existing actions.
- * <li> Replace action synonyms to primary names.
+ * <ul>
+ * <li> Delete not existing actions. </li>
+ * <li> Replace action synonyms to primary names. </li>
+ * </ul>
  *
  * @author Shamil Vakhitov
  */

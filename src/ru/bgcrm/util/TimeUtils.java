@@ -225,7 +225,7 @@ public class TimeUtils {
     // ########################################################################################
     /**
      * 24h days difference between to dates. The method is time-proven, but
-     * since Java 8 there is also available: {@link java.time.temporal.ChronoUnit#DAYS#between(java.time.temporal.Temporal, java.time.temporal.Temporal)}
+     * since Java 8 there is also available: {@code ChronoUnit.DAYS.between(Temporal, Temporal)}
      * @param dayFrom
      * @param dayTo
      * @return
@@ -252,10 +252,10 @@ public class TimeUtils {
     // # проверки
     // ########################################################################################
     /**
-     * Проверка date1 < date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
+     * Проверка date1 &lt; date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
      * @param date1 первая дата.
      * @param date2 вторая дата.
-     * @return true - date1 < date2, иначе false
+     * @return true - date1 &lt; date2, иначе false
      */
     public static boolean dateBefore(final Date date1, final Date date2) {
         return dateBefore(convertDateToCalendar(date1), convertDateToCalendar(date2));
@@ -285,20 +285,20 @@ public class TimeUtils {
     }
 
     /**
-     * Проверка date1 <= date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
+     * Проверка date1 &lt;= date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
      * @param date1 первая дата.
      * @param date2 вторая дата.
-     * @return true - date1 <= date2, иначе false.
+     * @return true - date1 &lt;= date2, иначе false.
      */
     public static boolean dateBeforeOrEq(Calendar date1, Calendar date2) {
         return dateBefore(date1, date2) || dateEqual(date1, date2);
     }
 
     /**
-     * Проверка date1 <= date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
+     * Проверка date1 &lt;= date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
      * @param date1 первая дата.
      * @param date2 вторая дата.
-     * @return true - date1 <= date2, иначе false
+     * @return true - date1 &lt;= date2, иначе false
      */
     public static boolean dateBeforeOrEq(Date date1, Date date2) {
         return dateBeforeOrEq(convertDateToCalendar(date1), convertDateToCalendar(date2));

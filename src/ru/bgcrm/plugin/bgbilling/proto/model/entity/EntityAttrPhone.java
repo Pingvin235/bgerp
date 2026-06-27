@@ -69,8 +69,8 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * Для внутреннего использования. Для добавления телефона используйте {@link #addPhone(String, String)} или {@link #setContactList(List)}
-     * @param value
+     * Для внутреннего использования. Для добавления телефона используйте {@link #addContact(String, String)} или {@link #setContactList(List)}
+     * @param data
      */
     public void setData(String data) {
         this.data = data;

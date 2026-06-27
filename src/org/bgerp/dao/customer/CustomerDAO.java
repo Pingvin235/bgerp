@@ -56,7 +56,6 @@ public class CustomerDAO extends CommonDAO {
      * Выбирает контрагентов по названию.
      * @param searchResult
      * @param title
-     * @throws SQLException
      */
     public void searchCustomerList(Pageable<Customer> searchResult, String title) {
         if (searchResult != null) {
@@ -137,7 +136,6 @@ public class CustomerDAO extends CommonDAO {
      * @param searchResult
      * @param emailParamIdList
      * @param email Email, поиск идёт по точному совпадению и совпадению домена
-     * @throws SQLException
      */
     public void searchCustomerListByEmail(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> emailParamIdList, String email) {
         new OldParamSearchDAO(con).searchObjectListByEmail(TABLE_CUSTOMER, rs -> getCustomerFromRs(rs, "c."), searchResult, emailParamIdList, email);
@@ -275,7 +273,6 @@ public class CustomerDAO extends CommonDAO {
      * @param houseId код дома
      * @param houseFlat квартира
      * @param houseRoom комната
-     * @throws SQLException
      */
     public void searchCustomerListByAddress(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> addressParamIdList,
             int houseId, String houseFlat, String houseRoom) {
@@ -468,7 +465,6 @@ public class CustomerDAO extends CommonDAO {
      * @param customer контрагент.
      * @param changedParamId код изменённого параметра.
      * @param response если параметр передан, туда будет добавлено событие о изменении названия договора.
-     * @return
      * @throws Exception
      */
     public void updateCustomerTitle(String titleBefore, Customer customer, int changedParamId, Response response) throws Exception {

@@ -80,7 +80,7 @@ public class SetRequestParamsFilter implements Filter {
      *
      * <b>ctxPluginManager</b> {@link PluginManager#getInstance()}<br/>
      *
-     * <b>ctxUserCache</b> static instance of {@link UserCache}</br>
+     * <b>ctxUserCache</b> static instance of {@link UserCache}<br/>
      *
      * <b>ctxUserList</b> {@link UserCache#getUserList()} List of system users<br/>
      * <b>ctxUserMap</b> {@link UserCache#getUserMap()} Map of system users<br/>
@@ -101,10 +101,10 @@ public class SetRequestParamsFilter implements Filter {
      *
      * <b>ctxProcessTypeMap</b> {@link ProcessTypeCache#getProcessTypeMap()} Map with process types<br/>
      * <b>ctxProcessTypeTreeRoot</b> {@link ProcessType} — the root node of the process tree<br/>
-     * <b>ctxProcessStatusList</b> {@link ProcessTypeCache#getProcessStatusList()} List of process statuses<br/>
-     * <b>ctxProcessStatusMap</b> {@link ProcessTypeCache#getProcessStatusMap()} Map of process statuses<br/>
-     * <b>ctxProcessQueueMap</b> {@link ProcessTypeCache#getProcessQueueMap()} Map of process queues<br/>
-     * <b>ctxProcessQueueList</b> {@link ProcessTypeCache#getProcessQueueList()} List of process queues<br/>
+     * <b>ctxProcessStatusList</b> {@link ProcessTypeCache#getStatusList()} List of process statuses<br/>
+     * <b>ctxProcessStatusMap</b> {@link ProcessTypeCache#getStatusMap()} Map of process statuses<br/>
+     * <b>ctxProcessQueueMap</b> {@link ProcessQueueCache#getQueueMap()} Map of process queues<br/>
+     * <b>ctxProcessQueueList</b> {@link ProcessQueueCache#getQueueList()} List of process queues<br/>
      *
      * <b>ctxParameterCache</b> static instance of {@link ParameterCache}<br/>
      *

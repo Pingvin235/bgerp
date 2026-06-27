@@ -173,7 +173,7 @@ public class ParamExpressionObject implements ExpressionObject {
      * Select parameter values for the current object
      * @param paramId the parameter ID
      * @param format optional format of the result:<br>
-     * <br>{@code nf} for param type {@code phone} returns {@link ParameterTypePhone} object
+     * <br>{@code nf} for param type {@code phone} returns {@link ru.bgcrm.model.param.ParameterPhoneValue} object
      * @return parameter's value, string if no {@param format} is defined
      */
     public Object val(int paramId, String format) {

@@ -139,7 +139,6 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
      * @param def default value.
      * @param keys first key is the actual one, after - olds.
      * @return
-     * @throws BGMessageException
      */
     public long getSokLong(long def, String... keys) {
         try {
@@ -187,7 +186,6 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
      * @param def default value.
      * @param keys first key is the actual one, after - olds.
      * @return
-     * @throws BGMessageException
      */
     public boolean getSokBoolean(boolean def, String... keys) {
         try {
@@ -447,7 +445,6 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     /**
      * Creates a configuration for validation purposes only..
      * @param clazz
-     * @return
      */
     public final <K extends Config> void validateConfig(final Class<K> clazz) throws BGMessageException {
         try {

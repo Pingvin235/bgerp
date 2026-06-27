@@ -11,8 +11,10 @@ import ru.bgcrm.util.Utils;
 /**
  * Version checker caching remote build number.
  * Test keys:
- * <li> test.version.check.current.version
- * <li> test.version.check.current.build.number
+ * <ul>
+ * <li> test.version.check.current.version </li>
+ * <li> test.version.check.current.build.number </li>
+ * </ul>
  *
  * @author Shamil Vakhitov
  */

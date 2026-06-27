@@ -20,7 +20,7 @@ public class AuthResult {
     /**
      * Successful auth constructor
      * @param user
-     * @param context
+     * @param updateExpression
      */
     public AuthResult(User user, UpdateExpression updateExpression) {
         this.success = true;

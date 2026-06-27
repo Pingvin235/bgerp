@@ -112,7 +112,7 @@ public class IPUtils {
      * Преобразует представление IP адреса в виде десятичного числа в строковое
      * представление с точками-разделителями.
      * 
-     * @param ip_value
+     * @param ip
      * @return
      */
     public static final String convertLongIpToString(long ip) {
@@ -132,7 +132,6 @@ public class IPUtils {
      * десятичное число. При этом занимается бит знака.
      * 
      * @param ip_value
-     * @param error
      * @return IP адрес в виде десятичного числа либо 0 при ошибочном формате
      */
     public static final int convertStringIPtoInt(String ip_value) {

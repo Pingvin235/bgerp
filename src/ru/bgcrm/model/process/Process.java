@@ -595,7 +595,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #setGroups(Set)}.
+     * Use {@link #setGroups(ProcessGroups)}.
      */
     @Deprecated
     public void setProcessGroups(Set<ProcessGroup> processGroups) {

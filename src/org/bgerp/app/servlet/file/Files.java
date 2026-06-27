@@ -122,7 +122,7 @@ public class Files {
     }
 
     /**
-     * List of files matching {@link #wildcard} sorted accordingly {@link Options#getOrder()}
+     * List of files matching {@link #fileFilter} sorted accordingly {@link Options#getOrder()}
      * @return
      */
     public List<File> list() {

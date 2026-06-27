@@ -140,7 +140,6 @@ public class UserDAO extends CommonDAO {
      * @param searchResult
      * @param emailParamIdList
      * @param email Email, поиск идёт по точному совпадению и совпадению домена
-     * @throws SQLException
      */
     public void searchUserListByEmail(Pageable<ParameterSearchedObject<User>> searchResult,
             List<Integer> emailParamIdList, String email) {

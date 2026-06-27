@@ -244,7 +244,7 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
     }
 
     /**
-     * @deprecated - use {@link IpResourceRange#intersects(byte[], byte[], byte[], byte[])}
+     * @deprecated - use {@code IpResourceRange#intersects(byte[], byte[], byte[], byte[])}
      * функция пересечения отрезков. Все параметры не пустые , иначе  NullPointerException
      * @param addressFrom
      * @param addressTo
@@ -263,7 +263,7 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
     }
 
     /**
-     * @deprecated - use {@link IpResourceRange#inRange(byte[], byte[], byte[], byte[])}
+     * @deprecated - use {@code IpResourceRange#inRange(byte[], byte[], byte[], byte[])}
      * функция вхождения одного отрезка в другой. Все параметры не пустые , иначе  NullPointerException.
      * @param addressFrom
      * @param addressTo
@@ -281,7 +281,7 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
     }
 
     /**
-     * @deprecated - use {@link IpResourceRange#inRange(byte[], byte[], byte[], byte[])}
+     * @deprecated - use {@code IpResourceRange#inRange(byte[], byte[], byte[], byte[])}
      * @param ip
      * @param addressFrom
      * @param addressTo
@@ -328,7 +328,7 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
     }
 
     /**
-     * @deprecated - use {@link IpResourceRange#toString(IpAddress, IpAddress)}
+     * @deprecated - use {@code IpResourceRange#toString(IpAddress, IpAddress)}
      * Форматирует диапазон адресов к виду от-до.
      * @param from
      * @param to
@@ -350,7 +350,7 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
     }
 
     /**
-     * @deprecated - use {@link IpResourceRange#toString(byte[], byte[])}
+     * @deprecated - use {@code IpResourceRange#toString(byte[], byte[])}
      * Форматирует диапазон адресов к виду от-до.
      * @param from
      * @param to

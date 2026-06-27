@@ -14,7 +14,7 @@ import ru.bgcrm.util.Utils;
 /**
  * Report's column.
  * <p>Value of {@link #getId()} allows to access column by it.
- * <p>With empty {@link #getTitle()} value column is not shown to user.
+ * <p>With empty {@link #getTitle(Localizer)} value column is not shown to user.
  *
  * @author Shamil Vakhitov
  */

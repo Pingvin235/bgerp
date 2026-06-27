@@ -114,7 +114,6 @@ public abstract class CommonLinkDAO extends CommonDAO {
     /**
      * Удаляет все ссылки объекта.
      * @param objectId
-     * @throws SQLException
      */
     public void deleteObjectLinks(int objectId) {
         try {

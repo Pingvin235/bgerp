@@ -121,9 +121,7 @@ public class InetDevice extends TreeItem<Integer, InetDevice> {
         return ICON_TAG_NODE;
     }
 
-    /**
-     * @see InetDevicePanel#getTitle in BGBilling client.
-     */
+    @Deprecated
     @Override
     public String getTextStyle() {
         if (entityId == -100)

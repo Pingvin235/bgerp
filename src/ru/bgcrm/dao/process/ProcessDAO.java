@@ -413,7 +413,7 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Use {@link ProcessSearchDAO}
+     * Use {@link org.bgerp.dao.process.ProcessSearchDAO}
      */
     @Deprecated
     public void searchProcessListForUser(Pageable<Process> searchResult, int userId, Boolean open) throws SQLException {

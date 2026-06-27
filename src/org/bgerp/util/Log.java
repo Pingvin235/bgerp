@@ -124,8 +124,8 @@ public class Log {
 
     /**
      * Deprecation warning for a JSP call
-     * @param deprecatedName the deprecated call string
-     * @param actualName the actual call string
+     * @param deprecatedCall the deprecated call string
+     * @param actionCall the actual call string
      */
     public void warndJsp(String deprecatedCall, String actionCall) {
         warn("Deprecated JSP call '{}', use '{}' instead.", deprecatedCall, actionCall);

@@ -28,7 +28,6 @@ public class TaskDAO extends CommonDAO {
      * @param processId обязательный фильтр по процессу.
      * @param typeId > 0, фильтр по типу процесса.
      * @param onlyOpen только не выполненные.
-     * @return
      * @throws SQLException
      */
     public void searchTasks(Pageable<Task> result, int processId, int typeId, boolean onlyOpen) throws SQLException {

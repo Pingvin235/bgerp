@@ -12,8 +12,10 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
  * Processor may be defined in two ways:
- * <li> name of an extending class, used normally in{@link Interface#USER} interface;
- * <li> page URL pointing to an action.
+ * <ul>
+ * <li> name of an extending class, used normally in{@link Interface#USER} interface; </li>
+ * <li> page URL pointing to an action. </li>
+ * </ul>
  *
  * @author Shamil Vakhitov
  */
