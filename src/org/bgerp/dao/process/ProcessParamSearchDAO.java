@@ -28,14 +28,14 @@ public class ProcessParamSearchDAO extends SearchDAO {
     private String paramTextValue;
 
     /**
-     * {@inheritDoc}
+     * Constructor with a database connection
      */
     public ProcessParamSearchDAO(Connection con) {
         super(con);
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor with a database connection and request form
      */
     public ProcessParamSearchDAO(Connection con, DynActionForm form) {
         super(con, form);

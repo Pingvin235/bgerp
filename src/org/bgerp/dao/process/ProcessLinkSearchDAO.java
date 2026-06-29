@@ -28,14 +28,14 @@ public class ProcessLinkSearchDAO extends SearchDAO {
     private int linkObjectId;
 
     /**
-     * {@inheritDoc}
+     * Constructor with a database connection
      */
     public ProcessLinkSearchDAO(Connection con) {
         super(con);
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor with a database connection and request form
      */
     public ProcessLinkSearchDAO(Connection con, DynActionForm form) {
         super(con, form);

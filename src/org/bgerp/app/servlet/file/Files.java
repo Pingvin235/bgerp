@@ -169,10 +169,9 @@ public class Files {
     /**
      * Set a file highlight classes to a response
      * @param form the request form with the file name in param {@code name}
-     * @return
+     * @return the {@code form}
      * @throws BGIllegalArgumentException
      * @throws FileNotFoundException
-     * @return the {@code form}
      */
     public DynActionForm highlight(DynActionForm form) throws BGIllegalArgumentException, FileNotFoundException {
         var name = form.getParam("name", Utils::notBlankString);

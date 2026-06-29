@@ -27,7 +27,7 @@ public class CustomerParamSearchDAO extends CommonDAO {
     private String paramTextValue;
 
     /**
-     * {@inheritDoc}
+     * Constructor with a database connection
      */
     public CustomerParamSearchDAO(Connection con) {
         super(con);

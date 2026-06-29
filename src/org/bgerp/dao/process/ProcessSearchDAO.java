@@ -21,14 +21,14 @@ import ru.bgcrm.struts.form.DynActionForm;
  */
 public class ProcessSearchDAO extends SearchDAO {
     /**
-     * {@inheritDoc}
+     * Constructor with a database connection
      */
     public ProcessSearchDAO(Connection con) {
         super(con);
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor with a database connection and request form
      */
     public ProcessSearchDAO(Connection con, DynActionForm form) {
         super(con, form);
