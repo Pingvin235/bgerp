@@ -59,20 +59,20 @@ public class IpNet {
         return sb.append('/').append(mask).toString();
     }
 
-    public static int maskToInt(byte[] mask) {
-        int result = 0;
-        for (int i = mask.length - 1; i >= 0; i--) {
-            int num = Integer.numberOfTrailingZeros(mask[i]);
-            if (num >= 8) {
-                result += 8;
-            } else {
-                result += num;
-                break;
-            }
-        }
+    // public static int maskToInt(byte[] mask) {
+    //     int result = 0;
+    //     for (int i = mask.length - 1; i >= 0; i--) {
+    //         int num = Integer.numberOfTrailingZeros(mask[i]);
+    //         if (num >= 8) {
+    //             result += 8;
+    //         } else {
+    //             result += num;
+    //             break;
+    //         }
+    //     }
 
-        return result;
-    }
+    //     return result;
+    // }
 
     public byte[] getMaxIp() {
         byte[] addressTo = new byte[subnet.length];
@@ -98,8 +98,8 @@ public class IpNet {
     }
 
     public static int getMask(byte[] addrFrom, byte[] addrTo) {
-        BigInteger from = IpAddress.convertIp4AddresToBigInt(addrFrom);
-        BigInteger to = IpAddress.convertIp4AddresToBigInt(addrTo);
+        BigInteger from = IpAddress.convertIp4AddressToBigInt(addrFrom);
+        BigInteger to = IpAddress.convertIp4AddressToBigInt(addrTo);
 
         BigInteger addXor = from.xor(to);
         int n = 0;
@@ -121,21 +121,6 @@ public class IpNet {
         }
 
         return size * 8;
-    }
-
-    /**
-     * Создание новой подсети из правильного диапазона.
-     * @param addressFrom
-     * @param addressTo
-     * @return
-     */
-    public static IpNet newInstance(final byte[] addressFrom, final byte[] addressTo) {
-        int mask = addressTo != null ? getMask0(addressFrom, addressTo) : (addressFrom.length * 8);
-        return new IpNet(addressFrom, mask);
-    }
-
-    public boolean inNet(final byte[] address) {
-        return inNet(address, subnet, mask);
     }
 
     public static boolean inNet(final byte[] address, final byte[] subnet, final int mask) {
