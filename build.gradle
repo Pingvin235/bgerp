@@ -337,6 +337,8 @@ task jdoc(type: Javadoc, description: 'Builds JavaDoc API') {
     source = sourceSets.main.allJava
     title = "BGERP ${->getTitle()} API"
     destinationDir = file("$buildDir/javadoc")
+    // check structural issues only, do not require comments/tags on every member
+    options.addBooleanOption('Xdoclint:all,-missing', true)
 }
 
 task zdoc(type: Zip, description: 'Builds documentation zip archive') {
