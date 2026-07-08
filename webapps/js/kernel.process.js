@@ -32,6 +32,12 @@ $$.process = new function() {
 		let wrapBottomOffset = $wrap.offset().top + $wrap.height();
 
 		$(window).scroll(function() {
+			// there is a parameter editor popup open, e.g. street search with many results
+			if ($leftDiv.find('.ui-menu:visible').length) {
+				debug("disable because of open ui-menu");
+				return;
+			}
+
 			const scrollTop = document.documentElement.scrollTop;
 			if ($leftDiv.is(":visible")) {
 				// $wrap.height() can be increased when params editing
