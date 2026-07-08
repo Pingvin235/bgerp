@@ -1043,7 +1043,7 @@ public class WorkAction extends BaseAction {
         for (Group group : UserCache.getUserGroupList()) {
             final int groupId = group.getId();
 
-            if (!groups.contains(groupId) || (excludeHidden && group.getArchive() > 0) || (groupsFilter.size() > 0 && !groupsFilter.contains(groupId))
+            if (!groups.contains(groupId) || (groupsFilter.size() > 0 && !groupsFilter.contains(groupId))
                     || (CollectionUtils.isNotEmpty(allowOnlyGroups) && !allowOnlyGroups.contains(groupId))) {
                 continue;
             }

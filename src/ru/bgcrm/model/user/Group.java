@@ -129,17 +129,4 @@ public class Group extends IdTitleComment implements TitleWithPath, Cloneable {
 
         return result;
     }
-
-    // deprecated
-
-    @Deprecated
-    public int getArchive() {
-        log.warndMethod("getArchive");
-        return 0;
-    }
-
-    @Deprecated
-    public void setArchive(int archive) {
-        log.warndMethod("setArchive");
-    }
 }

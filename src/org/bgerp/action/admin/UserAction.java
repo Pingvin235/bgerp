@@ -140,7 +140,6 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
         UserGroupDAO groupDAO = new UserGroupDAO(con);
 
         int id = form.getId();
-        boolean archive = Utils.parseBoolean(form.getParam("archive"), false);
 
         Group group = new Group();
         if (id > 0) {
@@ -156,7 +155,6 @@ public class UserAction extends org.bgerp.action.base.BaseAction {
         group.setQueueIds(form.getParamValues("queue"));
         group.setPermsetIds(form.getParamValuesList("permset"));
         group.setParentId(Utils.parseInt(form.getParam("parentGroupId")));
-        group.setArchive((archive ? 1 : 0));
         group.setConfig(form.getParam("groupConfig"));
 
         if (Utils.isBlankString(group.getTitle())) {
