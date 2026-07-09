@@ -62,7 +62,7 @@ function addCustomStreetSearch(selector, streetIdSelector) {
 	$(selector).autocomplete({
 		minLength: 3,
 		source: function (request, response) {
-			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "streetSearch", "title": request.term });
+			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "method": "streetSearch", "page.pageSize": 100, "title": request.term });
 			$$.ajax.post(url).done((ajaxResponse) => {
 				response($.map(ajaxResponse.data.list, function (item) {
 					return { label: item.addressCity.title + " - " + item.title, value: item.addressCity.title + " - " + item.title, id: item.id };
