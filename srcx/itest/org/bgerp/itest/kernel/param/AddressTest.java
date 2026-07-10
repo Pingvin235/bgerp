@@ -46,6 +46,9 @@ public class AddressTest {
             .withPostIndex("450103").withHouseAndFrac("14").withComment("BGBilling Demo"));
         Assert.assertEquals(house.getId(), 1);
 
+        for (int i = 1; i < 200; i++)
+            dao.updateAddressStreet(new AddressItem().withCityId(cityUfa.getId()).withTitle(i + " лет СССР"));
+
         var area =  dao.updateAddressArea(new AddressItem().withCityId(cityUfa.getId()).withTitle("Кировский район"));
         var quarter = dao.updateAddressQuarter(new AddressItem().withCityId(cityUfa.getId()).withTitle("33"));
         street = dao.updateAddressStreet(new AddressItem().withCityId(cityUfa.getId()).withTitle("Карла Маркса"));
