@@ -3,7 +3,6 @@ package ru.bgcrm.dao.message;
 import java.util.Set;
 
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.exception.BGException;
 import org.bgerp.app.servlet.jsp.GetJsp;
 import org.bgerp.model.msg.Message;
 
@@ -27,5 +26,5 @@ public abstract class MessageTypeSearch implements GetJsp {
         return null;
     }
 
-    public abstract void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) throws BGException;
+    public abstract void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result);
 }

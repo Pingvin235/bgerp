@@ -1,6 +1,8 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import org.bgerp.app.exception.BGException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,9 +14,6 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.util.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ContractHierarchyDAO
 	extends BillingDAO
 {
@@ -22,19 +21,16 @@ public class ContractHierarchyDAO
 	private static final String CONTRACT_HIERARCHY_MODULE_ID = "contract.hierarchy";
 
 	public ContractHierarchyDAO( User user, DBInfo dbInfo )
-		throws BGException
 	{
 		super( user, dbInfo );
 	}
 
 	public ContractHierarchyDAO( User user, String billingId )
-		throws BGException
 	{
 		super( user, billingId );
 	}
 
 	public List<Integer> getSubContracts( int contractId )
-    	throws BGException
     {
     	Request request = new Request();
     	request.setModule( CONTRACT_HIERARCHY_MODULE_ID );
@@ -61,7 +57,6 @@ public class ContractHierarchyDAO
      * @param subContractId id субдоговора.
      */
     public void addSubcontract( int superContractId, int subContractId )
-    	throws BGException
     {
     	Request req = new Request();
     	req.setModule( "contract.hierarchy" );
@@ -74,7 +69,6 @@ public class ContractHierarchyDAO
     }
 
     public void addSubcontract( int superContractId, int subContractId, int subMode )
-            throws BGException
     {
         Request req = new Request();
         req.setModule( "contract.hierarchy" );
@@ -87,7 +81,6 @@ public class ContractHierarchyDAO
     }
 
 	public List<IdTitle> contractSubcontractList( int contractId )
-    	throws BGException
     {
     	Request request = new Request();
     	request.setModule( CONTRACT_HIERARCHY_MODULE_ID );
@@ -114,7 +107,6 @@ public class ContractHierarchyDAO
     }
 
     public IdTitle contractSupercontract( int contractId )
-    	throws BGException
     {
     	Request request = new Request();
     	request.setModule( CONTRACT_HIERARCHY_MODULE_ID );

@@ -1,7 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import org.bgerp.app.exception.BGException;
-
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
@@ -17,12 +15,12 @@ public class BillingModuleDAO extends BillingDAO {
         this.moduleId = moduleId;
     }
 
-    public BillingModuleDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+    public BillingModuleDAO(User user, DBInfo dbInfo, int moduleId) {
         super(user, dbInfo);
         setModuleId(moduleId);
     }
 
-    public BillingModuleDAO(User user, String billingId, int moduleId) throws BGException {
+    public BillingModuleDAO(User user, String billingId, int moduleId) {
         super(user, billingId);
         setModuleId(moduleId);
     }

@@ -8,7 +8,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.bgerp.app.exception.BGException;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,7 +34,6 @@ public class BGBillingDAO
 	}
 
 	public Document doRequestToBilling( String dbKey, User user, Request request )
-	    throws BGException
 	{
 		Document result = null;
 

@@ -102,7 +102,7 @@ public class ParamValueDAO extends CommonDAO {
      * @param toObjectId object ID целевого.
      * @param paramId коды параметра.
      */
-    public void copyParam(int fromObjectId, int toObjectId, int paramId) throws SQLException, BGException {
+    public void copyParam(int fromObjectId, int toObjectId, int paramId) throws SQLException {
         copyParam(fromObjectId, paramId, toObjectId, paramId);
     }
 
@@ -113,7 +113,7 @@ public class ParamValueDAO extends CommonDAO {
      * @param toObjectId object ID целевого
      * @param toParamId param ID целевого.
      */
-    public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException, BGException {
+    public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException {
         String query = null;
         ArrayList<PreparedStatement> psList = new ArrayList<>();
 
@@ -209,9 +209,8 @@ public class ParamValueDAO extends CommonDAO {
      * @param toObjectId целевой объект.
      * @param copyMapping конфигурация.
      * @throws SQLException
-     * @throws BGException
      */
-    public void copyParams(int fromObjectId, int toObjectId, String copyMapping) throws SQLException, BGException {
+    public void copyParams(int fromObjectId, int toObjectId, String copyMapping) throws SQLException {
         if (Utils.isBlankString(copyMapping)) {
             return;
         }
@@ -234,9 +233,8 @@ public class ParamValueDAO extends CommonDAO {
      * @param toObjectId object ID целевого.
      * @param paramIds коды параметров.
      * @throws SQLException
-     * @throws BGException
      */
-    public void copyParams(int fromObjectId, int toObjectId, Collection<Integer> paramIds) throws SQLException, BGException {
+    public void copyParams(int fromObjectId, int toObjectId, Collection<Integer> paramIds) throws SQLException {
         for (int paramId : paramIds) {
             copyParam(fromObjectId, paramId, toObjectId, paramId);
         }
