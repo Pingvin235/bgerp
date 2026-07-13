@@ -55,6 +55,12 @@
 	text-decoration: none;
 }
 
+ul.ui-autocomplete.ui-menu {
+	overflow-x: hidden;
+	overflow-y: visible;
+	max-height: 30em;
+}
+
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
 	font-family: inherit;
 }

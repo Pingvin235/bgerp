@@ -23,8 +23,8 @@
 .select ul.ui-menu {
 	overflow-x: hidden;
 	overflow-y: visible;
-	max-height: 300px;
-	min-width: 150px;
+	max-height: 30em;
+	min-width: 15em;
 }
 
 .select ul.ui-menu li {

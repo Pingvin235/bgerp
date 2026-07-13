@@ -1,0 +1,1 @@
+A: Separated scroll for autocomplete drop-down.
