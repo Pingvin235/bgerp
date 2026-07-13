@@ -135,6 +135,11 @@ $$.shell = new function () {
 	const contentLoad = function (href, options) {
 		debug("contentLoad", href, contentLoadDfd);
 
+		if (!href) {
+			console.error("href isn't defined");
+			return;
+		}
+
 		const contentLoadCurrentDfd = contentLoadDfd;
 		const contentLoadNewDfd = $.Deferred();
 		$.when(contentLoadCurrentDfd).done(() => {
