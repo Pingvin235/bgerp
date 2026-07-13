@@ -1,31 +1,17 @@
 package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.bean.annotation.Bean;
-import org.bgerp.app.exception.BGException;
-import org.bgerp.dao.param.ParamValueDAO;
-import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
-import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.model.param.ParameterAddressValue;
-import ru.bgcrm.model.param.address.AddressHouse;
-import ru.bgcrm.model.process.wizard.FillParamsStep;
 import ru.bgcrm.model.process.wizard.base.StepData;
 import ru.bgcrm.model.process.wizard.base.WizardData;
-import ru.bgcrm.plugin.bgbilling.Request;
-import ru.bgcrm.plugin.bgbilling.dao.BGBillingDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Utils;
 
 @Bean
 public class ShowContractsByAddrParamStep extends BaseStep {
@@ -78,6 +64,7 @@ public class ShowContractsByAddrParamStep extends BaseStep {
             if (contracts == null) {
                 List<StepData<?>> stepDataList = data.getStepDataList();
 
+                /* TODO: Rewrite by request
                 for (int i = stepDataList.indexOf(this); i >= 0; i--) {
                     StepData<?> stepData = stepDataList.get(i);
 
@@ -122,13 +109,13 @@ public class ShowContractsByAddrParamStep extends BaseStep {
                         }
                         break;
                     }
-                }
+                } */
             }
 
             return true;
         }
 
-        private void appendBalance(Document doc, ConfigMap conf) throws BGException {
+        /* private void appendBalance(Document doc, ConfigMap conf) throws BGException {
             Element dataElement = (Element) doc.getElementsByTagName("data").item(0);
 
             if (dataElement.getAttribute("status").equals("ok")) {
@@ -217,6 +204,6 @@ public class ShowContractsByAddrParamStep extends BaseStep {
             e.setAttribute("groups", groupTitles);
 
             return dontDisplayStatementsCount > 1;
-        }
+        }*/
     }
 }
