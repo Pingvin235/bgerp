@@ -45,11 +45,11 @@
 				</c:url>
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 			</td>
-			<td>${tu.format( charge.date, 'ymd' )}</td>
+			<td>${tu.format(charge.date, 'ymd')}</td>
 			<td>${charge.sum}</td>
 			<td nowrap="nowrap">${charge.type}</td>
 			<td>${charge.comment}</td>
-			<td nowrap="nowrap">${tu.format( charge.lastChangeTime, 'ymdhms')}</td>
+			<td nowrap="nowrap">${tu.format(charge.lastChangeTime, 'ymdhms')}</td>
 			<td nowrap="nowrap">${charge.user}</td>
 		</tr>
 	</c:forEach>

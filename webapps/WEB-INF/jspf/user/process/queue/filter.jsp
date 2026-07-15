@@ -273,7 +273,7 @@
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'code' ) }">
-									<input type="text" value="${savedParamsFilters.get( 'code' )}" name="code" placeholder="Код" size="6" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
+									<input type="text" value="${savedParamsFilters.get( 'code')}" name="code" placeholder="Код" size="6" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 								</c:when>
 								<c:otherwise>
 									<input type="text" name="code" placeholder="Код" size="6" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
@@ -362,7 +362,7 @@
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'description' ) }">
-									<input type="text" value="${savedParamsFilters.get( 'description' )}" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
+									<input type="text" value="${savedParamsFilters.get( 'description')}" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>
 								</c:when>
 								<c:otherwise>
 									<input type="text" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if ($$.keys.enterPressed(event)) { ${sendCommand}; return false; }"/>

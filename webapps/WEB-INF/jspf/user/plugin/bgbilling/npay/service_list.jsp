@@ -40,7 +40,7 @@
 			</td>
 			<td>${item.serviceTitle}</td>
 			<td>${item.count}</td>
-			<td nowrap="nowrap">${tu.format( item.dateFrom, 'ymd' )} - ${tu.format( item.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.format(item.dateFrom, 'ymd')} - ${tu.format(item.dateTo, 'ymd')}</td>
 			<td>${item.objectTitle}</td>
 			<td>${item.comment}</td>
 		</tr>

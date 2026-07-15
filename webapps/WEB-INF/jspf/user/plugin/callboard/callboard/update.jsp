@@ -511,25 +511,25 @@
 
 								<c:choose>
 									<c:when test="${not empty dayType}">
-										<td class="shiftDateHeader" date="${tu.format( date, 'ymd')}" style="color: ${dayType.color};" title="${dayType.title} ${tu.format( date, 'ymd' )}">
-											<b>${tu.format( date, 'dd' )}<br/>${tu.getShortDateName( date )}</b>
+										<td class="shiftDateHeader" date="${tu.format(date, 'ymd')}" style="color: ${dayType.color};" title="${dayType.title} ${tu.format(date, 'ymd')}">
+											<b>${tu.format(date, 'dd')}<br/>${tu.getShortDateName( date )}</b>
 										</td>
 									</c:when>
 									<c:otherwise>
-										<td class="shiftDateHeader" date="${tu.format( date, 'ymd')}" title="??? ${tu.format( date, 'ymd' )}">
-											<b>${tu.format( date, 'dd' )}<br/>${tu.getShortDateName( date )}</b>
+										<td class="shiftDateHeader" date="${tu.format(date, 'ymd')}" title="??? ${tu.format(date, 'ymd')}">
+											<b>${tu.format(date, 'dd')}<br/>${tu.getShortDateName( date )}</b>
 										</td>
 									</c:otherwise>
 								</c:choose>
 							</c:when>
 							<c:otherwise>
-								<td class="shiftDateHeader" date="${tu.format( date, 'ymd')}"><b>${tu.format( date, 'dd' )}<br/>${tu.getShortDateName( date )}</b></td>
+								<td class="shiftDateHeader" date="${tu.format(date, 'ymd')}"><b>${tu.format(date, 'dd')}<br/>${tu.getShortDateName( date )}</b></td>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 				</tr>
 
-				<c:set var="fromDate" value="${form.getParamDate( 'fromDate' )}"/>
+				<c:set var="fromDate" value="${form.getParamDate( 'fromDate')}"/>
 
 				<c:forEach var="item" items="${groupWithUsersMap}">
 					<%-- подсчёт количества сотрудников, входящих в группу --%>

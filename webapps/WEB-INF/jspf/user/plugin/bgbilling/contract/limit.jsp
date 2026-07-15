@@ -70,7 +70,7 @@
 				</c:url>
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 			</td>
-			<td nowrap="nowrap">${tu.format( item.date, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.format(item.date, 'ymd')}</td>
 			<td nowrap="nowrap">${item.status}</td>
 			<td nowrap="nowrap">${item.user}</td>
 			<td>${item.limitChange}</td>

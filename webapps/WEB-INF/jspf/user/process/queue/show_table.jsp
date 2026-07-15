@@ -114,7 +114,7 @@ Incoming variables:
 					</c:when>
 
 					<c:when test="${column.value.startsWith('linkedObject:process')}">
-						<c:forEach var="processId" items="${col.split(',' )}">
+						<c:forEach var="processId" items="${col.split(',')}">
 							<c:choose>
 								<c:when test="${mob}">${processId}</c:when>
 								<c:otherwise><ui:process-link id="${processId}"/></c:otherwise>
@@ -124,9 +124,9 @@ Incoming variables:
 
 					<%-- TODO: Код этот должен быть по-правильному в плагине BGBilling --%>
 					<c:when test="${column.value.startsWith('linkObject:contract' ) or
-									column.value.startsWith('linkedObject:contract' )}">
-						<c:forEach var="contractInfo" items="${col.split(',' )}">
-							<c:set var="info" value="${contractInfo.split(':' )}"/>
+									column.value.startsWith('linkedObject:contract')}">
+						<c:forEach var="contractInfo" items="${col.split(',')}">
+							<c:set var="info" value="${contractInfo.split(':')}"/>
 							<c:choose>
 								<c:when test="${mob}">${info[2]}</c:when>
 								<c:otherwise><a href="#" onclick="$$.bgbilling.contract.open( '${info[0]}', '${info[1]}' ); return false;">${info[2]}</a></c:otherwise>

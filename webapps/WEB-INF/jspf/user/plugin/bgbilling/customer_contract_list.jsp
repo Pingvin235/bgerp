@@ -56,7 +56,7 @@
 		const $tabs = $( "#${tabsUiid}" ).tabs({ refreshButton: true });
 
 		<c:forEach items="${frd.list}" var="link">
-			<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':' )}"/>
+			<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':')}"/>
 			<c:set var="customerId" value="${frd.customerId}"/>
 
 			<c:set var="liAttrs"> id='${billingId}-${link.linkObjectId}'</c:set>

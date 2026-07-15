@@ -34,8 +34,8 @@
 					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${delUrl}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 				</td>
 				<td width="100%" >${tariffOption.optionTitle}</td>
-				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeFrom, 'ymdhms' )}</td>
-				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeTo, 'ymdhms' )}</td>
+				<td nowrap="nowrap" align="center">${tu.format(tariffOption.timeFrom, 'ymdhms')}</td>
+				<td nowrap="nowrap" align="center">${tu.format(tariffOption.timeTo, 'ymdhms')}</td>
 				<td align="center">${tariffOption.getSumma()}</td>
 			</tr>
 		</c:forEach>
@@ -53,8 +53,8 @@
 		<c:forEach var="tariffOption" items="${frd.history}">
 			<tr>
 				<td width="100%">${tariffOption.optionTitle}</td>
-				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeFrom, 'ymdhms' )}</td>
-				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeTo, 'ymdhms' )}</td>
+				<td nowrap="nowrap" align="center">${tu.format(tariffOption.timeFrom, 'ymdhms')}</td>
+				<td nowrap="nowrap" align="center">${tu.format(tariffOption.timeTo, 'ymdhms')}</td>
 				<td>${tariffOption.summa}</td>
 			</tr>
 		</c:forEach>

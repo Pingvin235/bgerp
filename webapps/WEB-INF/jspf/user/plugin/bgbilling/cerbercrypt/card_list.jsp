@@ -24,7 +24,7 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.number}</td>
-			<td nowrap="nowrap">${tu.format( item.dateFrom, 'ymd' )} - ${tu.format( item.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.format(item.dateFrom, 'ymd')} - ${tu.format(item.dateTo, 'ymd')}</td>
 			<td>${tu.format(item.subscrDate, 'ymd')}</td>
 			<td>${item.comment}</td>
 		</tr>

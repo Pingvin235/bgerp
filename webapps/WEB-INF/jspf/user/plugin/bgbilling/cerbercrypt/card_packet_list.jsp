@@ -13,7 +13,7 @@
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
 			<td>${item.card}</td>
-			<td nowrap="nowrap">${tu.format( item.dateFrom, 'ymd' )} - ${tu.format( item.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.format(item.dateFrom, 'ymd')} - ${tu.format(item.dateTo, 'ymd')}</td>
 			<td>${item.packet}</td>
 			<td>${item.status}</td>
 		</tr>

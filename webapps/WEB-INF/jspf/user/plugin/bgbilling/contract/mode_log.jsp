@@ -35,7 +35,7 @@
 	</tr>
 	<c:forEach var="item" items="${frd.list}">
 		<tr>
-			<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${tu.format(item.time, 'ymdhms')}</td>
 			<td nowrap="nowrap">${item.user}</td>
 			<td>${item.mode}</td>
 		</tr>

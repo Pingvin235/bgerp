@@ -10,7 +10,7 @@
 	</tr>
 
 	<c:forEach items="${frd.list}" var="link">
-		<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':' )}"/>
+		<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':')}"/>
 		<c:set var="customerId" value="${frd.customerId}" />
 		<tr>
 			<td>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>

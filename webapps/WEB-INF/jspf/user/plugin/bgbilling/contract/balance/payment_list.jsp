@@ -51,11 +51,11 @@
 				</c:url>
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))"/>
 			</td>
-			<td>${tu.format( payment.date, 'ymd')}</td>
+			<td>${tu.format(payment.date, 'ymd')}</td>
 			<td>${payment.sum}</td>
 			<td nowrap="nowrap">${payment.type}</td>
 			<td>${payment.comment}</td>
-			<td nowrap="nowrap">${tu.format( payment.lastChangeTime, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${tu.format(payment.lastChangeTime, 'ymdhms')}</td>
 			<td nowrap="nowrap">${payment.user}</td>
 			<c:if test="${cashcheck}">
 				<td nowrap="nowrap">

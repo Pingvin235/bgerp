@@ -50,7 +50,7 @@
 %>
 
 <c:forEach var="item" items="${linksForAdd}">
-	<c:if test="${item.linkObjectType.startsWith('contract:' )}">
+	<c:if test="${item.linkObjectType.startsWith('contract:')}">
 		<c:set var="billingId" value="${su.substringAfter(item.linkObjectType, ':')}"/>
 		<c:set var="title" value="Договор: ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 	</c:if>

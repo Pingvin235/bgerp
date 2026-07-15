@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:choose>
-	<c:when test="${item.linkObjectType.startsWith('contract:' )}">
+	<c:when test="${item.linkObjectType.startsWith('contract:')}">
 		<tr title="ID: ${item.linkObjectId}">
 			<td>${delButton}</td>
 			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}" scope="request"/>
@@ -38,7 +38,7 @@
 			</script>
 		</c:if>
 	</c:when>
-	<c:when test="${item.linkObjectType.startsWith('bgbilling-helpdesk:' )}">
+	<c:when test="${item.linkObjectType.startsWith('bgbilling-helpdesk:')}">
 		<tr title="ID: ${item.linkObjectId}">
 			<td>${delButton}</td>
 			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}"/>

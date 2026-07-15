@@ -4,8 +4,8 @@
 <c:if test="${messageType.getClass().getName() eq 'ru.bgcrm.plugin.slack.dao.MessageTypeChannel'}">
 	<div style="width: 100%;">
 		 <div>
-		 	#${message.id} Slack 
-		 	${l.l('Создано')}: ${tu.format( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+		 	#${message.id} Slack
+		 	${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 		</div>
 	</div>
 </c:if>
