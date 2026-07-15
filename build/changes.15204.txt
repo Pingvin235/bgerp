@@ -1,1 +1,1 @@
-C: Message processing UI. TODODOC
+C: Message processing UI with tabs. https://bgerp.org/change/0/doc/kernel/message/#usage-queue
