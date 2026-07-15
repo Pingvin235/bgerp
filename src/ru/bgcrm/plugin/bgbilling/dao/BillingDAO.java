@@ -1,7 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
-import java.util.StringTokenizer;
-
 import org.bgerp.app.exception.BGException;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
@@ -32,7 +30,9 @@ public class BillingDAO {
 
     protected TransferData transferData;
 
+    /** Converter of JSON response to POJO: {@code TypeTreeItem childItem = jsonMapper.convertValue(transferData.postDataReturn(req, user), TypeTreeItem.class);} */
     protected ObjectMapper jsonMapper;
+    /** Constructor of complex Java types parsed from JSON: {@code jsonTypeFactory.constructCollectionType(List.class, VoiceAccount.class))} */
     protected TypeFactory jsonTypeFactory;
 
     public static String getVersion(User user, String billingId) {
@@ -80,31 +80,6 @@ public class BillingDAO {
         page.setRecordCount(Utils.parseInt(data.getAttribute(RECORD_COUNT)));
     }
 
-    /**
-     * Возвращает из сроки вида billingId1:paramId1;billingId2:paramId2 код
-     * параметра для текущего биллинга.
-     *
-     * @param values
-     * @return
-     */
-    public Integer getParameterId(String values) {
-        StringTokenizer st = new StringTokenizer(values, ",;");
-        while (st.hasMoreTokens()) {
-            String token = st.nextToken();
-
-            String[] pair = token.split(":");
-            if (pair.length != 2) {
-                throw new BGException("Incorrect token: " + token);
-            }
-
-            if (this.dbInfo.getId().equals(pair[0])) {
-                return Utils.parseInt(pair[1]);
-            }
-        }
-
-        throw new BGException("Not found id for billingId: " + this.dbInfo.getId());
-    }
-
     public DBInfo getDbInfo() {
         return dbInfo;
     }
@@ -128,6 +103,15 @@ public class BillingDAO {
         return result.toString();
     }
 
+    /**
+     * Silent wrapper around {@link ObjectMapper#readValue(JsonParser, Class)}, converts all exceptions there to unchecked BGException.
+     * Usage example: {@code List<VoiceAccount> result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
+                jsonTypeFactory.constructCollectionType(List.class, VoiceAccount.class));}
+     * @param <T>
+     * @param p the parser
+     * @param valueType the parsed type
+     * @return
+     */
     protected <T> T readJsonValue(JsonParser p, JavaType valueType) {
         try {
             return jsonMapper.readValue(p, valueType);
