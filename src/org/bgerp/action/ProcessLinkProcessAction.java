@@ -90,7 +90,8 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         ProcessLinkProcessSearchDAO dao = new ProcessLinkProcessSearchDAO(conSet.getConnection(), form)
             .withType(category.getProcessTypeIds())
             .withOpen(form.getParamBoolean("open", null))
-            .withLinkType(Set.of(category.getLinkType()));
+            .withLinkType(Set.of(category.getLinkType()))
+            .order(Order.DESCRIPTION);
         dao.search(pageable, category.isLink(), form.getId());
 
         form.setRequestAttribute("category", category);
