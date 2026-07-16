@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="${formUiid}-2" style="height: 500px;">
+	<div id="${formUiid}-2" style="height: 800px;">
 		<h2>${l.l('Allowed status transitions matrix')}</h2>
 		<table class="data">
 			<tr>
