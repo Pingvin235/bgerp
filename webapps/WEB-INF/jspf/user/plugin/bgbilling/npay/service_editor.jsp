@@ -17,7 +17,7 @@
 	<div class="in-table-cell mb1">
 		<div style="width: 50%;">
 			<c:if test="${service.id gt 0}">
-				<c:set var="inputAttrs">disabled="disabled"</c:set>
+				<c:set var="inputAttrs">disabled</c:set>
 			</c:if>
 			<ui:select-single list="${frd.serviceTypeList}" name="serviceId" value="${service.serviceId}" inputAttrs="${inputAttrs}" style="width: 100%;" placeholder="Услуга"/>
 		</div>

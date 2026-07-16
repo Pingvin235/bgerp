@@ -17,7 +17,7 @@
 			<ui:select-single name="serviceId" value="${service.serviceId}"
 				placeholder="Услуга" style="width: 100%;" list="${frd.serviceTypeList}">
 				<jsp:attribute name="inputAttrs">
-					<c:if test="${service.id gt 0}">disabled="disabled"</c:if>
+					<c:if test="${service.id gt 0}">disabled</c:if>
 				</jsp:attribute>
 			</ui:select-single>
 		</div>

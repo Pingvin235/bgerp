@@ -19,7 +19,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV CSS class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
-<%@ attribute name="inputAttrs" description="any input field attributes"%>
+<%@ attribute name="inputAttrs" description="extra input field attributes: disabled, autofocus"%>
 <%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 
 <%@ attribute name="showId" description="show Id"%>

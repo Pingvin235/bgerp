@@ -282,7 +282,7 @@ cmd do && cmd undo
 		<ui:select-single name="param" value="1" style="width: 10em;" list="${frd.selectSingle3List}" showId="1" showComment="1"
 			onSelect="${onSelect}"/>
 
-		<ui:select-single name="param" value="2" style="width: 10em;" list="${frd.selectSingle4List}" inputAttrs="disabled='1'"
+		<ui:select-single name="param" value="2" style="width: 10em;" list="${frd.selectSingle4List}" inputAttrs="disabled"
 			onSelect="alert('Must not be selectable!')"/>
 	</div>
 
