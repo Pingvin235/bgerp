@@ -366,6 +366,6 @@ public class UtilFunction {
     @Deprecated
     public static <T extends IdTitle> String objectTitleList(List<T> fullList, Set<Integer> selectedIds) {
         log.warndJsp("u:objectTitleList", "u.getObjectTitles");
-        return Utils.getObjectTitles(Utils.getObjectList(fullList, selectedIds));
+        return Utils.getObjectTitles(fullList, selectedIds);
     }
 }
