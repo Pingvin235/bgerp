@@ -30,33 +30,14 @@
 				<c:set var="typeSelectUiid" value="${u:uiid()}"/>
 
 				<c:set var="onSelectCode">
-					$$.bgbilling.inet.serviceTypeChanged('${typeSelectUiid}');
+					$$.bgbilling.inet.serviceTypeChanged('${typeSelectUiid}', ${ui.json(typeList)});
 				</c:set>
 
 				<h2>Тип</h2>
 
-				<ui:combo-single id="${typeSelectUiid}" name="typeId" value="${service.typeId}" onSelect="${onSelectCode}" style="width: 100%;">
-					<jsp:attribute name="valuesHtml">
-						<c:forEach var="item" items="${typeList}">
-							<li value="${item.id}"
-								sessionCountLimit=${!item.sessionCountLimitLock ? '1' : '0'}
-								login=${item.needLogin ? '1' : '0'}
-								device=${item.needDevice ? '1' : '0'}
-								interface=${item.needInterface ? '1' : '0'}
-								vlan=${item.needVlan ? '1' : '0'}
-								mac_address=${item.needMacAddress ? '1' : '0'}
-								address_panel=${item.addressDescriptor.addressPanel ? '1' : '0'}
-								address_dash=${item.addressDescriptor.addressDash ? '1' : '0'}
-								net_slash=${item.addressDescriptor.netSlash ? '1' : '0'}
-								addr_to=${item.addressDescriptor.addrTo ? '1' : '0'}
-								mask=${item.addressDescriptor.mask ? '1' : '0'}
-								object_panel=${item.needContractObject ? '1' : '0'}
-								deviceTypeIds="${u.toString(item.deviceTypeIds)}"
-								deviceGroupIds="${u.toString(item.deviceGroupIds)}"
-							>${item.title }</li>
-						</c:forEach>
-					</jsp:attribute>
-				</ui:combo-single>
+				<ui:select-single id="${typeSelectUiid}" name="typeId" value="${service.typeId}" list="${typeList}"
+					onSelect="${onSelectCode}" inputAttrs="${service.id gt 0 ? 'disabled' : ''}"
+					style="width: 100%;"/>
 
 				<script>
 					$(function () {

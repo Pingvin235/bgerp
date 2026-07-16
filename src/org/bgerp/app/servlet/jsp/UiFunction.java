@@ -74,7 +74,7 @@ public class UiFunction {
                 .map(itemMap)
                 .collect(Collectors.toList());
 
-        return BaseAction.MAPPER.writeValueAsString(result);
+        return json(result);
     }
 
     /**
@@ -112,5 +112,15 @@ public class UiFunction {
             throw new BGException("Class {} doesn't implement interface Id", object.getClass());
 
         return result.toString();
+    }
+
+    /**
+     * Serialize a Java object to JSON
+     * @param object the object
+     * @return JSON string
+     * @throws JsonProcessingException
+     */
+    public static final String json(Object object) throws JsonProcessingException {
+        return BaseAction.MAPPER.writeValueAsString(object);
     }
 }

@@ -4,18 +4,36 @@
 "use strict";
 
 $$.bgbilling.inet = new function () {
-	const serviceTypeChanged = (id) => {
-		const item = document.getElementById(id).querySelector("li[selected]");
-		const form = item.closest("form");
+	const serviceTypeChanged = (id, types) => {
+		const input = document.getElementById(id).querySelector("input[type=hidden]");
 
-		// show related inputs
-		$.each(item.attributes, function (index, attr) {
-			$(form.querySelector("#" + attr.name)).toggle(attr.value === '1');
-		});
+		const type = types.find((item) => item.id == input.value);
+		if (type) {
+			const attributes = {
+				sessionCountLimit: !type.sessionCountLimitLock,
+				login: type.needLogin,
+				device: type.needDevice,
+				interface: type.needInterface,
+				vlan: type.needVlan,
+				mac_address: type.needMacAddress,
+				address_panel: type.addressDescriptor.addressPanel,
+				address_dash: type.addressDescriptor.addressDash,
+				net_slash: type.addressDescriptor.netSlash,
+				addr_to: type.addressDescriptor.addrTo,
+				mask: type.addressDescriptor.mask,
+				object_panel: type.needContractObject
+			};
 
-		// device filter params
-		form.deviceTypeIds.value = item.getAttribute('deviceTypeIds');
-		form.deviceGroupIds.value = item.getAttribute('deviceGroupIds');
+			const form = input.form;
+
+			for (const [key, value] of Object.entries(attributes)) {
+				$(form.querySelector("#" + key)).toggle(value);
+			};
+
+			// device filter params
+			form.deviceTypeIds.value = type.deviceTypeIds.join();
+			form.deviceGroupIds.value = type.deviceGroupIds.join();
+		}
 	}
 
 	const ifaces = (form) => {
