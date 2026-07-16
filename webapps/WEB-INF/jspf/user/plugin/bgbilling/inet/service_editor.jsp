@@ -14,8 +14,8 @@
 
 <h1>Редактор сервиса:  ${service.title}</h1>
 
-<html:form action="/user/plugin/bgbilling/proto/inet.do" styleId="${uiid}">
-	<input type="hidden" name="method" value="serviceUpdate" />
+<html:form action="${form.requestURI}" styleId="${uiid}">
+	<input type="hidden" name="method" value="serviceUpdate"/>
 	<html:hidden property="contractId"/>
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
@@ -33,7 +33,7 @@
 					$$.bgbilling.inet.serviceTypeChanged('${typeSelectUiid}');
 				</c:set>
 
-				<h2>Тип:</h2>
+				<h2>Тип</h2>
 
 				<ui:combo-single id="${typeSelectUiid}" name="typeId" value="${service.typeId}" onSelect="${onSelectCode}" style="width: 100%;">
 					<jsp:attribute name="valuesHtml">
@@ -213,9 +213,7 @@
 		<textarea style="width: 100%; height: 200px; resize: none;" name="comment">${service.comment}</textarea>
 	</div>
 
-	<div class="mt1 mb1">
-		<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())"/>
-		<button class="btn-grey" type="button" onclick="$$.ajax.post(this).done(() => ${returnCommand})">OK</button>
-		<button class="btn-white ml1" type="button" onclick="${returnCommand}">Отмена</button>
+	<div class="mt1">
+		<ui:form-ok-cancel/>
 	</div>
 </html:form>

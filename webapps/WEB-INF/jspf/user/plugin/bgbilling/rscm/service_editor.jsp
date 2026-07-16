@@ -6,8 +6,8 @@
 <h1>Редактор</h1>
 
 <html:form action="${form.requestURI}">
-	<input type="hidden" name="method" value="serviceUpdate" />
-	<html:hidden property="contractId" value="${form.param.contractId}" />
+	<input type="hidden" name="method" value="serviceUpdate"/>
+	<html:hidden property="contractId"/>
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="id"/>
@@ -34,7 +34,6 @@
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${service.comment}</textarea>
 
 	<div class="mt1">
-		<ui:button type="ok" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $(this.form).parent()))"/>
-		<ui:button type="cancel" styleClass="ml1" onclick="$$.ajax.load('${form.returnUrl}', $(this.form).parent());"/>
+		<ui:form-ok-cancel/>
 	</div>
 </html:form>

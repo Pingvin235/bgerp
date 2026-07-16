@@ -7,9 +7,9 @@
 
 <h1>Редактор</h1>
 
-<html:form action="/user/plugin/bgbilling/proto/npay" styleId="${uiid}">
-	<input type="hidden" name="method" value="serviceUpdate" />
-	<html:hidden property="contractId" value="${form.param.contractId}" />
+<html:form action="${form.requestURI}" styleId="${uiid}">
+	<input type="hidden" name="method" value="serviceUpdate"/>
+	<html:hidden property="contractId"/>
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="id"/>
@@ -37,8 +37,6 @@
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${service.comment}</textarea>
 
 	<div class="mt1">
-		<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())"/>
-		<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => ${returnCommand})">OK</button>
-		<button type="button" class="btn-white ml1" onclick="${returnCommand}">Oтмена</button>
+		<ui:form-ok-cancel/>
 	</div>
 </html:form>
