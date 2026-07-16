@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.bgerp.util.Dynamic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Generic tree node item
  * @param <T> type of node ID
@@ -88,9 +90,9 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     }
 
     /**
-     * Finds node by ID over the node itself and all the children recursively.
-     * @param id the ID.
-     * @return found node or {@code null}.
+     * Finds node by ID over the node itself and all the children recursively
+     * @param id the ID
+     * @return found node or {@code null}
      */
     public TreeItem<T, C> getById(T id) {
         if (this.id.equals(id))
@@ -106,36 +108,46 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     }
 
     @Dynamic
+    @JsonIgnore
     public int getChildCount() {
-        return children.size();
+        return children == null ? 0 : children.size();
     }
 
+    @JsonIgnore
     public Set<T> getChildIds() {
+        if (children == null)
+            return Set.of();
+
         Set<T> ids = new HashSet<>(100);
         for (C child : children) {
             ids.add(child.getId());
         }
+
         return ids;
     }
 
     /**
-     * @return set with the node ID and all child IDs from all levels.
+     * @return set with the node ID and all child IDs from all levels
      */
+    @JsonIgnore
     public Set<T> getAllChildIds() {
         Set<T> result = new HashSet<>(100);
-
         result.add(id);
-        for (C childItem : children) {
-            result.addAll(childItem.getAllChildIds());
+
+        if (children != null) {
+            for (C childItem : children) {
+                result.addAll(childItem.getAllChildIds());
+            }
         }
 
         return result;
     }
 
     /**
-     * @return icon HTML.
+     * @return icon HTML
      */
     @Dynamic
+    @JsonIgnore
     public String getIcon() {
         if (children != null && !children.isEmpty()) {
             if (isRootNode())
@@ -146,9 +158,10 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     }
 
     /**
-     * @return style attribute for text span.
+     * @return style attribute for text span
      */
     @Dynamic
+    @JsonIgnore
     public String getTextStyle() {
         return null;
     }
