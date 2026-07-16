@@ -17,7 +17,6 @@ import ru.bgcrm.plugin.Endpoint;
 import ru.bgcrm.plugin.bgbilling.event.listener.HelpDeskListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangedListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangingListener;
-import ru.bgcrm.plugin.bgbilling.event.listener.ProcessDoActionListener;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
@@ -68,8 +67,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         new LinkChangedListener();
 
         new HelpDeskListener();
-
-        new ProcessDoActionListener();
 
         EventProcessor.subscribe((e, conSet) -> {
             new ExpressionObject().toContext(e.getContext());
