@@ -9,7 +9,6 @@
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
-	<c:param name="returnChildUiid" value="${uiid}"/>
 </c:url>
 
 <ui:button type="add" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>

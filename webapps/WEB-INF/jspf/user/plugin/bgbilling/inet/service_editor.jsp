@@ -24,57 +24,56 @@
 	<input type="hidden" name="deviceTypeIds"/>
 	<input type="hidden" name="deviceGroupIds"/>
 
-	<table style="width:100%">
-		<tr class="in-pl1">
-			<td width="100%">
-				<c:set var="typeSelectUiid" value="${u:uiid()}"/>
+	<div class="in-table-cell in-pl1">
+		<div class="w100p">
+			<c:set var="typeSelectUiid" value="${u:uiid()}"/>
 
-				<c:set var="onSelectCode">
-					$$.bgbilling.inet.serviceTypeChanged('${typeSelectUiid}', ${ui.json(typeList)});
-				</c:set>
+			<c:set var="onSelectCode">
+				$$.bgbilling.inet.serviceTypeChanged('${typeSelectUiid}', ${ui.json(typeList)});
+			</c:set>
 
-				<h2>Тип</h2>
+			<h2>Тип</h2>
 
-				<ui:select-single id="${typeSelectUiid}" name="typeId" value="${service.typeId}" list="${typeList}"
-					onSelect="${onSelectCode}" inputAttrs="${service.id gt 0 ? 'disabled' : ''}"
-					style="width: 100%;"/>
+			<ui:select-single id="${typeSelectUiid}" name="typeId" value="${service.typeId}" list="${typeList}"
+				onSelect="${onSelectCode}" inputAttrs="${service.id gt 0 ? 'disabled' : ''}"
+				style="width: 100%;"/>
 
-				<script>
-					$(function () {
-						${onSelectCode}
-					})
-				</script>
-			</td>
-			<td nowrap="nowrap">
-				<h2>Период</h2>
-				c
-				<ui:date-time name="dateFrom" value="${tu.format(service.dateFrom, 'ymd')}"/>
-				по
-				<ui:date-time name="dateTo" value="${tu.format(service.dateTo, 'ymd')}"/>
-			</td>
-			<td nowrap="nowrap">
-				<h2>Статус</h2>
-				<ui:combo-single name="status" value="${service.status}" widthTextValue="150px">
-					<jsp:attribute name="valuesHtml">
-						<li value="0">Открыт</li>
-						<li value="1">Закрыт</li>
-						<li value="2">Заблокирован</li>
-					</jsp:attribute>
-				</ui:combo-single>
-			</td>
-			<td nowrap="nowrap" id="sessionCountLimit">
-				<h2>Кол.-во сессий</h2>
-				<ui:combo-single name="sessions" value="${service.sessionCountLimit}" widthTextValue="100px">
-					<jsp:attribute name="valuesHtml">
-						<li value="0">Неограниченно</li>
-						<c:forEach var="item" begin="1" end="10">
-							<li value="${item}">${item}</li>
-						</c:forEach>
-					</jsp:attribute>
-				</ui:combo-single>
-			</td>
-		</tr>
-	</table>
+			<script>
+				$(function () {
+					${onSelectCode}
+				})
+			</script>
+		</div>
+		<div class="nowrap">
+			<h2>Период</h2>
+			c
+			<ui:date-time name="dateFrom" value="${tu.format(service.dateFrom, 'ymd')}"/>
+			по
+			<ui:date-time name="dateTo" value="${tu.format(service.dateTo, 'ymd')}"/>
+		</div>
+		<div>
+			<h2>Статус</h2>
+			<ui:combo-single name="status" value="${service.status}" widthTextValue="150px">
+				<jsp:attribute name="valuesHtml">
+					<li value="0">Открыт</li>
+					<li value="1">Закрыт</li>
+					<li value="2">Заблокирован</li>
+				</jsp:attribute>
+			</ui:combo-single>
+		</div>
+		<div id="sessionCountLimit">
+			<h2>Кол.-во сессий</h2>
+			<ui:combo-single name="sessions" value="${service.sessionCountLimit}" widthTextValue="100px">
+				<jsp:attribute name="valuesHtml">
+					<li value="0">Неограниченно</li>
+					<c:forEach var="item" begin="1" end="10">
+						<li value="${item}">${item}</li>
+					</c:forEach>
+				</jsp:attribute>
+			</ui:combo-single>
+		</div>
+	</div>
+
 	<div id="login" class="in-inline-block in-pr1">
 			<div style="width: 50%;">
 				<h2>Логин</h2>
