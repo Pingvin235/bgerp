@@ -18,12 +18,7 @@ public class InetDevice extends TreeItem<Integer, InetDevice> {
 
     private int deviceTypeId;
     private int entityId;
-    private int entitySpecId;
-    private String entityTitle;
-    private String invIdentifier;
     private int invDeviceId;
-    private String invTitle;
-    private String comment;
     private Date dateFrom;
     private Date dateTo;
 
@@ -43,52 +38,12 @@ public class InetDevice extends TreeItem<Integer, InetDevice> {
         this.entityId = entityId;
     }
 
-    public int getEntitySpecId() {
-        return entitySpecId;
-    }
-
-    public void setEntitySpecId(int entitySpecId) {
-        this.entitySpecId = entitySpecId;
-    }
-
-    public String getEntityTitle() {
-        return entityTitle;
-    }
-
-    public void setEntityTitle(String entityTitle) {
-        this.entityTitle = entityTitle;
-    }
-
-    public String getInvIdentifier() {
-        return invIdentifier;
-    }
-
-    public void setInvIdentifier(String ident) {
-        this.invIdentifier = ident;
-    }
-
     public int getInvDeviceId() {
         return invDeviceId;
     }
 
     public void setInvDeviceId(int invDeviceId) {
         this.invDeviceId = invDeviceId;
-    }
-
-    public String getInvTitle() {
-        return invTitle;
-    }
-
-    public void setInvTitle(String invTitle) {
-        this.invTitle = invTitle;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public Date getDateFrom() {
