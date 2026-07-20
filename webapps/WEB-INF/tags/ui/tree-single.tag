@@ -7,6 +7,7 @@
 <%@ attribute name="nameTitle" description="hidden input's name for storing node title" %>
 <%@ attribute name="selectableFolder" description="selectable folder nodes (enabled by default)" %>
 <%@ attribute name="value" description="current hidden's value" type="java.lang.Object" %>
+<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="styleClass" description="Additional CSS classes for container" %>
 <%@ attribute name="style" description="CSS styles for container" %>
 
@@ -17,7 +18,7 @@
 <c:set var="selectableFolder" value="${u.parseBoolean(selectableFolder, true)}"/>
 
 <div id="${id}" class="tree-single ${styleClass}" style="${style}">
-	<input type="hidden" name="${name}" value="${value}"/>
+	<input type="hidden" name="${name}" value="${value}" onchange="${onSelect}"/>
 	<c:if test="${not empty nameTitle}">
 		<input type="hidden" name="${nameTitle}" value="${rootNode.getById(value).title}"/>
 	</c:if>

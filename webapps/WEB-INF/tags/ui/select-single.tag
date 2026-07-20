@@ -16,11 +16,11 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="hidden input's name"%>
 <%@ attribute name="value" description="hidden input's value"%>
+<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV CSS class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
 <%@ attribute name="inputAttrs" description="extra input field attributes: disabled, autofocus"%>
-<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 
 <%@ attribute name="showId" description="show Id"%>
 <%@ attribute name="showComment" description="show comments"%>

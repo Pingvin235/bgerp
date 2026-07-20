@@ -332,12 +332,14 @@ cmd do && cmd undo
 			<b>&lt;ui:tree-single&gt;</b>
 			<ui:tree-single rootNode="${frd.treeRootNode}"
 				name="nodeId" value="3" nameTitle="nodeTitle" selectableFolder="false"
+				onSelect="console.log('this=', this); alert('Value is chosen, see console log')"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>
 		<div style="flex-grow: 1;">
 			<b>&lt;ui:tree-single&gt; (selectableFolder)</b>
 			<ui:tree-single rootNode="${frd.treeRootNode}"
 				name="nodeId" value="3" nameTitle="nodeTitle"
+				onSelect="console.log('this=', this); alert('Value is chosen, see console log')"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>
 	</div>

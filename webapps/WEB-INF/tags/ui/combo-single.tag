@@ -24,11 +24,11 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="name" description="hidden input's name"%>
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="value" description="hidden input's current value"%>
+<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV style"%>
 <%@ attribute name="styleTextValue" description="current value's DIV style"%>
 <%@ attribute name="widthTextValue" description="current value's block width"%>
-<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="disable" description="disable edits (TODO: use another color)"%>
 <%@ attribute name="showFilter" type="java.lang.Boolean" description="Enable/disable Filter"%>
 <%@ attribute name="valuesHtml" description="HTML-text with values as li elements, refer to description inside tag"%>

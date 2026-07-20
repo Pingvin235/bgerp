@@ -4,12 +4,12 @@
 <%@ attribute name="id" description="input element id, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="input element name"%>
 <%@ attribute name="value" description="current value"%>
+<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="size" description="input element size"%>
 <%@ attribute name="style" description="input element's CSS style"%>
 <%@ attribute name="styleClass" description="input element CSS class"%>
 <%@ attribute name="placeholder" description="input element placeholder"%>
 <%@ attribute name="title" description="input element title"%>
-<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="showOutButton" type="java.lang.Boolean" description="Show out button, default is 'true'"%>
 
 <c:set var="showOutButton" value="${(empty showOutButton) ? true : showOutButton}" />

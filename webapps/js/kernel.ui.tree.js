@@ -1,5 +1,5 @@
 /*
- * Tree UI elements.
+ * Tree UI elements
  */
 "use strict";
 
@@ -20,11 +20,11 @@ $$.ui.tree = new function () {
 		const hiddenNameTitleKey = "hiddenNameTitle";
 
 		/**
-		 * Initializes a tree.
-		 * @param {String} id container element' ID.
-		 * @param {String} value current value's ID.
-		 * @param {String} hiddenName name of hidden input with value's ID.
-		 * @param {String} hiddenNameTitle name of hidden input with value's title.
+		 * Initializes a tree
+		 * @param {String} id container element' ID
+		 * @param {String} value current value's ID
+		 * @param {String} hiddenName name of hidden input with value's ID
+		 * @param {String} hiddenNameTitle name of hidden input with value's title
 		 */
 		const init = (id, value, hiddenName, hiddenNameTitle) => {
 			const tree = document.getElementById(id);
@@ -41,11 +41,12 @@ $$.ui.tree = new function () {
 		}
 
 		/**
-		 * Handles title click.
-		 * @param {HTMLElement} title DOM element with title.
-		 * @param {Number} value set value.
+		 * Handles title click
+		 * @param {HTMLElement} title DOM element with title
+		 * @param {Number} value set value
+		 * @param {Event} click event
 		 */
-		const select = (title, value) => {
+		const select = (title, value, event) => {
 			if (!value)
 				return;
 
@@ -59,14 +60,16 @@ $$.ui.tree = new function () {
 			const hiddenNameTitle = $tree.data(hiddenNameTitleKey);
 
 			const $hiddenInputs = $tree.find(hiddenSelector)
-			$hiddenInputs.filter("[name='" + hiddenName + "']").val(value);
+			const $input = $hiddenInputs.filter("[name='" + hiddenName + "']").val(value);
+			if (event)
+				$input.change();
 			if (hiddenNameTitle)
 				$hiddenInputs.filter("[name='" + hiddenNameTitle + "']").val(title.querySelector(".text").innerText);
 		}
 
 		/**
-		 * Toggles visibility of child nodes.
-		 * @param {HTMLElement} title title element.
+		 * Toggles visibility of child nodes
+		 * @param {HTMLElement} title title element
 		 */
 		const expand = (title) => {
 			$(title).find(expanderSelector).toggleClass(openClass);
@@ -74,8 +77,8 @@ $$.ui.tree = new function () {
 		}
 
 		/**
-		 * Opens a node and all parents.
-		 * @param {HTMLElement} title title element.
+		 * Opens a node and all parents
+		 * @param {HTMLElement} title title element
 		 */
 		const open = (title) => {
 			$(title).find(expanderSelector).addClass(openClass);
@@ -87,8 +90,8 @@ $$.ui.tree = new function () {
 		}
 
 		/**
-		 * Opens the root node.
-		 * @param {String} id tree element id.
+		 * Opens the root node
+		 * @param {String} id tree element id
 		 */
 		const openRoot = (id) => {
 			open(document.getElementById(id).querySelector(titleSelector));

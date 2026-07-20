@@ -18,7 +18,7 @@
 
 		<c:set var="onclick">
 			<c:if test="${not children or selectableFolder}">
-				onclick="$$.ui.tree.single.select(this.parentElement, '${node.id}')"
+				onclick="$$.ui.tree.single.select(this.parentElement, '${node.id}', event)"
 			</c:if>
 		</c:set>
 		<span ${onclick}>
