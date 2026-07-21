@@ -100,8 +100,6 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 		<script style="display: none;">
 			$(function () {
 				const $comboDiv = $('#${uiid}');
-				// the variable can be used in onSelect function by old code
-				const $hidden = $comboDiv.find('input[type=hidden]');
 
 				let onSelect = undefined;
 				<c:if test="${not empty onSelect}">

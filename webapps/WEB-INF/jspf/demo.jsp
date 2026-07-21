@@ -217,7 +217,7 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:combo-single&gt;</b><br/>
 
-		<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, 'item=', item); alert('A value is chosen, see console log')"/>
+		<c:set var="onSelect" value="console.log('this=', this, 'item=', item); alert('A value is chosen, see console log')"/>
 
 		<ui:combo-single name="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}" showFilter="true">
 			<jsp:attribute name="valuesHtml">

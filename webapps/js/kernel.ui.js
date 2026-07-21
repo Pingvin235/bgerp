@@ -9,14 +9,11 @@ $$.ui = new function () {
 		const $hidden = $comboDiv.find('input[type=hidden]');
 
 		const updateCurrentTitle = function () {
-			// по-умолчанию выбирается первый элемент
+			// by default the first item is selected
 			let $currentLi = $drop.find('li:not(.filter):first');
 
-			// если указано значение - то ищется оно
 			const currentValue = $hidden.val();
 
-			// Наличие значения в hidden не гарантирует наличия соответствующего
-			// элемента <li>, поэтому берем если нашли сам элемент;
 			const $foundLi = $drop.find("li[value='" + currentValue + "']");
 			if ($foundLi.length !== 0) {
 				$currentLi = $foundLi;
@@ -36,7 +33,6 @@ $$.ui = new function () {
 
 		dropOnClick($comboDiv, $drop);
 
-		// событие клика вешается через функцию on, чтобы событие срабатывало, если элемент добавился после  инициации динамически.
 		$drop.on('click', 'li:not(.filter)', function () {
 			$hidden.val($(this).attr("value"));
 			updateCurrentTitle();
