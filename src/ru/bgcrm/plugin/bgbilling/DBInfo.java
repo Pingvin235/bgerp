@@ -152,10 +152,12 @@ public class DBInfo {
         return value != null ? value : -1;
     }
 
-    @SuppressWarnings("unchecked")
     public <D extends Directory<?>> D directory(Class<D> clazz) {
-        // not used yet
-        final int moduleId = 0;
+        return directory(clazz, 0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <D extends Directory<?>> D directory(Class<D> clazz, int moduleId) {
         final String key = clazz.getName() + ":" + moduleId;
         return (D) directories.computeIfAbsent(key, unused -> {
             try {

@@ -163,6 +163,11 @@
 				<item title="Редактирование услуги" action="/user/plugin/bgbilling/proto/rscm:serviceUpdate, ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceUpdate, /user/plugin/bgbilling/proto/rscm:serviceGet, ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceGet"/>
 				<item title="Удаление услуги" action="/user/plugin/bgbilling/proto/rscm:serviceDelete, ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceDelete"/>
 			</item>
+
+			<item title="Voice" action="/user/plugin/bgbilling/proto/voice:contractInfo, /user/plugin/bgbilling/proto/voice:accounts">
+				<item title="Редактирование аккаунта" action="/user/plugin/bgbilling/proto/voice:accountUpdate, /user/plugin/bgbilling/proto/voice:accountEdit, /user/plugin/bgbilling/proto/voice:devices, /user/plugin/bgbilling/proto/voice:categories, /user/plugin/bgbilling/proto/voice:category"/>
+				<item title="Удаление аккаунта" action="/user/plugin/bgbilling/proto/voice:accountDelete"/>
+			</item>
 		</item>
 
 		<item title="Плагины">
