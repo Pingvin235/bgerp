@@ -110,8 +110,7 @@ public class InetAction extends BaseAction {
         service.setContractObjectId(form.getParamInt("contractObjectId"));
         service.setComment(form.getParam("comment"));
 
-        inetDao.updateService(service, Collections.emptyList(), form.getParamBoolean("generateLogin", false),
-                form.getParamBoolean("generatePassword", false), 0L);
+        inetDao.updateService(service, Collections.emptyList(), form.getParamBoolean("generateLogin"), form.getParamBoolean("generatePassword"), 0L);
 
         return json(conSet, form);
     }

@@ -25,7 +25,7 @@ public class LogAction extends BaseAction {
     }
 
     public ActionForward log(DynActionForm form, ConnectionSet conSet) throws Exception {
-        var value = form.getParamBoolean("enable", false);
+        var value = form.getParamBoolean("enable");
 
         HttpSession session = form.getHttpRequest().getSession();
         if (value)
@@ -37,7 +37,7 @@ public class LogAction extends BaseAction {
     }
 
     public ActionForward download(DynActionForm form, ConnectionSet conSet) throws Exception {
-        boolean value = form.getParamBoolean("enable", false);
+        boolean value = form.getParamBoolean("enable");
 
         HttpSession session = form.getHttpRequest().getSession();
         if (value)

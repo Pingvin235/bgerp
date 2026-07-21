@@ -642,8 +642,8 @@ public class WorkAction extends BaseAction {
     }
 
     public ActionForward callboardUpdateFilters(DynActionForm form, Connection con) throws Exception {
-        Boolean hideEmptyGroups = form.getParamBoolean("hideEmptyGroups", false);
-        Boolean hideEmptyShifts = form.getParamBoolean("hideEmptyShifts", false);
+        Boolean hideEmptyGroups = form.getParamBoolean("hideEmptyGroups");
+        Boolean hideEmptyShifts = form.getParamBoolean("hideEmptyShifts");
         int graphId = form.getParamInt("graphId", 0);
 
         CallboardConfig config = setup.getConfig(CallboardConfig.class);
@@ -771,7 +771,7 @@ public class WorkAction extends BaseAction {
             shiftDAO.updateWorkShift(workShift);
 
             form.setResponseData("minutes",
-                    WorkTypeTime.getWorkMinutesInDay(shift.getWorkTypeTimeList(), date, form.getParamBoolean("lastDate", false) ? date : null));
+                    WorkTypeTime.getWorkMinutesInDay(shift.getWorkTypeTimeList(), date, form.getParamBoolean("lastDate") ? date : null));
         } else {
             form.setResponseData("minutes", 0);
         }

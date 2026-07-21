@@ -71,9 +71,9 @@ public class ContractAction extends BaseAction {
             searchBy += searchBySuffix;
         }
 
-        boolean showClosed = form.getParamBoolean("show_closed", false);
-        boolean showSub = form.getParamBoolean("show_sub", false);
-        boolean showHidden = form.getParamBoolean("show_invisible", false);
+        boolean showClosed = form.getParamBoolean("show_closed");
+        boolean showSub = form.getParamBoolean("show_sub");
+        boolean showHidden = form.getParamBoolean("show_invisible");
         SearchOptions searchOptions = new SearchOptions(showHidden, showClosed, showSub);
 
         if (Utils.notBlankString(searchBy)) {
@@ -176,7 +176,7 @@ public class ContractAction extends BaseAction {
         ContractParamDAO paramDAO = new ContractParamDAO(form.getUser(), billingId);
 
         Pair<ParamList, List<ContractParameter>> parameterListWithDir = paramDAO.getParameterListWithDir(contractId, true,
-                form.getParamBoolean("onlyFromGroup", false));
+                form.getParamBoolean("onlyFromGroup"));
 
         Set<Integer> allowedParamIds = Utils.toIntegerSet(form.getPermission().get("parameterIds"));
         if (!allowedParamIds.isEmpty())
@@ -254,7 +254,7 @@ public class ContractAction extends BaseAction {
         ContractParamDAO paramDAO = new ContractParamDAO(form.getUser(), billingId);
         switch (parameterType) {
             case ParameterType.ContractType.TYPE_FLAG: {
-                paramDAO.updateFlagParameter(contractId, paramBillingId, form.getParamBoolean("value", false));
+                paramDAO.updateFlagParameter(contractId, paramBillingId, form.getParamBoolean("value"));
                 break;
             }
             case ParameterType.ContractType.TYPE_TEXT: {

@@ -78,6 +78,6 @@ public class DocumentGenerateEvent
 
 	public static boolean isDebug(DynActionForm form)
 	{
-		return form.getParamBoolean( "debug", false );
+		return form.getParamBoolean( "debug");
 	}
 }

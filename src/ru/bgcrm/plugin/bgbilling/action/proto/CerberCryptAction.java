@@ -125,7 +125,7 @@ public class CerberCryptAction extends BaseAction {
 
     public ActionForward getPacketList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");
-        boolean virtualCinema = form.getParamBoolean("virtualCinema", false);
+        boolean virtualCinema = form.getParamBoolean("virtualCinema");
 
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, form.getParamInt("moduleId"));
         form.getResponse().getData().put("packets", cerbercryptDAO.getPacketList(virtualCinema));

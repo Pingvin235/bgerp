@@ -93,8 +93,8 @@ public class ContractTariffAction extends BaseAction {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
-        boolean useFilter = form.getParamBoolean("useFilter", false);
-        boolean showUsed = form.getParamBoolean("showUsed", false);
+        boolean useFilter = form.getParamBoolean("useFilter");
+        boolean showUsed = form.getParamBoolean("showUsed");
 
         List<IdTitle> tariffList = new ArrayList<>();
         form.setResponseData("tariffList", tariffList);

@@ -154,7 +154,7 @@ public class MessageAction extends BaseAction {
                 if (process == null)
                     throw new BGException("Process not found.");
 
-                if (form.getParamBoolean("notification", false))
+                if (form.getParamBoolean("notification"))
                     messageDao.updateMessage(type.messageLinkedToProcess(message));
                 else if (contactSaveMode > 0)
                     type.getContactSaver().saveContact(form, con, message, process, contactSaveMode);
@@ -282,7 +282,7 @@ public class MessageAction extends BaseAction {
     public ActionForward messageList(DynActionForm form, final ConnectionSet conSet) throws Exception {
         restoreRequestParams(conSet.getConnection(), form, true, true, "order", "typeId");
 
-        boolean processed = form.getParamBoolean("processed", false);
+        boolean processed = form.getParamBoolean("processed");
         final boolean reverseOrder = form.getParamBoolean("order", true);
 
         Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));

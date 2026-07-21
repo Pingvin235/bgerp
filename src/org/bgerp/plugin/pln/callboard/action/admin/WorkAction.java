@@ -99,7 +99,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
         workType.setTimeSetStep(form.getParamInt("timeSetStep"));
         workType.setTimeSetMode(form.getParamInt("timeSetMode"));
 
-        workType.setNonWorkHours(form.getParamBoolean("nonWorkHours", false));
+        workType.setNonWorkHours(form.getParamBoolean("nonWorkHours"));
         workType.setRuleConfig(form.getParam("ruleConfig"));
 
         new WorkTypeDAO(con).updateWorkType(workType);

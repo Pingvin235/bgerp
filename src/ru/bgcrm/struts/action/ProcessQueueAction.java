@@ -141,13 +141,13 @@ public class ProcessQueueAction extends ProcessAction {
             config.reorderSavedFilterSets(queueId, form.getParamValuesList("setId"));
         } else if (command.equals("setRareStatus")) {
             int filterId = form.getParamInt("filterId");
-            Boolean value = form.getParamBoolean("rare", false);
+            Boolean value = form.getParamBoolean("rare");
 
             log.debug("set rare status: " + value + " " + filterId);
             config.setRareStatus(queueId, filterId, value);
         } else if (command.equals("setStatusCounterOnPanel")) {
             int filterId = form.getParamInt("filterId");
-            Boolean value = form.getParamBoolean("statusCounterOnPanel", false);
+            Boolean value = form.getParamBoolean("statusCounterOnPanel");
             String color = form.getParam("color");
             String title = form.getParam("title");
             String queueName = form.getParam("queueName");
