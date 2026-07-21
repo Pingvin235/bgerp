@@ -1,1 +1,2 @@
-A: BGBilling module Voice accounts.
+A: BGBilling module Voice accounts
+C: BGBilling improvements in modules Inet, NPay

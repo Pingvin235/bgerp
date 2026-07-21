@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.action.proto;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class InetAction extends BaseAction {
 
         form.setResponseData("list", inetDao.getServiceList(form.getParamInt("contractId")));
 
-        return html(conSet, form, PATH_JSP + "/service_tree.jsp");
+        return html(conSet, form, PATH_JSP + "/service/tree.jsp");
     }
 
     public ActionForward serviceGet(DynActionForm form, ConnectionSet conSet) {
@@ -55,14 +56,10 @@ public class InetAction extends BaseAction {
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
         form.setResponseData("objectList", contractObjectDAO.getContractObjects(contractId));
 
+        InetService service = null;
         if (form.getId() > 0) {
-            // использован тот же метод, что и в клиентском приложении, getService не
-            // возвращает многие поля сервисов типа deviceTitle
-            /*
-             * InetService service = inetDao.getServiceList(form.getParamInt("contractId"))
-             * .stream().filter(s -> s.getId() == form.getId()) .findFirst().orElse(null);
-             */
-            InetService service = inetDao.getService(form.getId());
+            service = inetDao.getService(form.getId());
+            // getService не возвращает многие поля сервисов типа deviceTitle
             InetDevice device = inetDao.getDevice(service.getDeviceId());
             if (device != null) {
                 service.setDeviceTitle(device.getTitle() + " (" + device.getId() + ')');
@@ -71,11 +68,14 @@ public class InetAction extends BaseAction {
                         .map(InetDeviceInterface::getTitle)
                         .orElse(""));
             }
-
-            form.setResponseData("service", service);
+        } else {
+            service = new InetService();
+            service.setDateFrom(new Date());
         }
 
-        return html(conSet, form, PATH_JSP + "/service_editor.jsp");
+        form.setResponseData("service", service);
+
+        return html(conSet, form, PATH_JSP + "/service/editor.jsp");
     }
 
     public ActionForward serviceUpdate(DynActionForm form, ConnectionSet conSet) {
@@ -187,7 +187,7 @@ public class InetAction extends BaseAction {
         InetDevice device = inetDao.getDevice(deviceId);
         form.setResponseData("deviceMethods", inetDao.getDeviceManagerMethodList(device.getDeviceTypeId()));
 
-        return html(conSet, form, PATH_JSP + "/service_menu.jsp");
+        return html(conSet, form, PATH_JSP + "/service/menu.jsp");
     }
 
     public ActionForward serviceDeviceManage(DynActionForm form, ConnectionSet conSet) {

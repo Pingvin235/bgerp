@@ -110,7 +110,7 @@
 					<input type="hidden" id="${uiid}-deviceId" class="deviceId" name="deviceId" value="${service.deviceId}"/>
 					<input type="text" disabled="disabled" class="deviceTitle" name="deviceTitle" style="width: 100%;" value="${service.deviceTitle}"/>
 				</div>
-				<div style="white-space: nowrap;">
+				<div>
 					<button type="button" class="btn-white" onclick="$$.bgbilling.inet.devices(this.form)">&lt;&lt;&lt;</button>
 				</div>
 			</div>
@@ -123,7 +123,7 @@
 					<input type="hidden" id="${uiid}-ifaceId" name="ifaceId" value="${service.ifaceId}"/>
 					<input type="text" id="${uiid}-ifaceTitle" name="ifaceTitle" disabled="disabled" style="width: 100%;" value="${service.interfaceTitle}"/>
 				</div>
-				<div style="white-space: nowrap;">
+				<div>
 					<button type="button" class="btn-white" onclick="$$.bgbilling.inet.ifaces(this.form)">&lt;&lt;&lt;</button>
 				</div>
 			</div>
@@ -135,7 +135,7 @@
 				<div style="width: 100%;">
 					<input type="text" style="width: 100%;"  id="${uiid}-vlan" name="vlan" value="${service.vlan}"/>
 				</div>
-				<div style="white-space: nowrap;">
+				<div>
 					<button type="button" class="btn-white" onclick="$$.bgbilling.inet.vlans(this.form)">&lt;&lt;&lt;</button>
 				</div>
 			</div>
@@ -190,7 +190,7 @@
 
 	<div>
 		<h2>Комментарий</h2>
-		<textarea style="width: 100%; height: 200px; resize: none;" name="comment">${service.comment}</textarea>
+		<textarea style="width: 100%; height: 5em; resize: vertical;" name="comment">${service.comment}</textarea>
 	</div>
 
 	<div class="mt1">

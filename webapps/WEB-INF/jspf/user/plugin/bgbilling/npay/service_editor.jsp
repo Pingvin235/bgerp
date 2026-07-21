@@ -33,7 +33,7 @@
 		</div>
 	</div>
 
-	Комментарий:
+	<h2>Комментарий</h2>
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${service.comment}</textarea>
 
 	<div class="mt1">

@@ -63,7 +63,7 @@ public class InetDAO extends BillingModuleDAO {
 
     private void loadChildren(JsonNode node, List<InetService> list) {
         for (JsonNode childNode : node.path("children")) {
-            correctStatus(childNode);;
+            correctStatus(childNode);
             list.add(jsonMapper.convertValue(childNode, InetService.class));
             loadChildren(childNode, list);
         }
@@ -127,8 +127,7 @@ public class InetDAO extends BillingModuleDAO {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, "InetDeviceService", "inetDeviceGet");
         req.setParam("id", deviceId);
 
-        JsonNode fromValue = transferData.postDataReturn(req, user);
-        return jsonMapper.convertValue(fromValue, InetDevice.class);
+        return jsonMapper.convertValue(transferData.postDataReturn(req, user), InetDevice.class);
     }
 
     public InetDevice getRootDevice(Set<Integer> deviceTypeIds, Set<Integer> deviceGroupIds) {
@@ -150,8 +149,7 @@ public class InetDAO extends BillingModuleDAO {
         }
         req.setParam("loadAncestors", true);
 
-        JsonNode fromValue = transferData.postDataReturn(req, user);
-        return jsonMapper.convertValue(fromValue, InetDevice.class);
+        return jsonMapper.convertValue(transferData.postDataReturn(req, user), InetDevice.class);
     }
 
     public List<InetDeviceManagerMethod> getDeviceManagerMethodList(int deviceTypeId) {
