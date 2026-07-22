@@ -63,7 +63,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 	<script>
 		$(function () {
 			const source = ${ui.selectSingleSourceJson(list, availableIdSet, availableIdList, map, showId, showComment)};
-			$$.ui.select.single.init('${uiid}', source, '${value}', ${filter}, function ($hidden, $input) { ${onSelect} });
+			$$.ui.select.single.init('${uiid}', source, '${value}', ${filter}, function ($hidden, $text) { ${onSelect} });
 		})
 	</script>
 </div>

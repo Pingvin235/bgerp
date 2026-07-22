@@ -270,7 +270,7 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:select-single&gt;</b><br/>
 
-		<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, '$input=', $input); alert('A value is chosen, see console log')"/>
+		<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, '$text=', $text); alert('A value is chosen, see console log')"/>
 
 		<ui:select-single name="param" value="2" style="width: 10em;"
 			list="${frd.selectSingle1List}" availableIdSet="${frd.selectSingle1AvailableIdSet}"

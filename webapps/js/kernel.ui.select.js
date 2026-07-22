@@ -114,20 +114,20 @@ $$.ui.select = new function () {
 		/**
 		 * Handles a selected item in the related select-single.
 		 * @param {jQuery} $hidden hidden input of the related select-single.
-		 * @param {jQuery} $input text input of the related select-single.
+		 * @param {jQuery} $text text input of the related select-single.
 		 * @param {string} uiid ID of the top DIV element.
 		 * @param {string} hiddenName name of hidden input elements.
 		 * @param {string} upDownIcons HTML fragment with up and down icons.
 		 * @returns false
 		 */
-		const onSelect = ($hidden, $input, uiid, hiddenName, upDownIcons) => {
+		const onSelect = ($hidden, $text, uiid, hiddenName, upDownIcons) => {
 			const id = $hidden.val();
 			if (!id) {
 				console.error('A value is not set');
 				return;
 			}
 
-			const title = $input.val();
+			const title = $text.val();
 
 			$(document.getElementById(uiid).querySelector('ul.drop-list')).append(
 				"<li>" +
@@ -138,10 +138,10 @@ $$.ui.select = new function () {
 				"</li>"
 			);
 
-			$input.val('');
+			$text.val('');
 			$hidden.val('');
 
-			// otherwise text appears in $input again
+			// otherwise text appears in $text again
 			return false;
 		}
 

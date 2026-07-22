@@ -41,7 +41,7 @@ Incoming variables:
 			<%-- editor --%>
 			<tr>
 				<td>
-					<ui:select-single list="${listValues}" name="newItemId" onSelect="this.form.newItemTitle.value = $input.val()" styleClass="w100p" inputAttrs="autofocus"/>
+					<ui:select-single list="${listValues}" name="newItemId" onSelect="this.form.newItemTitle.value = $text.val()" styleClass="w100p" inputAttrs="autofocus"/>
 					<input type="hidden" name="newItemTitle"/>
 				</td>
 				<td>

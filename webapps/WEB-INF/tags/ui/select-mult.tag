@@ -63,7 +63,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 				onSelect="
 					const upDownIcons = \"${upDownIcons}\";
 					${onChange};
-					return $$.ui.select.mult.onSelect($hidden, $input, '${uiid}', '${name}', upDownIcons);
+					return $$.ui.select.mult.onSelect($hidden, $text, '${uiid}', '${name}', upDownIcons);
 				"
 				list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"
 				filter="$$.ui.select.mult.filter"/>
