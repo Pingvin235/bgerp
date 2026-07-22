@@ -1,5 +1,5 @@
 /*
- * Standard UI elements.
+ * Standard UI elements
  */
 "use strict";
 
@@ -52,8 +52,8 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * Executes filtering in combo-single element.
-	 * @param {*} input text input element.
+	 * Executes filtering in combo-single element
+	 * @param {*} input text input element
 	 */
 	const comboSingleFilter = (input) => {
 		const $input = $(input);
@@ -217,7 +217,7 @@ $$.ui = new function () {
 		const update = function () {
 			const $title = $div.find("#month");
 
-			// TODO: Use global month names.
+			// TODO: Use global month names
 			$title.text($.datepicker._defaults.monthNames[date.getMonth()] + " " + date.getFullYear());
 
 			let dayFrom = $dayFrom.val();
@@ -252,7 +252,7 @@ $$.ui = new function () {
 		const update = function () {
 			const $title = $div.find("#month");
 
-			// TODO: Use global month names.
+			// TODO: Use global month names
 			$title.text($.datepicker._defaults.monthNames[date.getMonth()] + " " + date.getFullYear());
 
 			$dateFromHidden.val(format(new Date(date.getFullYear(), date.getMonth(), 1)));
@@ -337,12 +337,12 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * TagBox init function.
-	 * @param {jQuery} $target selector for input type='text'.
-	 * @param {String} values comma separated list of initial values.
-	 * @param {Boolean} focus set focus on.
-	 * @param {String} url URL for loading values using AJAX.
-	 * @param {Boolean} preload send AJAX request upfront.
+	 * TagBox init function
+	 * @param {jQuery} $target selector for input type='text'
+	 * @param {String} values comma separated list of initial values
+	 * @param {Boolean} focus set focus on
+	 * @param {String} url URL for loading values using AJAX
+	 * @param {Boolean} preload send AJAX request upfront
 	 */
 	const tagBoxInit = function ($target, values, focus, url, preload) {
 		let autocomplete = [];
@@ -379,11 +379,11 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * Calculates layout process for a DOM element.
+	 * Calculates layout process for a DOM element
 	 * Processed classes:
 	 * 'layout-height-rest' - set an element' height as the rest of available parent' height;
-	 * 'layout-width-rest' - set an element' width as the rest of available parent' width.
-	 * @param {jQuery} $selector the processed element' selector.
+	 * 'layout-width-rest' - set an element' width as the rest of available parent' width
+	 * @param {jQuery} $selector the processed element' selector
 	 */
 	const layout = ($selector) => {
 		const debug = $$.debug("ui.layout");
@@ -457,9 +457,9 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * Code mirror highlight for textarea.
-	 * @param {*} id textarea CSS ID.
-	 * @param {*} mode optional mode, if not defined when used 'properties'.
+	 * Code mirror highlight for textarea
+	 * @param {*} id textarea CSS ID
+	 * @param {*} mode optional mode, if not defined when used 'properties'
 	 */
 	const codeMirror = (id, mode) => {
 		const ta = document.getElementById(id);
@@ -486,10 +486,10 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * Table rows highlighter. Preserving and restoring original row background color.
-	 * Can highlight multiple rows together.
-	 * @param {*} $table table selector.
-	 * @param {*} rows how many rows to highlight, if not defined - 1.
+	 * Table rows highlighter. Preserving and restoring original row background color
+	 * Can highlight multiple rows together
+	 * @param {*} $table table selector
+	 * @param {*} rows how many rows to highlight, if not defined - 1
 	 */
 	const tableRowHl = ($table, rows) => {
 		if (!rows) rows = 1;
@@ -532,9 +532,9 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * Updates iface state on an opened tab.
-	 * @param {String} id ID of element inside the tab.
-	 * @param {String} value state string.
+	 * Updates iface state on an opened tab
+	 * @param {String} id ID of element inside the tab
+	 * @param {String} value state string
 	 */
 	const ifaceStateTabUpdate = (id, value) => {
 		// native JS getAttribute function doesn't get attributes with '-' in name

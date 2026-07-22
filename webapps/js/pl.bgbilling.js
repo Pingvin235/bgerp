@@ -1,5 +1,5 @@
 /*
- * Plugin BGBilling.
+ * Plugin BGBilling
  */
 "use strict";
 
@@ -24,7 +24,7 @@ $$.bgbilling = new function () {
 							const $tabs = $("#customer-" + customerId + " > #customerViewTabs");
 							$tabs.tabs("showTab", "bgbilling-contracts");
 
-							// TODO: Wait for contracts tab is loaded.
+							// TODO: Wait for contracts tab is loaded
 							$$.ui.tabsLoaded($tabs, "tabsload", function () {
 								const $customerContractTabs = $("#bgbilling-customerContractList-" + customerId);
 								$$.ui.tabsLoaded($customerContractTabs, "tabsinit", function () {
@@ -66,9 +66,9 @@ $$.bgbilling = new function () {
 		}
 
 		/**
-		 * Creates a contract.
+		 * Creates a contract
 		 * @param {*} button
-		 * @returns promise.
+		 * @returns promise
 		 */
 		const create = (button) => {
 			const form = button.form;

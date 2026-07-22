@@ -11,9 +11,9 @@ $$.param = new function () {
 
 	/**
 	 * Handles changes of type in parameter editor. Depending of the chosen type is enabled list values area, and adjusted configuration editor height.
-	 * @param {*} formId ID of the editor form.
-	 * @param {*} heightSampleId ID of a sample DOM element with dynamic height.
-	 * @param {*} heightToId ID of the config textarea, which height must be the same as for the sample element.
+	 * @param {*} formId ID of the editor form
+	 * @param {*} heightSampleId ID of a sample DOM element with dynamic height
+	 * @param {*} heightToId ID of the config textarea, which height must be the same as for the sample element
 	 */
 	const editorTypeChanged = (formId, heightSampleId, heightToId) => {
 		// without the timeout type choosing combo single doesn't close after selection
@@ -86,9 +86,9 @@ $$.param = new function () {
 	// $$.param.listcount
 	this.listcount = new function () {
 		/**
-		 * Adds a new value in listcount editor.
-		 * @param {jQuery} $table values table selector.
-		 * @param {Array} errors array with two alerted errors.
+		 * Adds a new value in listcount editor
+		 * @param {jQuery} $table values table selector
+		 * @param {Array} errors array with two alerted errors
 		 * @returns
 		 */
 		const addValue = ($table, errors) => {
@@ -102,8 +102,8 @@ $$.param = new function () {
 	// $$.param.phone
 	this.phone = new function () {
 		/**
-		 * Adds a new empty value to phone parameter editor.
-		 * @param {HTMLButtonElement} button add button that was clicked.
+		 * Adds a new empty value to phone parameter editor
+		 * @param {HTMLButtonElement} button add button that was clicked
 		 */
 		const addValue = (button) => {
 			$$.ajax
@@ -116,8 +116,8 @@ $$.param = new function () {
 				})
 		}
 		/**
-		 * Deletes a value in phone parameter editor.
-		 * @param {HTMLButtonElement} button deletion button.
+		 * Deletes a value in phone parameter editor
+		 * @param {HTMLButtonElement} button deletion button
 		 */
 		const delValue = (button) => {
 			$(button).closest('tr').remove()
@@ -130,8 +130,8 @@ $$.param = new function () {
 
 	this.email  = new function () {
 		/**
-		 * Adds a new empty value to email parameter editor.
-		 * @param {HTMLButtonElement} button add button that was clicked.
+		 * Adds a new empty value to email parameter editor
+		 * @param {HTMLButtonElement} button add button that was clicked
 		 */
 		const addValue = (button) => {
 			const $tr = $(
@@ -145,8 +145,8 @@ $$.param = new function () {
 			$tr.find("input[name='address']").focus();
 		}
 		/**
-		 * Deletes a value in phone parameter editor.
-		 * @param {HTMLButtonElement} button deletion button.
+		 * Deletes a value in phone parameter editor
+		 * @param {HTMLButtonElement} button deletion button
 		 */
 		const delValue = (button) => {
 			$(button).closest('tr').remove()
@@ -166,9 +166,9 @@ $$.param = new function () {
 		}
 
 		/**
-		 * Handles value tree closing.
-		 * @param {*} button the close button.
-		 * @param {*} titleInputName the name of the hidden input with the selected item title.
+		 * Handles value tree closing
+		 * @param {*} button the close button
+		 * @param {*} titleInputName the name of the hidden input with the selected item title
 		 */
 		const treeClose = (button, titleInputName) => {
 			const $button = $(button);
@@ -182,9 +182,9 @@ $$.param = new function () {
 		}
 
 		/**
-		 * Toggles add button visibility in treecount parameter editor.
-		 * @param {HTMLElement} element any element inside the editor.
-		 * @param {*} multiple multiple values supported.
+		 * Toggles add button visibility in treecount parameter editor
+		 * @param {HTMLElement} element any element inside the editor
+		 * @param {*} multiple multiple values supported
 		 */
 		const toggleAddButton = (element, multiple) => {
 			if (multiple) {
@@ -196,9 +196,9 @@ $$.param = new function () {
 		}
 
 		/**
-		 * Adds a new empty value to treecount parameter editor.
-		 * @param {HTMLButtonElement} button add button that was clicked.
-		 * @param {Boolean} multiple multiple values supported.
+		 * Adds a new empty value to treecount parameter editor
+		 * @param {HTMLButtonElement} button add button that was clicked
+		 * @param {Boolean} multiple multiple values supported
 		 */
 		const addValue = (button, multiple) => {
 			$$.ajax
@@ -214,9 +214,9 @@ $$.param = new function () {
 		}
 
 		/**
-		 * Deletes a value in treecount parameter editor.
-		 * @param {HTMLButtonElement} button deletion button.
-		 * @param {Boolean} multiple multiple values supported.
+		 * Deletes a value in treecount parameter editor
+		 * @param {HTMLButtonElement} button deletion button
+		 * @param {Boolean} multiple multiple values supported
 		 */
 		const delValue = (button, multiple) => {
 			const tr = button.closest('tr');

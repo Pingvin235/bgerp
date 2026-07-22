@@ -4,7 +4,7 @@ $$.ajax = new function () {
 	const debug = $$.debug("ajax");
 
 	/**
-	 * Maximum length of query string param to be moved in request body.
+	 * Maximum length of query string param to be moved in request body
 	 */
 	const MAX_QUERY_STRING_LENGTH = 150;
 
@@ -15,13 +15,13 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Sends AJAX request and returns a promise.
-	 * input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element.
+	 * Sends AJAX request and returns a promise
+	 * input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element
 	 * options.toPostNames - array of names of POST body parameters, automatically derived, case not presented
 	 * options.html = true - treat result as HTML
 	 * options.control - button to add there progress spinner, extracted if input is 'BUTTON'
 	 * options.failAlert = false - do now show alert on failing promise
-	 * By default the promise is processed by checkResponse() function.
+	 * By default the promise is processed by checkResponse() function
 	 */
 	const post = (input, options) => {
 		debug("post", trim100(input));
@@ -223,8 +223,8 @@ $$.ajax = new function () {
 	/**
 	 * Calls load with $selector $$.shell.$content()
 	 * @param {*} input URL to be loaded, or HTMLFormElement, or $(HTMLFormElement), or input/button inside form, required parameter
-	 * @param {*} obj DOM element, placed in the loaded area, not needed when 'input' is a form input/button field.
-	 * @returns deferred object of the loading process.
+	 * @param {*} obj DOM element, placed in the loaded area, not needed when 'input' is a form input/button field
+	 * @returns deferred object of the loading process
 	 */
 	const loadContent = (input, obj) => {
 		const options = {};
@@ -244,11 +244,11 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Moves to POST part HTTP request parameters. Separated param names have to be placed in toPostNames or start from prefix 'data'.
-	 * @param {*} url initial URL.
-	 * @param {*} toPostNames array with POST params.
-	 * @param {*} json object with properties url and data.
-	 * @returns object with 'url' field - for request URL and 'data' - for placing in request body.
+	 * Moves to POST part HTTP request parameters. Separated param names have to be placed in toPostNames or start from prefix 'data'
+	 * @param {*} url initial URL
+	 * @param {*} toPostNames array with POST params
+	 * @param {*} json object with properties url and data
+	 * @returns object with 'url' field - for request URL and 'data' - for placing in request body
 	 */
 	const separatePostParams = function (url, toPostNames, json) {
 		if (!toPostNames && url.length > MAX_QUERY_STRING_LENGTH)
@@ -308,9 +308,9 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Extracts parameter names, should be moved to request body.
-	 * @param {*} url initial URL with query string of all parameters.
-	 * @returns array with parameter names, should be moved to request body.
+	 * Extracts parameter names, should be moved to request body
+	 * @param {*} url initial URL with query string of all parameters
+	 * @returns array with parameter names, should be moved to request body
 	 */
 	const getToPostNames = function (url) {
 		const counts = {};
@@ -405,9 +405,9 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Get HTMLFormElement object if it has passed.
+	 * Get HTMLFormElement object if it has passed
 	 * @param {*} obj - array of forms, or a single form
-	 * @return HTMLFormElement.
+	 * @return HTMLFormElement
 	 */
 	const getForm = function (obj) {
 		if (obj instanceof Array || obj instanceof jQuery)
@@ -418,7 +418,7 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Builds URL string from form.
+	 * Builds URL string from form
 	 * @param {*} param string with ready URL or form's selector or form itself
 	 * @param {*} excludeParams skipping params
 	 */
@@ -447,7 +447,7 @@ $$.ajax = new function () {
 				}
 			}
 
-			// удаление параметров page.
+			// удаление параметров page
 			for (var i = 0; i < form.length; i++) {
 				var el = form.elements[i];
 				if (el.name == 'page.pageIndex') {
@@ -468,7 +468,7 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Builds URL from key-value pairs.
+	 * Builds URL from key-value pairs
 	 * @param {*} requestParams key value param pairs
 	 */
 	const requestParamsToUrl = (requestParams) => {
@@ -483,11 +483,9 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Executes input type 'file' upload with multiple values support,
-	 * which sent sequentially.
-	 *
-	 * @param {HTMLFormElement} form the upload form.
-	 * @returns jQuery promise, resolved when the last file upload has finished.
+	 * Executes input type 'file' upload with multiple values support, which sent sequentially
+	 * @param {HTMLFormElement} form the upload form
+	 * @return {jQuery.Deferred} resolved when the last file upload has finished
 	 */
 	const fileUpload = (form) => {
 		const fileInput = form.querySelectorAll('input[type=file]')[0];
@@ -525,11 +523,10 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Uploads a single file from a form.
-	 *
-	 * @param {HTMLFormElement} form the form, used for building URL.
-	 * @param {File} file the sent file.
-	 * @returns jQuery promise.
+	 * Uploads a single file from a form
+	 * @param {HTMLFormElement} form the form, used for building URL
+	 * @param {File} file the sent file
+	 * @returns jQuery promise
 	 */
 	const fileSend = (form, file) => {
 		const formData = new FormData();
@@ -551,12 +548,11 @@ $$.ajax = new function () {
 	};
 
 	/**
-	 * Handles AJAX error.
-	 *
-	 * @param {*} url the requested URL.
-	 * @param {*} jqXHR request object.
-	 * @param {*} textStatus unused.
-	 * @param {*} errorThrown unused.
+	 * Handles AJAX error
+	 * @param {*} url the requested URL
+	 * @param {*} jqXHR request object
+	 * @param {*} textStatus unused
+	 * @param {*} errorThrown unused
 	 */
 	const error = (url, jqXHR, textStatus, errorThrown) => {
 		if (jqXHR.status == 401) {

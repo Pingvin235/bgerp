@@ -2,10 +2,10 @@
 
 $$.table = new function() {
 	/**
-	 * Manages checkboxes in table: select / deselect.
-	 * @param {jQuery} $table table selector.
-	 * @param {jQuery} $selectedCounter count element selector.
-	 * @param {String} mode 'init' - init listeners, 'all' - select all, 'nothing' - deselect all, 'invert' - invert selection.
+	 * Manages checkboxes in table: select / deselect
+	 * @param {jQuery} $table table selector
+	 * @param {jQuery} $selectedCounter count element selector
+	 * @param {String} mode 'init' - init listeners, 'all' - select all, 'nothing' - deselect all, 'invert' - invert selection
 	 */
 	const select = ($table, $selectedCounter, mode) => {
 		const $checkboxes = $table.find('input[type="checkbox"]');

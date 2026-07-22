@@ -1,5 +1,5 @@
 /*
- * Plugin BGBilling. Module Inet.
+ * Plugin BGBilling module Inet
  */
 "use strict";
 

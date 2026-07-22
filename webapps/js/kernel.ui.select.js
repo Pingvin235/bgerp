@@ -1,5 +1,5 @@
 /*
- * Select UI element.
+ * Select UI element
  */
 "use strict";
 
@@ -9,12 +9,12 @@ $$.ui.select = new function () {
 	// $$.ui.select.single
 	this.single = new function () {
 		/**
-		 * Initializes a single select.
-		 * @param {String} id container elements' ID.
-		 * @param {Array} source source array with id and value fields.
-		 * @param {String} value a current value.
-		 * @param {Function} filter optional source filter function.
-		 * @param {Function} onSelect option on select handler function.
+		 * Initializes a single select
+		 * @param {String} id container elements' ID
+		 * @param {Array} source source array with id and value fields
+		 * @param {String} value a current value
+		 * @param {Function} filter optional source filter function
+		 * @param {Function} onSelect option on select handler function
 		 */
 		const init = (id, source, value, filter, onSelect) => {
 			const selectDiv = document.getElementById(id);
@@ -112,12 +112,12 @@ $$.ui.select = new function () {
 		}
 
 		/**
-		 * Handles a selected item in the related select-single.
-		 * @param {jQuery} $hidden hidden input of the related select-single.
-		 * @param {jQuery} $text text input of the related select-single.
-		 * @param {string} uiid ID of the top DIV element.
-		 * @param {string} hiddenName name of hidden input elements.
-		 * @param {string} upDownIcons HTML fragment with up and down icons.
+		 * Handles a selected item in the related select-single
+		 * @param {jQuery} $hidden hidden input of the related select-single
+		 * @param {jQuery} $text text input of the related select-single
+		 * @param {string} uiid ID of the top DIV element
+		 * @param {string} hiddenName name of hidden input elements
+		 * @param {string} upDownIcons HTML fragment with up and down icons
 		 * @returns false
 		 */
 		const onSelect = ($hidden, $text, uiid, hiddenName, upDownIcons) => {
@@ -146,10 +146,10 @@ $$.ui.select = new function () {
 		}
 
 		/**
-		 * Filters drop-down values for the related select-single element.
-		 * @param {string} id ID of the related select-single top DIV element.
-		 * @param {Array} filteredSource all the values.
-		 * @returns a filtered array.
+		 * Filters drop-down values for the related select-single element
+		 * @param {string} id ID of the related select-single top DIV element
+		 * @param {Array} filteredSource all the values
+		 * @returns a filtered array
 		 */
 		const filter = (id, filteredSource) => {
 			const dropList = document.getElementById(id).closest('.select-mult').querySelector('.drop-list');

@@ -1,19 +1,19 @@
 // "use strict";
 /*
- * Processes and process queues.
+ * Processes and process queues
  */
 $$.process = new function() {
 	/**
-	 * Opens process card.
-	 * @param {*} id process ID.
+	 * Opens process card
+	 * @param {*} id process ID
 	 */
 	const open = (id) => {
 		$$.shell.contentLoad("process#" + id);
 	}
 
 	/**
-	 * Removes process card e.g. after deletion of it.
-	 * @param {Number} processId the process ID.
+	 * Removes process card e.g. after deletion of it
+	 * @param {Number} processId the process ID
 	 */
 	const remove = (processId) => {
 		$$.closeObject = null;
@@ -21,9 +21,9 @@ $$.process = new function() {
 	}
 
 	/**
-	 * Hides left area in process card on scrolling down to make right full-width.
-	 * @param {*} $leftDiv left DIV in process card, must contain sub-div with class='wrap'.
-	 * @param {*} topTolerance how many pixels left area should be scrolled up out of visible area to be hidden, the option prevents flickering.
+	 * Hides left area in process card on scrolling down to make right full-width
+	 * @param {*} $leftDiv left DIV in process card, must contain sub-div with class='wrap'
+	 * @param {*} topTolerance how many pixels left area should be scrolled up out of visible area to be hidden, the option prevents flickering
 	 */
 	const hideLeftAreaOnScroll = ($leftDiv, topTolerance) => {
 		const debug = $$.debug("process.hideLeftAreaOnScroll");
@@ -54,8 +54,8 @@ $$.process = new function() {
 	}
 
 	/**
-	 * Opens process description editor.
-	 * @param {*} id CSS id for process description container.
+	 * Opens process description editor
+	 * @param {*} id CSS id for process description container
 	 */
 	const descriptionEdit = (id) => {
 		$('#' + id + ' #show').hide();

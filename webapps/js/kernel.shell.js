@@ -1,5 +1,5 @@
 /*
- * Shell for user interface (/user).
+ * Shell for user interface (/user)
  */
 $$.shell = new function () {
 	const debug = $$.debug("shell");
@@ -12,7 +12,7 @@ $$.shell = new function () {
 	}
 
 	/**
-	 * Follow the link with preventing default handling.
+	 * Follow the link with preventing default handling
 	 */
 	const followLink = function (href, event) {
 		debug("followLink: ", href, event);
@@ -22,8 +22,8 @@ $$.shell = new function () {
 	}
 
 	/**
-	 * Creates div s in #content and #title nodes.
-	 * @param {*} command id attribute of created div s.
+	 * Creates div s in #content and #title nodes
+	 * @param {*} command id attribute of created div s
 	 * @param {*} closable
 	 */
 	const getCommandDiv = function (command, closable) {
@@ -91,8 +91,8 @@ $$.shell = new function () {
 	}
 
 	/**
-	 * Removes elements in #content, #title nodes and #objectBuffer.
-	 * @param {*} command id of element.
+	 * Removes elements in #content, #title nodes and #objectBuffer
+	 * @param {*} command id of element
 	 */
 	const removeCommandDiv = function (command) {
 		$("body > #content > div#" + command).remove();
@@ -122,7 +122,7 @@ $$.shell = new function () {
 			if (this.icons.length)
 				item.icons = this.icons.slice();
 
-			// TODO: Place items in separated sub object to avoid collisions.
+			// TODO: Place items in separated sub object to avoid collisions
 			menuItems[item.href] = item;
 
 			debug("menuItems add()", item);
@@ -431,7 +431,7 @@ $$.shell = new function () {
 	}
 
 	/**
-	 * Creates from #<ID> ending of URL id=<ID> HTTP param.
+	 * Creates from #<ID> ending of URL id=<ID> HTTP param
 	 * @param {*} command command URL, shown in browser address field
 	 * @param {*} pos pos of '#' in URL
 	 * @param {*} action URL, actually called from the server side
@@ -450,7 +450,7 @@ $$.shell = new function () {
 				debug("popstate: ", e.state);
 				contentLoad(e.state.href);
 			} else {
-				//В Chrome выдаёт ошибку.
+				//В Chrome выдаёт ошибку
 				//alert( 'Открыта некорректная ссылка, сообщите место её нахождения разработчикам!' );
 			}
 		}, false);
@@ -579,21 +579,21 @@ $$.shell = new function () {
 	}
 
 	/**
-	 * @returns Title area selector.
+	 * @returns Title area selector
 	 */
 	const $title = () => {
 		return $('#title > .status:visible h1.title');
 	}
 
 	/**
-	 * @returns State area selector.
+	 * @returns State area selector
 	 */
 	const $state = () => {
 		return $('#title > .status:visible > .wrap > .center');
 	}
 
 	/**
-	 * Content block for the UI element.
+	 * Content block for the UI element
 	 * @param {*} el
 	 */
 	const $content = function (el) {

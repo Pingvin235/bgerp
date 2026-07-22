@@ -1,5 +1,5 @@
 /*
- * combo-check tag support.
+ * combo-check tag support
  */
 "use strict";
 

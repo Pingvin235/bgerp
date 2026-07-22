@@ -35,7 +35,7 @@ $$.keys = new function () {
 	}
 
 	/**
-	 * Validates text inputs for entering numeric values only, possible with decimal separator.
+	 * Validates text inputs for entering numeric values only, possible with decimal separator
 	 * @param {Event} e 'onkeydown' or another event with 'key' property of 'text' input
 	 * @param {Number} digits amount of digits after dot, if not defined then 2
 	 * @return {Boolean} is input change allowed

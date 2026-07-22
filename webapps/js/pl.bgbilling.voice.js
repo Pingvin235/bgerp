@@ -1,5 +1,5 @@
 /*
- * Plugin BGBilling. Module Voice.
+ * Plugin BGBilling module Voice
  */
 "use strict";
 
@@ -74,7 +74,6 @@ $$.bgbilling.voice = new function () {
 
 		$$.ajax.load(request, form.querySelector('#category'));
 	}
-
 
 	// public functions
 	this.accountTypeChanged = accountTypeChanged;

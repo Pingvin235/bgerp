@@ -1,6 +1,6 @@
 // "use strict";
 /**
- * Process links.
+ * Process links
  */
 $$.process.link = new function () {
     const showForm = (uiid, id) => {
@@ -9,9 +9,9 @@ $$.process.link = new function () {
     }
 
     /**
-     * Sends checked request forms for adding links.
-     * @param {*} uiid parent element with forms.
-     * @param {*} requestUrl URL to load after adding to parent of uiid.
+     * Sends checked request forms for adding links
+     * @param {*} uiid parent element with forms
+     * @param {*} requestUrl URL to load after adding to parent of uiid
      */
     const add = (uiid, requestUrl) => {
         const deferreds = [];

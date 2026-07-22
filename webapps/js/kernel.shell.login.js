@@ -1,19 +1,19 @@
 /*
- * Login related logic.
+ * Login related logic
  */
 $$.shell.login = new function () {
 	const debug = $$.debug("shell.login");
 
 	/**
-	 * @returns jQuery selector of '#loginErrorMessage' element.
+	 * @returns jQuery selector of '#loginErrorMessage' element
 	 */
 	const $errorMessage = () => {
 		return $("#loginErrorMessage");
 	}
 
 	/**
-	 * Login request.
-	 * @return a promise, for that can be added a done callback.
+	 * Login request
+	 * @return a promise, for that can be added a done callback
 	 */
 	const post = () => {
 		const $msg = $errorMessage().text("");
@@ -45,7 +45,7 @@ $$.shell.login = new function () {
 	}
 
 	/**
-	 * @returns jQuery selector of '#loginDialog' element.
+	 * @returns jQuery selector of '#loginDialog' element
 	 */
 	const $dialog = () => {
 		return $("#loginDialog");
@@ -54,8 +54,8 @@ $$.shell.login = new function () {
 	// Login dialog functions
 
 	/**
-	 * Inits login dialog.
-	 * @param {*} options parameters for jQueryUI dialog() function.
+	 * Inits login dialog
+	 * @param {*} options parameters for jQueryUI dialog() function
 	 */
 	const init = (options) => {
 		debug("init");
@@ -74,7 +74,7 @@ $$.shell.login = new function () {
 	}
 
 	/**
-	 * Shows the dialog and stops $$.timer.
+	 * Shows the dialog and stops $$.timer
 	 */
 	const show = () => {
 		const $dlg = $dialog();
@@ -94,8 +94,8 @@ $$.shell.login = new function () {
 	}
 
 	/**
-	 * Closes the dialog, cleans error message and optionally starts $$.timer.
-	 * @param {boolean} startTimer resume $$.timer.
+	 * Closes the dialog, cleans error message and optionally starts $$.timer
+	 * @param {boolean} startTimer resume $$.timer
 	 */
 	const close = (startTimer) => {
 		$dialog().dialog("close");

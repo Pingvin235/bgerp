@@ -2,16 +2,16 @@
 
 $$.customer = new function() {
 	/**
-	 * Open customer tab.
-	 * @param {*} id customer ID.
+	 * Open customer tab
+	 * @param {*} id customer ID
 	 */
 	const open = (id) => {
 		return $$.shell.contentLoad("customer#" + id);
 	}
 
 	/**
-	 * Create new customer and open it.
-	 * @param {*} options.disabled UI element to be disabled.
+	 * Create new customer and open it
+	 * @param {*} options.disabled UI element to be disabled
 	 */
 	const createAndEdit = (options) => {
 		options = options || {};

@@ -1,5 +1,5 @@
 /*
- * Date and time picker.
+ * Date and time picker
  */
 "use strict";
 

@@ -4,11 +4,10 @@ $$.message = new function() {
 	const debug = $$.debug("message");
 
 	/**
-	 * On change drop-down selector of editor.
-	 *
-	 * @param {*} editorId editor ID or prefix for plugin editors.
-	 * @param {*} typeComboId ID of drop-down with message types.
-	 * @param {*} uploadFormId ID of file upload form.
+	 * On change drop-down selector of editor
+	 * @param {*} editorId editor ID or prefix for plugin editors
+	 * @param {*} typeComboId ID of drop-down with message types
+	 * @param {*} uploadFormId ID of file upload form
 	 */
 	const editorTypeChanged = (editorId, typeComboId, uploadFormId) => {
 		const typeId = $('#' + typeComboId).find('input[name=typeId]').val();
@@ -33,11 +32,10 @@ $$.message = new function() {
 	}
 
 	/**
-	 * Init subjects list table for message processing.
-	 *
-	 * @param {*} tableId table ID.
-	 * @param {*} editorId editor DIV element ID.
-	 * @param {*} selectedId optional ID for counter of selected elements.
+	 * Init subjects list table for message processing
+	 * @param {*} tableId table ID
+	 * @param {*} editorId editor DIV element ID
+	 * @param {*} selectedId optional ID for counter of selected elements
 	 */
 	const subjectTableInit = (tableId, editorId, selectedId) => {
 		const $dataTable = $('#' + tableId);
@@ -59,11 +57,10 @@ $$.message = new function() {
 	}
 
 	/**
-	 * Checks if subject field is empty. Shows confirmation message if it is.
-	 *
-	 * @param {HTMLFormElement} form form element.
-	 * @param {string} message confirmation message.
-	 * @return {boolean} subject is filled out or confirmed to be empty.
+	 * Checks if subject field is empty. Shows confirmation message if it is
+	 * @param {HTMLFormElement} form form element
+	 * @param {string} message confirmation message
+	 * @return {boolean} subject is filled out or confirmed to be empty
 	 */
 	const checkSubject = (form, message) => {
 		let subject = form.subject;
@@ -76,11 +73,10 @@ $$.message = new function() {
 	}
 
 	/**
-	 * Checks if attachment exists. Show confirmation message if it isn't and a message text points to existence of it.
-	 *
-	 * @param {HTMLFormElement} form form element.
-	 * @param {string} message confirmation message.
-	 * @return {boolean} attachment exists or no text markers points to existence of it, or it is confirmed to not be presented.
+	 * Checks if attachment exists. Show confirmation message if it isn't and a message text points to existence of it
+	 * @param {HTMLFormElement} form form element
+	 * @param {string} message confirmation message
+	 * @return {boolean} attachment exists or no text markers points to existence of it, or it is confirmed to not be presented
 	 */
 	const checkAttach = (form, message) => {
 		if (form.fileId || form.tmpFileId || form.announcedFileId)
@@ -102,10 +98,9 @@ $$.message = new function() {
 	}
 
 	/**
-	 * Toggles line brake for long messages.
-	 *
-	 * @param {HTMLAnchorElement} a popup menu item anchor.
-	 * @param {String} messageTextUiid ID of message text area.
+	 * Toggles line brake for long messages
+	 * @param {HTMLAnchorElement} a popup menu item anchor
+	 * @param {String} messageTextUiid ID of message text area
 	 */
 	const lineBreak = (a, messageTextUiid) => {
 		const $msgBox = $(document.getElementById(messageTextUiid).querySelector('#msgBox pre'));
@@ -117,7 +112,6 @@ $$.message = new function() {
 
 	/**
 	 * Loads a message template
-	 *
 	 * @param {HTMLInputElement} hidden input with the template ID
 	 * @param {String} message alert confirmation message
 	 */

@@ -1,5 +1,5 @@
 /*
- * Message dialog.
+ * Message dialog
  */
 $$.shell.message = new function () {
 	const debug = $$.debug("shell.message");
@@ -9,8 +9,8 @@ $$.shell.message = new function () {
 	}
 
 	/**
-	 * Inits message dialog.
-	 * @param {*} options parameters for jQueryUI dialog() function.
+	 * Inits message dialog
+	 * @param {*} options parameters for jQueryUI dialog() function
 	 */
 	const init = (options) => {
 		debug("init");
@@ -18,8 +18,8 @@ $$.shell.message = new function () {
 	}
 
 	/**
-	 * Shows HTML message dialog.
-	 * @param {*} title title.
+	 * Shows HTML message dialog
+	 * @param {*} title title
 	 * @param {*} message HTML message
 	 */
 	const show = (title, message) => {
@@ -33,7 +33,7 @@ $$.shell.message = new function () {
 	}
 
 	/**
-	 * Closes message dialog.
+	 * Closes message dialog
 	 */
 	const close = () => {
 		$dialog().dialog("close");

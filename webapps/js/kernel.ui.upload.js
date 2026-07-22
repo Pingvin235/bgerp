@@ -1,13 +1,13 @@
 /*
- * Temporary files upload UI.
+ * Temporary files upload UI
  */
 "use strict";
 
 $$.ui.upload = new function () {
 	/**
-	 * File upload handler.
-	 * @param {*} form editor form with files list.
-	 * @param {*} uploadFormId file upload form ID.
+	 * File upload handler
+	 * @param {*} form editor form with files list
+	 * @param {*} uploadFormId file upload form ID
 	 */
 	const add = (form, uploadFormId) => {
 		const uploadList = uploadListSelect(form);
@@ -44,9 +44,9 @@ $$.ui.upload = new function () {
 	}
 
 	/**
-	 * Listener for paste events for attachments.
-	 * @param form editor form with files list.
-	 * @param uploadFormId file upload form ID.
+	 * Listener for paste events for attachments
+	 * @param form editor form with files list
+	 * @param uploadFormId file upload form ID
 	 */
 	const pasteListener = (form, uploadFormId) => {
 		form.addEventListener('paste', (e) => {
@@ -56,9 +56,9 @@ $$.ui.upload = new function () {
 	}
 
 	/**
-	 * Listener for drop events for attachments.
-	 * @param form editor form with files list.
-	 * @param uploadFormId file upload form ID.
+	 * Listener for drop events for attachments
+	 * @param form editor form with files list
+	 * @param uploadFormId file upload form ID
 	 */
 	const dropListener = (form, uploadFormId) => {
 		form.addEventListener('drop', (e) => {
