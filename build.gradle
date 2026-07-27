@@ -332,7 +332,7 @@ task doc(type: JavaExec, description: 'Builds manual') {
 
 task jdoc(type: Javadoc, description: 'Builds JavaDoc API') {
     options.encoding = 'UTF-8'
-    failOnError = false
+    failOnError = true
     classpath = configurations.runtimeClasspath
     source = sourceSets.main.allJava
     title = "BGERP ${->getTitle()} API"
