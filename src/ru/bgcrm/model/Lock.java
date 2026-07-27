@@ -1,7 +1,7 @@
 package ru.bgcrm.model;
 
 /**
- * Lock edited resource for a editor used.
+ * Lock edited resource for a editor used
  * 
  * @author Shamil Vakhitov
  */

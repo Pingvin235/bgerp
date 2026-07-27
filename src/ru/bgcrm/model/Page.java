@@ -10,7 +10,7 @@ import org.bgerp.util.Dynamic;
 import ru.bgcrm.dao.CommonDAO;
 
 /**
- * Pagination data.
+ * Pagination data
  *
  * @author Shamil Vakhitov
  */
@@ -54,8 +54,8 @@ public class Page {
     }
 
     /**
-     * Sets page index.
-     * @param value required page index, {@link #PAGE_INDEX_NO_PAGING} for disabling pagination.
+     * Sets page index
+     * @param value required page index, {@link #PAGE_INDEX_NO_PAGING} for disabling pagination
      */
     public void setPageIndex(int value) {
         this.pageIndex = value;
@@ -86,8 +86,8 @@ public class Page {
     }
 
     /**
-     * Generates page {@code LIMIT offset, rows} query.
-     * @return
+     * Generates page {@code LIMIT offset, rows} query
+     * @return the LIMIT SQL fragment, or empty string if pagination is disabled
      */
     public String getLimitSql() {
         StringBuilder sql = new StringBuilder(20);
@@ -102,7 +102,7 @@ public class Page {
 
     /**
      * Set record count and calculated amount of pages
-     * @param recordCount
+     * @param recordCount the record count
      * @see ru.bgcrm.dao.CommonDAO#foundRows(java.sql.Statement)
      */
     public void setRecordCount(int recordCount) {

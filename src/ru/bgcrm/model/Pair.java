@@ -1,10 +1,10 @@
 package ru.bgcrm.model;
 
 /**
- * Класс "пара".
- * 
- * @param <T1> первый тип
- * @param <T2> второй тип
+ * Pair class
+ *
+ * @param <T1> the first type
+ * @param <T2> the second type
  */
 public class Pair<T1, T2> {
     private T1 first;

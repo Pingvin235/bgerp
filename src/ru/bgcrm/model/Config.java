@@ -58,8 +58,8 @@ public class Config implements LastModifySupport {
     }
 
     /**
-     * Main active configuration.
-     * @return
+     * Main active configuration
+     * @return {@code true} if it's the main active configuration
      */
     public boolean isActive() {
         return active;
@@ -105,8 +105,8 @@ public class Config implements LastModifySupport {
     }
 
     /**
-     * Adds included configuration.
-     * @param included
+     * Adds included configuration
+     * @param included the included configuration
      */
     public void addIncluded(Config included) {
         if (includedList == null)
@@ -116,8 +116,8 @@ public class Config implements LastModifySupport {
     }
 
     /**
-     * Included configurations, sorted by title.
-     * @return
+     * Included configurations, sorted by title
+     * @return the included configurations
      */
     public List<Config> getIncludedList() {
         return includedList;
@@ -136,8 +136,8 @@ public class Config implements LastModifySupport {
     }
 
     /**
-     * Comma separated list of enabled plugins titles.
-     * @return
+     * Comma separated list of enabled plugins titles
+     * @return the comma separated titles
      */
     public String getEnabledPluginsTitles() {
         var config = new Preferences(data);
@@ -150,11 +150,11 @@ public class Config implements LastModifySupport {
     }
 
     /**
-     * Selects includes from global configuration like: {@code include.<id>=1}.
+     * Selects includes from global configuration like: {@code include.<id>=1}
      *
-     * @param configDao configuration selector.
-     * @param data configuration raw data, containing includes.
-     * @param validate выброс исключения при не найденной конфигурации.
+     * @param configDao configuration selector
+     * @param data configuration raw data, containing includes
+     * @param validate whether to throw an exception when the configuration is not found
      * @throws BGMessageException validation
      * @throws SQLException
      */
