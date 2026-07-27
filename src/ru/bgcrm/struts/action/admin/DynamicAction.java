@@ -25,7 +25,7 @@ public class DynamicAction extends BaseAction {
             EventListener<Event> listener = (EventListener<Event>) Bean.newInstance(className);
             listener.notify(new RunClassRequestEvent(form), conSet);
         }
-        // запуск интерфейса Runnable
+        // running the Runnable interface
         else {
             Class<?> clazz = null;
             try {

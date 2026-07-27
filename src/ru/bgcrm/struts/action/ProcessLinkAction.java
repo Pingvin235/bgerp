@@ -107,7 +107,7 @@ public class ProcessLinkAction extends ProcessAction {
         return html(conSet, form, PATH_JSP + "/linked_process_list.jsp");
     }
 
-    // создание процесса с привязанной сущностью
+    // process creation with a linked entity
     public ActionForward linkedProcessCreate(DynActionForm form, Connection con) throws Exception {
         String objectType = form.getParam("objectType");
         int id = form.getId();

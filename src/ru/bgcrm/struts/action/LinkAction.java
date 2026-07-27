@@ -35,7 +35,7 @@ public class LinkAction extends BaseAction {
     public ActionForward addLink(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
         if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkObjectType())
-                || link.getLinkObjectTitle() == null) { // link.getLinkedObjectId() <= 0 || Убрана проверка, так как в мастере < 0
+                || link.getLinkObjectTitle() == null) { // link.getLinkedObjectId() <= 0 || check removed because it can be < 0 in the wizard
             throw new BGIllegalArgumentException();
         }
 
@@ -76,7 +76,7 @@ public class LinkAction extends BaseAction {
             throw new BGIllegalArgumentException();
         }
 
-        //TODO: Может событие сделать.
+        //TODO: Maybe make it an event.
         CommonLinkDAO.getLinkDAO(link.getObjectType(), conSet.getConnection()).deleteLinksWithType(link);
 
         return json(conSet, form);

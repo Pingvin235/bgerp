@@ -58,9 +58,9 @@ public class ProcessQueueAction extends ProcessAction {
 
     private static final String PATH_JSP = PATH_JSP_USER + "/process";
 
-    // выбранные в полном фильтре фильтры
+    // selected filters in the full filter
     private static final String QUEUE_FULL_FILTER_SELECTED_FILTERS = "queueSelectedFilters";
-    // параметры полного фильтра
+    // full filter parameters
     private static final String QUEUE_FULL_FILTER_PARAMS = "queueCurrentSavedFiltersParam.";
 
     public ActionForward queue(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -267,7 +267,7 @@ public class ProcessQueueAction extends ProcessAction {
         String configBefore = personalizationMap.getDataString();
 
         int savedFilterSetId = form.getParamInt("savedFilterSetId");
-        // выбранные в полном фильтре фильтры
+        // selected filters in the full filter
         String selectedFilters = form.getParam("selectedFilters");
 
         personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + form.getId(), String.valueOf(savedFilterSetId));
@@ -275,14 +275,14 @@ public class ProcessQueueAction extends ProcessAction {
             personalizationMap.put(QUEUE_FULL_FILTER_SELECTED_FILTERS + form.getId(), selectedFilters);
         }
 
-        // полный фильтр - сохранение параметров запроса
+        // full filter - saving request parameters
         if (savedFilterSetId == 0) {
-            //TODO: Сохранение параметров стоит сделать пробегая непосредственно по фильтрам
-            //и сортировкам, это исключит различные посторонние параметры вроде requestUrl.
+            //TODO: Saving parameters should be done by iterating directly over the filters
+            //and sortings, this will exclude various extraneous parameters like requestUrl.
             saveFormFilters(form.getId(), form, personalizationMap);
         }
 
-        // параметры изменились
+        // parameters changed
         new UserDAO(connectionSet.getConnection()).updatePersonalization(configBefore, form.getUser());
 
         if (!form.getUser().getQueueIds().contains(form.getId())) {
@@ -365,7 +365,7 @@ public class ProcessQueueAction extends ProcessAction {
     }
 
     private void processNoHtmlResult(String media, DynActionForm form, Queue queue, ConnectionSet connectionSet, List<Object[]> list) throws Exception {
-        // печать только выбранных
+        // print only the selected ones
         Set<Integer> processIds = Utils.toIntegerSet(form.getParam("processIds"));
         if (processIds.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -386,7 +386,7 @@ public class ProcessQueueAction extends ProcessAction {
                 queue.replaceRowsForMediaColumns(form, list, queue.getMediaColumnList(printType.getColumnIds()), false);
                 printQueue(form, list, queue, printType);
             } else {
-                // TODO: В метод необходимо вынести расшифровку всех справочников.
+                // TODO: Decoding of all reference lists needs to be extracted into a method.
                 queue.replaceRowsForMedia(form, media, list);
                 printQueue(form, list, queue, null);
             }

@@ -73,7 +73,7 @@ public class ProcessCommandExecutor {
 
                 Set<Integer> addingExecutorIds = Utils.toIntegerSet(param);
 
-                // определение единственной группороли в которую добавляются исполнители
+                // determining the single group role executors are being added to
                 ProcessGroup processGroup = null;
                 for (ProcessGroup pg : process.getGroups()) {
                     for (Integer executorId : addingExecutorIds) {
@@ -91,7 +91,7 @@ public class ProcessCommandExecutor {
                     throw new BGMessageException("The set executors are not members of process execution groups.");
                 }
 
-                // добавление в текущих исполнителей группороли
+                // adding to the current executors of the group role
                 Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
                 executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
 

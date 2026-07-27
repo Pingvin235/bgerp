@@ -16,12 +16,12 @@ import org.bgerp.util.Log;
 public class ArrayHashMap extends HashMap<String, Object> {
     private static final Log log = Log.getLog();
 
-    /* Log tracking ID identifier. */
+    /* Log tracking ID identifier */
     private String logTrackingId;
 
     /**
-     * Sets log tracking ID identifier.
-     * @param value
+     * Sets log tracking ID identifier
+     * @param value the log tracking ID
      */
     public void setLogTrackingId(String value) {
         this.logTrackingId = value;

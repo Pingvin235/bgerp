@@ -8,7 +8,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Empty action, does nothing except passing to a JSP in parameter.
+ * Empty action, does nothing except passing to a JSP in parameter
  *
  * @author Shamil Vakhitov
  */

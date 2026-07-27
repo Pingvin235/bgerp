@@ -48,7 +48,7 @@ public class ProcessAction extends BaseAction {
 
     public static final String JSP_USED_IN_TYPES = PATH_JSP + "/used_in_types.jsp";
 
-    // статусы
+    // statuses
     public ActionForward statusList(DynActionForm form, Connection con) throws Exception {
         new StatusDAO(con).searchStatus(new Pageable<>(form));
 
@@ -241,7 +241,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/type/type_copy.jsp");
     }
 
-    // очереди
+    // queues
     public ActionForward queueList(DynActionForm form, Connection con) throws Exception {
         Set<Integer> queueIds = Utils.toIntegerSet(form.getPermission().get("allowedQueueIds"));
 
@@ -372,7 +372,7 @@ public class ProcessAction extends BaseAction {
             properties.setConfig(form.getParam("config"));
             properties.setGroups(ProcessGroups.of(beginGroupArr));
 
-            // при заполнении всплывающей формы авторизации после редиректа приходит форма без POST параметров
+            // when filling in the popup authorization form after a redirect, the form arrives without POST parameters
             if (properties.getConfig() == null) {
                 throw new BGException("Попытка сохранения пустой конфигурации.");
             }

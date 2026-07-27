@@ -179,7 +179,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.setParam("title", addressCity.getTitle());
             form.setParam("config", getConfigString(addressCity.getConfig()));
 
-            // по факту пока не используется
+            // not actually used yet
             form.setResponseData("city", addressCity);
         } else if (addressCountryId >= 0) {
             AddressCountry addressCountry = addressDAO.getAddressCountry(addressCountryId);
@@ -190,7 +190,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.setParam("title", addressCountry.getTitle());
             form.setParam("config", getConfigString(addressCountry.getConfig()));
 
-            // по факту пока не используется
+            // not actually used yet
             form.setResponseData("country", addressCountry);
         }
 
@@ -432,7 +432,7 @@ public class DirectoryAddressAction extends BaseAction {
         if ("substring".equals(setup.get("address.street.search.mode")))
             title = Utils.isEmptyString(paramTitle) ? null : List.of(LikePattern.SUB.get(paramTitle));
 
-        //TODO: передалать механизм передачи cityIds в DAO для случае если разрешённых городов нет
+        //TODO: redo the mechanism for passing cityIds to DAO for the case when there are no allowed cities
         Set<Integer> cityIds = Utils.toIntegerSet(form.getPermission().get("cityIds"));
 
         Pageable<AddressItem> searchResult = new Pageable<>(form);
