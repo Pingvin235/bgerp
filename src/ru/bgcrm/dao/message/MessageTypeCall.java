@@ -40,7 +40,7 @@ public class MessageTypeCall extends MessageType {
     private static final Map<Integer, Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>>> REGISTER = new ConcurrentHashMap<>();
 
     /**
-     * Calling suffix for outbound calls.
+     * Calling suffix for outbound calls
      */
     private volatile String callingSuffix;
 
@@ -54,9 +54,9 @@ public class MessageTypeCall extends MessageType {
     }
 
     /**
-     * Retrieves user offered number from text parameter.
-     * @param userId user entity ID.
-     * @return parameter value or empty string.
+     * Retrieves user offered number from text parameter
+     * @param userId user entity ID
+     * @return parameter value or empty string
      */
     @Dynamic
     public String getUserOfferedNumber(int userId) {

@@ -15,11 +15,11 @@ public class ParamValueSelect extends CommonDAO {
     public static final Set<String> PARAM_ADDRESS_FIELDS = Set.of(PARAM_ADDRESS_FIELD_QUARTER, PARAM_ADDRESS_FIELD_STREET);
 
     /**
-     * Adds parameter selection query parts.
-     * @param variable the parameter macros, e.g. {@code param:12}, optionally ended with {@code :value} or date format suffixes.
-     * @param selectPart SELECT part of the query.
-     * @param joinPart JOIN part of the query.
-     * @param addColumnValueAlias adds the column alias in the query, e.g. {@code AS param_79_value}.
+     * Adds parameter selection query parts
+     * @param variable the parameter macros, e.g. {@code param:12}, optionally ended with {@code :value} or date format suffixes
+     * @param selectPart SELECT part of the query
+     * @param joinPart JOIN part of the query
+     * @param addColumnValueAlias adds the column alias in the query, e.g. {@code AS param_79_value}
      */
     public static void paramSelectQuery(String variable, String linkColumn, StringBuilder selectPart, StringBuilder joinPart,
             boolean addColumnValueAlias) {
@@ -143,7 +143,7 @@ public class ParamValueSelect extends CommonDAO {
                                 .append(") " + columnValueAlias + " ");
                     }
                     default -> {
-                        // TODO: Унифицировать код с ProcessDAO.addDateTimeParam
+                        // TODO: Unify code with ProcessDAO.addDateTimeParam
                         if ((Parameter.TYPE_DATE.equals(type) || Parameter.TYPE_DATETIME.equals(type)) && !"value".equals(afterParamId)) {
                             String format = SQLUtils.javaDateFormatToSql(param.getDateParamFormat());
 

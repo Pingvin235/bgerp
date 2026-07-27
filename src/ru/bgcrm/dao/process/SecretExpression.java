@@ -24,10 +24,10 @@ public class SecretExpression {
     }
 
     /**
-     * Checks if no secret set or passed secret correct.
-     * @param process
-     * @param form
-     * @return
+     * Checks if no secret set or passed secret correct
+     * @param process the process
+     * @param form the form
+     * @return {@code true} if valid
      */
     public boolean check(Process process, DynActionForm form) {
         var secret = get(process);
@@ -35,9 +35,9 @@ public class SecretExpression {
     }
 
     /**
-     * Create or update existing access secret for process.
-     * @param process
-     * @return new secret or {@code null} if no secret protection configured.
+     * Creates or updates existing access secret for process
+     * @param process the process
+     * @return new secret or {@code null} if no secret protection configured
      */
     private String update(Process process) {
         return (String) new Expression(Map.of(
@@ -47,9 +47,9 @@ public class SecretExpression {
     }
 
     /**
-     * Retrieves secret.
-     * @param process
-     * @return stored secret or {@code null} if no secret protection configured.
+     * Retrieves secret
+     * @param process the process
+     * @return stored secret or {@code null} if no secret protection configured
      */
     private String get(Process process) {
         if (Utils.isBlankString(expression))
@@ -63,8 +63,8 @@ public class SecretExpression {
 
     /**
      * Query string including secret, if configured. Missing secret is generated.
-     * @param process
-     * @return '?' starting query string when secret has configured or empty string.
+     * @param process the process
+     * @return '?' starting query string when secret has configured or empty string
      */
     public String queryString(Process process) {
         if (Utils.isBlankString(expression))

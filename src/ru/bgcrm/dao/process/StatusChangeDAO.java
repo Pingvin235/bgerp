@@ -49,7 +49,7 @@ public class StatusChangeDAO extends CommonDAO {
         }
         processDAO.updateProcess(process);
 
-        // флаг last помечает именно "последнесть" конкретного статуса, т.е. может быть несколько last
+        // the last flag marks specifically the "lastness" of a particular status, i.e. there can be several last
         String query = "UPDATE " + TABLE_PROCESS_STATUS + " SET last=0 WHERE process_id=? AND status_id=? AND last";
 
         PreparedStatement ps = con.prepareStatement(query);

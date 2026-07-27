@@ -6,8 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Операции со свойствами вида ключ - значение,
- * сохраняемыми в БД.
+ * Operations with key-value properties stored in the DB
  */
 public class PropertiesDAO extends CommonDAO {
     private static final String TABLE_NAME = " properties ";

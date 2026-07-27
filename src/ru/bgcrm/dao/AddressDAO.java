@@ -190,7 +190,7 @@ public class AddressDAO extends CommonDAO {
     /**
      * Selects cities restricted and ordered by their IDs
      * @param ids the IDs
-     * @return
+     * @return the cities
      * @throws SQLException
      */
     public List<IdTitle> getAddressCities(List<Integer> ids) throws SQLException {
@@ -250,13 +250,13 @@ public class AddressDAO extends CommonDAO {
     }
 
     /**
-     * Searches address item.
-     * @param tableName table name.
-     * @param searchResult result.
-     * @param cityIds optional city IDs.
-     * @param title optional search by titles, set with LIKE masks; a single entity must match to item title; for many tokens each of that has to match concatenated titles.
-     * @param loadCountryData load countries.
-     * @param loadCityData load cities.
+     * Searches address item
+     * @param tableName table name
+     * @param searchResult result
+     * @param cityIds optional city IDs
+     * @param title optional search by titles, set with LIKE masks; a single entity must match to item title; for many tokens each of that has to match concatenated titles
+     * @param loadCountryData load countries
+     * @param loadCityData load cities
      * @throws SQLException
      */
     private void searchAddressItemList(String tableName, Pageable<AddressItem> searchResult, Set<Integer> cityIds, List<String> title,
@@ -970,11 +970,10 @@ public class AddressDAO extends CommonDAO {
     }
 
     /**
-     * Поиск улиц по подстроке в заданных городах
-     * @param streetSubstring подстрока поиска
-     * @param cityIds список id городов, в которых нужно искать
-     * если cityIds == null, то поиск по всем городам (город не задан)
-     * @return
+     * Searches streets by substring in the given cities
+     * @param streetSubstring the search substring
+     * @param cityIds the city IDs to search in; if {@code null}, search across all cities (no city specified)
+     * @return the found streets
      */
     public List<AddressItem> getAddressStreetsBySubstring(String streetSubstring, List<Integer> cityIds) throws SQLException {
         List<AddressItem> matchStreets = new ArrayList<>();
@@ -1016,7 +1015,7 @@ public class AddressDAO extends CommonDAO {
         return matchStreets;
     }
 
-    //TODO: Успешность применения функции зависит от формата адреса. Найти использование и переписать.
+    //TODO: Success of applying this function depends on the address format. Find usages and rewrite.
     public int getCityIdByAddress(String address) throws SQLException {
         int cityId = -1;
 

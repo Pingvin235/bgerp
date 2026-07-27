@@ -29,9 +29,9 @@ public class ConfigDAO extends CommonDAO {
     }
 
     /**
-     * Used only in address editor, clean up later.
-     * @param con
-     * @param tableName
+     * Used only in address editor, clean up later
+     * @param con the connection
+     * @param tableName the table name
      */
     public ConfigDAO(Connection con, String tableName) {
         super(con);
@@ -209,8 +209,8 @@ public class ConfigDAO extends CommonDAO {
     }
 
     /**
-     * Selects included configurations.
-     * @param parentId
+     * Selects included configurations
+     * @param parentId the parent config ID
      * @return map with key {@link Config#getId()}
      * @throws SQLException
      */
@@ -267,7 +267,7 @@ public class ConfigDAO extends CommonDAO {
 
     @Deprecated
     public Map<String, String> getConfigRecordMap(String tableId, int recordId) throws SQLException {
-        // таблица может быть передана из констант, тогда она окружена пробелами
+        // the table may be passed from constants, in which case it is surrounded by spaces
         tableId = tableId.trim();
 
         Map<String, String> configMap = new HashMap<>();
@@ -279,7 +279,7 @@ public class ConfigDAO extends CommonDAO {
 
     @Deprecated
     public void updateConfigForRecord(String tableId, int recordId, Map<String, String> config) throws SQLException {
-        // таблица может быть передана из констант, тогда она окружена пробелами
+        // the table may be passed from constants, in which case it is surrounded by spaces
         tableId = tableId.trim();
 
         if (config != null) {
@@ -296,7 +296,7 @@ public class ConfigDAO extends CommonDAO {
 
     @Deprecated
     public void updateConfigForRecord(String tableId, int recordId, List<ConfigRecord> config) throws SQLException {
-        // таблица может быть передана из констант, тогда она окружена пробелами
+        // the table may be passed from constants, in which case it is surrounded by spaces
         tableId = tableId.trim();
 
         PreparedStatement ps = null;

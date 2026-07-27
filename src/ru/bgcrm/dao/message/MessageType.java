@@ -108,16 +108,16 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * Message type is currently running {@link #newMessageList(ConnectionSet, String)}.
-     * @return
+     * Message type is currently running {@link #newMessageList(ConnectionSet, String)}
+     * @return {@code true} if reading
      */
     public boolean isReading() {
         return reading;
     }
 
     /**
-     * Count of unprocessed messages.
-     * @return value or null if unknown.
+     * Count of unprocessed messages
+     * @return value or null if unknown
      */
     public Integer getUnprocessedMessagesCount() {
         return configMap.getBoolean("unprocessedMessageNotify", true) ?
@@ -143,7 +143,7 @@ public abstract class MessageType extends IdTitle {
     /**
      * Can a message be edited
      * @param message the message, {@code null} for adding a message of the type
-     * @return
+     * @return {@code true} if editable
      */
     public boolean isEditable(Message message) {
         return false;
@@ -165,7 +165,7 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * @return Plugin's endpoint for unprocessed message viewing.
+     * @return Plugin's endpoint for unprocessed message viewing
      */
     public String getViewerJsp() {
         return null;
@@ -176,40 +176,40 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * @return Plugin's endpoint for process message header.
+     * @return Plugin's endpoint for process message header
      */
     public String getHeaderJsp() {
         return null;
     }
 
     /**
-     * Generates short message description.
-     * @param lang language.
-     * @param message message with the type.
-     * @return
+     * Generates short message description
+     * @param lang language
+     * @param message message with the type
+     * @return the description
      */
     public String getMessageDescription(String lang, Message message) {
         return "";
     }
 
     /**
-     * Plugin's endpoint for process message editor.
-     * @return
+     * Plugin's endpoint for process message editor
+     * @return the JSP path, or {@code null}
      */
     public String getEditorJsp() {
         return null;
     }
 
     /**
-     * Sends and reads message list.
+     * Sends and reads message list
      */
     public void process() {}
 
     /**
-     * List of unprocessed messages from storage, for example - E-Mails from IMAP folder.
+     * List of unprocessed messages from storage, for example - E-Mails from IMAP folder
      * @param conSet DB connections
      * @param from optional substring filter by sender
-     * @return
+     * @return the new messages
      * @throws Exception
      */
     public List<Message> newMessageList(ConnectionSet conSet, String from) throws Exception {
@@ -217,10 +217,10 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * Gets unprocessed message from storage.
-     * @param conSet
-     * @param messageId unique ID.
-     * @return
+     * Gets unprocessed message from storage
+     * @param conSet DB connections
+     * @param messageId unique ID
+     * @return the message, or {@code null} if not found
      * @throws Exception
      */
     public Message newMessageGet(ConnectionSet conSet, String messageId) throws Exception {
@@ -228,9 +228,9 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * Deletes both processed and unprocessed messages.
-     * @param conSet
-     * @param messageIds set with int DB IDs or type related string IDs.
+     * Deletes both processed and unprocessed messages
+     * @param conSet DB connections
+     * @param messageIds set with int DB IDs or type related string IDs
      * @throws Exception
      */
     public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
@@ -238,10 +238,10 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * Gets unprocessed message from storage and persists it in DB.
-     * @param con
-     * @param messageId
-     * @return
+     * Gets unprocessed message from storage and persists it in DB
+     * @param con the DB connection
+     * @param messageId the message ID
+     * @return the loaded message, or {@code null}
      * @throws Exception
      */
     public Message newMessageLoad(Connection con, String messageId) throws Exception {

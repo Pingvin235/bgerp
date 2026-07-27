@@ -44,7 +44,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
 /**
- * Message DAO.
+ * Message DAO
  *
  * @author Shamil Vakhitov
  */
@@ -62,9 +62,9 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Selects a message by ID.
-     * @param id
-     * @return
+     * Selects a message by ID
+     * @param id the message ID
+     * @return the message, or {@code null} if not found
      * @throws SQLException
      */
     public Message getMessageById(int id) throws SQLException {
@@ -88,10 +88,10 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Selects a message by system ID.
-     * @param typeId
-     * @param systemId
-     * @return
+     * Selects a message by system ID
+     * @param typeId the message type ID
+     * @param systemId the external system ID
+     * @return the message, or {@code null} if not found
      * @throws SQLException
      */
     public Message getMessageBySystemId(int typeId, String systemId) throws SQLException {
@@ -116,8 +116,8 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Updates message entity.
-     * @param message
+     * Updates message entity
+     * @param message the message
      * @throws SQLException
      */
     public void updateMessage(Message message) throws SQLException {
@@ -164,8 +164,8 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Marks a message as processed (related to process).
-     * @param message
+     * Marks a message as processed (related to process)
+     * @param message the message
      * @throws SQLException
      */
     public void updateMessageProcess(Message message) throws SQLException {
@@ -237,9 +237,9 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Selects message tags.
-     * @param messageId
-     * @return
+     * Selects message tags
+     * @param messageId the message ID
+     * @return the tag IDs
      * @throws SQLException
      */
     public Set<Integer> getMessageTags(int messageId) throws SQLException {
@@ -247,8 +247,8 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Deletes all message related entities and attached files.
-     * @param id the message ID.
+     * Deletes all message related entities and attached files
+     * @param id the message ID
      * @throws SQLException
      */
     public void deleteMessage(int id) throws Exception {
@@ -280,8 +280,8 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Delete process related messages and all related to them entities.
-     * @param processId process ID.
+     * Deletes process related messages and all related to them entities
+     * @param processId process ID
      * @throws SQLException
      */
     public void deleteProcessMessages(int processId) throws SQLException {
@@ -296,7 +296,7 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Updates process message statistic in {@link Tables#TABLE_PROCESS_MESSAGE_STATE}.
+     * Updates process message statistic in {@link Tables#TABLE_PROCESS_MESSAGE_STATE}
      * @param message message with {@link Message#getProcessId()} &gt; 0
      * @throws SQLException
      */
@@ -366,7 +366,7 @@ public class MessageDAO extends CommonDAO {
         return result;
     }
 
-    /** Use {@link MessageSearchDAO}. */
+    /** Use {@link MessageSearchDAO} */
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from)
@@ -375,7 +375,7 @@ public class MessageDAO extends CommonDAO {
                 dateFrom, dateTo, from, true);
     }
 
-    /** Use {@link MessageSearchDAO}. */
+    /** Use {@link MessageSearchDAO} */
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
@@ -384,7 +384,7 @@ public class MessageDAO extends CommonDAO {
                 dateFrom, dateTo, from, true, null);
     }
 
-    /** Use {@link MessageSearchDAO}. */
+    /** Use {@link MessageSearchDAO} */
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
@@ -393,7 +393,7 @@ public class MessageDAO extends CommonDAO {
                 direction, processed, withAttach, dateFrom, dateTo, from, true, tagIds);
     }
 
-    /** Use {@link MessageSearchDAO}. */
+    /** Use {@link MessageSearchDAO} */
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Collection<Integer> processIds, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
@@ -402,7 +402,7 @@ public class MessageDAO extends CommonDAO {
                 dateFrom, dateTo, from, true, tagIds);
     }
 
-    /** Use {@link MessageSearchDAO}. */
+    /** Use {@link MessageSearchDAO} */
     @Deprecated
     public void searchMessageList(Pageable<Message> searchResult, Collection<Integer> processIds, Set<Integer> typeIds,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
@@ -483,10 +483,10 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Retrieves process message list, sorted by ID.
-     * @param processId process ID.
-     * @param beforeMessageId if &gt; 0 - filter from message ID.
-     * @return
+     * Retrieves process message list, sorted by ID
+     * @param processId process ID
+     * @param beforeMessageId if &gt; 0 - filter from message ID
+     * @return the message list
      * @throws Exception
      */
     public List<Message> getProcessMessageList(int processId, int beforeMessageId) throws Exception {
@@ -548,10 +548,10 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Searches messages in processes.
-     * @param processIds process IDs.
-     * @param text message substring.
-     * @return
+     * Searches messages in processes
+     * @param processIds process IDs
+     * @param text message substring
+     * @return the found messages
      * @throws Exception
      */
     public List<Message> getProcessMessageList(Set<Integer> processIds, String text) throws Exception {

@@ -16,7 +16,7 @@ import ru.bgcrm.event.client.LockEvent;
 import ru.bgcrm.model.Lock;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-//TODO: Добавить поток очистки старых блокировок.
+//TODO: Add a thread to clean up old locks.
 public class Locker {
     private static final Log log = Log.getLog();
 
@@ -83,8 +83,8 @@ public class Locker {
     public static void freeLock(Lock lock) {
         log.debug("Free lock: {}", lock.getId());
 
-        // TODO: Может проверять, чтобы освобождал тот же, что и занимает, хотя вызов из
-        // addLock не так.
+        // TODO: Could check that the one freeing is the same as the one that locked, though the call from
+        // addLock isn't like that.
         locksById.remove(lock.getId());
 
         Set<Lock> locks = locksByUser.get(lock.getUserId());

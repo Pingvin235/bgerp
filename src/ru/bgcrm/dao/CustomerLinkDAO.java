@@ -18,7 +18,7 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.customer.Customer;
 
 /**
- * Customer links used for now only for storing linked contract for plugin BGBilling.
+ * Customer links used for now only for storing linked contract for plugin BGBilling
  */
 public class CustomerLinkDAO extends CommonLinkDAO {
     public CustomerLinkDAO(Connection con) {

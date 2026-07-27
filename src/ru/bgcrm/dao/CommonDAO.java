@@ -55,9 +55,9 @@ public class CommonDAO {
     protected final static String SQL_UNION_ALL = " UNION ALL ";
 
     /**
-     * Selects {@code FOUND_ROWS()} for given statement.
-     * @param st
-     * @return
+     * Selects {@code FOUND_ROWS()} for given statement
+     * @param st the statement
+     * @return the found rows count
      * @throws SQLException
      */
     public static int foundRows(Statement st) throws SQLException {
@@ -82,9 +82,9 @@ public class CommonDAO {
     }
 
     /**
-     * Takes last generated key from {@code ps}.
-     * @param ps
-     * @return
+     * Takes last generated key from {@code ps}
+     * @param ps the statement
+     * @return the generated key, or {@code -1}
      * @throws SQLException
      */
     protected int lastInsertId(PreparedStatement ps) throws SQLException {
@@ -97,10 +97,10 @@ public class CommonDAO {
     }
 
     /**
-     * Updates and if no records updated then inserting a new one.
-     * @param updatePsQuery UPDATE query with ? placeholders.
-     * @param insertPsQuery INSERT query with ? placeholders.
-     * @param params {@link PreparedQuery} parameters for both queries.
+     * Updates and if no records updated then inserting a new one
+     * @param updatePsQuery UPDATE query with ? placeholders
+     * @param insertPsQuery INSERT query with ? placeholders
+     * @param params {@link PreparedQuery} parameters for both queries
      * @throws SQLException
      * @return ID of a newly inserted record, or {@code 0}
      */
@@ -140,12 +140,12 @@ public class CommonDAO {
 
     /**
      * Queries int list SELECT {@code selectColumn} FROM {@code tableName} WHERE {@code linkColumn} = {@code id} ORDER BY {@code posColumn}
-     * @param tableName
-     * @param linkColumn
-     * @param selectColumn
-     * @param posColumn
-     * @param id
-     * @return
+     * @param tableName the table name
+     * @param linkColumn the linking column
+     * @param selectColumn the selected column
+     * @param posColumn the ordering column
+     * @param id the linked ID
+     * @return the ordered ID list
      * @throws SQLException
      */
     protected List<Integer> getIds(String tableName, String linkColumn, String selectColumn, String posColumn, int id) throws SQLException {
@@ -190,7 +190,7 @@ public class CommonDAO {
         Map<Integer, List<Integer>> result = new HashMap<>();
 
         String query = SQL_SELECT + linkColumn + "," + selectColumn + SQL_FROM + tableName +
-                // сортировка по выбираемому значению для однозначного порядка в случае нулевых позиций
+                // sort by the selected value for unambiguous order in case of zero positions
                 SQL_ORDER_BY + linkColumn + ", " + posColumn + ", " + selectColumn;
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -243,7 +243,7 @@ public class CommonDAO {
             return null;
         }
 
-        //TODO: Может понадобиться getInsertPrepared и getUpdatePrepared, если будут устанавливаться несколько полей и т.п.
+        //TODO: getInsertPrepared and getUpdatePrepared might be needed if multiple fields etc. need to be set.
 
         public abstract void fillCommonFields(T record, PreparedStatement ps) throws SQLException;
     }

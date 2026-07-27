@@ -98,9 +98,9 @@ public class QueueDAO extends CommonDAO {
     }
 
     /**
-     * Updates process queue entity.
-     * @param queue entity data, for insertion {@link Queue#getId()} &lt;= 0.
-     * @param userId user ID for checking conflicting updates.
+     * Updates process queue entity
+     * @param queue entity data, for insertion {@link Queue#getId()} &lt;= 0
+     * @param userId user ID for checking conflicting updates
      * @throws BGMessageException
      * @throws SQLException
      */
@@ -109,7 +109,7 @@ public class QueueDAO extends CommonDAO {
         PreparedStatement ps = null;
 
         if (queue.getId() <= 0) {
-            //TODO: добавить валидацию конфигурациии
+            //TODO: add configuration validation
             ps = con.prepareStatement("INSERT INTO queue SET title=?, config=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS,
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, queue.getTitle());

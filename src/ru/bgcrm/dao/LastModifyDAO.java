@@ -10,7 +10,7 @@ import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.LastModifySupport;
 
 /**
- * Last modification DAO.
+ * Last modification DAO
  *
  * @author Shamil Vakhitov
  */

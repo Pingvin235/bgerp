@@ -163,10 +163,10 @@ public class UserGroupDAO extends CommonDAO {
     }
 
     /**
-     * true если можно добавить скрипт с таким именем в данный каталог
-     * @param parentId
-     * @param title
-     * @return
+     * @param id the ID to exclude from the check (itself)
+     * @param parentId the parent ID
+     * @param title the title
+     * @return {@code true} if a group with this name can be added to this directory
      */
     public boolean checkGroup(int id, int parentId, String title) throws SQLException {
         boolean result = false;

@@ -78,9 +78,9 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает тип процесса по коду.
-     * @param id
-     * @return
+     * Selects process type by ID
+     * @param id the type ID
+     * @return the process type, or {@code null} if not found
      * @throws Exception
      */
     public ProcessType getProcessType(int id) throws Exception {
@@ -128,8 +128,8 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает список всех типов процессов с сортировкой по наименованию.
-     * @return
+     * Returns a list of all process types sorted by title
+     * @return the process type list
      * @throws SQLException
      */
     public List<ProcessType> getFullProcessTypeList() throws SQLException {
@@ -137,7 +137,7 @@ public class ProcessTypeDAO extends CommonDAO {
 
         Map<Integer, ProcessType> typeMap = new HashMap<>();
 
-        //TODO: Может сделать сортировку по parent_id, title, тогда бы можно было за один проход загружать всё.
+        //TODO: Could sort by parent_id, title, then everything could be loaded in one pass.
         try (var ps = con.prepareStatement(SQL_SELECT_ALL_FROM + TABLE_PROCESS_TYPE + SQL_ORDER_BY + "title")) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -153,7 +153,7 @@ public class ProcessTypeDAO extends CommonDAO {
             }
         }
 
-        // добавляем дочерние типы процессов
+        // add child process types
         for (ProcessType type : result) {
             if (type.getParentId() > 0) {
                 ProcessType parentType = typeMap.get(type.getParentId());
@@ -219,9 +219,9 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Updates or creates a process type entity.
-     * @param processType
-     * @param userId
+     * Updates or creates a process type entity
+     * @param processType the process type
+     * @param userId the user ID
      * @throws Exception
      */
     public void updateProcessType(ProcessType processType, int userId) throws Exception {
@@ -257,8 +257,8 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет свойства типа процесса.
-     * @param type
+     * Updates process type properties
+     * @param type the process type
      */
     public void updateTypeProperties(ProcessType type) {
         try {
@@ -286,9 +286,9 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Copy process type properties.
-     * @param fromTypeId
-     * @param toTypeId
+     * Copies process type properties
+     * @param fromTypeId the source type ID
+     * @param toTypeId the target type ID
      * @throws Exception
      */
     public void copyTypeProperties(int fromTypeId, int toTypeId) throws Exception {
@@ -298,8 +298,8 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * true если каталог пуст и можно удалять
-     * @param id
+     * @param id the type ID
+     * @return {@code true} if the directory is empty and can be deleted
      */
     public boolean checkProcessTypeForDelete(int id) throws Exception {
         setChildCount(id, 0);
@@ -312,9 +312,9 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет тип процесса.
-     * @param id
-     * @return
+     * Deletes process type
+     * @param id the type ID
+     * @return {@code true} if deleted
      * @throws Exception
      */
     public boolean deleteProcessType(int id) throws Exception {
@@ -377,10 +377,11 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Проверяет наличие в родительском типе дочернего с указанным названием.
-     * @param parentId
-     * @param title
-     * @return
+     * Checks whether the parent type already has a child with the given title
+     * @param id the type ID to exclude from the check (itself)
+     * @param parentId the parent type ID
+     * @param title the title
+     * @return {@code true} if no such child exists
      */
     public boolean checkType(int id, int parentId, String title) throws Exception {
         boolean result = false;

@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * DAO with month tables support.
+ * DAO with month tables support
  *
  * @author Iakov Volkov
  * @author Michael Kozlov
@@ -45,9 +45,9 @@ public class PeriodicDAO extends CommonDAO {
     }
 
     /**
-     * Checks table existence.
-     * @param tableName table name.
-     * @return is the table exists.
+     * Checks table existence
+     * @param tableName table name
+     * @return {@code true} if the table exists
      * @throws SQLException
      */
     protected boolean tableExists(String tableName) throws SQLException {

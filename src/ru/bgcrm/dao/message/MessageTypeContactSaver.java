@@ -19,8 +19,8 @@ public abstract class MessageTypeContactSaver {
     public MessageTypeContactSaver(ConfigMap config) throws Exception {}
 
     /**
-     * Different save modes, e.g Email or domain.
-     * @return
+     * Different save modes, e.g Email or domain
+     * @return the save mode list
      */
     public List<IdTitled> getSaveModeList() {
         return STANDARD_MODE_LIST;

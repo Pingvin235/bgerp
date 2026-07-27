@@ -122,11 +122,11 @@ public class MessageTypeNote extends MessageType {
 
         SessionTemporaryFiles.deleteFiles(form, tmpFiles.keySet());
 
-        // генерация события
+        // event generation
 
         int processId = message.getProcessId();
 
-        // определение кода процесса
+        // determining process ID
         if (processId > 0) {
             Process process = new ProcessDAO(con).getProcess(processId);
 

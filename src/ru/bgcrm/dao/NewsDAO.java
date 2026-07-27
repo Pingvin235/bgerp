@@ -116,9 +116,9 @@ public class NewsDAO extends CommonDAO {
     }
 
     /**
-     * Отправляет новость выбранным пользователям, сбрасывает кэш новостей.
-     * @param news
-     * @param userIds
+     * Sends the news to selected users, flushes the news cache
+     * @param news the news
+     * @param userIds the user IDs
      * @throws SQLException
      */
     public void updateNewsUsers(News news, Set<Integer> userIds) throws SQLException {

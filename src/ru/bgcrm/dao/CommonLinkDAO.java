@@ -31,10 +31,10 @@ public abstract class CommonLinkDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает список привязанных к объекту сущностей.
-     * @param objectId код объекта.
-     * @param typeLike MySQL Like выражение для фильтрации, необязательно.
-     * @return
+     * Returns a list of entities linked to the object
+     * @param objectId the object ID
+     * @param typeLike MySQL LIKE expression for filtering, optional
+     * @return the link list
      */
     public List<CommonObjectLink> getObjectLinksWithType(int objectId, String typeLike) {
         return getObjectLinks(objectId, getTable(), getColumnName(), typeLike);
@@ -61,16 +61,16 @@ public abstract class CommonLinkDAO extends CommonDAO {
     }
 
     /**
-     * Привязка объекта.
-     * @param link
+     * Links an object
+     * @param link the link
      */
     public void addLink(CommonObjectLink link) {
         addLink(getTable(), getColumnName(), link);
     }
 
     /**
-     * Привязка объекта если он не привязан к данному объекту.
-     * @param link
+     * Links an object if it isn't already linked to the given object
+     * @param link the link
      */
     public void addLinkIfNotExist(CommonObjectLink link) {
         if (!isLinkExists(link)) {
@@ -79,9 +79,9 @@ public abstract class CommonLinkDAO extends CommonDAO {
     }
 
     /**
-     * Проверка наличия привязки.
-     * @param link
-     * @return
+     * Checks whether a link exists
+     * @param link the link
+     * @return {@code true} if the link exists
      */
     public boolean isLinkExists(CommonObjectLink link) {
         boolean result = false;
@@ -104,16 +104,16 @@ public abstract class CommonLinkDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет ссылку объекта на один другой объект.
-     * @param link
+     * Deletes an object's link to one other object
+     * @param link the link
      */
     public void deleteLink(CommonObjectLink link) {
         deleteLink(getTable(), getColumnName(), link);
     }
 
     /**
-     * Удаляет все ссылки объекта.
-     * @param objectId
+     * Deletes all links of the object
+     * @param objectId the object ID
      */
     public void deleteObjectLinks(int objectId) {
         try {
@@ -128,16 +128,16 @@ public abstract class CommonLinkDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет все ссылки объектов данного типа на какой-то другой объект.
-     * @param link
+     * Deletes all links from objects of this type to some other object
+     * @param link the link
      */
     public void deleteLinksTo(CommonObjectLink link) {
         deleteLinksTo(getTable(), link);
     }
 
     /**
-     * Удаляет все ссылки объектов данного типа на другие типы объектов.
-     * @param link
+     * Deletes all links from objects of this type to a given other object type
+     * @param link the link
      */
     public void deleteLinksWithType(CommonObjectLink link) {
         deleteLinksWithType(getTable(), getColumnName(), link);

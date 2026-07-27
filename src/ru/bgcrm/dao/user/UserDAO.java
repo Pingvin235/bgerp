@@ -136,10 +136,10 @@ public class UserDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает пользователей по параметру типа Email.
-     * @param searchResult
-     * @param emailParamIdList
-     * @param email Email, поиск идёт по точному совпадению и совпадению домена
+     * Selects users by an Email-type parameter
+     * @param searchResult the search result
+     * @param emailParamIdList the Email parameter IDs
+     * @param email Email, search is done by exact match and domain match
      */
     public void searchUserListByEmail(Pageable<ParameterSearchedObject<User>> searchResult,
             List<Integer> emailParamIdList, String email) {
@@ -147,15 +147,15 @@ public class UserDAO extends CommonDAO {
                 emailParamIdList, email);
     }
 
-    /* TODO: Реализовать по аналогии, объединяя с CustomerDAO:
+    /* TODO: Implement similarly, merging with CustomerDAO:
      * searchUserListByText
      * searchUserListByAddress
      * searchUserListByPhone
      */
 
     /**
-     * Complete user list with passwords.
-     * @return
+     * Complete user list with passwords
+     * @return the user list
      * @throws SQLException
      */
     public List<User> getUserList() throws SQLException {
@@ -288,7 +288,7 @@ public class UserDAO extends CommonDAO {
     }
 
     /**
-     * Retrieving user data from query result set.
+     * Retrieving user data from query result set
      *
      * @param rs result set. Don't forget to close rs!
      * @param prefix a prefix for a table column
@@ -382,9 +382,9 @@ public class UserDAO extends CommonDAO {
     }
 
     /**
-     * Retrieves user by ID.
-     * @param id unique ID.
-     * @return found user or {@code null}.
+     * Retrieves user by ID
+     * @param id unique ID
+     * @return found user or {@code null}
      * @throws SQLException
      */
     public User getUser(int id) throws SQLException {
@@ -416,7 +416,7 @@ public class UserDAO extends CommonDAO {
     protected String getPageLimit(Page page) {
         StringBuilder sql = new StringBuilder();
 
-        // ненулевой размер pageSize устанавливается в Response#addSearchResult
+        // non-zero pageSize is set in Response#addSearchResult
         if (page != null && page.getPageSize() > 0) {
             sql.append(" LIMIT ");
             sql.append(page.getPageFirstRecordNumber());
@@ -522,9 +522,9 @@ public class UserDAO extends CommonDAO {
     }
 
     /**
-     * Updates user personalization map in DB if it changes from {@code mapDataBefore}.
-     * @param mapDataBefore the current state of the map, {@code null} when no comparing is needed.
-     * @param user the user with personalization to be updated.
+     * Updates user personalization map in DB if it changes from {@code mapDataBefore}
+     * @param mapDataBefore the current state of the map, {@code null} when no comparing is needed
+     * @param user the user with personalization to be updated
      * @throws SQLException
      */
     public void updatePersonalization(String mapDataBefore, User user) throws SQLException {
@@ -610,7 +610,7 @@ public class UserDAO extends CommonDAO {
     /**
      * Sets user groups to values from {@link User#getGroupIds()}, opened from current date.
      * All the existing groups are replaced.
-     * @param user
+     * @param user the user
      * @throws SQLException
      */
     public void updateUserGroups(User user) throws SQLException {

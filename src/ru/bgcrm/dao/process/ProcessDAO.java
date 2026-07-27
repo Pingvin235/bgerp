@@ -51,8 +51,8 @@ public class ProcessDAO extends CommonDAO {
     protected final DynActionForm form;
 
     /**
-     * Constructor without user isolation and history writing.
-     * @param con DB connection.
+     * Constructor without user isolation and history writing
+     * @param con DB connection
      */
     public ProcessDAO(Connection con) {
         super(con);
@@ -60,9 +60,9 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Constructor with isolation support and writing history.
-     * @param con DB connection.
-     * @param form value of {@link #form}.
+     * Constructor with isolation support and writing history
+     * @param con DB connection
+     * @param form value of {@link #form}
      */
     public ProcessDAO(Connection con, DynActionForm form) {
         super(con);
@@ -138,8 +138,8 @@ public class ProcessDAO extends CommonDAO {
     /**
      * Selects process by ID with the last {@link Process#getStatusChange()}.
      * Selection respects user isolations.
-     * @param id DB record ID.
-     * @return
+     * @param id DB record ID
+     * @return the process, or {@code null} if not found
      * @throws SQLException
      */
     public Process getProcess(int id) throws SQLException {
@@ -163,11 +163,11 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Selects process using {@link #getProcess(int)}.
-     * @param id DB record ID.
-     * @return
+     * Selects process using {@link #getProcess(int)}
+     * @param id DB record ID
+     * @return the process
      * @throws SQLException
-     * @throws NotFoundException no record found with {@code id}.
+     * @throws NotFoundException no record found with {@code id}
      */
     public Process getProcessOrThrow(int id) throws SQLException, NotFoundException {
         var result = getProcess(id);
@@ -260,7 +260,7 @@ public class ProcessDAO extends CommonDAO {
             int index = 1;
             PreparedStatement ps = null;
             StringBuilder query = new StringBuilder();
-            // раньше была проверка на положительный ID, но он может быть отрицательным в случае, если процесс временный
+            // previously there was a check for positive ID, but it can be negative if the process is temporary
             if (oldProcess != null) {
                 query.append(SQL_UPDATE + TABLE_PROCESS
                         + " SET status_id=?, status_dt=?, status_user_id=?, description=?, close_dt=?, priority=?, close_user_id=?, type_id=? WHERE id=?");
@@ -345,9 +345,9 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Search processes by 'address' param.
+     * Search processes by 'address' param
      * @param searchResult result
-     * @param addressParamIds param IDs used for search.
+     * @param addressParamIds param IDs used for search
      * @param houseId house ID
      * @param houseFlat flat
      * @param houseRoom room
@@ -455,10 +455,10 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает связанные с процессом процессы.
-     * @param searchResult
-     * @param userId код пользователя.
-     * @param mode принимает значения {@link #MODE_USER_CREATED}, {@link #MODE_USER_CLOSED}, {@link #MODE_USER_STATUS_CHANGED}.
+     * Selects processes linked to the process
+     * @param searchResult the search result
+     * @param userId the user ID
+     * @param mode accepts values {@link #MODE_USER_CREATED}, {@link #MODE_USER_CLOSED}, {@link #MODE_USER_STATUS_CHANGED}
      * @throws SQLException
      */
     public void searchProcessListForUser(Pageable<Process> searchResult, int userId, int mode) throws SQLException {

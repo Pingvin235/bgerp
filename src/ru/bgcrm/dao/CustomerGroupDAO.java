@@ -16,7 +16,7 @@ import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.util.sql.SQLUtils;
 
 /**
- * Customer groups are not visible in interface for now.
+ * Customer groups are not visible in interface for now
  */
 public class CustomerGroupDAO extends CommonDAO {
     public CustomerGroupDAO(Connection con) {

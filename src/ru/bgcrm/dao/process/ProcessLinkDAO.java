@@ -35,7 +35,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * Process links DAO.
+ * Process links DAO
  *
  * @author Shamil Vakhitov
  */
@@ -47,8 +47,8 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     protected final DynActionForm form;
 
     /**
-     * Constructor without isolations.
-     * @param con DB connection.
+     * Constructor without isolations
+     * @param con DB connection
      */
     public ProcessLinkDAO(Connection con) {
         super(con);
@@ -57,8 +57,8 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
     /**
      * Constructor, respecting isolations for methods: {@link #getLinkedProcessList(int, String, boolean, Set)}
-     * @param con DB connection.
-     * @param form form object with a user.
+     * @param con DB connection
+     * @param form form object with a user
      */
     public ProcessLinkDAO(Connection con, DynActionForm form) {
         super(con);
@@ -116,12 +116,12 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Возвращает процессы, привязанные к процессу.
-     * @param processId код процесса.
-     * @param linkType если не null, то SQL LIKE выражение фильтр по типу связи {@link Process#LINK_TYPE_DEPEND}, {@link Process#LINK_TYPE_LINK}, {@link Process#LINK_TYPE_MADE}.
-     * @param onlyOpen только открытые.
-     * @param typeIds если не null, то фильтр по типам процессов.
-     * @return
+     * Returns processes linked to the process
+     * @param processId the process ID
+     * @param linkType if not {@code null}, SQL LIKE expression filter by link type: {@link Process#LINK_TYPE_DEPEND}, {@link Process#LINK_TYPE_LINK}, {@link Process#LINK_TYPE_MADE}
+     * @param onlyOpen only open ones
+     * @param typeIds if not {@code null}, filter by process types
+     * @return the process list
      * @throws SQLException
      */
     public List<Process> getLinkProcessList(int processId, String linkType, boolean onlyOpen, Set<Integer> typeIds)
@@ -131,12 +131,12 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Возвращает процессы, к которым привязан процесс.
-     * @param processId код процесса.
-     * @param linkType если не null, то SQL LIKE выражение фильтр по типу связи {@link Process#LINK_TYPE_DEPEND}, {@link Process#LINK_TYPE_LINK}, {@link Process#LINK_TYPE_MADE}.
-     * @param onlyOpen выбирать только открытые процессы.
-     * @param typeIds если не null, то фильтр по типам процессов.
-     * @return
+     * Returns processes the process is linked to
+     * @param processId the process ID
+     * @param linkType if not {@code null}, SQL LIKE expression filter by link type: {@link Process#LINK_TYPE_DEPEND}, {@link Process#LINK_TYPE_LINK}, {@link Process#LINK_TYPE_MADE}
+     * @param onlyOpen select only open processes
+     * @param typeIds if not {@code null}, filter by process types
+     * @return the process list
      * @throws SQLException
      */
     public List<Process> getLinkedProcessList(int processId, String linkType, boolean onlyOpen, Set<Integer> typeIds)
@@ -179,9 +179,9 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Возвращает связи внутри набора процессов.
-     * @param processIds коды процессов из набора.
-     * @return
+     * Returns links within a set of processes
+     * @param processIds the process IDs of the set
+     * @return the links
      * @throws SQLException
      */
     public Collection<CommonObjectLink> getLinksOver(Set<Integer> processIds) throws SQLException {
@@ -215,9 +215,9 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Checks cyclic dependencies.
-     * @param processId
-     * @return
+     * Checks cyclic dependencies
+     * @param processId the process ID
+     * @return {@code true} if a cycle is found
      */
     public boolean checkCycles(int processId) throws Exception {
         Map<String, Set<Integer>> typeProcessIds = new HashMap<>(CYCLES_CONTROL_LINK_TYPES.size());
@@ -242,7 +242,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * @param typeProcessIds
+     * @param typeProcessIds the process IDs grouped by link type
      * @return linked processes, key - relation type, values - IDs
      * @throws Exception
      */
@@ -273,10 +273,10 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Selects customers links for process.
-     * @param processId process ID.
-     * @param linkObjectType optional SQL LIKE filter by link object type.
-     * @return
+     * Selects customers links for process
+     * @param processId process ID
+     * @param linkObjectType optional SQL LIKE filter by link object type
+     * @return the customers
      * @throws SQLException
      */
     public Set<Customer> getLinkCustomers(int processId, String linkObjectType) throws SQLException {
@@ -304,8 +304,8 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     /**
      * Selects counts of linked and link processes to a given process.
      * Note that process isolation is not taken here on account.
-     * @param processId the process ID.
-     * @return a pair with linked count on the first place, links count on the second.
+     * @param processId the process ID
+     * @return a pair with linked count on the first place, links count on the second
      * @throws SQLException
      */
     public Pair<Integer, Integer> getLinkedProcessesCounts(int processId) throws SQLException {
