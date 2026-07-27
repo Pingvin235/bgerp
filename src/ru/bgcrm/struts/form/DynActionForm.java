@@ -49,7 +49,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * HTTP request execution's context, contains: request, DB connection and response data.
+ * HTTP request execution's context, contains: request, DB connection and response data
  *
  * @author Shamil Vakhitov
  */
@@ -62,7 +62,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public static final String RESPONSE_TYPE_JSON = "json";
     public static final String RESPONSE_TYPE_STREAM = "stream";
 
-    /** System action, not real user request. */
+    /** System action, not real user request */
     public static DynActionForm SYSTEM_FORM = new DynActionForm(User.USER_SYSTEM);
     @Deprecated
     public static DynActionForm SERVER_FORM = SYSTEM_FORM;
@@ -104,7 +104,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     /** Parsed HTTP request params */
     private ArrayHashMap param = new ArrayHashMap();
 
-    /** DB connections. */
+    /** DB connections */
     private ConnectionSet connectionSet;
 
     private User user;
@@ -114,10 +114,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     public Localizer l;
 
-    /** Response data, may be serialized to JSON. */
+    /** Response data, may be serialized to JSON */
     private Response response = new Response();
 
-    /** Empty constructor for Struts. */
+    /** Empty constructor for Struts */
     public DynActionForm() {}
 
     public DynActionForm(User user) {
@@ -129,8 +129,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Constructor from string URL or only query string.
-     * @param url the complete URL or only the query string after {@code ?}.
+     * Constructor from string URL or only query string
+     * @param url the complete URL or only the query string after {@code ?}
     */
     public DynActionForm(String url) {
         int pos = url.indexOf("?");
@@ -170,7 +170,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * @return request params except {@link #PARAM_REQUEST_URL}, serialized to a query string.
+     * @return request params except {@link #PARAM_REQUEST_URL}, serialized to a query string
      */
     public String paramsToQueryString() {
         var result = new StringBuilder(200);
@@ -195,6 +195,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return result.toString();
     }
 
+    /**
+     * @return the current HTTP request
+     */
     public HttpServletRequest getHttpRequest() {
         return httpRequest;
     }
@@ -219,6 +222,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getRequestURI();
     }
 
+    /**
+     * @return the current HTTP response
+     */
     public HttpServletResponse getHttpResponse() {
         return httpResponse;
     }
@@ -227,6 +233,11 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         this.httpResponse = httpResponse;
     }
 
+    /**
+     * Gets the HTTP response output stream, opening it on first call
+     * @return the response output stream
+     * @throws IOException if the stream can't be obtained from the response
+     */
     public OutputStream getHttpResponseOutputStream() throws IOException {
         if (httpResponseOutputStream == null)
             httpResponseOutputStream = httpResponse.getOutputStream();
@@ -234,14 +245,24 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return httpResponseOutputStream;
     }
 
+    /**
+     * @return a writer over {@link #getHttpResponseOutputStream()} using the response's character encoding
+     * @throws IOException if the underlying output stream can't be obtained
+     */
     public PrintWriter getHttpResponseWriter() throws IOException {
         return new PrintWriter(new OutputStreamWriter(getHttpResponseOutputStream(), httpResponse.getCharacterEncoding()));
     }
 
+    /**
+     * @return the pageable data, bound to request parameter {@code page}
+     */
     public Page getPage() {
         return page;
     }
 
+    /**
+     * @return the uploaded file, bound to request parameter {@code file}
+     */
     public FormFile getFile() {
         return file;
     }
@@ -307,9 +328,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Sets request parameter {@code requestUrl}.
-     * @param path start of {@code requestUrl}.
-     * @param queryString query string, if not blank then added to end after query char.
+     * Sets request parameter {@code requestUrl}
+     * @param path start of {@code requestUrl}
+     * @param queryString query string, if not blank then added to end after query char
      */
     public void requestUrl(String path, String queryString) {
         String requestUrl = path;
@@ -364,7 +385,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     /**
      * Sets request parameter {@code forwardFile}, JSP template path
-     * @param value
+     * @param value the value
      */
     @Deprecated
     public void setForwardFile(String value) {
@@ -372,28 +393,28 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * @return request parameter {@code pageableId} or {@link #action} if it was empty or missing.
+     * @return request parameter {@code pageableId} or {@link #action} if it was empty or missing
      */
     public String getPageableId() {
         return getParam(Page.PAGEABLE_ID, action);
     }
 
     /**
-     * Area ID is used in {@link BaseAction#restoreRequestParams(java.sql.Connection, DynActionForm, boolean, boolean, String...)} for preserving request parameters.
-     * @return request parameter {@code areaId} or {@link #action} if it was empty or missing.
+     * Area ID is used in {@link BaseAction#restoreRequestParams(java.sql.Connection, DynActionForm, boolean, boolean, String...)} for preserving request parameters
+     * @return request parameter {@code areaId} or {@link #action} if it was empty or missing
      */
     public String getAreaId() {
         return getParam("areaId", action);
     }
 
     /**
-     * Gets HTTP request parameter value.
-     * @param name parameter name.
-     * @param defaultValue default value if not presented in request.
-     * @param defaultSet set default value back in request for using in JSP.
-     * @param validator optional value validator.
-     * @throws BGIllegalArgumentException if validation fails.
-     * @return
+     * Gets HTTP request parameter value
+     * @param name parameter name
+     * @param defaultValue default value if not presented in request
+     * @param defaultSet set default value back in request for using in JSP
+     * @param validator optional value validator
+     * @throws BGIllegalArgumentException if validation fails
+     * @return parameter value, or {@code defaultValue} if not presented
      */
     public String getParam(String name, String defaultValue, boolean defaultSet, Predicate<String> validator) throws BGIllegalArgumentException {
         var value = getParam(name);
@@ -409,29 +430,44 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return defaultValue;
     }
 
+    /**
+     * Gets HTTP request parameter value, without setting the default value back into the request
+     * @param name the parameter's name
+     * @param defaultValue default value
+     * @param validator optional value validator
+     * @return parameter value, or {@code defaultValue} if not presented
+     * @throws BGIllegalArgumentException if validation fails
+     */
     public String getParam(String name, String defaultValue, Predicate<String> validator) throws BGIllegalArgumentException {
         return getParam(name, defaultValue, false, validator);
     }
 
     /**
-     * Gets HTTP request parameter first value.
-     * @param name the parameter's name.
-     * @param defaultValue default value.
-     * @return the value of parameter with {@param name} or {@param defaultValue} if not presented.
+     * Gets HTTP request parameter first value
+     * @param name the parameter's name
+     * @param defaultValue default value
+     * @return the value of parameter {@code name}, or {@code defaultValue} if not presented
      */
     public String getParam(String name, String defaultValue) {
         var value = getParam(name);
         return value == null ? defaultValue : value;
     }
 
+    /**
+     * Gets HTTP request parameter value
+     * @param name the parameter's name
+     * @param validator optional value validator
+     * @return parameter value, or {@code null} if not presented
+     * @throws BGIllegalArgumentException if validation fails
+     */
     public String getParam(String name, Predicate<String> validator) throws BGIllegalArgumentException {
         return getParam(name, null, validator);
     }
 
     /**
-     * Gets HTTP request parameter first value.
-     * @param name the parameter's name.
-     * @return parameter value or null if missing or empty.
+     * Gets HTTP request parameter first value
+     * @param name the parameter's name
+     * @return parameter value or null if missing or empty
      */
     public String getParam(String name) {
         String value = param.get(name);
@@ -441,9 +477,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Sets HTTPS request parameter value.
-     * @param name the parameter's name.
-     * @param value the value.
+     * Sets HTTPS request parameter value
+     * @param name the parameter's name
+     * @param value the value
      */
     public void setParam(String name, String value) {
         if (PARAM_ACTION_METHOD_OLD.equals(name)) {
@@ -454,11 +490,11 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter first value as type date, format {@link TimeUtils#FORMAT_TYPE_YMD}.
-     * @param name parameter name.
-     * @param defaultValue default value if not presented in request.
-     * @param defaultSet set default value back in request for using in JSP.
-     * @return
+     * Gets HTTP request parameter first value as type date, format {@link TimeUtils#FORMAT_TYPE_YMD}
+     * @param name parameter name
+     * @param defaultValue default value if not presented in request
+     * @param defaultSet set default value back in request for using in JSP
+     * @return parsed date, or {@code defaultValue} if not presented
      */
     public Date getParamDate(String name, Date defaultValue, boolean defaultSet) {
         Date value = TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMD);
@@ -469,20 +505,31 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return defaultValue;
     }
 
+    /**
+     * Gets HTTP request parameter first value as type date, format {@link TimeUtils#FORMAT_TYPE_YMD}
+     * @param name parameter name
+     * @param defaultValue default value if not presented in request
+     * @return parsed date, or {@code defaultValue} if not presented
+     */
     public Date getParamDate(String name, Date defaultValue) {
         return getParamDate(name, defaultValue, false);
     }
 
+    /**
+     * Gets HTTP request parameter first value as type date, format {@link TimeUtils#FORMAT_TYPE_YMD}
+     * @param name parameter name
+     * @return parsed date, or {@code null} if not presented
+     */
     public Date getParamDate(String name) {
         return getParamDate(name, null);
     }
 
     /**
-     * Gets HTTP request parameter first value as type {@link YearMonth}.
-     * @param name parameter name, storing the first day of month in string format {@link TimeUtils#FORMAT_TYPE_YMD}.
-     * @param validator optional value validator.
-     * @return parameter value or {@code null}.
-     * @throws BGIllegalArgumentException when validation fails.
+     * Gets HTTP request parameter first value as type {@link YearMonth}
+     * @param name parameter name, storing the first day of month in string format {@link TimeUtils#FORMAT_TYPE_YMD}
+     * @param validator optional value validator
+     * @return parameter value or {@code null}
+     * @throws BGIllegalArgumentException when validation fails
      */
     public YearMonth getParamYearMonth(String name, Predicate<YearMonth> validator) throws BGIllegalArgumentException {
         var result = TimeConvert.toYearMonth(getParamDate(name));
@@ -493,11 +540,24 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return result;
     }
 
+    /**
+     * Gets HTTP request parameter value with date and time
+     * @param name parameter name
+     * @param format date and time format
+     * @param defaultValue default value if not presented in request
+     * @return parsed date, or {@code defaultValue} if not presented
+     */
     public Date getParamDateTime(String name, String format, Date defaultValue) {
         Date value = TimeUtils.parse(getParam(name), format);
         return value != null ? value : defaultValue;
     }
 
+    /**
+     * Gets HTTP request parameter value with date and time
+     * @param name parameter name
+     * @param format date and time format
+     * @return parsed date, or {@code null} if not presented
+     */
     public Date getParamDateTime(String name, String format) {
         return getParamDateTime(name, format, (Date) null);
     }
@@ -525,20 +585,31 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParamDateTime(name, TimeUtils.FORMAT_TYPE_YMDHMS, (Date) null);
     }
 
+    /**
+     * Gets HTTP request parameter first value as type {@code int}
+     * @param name parameter name
+     * @param defaultValue default value if not presented or unparsable
+     * @return parsed int value, or {@code defaultValue}
+     */
     public int getParamInt(String name, int defaultValue) {
         return Utils.parseInt(getParam(name), defaultValue);
     }
 
+    /**
+     * Gets HTTP request parameter first value as type {@code int}
+     * @param name parameter name
+     * @return parsed int value, or {@code 0}
+     */
     public int getParamInt(String name) {
         return getParamInt(name, 0);
     }
 
     /**
-     * Gets HTTP request parameter first value as type {@code int}.
-     * @param name parameter name.
-     * @param validator optional value validator.
-     * @return parsed int value or {@code 0}.
-     * @throws BGIllegalArgumentException
+     * Gets HTTP request parameter first value as type {@code int}
+     * @param name parameter name
+     * @param validator optional value validator
+     * @return parsed int value or {@code 0}
+     * @throws BGIllegalArgumentException if validation fails
      */
     public int getParamInt(String name, Predicate<Integer> validator) throws BGIllegalArgumentException {
         String value = getParam(name);
@@ -551,27 +622,49 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return result;
     }
 
+    /**
+     * Gets HTTP request parameter first value as type {@code long}
+     * @param name parameter name
+     * @param defaultValue default value if not presented or unparsable
+     * @return parsed long value, or {@code defaultValue}
+     */
     public long getParamLong(String name, long defaultValue) {
         return Utils.parseLong(getParam(name), defaultValue);
     }
 
+    /**
+     * Gets HTTP request parameter first value as type {@code long}
+     * @param name parameter name
+     * @return parsed long value, or {@code 0}
+     */
     public long getParamLong(String name) {
         return getParamLong(name, 0);
     }
 
+    /**
+     * Gets HTTP request parameter first value as type {@code boolean}
+     * @param name parameter name
+     * @param defaultValue default value if not presented or unparsable
+     * @return parsed boolean value, or {@code defaultValue}
+     */
     public Boolean getParamBoolean(String name, Boolean defaultValue) {
         return Utils.parseBoolean(getParam(name), defaultValue);
     }
 
+    /**
+     * Gets HTTP request parameter first value as type {@code boolean}
+     * @param name parameter name
+     * @return parsed boolean value, or {@code false}
+     */
     public boolean getParamBoolean(String name) {
         return getParamBoolean(name, false);
     }
 
 
     /**
-     * Gets HTTP request parameter values as type int.
-     * @param name the parameter name.
-     * @return not {@code null} set with all the parameter values parsed to integer.
+     * Gets HTTP request parameter values as type int
+     * @param name the parameter name
+     * @return not {@code null} set with all the parameter values parsed to integer
      */
     public Set<Integer> getParamValues(String name) {
         Set<Integer> result = new HashSet<>();
@@ -590,9 +683,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter values.
-     * @param name the parameter name.
-     * @return not {@code null} set with all the parameter values excluding empty strings.
+     * Gets HTTP request parameter values
+     * @param name the parameter name
+     * @return not {@code null} set with all the parameter values excluding empty strings
      */
     public Set<String> getParamValuesStr(String name) {
         final String[] array = param.getArray(name);
@@ -602,9 +695,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter values as an ordered list of type int.
-     * @param name the parameter name.
-     * @return not {@code null} list with all the parameter values parsed to integer.
+     * Gets HTTP request parameter values as an ordered list of type int
+     * @param name the parameter name
+     * @return not {@code null} list with all the parameter values parsed to integer
      */
     public List<Integer> getParamValuesList(String name) {
         List<Integer> result = new ArrayList<>();
@@ -624,19 +717,19 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter values as an ordered list.
-     * @param name the parameter name.
-     * @return not {@code null} list with all the parameter values.
+     * Gets HTTP request parameter values as an ordered list
+     * @param name the parameter name
+     * @return not {@code null} list with all the parameter values
      */
     public List<String> getParamValuesListStr(String name) {
         return getParamValuesListStr(name, null);
     }
 
     /**
-     * Gets HTTP request parameter values as an ordered list.
-     * @param name the parameter name.
-     * @param exclude excluded value.
-     * @return not {@code null} list with all the parameter values.
+     * Gets HTTP request parameter values as an ordered list
+     * @param name the parameter name
+     * @param exclude excluded value
+     * @return not {@code null} list with all the parameter values
      */
     public List<String> getParamValuesListStr(String name, String exclude) {
         List<String> result = new ArrayList<>();
@@ -655,6 +748,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     // processing context
 
+    /**
+     * @return the DB connections of the current request
+     */
     public ConnectionSet getConnectionSet() {
         return connectionSet;
     }
@@ -663,20 +759,33 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         this.connectionSet = value;
     }
 
+    /**
+     * @return the current user
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets the current user, also updating the log tracking ID
+     * @param user the user
+     */
     public void setUser(User user) {
         this.user = user;
         if (user != null)
             param.setLogTrackingId("UID: " + user.getId());
     }
 
+    /**
+     * @return the current user's ID, or {@code -1} if there is no user
+     */
     public int getUserId() {
         return user != null ? user.getId() : -1;
     }
 
+    /**
+     * @return the current user's permissions
+     */
     public ConfigMap getPermission() {
         return permission;
     }
@@ -687,23 +796,26 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     // response
 
+    /**
+     * @return the response data object
+     */
     public Response getResponse() {
         return response;
     }
 
     /**
-     * Set response object data.
-     * @param key
-     * @param value
+     * Sets response object data
+     * @param key the data key
+     * @param value the data value
      */
     public void setResponseData(String key, Object value) {
         response.setData(key, value);
     }
 
     /**
-     * Set HTTP request attribute. Unlike response data, not serialized to JSON.
-     * @param key
-     * @param value
+     * Sets HTTP request attribute. Unlike response data, not serialized to JSON.
+     * @param key the attribute key
+     * @param value the attribute value
      */
     public void setRequestAttribute(String key, Object value) {
         httpRequest.setAttribute(key, value);

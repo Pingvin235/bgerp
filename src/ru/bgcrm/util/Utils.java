@@ -49,7 +49,7 @@ public class Utils {
     }
 
     /**
-     * Convert a string to an int, return {@code 0} in case of error
+     * Converts a string to an int, return {@code 0} in case of error
      * @param str the input string
      * @return the number converted from the string, or {@code 0} in case of error
      */
@@ -58,7 +58,7 @@ public class Utils {
     }
 
     /**
-     * Convert a string to an int, return a default value in case of error
+     * Converts a string to an int, return a default value in case of error
      * @param str the input string
      * @param defaultValue the default value in case of error
      * @return the number converted from the string, or {@code defaultValue} in case of error
@@ -73,7 +73,7 @@ public class Utils {
     }
 
     /**
-     * Convert a string to a long, return {@code 0} in case of error
+     * Converts a string to a long, return {@code 0} in case of error
      * @param str the input string
      * @return the number converted from the string, or {@code 0} in case of error
      */
@@ -82,7 +82,7 @@ public class Utils {
     }
 
     /**
-     * Convert a string to a long, return a default value in case of error
+     * Converts a string to a long, return a default value in case of error
      * @param str the input string
      * @param defaultValue the default value in case of error
      * @return the number converted from the string, or {@code defaultValue} in case of error
@@ -97,7 +97,7 @@ public class Utils {
     }
 
     /**
-     * Convert an object's string representation to a decimal object
+     * Converts an object's string representation to a decimal object
      * @param obj the object
      * @param defaultValue the default value in case of parsing exception
      * @return decimal object, {@code defaultValue} for any unparsable value
@@ -111,7 +111,7 @@ public class Utils {
     }
 
     /**
-     * Convert an object's string representation to a decimal object
+     * Converts an object's string representation to a decimal object
      * @param obj the object
      * @return decimal object, {@code null} when {@code obj} was {@code null}, {@link BigDecimal#ZERO} for any unparsable value
      */
@@ -122,18 +122,18 @@ public class Utils {
     }
 
     /**
-     * Вызывает функию {@link #parseBoolean(String, Boolean)} со вторым параметром false.
-     * @param str
-     * @return
+     * Converts a string to a boolean, return {@code false} in case of error
+     * @param str the input string
+     * @return the boolean value converted from the string, or {@code false} in case of error
      */
     public static boolean parseBoolean(String str) {
         return parseBoolean(str, false);
     }
 
     /**
-     * Определяет хранится ли в строке число.
-     * @param str
-     * @return
+     * Checks whether the string contains only digits, i.e. no letters
+     * @param str the input string
+     * @return {@code true} if the string doesn't contain letters
      */
     public static boolean isStringNumber(String str) {
         for (int i = 0; i < str.length(); i++)
@@ -164,37 +164,37 @@ public class Utils {
     }
 
     /**
-     * Преобразует boolean в строку "1" или "0".
-     * @param value
-     * @return
+     * Converts a boolean value to a string "1" or "0"
+     * @param value the boolean value
+     * @return "1" for {@code true}, "0" for {@code false}
      */
     public static final String booleanToStringInt(boolean value) {
         return value ? "1" : "0";
     }
 
     /**
-     * Возвращает объект либо иное значение, если объект null.
-     * @param value
-     * @return
+     * Returns the value, or a default value if the value is {@code null}
+     * @param value the value
+     * @param defaultValue the default value
+     * @return {@code value}, or {@code defaultValue} if {@code value} is {@code null}
      */
     public static final <T> T maskNull(final T value, final T defaultValue) {
         return value == null ? defaultValue : value;
     }
 
     /**
-     * Преобразует входную строку в пустую, если она null.
-     * @param value
-     * @return
+     * Converts the input string to an empty one if it is {@code null}
+     * @param value the input string
+     * @return {@code value}, or an empty string if {@code value} is {@code null}
      */
     public static final String maskNull(final String value) {
         return value == null ? "" : value;
     }
 
     /**
-     * Возвращает входное значение тогда и только тогда, когда оно не равно null,
-     * иначе возвращает BigDecimal.ZERO.
-     * @param value
-     * @return
+     * Returns the input value if it is not {@code null}, otherwise {@link BigDecimal#ZERO}
+     * @param value the input value
+     * @return {@code value}, or {@link BigDecimal#ZERO} if {@code value} is {@code null}
      */
     public static final BigDecimal maskNullDecimal(final BigDecimal value) {
         return value != null ? value : BigDecimal.ZERO;
@@ -214,54 +214,55 @@ public class Utils {
     }
 
     /**
-     * Преобразует входную строку в значение по-умолчанию, если она null или пустая.
-     * @param value
-     * @return
+     * Converts the input string to a default value if it is {@code null} or empty
+     * @param value the input string
+     * @param defaultValue the default value
+     * @return {@code value}, or {@code defaultValue} if {@code value} is {@code null} or empty
      */
     public static final String maskEmpty(final String value, final String defaultValue) {
         return isEmptyString(value) ? defaultValue : value;
     }
 
     /**
-     * Проверяет, является ли строка пустой или null.
-     * @param value проверяемая строка
-     * @return true - если пустая или null
+     * Checks whether the string is empty or {@code null}
+     * @param value the checked string
+     * @return {@code true} if empty or {@code null}
      */
     public static final boolean isEmptyString(String value) {
         return value == null || value.length() == 0;
     }
 
     /**
-     * Проверяет, является ли строка пустой, состоящей из пробельных символов или null.
-     * @param value проверяемая строка
-     * @return true если пустая, состоит из пробельных символов или null
+     * Checks whether the string is empty, consists only of whitespace chars, or is {@code null}
+     * @param value the checked string
+     * @return {@code true} if empty, blank, or {@code null}
      */
     public static final boolean isBlankString(String value) {
         return value == null || value.trim().length() == 0;
     }
 
     /**
-     * Проверяет, является ли строка пустой или null.
-     * @param value проверяемая строка
-     * @return false если пустая или null
+     * Checks whether the string is not empty and not {@code null}
+     * @param value the checked string
+     * @return {@code false} if empty or {@code null}
      */
     public static final boolean notEmptyString(String value) {
         return value != null && value.length() > 0;
     }
 
     /**
-     * Checks if string value is blank.
-     * @param value checked value.
-     * @return {@code false} when {@code value} is {@code null}, empty or has only whitespace chars.
+     * Checks if string value is blank
+     * @param value checked value
+     * @return {@code false} when {@code value} is {@code null}, empty or has only whitespace chars
      */
     public static final boolean notBlankString(String value) {
         return value != null && value.trim().length() > 0;
     }
 
     /**
-     * Checks all the passed values with {@link #notBlankString(String)}.
-     * @param value values.
-     * @return {@code value} is not null, all the values aren't blank.
+     * Checks all the passed values with {@link #notBlankString(String)}
+     * @param value values
+     * @return {@code value} is not null, all the values aren't blank
      */
     public static final boolean notBlankStrings(String... value) {
         if (value == null)
@@ -295,17 +296,17 @@ public class Utils {
 
     /**
      * Is the integer value greater than zero. To do not create lambda functions.
-     * @param value
-     * @return
+     * @param value the value
+     * @return {@code true} if {@code value} is greater than zero
      */
     public static final boolean isPositive(Integer value) {
         return value > 0;
     }
 
     /**
-     * Is the string a valid Email address.
-     * @param value
-     * @return
+     * Is the string a valid Email address
+     * @param value the checked string
+     * @return {@code true} if the string is a valid email address
      */
     public static final boolean isValidEmail(String value) {
         if (isBlankString(value))
@@ -319,21 +320,20 @@ public class Utils {
     }
 
     /**
-     * Вызывается {@link #toString(Collection, String, String)} с
-     * параметром emptyValue="", delim={@link #DEFAULT_DELIM}.
-     * @param valuesList
-     * @return
+     * Converts a collection to a string joined with {@link #DEFAULT_DELIM}
+     * @param valuesList the collection
+     * @return the resulting string, or an empty string if the collection is empty
      */
     public static final String toString(Collection<?> valuesList) {
         return toString(valuesList, "", DEFAULT_DELIM);
     }
 
     /**
-     * Преобразовывает коллекцию в строку, разделенную значениями delim.
-     * @param valuesList коллектиция
-     * @param emptyValue значение при пустом списке
-     * @param delim разделитель
-     * @return
+     * Converts a collection to a string joined with the delimiter
+     * @param valuesList the collection
+     * @param emptyValue the value to return for an empty list
+     * @param delim the delimiter
+     * @return the resulting string
      */
     public static final String toString(Collection<?> valuesList, String emptyValue, String delim) {
         if (valuesList != null && valuesList.size() != 0) {
@@ -358,19 +358,19 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку с разделителями - запятыми или точками с запятой к списку Integer.
-     * @param valuesStr
-     * @return
+     * Converts a string, delimited by commas or semicolons, to a list of {@link Integer}
+     * @param valuesStr the input string
+     * @return the resulting list
      */
     public static final List<Integer> toIntegerList(String valuesStr) {
         return toIntegerList(valuesStr, ",;");
     }
 
     /**
-     * Преобразует строку с произвольными разделителями - символами в delims в список Integer.
-     * @param valuesStr
-     * @param delims
-     * @return
+     * Converts a string, delimited by the given chars, to a list of {@link Integer}
+     * @param valuesStr the input string
+     * @param delims the delimiter chars
+     * @return the resulting list
      */
     public static final List<Integer> toIntegerList(String valuesStr, String delims) {
         List<Integer> result = new ArrayList<>();
@@ -388,9 +388,9 @@ public class Utils {
     }
 
     /**
-     * Преобразование строки, разделенной запятыми к набору Integer.
-     * @param valuesStr
-     * @return
+     * Converts a string, delimited by commas, to a set of {@link Integer}
+     * @param valuesStr the input string
+     * @return the resulting set
      */
     public static final Set<Integer> toIntegerSet(String valuesStr) {
         Set<Integer> result = new LinkedHashSet<>();
@@ -408,10 +408,10 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку разделённую произвольными разделителями - симвоолами в delims в набор строк.
-     * @param valuesStr
-     * @param delims
-     * @return
+     * Converts a string, delimited by the given chars, to a set of strings
+     * @param valuesStr the input string
+     * @param delims the delimiter chars
+     * @return the resulting set
      */
     public static final Set<String> toSet(String valuesStr, String delims) {
         Set<String> result = new LinkedHashSet<>();
@@ -425,9 +425,9 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку разделённую , либо ; в набор строк.
-     * @param valuesStr
-     * @return
+     * Converts a string, delimited by commas or semicolons, to a set of strings
+     * @param valuesStr the input string
+     * @return the resulting set
      */
     public static final Set<String> toSet(String valuesStr) {
         Set<String> result = new HashSet<>();
@@ -441,19 +441,19 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку разделённую , либо ; в список строк.
-     * @param valuesStr
-     * @return
+     * Converts a string, delimited by commas or semicolons, to a list of strings
+     * @param valuesStr the input string
+     * @return the resulting list
      */
     public static final List<String> toList(String valuesStr) {
         return toList(valuesStr, ",;");
     }
 
     /**
-     * Converts a string with obitary delimeter chars to list of strings.
-     * @param value incoming string.
-     * @param delims delimeter chars.
-     * @return list of tokens, each of that is not empty string.
+     * Converts a string with arbitrary delimiter chars to list of strings
+     * @param value incoming string
+     * @param delims delimiter chars
+     * @return list of tokens, each of that is not empty string
      */
     public static final List<String> toList(String value, String delims) {
         List<String> result = new ArrayList<>();
@@ -469,10 +469,10 @@ public class Utils {
     }
 
     /**
-     * Joins configuration lines to a single string with a separator.
-     * @param config configuration lines.
-     * @param separator separator placed after each line.
-     * @return joined string.
+     * Joins configuration lines to a single string with a separator
+     * @param config configuration lines
+     * @param separator separator placed after each line
+     * @return joined string
      */
     public static final String toText(List<String> config, String separator) {
         StringBuilder sb = new StringBuilder();
@@ -483,9 +483,9 @@ public class Utils {
     }
 
     /**
-     * Возвращает список кодов объектов.
-     * @param list
-     * @return
+     * Returns a list of object IDs
+     * @param list the objects
+     * @return the resulting list
      */
     public static final <T extends IdTitle> List<Integer> getObjectIdsList(Collection<T> list) {
         List<Integer> result = new ArrayList<>(list.size());
@@ -496,9 +496,9 @@ public class Utils {
     }
 
     /**
-     * Возаращает набор кодов объектов.
-     * @param list
-     * @return
+     * Returns a set of object IDs
+     * @param list the objects
+     * @return the resulting set
      */
     public static final <T extends IdTitle> Set<Integer> getObjectIdsSet(Collection<T> list) {
         Set<Integer> result = new HashSet<>(list.size());
@@ -511,7 +511,7 @@ public class Utils {
     /**
      * Comma separated object IDs
      * @param values the objects
-     * @return
+     * @return the resulting string
      */
     public static final <T extends org.bgerp.model.base.iface.Id<Integer>> String getObjectIds(Collection<T> values) {
         return getObjectIds(values, null);
@@ -521,7 +521,7 @@ public class Utils {
      * Comma separated object IDs
      * @param values the objects
      * @param startValues beginning of the resulting string
-     * @return
+     * @return the resulting string
      */
     public static final <T extends org.bgerp.model.base.iface.Id<Integer>> String getObjectIds(Collection<T> values, String startValues) {
         return getObjectIds(values, startValues, DEFAULT_DELIM);
@@ -532,7 +532,7 @@ public class Utils {
      * @param values the objects
      * @param startValues beginning of the resulting string
      * @param delim the separator
-     * @return
+     * @return the resulting string
      */
     public static <T extends org.bgerp.model.base.iface.Id<Integer>> String getObjectIds(Collection<T> values, String startValues, String delim) {
         StringBuilder result = new StringBuilder();
@@ -553,7 +553,7 @@ public class Utils {
     }
 
     /**
-     * Concatenates object titles to a comma separated string.
+     * Concatenates object titles to a comma separated string
      * @param list the list of titled objects
      * @return comma separated string
      */
@@ -562,7 +562,7 @@ public class Utils {
     }
 
     /**
-     * Concatenates object titles to a comma separated string.
+     * Concatenates object titles to a comma separated string
      * @param fullList the full object list, defines the resulting order
      * @param selectedIds the selected IDs
      * @return comma separated string
@@ -572,7 +572,7 @@ public class Utils {
     }
 
     /**
-     * Concatenates object titles to a comma separated string.
+     * Concatenates object titles to a comma separated string
      * @param fullMap the full object map
      * @param selectedIds the selected IDs, defines the resulting order
      * @return comma separated string
@@ -582,10 +582,10 @@ public class Utils {
     }
 
     /**
-     * Selects objects sub-list from a given full list with IDs presented in a collection.
-     * @param fullList the full list.
-     * @param selectedIds the IDs collection.
-     * @return
+     * Selects objects sub-list from a given full list with IDs presented in a collection
+     * @param fullList the full list
+     * @param selectedIds the IDs collection
+     * @return the resulting sub-list
      */
     public static final <T extends IdTitle> List<T> getObjectList(List<T> fullList, Collection<Integer> selectedIds) {
         List<T> result = new ArrayList<>();
@@ -600,10 +600,10 @@ public class Utils {
     }
 
     /**
-     * Selects objects list from a full map by a given IDs list in the same order.
-     * @param fullMap the full objects map.
-     * @param selectedIds the IDs list.
-     * @return
+     * Selects objects list from a full map by a given IDs list in the same order
+     * @param fullMap the full objects map
+     * @param selectedIds the IDs list
+     * @return the resulting list
      */
     public static final <T extends IdTitle> List<T> getObjectList(Map<Integer, T> fullMap, List<Integer> selectedIds) {
         List<T> result = new ArrayList<>();
@@ -621,9 +621,9 @@ public class Utils {
     }
 
     /**
-     * Возвращает список объектов из строки вида код:наименование; код:наименование.
-     * @param value
-     * @return
+     * Parses a list of objects from a string like "id:title; id:title"
+     * @param value the input string
+     * @return the resulting list
      */
     public static final List<IdTitle> parseIdTitleList(String value) {
         List<IdTitle> result = new ArrayList<>();
@@ -642,10 +642,10 @@ public class Utils {
     }
 
     /**
-     * Возвращает список объектов из строки вида код:наименование; код:наименование. Если значение для второго элемента пары не указано, будет использовано переданное в параметре noPairValue
-     * @param value
-     * @param noPairValue
-     * @return
+     * Parses a list of objects from a string like "id:title; id:title". If the title part of a pair is missing, {@code noPairValue} is used instead.
+     * @param value the input string
+     * @param noPairValue the default title value for entries without one
+     * @return the resulting list
      */
     public static final List<IdTitle> parseIdTitleList(String value, String noPairValue) {
         List<IdTitle> result = new ArrayList<>();
@@ -682,6 +682,13 @@ public class Utils {
         return result;
     }
 
+    /**
+     * Appends a "prefix param=value" line to the data
+     * @param data the target buffer
+     * @param prefix the line prefix
+     * @param param the parameter name
+     * @param value the parameter value
+     */
     public static final void addSetupPair(StringBuilder data, String prefix, String param, String value) {
         data.append(prefix);
         data.append(param);
@@ -691,16 +698,20 @@ public class Utils {
     }
 
     /**
-     * Добавляет в конец строки новое значение,
-     * отделяя запятой с пробелом, если он не первый.
-     *
-     * @param result
-     * @param value
+     * Appends a new value to the end of the string, separating it with a comma and a space if it is not the first one
+     * @param result the target buffer
+     * @param value the value to append
      */
     public static final void addCommaSeparated(StringBuilder result, String value) {
         addSeparated(result, DEFAULT_DELIM, value);
     }
 
+    /**
+     * Appends a new value to the end of the string, separating it with the given separator if it is not the first one
+     * @param result the target buffer
+     * @param separator the separator
+     * @param value the value to append
+     */
     public static final void addSeparated(StringBuilder result, String separator, String value) {
         if (result.length() != 0) {
             result.append(separator);
@@ -709,19 +720,19 @@ public class Utils {
     }
 
     /**
-     * Вызывает {@link #getDigest(String, String)} с кодировкой UTF-8.
-     * @param value
-     * @return
+     * Computes the MD5 digest HEX string of the input string, using UTF-8 encoding
+     * @param value the input string
+     * @return digest HEX string or {@code null} in case of any error
      */
     public static String getDigest(String value) {
         return getDigest(value, StandardCharsets.UTF_8.name());
     }
 
     /**
-     * Возвращает строковое представление MD5 хэша от входной строки.
-     * @param value входные данные
-     * @param charset кодировка
-     * @return строка
+     * Returns the HEX string representation of the MD5 hash of the input string
+     * @param value the input data
+     * @param charset the encoding
+     * @return digest HEX string or {@code null} in case of any error
      */
     public static String getDigest(String value, String charset) {
         try {
@@ -733,9 +744,9 @@ public class Utils {
     }
 
     /**
-     * HEX representation of MD5 digest.
-     * @param value digest basic.
-     * @return digest HEX string or {@code null} in case of any error.
+     * HEX representation of MD5 digest
+     * @param value digest basic
+     * @return digest HEX string or {@code null} in case of any error
      */
     public static String getDigest(byte[] value) {
         StringBuffer passwdDigest = new StringBuffer(32);
@@ -754,17 +765,17 @@ public class Utils {
     }
 
     /**
-     * System temp directory.
-     * @return value of system property 'java.io.tmpdir', or '/tmp' if it is missing.
+     * System temp directory
+     * @return value of system property 'java.io.tmpdir', or '/tmp' if it is missing
      */
     public static String getTmpDir() {
         return TMP_DIR;
     }
 
     /**
-     * Creates a directory with a given name in working directory if it does not exist.
-     * @param dirName the directory name.
-     * @return created or existing directory.
+     * Creates a directory with a given name in working directory if it does not exist
+     * @param dirName the directory name
+     * @return created or existing directory
      */
     public static final File createDirectoryIfNoExistInWorkDir(String dirName) {
         File dir = new File(dirName);
@@ -779,11 +790,11 @@ public class Utils {
     }
 
     /**
-     * Возвращает остаток строки после num вхождения token в строку value.
-     * @param value
-     * @param token
-     * @param num
-     * @return
+     * Returns the remainder of the string after the {@code num}-th occurrence of the token
+     * @param value the input string
+     * @param token the token to search for
+     * @param num the occurrence number
+     * @return the remaining substring, or an empty string if not found
      */
     public static final String substringAfter(String value, String token, int num) {
         String result = "";
@@ -803,7 +814,7 @@ public class Utils {
     }
 
     /**
-     * @return generated random string with 32 ASCII chars.
+     * @return generated random string with 32 ASCII chars
      */
     public static final String generateSecret() {
         byte[] random = new byte[32];
@@ -812,8 +823,8 @@ public class Utils {
     }
 
     /**
-     * @param collection collection of elements.
-     * @return the first element from {@code collection}, or {@code null} if collection is {@code null} or empty.
+     * @param collection collection of elements
+     * @return the first element from {@code collection}, or {@code null} if collection is {@code null} or empty
      */
     public static <T> T getFirst(Collection<T> collection) {
         if (collection != null && collection.size() > 0) {
@@ -823,8 +834,8 @@ public class Utils {
     }
 
     /**
-     * Calls {@link Functions#escapeXml(String)} - replaces XML markup symbols to special codes.
-     * @param value
+     * Replaces XML markup symbols with special codes
+     * @param value the input string
      * @return the input string with replacements
      */
     public static String escapeXml(String value) {
@@ -834,18 +845,18 @@ public class Utils {
     }
 
     /**
-     * Calls {@link UtilFunction#htmlEncode(String)} - replaces only HTML tags.
-     * @param value
-     * @return
+     * Replaces only HTML tags with escaped codes
+     * @param value the input string
+     * @return the input string with replacements
      */
     public static String htmlEncode(String value) {
         return UtilFunction.htmlEncode(value);
     }
 
     /**
-     * Extracts entity ID from URL.
-     * @param url URL.
-     * @return extracted positive ID or {@code 0} if couldn't extract.
+     * Extracts entity ID from URL
+     * @param url URL
+     * @return extracted positive ID or {@code 0} if couldn't extract
      */
     public static int getOpenId(String url) {
         if (isBlankString(url))
@@ -865,9 +876,9 @@ public class Utils {
     }
 
     /**
-     * Sets HTTP headers for downloaded file.
-     * @param response
-     * @param fileName
+     * Sets HTTP headers for downloaded file
+     * @param response the HTTP response
+     * @param fileName the file name
      */
     public static void setFileNameHeaders(HttpServletResponse response, String fileName) {
         try {
@@ -879,9 +890,9 @@ public class Utils {
     }
 
     /**
-     * Writes error message and exists the running application.
-     * @param code exit code.
-     * @param message message.
+     * Writes error message and exits the running application
+     * @param code exit code
+     * @param message message
      */
     public static void errorAndExit(int code, String message) {
         System.err.println(message);
@@ -890,7 +901,7 @@ public class Utils {
     }
 
     /**
-     * The method does special JSP-specific type converting, therefore must not be called from Java code.
+     * The method does special JSP-specific type converting, therefore must not be called from Java code
      * @see org.bgerp.app.cfg.bean.Bean#newInstance(String)
      */
     @Deprecated
@@ -900,10 +911,10 @@ public class Utils {
     }
 
     /**
-     * Checks if object is instance one of classes.
-     * @param o the object to check.
-     * @param names class names.
-     * @return if object {@code o} is instance any of {@code names} classes.
+     * Checks if object is instance one of classes
+     * @param o the object to check
+     * @param names class names
+     * @return if object {@code o} is instance any of {@code names} classes
      */
     public static boolean hasClass(Object o, String... names) {
         for (String name : names) {
@@ -915,10 +926,10 @@ public class Utils {
     }
 
     /**
-     * Retrieves a property value from {@link System#getProperty(String)}.
+     * Retrieves a property value from {@link System#getProperty(String)}
      * @param key the key is prepended by {@code bgerp.}
-     * @param defaultValue the default value if no property found.
-     * @return
+     * @param defaultValue the default value if no property found
+     * @return the property value, or {@code defaultValue} if not found
      */
     public static String getSystemProperty(String key, String defaultValue) {
         if (key.startsWith("bgerp"))
@@ -927,9 +938,9 @@ public class Utils {
     }
 
     /**
-     * Formats a decimal value to a regular string without trailing zeros.
-     * @param value the decimal value.
-     * @return empty string for {@code null} value, or formatted string.
+     * Formats a decimal value to a regular string without trailing zeros
+     * @param value the decimal value
+     * @return empty string for {@code null} value, or formatted string
      */
     public static String format(BigDecimal value) {
         if (value == null)
