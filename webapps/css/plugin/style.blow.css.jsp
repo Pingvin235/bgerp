@@ -15,18 +15,18 @@
 	background-size: 28.28px 28.28px;
 }
 
-.bgcolor-9ad78a {
+#blow-board .bgcolor-9ad78a {
 	background-color: #9ad78a;
 }
 
-.bgcolor-fff1a4 {
+#blow-board .bgcolor-fff1a4 {
 	background-color: #fff1a4;
 }
 
-.bgcolor-ffbe7e {
+#blow-board .bgcolor-ffbe7e {
 	background-color: #ffbe7e;
 }
 
-.bgcolor-fd7d89 {
+#blow-board .bgcolor-fd7d89 {
 	background-color: #fd7d89;
 }
