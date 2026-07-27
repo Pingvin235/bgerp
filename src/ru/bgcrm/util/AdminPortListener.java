@@ -39,8 +39,8 @@ public class AdminPortListener implements Runnable {
     protected boolean run = true;
 
     /**
-     * Constructor, binds a server socket on loopback interface only.
-     * @param port port.
+     * Constructor, binds a server socket on loopback interface only
+     * @param port the port number
      */
     public AdminPortListener(int port) {
         log.info("Starting listen admin port {}", port);
@@ -56,7 +56,7 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * Main listening loop.
+     * Main listening loop
      */
     @Override
     public void run() {
@@ -119,7 +119,7 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * @return app version string.
+     * @return app version string
      */
     public static String getVersionInfo() {
         var result = new StringBuilder(200);
@@ -154,7 +154,7 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * @return running application status: version, uptime, memory.
+     * @return running application status: version, uptime, memory
      */
     public static String statusApp() {
         var result = new StringBuilder(1000);
@@ -170,7 +170,7 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * @return string with formatted {@link #START_TIME} and calculated uptime after it.
+     * @return string with formatted {@link #START_TIME} and calculated uptime after it
      */
     public static final String uptimeStatus() {
         var report = new StringBuilder(100);
@@ -205,7 +205,7 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * @return string with applications memory state.
+     * @return string with application's memory state
      */
     public static final String memoryStatus() {
         var report = new StringBuilder(150);

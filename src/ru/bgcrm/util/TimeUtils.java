@@ -32,9 +32,9 @@ public class TimeUtils {
     public static final String FORMAT_TYPE_YMDHMS = "ymdhms";
 
     /**
-     * Date and time format string compatible with {@link SimpleDateFormat}.
-     * @param type type of date-time: {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.
-     * @return matching date format or {@param type} itself.
+     * Date and time format string compatible with {@link SimpleDateFormat}
+     * @param type type of date-time: {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}
+     * @return matching date format or {@code type} itself
      */
     public static String getTypeFormat(String type) {
         switch (type) {
@@ -52,10 +52,10 @@ public class TimeUtils {
     }
 
     /**
-     * Формирует строку с датой по заданному шаблону.
-     * @param date исходная дата
-     * @param patternType шаблон даты {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.
-     * @return строка если исходная дата != null и шаблон задан корректно иначе null.
+     * Formats a string with the date by the given pattern
+     * @param date the input date
+     * @param patternType the date pattern: {@link #FORMAT_TYPE_YMD}, {@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}
+     * @return the string if the input date is not {@code null} and the pattern is correct, otherwise {@code null}
      */
     public static final String format(java.util.Date date, String patternType) {
         DateFormat format = new SimpleDateFormat(getTypeFormat(patternType));
@@ -63,9 +63,9 @@ public class TimeUtils {
     }
 
     /**
-     * Форматирует дату в вид 'yyyy-MM-dd' для подстановки в SQL запрос, сразу окружённую кавычками.
-     * @param date
-     * @return
+     * Formats a date as 'yyyy-MM-dd' for substitution into an SQL query, already wrapped in quotes
+     * @param date the input date
+     * @return the formatted string
      */
     public static final String formatSqlDate(Date date) {
         return new SimpleDateFormat( "''yyyy-MM-dd''").format(date);
@@ -73,8 +73,8 @@ public class TimeUtils {
 
     /**
      * Formats a duration object to a human-readable string like {@code 5h 15m}
-     * @param duration
-     * @return
+     * @param duration the duration
+     * @return the formatted string
      */
     public static final String format(Duration duration) {
         return duration.toString()
@@ -88,12 +88,10 @@ public class TimeUtils {
     }
 
     /**
-     * Формирует строку период.
-     * @param date1 начала периода.
-     * @param date2 конец периода.
-     * @return строка "dd.MM.yyyy-dd.MM.yyyy", если один из парамеметров равен
-     *         null, вместо соответствующей даты выводиться пустая строка,
-     *         например "-dd.MM.yyyy", "dd.MM.yyyy-", "-".
+     * Formats a period string
+     * @param date1 the period start
+     * @param date2 the period end
+     * @return the string "dd.MM.yyyy-dd.MM.yyyy"; if one of the parameters is {@code null}, an empty string is printed instead of the corresponding date, e.g. "-dd.MM.yyyy", "dd.MM.yyyy-", "-"
      */
     public static final String formatPeriod(Date date1, Date date2) {
         return format(date1, FORMAT_TYPE_YMD) + "-" + format(date2, FORMAT_TYPE_YMD);
@@ -132,13 +130,13 @@ public class TimeUtils {
     }
 
     // ########################################################################################
-    // # Преобразование объектов
+    // # Object conversion
     // ########################################################################################
     //
     /**
-     * Преобразование объекта Calendar в java.util.Date.
-     * @param calendar исходный объект Calendar.
-     * @return объект типа java.util.Date или null если исходный объект null.
+     * Converts a {@link Calendar} object to {@link java.util.Date}
+     * @param calendar the input {@link Calendar} object
+     * @return the {@link java.util.Date} object, or {@code null} if the input object is {@code null}
      */
     public static final java.util.Date convertCalendarToDate(Calendar calendar) {
         java.util.Date result = null;
@@ -149,9 +147,9 @@ public class TimeUtils {
     }
 
     /**
-     * Преобразование объекта java.sql.Date в java.util.Date.
-     * @param date исходный объект.
-     * @return объект типа java.util.Date или null если исходный объект null.
+     * Converts a {@link java.sql.Date} object to {@link java.util.Date}
+     * @param date the input object
+     * @return the {@link java.util.Date} object, or {@code null} if the input object is {@code null}
      */
     public static final java.util.Date convertSqlDateToDate(java.sql.Date date) {
         java.util.Date outDate = null;
@@ -162,9 +160,9 @@ public class TimeUtils {
     }
 
     /**
-     * Преобразование java.util.Date в java.util.Calendar.
-     * @param date исходный объект.
-     * @return java.sql.Calendar, если date != null, иначе null.
+     * Converts {@link java.util.Date} to {@link java.util.Calendar}
+     * @param date the input object
+     * @return the {@link Calendar}, if {@code date} is not {@code null}, otherwise {@code null}
      */
     public static final Calendar convertDateToCalendar(java.util.Date date) {
         Calendar result = null;
@@ -176,9 +174,9 @@ public class TimeUtils {
     }
 
     /**
-     * Преобразование java.sql.Timestamp в java.util.Calendar.
-     * @param time исходный объект.
-     * @return java.sql.Calendar, если time != null, иначе null.
+     * Converts {@link Timestamp} to {@link java.util.Calendar}
+     * @param time the input object
+     * @return the {@link Calendar}, if {@code time} is not {@code null}, otherwise {@code null}
      */
     public static final Calendar convertTimestampToCalendar(Timestamp time) {
         Calendar result = null;
@@ -190,18 +188,18 @@ public class TimeUtils {
     }
 
     /**
-     * Преобразование объекта java.util.Date в java.sql.Date.
-     * @param date исходный объект.
-     * @return java.sql.Date, если date != null, иначе null.
+     * Converts a {@link java.util.Date} object to {@link java.sql.Date}
+     * @param date the input object
+     * @return the {@link java.sql.Date}, if {@code date} is not {@code null}, otherwise {@code null}
      */
     public static final java.sql.Date convertDateToSqlDate(Date date) {
         return date != null ? new java.sql.Date(date.getTime()) : null;
     }
 
     /**
-     * Преобразование объекта java.util.Calendar в java.sql.Timestamp
-     * @param calendar исходный объект.
-     * @return java.sql.Timestamp, если calendar != null, иначе null.
+     * Converts a {@link Calendar} object to {@link Timestamp}
+     * @param calendar the input object
+     * @return the {@link Timestamp}, if {@code calendar} is not {@code null}, otherwise {@code null}
      */
     public static final java.sql.Timestamp convertCalendarToTimestamp(Calendar calendar) {
         java.sql.Timestamp result = null;
@@ -212,23 +210,23 @@ public class TimeUtils {
     }
 
     /**
-     * Преобразование long в java.sql.Timestamp.
-     * @param millis исходный объект.
-     * @return java.sql.Timestamp.
+     * Converts {@code long} to {@link Timestamp}
+     * @param millis the input value
+     * @return the {@link Timestamp}
      */
     public static final java.sql.Timestamp convertLongToTimestamp(long millis) {
         return new java.sql.Timestamp(millis);
     }
 
     // ########################################################################################
-    // # вычисления разниц
+    // # Difference calculations
     // ########################################################################################
     /**
-     * 24h days difference between to dates. The method is time-proven, but
+     * 24h days difference between two dates. The method is time-proven, but
      * since Java 8 there is also available: {@code ChronoUnit.DAYS.between(Temporal, Temporal)}
-     * @param dayFrom
-     * @param dayTo
-     * @return
+     * @param dayFrom the first day
+     * @param dayTo the second day
+     * @return the difference in days
      */
     public static final int daysDelta(Date dayFrom, Date dayTo) {
         long time1 = dayFrom.getTime();
@@ -240,8 +238,8 @@ public class TimeUtils {
 
     /**
      * Day of week starting from Monday = 1
-     * @param date
-     * @return
+     * @param date the date
+     * @return the day of week position
      */
     public static final int getDayOfWeekPosition(Date date) {
         Calendar calendar = convertDateToCalendar(date);
@@ -249,13 +247,13 @@ public class TimeUtils {
     }
 
     // ########################################################################################
-    // # проверки
+    // # Checks
     // ########################################################################################
     /**
-     * Проверка date1 &lt; date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
-     * @param date1 первая дата.
-     * @param date2 вторая дата.
-     * @return true - date1 &lt; date2, иначе false
+     * Checks {@code date1 < date2} (day precision)
+     * @param date1 the first date
+     * @param date2 the second date
+     * @return {@code true} if {@code date1 < date2}, otherwise {@code false}
      */
     public static boolean dateBefore(final Date date1, final Date date2) {
         return dateBefore(convertDateToCalendar(date1), convertDateToCalendar(date2));
@@ -270,10 +268,10 @@ public class TimeUtils {
     }
 
     /**
-     * Проверка date1 == date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
-     * @param date1 первая дата.
-     * @param date2 вторая дата.
-     * @return true - date1 == date2, иначе false
+     * Checks {@code date1 == date2} (day precision)
+     * @param date1 the first date
+     * @param date2 the second date
+     * @return {@code true} if {@code date1 == date2}, otherwise {@code false}
      */
     public static boolean dateEqual(Date date1, Date date2) {
         return dateEqual(convertDateToCalendar(date1), convertDateToCalendar(date2));
@@ -285,54 +283,54 @@ public class TimeUtils {
     }
 
     /**
-     * Проверка date1 &lt;= date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
-     * @param date1 первая дата.
-     * @param date2 вторая дата.
-     * @return true - date1 &lt;= date2, иначе false.
+     * Checks {@code date1 <= date2} (day precision)
+     * @param date1 the first date
+     * @param date2 the second date
+     * @return {@code true} if {@code date1 <= date2}, otherwise {@code false}
      */
     public static boolean dateBeforeOrEq(Calendar date1, Calendar date2) {
         return dateBefore(date1, date2) || dateEqual(date1, date2);
     }
 
     /**
-     * Проверка date1 &lt;= date2 (С ТОЧНОСТЬЮ ДО ДНЯ!!!).
-     * @param date1 первая дата.
-     * @param date2 вторая дата.
-     * @return true - date1 &lt;= date2, иначе false
+     * Checks {@code date1 <= date2} (day precision)
+     * @param date1 the first date
+     * @param date2 the second date
+     * @return {@code true} if {@code date1 <= date2}, otherwise {@code false}
      */
     public static boolean dateBeforeOrEq(Date date1, Date date2) {
         return dateBeforeOrEq(convertDateToCalendar(date1), convertDateToCalendar(date2));
     }
 
     /**
-     * Проверка входит ли проверяемая дата в заданный период.
-     * @param checking проверяемая дата.
-     * @param date1 начало заданого периода.
-     * @param date2 конец заданого периода.
-     * @return true - входит, false - нет.
+     * Checks whether the checked date falls within the given period
+     * @param checking the checked date
+     * @param date1 the period start
+     * @param date2 the period end
+     * @return {@code true} if it falls within, {@code false} otherwise
      */
     public static final boolean dateInRange(Calendar checking, Calendar date1, Calendar date2) {
         return checking != null && (date1 == null || dateBeforeOrEq(date1, checking)) && (date2 == null || dateBeforeOrEq(checking, date2));
     }
 
     /**
-     * Проверка входит ли проверяемая дата в заданный период.
-     * @param checking проверяемая дата.
-     * @param date1 начало заданого периода.
-     * @param date2 конец заданого периода.
-     * @return true - входит, false - нет.
+     * Checks whether the checked date falls within the given period
+     * @param checking the checked date
+     * @param date1 the period start
+     * @param date2 the period end
+     * @return {@code true} if it falls within, {@code false} otherwise
      */
     public static final boolean dateInRange(Date checking, Date date1, Date date2) {
         return dateInRange(convertDateToCalendar(checking), convertDateToCalendar(date1), convertDateToCalendar(date2));
     }
 
     /**
-     * Проверка входит ли проверяемый период в заданный.
-     * @param checkingDate1 начала проверяемого период.
-     * @param checkingDate2 конец проверяемого периода.
-     * @param date1 начало заданого периода.
-     * @param date2 конец заданого периода.
-     * @return true - входит, false - нет.
+     * Checks whether the checked period falls within the given one
+     * @param checkingDate1 the checked period start
+     * @param checkingDate2 the checked period end
+     * @param date1 the given period start
+     * @param date2 the given period end
+     * @return {@code true} if it falls within, {@code false} otherwise
      */
     public static final boolean periodInRange(Calendar checkingDate1, Calendar checkingDate2, Calendar date1, Calendar date2) {
         boolean result = date1 == null || (checkingDate1 != null && dateBeforeOrEq(date1, checkingDate1));
@@ -343,16 +341,16 @@ public class TimeUtils {
     }
 
     /**
-    * Проверка пересечения двух интервалов дат.
+    * Checks the intersection of two date intervals
     *
-    * @param date1 левая граница первого интервала
-    * @param date2 правая граница первого интервала
-    * @param dateFrom левая граница второго интервала
-    * @param dateTo правай граница второго интервала
-    * @return
+    * @param date1 the left bound of the first interval
+    * @param date2 the right bound of the first interval
+    * @param dateFrom the left bound of the second interval
+    * @param dateTo the right bound of the second interval
+    * @return {@code true} if the intervals intersect, or one of them has both bounds {@code null}
     */
     public static boolean checkDateIntervalsIntersection(Calendar date1, Calendar date2, Calendar dateFrom, Calendar dateTo) {
-        //в обоих случаях попытка поиска пересечения со всей временной осью
+        // in both cases, an attempt to find an intersection with the entire time axis
         if (date1 == null && date2 == null || dateFrom == null && dateTo == null) {
             return true;
         }
@@ -361,11 +359,11 @@ public class TimeUtils {
     }
 
     // ########################################################################################
-    // # изменения объектов
+    // # Object modifications
     // ########################################################################################
     /**
-     * Устанавливает дату на последний день месяца.
-     * @param date исходная дата.
+     * Sets the date to the last day of the month
+     * @param date the input date
      */
     public static final void moveToEndOfMonth(Calendar date) {
         if (date != null) {
@@ -376,8 +374,8 @@ public class TimeUtils {
     }
 
     /**
-     * Увеличивает date на 1 день и сбрасывает время в 00:00:00.0.
-     * @param date исходная дата.
+     * Increases date by 1 day and resets the time to 00:00:00.0
+     * @param date the input date
      */
     public static final void moveToStartNextDay(Calendar date) {
         if (date != null) {
@@ -390,9 +388,9 @@ public class TimeUtils {
     }
 
     /**
-     * Сброс времени на начало дня.
-     * @param time исходная дата.
-     * @return сброшенная дата (часы=минуты=секунды=мсек=0).
+     * Resets the time to the start of the day
+     * @param time the input date
+     * @return the reset date (hours=minutes=seconds=millis=0)
      */
     @Deprecated
     public static final Calendar clear_HOUR_MIN_MIL_SEC(Calendar time) {
@@ -409,9 +407,9 @@ public class TimeUtils {
     }
 
     /**
-     * Сброс времени на начало дня.
-     * @param time исходная дата.
-     * @return сброшенная дата (часы=минуты=секунды=мсек=0).
+     * Resets the time to the start of the day
+     * @param time the input date
+     * @return the reset date (hours=minutes=seconds=millis=0)
      */
     @Deprecated
     public static final Date clear_HOUR_MIN_MIL_SEC(Date time) {
@@ -424,7 +422,7 @@ public class TimeUtils {
     /**
      * Last day of a month
      * @param date any day of the month
-     * @return {@code null} if {@param date} is null, else the last day of the month
+     * @return {@code null} if {@code date} is {@code null}, else the last day of the month
      */
     public static final Date getEndMonth(Date date) {
         if (date == null)
@@ -433,9 +431,9 @@ public class TimeUtils {
     }
 
     /**
-     * Следующий от даты день.
-     * @param date дата
-     * @return
+     * The next day from the date
+     * @param date the date
+     * @return the next day
      */
     public static final Calendar getNextDay(Calendar date) {
         date = (Calendar) date.clone();
@@ -444,9 +442,9 @@ public class TimeUtils {
     }
 
     /**
-     * Предыдущий от даты день.
-     * @param date
-     * @return
+     * The previous day from the date
+     * @param date the date
+     * @return the previous day
      */
     public static final Calendar getPrevDay(Calendar date) {
         date = (Calendar) date.clone();
@@ -455,34 +453,34 @@ public class TimeUtils {
     }
 
     /**
-     * Следующий от даты день.
-     * @param date дата
-     * @return
+     * The next day from the date
+     * @param date the date
+     * @return the next day
      */
     public static final Date getNextDay(Date date) {
         return convertCalendarToDate(getNextDay(convertDateToCalendar(date)));
     }
 
     /**
-     * Предыдущий от даты день.
-     * @param date
-     * @return
+     * The previous day from the date
+     * @param date the date
+     * @return the previous day
      */
     public static final Date getPrevDay(Date date) {
         return convertCalendarToDate(getPrevDay(convertDateToCalendar(date)));
     }
 
     /**
-     * @return first day in the prevous month from the current time.
+     * @return first day in the previous month from the current time
      */
     public static final Date getPrevMonth() {
         return Date.from(YearMonth.now().minusMonths(1).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     /**
-     * Возвращает сокращенное название дня недели (пн - понедельник, вт - вторник и т.д.)
-     * @param date Дата, на основании которой определяется день недели
-     * @return String сокращенное название дня недели
+     * Returns the abbreviated day-of-week name ("пн" - Monday, "вт" - Tuesday, etc.)
+     * @param date the date used to determine the day of week
+     * @return the abbreviated day-of-week name
      */
     @Deprecated
     public static String getShortDateName(Date date) {
@@ -492,11 +490,11 @@ public class TimeUtils {
     }
 
     /**
-     * Корректирует объект Date, так, чтобы получилось такое же локальное время но в другой таймзоне.
-     * @param time исходный объект Date с каким-то временем для таймзоны fromTz.
-     * @param fromTz исходная таймзона.
-     * @param toTz целевая таймзона.
-     * @return
+     * Adjusts a {@link Date} object so that the same local time results in a different timezone
+     * @param time the input {@link Date} object with some time for timezone {@code fromTz}
+     * @param fromTz the source timezone
+     * @param toTz the target timezone
+     * @return the adjusted date
      */
     public static Date timezoneChange(Date time, TimeZone fromTz, TimeZone toTz) {
         if (time == null) {

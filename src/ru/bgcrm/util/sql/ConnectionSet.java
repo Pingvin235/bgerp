@@ -12,7 +12,7 @@ import org.bgerp.util.sql.pool.ConnectionPool;
 import org.bgerp.util.sql.pool.fakesql.FakeConnection;
 
 /**
- * Set with DB connections, taken from a pool on demand.
+ * Set with DB connections, taken from a pool on demand
  *
  * @author Amir Absalilov
  * @author Shamil Vakhitov
@@ -56,8 +56,8 @@ public class ConnectionSet implements AutoCloseable {
     }
 
     /**
-     * Provides master DB connection to the main database.
-     * @return
+     * Provides master DB connection to the main database
+     * @return the master connection
      */
     public Connection getConnection() {
         if (masterConnection == null)
@@ -80,8 +80,8 @@ public class ConnectionSet implements AutoCloseable {
     }
 
     /**
-     * Gets slave connection to read-only DB replica.
-     * @return
+     * Gets slave connection to read-only DB replica
+     * @return the slave connection
      */
     public Connection getSlaveConnection() {
         if (slaveConnection == null) {
@@ -100,15 +100,15 @@ public class ConnectionSet implements AutoCloseable {
     }
 
     /**
-     * Gets connection to so-called 'trash' DB, containing non-critical data.
-     * @param tableName table name.
+     * Gets connection to so-called 'trash' DB, containing non-critical data
+     * @param tableName table name
      * @param defaultType DB type returned if no trash DB is configured, can be:
      * <pre>
      * {@link #TYPE_SLAVE} - slave DB connection;
      * {@link #TYPE_FAKE} -  instance of {@link FakeConnection}, does not do anything;
      * {@link #TYPE_MASTER} - master DB connection.
      * </pre>
-     * @return
+     * @return the connection
      */
     public Connection getTrashConnection(String tableName, int defaultType) {
         if (trashConnections == null) {
@@ -163,7 +163,7 @@ public class ConnectionSet implements AutoCloseable {
 
     /**
      * Commits all the connections
-     * @throws SQLException
+     * @throws SQLException if a commit fails
      */
     public void commit() throws SQLException {
         if (masterConnection != null) {

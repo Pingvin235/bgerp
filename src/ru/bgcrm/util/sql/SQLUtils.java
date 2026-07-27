@@ -22,14 +22,13 @@ public class SQLUtils {
     /**
      * Safe closing of DB connection if it isn't {@code null} and not closed already.
      * Faster comparing to {@link #closeConnection(Connection...)}, doesn't create arrays on every call.
-     * @param con connection, {@code null} safe.
+     * @param con connection, {@code null} safe
      */
     public static final void closeConnection(Connection con) {
         if (con != null) {
             try {
-                // если не проверять isClosed то коннекты замечательно
-                // закрываются 2 раза, создавая отрицательное число активных
-                // соединений в пуле
+                // if isClosed is not checked, connections happily close twice, creating
+                // a negative number of active connections in the pool
                 if (!con.isClosed()) {
                     con.close();
                 }
@@ -40,8 +39,8 @@ public class SQLUtils {
     }
 
     /**
-     * Safe closing of DB connections if each of them isn't {@code null} and not closed already.
-     * @param con connections.
+     * Safe closing of DB connections if each of them isn't {@code null} and not closed already
+     * @param con connections
      */
     public static final void closeConnection(Connection... con) {
         for (Connection c : con) {
@@ -50,9 +49,8 @@ public class SQLUtils {
             }
 
             try {
-                // если не проверять isClosed то коннекты замечательно
-                // закрываются 2 раза, создавая отрицательное число активных
-                // соединений в пуле
+                // if isClosed is not checked, connections happily close twice, creating
+                // a negative number of active connections in the pool
                 if (!c.isClosed()) {
                     c.close();
                 }
@@ -85,11 +83,10 @@ public class SQLUtils {
     }
 
     /**
-     * Проверка на существование таблицы в БД
-     * @param con объект доступа к БД
-     * @param tableName имя проверяемой таблицы
-     * @return true - таблица существует, false - таблица не существует
-     * или нет доступа к БД
+     * Checks whether a table exists in the DB
+     * @param con the DB connection
+     * @param tableName the checked table name
+     * @return {@code true} if the table exists, {@code false} if it doesn't exist or the DB is not accessible
      */
     public static boolean tableExists(Connection con, String tableName) {
         boolean result = false;
@@ -150,13 +147,13 @@ public class SQLUtils {
     }
 
     /**
-     * Каммит одного соединения с БД.
-     * @param con - соединение.
+     * Commits a single DB connection
+     * @param con the connection
      */
     public static final void commitConnection(Connection con) {
         if (con != null) {
             try {
-                // если не проверять, то при autocommit=true падает в логах
+                // if not checked, it fails in the logs when autocommit=true
                 if (!con.getAutoCommit()) {
                     con.commit();
                 }
@@ -167,9 +164,8 @@ public class SQLUtils {
     }
 
     /**
-     * Функция устанавливает автоматическое подтвержение изменений (autocommit)
-     * для указанного соединения
-     * @param connection
+     * Sets automatic commit (autocommit) for the given connection
+     * @param connection the connection
      */
     public static final void setAutoCommit(Connection connection) {
         if (connection != null) {
@@ -192,9 +188,9 @@ public class SQLUtils {
     }
 
     /**
-     * Преобразует формат даты под SimpleDateFormat в формат для MySQL функции DATE_FORMAT.
-     * @param format
-     * @return
+     * Converts a {@link java.text.SimpleDateFormat}-style date format to the format for the MySQL DATE_FORMAT function
+     * @param format the input format
+     * @return the converted format
      */
     public static final String javaDateFormatToSql(String format) {
         String result = formatMap.get(format);

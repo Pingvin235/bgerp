@@ -36,10 +36,10 @@ public class IpNet {
     }
 
     /**
-     * Возвращает строковое представление подсети.
-     * @param subnet
-     * @param mask
-     * @return
+     * Returns the string representation of the subnet
+     * @param subnet the subnet address
+     * @param mask the mask
+     * @return the string representation
      */
     public static String toString(final byte[] subnet, final int mask) {
         StringBuilder sb = new StringBuilder(subnet != null ? (subnet.length * 3 + 4) : 32);
@@ -47,10 +47,10 @@ public class IpNet {
     }
 
     /**
-     * Возвращает строковое представление подсети.
-     * @param addressFrom
-     * @param addressTo
-     * @return
+     * Returns the string representation of the subnet
+     * @param addressFrom the range start address
+     * @param addressTo the range end address
+     * @return the string representation
      */
     public static String toString(final byte[] addressFrom, final byte[] addressTo) {
         int mask = addressTo != null ? getMask0(addressFrom, addressTo) : (addressFrom.length * 8);
@@ -131,28 +131,28 @@ public class IpNet {
         final int end = mask / 8;
 
         int i = end - 1;
-        // если вдруг mask 1-7
+        // in case mask is 1-7
         if (i < 0) {
             final int remainder = mask;
             if ((Integer.numberOfLeadingZeros((address[end] & 0xff) ^ (subnet[end] & 0xff)) - (32 - 8)) < (remainder)) {
                 return false;
             }
         } else {
-            // для быстрой проверки сверяем байт слева от последнего значащего
+            // for a quick check, compare the byte to the left of the last significant one
             if (address[i] != subnet[i]) {
                 return false;
             }
 
-            // если mask < 32
+            // if mask < 32
             if (end < subnet.length) {
-                // проверяем последний значащий байт
+                // check the last significant byte
                 final int remainder = mask % 8;
                 if (remainder > 0 && (Integer.numberOfLeadingZeros((address[end] & 0xff) ^ (subnet[end] & 0xff)) - (32 - 8)) < (remainder)) {
                     return false;
                 }
             }
 
-            // проверяем остальные байты слева
+            // check the remaining bytes to the left
             for (--i; i >= 0; i--) {
                 if (address[i] != subnet[i]) {
                     return false;

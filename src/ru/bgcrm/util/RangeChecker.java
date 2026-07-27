@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * Проверяет число на попадание в набор диапазонов, заданных в виде:
+ * Checks whether a number falls into a set of ranges specified in the form:
  * n1,n2-n3, n4.
- * * - любой диапазон.
+ * * - any range.
  */
 public class RangeChecker
 {

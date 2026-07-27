@@ -6,7 +6,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGMessageException;
 
 /**
- * Password utilities.
+ * Password utilities
  *
  * @author Shamil Vakhitov
  */
@@ -37,15 +37,15 @@ public class PswdUtil {
 
         StringBuffer result = new StringBuffer();
 
-        // набор символов
+        // character set
         char[] array = passwordChars.toCharArray();
 
-        // длина набора символов
+        // character set length
         final int arrayLength = array.length;
 
         long time = System.currentTimeMillis();
 
-        // последние 4 цифры текущего времени в миллисекундах
+        // last 4 digits of the current time in milliseconds
         time = time % 10000L;
 
         int[] offsets = new int[4];
@@ -56,7 +56,7 @@ public class PswdUtil {
 
         Random random = new Random();
 
-        // генерация пароля
+        // password generation
         for (int i = 0; i < length; i++) {
             int pos = (offsets[i % 4] + random.nextInt(arrayLength)) % arrayLength;
             result.append(array[pos]);

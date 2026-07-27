@@ -10,7 +10,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
 
 /**
- * Checks string to one of configured regexps.
+ * Checks string to one of configured regexps
  *
  * @author Shamil Vakhitov
  */

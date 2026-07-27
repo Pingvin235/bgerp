@@ -69,7 +69,7 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
             return false;
         }
 
-        // более вероятно, что чаще адреса будут расходиться в конце, поэтому сравнивать на совпадение лучше с конца.
+        // addresses are more likely to differ at the end, so it's better to compare for equality starting from the end.
         for (int i = length - 1; i >= 0; i--) {
             if (a[i] != a2[i]) {
                 return false;
@@ -143,14 +143,14 @@ public class IpAddress implements Comparable<IpAddress>, Serializable {
     }
 
     /**
-     * @param address
-     * @return
+     * @param address the IPv4 address bytes
+     * @return the resulting {@link BigInteger}
      */
     public static BigInteger convertIp4AddressToBigInt(byte[] address) {
         /*
-         * У BigInteger - есть хитрая особенность , он хранит отрицательные числа в дополнительном коде
-         * И чтобы отличить положительное число, у которого в крайнем правом  левом бите стоит 0,  от отрициательного
-         *	он добавляет еще один байт слева.
+         * BigInteger has a tricky feature: it stores negative numbers in two's complement.
+         * To distinguish a positive number, whose leftmost bit is 0, from a negative one,
+         * it adds one more byte on the left.
          */
         byte[] address2 = new byte[address[0] < 0 ? 5 : 4];
         System.arraycopy(address, 0, address2, address[0] < 0 ? 1 : 0, 4);

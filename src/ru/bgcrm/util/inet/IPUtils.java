@@ -6,11 +6,11 @@ import ru.bgcrm.util.Utils;
 
 public class IPUtils {
     /**
-     * Преобразует IP в виде десятичного числа со знаком (4 байта) к dotted
-     * нотации
+     * Converts an IP from a signed decimal number (4 bytes) to dotted
+     * notation
      *
-     * @param ip
-     * @return
+     * @param ip the IP as a signed decimal number
+     * @return the dotted-notation string
      */
     public static final String convertIpToString(int ip) {
         String net = "0.0.0.0";
@@ -23,9 +23,9 @@ public class IPUtils {
     }
 
     /**
-     * Возвращает шестнадцатеричное число (массив байтов), полученное преобразованием десятичного
-     * @param value
-     * @return
+     * Converts an int value to a byte array representation
+     * @param value the input value
+     * @return the byte array
      */
     public static byte[] convertIntToBytes(int value) {
         byte[] byteValue = new byte[4];
@@ -39,9 +39,9 @@ public class IPUtils {
     }
 
     /**
-    * Преобразование байта в целое без знака.
-    * @param value
-    * @return
+    * Converts a byte to an unsigned int
+    * @param value the input byte
+    * @return the unsigned int value
     */
     public static final int unsignedByteToInt(byte value) {
         int val = value;
@@ -53,9 +53,9 @@ public class IPUtils {
     }
 
     /**
-     * Возвращает десятичное число, полученное преобразованием шестнадцатеричного
-     * @param bytes массив байтов: шестнадцатеричное число
-     * @return
+     * Converts a byte array to a decimal int value
+     * @param bytes the byte array
+     * @return the int value
      */
     public static int convertBytesToInt(byte[] bytes) {
         int result = 0;
@@ -67,9 +67,9 @@ public class IPUtils {
     }
 
     /**
-     * Преобразует BASE64 кодированный byte[] адрес в человекочитаемою строку.
-     * @param base64Addr
-     * @return
+     * Converts a BASE64-encoded byte[] address to a human-readable string
+     * @param base64Addr the BASE64-encoded address
+     * @return the human-readable string
      */
     public static String base64ToString(String base64Addr) {
         if (Utils.isBlankString(base64Addr))

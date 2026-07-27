@@ -11,10 +11,10 @@ public class RegexpStringUtils {
     private static final Log log = Log.getLog();
 
     /**
-     * Ищет подстроки в строке соответствующие шаблону
-     * @param text - исходная строка
-     * @param regexpTemplate - шаблон
-     * @return
+     * Find substrings in the string matching the pattern
+     * @param text the input string
+     * @param regexpTemplate the pattern
+     * @return the list of found substrings, empty in case of an error
      */
     public static List<String> findMatchesByTemplate(String text, String regexpTemplate) {
         Pattern pattern = Pattern.compile(regexpTemplate);

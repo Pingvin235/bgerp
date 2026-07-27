@@ -14,17 +14,18 @@ import org.apache.commons.io.IOUtils;
 import org.bgerp.util.Log;
 
 /**
- * ZIP utils.
+ * ZIP utils
  * @author Shamil Vakhitov
  */
 public class ZipUtils {
     private static final Log log = Log.getLog();
 
     /**
-     * Add named entry in ZIP, and close it after.
-     * @param zos
-     * @param name - name.
-     * @param content - if not null content, encoded with UTF-8.
+     * Add named entry in ZIP, and close it after
+     * @param zos the ZIP output stream
+     * @param name the entry name
+     * @param content the entry content, encoded with UTF-8 if not {@code null}
+     * @return the created ZIP entry
      */
     public static ZipEntry addEntry(ZipOutputStream zos, String name, String content) throws IOException {
         var ze = new ZipEntry(name);
@@ -36,10 +37,10 @@ public class ZipUtils {
     }
 
     /**
-     * Extracts entries from ZIP by name prefix.
-     * @param zis
-     * @param prefix
-     * @return
+     * Extracts entries from ZIP by name prefix
+     * @param zis the ZIP input stream
+     * @param prefix the name prefix
+     * @return the map of entry name to content, ordered by name
      */
     public static SortedMap<String, byte[]> getFileEntriesFromZipByPrefix(ZipInputStream zis, String prefix) {
         SortedMap<String, byte[]> result = new TreeMap<>();
@@ -60,10 +61,10 @@ public class ZipUtils {
     }
 
     /**
-     * Extracts entries from a ZIP with name's substring.
-     * @param zis
-     * @param subst substring.
-     * @return
+     * Extracts entries from a ZIP by name substring
+     * @param zis the ZIP input stream
+     * @param subst the name substring, matches all entries when {@code null}
+     * @return the map of entry name to content
      */
     public static Map<String, byte[]> getEntriesFromZip(ZipInputStream zis, String subst) {
         Map<String, byte[]> result = new HashMap<>();
