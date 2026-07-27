@@ -1,7 +1,7 @@
 package ru.bgcrm.model.param.address;
 
 /**
- * Street, area or quarter.
+ * Street, area or quarter
  * 
  * @author Shamil Vakhitov
  */

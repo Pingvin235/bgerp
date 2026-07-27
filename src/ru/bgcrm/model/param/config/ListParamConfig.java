@@ -11,7 +11,7 @@ import ru.bgcrm.util.RangeChecker;
 import ru.bgcrm.util.Utils;
 
 /**
- * List parameter value.
+ * List parameter value
  *
  * @author Shamil Vakhitov
  */

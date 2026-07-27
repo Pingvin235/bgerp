@@ -4,8 +4,8 @@ import org.bgerp.cache.ParameterCache;
 import org.bgerp.model.param.Parameter;
 
 /**
- * Объект, найденный по значению параметра.
- * @param <T>
+ * Object found by parameter value
+ * @param <T> the object type
  */
 public class ParameterSearchedObject<T> {
     private final T object;

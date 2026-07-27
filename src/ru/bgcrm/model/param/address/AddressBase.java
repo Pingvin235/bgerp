@@ -6,7 +6,7 @@ import java.util.Map;
 import org.bgerp.model.base.IdTitle;
 
 /**
- * Base class for all address related entities.
+ * Base class for all address related entities
  *
  * @author Shamil Vakhitov
  */
@@ -14,8 +14,8 @@ public class AddressBase extends IdTitle {
     private Map<String, String> config = new HashMap<>();
 
     /**
-     * Key value configuration.
-     * @return
+     * Key value configuration
+     * @return the config map
      */
     public Map<String, String> getConfig() {
         return config;

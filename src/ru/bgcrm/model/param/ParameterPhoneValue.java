@@ -19,23 +19,23 @@ public class ParameterPhoneValue {
     }
 
     /**
-     * @return number list.
+     * @return number list
      */
     public List<ParameterPhoneValueItem> getItemList() {
         return itemList;
     }
 
     /**
-     * Sets number list.
-     * @param itemList
+     * Sets number list
+     * @param itemList the item list
      */
     public void setItemList(List<ParameterPhoneValueItem> itemList) {
         this.itemList = itemList;
     }
 
     /**
-     * Adds numbers to the existing list with duplicates protection.
-     * @param itemList
+     * Adds numbers to the existing list with duplicates protection
+     * @param itemList the items to add
      */
     public void addItems(List<ParameterPhoneValueItem> itemList) {
         if (this.itemList == null) {
@@ -52,15 +52,15 @@ public class ParameterPhoneValue {
     }
 
     /**
-     * Adds a single number.
-     * @param item
+     * Adds a single number
+     * @param item the item to add
      */
     public void addItem(ParameterPhoneValueItem item) {
         addItems(List.of(item));
     }
 
     /**
-     * Use {@link #addItem(ParameterPhoneValueItem)}.
+     * Use {@link #addItem(ParameterPhoneValueItem)}
      */
     @Deprecated
     public void add(ParameterPhoneValue parameterPhoneValue) {
@@ -79,7 +79,7 @@ public class ParameterPhoneValue {
     }
 
     /**
-     * @return formatted comma separated string with phone numbers.
+     * @return formatted comma separated string with phone numbers
      */
     @Override
     public String toString() {

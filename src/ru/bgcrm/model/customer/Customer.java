@@ -17,9 +17,9 @@ import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.SearchableIdTitle;
 import ru.bgcrm.model.param.ParameterGroup;
 /**
- * Customer object.
+ * Customer object
  *
- * @author Shamil Vakhitov.
+ * @author Shamil Vakhitov
  */
 public class Customer extends SearchableIdTitle implements Comparable<Customer> {
     private static final Log log = Log.getLog();
