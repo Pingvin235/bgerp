@@ -4,7 +4,7 @@ import org.bgerp.event.base.ClientEvent;
 import org.bgerp.model.msg.Message;
 
 /**
- * Open message for processing.
+ * Open message for processing
  *
  * @author Shamil Vakhitov
  */

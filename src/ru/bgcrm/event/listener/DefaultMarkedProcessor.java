@@ -71,7 +71,7 @@ public class DefaultMarkedProcessor extends Processor {
 
     public static class Command {
         private final String name;
-        // для setStatus - коды статусов, для setExecutors - коды групп исполнителей
+        // for setStatus - status IDs, for setExecutors - executor group IDs
         private List<Integer> allowedIds;
         private int patternId;
         private int paramId;

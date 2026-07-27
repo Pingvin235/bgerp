@@ -14,7 +14,7 @@ public class ProcessMarkedActionEvent extends UserEvent {
     private final List<Integer> processIds;
     private final Map<String, String> parameters = new HashMap<>();
 
-    // ответ уже отправлен в HttpServletResponse
+    // the response has already been sent to HttpServletResponse
     private boolean streamResponse;
 
     public ProcessMarkedActionEvent(DynActionForm form, Processor processor, List<Integer> processIds) {

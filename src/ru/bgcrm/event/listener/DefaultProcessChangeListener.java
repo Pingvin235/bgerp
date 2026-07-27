@@ -39,7 +39,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Default configurable event processor.
+ * Default configurable event processor
  *
  * @author Shamil Vakhitov
  */
@@ -231,8 +231,8 @@ public class DefaultProcessChangeListener {
         }
 
         /**
-         * Extracts checking rule.
-         * @param config
+         * Extracts checking rule
+         * @param config the config
          * @return if no {@code checkExpression} or {@code checkErrorMessage} is defined, than checkRule will be null
          */
         private Rule extractCheckRule(ConfigMap config) {
@@ -290,7 +290,7 @@ public class DefaultProcessChangeListener {
                 return true;
             }
 
-            // проверяется не по instanceof, т.к. часто события расширяют друг друга
+            // checked not by instanceof, since events often extend each other
             Class<?> eventClass = e.getClass();
 
             if (eventClass == ProcessChangingEvent.class) {

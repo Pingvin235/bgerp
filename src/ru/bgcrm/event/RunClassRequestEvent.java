@@ -5,8 +5,7 @@ import org.bgerp.event.base.UserEvent;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Событие, генерирующееся при запуске динамического класса посредством
- * HTTP запроса.
+ * Event generated when a dynamic class is launched via an HTTP request
  */
 public class RunClassRequestEvent extends UserEvent {
     public RunClassRequestEvent(DynActionForm form) {

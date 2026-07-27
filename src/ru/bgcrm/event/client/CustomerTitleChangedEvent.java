@@ -3,8 +3,7 @@ package ru.bgcrm.event.client;
 import org.bgerp.event.base.ClientEvent;
 
 /**
- * Событие о изменении в названии контрагента,
- * для обновления упоминаний контрагента в браузере клиента.
+ * Event about a change in the customer's title, for updating mentions of the customer in the client's browser
  */
 public class CustomerTitleChangedEvent extends ClientEvent {
     private int id;

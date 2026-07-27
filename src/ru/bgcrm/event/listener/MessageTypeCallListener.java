@@ -17,7 +17,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
  * Handler of {@link GetPoolTasksEvent}, sends to the client side
- * events with type {@link MessageOpenEvent} to open message processing card.
+ * events with type {@link MessageOpenEvent} to open message processing card
  *
  * @author Shamil Vakhitov
  */

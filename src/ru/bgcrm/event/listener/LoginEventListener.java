@@ -13,7 +13,7 @@ import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class LoginEventListener {
-    // событие которые будут переданы клиенту на первый pool запрос после авторизации
+    // events that will be sent to the client on the first pool request after login
     private static final Map<Integer, List<ClientEvent>> onLoginEvents = new ConcurrentHashMap<>();
 
     public LoginEventListener() {

@@ -6,8 +6,8 @@ import org.bgerp.model.param.Parameter;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Событие генерируется после изменения параметра.
- * В базе значение параметра уже изменено.
+ * Event is generated after a parameter change.
+ * The parameter value is already changed in the database.
  */
 public class ParamChangedEvent extends UserEvent {
     private Parameter parameter;

@@ -3,7 +3,7 @@ package ru.bgcrm.event.client;
 import org.bgerp.event.base.ClientEventWithId;
 
 /**
- * Open customer in UI or refresh if already opened.
+ * Open customer in UI or refresh if already opened
  *
  * @author Shamil Vakhitov
  */

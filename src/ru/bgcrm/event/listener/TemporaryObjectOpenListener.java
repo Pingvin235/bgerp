@@ -21,16 +21,16 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Открытие
+ * Loads and provides temporary process IDs to the client for opening
  */
 public class TemporaryObjectOpenListener extends Thread {
     private static final Log log = Log.getLog();
 
     private static final long SLEEP_TIME = 10 * 1000L;
 
-    // коды пользователей, для которых необходимо загрузить информацию о временных процессах
+    // user IDs for which temporary process information needs to be loaded
     private Set<Integer> tasksForUserLoad = Collections.newSetFromMap(new ConcurrentHashMap<>());
-    // временные процессы по пользователям, если нет - пустой Set
+    // temporary processes by user, empty {@code Set} if none
     private static Map<Integer, Set<Integer>> userTempProcessMapIds = new ConcurrentHashMap<>();
 
     public TemporaryObjectOpenListener() {

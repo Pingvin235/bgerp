@@ -28,14 +28,14 @@ public class ProcessFilterCounterListener {
     private void processListener(DynActionForm form, ConnectionSet conSet) {
         Preferences personalizationMap = form.getUser().getPers();
 
-        // впоследствии они вернуться в это же место кода в processCounterUrls параметре запроса
+        // afterwards they will return to this same place in the code in the processCounterUrls request parameter
         SavedFiltersConfig config = personalizationMap.getConfig(SavedFiltersConfig.class);
 
-        // сохранённые в конфигурации счётчики для отображения справа сверху
+        // counters saved in the configuration for display in the top right
         Map<Integer, SavedFilterSet> topFilters = config.getTopFilters();
 
-        // значения счётчиков
-        // id очереди, id счётчика (кнопки), значение
+        // counter values
+        // queue id, counter (button) id, value
         HashMap<Integer, HashMap<Integer, Integer>> valuesToReturn = new HashMap<>();
 
         String urlsParam = form.getParam("processCounterUrls");

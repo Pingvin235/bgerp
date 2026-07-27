@@ -18,7 +18,7 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Provides files from parameters for adding to messages.
+ * Provides files from parameters for adding to messages
  *
  * @author Shamil Vakhitov
  */

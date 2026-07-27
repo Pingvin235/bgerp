@@ -6,12 +6,12 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Процесс создан привязанным другому процессу.
+ * Process is created linked to another process
  */
 public class ProcessCreatedAsLinkEvent extends UserEvent {
-    // процесс к которому привязан процесс
+    // the process this process is linked to
     private final Process linkedProcess;
-    // сам созданный процесс
+    // the created process itself
     private final Process process;
 
     public ProcessCreatedAsLinkEvent(DynActionForm form, Process linkedProcess, Process process) {

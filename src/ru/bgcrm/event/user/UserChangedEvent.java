@@ -6,7 +6,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Событие генерируется после изменения свойств пользователя в редактора.
+ * Event is generated after user properties are changed in the editor
  */
 public class UserChangedEvent extends UserEvent {
     private final User user;
@@ -17,8 +17,7 @@ public class UserChangedEvent extends UserEvent {
     }
 
     /**
-     * Возвращает изменённого пользователя
-     * @return
+     * @return the changed user
      */
     public User getChangedUser() {
         return user;

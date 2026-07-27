@@ -7,7 +7,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * New message, added to a process.
+ * New message, added to a process
  *
  * @author Shamil Vakhitov
  */
