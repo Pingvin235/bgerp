@@ -67,6 +67,8 @@ public class Response {
      */
     public void addEvent(ClientEvent event) {
         if (event != null) {
+            // delete equal events
+            eventList.remove(event);
             eventList.add(event);
         }
     }
