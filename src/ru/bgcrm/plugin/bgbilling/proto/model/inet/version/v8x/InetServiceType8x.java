@@ -27,35 +27,35 @@ public class InetServiceType8x extends InetServiceType {
         OFF(-1),
         NONE(0),
         /**
-         * Указанный диапазон
+         * A specified range
          */
         RANGE(1),
         /**
-         * Указанная сеть
+         * A specified network
          */
         NET(2),
         /**
-         * Указанный адрес (IPv4)
+         * A specified address (IPv4)
          */
         SINGLE_IPV4(3),
         /**
-         * Динамический адрес
+         * A dynamic address
          */
         DYNAMIC(4),
         /**
-         * Динамический или указанный адрес
+         * A dynamic or specified address
          */
         DYNAMIC_OR_SINGLE(5),
         /**
-         * Динамический или из диапазона
+         * A dynamic address or one from a range
          */
         DYNAMIC_OR_RANGE(6),
         /**
-         * Либо выдавать указанный адрес, либо ничего не выдавать
+         * Either issue the specified address, or issue nothing
          */
         NONE_OR_SINGLE(7),
         /**
-         * Статический адрес (IPv6)
+         * A static address (IPv6)
          */
         IPV6(8);
 

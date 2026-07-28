@@ -7,7 +7,7 @@ import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.util.Utils;
 
 /**
- * Значение адресного параметра в BGBilling
+ * Value of an address parameter in BGBilling
  */
 public class ParamAddressValue {
     private int cityId;
@@ -138,9 +138,9 @@ public class ParamAddressValue {
     }
 
     /**
-     * Конвертирует объект в формат ERP.
-     * @param con
-     * @return
+     * Converts the object into the ERP format
+     * @param con the DB connection
+     * @return the converted value
      * @throws SQLException
      */
     public ParameterAddressValue toParameterAddressValue(Connection con) throws SQLException {

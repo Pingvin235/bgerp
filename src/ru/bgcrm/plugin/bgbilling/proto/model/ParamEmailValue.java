@@ -8,10 +8,10 @@ import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttrEmail;
 import ru.bgcrm.util.Utils;
 
 public class ParamEmailValue {
-    private List<String> emails; // Емейлы
-    private int eid; //id списка рассылок о_О
-    private List<String> subscrs; // Активированные подписки
-    private List<IdStringTitleTreeItem> subscrsTree; // Список существующих рассылок
+    private List<String> emails; // emails
+    private int eid; // subscription list id
+    private List<String> subscrs; // activated subscriptions
+    private List<IdStringTitleTreeItem> subscrsTree; // list of existing subscriptions
 
     public EntityAttrEmail getEntityAttrEmail() {
         return entityAttrEmail;

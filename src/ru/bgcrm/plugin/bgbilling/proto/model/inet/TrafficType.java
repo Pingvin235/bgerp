@@ -5,7 +5,7 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.plugin.bgbilling.proto.model.ServiceUnit;
 
 /**
- * Тип трафика
+ * Traffic type
  * @author amir
  *
  */
@@ -29,7 +29,7 @@ public class TrafficType extends IdTitle {
     }
 
     /**
-     * @return
+     * @return the unit
      * @see ServiceUnit
      */
     public int getUnit() {

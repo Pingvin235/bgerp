@@ -45,7 +45,7 @@ public final class InetUtils {
 
         int i, j;
         final byte[] result;
-        // если количество цифр нечетное - считаем что первая цифра - 0
+        // if the digit count is odd, assume the first digit is 0
         if (size % 2 == 0) {
             i = j = 0;
             result = new byte[size / 2];

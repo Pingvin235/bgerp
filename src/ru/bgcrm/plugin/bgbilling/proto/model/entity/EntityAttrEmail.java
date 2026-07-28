@@ -22,11 +22,10 @@ public class EntityAttrEmail extends EntityAttr {
     }
 
     /**
-     * Добавление контакта в список
-     *
-     * @param name    имя контакта.
-     * @param address email-адрес.
-     * @return
+     * Adds a contact to the list
+     * @param name the contact name
+     * @param address the email address
+     * @return this
      */
     public EntityAttrEmail addContact(String name, String address) {
         getContactList().add(new EmailContact(name, address));
@@ -63,9 +62,7 @@ public class EntityAttrEmail extends EntityAttr {
     }
 
     /**
-     * Получение списка контактов (email и имя).
-     *
-     * @return
+     * @return the contact list (email and name)
      */
     public List<EmailContact> getContactList() {
         if (this.contactList == null) {
@@ -77,18 +74,18 @@ public class EntityAttrEmail extends EntityAttr {
     }
 
     /**
-     * Контакт для EntityAttrEmail. Содержит email - {@link #address} и имя - {@link #name}.
+     * Contact for {@link EntityAttrEmail}, contains the email - {@link #address} and the name - {@link #name}
      *
      * @author amir
      */
     public static class EmailContact {
         /**
-         * Имя контакта.
+         * Contact name
          */
         private String name;
 
         /**
-         * Email адрес.
+         * Email address
          */
         private String address;
 
@@ -101,37 +98,29 @@ public class EntityAttrEmail extends EntityAttr {
         }
 
         /**
-         * Получение имени контакта.
-         *
-         * @return
+         * @return the contact name
          */
         public String getName() {
-            // из биллинга имя может прийти с кавычками вокруг
+            // the name may come from the billing wrapped in quotes
             return Utils.maskNull(name).replace("\"", "");
         }
 
         /**
-         * Установка имени контакта.
-         *
-         * @param name
+         * @param name the contact name
          */
         public void setName(String name) {
             this.name = name;
         }
 
         /**
-         * Получение email.
-         *
-         * @return
+         * @return the email address
          */
         public String getAddress() {
             return address;
         }
 
         /**
-         * Установка email.
-         *
-         * @param address
+         * @param address the email address
          */
         public void setAddress(String address) {
             this.address = address;

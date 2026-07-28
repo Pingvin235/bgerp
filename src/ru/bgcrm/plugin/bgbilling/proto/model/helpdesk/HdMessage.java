@@ -8,7 +8,7 @@ import org.bgerp.model.base.Id;
 import org.bgerp.model.file.FileData;
 
 public class HdMessage extends Id {
-    /** Message.DIRECTION_INCOMING либо Message.DIRECTION_OUTGOING **/
+    /** Message.DIRECTION_INCOMING or Message.DIRECTION_OUTGOING */
     private int direction = 0;
     private int userIdFrom;
     private Date timeFrom;

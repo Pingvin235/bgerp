@@ -5,13 +5,13 @@ import java.util.Date;
 import org.bgerp.model.base.IdTitleComment;
 
 public class BGServerFile extends IdTitleComment {
-    // id документа или какой-то сущности, куда привязан файл
+    // ID of the document or some entity the file is attached to
     private int ownerId;
     private int userId;
     private long size;
     private Date date;
-    // нужен исключительно для сохранения файла без ещё не определённого ownerId,
-    // например при добавлении вложений в ещё не сохранённое сообщение helpdesk
+    // needed exclusively for saving a file without a yet undefined ownerId,
+    // e.g. when adding attachments to a not yet saved helpdesk message
     private String uuid;
 
     public int getOwnerId() {

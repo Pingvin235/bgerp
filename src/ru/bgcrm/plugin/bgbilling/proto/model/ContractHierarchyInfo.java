@@ -4,7 +4,7 @@ import org.bgerp.model.base.IdTitle;
 
 public class ContractHierarchyInfo
 {
-	// Возможно, позднее появится поле с указанием типа зависимости.
+	// A field indicating the dependency type may be added later
 	public static class SubContract
 		extends IdTitle
 	{}

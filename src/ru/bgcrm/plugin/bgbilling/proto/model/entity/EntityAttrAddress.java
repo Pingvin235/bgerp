@@ -2,49 +2,49 @@ package ru.bgcrm.plugin.bgbilling.proto.model.entity;
 
 
 /**
- * Атрибут/параметр - адрес.
+ * Attribute/parameter - address
  *
  * @author amir
  */
 public class EntityAttrAddress
         extends EntityAttr {
     /**
-     * Id дома
+     * House ID
      */
     private int houseId = -1;
 
     /**
-     * подъезд
+     * Entrance
      */
     private int pod;
 
     /**
-     * этаж
+     * Floor
      */
     private int floor;
 
     /**
-     * квартира
+     * Flat
      */
     private String flat;
 
     /**
-     * комната
+     * Room
      */
     private String room = "";
 
     /**
-     * комментарий
+     * Comment
      */
     private String comment;
 
     /**
-     * Форматированная строка с адресом
+     * Formatted address string
      */
     private String title;
 
     /**
-     * Тип форматирования адреса
+     * Address formatting type
      */
     private String formatKey;
 
@@ -70,144 +70,112 @@ public class EntityAttrAddress
     }
 
     /**
-     * Получение ID дома.
-     *
-     * @return
+     * @return the house ID
      */
     public int getHouseId() {
         return houseId;
     }
 
     /**
-     * Установка ID дома.
-     *
-     * @param houseId
+     * @param houseId the house ID
      */
     public void setHouseId(int houseId) {
         this.houseId = houseId;
     }
 
     /**
-     * Получение квартиры.
-     *
-     * @return
+     * @return the flat
      */
     public String getFlat() {
         return flat;
     }
 
     /**
-     * Установка квартиры.
-     *
-     * @param flat
+     * @param flat the flat
      */
     public void setFlat(String flat) {
         this.flat = flat;
     }
 
     /**
-     * Получение комнаты.
-     *
-     * @return
+     * @return the room
      */
     public String getRoom() {
         return room;
     }
 
     /**
-     * Установка комнаты.
-     *
-     * @param room
+     * @param room the room
      */
     public void setRoom(String room) {
         this.room = room;
     }
 
     /**
-     * Получение подъезда.
-     *
-     * @return
+     * @return the entrance
      */
     public int getPod() {
         return pod;
     }
 
     /**
-     * Установка подъезда.
-     *
-     * @param pod
+     * @param pod the entrance
      */
     public void setPod(int pod) {
         this.pod = pod;
     }
 
     /**
-     * Получение этажа.
-     *
-     * @return
+     * @return the floor
      */
     public int getFloor() {
         return floor;
     }
 
     /**
-     * Установка этажа.
-     *
-     * @param floor
+     * @param floor the floor
      */
     public void setFloor(int floor) {
         this.floor = floor;
     }
 
     /**
-     * Получение комментария.
-     *
-     * @return
+     * @return the comment
      */
     public String getComment() {
         return comment;
     }
 
     /**
-     * Установка комментария.
-     *
-     * @param comment
+     * @param comment the comment
      */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
     /**
-     * Получение строкового представления адреса.
-     *
-     * @return
+     * @return the formatted address string
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Установка строкового представления адреса.
-     *
-     * @param title
+     * @param title the formatted address string
      */
     public void setTitle(String title) {
         this.title = title;
     }
 
     /**
-     * Получение ключа форматирования адреса в строковое представление.
-     *
-     * @return
+     * @return the address formatting type
      */
     public String getFormatKey() {
         return formatKey;
     }
 
     /**
-     * Установка ключа форматирования адреса в строковое представление.
-     *
-     * @param formatKey
+     * @param formatKey the address formatting type
      */
     public void setFormatKey(String formatKey) {
         this.formatKey = formatKey;

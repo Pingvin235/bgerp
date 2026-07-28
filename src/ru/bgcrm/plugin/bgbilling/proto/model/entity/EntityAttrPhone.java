@@ -7,8 +7,7 @@ import java.util.List;
 import ru.bgcrm.util.Utils;
 
 /**
- * Атрибут/параметр - телефоны. Чтобы получить список телефонов, используйте методы
- * {@link #getContactList()}, {@link #toPhoneList()} ()}, {@link #toUnformattedPhoneList()} ()}.
+ * Attribute/parameter - phones. To get the phone list, use the {@link #getContactList()}, {@link #toPhoneList()}, {@link #toUnformattedPhoneList()} methods
  * @author amir
  */
 public class EntityAttrPhone extends EntityAttr {
@@ -20,8 +19,8 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * @param entityId ID договора/объекта/сущности
-     * @param entitySpecAttrId ID типа параметра/атрибута
+     * @param entityId the contract/object/entity ID
+     * @param entitySpecAttrId the parameter/attribute type ID
      */
     public EntityAttrPhone(int entityId, int entitySpecAttrId) {
         super(EntitySpecAttrType.PHONE, entityId, entitySpecAttrId);
@@ -33,25 +32,23 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * Получение списка контактов.
-     * @return
+     * @return the contact list
      */
     public List<PhoneContact> getContactList() {
         return contactList;
     }
 
     /**
-     * Установка списка контактов.
-     * @param phoneList
+     * @param phoneList the contact list
      */
     public void setContactList(List<PhoneContact> phoneList) {
         this.contactList = phoneList;
     }
 
     /**
-     * Добавление телефона (контакта).
-     * @param phone номер телефона.
-     * @param comment комментарий.
+     * Adds a phone (contact)
+     * @param phone the phone number
+     * @param comment the comment
      * @return this
      */
     public EntityAttrPhone addContact(String phone, String comment) {
@@ -69,8 +66,8 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * Для внутреннего использования. Для добавления телефона используйте {@link #addContact(String, String)} или {@link #setContactList(List)}
-     * @param data
+     * For internal use. To add a phone, use {@link #addContact(String, String)} or {@link #setContactList(List)}
+     * @param data the raw data
      */
     public void setData(String data) {
         this.data = data;
@@ -98,8 +95,7 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * Получение списка телефонов (в формате).
-     * @return
+     * @return the formatted phone list
      */
     public List<String> toPhoneList() {
         if (contactList == null) {
@@ -110,7 +106,7 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * Получение списка телефонов без форматирования.
+     * @return the unformatted phone list
      */
     public List<String> toUnformattedPhoneList() {
         return contactList == null ? Collections.emptyList()
@@ -118,11 +114,11 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * Превращает форматированный телефон в набор цифр
+     * Converts a formatted phone number into a set of digits
      * @param phone +7 (347) 2 924-823
      * @return 73472924823
      */
-    // вызываться теоретически может часто, а логика довольно простая, чтобы создавать каждый раз объекты Matcher.
+    // may in theory be called often, and the logic is simple enough to not warrant creating a Matcher object each time
     public static String phoneUnformatted(final String phone) {
         if (Utils.isEmptyString(phone)) {
             return "";
@@ -156,16 +152,16 @@ public class EntityAttrPhone extends EntityAttr {
     }
 
     /**
-     * Контакт - телефон + комментарий.
+     * Contact - phone + comment
      */
     public static class PhoneContact {
         /**
-         * Телефон.
+         * Phone
          */
         private String phone = null;
 
         /**
-         * Комментарий.
+         * Comment
          */
         private String comment = null;
 
@@ -178,40 +174,35 @@ public class EntityAttrPhone extends EntityAttr {
         }
 
         /**
-         * Получение телефона в формате.
-         * @return
+         * @return the formatted phone
          */
         public String getPhone() {
             return phone;
         }
 
         /**
-         * Установка телефона.
-         * @param phone
+         * @param phone the formatted phone
          */
         public void setPhone(String phone) {
             this.phone = phone;
         }
 
         /**
-         * Получение комментария.
-         * @return
+         * @return the comment
          */
         public String getComment() {
             return comment;
         }
 
         /**
-         * Установка комментария.
-         * @param comment
+         * @param comment the comment
          */
         public void setComment(String comment) {
             this.comment = comment;
         }
 
         /**
-         * Получение неотформатированного телефона (73472123456).
-         * @return
+         * @return the unformatted phone (73472123456)
          */
         public String toPhoneUnformatted() {
             return phoneUnformatted(phone);

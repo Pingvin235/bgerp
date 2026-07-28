@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.dispatch;
 import ru.bgcrm.util.Utils;
 
 /**
- * Контакт для отправки сообщений
+ * Contact for sending messages
  */
 public class Contact extends org.bgerp.model.base.Id {
 
@@ -13,24 +13,21 @@ public class Contact extends org.bgerp.model.base.Id {
     private String defaultValue;
 
     /**
-     * Устанавливает значение контакта
-     * @param value
+     * @param value the contact value
      */
     public void setValue(String value) {
         this.value = value;
     }
 
     /**
-     * Возвращает значение контакта
-     * @return
+     * @return the contact value
      */
     public String getValue() {
         return value;
     }
 
     /**
-     * Возвращает значение контакта для отправки
-     * @return
+     * @return the contact value to send
      */
     public String getValueForSend() {
         String result = value;
@@ -41,25 +38,21 @@ public class Contact extends org.bgerp.model.base.Id {
     }
 
     /**
-     * Возвращает значение контакта для отправки просмотра
-     *
-     * @return
+     * @return the contact value to display
      */
     public String getValueForView() {
         return toString();
     }
 
     /**
-     * Устанавливает тип для данного контакта
-     * @param contactTypeId
+     * @param contactTypeId the contact type ID
      */
     public void setContactTypeId(int contactTypeId) {
         this.contactTypeId = contactTypeId;
     }
 
     /**
-     * Возвращает тип данного контакта
-     * @return
+     * @return the contact type ID
      */
     public int getContactTypeId() {
         return contactTypeId;
@@ -83,18 +76,14 @@ public class Contact extends org.bgerp.model.base.Id {
     }
 
     /**
-     * Возвращает значение контакта по умолчанию
-     *
-     * @return
+     * @return the default contact value
      */
     public String getDefaultValue() {
         return defaultValue;
     }
 
     /**
-     * Устанавливает значение контакта по умолчанию
-     *
-     * @param defaultValue
+     * @param defaultValue the default contact value
      */
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;

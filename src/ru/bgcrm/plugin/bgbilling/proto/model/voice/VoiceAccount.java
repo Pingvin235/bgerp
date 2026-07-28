@@ -19,7 +19,7 @@ public class VoiceAccount extends IdTitleComment {
     private int lineCount = 1;
     private VoiceAccountState deviceState;
     /**
-     * Последний accessCode, с которым меняли deviceStates
+     * The last accessCode with which deviceStates was changed
      */
     private int accessCode;
     private byte sessionCountLimit;

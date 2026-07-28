@@ -6,15 +6,15 @@ import org.bgerp.model.base.IdTitle;
 
 public enum VoiceAccountState {
     /**
-     * Состояние сервиса - удален (со связанных устройств).
+     * Service state - deleted (from the associated devices)
      */
     STATE_DELETED((short) -1, "удален"),
     /**
-     * Состояние сервиса/соединения - доступ отключен.
+     * Service/connection state - access disabled
      */
     STATE_DISABLE((short) 0, "отключен"),
     /**
-     * Состояние сервиса/соединения - доступ включен.
+     * Service/connection state - access enabled
      */
     STATE_ENABLE((short) 1, "включен");
 

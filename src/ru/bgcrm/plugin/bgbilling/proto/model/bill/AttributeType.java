@@ -2,10 +2,11 @@ package ru.bgcrm.plugin.bgbilling.proto.model.bill;
 
 import org.bgerp.model.base.IdTitle;
 
-/** Тип реквизита.<br>
- * Типы реквизитов ранее не хранились в БД, а заводились в конфиге. Но теперь(с версии 6.3) они храняться в таблице bill_attribute_type_$mid<br><br>
- * name - ключ<br>
- * title - описание
+/**
+ * Attribute type. Attribute types used to not be stored in the DB, but were configured in the config. Now (since version 6.3) they are stored in the bill_attribute_type_$mid table
+ * <br><br>
+ * name - the key<br>
+ * title - the description
  */
 public class AttributeType extends IdTitle {
     private String name = null;

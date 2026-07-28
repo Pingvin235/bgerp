@@ -15,27 +15,27 @@ import ru.bgcrm.util.inet.IpNet;
 public class InetService extends TreeItem<Integer, InetService> {
     public static final int STATUS_ACTIVE = 0;
     public static final int STATUS_CLOSED = 1;
-    /** Отсутствует в bgbilling с 9.2404 */
+    /** Absent from bgbilling since 9.2404 */
     @Deprecated
     public static final int STATUS_LOCKED = 2;
 
     /**
-     * Состояние сервиса - означает, что состояние не изменилось.
+     * Service state - means the state hasn't changed
      */
     public static final short STATE_NULL = -1000;
 
     /**
-     * Состояние сервиса - удален (со связанных устройств).
+     * Service state - deleted (from the associated devices)
      */
     public static final short STATE_DELETED = -1;
 
     /**
-     * Состояние сервиса/соединения - доступ отключен.
+     * Service/connection state - access disabled
      */
     public static final short STATE_DISABLE = 0;
 
     /**
-     * Состояние сервиса/соединения - доступ включен.
+     * Service/connection state - access enabled
      */
     public static final short STATE_ENABLE = 1;
 
@@ -109,12 +109,12 @@ public class InetService extends TreeItem<Integer, InetService> {
         this.login = login;
     }
 
-    /** Синоним для совместимости с сервисом биллинга. */
+    /** Synonym for compatibility with the billing service */
     public String getUname() {
         return getLogin();
     }
 
-    /** Синоним для совместимости с сервисом биллинга. */
+    /** Synonym for compatibility with the billing service */
     public void setUname(String login) {
         setLogin(login);
     }
@@ -127,12 +127,12 @@ public class InetService extends TreeItem<Integer, InetService> {
         this.deviceId = deviceId;
     }
 
-    /** Синоним для совместимости с сервисом биллинга. */
+    /** Synonym for compatibility with the billing service */
     public int getDid() {
         return getDeviceId();
     }
 
-    /** Синоним для совместимости с сервисом биллинга. */
+    /** Synonym for compatibility with the billing service */
     public void setDid(int deviceId) {
         setDeviceId(deviceId);
     }
@@ -200,32 +200,28 @@ public class InetService extends TreeItem<Integer, InetService> {
     }
 
     /**
-     * Возвращает первый MAC адрес.
-     * @return
+     * @return the first MAC address
      */
     public byte[] getMacAddress() {
         return Utils.getFirst(macAddressList);
     }
 
     /**
-     * Устанавливает единственный MAC адрес.
-     * @param macAddress
+     * @param macAddress the single MAC address to set
      */
     public void setMacAddress(byte[] macAddress) {
         setMacAddressList(Collections.singletonList(macAddress));
     }
 
     /**
-     * Возвращает первый MAC адрес.
-     * @return
+     * @return the first MAC address
      */
     public String getMacAddressStr() {
         return InetUtils.macAddressToString(Utils.getFirst(macAddressList));
     }
 
     /**
-     * Устанавливает единственный MAC адрес.
-     * @param macAddress
+     * @param macAddress the single MAC address to set
      */
     public void setMacAddressStr(String macAddress) {
         setMacAddressList(Collections.singletonList(InetUtils.parseMacAddress(macAddress)));

@@ -3,8 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model;
 import org.bgerp.model.base.Id;
 
 /**
- * Класс используется для представления данных как из UserInfo биллинга, поле {@code name}.
- * Так и User, поле {@code login}, которое пока отсутствует в биллинговском UserInfo.
+ * The class is used to represent data both from the billing's UserInfo, the {@code name} field, and from User, the {@code login} field, which is not yet present in the billing's UserInfo
  */
 public class UserInfo extends Id {
     private String login;

@@ -12,37 +12,37 @@ public class InetServiceType extends IdTitle {
     public static final int ADDRESS_TYPE_NONE = 0;
 
     /**
-     * Указанный диапазон
+     * A specified range
      */
     public static final int ADDRESS_TYPE_RANGE = 1;
 
     /**
-     * Указанная сеть
+     * A specified network
      */
     public static final int ADDRESS_TYPE_NET = 2;
 
     /**
-     * Указанный адрес
+     * A specified address
      */
     public static final int ADDRESS_TYPE_SINGLE = 3;
 
     /**
-     * Динамический адрес
+     * A dynamic address
      */
     public static final int ADDRESS_TYPE_DYNAMIC = 4;
 
     /**
-     * Динамический или указанный адрес
+     * A dynamic or specified address
      */
     public static final int ADDRESS_TYPE_DYNAMIC_OR_SINGLE = 5;
 
     /**
-     * Динамический или из диапазона
+     * A dynamic address or one from a range
      */
     public static final int ADDRESS_TYPE_DYNAMIC_OR_RANGE = 6;
 
     /**
-     * Либо выдавать указанный адрес, либо ничего не выдавать
+     * Either issue the specified address, or issue nothing
      */
     public static final int ADDRESS_TYPE_NONE_OR_SINGLE = 7;
 
@@ -56,28 +56,28 @@ public class InetServiceType extends IdTitle {
     private int addressType;
     private boolean addressAllInterface;
 
-    // количество макисмальных сессий, устанавливаемое по-умолчанию в сервисе
+    // the maximum session count set by default in the service
     private int sessionCountLimit;
 
     private boolean sessionCountLimitLock;
 
-    // необходимо указать логин и пароль
+    // login and password must be specified
     private boolean needLogin;
-    // необходимо указать устройство
+    // a device must be specified
     private boolean needDevice;
-    // необходимо указать интерфейс устройства
+    // a device interface must be specified
     private boolean needInterface;
-    // интефрейс выделен для сервиса
+    // the interface is dedicated to the service
     private boolean personalInterface = true;
-    // необходимо указать Vlan
+    // a VLAN must be specified
     private boolean needVlan;
-    // vlan выделен для сервиса
+    // the VLAN is dedicated to the service
     private boolean personalVlan = true;
 
     private boolean needIdentifier;
 
     /**
-     * Нужен ли MAC-адрес, нужно ли его отображать при редактировании сервиса
+     * Whether a MAC address is needed, and whether it should be shown when editing the service
      */
     private boolean needMacAddress;
 
@@ -89,7 +89,7 @@ public class InetServiceType extends IdTitle {
 
     private boolean ipFromParentRange;
 
-    // конфигурация
+    // configuration
     private String config;
 
     public Set<Integer> getDeviceTypeIds() {
