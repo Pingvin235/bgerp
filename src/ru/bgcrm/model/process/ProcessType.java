@@ -58,15 +58,15 @@ public class ProcessType extends TreeItem<Integer, ProcessType> implements Compa
     }
 
     /**
-     * Selects process type IDs with filter by other IDs.
-     * @param typeSet the filter set, if a type ID is there, it has been added together with all its child IDs.
-     * @return
+     * Selects process type IDs with filter by other IDs
+     * @param typeSet the filter set, if a type ID is there, it has been added together with all its child IDs
+     * @return the selected child IDs
      */
     public Set<Integer> getSelectedChildIds(Set<Integer> typeSet) {
         Set<Integer> result = new HashSet<>(typeSet.size());
 
         for (ProcessType childItem : children) {
-            // если узел есть в результате - есть там и уже все его потомки
+            // if the node is already in the result, all its descendants are there too
             if (result.contains(childItem.getId())) {
                 continue;
             }

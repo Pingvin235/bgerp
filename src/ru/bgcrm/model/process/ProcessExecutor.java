@@ -15,7 +15,7 @@ import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.Utils;
 
 /**
- * Process related executor with group and role.
+ * Process related executor with group and role
  *
  * @author Shamil Vakhitov
  */
@@ -120,7 +120,7 @@ public class ProcessExecutor {
                 for (UserGroup userGroup : UserCache.getUserGroupList(parsedSet.get(0))) {
                     for (ProcessGroup processGroup : processGroups) {
                         if (userGroup.getGroupId() == processGroup.getGroupId()) {
-                            //так как роль не указана для этого исполнителя, добавляем с 0 ролью (перед этим проверяем есть ли такая группа с такой ролью)
+                            // since the role is not specified for this executor, add with role 0 (first check whether such a group with such a role exists)
                             if (ProcessGroup.isGroupWithRoleExist(processGroups, processGroup.getGroupId(), 0)) {
                                 resultSet.add(new ProcessExecutor(parsedSet.get(0), processGroup.getGroupId(), 0));
                             } else {
@@ -153,12 +153,12 @@ public class ProcessExecutor {
         for (String item : values) {
             List<Integer> parsedList = Utils.toIntegerList(item, ":");
 
-            // исполнитель сопоставлен с группой
+            // executor is matched with a group
             if (parsedList.size() > 1) {
                 resultSet.add(new ProcessExecutor(parsedList.get(0), parsedList.get(1), parsedList.size() == 3 ? parsedList.get(2) : 0));
             }
-            // исполнитель просто указан - старый формат, сопоставление его группе
-            // старый формат, просто для совместимости
+            // executor is simply specified - old format, matching it to a group
+            // old format, just for compatibility
             else if (parsedList.size() == 1) {
                 User user = UserCache.getUser(parsedList.get(0));
 

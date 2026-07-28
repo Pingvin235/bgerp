@@ -95,7 +95,7 @@ public class ProcessGroup implements Comparable<ProcessGroup> {
 
         for (ProcessGroup item : processGroups) {
             Utils.addCommaSeparated(roleGroup, String.valueOf(item.getGroupId()));
-            // нулевую роль в строку не добавляем для максимальной совместимости с предыдущеми версиями и экономии места
+            // we don't add the zero role to the string for maximum compatibility with previous versions and to save space
             if (item.getRoleId() > 0) {
                 roleGroup.append(":");
                 roleGroup.append(item.getRoleId());

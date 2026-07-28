@@ -19,7 +19,7 @@ import ru.bgcrm.model.process.TransactionProperties.TransactionKey;
 import ru.bgcrm.util.Utils;
 
 /**
- * Process type properties.
+ * Process type properties
  *
  * @author Shamil Vakhitov
  */
@@ -45,10 +45,10 @@ public class TypeProperties {
 
     private LastModify lastModify = new LastModify();
 
-    // первый ключ - "с статуса", второй ключ - "на статус"
+    // first key - "from status", second key - "to status"
     private Map<TransactionKey, TransactionProperties> transactionPropertiesMap = new HashMap<>();
 
-    // мастер создания процесса через мобильный интерфейс
+    // process creation wizard via mobile interface
     private Wizard wizard;
 
     public TypeProperties() {
@@ -88,7 +88,7 @@ public class TypeProperties {
     public String serializeToData() {
         StringBuilder result = new StringBuilder();
 
-        // действия при транзакциях
+        // transaction actions
         for (Map.Entry<TransactionKey, TransactionProperties> me : transactionPropertiesMap.entrySet()) {
             TransactionKey key = me.getKey();
             TransactionProperties properties = me.getValue();
@@ -108,11 +108,11 @@ public class TypeProperties {
     }
 
     /**
-     * Gets transaction properties.
+     * Gets transaction properties
      *
-     * @param fromStatus
-     * @param toStatus
-     * @return true, if transaction is enabled or do not defined.
+     * @param fromStatus the source status
+     * @param toStatus the target status
+     * @return {@code true} if transaction is enabled or not defined
      */
     public TransactionProperties getTransactionProperties(int fromStatus, int toStatus) {
         var key = new TransactionKey(fromStatus, toStatus);
@@ -151,12 +151,12 @@ public class TypeProperties {
             }
         }
 
-        if (result.isEmpty()) { // Если список пустой, то мы проверяем пустая ли матрица, если так, то разрешаем переход на любой статус( пустая матрица == полная матрица )
+        if (result.isEmpty()) { // if the list is empty, we check whether the matrix is empty; if so, allow transition to any status (empty matrix == full matrix)
             boolean emptyMatrix = transactionPropertiesMap.entrySet().stream()
                     .noneMatch(t -> statusIds.contains(t.getKey().toStatus) && statusIds.contains(t.getKey().fromStatus) && t.getValue().isEnable());
             if (emptyMatrix) {
                 result.addAll(statusIds);
-                result.remove(fromStatus); // вообще далее, в тех местах где используется, он будет снова добавлен. По этому вроде как можно и не удалять, но кто знает как будет в будущем использован(или скриптами), пусть содержание соответсвует названию.
+                result.remove(fromStatus); // actually, later on, wherever it's used, it will be added again anyway. So it seems it could be left without removing, but who knows how it will be used in the future (or by scripts), let the content match the name.
             }
         }
 
@@ -214,7 +214,7 @@ public class TypeProperties {
     }
 
     /**
-     * @return initial process groups.
+     * @return initial process groups
      */
     public ProcessGroups getGroups() {
         return groups;

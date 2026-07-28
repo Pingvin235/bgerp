@@ -13,14 +13,14 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.util.Utils;
 
 /**
- * Сохранённые фильтры пользователя.
+ * Saved user filters
  */
 public class SavedFiltersConfig extends Config {
-    // ключ - ID очереди
+    // key - queue ID
     private Map<Integer, List<SavedFilterSet>> queueSavedFilterSetsMap = new HashMap<>();
-    // ключ - ID сохранённого набора
+    // key - saved set ID
     private Map<Integer, SavedFilterSet> savedFilterSetMap = new HashMap<>();
-    // максимальный ID
+    // maximum ID
     private int maxId;
 
     private static final String QUEUE_SAVED_FILTER_SET_PREFIX = "queueSavedFilterSet.";
@@ -45,7 +45,7 @@ public class SavedFiltersConfig extends Config {
             maxId = id;
         }
 
-        // сортировка
+        // sorting
         for (Map.Entry<Integer, List<SavedFilterSet>> queueSets : queueSavedFilterSetsMap.entrySet()) {
             int queueId = queueSets.getKey();
             List<SavedFilterSet> sets = queueSets.getValue();
@@ -153,7 +153,7 @@ public class SavedFiltersConfig extends Config {
     }
 
     /**
-     * Сохранённый фильтр в очереди процессов.
+     * Saved filter in a process queue
      */
     public static class SavedFilterSet extends IdTitle {
         private final int queueId;

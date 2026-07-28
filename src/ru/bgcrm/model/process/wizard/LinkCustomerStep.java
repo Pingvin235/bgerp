@@ -47,7 +47,7 @@ public class LinkCustomerStep extends Step {
 
         @Override
         public boolean isFilled(DynActionForm form, Connection con) {
-            //TODO: Предусмотреть одну выборку с джойном.
+            //TODO: Consider a single query with a join.
             List<CommonObjectLink> linkList = new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(), Customer.OBJECT_TYPE);
             if (linkList.size() > 0) {
                 customer = new CustomerDAO(con).getCustomerById(linkList.get(0).getLinkObjectId());

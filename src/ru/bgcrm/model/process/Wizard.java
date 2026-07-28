@@ -9,10 +9,10 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.model.process.wizard.base.Step;
 
 public class Wizard {
-    // шаги, которые необходимо заполнить при создании процесса
+    // steps that need to be filled in when creating a process
     private final List<Step> createStepList = new ArrayList<>();
 
-    // шаги, открываемы при доступе к карточке процесса
+    // steps opened when accessing the process card
     private final List<Step> stepList = new ArrayList<>();
 
     public Wizard(TypeProperties props) {

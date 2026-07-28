@@ -27,9 +27,9 @@ public abstract class StepData<T extends Step> {
     }
 
     /**
-     * JEXL фильтр позволяющий включить или выключить шаг из списка.
-     * @param con
-     * @return
+     * JEXL filter allowing to enable or disable the step from the list
+     * @param con the DB connection
+     * @return {@code true} if the step is enabled
      */
     public boolean check(Connection con) {
         if (Utils.isBlankString(step.getExpression())) {

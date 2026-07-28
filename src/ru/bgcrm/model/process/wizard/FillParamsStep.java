@@ -58,7 +58,7 @@ public class FillParamsStep extends Step {
     public List<Parameter> getParamList() {
         List<Parameter> paramList = new ArrayList<>();
 
-        // сохранение списка параметров убрано, чтобы из кэша брались актуальные параметры
+        // saving the parameter list was removed so that up-to-date parameters are taken from the cache
         for (int paramId : Utils.toIntegerList(config.get("parameterIds"))) {
             Parameter param = ParameterCache.getParameter(paramId);
             if (param == null) {
@@ -115,14 +115,14 @@ public class FillParamsStep extends Step {
                 }
             }
 
-            // Если в шаге обрабатываются параметры процесса, то проверим их с JEXL выражением
+            // if the step handles process parameters, check them with a JEXL expression
             if (!"linkedCustomer".equals(step.getType())) {
                 Process process = data.getProcess();
                 ProcessType processType = ProcessTypeCache.getProcessType(process.getTypeId());
                 Set<Entry<Integer, ConfigMap>> showParamSet = processType.getProperties().getConfigMap().subIndexed("showParam.").entrySet();
 
                 Set<Integer> hideParamIds = new HashSet<>();
-                // показывает параметры процесса только в том случае, если выполняется JEXL выражение: showParam.<paramId>.checkExpression=<expr>
+                // shows process parameters only if the JEXL expression is satisfied: showParam.<paramId>.checkExpression=<expr>
                 for (Entry<Integer, ConfigMap> entry : showParamSet) {
                     String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
@@ -158,12 +158,12 @@ public class FillParamsStep extends Step {
             return objectId;
         }
 
-        // в id возвращается код объекта
+        // returns the object ID
         private int getObjectId(Connection connection) {
             int objectId = 0;
 
             if ("linkedCustomer".equals(step.getType())) {
-                //TODO: Может сделать потом джойн.
+                //TODO: Could make it a join later.
                 if (data.getLinkedCustomer() != null) {
                     objectId = data.getLinkedCustomer().getId();
                 } else {
@@ -177,10 +177,9 @@ public class FillParamsStep extends Step {
         }
 
         /**
-         * Метод возвращает идентификатор контрагента, ранее привязанного
-         * к процессу через поиск связей процесс-контрагент базе данных.
-         * @param connection
-         * @return
+         * The method returns the ID of the customer previously linked to the process, found via process-customer link search in the database
+         * @param connection the DB connection
+         * @return the customer ID, or {@code 0} if not found
          */
         private int getLinkedCustomerId(Connection connection) {
             int customerId = 0;

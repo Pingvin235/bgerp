@@ -81,7 +81,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * @return process type object from {@link ProcessTypeCache#getProcessTypeSafe(int)}.
+     * @return process type object from {@link ProcessTypeCache#getProcessTypeSafe(int)}
      */
     @JsonIgnore
     public ProcessType getType() {
@@ -89,7 +89,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * @return process types title from {@link #getType()}.
+     * @return process types title from {@link #getType()}
      */
     public String getTypeTitle() {
         return getType().getTitle();
@@ -141,7 +141,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * @return process status object from {@link ProcessTypeCache#getStatusSafe(int)}.
+     * @return process status object from {@link ProcessTypeCache#getStatusSafe(int)}
      */
     @JsonIgnore
     public Status getStatus() {
@@ -251,7 +251,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * @return execution groups.
+     * @return execution groups
      */
     public ProcessGroups getGroups() {
         return groups;
@@ -283,9 +283,9 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Returns the set of execution group IDs for the certain role.
-     * @param roleId
-     * @return
+     * Returns the set of execution group IDs for the certain role
+     * @param roleId the role ID
+     * @return the group IDs
      */
     public Set<Integer> getGroupIdsWithRole(int roleId) {
         return groups.stream()
@@ -294,9 +294,9 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Returns the set of execution group IDs for the certain roles.
-     * @param roleIds
-     * @return
+     * Returns the set of execution group IDs for the certain roles
+     * @param roleIds the role IDs
+     * @return the group IDs
      */
     public Set<Integer> getGroupIdsWithRoles(Set<Integer> roleIds) {
         return groups.stream()
@@ -323,9 +323,9 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Returns the set of executor user IDs for the certain role.
-     * @param roleId
-     * @return
+     * Returns the set of executor user IDs for the certain role
+     * @param roleId the role ID
+     * @return the user IDs
      */
     public Set<Integer> getExecutorIdsWithRole(int roleId) {
         return executors.stream()
@@ -334,9 +334,9 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Returns the set of executor user IDs for the certain roles.
-     * @param roleIds
-     * @return
+     * Returns the set of executor user IDs for the certain roles
+     * @param roleIds the role IDs
+     * @return the user IDs
      */
     public Set<Integer> getExecutorIdsWithRoles(Set<Integer> roleIds) {
         return executors.stream()
@@ -345,10 +345,10 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Returns the set of executor user IDs for the certain role and group.
-     * @param groupId
-     * @param roleId
-     * @return
+     * Returns the set of executor user IDs for the certain role and group
+     * @param groupId the group ID
+     * @param roleId the role ID
+     * @return the user IDs
      */
     public Set<Integer> getExecutorIdsWithGroupAndRole(int groupId, int roleId) {
         return executors.stream()
@@ -357,9 +357,9 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Returns the set of executor user IDs for the certain groups.
-     * @param groupIds
-     * @return
+     * Returns the set of executor user IDs for the certain groups
+     * @param groupIds the group IDs
+     * @return the user IDs
      */
     public Set<Integer> getExecutorIdsWithGroups(Set<Integer> groupIds) {
         return executors.stream()
@@ -502,7 +502,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     // DEPRECATED
 
     /**
-     * Use {@link #getExecutors()}.
+     * Use {@link #getExecutors()}
      */
     @Deprecated
     @JsonIgnore
@@ -512,7 +512,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #getExecutorIdsWithRole(int)}.
+     * Use {@link #getExecutorIdsWithRole(int)}
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsWithRole(int roleId) {
@@ -521,7 +521,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #getExecutorIdsWithRoles(Set)}.
+     * Use {@link #getExecutorIdsWithRoles(Set)}
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsWithRoles(Set<Integer> roleIds) {
@@ -530,7 +530,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #getExecutorIdsWithGroupAndRole(int, int)}.
+     * Use {@link #getExecutorIdsWithGroupAndRole(int, int)}
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsInGroupWithRole(int roleId, int groupId) {
@@ -539,7 +539,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #getExecutorIdsWithGroups(Set)}.
+     * Use {@link #getExecutorIdsWithGroups(Set)}
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsWithGroups(Set<Integer> groupIds) {
@@ -548,7 +548,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #setExecutors(Set)}.
+     * Use {@link #setExecutors(Set)}
      */
     @Deprecated
     public void setProcessExecutors(Set<ProcessExecutor> processExecutors) {
@@ -557,7 +557,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #getGroups()}.
+     * Use {@link #getGroups()}
      */
     @Deprecated
     @JsonIgnore
@@ -567,7 +567,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #getGroupIdsWithRole(int)}.
+     * Use {@link #getGroupIdsWithRole(int)}
      */
     @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRole(int roleId) {
@@ -581,7 +581,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #getGroupIdsWithRoles(Set)}.
+     * Use {@link #getGroupIdsWithRoles(Set)}
      */
     @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRoles(Set<Integer> roleIds) {
@@ -595,7 +595,7 @@ public class Process extends IdTitle implements Comparable<Process>, Cloneable {
     }
 
     /**
-     * Use {@link #setGroups(ProcessGroups)}.
+     * Use {@link #setGroups(ProcessGroups)}
      */
     @Deprecated
     public void setProcessGroups(Set<ProcessGroup> processGroups) {

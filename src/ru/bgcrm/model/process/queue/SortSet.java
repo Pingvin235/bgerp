@@ -25,8 +25,8 @@ public class SortSet {
     private final SortedMap<Integer, Integer> sortValues = new TreeMap<>();
 
     /**
-     * Quantity of sequential comboboxes, available for sorting.
-     * @return
+     * Quantity of sequential comboboxes, available for sorting
+     * @return the combo count
      */
     public int getComboCount() {
         return comboCount;
@@ -37,8 +37,8 @@ public class SortSet {
     }
 
     /**
-     * List of modes, available for choose in each of combos.
-     * @return
+     * List of modes, available for choose in each of combos
+     * @return the mode list
      */
     public List<SortMode> getModeList() {
         return modeList;
@@ -51,7 +51,7 @@ public class SortSet {
     /**
      * Strictly defined sort modes for each of combo.
      * Key - 0 based combo id, value - ID of a sort mode.
-     * @return
+     * @return the sort values
      */
     public SortedMap<Integer, Integer> getSortValues() {
         return sortValues;
@@ -62,8 +62,8 @@ public class SortSet {
     }
 
     /**
-     * Default sort modes for each of combo, if nope of {@link #getSortValues()} and HTTP request options set.
-     * @return
+     * Default sort modes for each of combo, if none of {@link #getSortValues()} and HTTP request options set
+     * @return the default sort values
      */
     public Map<Integer, Integer> getDefaultSortValues() {
         return defaultSortValues;
@@ -74,9 +74,9 @@ public class SortSet {
     }
 
     /**
-     * Comma separated SQL column numbers, using for sorting.
-     * @param form request's parameters.
-     * @return
+     * Comma separated SQL column numbers, using for sorting
+     * @param form request's parameters
+     * @return the comma separated column numbers
      */
     public String getOrders(DynActionForm form) {
         String orders = getOrders(sortValues);

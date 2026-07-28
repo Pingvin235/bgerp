@@ -38,7 +38,7 @@ public class PrintQueueConfig extends Config {
         public static final String ORIENTATION_PORTRAIT = "portrait";
         public static final String ORIENTATION_LANDSCAPE = "landscape";
 
-        // в реальности пока не используется, может генерироваться только PDF
+        // not actually used yet, only PDF can be generated
         private final String type;
         private final String orientation;
         private final String fileName;

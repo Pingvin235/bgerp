@@ -4,7 +4,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 
 /**
- * Фильтр очереди, доступный другим пользователям.
+ * Queue filter, available to other users
  */
 public class SavedFilter extends IdTitle {
     private final int queueId;

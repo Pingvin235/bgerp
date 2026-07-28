@@ -52,8 +52,8 @@ public class AddressInfoStep extends Step {
         public boolean isFilled(DynActionForm form, Connection con) throws Exception {
             List<StepData<?>> stepDataList = data.getStepDataList();
 
-            // находим первый предшествующий шаг заполнения параметров
-            // TODO: может в последствии сделать первый предшествующий с нужным параметром
+            // find the first preceding param-filling step
+            // TODO: could later make it the first preceding one with the needed parameter
             for (int i = stepDataList.indexOf(this); i >= 0; i--) {
                 StepData<?> stepData = stepDataList.get(i);
 

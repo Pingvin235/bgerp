@@ -131,10 +131,10 @@ public class Queue extends IdTitle {
 
     /**
      * Replaces initial rows with cells ordered by configured columns to rows ordered by media columns. During that also extracted additional cell data for some cases.
-     * @param form user HTTP request form.
-     * @param list initial rows, ordered by configured columns.
-     * @param mediaColumns media columns, ordered by displaying.
-     * @param isHtmlMedia is the target media HTML.
+     * @param form user HTTP request form
+     * @param list initial rows, ordered by configured columns
+     * @param mediaColumns media columns, ordered by displaying
+     * @param isHtmlMedia is the target media HTML
      */
     public void replaceRowsForMediaColumns(DynActionForm form, List<Object[]> list, List<MediaColumn> mediaColumns, boolean isHtmlMedia) throws SQLException {
         final int columnsForMedia = mediaColumns.size();
@@ -199,18 +199,18 @@ public class Queue extends IdTitle {
     }
 
     /**
-     * Selects a processor by ID.
-     * @param id the ID.
-     * @return the found processor or {@code null}.
+     * Selects a processor by ID
+     * @param id the ID
+     * @return the found processor or {@code null}
      */
     public Processor getProcessor(int id) {
         return processorMap.get(id);
     }
 
     /**
-     * Processors for interface.
-     * @param iface value from {@link org.bgerp.app.servlet.Interface}.
-     * @return list of processors.
+     * Processors for interface
+     * @param iface value from {@link org.bgerp.app.servlet.Interface}
+     * @return list of processors
      */
     public List<Processor> getProcessors(String iface) {
         return processorMap.values().stream()
@@ -219,9 +219,9 @@ public class Queue extends IdTitle {
     }
 
     /**
-     * Selects a processor by a page URL.
-     * @param url the page URL.
-     * @return the found processor or {@code null}.
+     * Selects a processor by a page URL
+     * @param url the page URL
+     * @return the found processor or {@code null}
      */
     public Processor getProcessorByPageUrl(String url) {
         return processorMap.values().stream()
@@ -239,7 +239,7 @@ public class Queue extends IdTitle {
     }
 
     /**
-     * @return list of process types, allowed to be created in 'usermob' interface.
+     * @return list of process types, allowed to be created in 'usermob' interface
      */
     @Dynamic
     public List<IdTitle> getCreateAllowedProcessList() {
