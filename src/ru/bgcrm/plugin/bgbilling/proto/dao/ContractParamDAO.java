@@ -79,20 +79,20 @@ public class ContractParamDAO extends BillingDAO {
     }
 
     /**
-     * Вызывает {@link #getParameterListWithDir(int, boolean, boolean)} с false, false.
-     * @param contractId
-     * @return
+     * Returns the contract's parameters, without loading the group directory
+     * @param contractId the contract ID
+     * @return the parameter list
      */
     public List<ContractParameter> getParameterList(int contractId) {
         return getParameterListWithDir(contractId, false, false).getSecond();
     }
 
     /**
-     * Возвращает параметры договора со справочниками.
-     * @param contractId код договора.
-     * @param loadGroups загружать группы.
-      * @param onlyGroup учитывать группу параметров договора.
-     * @return
+     * Returns the contract's parameters together with the group directory
+     * @param contractId the contract ID
+     * @param loadGroups whether to load the groups
+     * @param onlyGroup whether to consider the contract's parameter group
+     * @return the group directory and the parameter list
      */
     public Pair<ParamList, List<ContractParameter>> getParameterListWithDir(int contractId, boolean loadGroups,
             boolean onlyGroup) {
@@ -130,10 +130,10 @@ public class ContractParamDAO extends BillingDAO {
         return result;
     }
 
-    /** Использовать только для генерации документов!
-     * Кэшированние результата убрано, т.к. потенциально может съесть много памяти.
-     * @param contractId
-     * @return
+    /**
+     * Returns the raw contract parameters document. Use only for document generation, the result is not cached since it may consume a lot of memory
+     * @param contractId the contract ID
+     * @return the document
      */
     public Document getContractParams(int contractId) {
         Request request = new Request();
@@ -213,7 +213,7 @@ public class ContractParamDAO extends BillingDAO {
         if (phone != null) {
             int itemCount = Utils.parseInt(phone.getAttribute("count"));
 
-            // до 5.1 было просто зашито 5 телефонов
+            // up to 5.1 it was simply hardcoded to 5 phones
             if (dbInfo.versionCompare("5.1") <= 0) {
                 itemCount = 5;
             }
@@ -225,7 +225,7 @@ public class ContractParamDAO extends BillingDAO {
                 if (Utils.isBlankString(number))
                     continue;
 
-                // удаление форматирование из параметра
+                // remove formatting from the parameter
                 if (dbInfo.versionCompare("9.2") >= 0)
                     number = number.replaceAll("[^\\d.]", "");
 
@@ -241,14 +241,14 @@ public class ContractParamDAO extends BillingDAO {
     }
 
     private List<IdStringTitleTreeItem> getEmailSubscrTree(Element treeElm) {
-        // Рекурсивный сбор элементов дерева
+        // Recursive collection of tree elements
         List<IdStringTitleTreeItem> treeValues = new ArrayList<>();
 
         for (Element e : XMLUtils.selectElements(treeElm, "item")) {
             IdStringTitleTreeItem cur = new IdStringTitleTreeItem();
             cur.setId(e.getAttribute("id"));
             cur.setTitle(e.getAttribute("title"));
-            if (e.getAttribute("type").equals("1")) // Если есть child`ы
+            if (e.getAttribute("type").equals("1")) // if there are children
             {
                 cur.setChildren(getEmailSubscrTree(e));
             }
@@ -287,7 +287,7 @@ public class ContractParamDAO extends BillingDAO {
 
             Document doc = transferData.postData(billingRequest, user);
 
-            // Список емейлов
+            // list of emails
             List<String> emails = new ArrayList<>();
             result.setEmails(emails);
 
@@ -297,13 +297,13 @@ public class ContractParamDAO extends BillingDAO {
                     emails.add(e.getAttribute("text"));
                 }
 
-                // Список активированных рассылок
+                // list of activated subscriptions
                 result.setSubscrs(Utils.toList(data.getAttribute("buf")));
 
                 // eid
                 result.setEid(Utils.parseInt(data.getAttribute("id")));
 
-                // Список существующих рассылок id: title
+                // list of existing subscriptions id: title
                 billingRequest = new Request();
                 billingRequest.setModule(CONTRACT_MODULE_ID);
                 billingRequest.setAction("GetEmailTree");
@@ -355,7 +355,7 @@ public class ContractParamDAO extends BillingDAO {
             result.setComment(address.getAttribute("comment"));
             result.setPod(address.getAttribute("pod"));
             String floor = address.getAttribute("floor");
-            // если этаж не указан в биллинге, приходит 0 или -1
+            // if the floor is not specified in the billing, 0 or -1 comes
             if (Utils.parseInt(floor) > 0)
                 result.setFloor(floor);
         }
@@ -555,7 +555,7 @@ public class ContractParamDAO extends BillingDAO {
             List<ParameterPhoneValueItem> phones = phoneValue.getItemList();
 
             int itemCount = phones.size();
-            // до 5.1 было просто зашито 5 телефонов
+            // up to 5.1 it was simply hardcoded to 5 phones
             if (dbInfo.versionCompare("5.1") <= 0) {
                 itemCount = 5;
             }
@@ -565,7 +565,7 @@ public class ContractParamDAO extends BillingDAO {
                 req.setAttribute("comment" + (i + 1), i < phones.size() ? phones.get(i).getComment() : "");
             }
 
-            // с 5.2 требуется count
+            // count is required starting with 5.2
             req.setAttribute("count", itemCount);
 
             transferData.postData(req, user);
@@ -721,11 +721,11 @@ public class ContractParamDAO extends BillingDAO {
                 String fromValue;
 
                 if (listValue != null && listValue.size() > 0) {
-                    // биллинг не поддерживает множественные значения списков, поэтому берем первый
+                    // the billing doesn't support multiple list values, so we take the first one
                     fromValue = listValue.iterator().next().toString();
 
                     String toValue = null;
-                    // преобразование по карте соответствий
+                    // conversion via the mapping table
                     if (keyValue[0].indexOf('[') > 0) {
                         String[] fromValues = keyValue[0]
                                 .substring(keyValue[0].indexOf('[') + 1, keyValue[0].indexOf(']')).split(",");

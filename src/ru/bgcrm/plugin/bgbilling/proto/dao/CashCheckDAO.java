@@ -87,8 +87,8 @@ public class CashCheckDAO extends BillingDAO {
     }
 
     /**
-     * Возвращает список регистраторов с выбранным первым.
-     * @return
+     * Returns a list of registrators with the selected one first
+     * @return the registrator list
      */
     public List<IdTitle> getRegistratorList() {
         List<IdTitle> registratorList = new ArrayList<>();

@@ -37,8 +37,8 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     /**
-     * Requests a single topic with related massages.
-     * @param topicId the topic ID.
+     * Requests a single topic with related messages
+     * @param topicId the topic ID
      * @return the topic - messages pair, or {@code null}
      */
     public Pair<HdTopic, List<HdMessage>> getTopicWithMessages(int topicId) {
@@ -188,7 +188,7 @@ public class HelpDeskDAO extends BillingDAO {
             throw new BGException("Тема не найдена:" + topicId);
         }
 
-        // на случай, если state темы в хелпдеске уже нужный
+        // in case the topic's state in the helpdesk is already the desired one
         if (topic.getFirst().isClosed() == stateClose) {
             return;
         }

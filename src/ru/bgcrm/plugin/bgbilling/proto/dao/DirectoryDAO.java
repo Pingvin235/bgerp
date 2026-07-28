@@ -25,11 +25,11 @@ public class DirectoryDAO extends BillingDAO {
     private static final List<IdTitle> FIXED_OLD_STATUS_LIST = new ArrayList<>();
     static {
         FIXED_OLD_STATUS_LIST.add(new IdTitle(0, "активен"));
-        // 1 на отключении
+        // 1 disconnecting
         FIXED_OLD_STATUS_LIST.add(new IdTitle(2, "заблокирован"));
         FIXED_OLD_STATUS_LIST.add(new IdTitle(3, "закрыт"));
         FIXED_OLD_STATUS_LIST.add(new IdTitle(4, "приостановлен"));
-        // 5 на подключении
+        // 5 connecting
     }
 
     public DirectoryDAO(User user, String billingId) {
@@ -254,7 +254,7 @@ public class DirectoryDAO extends BillingDAO {
     }
 
     /**
-     * @return пользователи с полем {@code login}
+     * @return the users, with the {@code login} field
      */
     public List<UserInfo> getUserList() {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService", "listUsers");
@@ -263,13 +263,13 @@ public class DirectoryDAO extends BillingDAO {
     }
 
     /**
-     * @return пользователи с полем {@code name}
+     * @return the users, with the {@code name} field
      */
     public List<UserInfo> getUserInfoList() {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService", "userInfoList");
         JsonNode res = transferData.postDataReturn(req, user);
         List<UserInfo> result = readJsonValue(res.traverse(), jsonTypeFactory.constructCollectionType(List.class, UserInfo.class));
-        // пользователь "customer" имеет конфликтующий ID=-1 с пользователем "Пользователь"
+        // the "customer" user has a conflicting ID=-1 with the "Пользователь" user
         return result.stream().filter(user -> !"customer".equals(user.getName())).toList();
     }
 

@@ -24,11 +24,11 @@ public class ResourceDAO extends BillingModuleDAO {
     }
 
     /**
-     * Возвращает список свободных IP адресов.
-     * @param categoryIds
-     * @param range
-     * @param max
-     * @return
+     * Returns the list of free IP addresses
+     * @param categoryIds the resource category IDs
+     * @param range the range
+     * @param max the maximum count
+     * @return the free IP resource range list
      */
     public List<IpResourceRange> getFreeIpResourceRangeList(Set<Integer> categoryIds, int range, int max) {
         RequestJsonRpc req = new RequestJsonRpc(RESOURCE_MODULE_ID, moduleId, "ResourceService",
@@ -44,7 +44,7 @@ public class ResourceDAO extends BillingModuleDAO {
         List<IpResourceRange> result = readJsonValue(ret.traverse(),
                 jsonTypeFactory.constructCollectionType(List.class, IpResourceRange.class));
 
-        // перекодирование IP адресов
+        // re-encoding of IP addresses
         for (IpResourceRange r : result) {
             r.setFrom(IPUtils.base64ToString(r.getFrom()));
             r.setTo(IPUtils.base64ToString(r.getTo()));

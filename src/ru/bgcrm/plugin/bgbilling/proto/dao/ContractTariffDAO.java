@@ -152,9 +152,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает список тарифов договора.
-     * @param contractId
-     * @return
+     * Returns the contract's tariff list
+     * @param contractId the contract ID
+     * @return the tariff list
      */
     public List<ContractTariff> contractTariffList(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -222,14 +222,14 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает тарифный план договора и заполняет справочник доступных тарифов.
-     * @param id код записи, -1 если добавляется новый тариф и необходимы только справочники
-     * @param moduleId код экземпляра модуля
-     * @param contractId код договора
-     * @param useFilter фильтр по договорам для предлагаемых тарифов
-     * @param showUsed только используемые тарифы
-     * @param tariffList список для загрузки списка тарифов, либо null, если не нужно
-     * @return
+     * Returns the contract's tariff plan and fills the directory of available tariffs
+     * @param id the record ID, -1 if a new tariff is being added and only the directories are needed
+     * @param moduleId the module instance ID
+     * @param contractId the contract ID
+     * @param useFilter the filter by contracts for the offered tariffs
+     * @param showUsed whether to show only used tariffs
+     * @param tariffList the list to load the tariff list into, or {@code null} if not needed
+     * @return the tariff plan
      */
     public ContractTariff getContractTariffPlan(int id, int moduleId, int contractId, boolean useFilter,
             boolean showUsed, boolean contractGroupFilter, List<IdTitle> tariffList) {
@@ -284,14 +284,14 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Изменяет либо добавляет тариф договора.
-     * @param contractId код договора
-     * @param id код записи с тарифом, -1 для добавления
-     * @param tpid код тарифного плана
-     * @param position позиция
-     * @param dateFrom с даты
-     * @param dateTo по дату
-     * @param comment комментарий
+     * Updates or adds a contract tariff
+     * @param contractId the contract ID
+     * @param id the tariff record ID, -1 to add
+     * @param tpid the tariff plan ID
+     * @param position the position
+     * @param dateFrom the start date
+     * @param dateTo the end date
+     * @param comment the comment
      */
     public void updateContractTariffPlan(int contractId, int id, int tpid, int position, String dateFrom, String dateTo, String comment) {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -325,9 +325,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Удаляет тариф договора.
-     * @param contractId код договора
-     * @param id код записи с тарифным планом
+     * Deletes a contract tariff
+     * @param contractId the contract ID
+     * @param id the tariff plan record ID
      */
     public void deleteContractTariffPlan(int contractId, int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -347,9 +347,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает список всех групп тарифов на договоре.
-     * @param contractId
-     * @return
+     * Returns the list of all tariff groups on the contract
+     * @param contractId the contract ID
+     * @return the tariff group list
      */
     @Deprecated
     public List<ContractTariffGroup> contractTariffGroupList(int contractId) {
@@ -357,10 +357,10 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает список групп тарифов договора.
-     * @param contractId код договора.
-     * @param active выводить только активные в данный момент группы, с открытой второй датой.
-     * @return
+     * Returns the contract's tariff groups
+     * @param contractId the contract ID
+     * @param active whether to show only currently active groups, with an open second date
+     * @return the tariff group list
      */
     @Deprecated
     private List<ContractTariffGroup> contractTariffGroupList(int contractId, boolean active) {
@@ -401,9 +401,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает группу тарифов договора.
-     * @param id код записи.
-     * @return
+     * Returns the contract's tariff group
+     * @param id the record ID
+     * @return the tariff group
      */
     @Deprecated
     public ContractTariffGroup getContractTariffGroup(int id) {
@@ -432,13 +432,13 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Изменяет либо добавляет группу тарифов договора.
-     * @param id &lt;= 0 - добавление группы тарифов, иначе - код изменяемой записи.
-     * @param contractId код договора.
-     * @param tariffGroupId год группы тарифов.
-     * @param dateFrom с даты.
-     * @param dateTo по дату.
-     * @param comment примечение.
+     * Updates or adds a contract tariff group
+     * @param id &lt;= 0 to add a tariff group, otherwise the ID of the record being changed
+     * @param contractId the contract ID
+     * @param tariffGroupId the tariff group ID
+     * @param dateFrom the start date
+     * @param dateTo the end date
+     * @param comment the comment
      */
     @Deprecated
     public void updateContractTariffGroup(int id, int contractId, int tariffGroupId, Date dateFrom, Date dateTo,
@@ -477,9 +477,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает список тарифных опций договора.
-     * @param contractId
-     * @return
+     * Returns the contract's tariff options
+     * @param contractId the contract ID
+     * @return the tariff option list
      */
     public List<ContractTariffOption> contractTariffOptionList(int contractId) {
         List<ContractTariffOption> list = new ArrayList<>();
@@ -515,9 +515,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает историю тарифных опций на договоре.
-     * @param contractId
-     * @return
+     * Returns the history of tariff options on the contract
+     * @param contractId the contract ID
+     * @return the tariff option list
      */
     public List<ContractTariffOption> contractTariffOptionHistory(int contractId) {
         List<ContractTariffOption> list = new ArrayList<>();
@@ -575,9 +575,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
 
     /**
-     * Возвращает список доступных тарифных опций.
-     * @param contractId
-     * @return
+     * Returns the list of available tariff options
+     * @param contractId the contract ID
+     * @return the option list
      */
     public List<IdTitle> contractAvailableOptionList(int contractId) {
         List<IdTitle> availableOptionList = new ArrayList<>();
@@ -666,7 +666,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     public void reactivateContractOption(int contractId, int id) {
-        // TODO: Для новых версий.
+        // TODO: For newer versions.
         Request request = new Request();
         request.setModule(TARIFF_OPTION_MODULE_ID);
         request.setAction("ContractTariffOption");
@@ -678,9 +678,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Деактивирует тарифную опцию на договоре.
-     * @param contractId
-     * @param id
+     * Deactivates a tariff option on the contract
+     * @param contractId the contract ID
+     * @param id the option ID
      */
     public void deactivateContractOption(int contractId, int id) {
         if (dbInfo.versionCompare("6.2") >= 0) {
@@ -702,9 +702,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает список персональных тарифов договора.
-     * @param contractId
-     * @return
+     * Returns the contract's personal tariffs
+     * @param contractId the contract ID
+     * @return the personal tariff list
      */
     public List<ContractPersonalTariff> contractPersonalTariffList(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -741,9 +741,9 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     /**
-     * Возвращает персональный тариф договора.
-     * @param id
-     * @return
+     * Returns a contract's personal tariff
+     * @param id the tariff ID
+     * @return the personal tariff
      */
     public ContractPersonalTariff getPersonalTariff(int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {

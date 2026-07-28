@@ -49,7 +49,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
             return readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, UserCard.class));
         }
-        // TODO: Убрать позже вместе со сгенерированными классами сервисов.
+        // TODO: Remove later along with the generated service classes.
         else {
             List<UserCard> usetCards = new ArrayList<>();
 
@@ -80,11 +80,11 @@ public class CerberCryptDAO extends BillingModuleDAO {
     }
 
     /**
-     * Выбирает пакеты по указанной карте на указанную дату;
-     * @param contractId
-     * @param cardId
-     * @param date -- дата на которую необходимо вывести пакеты, не должна быть null;
-     * @return
+     * Selects packets for the specified card on the specified date
+     * @param contractId the contract ID
+     * @param cardId the card ID
+     * @param date the date to output packets for, must not be {@code null}
+     * @return the card packets
      */
     public List<CardPacket> getCardPackets(int contractId, int cardId, Date date) {
         if (dbInfo.versionCompare("6.2") >= 0) {
@@ -202,7 +202,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
     }
 
     public void updateUserCard(UserCard userCard) {
-        //TODO:Проверить работоспособность!
+        //TODO: Check functionality!
         RequestJsonRpc req = new RequestJsonRpc(CERBERCRYPT_MODULE, moduleId, "UserCardService", "updateUserCard");
         req.setParam("uc", userCard);
         transferData.postData(req, user);

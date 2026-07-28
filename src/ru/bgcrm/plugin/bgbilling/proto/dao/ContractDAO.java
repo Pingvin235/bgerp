@@ -120,7 +120,7 @@ public class ContractDAO extends BillingDAO {
             if (list != null && list.isArray()) {
                 List<ContractSearchDto> dtoList = readJsonValue(list.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractSearchDto.class));
                 result = dtoList.stream().map(ContractSearchDto::toContract).findFirst().orElse(null);
-            } else { // формат для биллинга старee 9.2501
+            } else { // format for billing older than 9.2501
                 List<Contract> contractList = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class));
                 result = contractList.stream().findFirst().orElse(null);
             }
@@ -163,7 +163,7 @@ public class ContractDAO extends BillingDAO {
                     searchResult.getList().addAll(contractList.stream()
                             .map(c -> new IdTitle(c.getContractId(), c.getContractTitle() + " [ " + c.getContractComment() + " ]")).collect(Collectors.toList()));
                     searchResult.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
-                } else { // формат для биллинга старee 9.2501
+                } else { // format for billing older than 9.2501
                     List<Contract> contractList = readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class));
                     searchResult.getList().addAll(contractList.stream()
                             .map(c -> new IdTitle(c.getId(), c.getTitle() + " [ " + c.getComment() + " ]")).collect(Collectors.toList()));
@@ -218,16 +218,14 @@ public class ContractDAO extends BillingDAO {
     }
 
     /**
-     * Осуществляет поиск договоров по адресным параметам объекта, либо заданным
-     * аргументом, либо, если таковых нет, определяет адресный параметр объекта
-     * в конфигурции биллинга.
-     * @param result
-     * @param options
-     * @param paramIds - необязательный параметр, коды адресных параметров
-     * @param streetId
-     * @param house
-     * @param flat
-     * @param room
+     * Searches for contracts by the object's address parameters, either given as an argument, or, if there are none, determines the object's address parameter from the billing configuration
+     * @param result the search result
+     * @param options the search options
+     * @param paramIds optional parameter, address parameter IDs
+     * @param streetId the street ID
+     * @param house the house
+     * @param flat the flat
+     * @param room the room
      */
     public void searchContractByObjectAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options,
             Set<Integer> paramIds, int streetId, String house, String flat, String room) {
@@ -382,7 +380,7 @@ public class ContractDAO extends BillingDAO {
                 List<ContractSearchDto> dtoList = readJsonValue(list.traverse(), jsonTypeFactory.constructCollectionType(List.class, ContractSearchDto.class));
                 resultList.addAll(dtoList.stream().map(ContractSearchDto::toContract).collect(Collectors.toList()));
                 page.setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
-            } else { // формат для биллинга старee 9.2501
+            } else { // format for billing older than 9.2501
                 resultList.addAll(readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, Contract.class)));
                 page.setData(jsonMapper.convertValue(data.findValue("page"), Page.class));
             }
@@ -549,7 +547,7 @@ public class ContractDAO extends BillingDAO {
         request.setAction("ContractFace");
         request.setContractId(contractId);
         request.setAttribute("type", "face");
-        // 1 - прямая сортировка
+        // 1 - direct sorting
         request.setAttribute("view", 0);
         setPage(request, result.getPage());
 
@@ -584,7 +582,7 @@ public class ContractDAO extends BillingDAO {
         request.setAction("ContractMode");
         request.setContractId(contractId);
         request.setAttribute("type", "mode");
-        // 1 - прямая сортировка
+        // 1 - direct sorting
         request.setAttribute("view", 0);
         setPage(request, result.getPage());
 
@@ -1309,11 +1307,11 @@ public class ContractDAO extends BillingDAO {
                         Set<Integer> listValue = paramDAO.getParamList(objectId, Integer.parseInt(fromParamId));
 
                         if (listValue != null && listValue.size() > 0) {
-                            // биллинг не поддерживает множественные значения списков, поэтому берем первый
+                            // billing doesn't support multiple list values, so we take the first one
                             String fromValue = listValue.iterator().next().toString();
 
                             String toValue = null;
-                            // преобразование по карте соответствий
+                            // conversion via the mapping table
                             if (keyValue[0].indexOf('[') > 0) {
                                 String[] fromVals = keyValue[0]
                                         .substring(keyValue[0].indexOf('[') + 1, keyValue[0].indexOf(']')).split(",");

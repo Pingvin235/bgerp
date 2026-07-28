@@ -24,9 +24,9 @@ public class NPayDAO extends BillingModuleDAO {
     }
 
     /**
-     * Возвращает список абонплат договора.
-     * @param contractId
-     * @return
+     * Returns the contract's subscription fee services
+     * @param contractId the contract ID
+     * @return the service list
      */
     public List<NPayService> getServiceList(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -78,9 +78,9 @@ public class NPayDAO extends BillingModuleDAO {
     }
 
     /**
-     * Возвращает абонплату договора по коду записи.
-     * @param id
-     * @return
+     * Returns the contract's subscription fee service by record ID
+     * @param id the record ID
+     * @return the service
      */
     public NPayService getService(int id) {
         if (dbInfo.versionCompare("8.0") > 0) {
@@ -114,8 +114,8 @@ public class NPayDAO extends BillingModuleDAO {
     }
 
     /**
-     * Изменяет либо добавляет абонплату договора.
-     * @param service
+     * Updates or adds the contract's subscription fee service
+     * @param service the service
      */
     public void updateService(NPayService service) {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -146,9 +146,9 @@ public class NPayDAO extends BillingModuleDAO {
     }
 
     /**
-     * Удаляет абонплату договора.
-     * @param contractId
-     * @param id
+     * Deletes the contract's subscription fee service
+     * @param contractId the contract ID
+     * @param id the service ID
      */
     public void deleteService(int contractId, int id) {
         if (dbInfo.versionCompare("9.2") >= 0) {

@@ -46,9 +46,9 @@ public class ContractHierarchyDAO extends BillingDAO {
     }
 
     /**
-     * Добавляет субдоговор на родительский договор.
-     * @param superContractId id родительского договора.
-     * @param subContractId id субдоговора.
+     * Adds a sub-contract to the super contract
+     * @param superContractId the super contract ID
+     * @param subContractId the sub-contract ID
      */
     public void addSubcontract(int superContractId, int subContractId) {
         Request req = new Request();

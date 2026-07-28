@@ -43,11 +43,9 @@ public class InetDAO extends BillingModuleDAO {
     }
 
     /**
-     * Возвращает перечень сервисов в виде плоского списка.
-     * Сборка в дерево, если необходимо, осуществляется на основании кодов сервисов-предков.
-     *
-     * @param contractId
-     * @return
+     * Returns the list of services as a flat list. If needed, assembling it into a tree is done based on the ancestor service IDs
+     * @param contractId the contract ID
+     * @return the service list
      */
     public List<InetService> getServiceList(int contractId) {
         List<InetService> result = new ArrayList<>();

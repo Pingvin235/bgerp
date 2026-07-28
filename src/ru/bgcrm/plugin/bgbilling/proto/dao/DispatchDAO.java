@@ -23,8 +23,8 @@ public class DispatchDAO extends BillingDAO {
     }
 
     /**
-     * Обновляет либо добавляет контакт договора.
-     * @param contact
+     * Updates or adds the contract's contact
+     * @param contact the contact
      */
     public void updateContact(Contact contact) {
         RequestJsonRpc req = new RequestJsonRpc(DISPATCH_MODULE_ID, "DispatchService", "updateContact");
@@ -33,9 +33,9 @@ public class DispatchDAO extends BillingDAO {
     }
 
     /**
-     * Возвращает список контактов договора.
-     * @param contractId
-     * @return
+     * Returns the contract's contacts
+     * @param contractId the contract ID
+     * @return the contact list
      */
     public List<Contact> getContactList(int contractId) {
         RequestJsonRpc req = new RequestJsonRpc(DISPATCH_MODULE_ID, "DispatchService", "getContacts");
@@ -45,9 +45,9 @@ public class DispatchDAO extends BillingDAO {
     }
 
     /**
-     * Добавляет рассылки на договоры в случае нахождения в них подходящих контактов.
-     * @param contractIds коды договоров
-     * @param dispatchIds коды рассылок
+     * Adds subscriptions to contracts if matching contacts are found on them
+     * @param contractIds the contract IDs
+     * @param dispatchIds the subscription IDs
      */
     public void addSubscriptions(Set<Integer> contractIds, Set<Integer> dispatchIds) {
         RequestJsonRpc req = new RequestJsonRpc(DISPATCH_MODULE_ID, "DispatchService", "addSubscriptions");

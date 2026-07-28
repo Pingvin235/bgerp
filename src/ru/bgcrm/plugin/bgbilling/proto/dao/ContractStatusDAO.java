@@ -39,9 +39,9 @@ public class ContractStatusDAO extends BillingDAO {
     }
 
     /**
-     * Возвращает список статусов договора с периодами.
-     * @param contractId
-     * @return
+     * Returns the contract's statuses with their periods
+     * @param contractId the contract ID
+     * @return the status list
      */
     public List<ContractStatus> statusList(int contractId, Map<Integer, String> statusTitleMap) {
         if (dbInfo.versionCompare("9.2") >= 0) {
@@ -73,10 +73,9 @@ public class ContractStatusDAO extends BillingDAO {
     }
 
     /**
-     * Лог изменений статуса договора.
-     * @param contractId
-     * @return
-     *
+     * Returns the log of contract status changes
+     * @param contractId the contract ID
+     * @return the log item list
      */
     public List<ContractStatusLogItem> statusLog(int contractId) {
         if (dbInfo.versionCompare("9.2") >= 0) {
