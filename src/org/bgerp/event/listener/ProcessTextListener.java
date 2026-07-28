@@ -35,6 +35,8 @@ public class ProcessTextListener {
 
         ConfigMap configMap = process.getType().getProperties().getConfigMap();
 
+        log.debug("processChanged ID: {}, event: {}", process.getId(), e);
+
         var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
         if (titleConfig != null && titleConfig.isProcessUsed())
             updateProcessTitle(e.getForm(), conSet, process, titleConfig.getExpression());
@@ -52,6 +54,8 @@ public class ProcessTextListener {
         var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(e.getObjectId());
         ConfigMap configMap = process.getType().getProperties().getConfigMap();
         Integer paramId = e.getParameter().getId();
+
+        log.debug("paramChanged processId: {}, paramId: {}", process.getId(), paramId);
 
         var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
         if (titleConfig != null && titleConfig.isParamUsed(paramId))

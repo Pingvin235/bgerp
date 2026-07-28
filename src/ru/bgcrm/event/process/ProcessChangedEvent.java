@@ -70,4 +70,9 @@ public class ProcessChangedEvent extends UserEvent {
     public boolean isCreateFinished() {
         return changeMode == MODE_CREATE_FINISHED;
     }
+
+    @Override
+    public String toString() {
+        return "ProcessChangedEvent [process=" + process + ", changeMode=" + changeMode + "]";
+    }
 }
