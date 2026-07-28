@@ -48,7 +48,7 @@ public class Config extends org.bgerp.app.cfg.Config {
             paramIds.addAll(type.paramIds);
         }
 
-        // TODO: Завести где-то в системе справочник сущностей с наименованиями?
+        // TODO: Set up an entity title directory somewhere in the system?
         if (objectTypeMap.containsKey(Customer.OBJECT_TYPE))
             objectTypeList.add(new IdStringTitle(Customer.OBJECT_TYPE, "Контрагент"));
         if (objectTypeMap.containsKey(Process.OBJECT_TYPE))

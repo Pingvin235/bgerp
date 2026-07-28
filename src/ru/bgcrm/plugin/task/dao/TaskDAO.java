@@ -24,10 +24,10 @@ public class TaskDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает список задач с фильтром по процессу и типу.
-     * @param processId обязательный фильтр по процессу.
-     * @param typeId > 0, фильтр по типу процесса.
-     * @param onlyOpen только не выполненные.
+     * Returns a list of tasks filtered by process and type
+     * @param processId the required process filter
+     * @param typeId if > 0, filter by process type
+     * @param onlyOpen only not executed ones
      * @throws SQLException
      */
     public void searchTasks(Pageable<Task> result, int processId, int typeId, boolean onlyOpen) throws SQLException {
@@ -50,9 +50,9 @@ public class TaskDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает список запланированных к исполнению задач.
-     * @param limit
-     * @return
+     * Returns a list of tasks scheduled for execution
+     * @param limit the max count
+     * @return the scheduled tasks
      * @throws SQLException
      */
     public List<Task> getScheduledTasks(int limit) throws SQLException {
@@ -70,8 +70,8 @@ public class TaskDAO extends CommonDAO {
     }
 
     /**
-     * Добавляет новую задачу (id &lt;=0 ), либо обновляет дату выполнения и лог у существующей.
-     * @param task
+     * Adds a new task (id &lt;= 0), or updates the execution date and log of an existing one
+     * @param task the task
      * @throws SQLException
      */
     public void updateTask(Task task) throws SQLException {
@@ -97,9 +97,9 @@ public class TaskDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет задачи по процессу и типу.
-     * @param processId
-     * @param typeId
+     * Deletes tasks by process and type
+     * @param processId the process ID
+     * @param typeId the type ID
      * @throws SQLException
      */
     public void deleteTasks(int processId, String typeId) throws SQLException {

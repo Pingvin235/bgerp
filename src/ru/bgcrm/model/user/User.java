@@ -73,7 +73,7 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
     }
 
     /**
-     * @return is the user admin with {@link #getId()} equals {@code 1}.
+     * @return is the user admin with {@link #getId()} equals {@code 1}
      */
     public boolean isAdmin() {
         return id == 1;
@@ -109,8 +109,8 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
     }
 
     /**
-     * Group IDs active on the current date.
-     * @return
+     * Group IDs active on the current date
+     * @return the group IDs
      */
     public Set<Integer> getGroupIds() {
         return groupIds;
@@ -196,9 +196,9 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
     }
 
     /**
-     * List of users, fist is the current one.
+     * List of users, first is the current one.
      * After collected from {@link UserCache#getUserList()} users with intersected groups with the current one.
-     * @return
+     * @return the users list
      */
     @JsonIgnore
     public List<User> getUserListWithSameGroups() {
@@ -211,9 +211,9 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
     }
 
     /**
-     * Checks if {@code action} allowed in user permissions.
-     * @param action semicolon separated action class and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}.
-     * @return is the action allowed.
+     * Checks if {@code action} allowed in user permissions
+     * @param action semicolon separated action class and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}
+     * @return is the action allowed
      */
     @Dynamic
     public boolean checkPerm(String action) {
@@ -221,9 +221,9 @@ public class User extends IdTitleComment implements Comparable<User>, Cloneable,
     }
 
     /**
-     * Gets user permission for action.
-     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}.
-     * @return allowed permission with options or {@code null}.
+     * Gets user permission for action
+     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}
+     * @return allowed permission with options or {@code null}
      */
     @Dynamic
     public ConfigMap getPerm(String action) {

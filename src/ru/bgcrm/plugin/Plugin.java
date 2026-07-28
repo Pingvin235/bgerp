@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
 import ru.bgcrm.util.Utils;
 
 /**
- * Parent class for all the plugins.
+ * Parent class for all the plugins
  *
  * @author Shamil Vakhitov
  */
@@ -55,42 +55,42 @@ public abstract class Plugin {
     }
 
     /**
-     * Plugin's ID.
-     * @return
+     * Plugin's ID
+     * @return the plugin ID
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Human readable plugin title.
-     * @return
+     * Human readable plugin title
+     * @return the title
      */
     public String getTitle() {
         return id.substring(0, 1).toUpperCase() + id.substring(1);
     }
 
     /**
-     * Prefix 'Plugin ' plus {@link #getTitle()}.
-     * @return
+     * Prefix 'Plugin ' plus {@link #getTitle()}
+     * @return the title with prefix
      */
     public final String getTitleWithPrefix() {
         return "Plugin " + getTitle();
     }
 
     /**
-     * System plugins are always loaded, enabled and not show in the list.
-     * @return
+     * System plugins are always loaded, enabled and not show in the list
+     * @return {@code true} if system
      */
     public boolean isSystem() {
         return false;
     }
 
     /**
-     * XML document from the plugin's package.
-     * @param name
-     * @param defaultValue
-     * @return
+     * XML document from the plugin's package
+     * @param name the file name
+     * @param defaultValue the default value
+     * @return the parsed document, or {@code defaultValue}
      */
     public Document getXml(String name, Document defaultValue) {
         InputStream is = getClass().getResourceAsStream(name);
@@ -99,7 +99,7 @@ public abstract class Plugin {
 
     /**
      * Plugin endpoints
-     * @return
+     * @return the endpoints map
      */
     protected Map<String, List<String>> endpoints() {
         var outdated = loadEndpoints();
@@ -111,7 +111,7 @@ public abstract class Plugin {
     }
 
     /**
-     * Outdated version of {@link #endpoints()} method, should no more be inherited in plugins.
+     * Outdated version of {@link #endpoints()} method, should no more be inherited in plugins
      */
     @Deprecated
     protected Map<String, List<String>> loadEndpoints() {
@@ -119,9 +119,9 @@ public abstract class Plugin {
     }
 
     /**
-     * Gets path of a file, placed int the plugin's package.
-     * @param name name of the file.
-     * @return
+     * Gets path of a file, placed in the plugin's package
+     * @param name name of the file
+     * @return the resource path, or {@code null}
      */
     public String getResourcePath(String name) {
         URL resource = getClass().getResource(name);
@@ -129,41 +129,41 @@ public abstract class Plugin {
     }
 
     /**
-     * Packages for searching annotated actions.
-     * @return
+     * Packages for searching annotated actions
+     * @return the packages
      */
     public Set<String> getActionPackages() {
         return Set.of(this.getClass().getPackageName());
     }
 
     /**
-     * Dependencies plugin IDs.
-     * @return
+     * Dependencies plugin IDs
+     * @return the dependency plugin IDs
      */
     public Set<String> getDependencies() {
         return Collections.emptySet();
     }
 
     /**
-     * Endpoints for connecting the plugin in JSP templates.
-     * @return
+     * Endpoints for connecting the plugin in JSP templates
+     * @return the endpoints
      */
     public final List<String> getEndpoints(String key) {
         return endpoints.get(key);
     }
 
     /**
-     * Message type class, supported by the plugin.
-     * @param name name of the type, must start from the plugin ID.
-     * @return
+     * Message type class, supported by the plugin
+     * @param name name of the type, must start from the plugin ID
+     * @return the message type class, or {@code null}
      */
     public Class<? extends MessageTypeEmail> getMessageTypeClass(String name) {
         return null;
     }
 
     /**
-     * Initialization during server's start.
-     * @param con
+     * Initialization during server's start
+     * @param con the DB connection
      * @throws Exception
      */
     public void init(Connection con) throws Exception {
@@ -180,10 +180,10 @@ public abstract class Plugin {
     }
 
     /**
-     * If the plugin enabled.
-     * @param config configuration, where the plugin can be explicitly enabled.
-     * @param defaultValue default value if not explicitly enabled: '1' - enabled, 'lic' - if presented in license.
-     * @return true or false.
+     * If the plugin enabled
+     * @param config configuration, where the plugin can be explicitly enabled
+     * @param defaultValue default value if not explicitly enabled: '1' - enabled, 'lic' - if presented in license
+     * @return true or false
      */
     public boolean isEnabled(ConfigMap config, String defaultValue) {
         var defaultValueBool =
@@ -201,31 +201,31 @@ public abstract class Plugin {
     }
 
     /**
-     * @return the plugin's only localization for {@link Localization#getLang()} language.
+     * @return the plugin's only localization for {@link Localization#getLang()} language
      */
     public Localizer getLocalizer() {
         return new Localizer(Localization.getLang(), getLocalization());
     }
 
     /**
-     * Used DB tables.
-     * @return
+     * Used DB tables
+     * @return the tables
      */
     public Set<Table> getTables() {
         return Collections.emptySet();
     }
 
     /**
-     * Plugin's entities.
-     * @return
+     * Plugin's entities
+     * @return the object types
      */
     public Set<String> getObjectTypes() {
         return Collections.emptySet();
     }
 
     /**
-     * DB cleaner.
-     * @return
+     * DB cleaner
+     * @return the cleaner, or {@code null}
      */
     public Cleaner getCleaner() {
         return null;

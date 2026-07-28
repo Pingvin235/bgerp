@@ -50,8 +50,8 @@ public class PermissionNode {
     private static volatile List<PermissionNode> permissionTrees;
 
     /**
-     * List with root permission nodes for kernel and other enabled plugins.
-     * @return
+     * List with root permission nodes for kernel and other enabled plugins
+     * @return the root permission nodes
      */
     public static List<PermissionNode> getPermissionTrees() {
         if (permissionTrees != null)
@@ -79,9 +79,9 @@ public class PermissionNode {
     }
 
     /**
-     * Gets map with primary actions as keys.
-     * @param permMap map with any action as key.
-     * @return
+     * Gets map with primary actions as keys
+     * @param permMap map with any action as key
+     * @return the map with primary actions as keys
      */
     public static Map<String, ConfigMap> primaryActions(Map<String, ConfigMap> permMap) {
         Map<String, ConfigMap> result = new HashMap<>(permMap.size());
@@ -102,9 +102,9 @@ public class PermissionNode {
     }
 
     /**
-     * Finds permission node by action.
-     * @param action semicolon separated class and method names.
-     * @return
+     * Finds permission node by action
+     * @param action semicolon separated class and method names
+     * @return the found node, or {@code null}
      */
     public static PermissionNode getPermissionNode(String action) {
         PermissionNode node = null;
@@ -117,10 +117,10 @@ public class PermissionNode {
     }
 
     /**
-     * Finds permission node by action.
-     * @param action semicolon separated class and method names.
-     * @return not {@code null} node value.
-     * @throws NotFoundException not found node.
+     * Finds permission node by action
+     * @param action semicolon separated class and method names
+     * @return not {@code null} node value
+     * @throws NotFoundException not found node
      */
     public static PermissionNode getPermissionNodeOrThrow(String action) throws NotFoundException {
         var result = getPermissionNode(action);
@@ -145,9 +145,9 @@ public class PermissionNode {
     private List<PermissionNode> children = new ArrayList<>();
 
     /**
-     * Simplified constructor, no children supported.
-     * @param action
-     * @param title
+     * Simplified constructor, no children supported
+     * @param action the action
+     * @param title the title
      */
     private PermissionNode(String action, String title) {
         setAction(action);
@@ -176,7 +176,7 @@ public class PermissionNode {
     }
 
     /**
-     * Validates existence of primary action class and method in {@link #action}.
+     * Validates existence of primary action class and method in {@link #action}
      */
     private void validateAction() {
         if (Utils.isBlankString(action)) {
@@ -204,8 +204,8 @@ public class PermissionNode {
 
     /**
      * Validates existence of action method in {@link #action}.
-     * The finings are logged with WARN level.
-     * @param actionClass action class.
+     * The findings are logged with WARN level.
+     * @param actionClass action class
      */
     private void validateActionMethod(Class<?> actionClass) {
         String actionMethod = actionMethod(action);
@@ -241,14 +241,14 @@ public class PermissionNode {
     }
 
     /**
-     * @return the primary node action, semicolon separated action class and method names.
+     * @return the primary node action, semicolon separated action class and method names
      */
     public String getAction() {
         return action;
     }
 
     /**
-     * @return list of primary and synonym actions (semicolon separated action class and method names).
+     * @return list of primary and synonym actions (semicolon separated action class and method names)
      */
     public List<String> getActions() {
         return actions;
@@ -265,14 +265,14 @@ public class PermissionNode {
     }
 
     /**
-     * @return node title.
+     * @return node title
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * @return slash separated titles path to the node.
+     * @return slash separated titles path to the node
      */
     public String getTitlePath() {
         return titlePath;
@@ -291,14 +291,14 @@ public class PermissionNode {
     }
 
     /**
-     * @return parent node;
+     * @return parent node
      */
     public PermissionNode getParent() {
         return parent;
     }
 
     /**
-     * @return children nodes.
+     * @return children nodes
      */
     public List<PermissionNode> getChildren() {
         return children;

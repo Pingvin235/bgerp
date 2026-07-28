@@ -1,7 +1,7 @@
 package ru.bgcrm.plugin;
 
 /**
- * Plugin's endpoints related constants and methods.
+ * Plugin's endpoints related constants and methods
  *
  * @author Shamil Vakhitov
  */

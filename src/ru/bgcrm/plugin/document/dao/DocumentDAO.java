@@ -26,11 +26,11 @@ public class DocumentDAO extends CommonDAO {
     }
 
     /**
-     * Добавляет привязанный к объекту документ.
-     * @param objectType
-     * @param objectId
-     * @param data
-     * @param title
+     * Adds a document linked to the object
+     * @param objectType the object type
+     * @param objectId the object ID
+     * @param data the file data
+     * @param title the document title
      */
     public void add(String objectType, int objectId, byte[] data, String title) {
         try {
@@ -54,8 +54,8 @@ public class DocumentDAO extends CommonDAO {
     }
 
     /**
-     * Добавляет документ. Файл должен быть загружен ранее с помощью {@link FileDataDAO}.
-     * @param b
+     * Adds a document. The file must be uploaded beforehand using {@link FileDataDAO}.
+     * @param b the document
      * @throws SQLException
      */
     public void add(Document b) throws SQLException {
@@ -75,8 +75,8 @@ public class DocumentDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет документ и привязанный к нему файл.
-     * @param doc
+     * Deletes a document and its linked file
+     * @param doc the document
      * @throws Exception
      */
     public void delete(Document doc) throws Exception {
@@ -87,9 +87,9 @@ public class DocumentDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает документ по его ID.
-     * @param id
-     * @return
+     * Returns a document by its ID
+     * @param id the document ID
+     * @return the document, or {@code null} if not found
      */
     public Document getDocumentById(int id) {
         Document result = null;
@@ -115,10 +115,10 @@ public class DocumentDAO extends CommonDAO {
     }
 
     /**
-     * Ищет документы привязанные к объекту.
-     * @param result
-     * @param objectType
-     * @param objectId
+     * Searches documents linked to the object
+     * @param result the search result
+     * @param objectType the object type
+     * @param objectId the object ID
      */
     public void searchObjectDocuments(Pageable<Document> result, String objectType, int objectId)
             {

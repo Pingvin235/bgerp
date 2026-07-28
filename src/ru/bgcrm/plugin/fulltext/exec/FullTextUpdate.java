@@ -35,7 +35,7 @@ import ru.bgcrm.plugin.fulltext.model.SearchItem;
 import ru.bgcrm.util.TimeUtils;
 
 /**
- * Updates full-text indexes.
+ * Updates full-text indexes
  *
  * @author Shamil Vakhitov
  */

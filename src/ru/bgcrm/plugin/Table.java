@@ -3,12 +3,12 @@ package ru.bgcrm.plugin;
 import java.util.Set;
 
 /**
- * Database table, used by plugin.
+ * Database table, used by plugin
  *
  * @author Shamil Vakhitov
  */
 public class Table {
-    /** Table name or a prefix for monthly tables.*/
+    /** Table name or a prefix for monthly tables */
     private final String name;
     private final Set<Table.Type> types;
 
@@ -51,7 +51,7 @@ public class Table {
     }
 
     /**
-     * Table data type.
+     * Table data type
      */
     public static enum Type {
         /**
@@ -60,7 +60,7 @@ public class Table {
          */
         DIRECTORY,
         /**
-         * Data table.
+         * Data table
          */
         DATA,
         /**
@@ -69,11 +69,11 @@ public class Table {
          */
         TRASH,
         /**
-         * Monthly broken.
+         * Monthly broken
          */
         MONTHLY,
         /**
-         * Not more used table.
+         * Not more used table
          */
         DEPRECATED
     }

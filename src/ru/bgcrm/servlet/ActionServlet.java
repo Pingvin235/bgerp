@@ -16,7 +16,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.plugin.PluginManager;
 
 /**
- * Overwritten ActionServlet, loads actions for enabled plugins.
+ * Overwritten ActionServlet, loads actions for enabled plugins
  *
  * @author Shamil Vakhitov
  */
@@ -24,7 +24,7 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
     private static final Log log = Log.getLog();
 
     /**
-     * Annotation for marking action classes.
+     * Annotation for marking action classes
      */
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
@@ -47,7 +47,7 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
     }
 
     /**
-     * Loads annotated actions.
+     * Loads annotated actions
      */
     @Override
     protected ModuleConfig initModuleConfig(String prefix, String paths) throws ServletException {

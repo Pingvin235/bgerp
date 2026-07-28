@@ -28,9 +28,9 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
     }
 
     /**
-     * Sends mobile app push notification to executors, except ones from the current {@link DynActionForm}.
-     * @param subject message subject.
-     * @param text message text.
+     * Sends mobile app push notification to executors, except ones from the current {@link DynActionForm}
+     * @param subject message subject
+     * @param text message text
      * @throws SQLException
      */
     public void sendMessageToExecutors(String subject, String text) throws SQLException {
@@ -45,10 +45,10 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
     }
 
     /**
-     * Sends mobile app push notification to executors.
-     * @param subject message subject.
-     * @param text message text.
-     * @param userIds recipient user IDs.
+     * Sends mobile app push notification to executors
+     * @param subject message subject
+     * @param text message text
+     * @param userIds recipient user IDs
      * @throws SQLException
      */
     public void sendMessageToUsers(String subject, String text, Iterable<Integer> userIds) throws SQLException {

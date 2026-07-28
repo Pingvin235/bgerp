@@ -13,7 +13,7 @@ import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
 /**
- * Singleton plugin loader and storage.
+ * Singleton plugin loader and storage
  *
  * @author Shamil Vakhitov
  */
@@ -53,8 +53,7 @@ public class PluginManager {
 
     /**
      * Sorted plugin list. First kernel plugin, after the rest alphabetically sorted by ID.
-     * @param pluginMap
-     * @return
+     * @return the sorted plugin list
      */
     private List<Plugin> loadFullSortedPluginList() {
         List<Plugin> result = new ArrayList<>();
@@ -94,8 +93,8 @@ public class PluginManager {
     }
 
     /**
-     * Searches plugin classes and loads enabled.
-     * @return
+     * Searches plugin classes and loads enabled
+     * @return the enabled plugins
      */
     private List<Plugin> loadPlugins() {
         var setup = Setup.getSetup();
@@ -107,7 +106,7 @@ public class PluginManager {
     }
 
     /**
-     * Runs {@link Plugin#init(Connection)} for enabled plugins.
+     * Runs {@link Plugin#init(Connection)} for enabled plugins
      * @throws Exception
      */
     private void initPlugins() throws Exception {
@@ -122,7 +121,7 @@ public class PluginManager {
 
     /**
      * Complete list of all plugins. First kernel plugin, after the rest alphabetically sorted by ID.
-     * @return
+     * @return the plugin list
      */
     @Dynamic
     public List<Plugin> getFullSortedPluginList() {
@@ -130,8 +129,8 @@ public class PluginManager {
     }
 
     /**
-     * List of enabled plugins.
-     * @return
+     * List of enabled plugins
+     * @return the enabled plugins
      */
     @Dynamic
     public List<Plugin> getPluginList() {
@@ -139,8 +138,8 @@ public class PluginManager {
     }
 
     /**
-     * List of not active plugins that can be activated.
-     * @return
+     * List of not active plugins that can be activated
+     * @return the inactive plugins
      */
     @Dynamic
     public List<Plugin> getInactivePluginList() {
@@ -152,8 +151,8 @@ public class PluginManager {
     }
 
     /**
-     * Map of enabled plugins, key {@link Plugin#getId()}.
-     * @return
+     * Map of enabled plugins, key {@link Plugin#getId()}
+     * @return the enabled plugins map
      */
     @Dynamic
     public Map<String, Plugin> getPluginMap() {
@@ -161,8 +160,8 @@ public class PluginManager {
     }
 
      /**
-     * Complete map of all plugins, key {@link Plugin#getId()}.
-     * @return
+     * Complete map of all plugins, key {@link Plugin#getId()}
+     * @return the full plugins map
      */
     public Map<String, Plugin> getFullPluginMap() {
         return fullPluginMap;

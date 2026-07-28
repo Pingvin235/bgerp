@@ -36,9 +36,9 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Полнотекстовый поиск контрагентов.
-     * @param result
-     * @param filter строка запроса с символами + и - для добавления / удаления слов.
+     * Full-text search of customers
+     * @param result the search result
+     * @param filter query string with + and - symbols for adding / removing words
      * @throws SQLException
      */
     public void searchCustomer(Pageable<Customer> result, String filter) throws SQLException {
@@ -52,9 +52,9 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Полнотекстовый поиск процессов.
-     * @param result
-     * @param filter строка запроса с символами + и - для добавления / удаления слов.
+     * Full-text search of processes
+     * @param result the search result
+     * @param filter query string with + and - symbols for adding / removing words
      * @throws SQLException
      */
     public void searchProcess(Pageable<Process> result, String filter) throws SQLException {
@@ -85,9 +85,9 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Полнотекстовый поиск сообщений, привязанных к процессам.
-     * @param result
-     * @param filter строка запроса с символами + и - для добавления / удаления слов.
+     * Full-text search of messages linked to processes
+     * @param result the search result
+     * @param filter query string with + and - symbols for adding / removing words
      * @throws SQLException
      */
     public void searchMessages(Pageable<Pair<Message, Process>> result, String filter) throws SQLException {
@@ -111,9 +111,9 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Помечает объект необходимым для обновления.
-     * @param objectType
-     * @param objectId
+     * Marks the object as needing an update
+     * @param objectType the object type
+     * @param objectId the object ID
      */
     public void scheduleUpdate(String objectType, int objectId) throws SQLException {
         log.debug("Updated record, objectType: {}; objectId: {}", objectType, objectId);
@@ -124,9 +124,9 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет запись об объекте.
-     * @param objectType
-     * @param objectId
+     * Deletes the record about the object
+     * @param objectType the object type
+     * @param objectId the object ID
      */
     public void delete(String objectType, int objectId) {
         log.debug("Deleted record, objectType: {}; objectId: {}", objectType, objectId);
@@ -143,17 +143,17 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет запись об объекте.
-     * @param item
+     * Deletes the record about the object
+     * @param item the search item
      */
     public void delete(SearchItem item) {
         delete(item.getObjectType(), item.getObjectId());
     }
 
     /**
-     * Выбирает записи необходимые для обновления.
-     * @param secondsOld последнее изменение объекта более чем секунд назад.
-     * @param maxCount максимальное количество.
+     * Selects records that need to be updated
+     * @param secondsOld the object's last change was more than this many seconds ago
+     * @param maxCount the maximum count
      */
     public List<SearchItem> getScheduledUpdates(int secondsOld, int maxCount) {
         List<SearchItem> result = new ArrayList<>();
@@ -182,8 +182,8 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет искомый текст записи.
-     * @param item
+     * Updates the searchable text of the record
+     * @param item the search item
      */
     public void update(SearchItem item) {
         try {
@@ -200,9 +200,9 @@ public class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Initialize indexing for object types.
-     * @param objectType
-     * @param objectTable
+     * Initializes indexing for object types
+     * @param objectType the object type
+     * @param objectTable the object table name
      * @throws SQLException
      */
     public void init(String objectType, String objectTable) throws SQLException {

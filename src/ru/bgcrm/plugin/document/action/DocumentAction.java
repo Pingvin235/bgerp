@@ -127,7 +127,7 @@ public class DocumentAction extends BaseAction {
         HttpServletResponse response = form.getHttpResponse();
 
         /*
-         * Что-то уфанетоспецифичное. Вроде как сгенерировать и сразу открыть?
+         * Something Ufanet-specific. Perhaps generate and open right away?
          */
         if ("document".equals(form.getResponseType())) {
             FileData fileData = new DocumentDAO(conSet.getConnection()).getDocumentById(document.getId()).getFileData();
@@ -141,9 +141,9 @@ public class DocumentAction extends BaseAction {
             return null;
         }
 
-        // режим stream
+        // stream mode
         if (event.getResultBytes() != null) {
-            // режим отладки
+            // debug mode
             if (event.isDebug()) {
                 response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8.name());
             } else if (pattern.getType() == Pattern.TYPE_JSP_HTML || pattern.getType() == Pattern.TYPE_XSLT_HTML) {

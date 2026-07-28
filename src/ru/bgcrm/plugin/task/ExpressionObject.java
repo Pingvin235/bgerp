@@ -16,8 +16,8 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Создаёт задачу с указанным типом. Существующая задача с таким же типом  и кодом процесса перетирается.
-     * @param task
+     * Creates a task with the specified type. An existing task with the same type and process ID gets overwritten.
+     * @param task the task
      * @throws Exception
      */
     public void setTask(Task task) throws Exception {
@@ -32,8 +32,8 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * TODO: Запустить немедленно задачу.
-     * @param task
+     * TODO: Run the task immediately
+     * @param task the task
      */
     public void runTask(Task task) {
 

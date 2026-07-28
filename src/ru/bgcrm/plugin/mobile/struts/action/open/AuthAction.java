@@ -44,7 +44,7 @@ public class AuthAction extends BaseAction {
                 break;
             case Customer.OBJECT_TYPE:
                 break;
-            // TODO: Авторизация через договоры биллинга.
+            // TODO: Authorization via billing contracts.
         }
 
         new MobileDAO(conSet.getConnection()).registerAccount(account);

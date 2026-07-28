@@ -63,7 +63,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
 
             ByteArrayOutputStream result = new ByteArrayOutputStream(1000000);
 
-            // документ содержит результат XSLT преобразования, если шаблон есть
+            // the document contains the XSLT transformation result, if there is a template
             final int type = pattern.getType();
             if (event.isDebug()) {
                 OutputStreamWriter writer = new OutputStreamWriter(result, StandardCharsets.UTF_8);
@@ -113,20 +113,20 @@ public class CommonDocumentGenerator implements EventListener<Event> {
 
                 writer.flush();
 
-                /*// для HTML результата возможен вывод конечного результата
+                /*// for HTML result, output of the final result is possible
                 if (type == Pattern.TYPE_XSLT_HTML)
                 {
                 	if (Utils.notBlankString( pattern.getExpression()))
                 	{
                 		writer.write( "\n\n" );
-                		writer.write( "Полный XML документ:\n" );
+                		writer.write( "Full XML document:\n" );
 
                 		writer.flush();
                 		XMLUtils.serialize( getFullDocument( results ), new StreamResult(result), null, true );
                 	}
 
                 	writer.write( "\n\n" );
-                	writer.write( "Результат HTML:\n" );
+                	writer.write( "HTML result:\n" );
                 	writer.flush();
 
                 	xmlToHtml( results, pattern, result );
@@ -182,7 +182,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
                     } else {
                         String replaced = new String(StreamUtils.getBytes(zis), StandardCharsets.UTF_8);
 
-                        //поиск шаблонов вида ${macros}
+                        //search for templates like ${macros}
                         List<String> variables = RegexpStringUtils.findMatchesByTemplate(replaced, "\\$\\{[a-zA-Zа-яА-Я0-9_.]+\\}");
                         for (String var : variables) {
                             var = var.substring(2, var.length() - 1);
@@ -199,13 +199,13 @@ public class CommonDocumentGenerator implements EventListener<Event> {
                 zos.close();
                 zis.close();
             } else if (type == Pattern.TYPE_XSLT_HTML) {
-                // иначе - необходимо склеить полученные HTML документы
-                // не совсем корректный, но обратно совместимый путь
+                // otherwise - need to glue together the obtained HTML documents
+                // not entirely correct, but backward compatible path
                 for (int objectId : event.getObjectIds()) {
                     XMLUtils.serialize(processToDocument(objectId).getFirst(), result, null, true);
                 }
             } else if (type == Pattern.TYPE_JSP_HTML) {
-                // шаблон сам должен разобраться с objectIds
+                // the template itself must handle objectIds
                 ServletResponseInterceptor resp = new ServletResponseInterceptor(event.getForm().getHttpResponse(), result);
 
                 HttpServletRequest req = event.getForm().getHttpRequest();
@@ -217,7 +217,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
                 resp.flush();
             }
 
-            // создание документа, если нужно
+            // document creation, if needed
             if (!DynActionForm.RESPONSE_TYPE_STREAM.equals(event.getForm().getResponseType())) {
                 DocumentDAO docDao = new DocumentDAO(conSet.getConnection());
                 OutputStream out = docDao.createDocumentFile(event.setResultDocument(), pattern.getDocumentTitle());
@@ -240,8 +240,8 @@ public class CommonDocumentGenerator implements EventListener<Event> {
 
         Pattern pattern = event.getPattern();
 
-        // JSP шаблон используется для подготовки данных, данные формируются объектом field
-        // а вывод шаблона используется для отладки
+        // JSP template is used for data preparation, data is formed by the field object
+        // and the template output is used for debugging
         if (Utils.notBlankString(pattern.getJsp())) {
             Element dataElement = XMLUtils.newElement(result.getFirst(), "data");
 

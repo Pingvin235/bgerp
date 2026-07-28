@@ -17,7 +17,7 @@ import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
 
 /**
- * Fulltext init for doing indexing of tables.
+ * Fulltext init for doing indexing of tables
  */
 public class FullTextInit implements Runnable {
     private static final Log log = Log.getLog();

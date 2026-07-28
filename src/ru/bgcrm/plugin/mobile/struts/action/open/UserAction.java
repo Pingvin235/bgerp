@@ -37,11 +37,11 @@ public class UserAction extends BaseAction {
         if (account == null)
             throw new BGMessageException("Account isn't registered");
 
-        // непрочитанные новости и сообщения
+        // unread news and messages
         NewsInfoEvent event = UserNewsCache.getUserEvent(conSet, account.getObjectId());
         form.setResponseData("news", event);
 
-        // счётчики
+        // counters
         List<Counter> counters = new ArrayList<>();
         form.setResponseData("counters", counters);
 

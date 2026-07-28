@@ -20,7 +20,7 @@ public class Pattern extends IdTitle implements GetJsp {
     public static final int TYPE_XSLT_HTML = 4;
 
     /**
-     * Задумывалось для FOP генерации, но неизвестно, будет ли реализовано.
+     * Intended for FOP generation, but it's unknown whether it will be implemented
      */
     @Deprecated
     public static final int TYPE_XSLT_PDF = 5;
@@ -39,16 +39,16 @@ public class Pattern extends IdTitle implements GetJsp {
     private final boolean resultStream;
     private java.util.regex.Pattern titlePattern;
 
-    // XSLT шаблон, изымающий и подготавливающий значения под позиции,
-    // либо FO/HTML документ в перспективе
+    // XSLT template extracting and preparing values for positions,
+    // or an FO/HTML document in the future
     private final String xslt;
 
-    // JSP шаблон, генерирует HTML вывод, либо подготавливает данные
+    // JSP template, generates HTML output, or prepares data
     private final String jsp;
 
     private final String additionalParametersJsp;
 
-    // макросы позиций, устаревший метод
+    // position macros, deprecated method
     @Deprecated
     private ConfigMap positionMap;
 
@@ -159,7 +159,7 @@ public class Pattern extends IdTitle implements GetJsp {
     }
 
     /**
-     * Запрос макроса позиции - устаревший метод.
+     * Requests a position macro - deprecated method
      */
     @Deprecated
     public String getPositionMacros(String positionName) {

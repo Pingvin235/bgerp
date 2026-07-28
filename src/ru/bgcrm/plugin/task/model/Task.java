@@ -14,11 +14,11 @@ public class Task extends Id {
 
     private String typeId;
     private int processId;
-    /** Запланированная дата выполнения. */
+    /** Scheduled execution date */
     private Date scheduledTime;
-    /** Конфигурация задачи. */
+    /** Task configuration */
     private Preferences config = new Preferences();
-    /** Фактическая дата выполнения. */
+    /** Actual execution date */
     private Date executedTime;
     private String log;
 
