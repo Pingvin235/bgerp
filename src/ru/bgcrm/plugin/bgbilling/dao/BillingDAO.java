@@ -104,13 +104,12 @@ public class BillingDAO {
     }
 
     /**
-     * Silent wrapper around {@link ObjectMapper#readValue(JsonParser, Class)}, converts all exceptions there to unchecked BGException.
-     * Usage example: {@code List<VoiceAccount> result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
+     * Silent wrapper around {@link ObjectMapper#readValue(JsonParser, Class)}, converts all exceptions there to unchecked BGException. Usage example: {@code List<VoiceAccount> result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                 jsonTypeFactory.constructCollectionType(List.class, VoiceAccount.class));}
-     * @param <T>
+     * @param <T> the parsed type
      * @param p the parser
      * @param valueType the parsed type
-     * @return
+     * @return the parsed value
      */
     protected <T> T readJsonValue(JsonParser p, JavaType valueType) {
         try {

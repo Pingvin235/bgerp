@@ -56,7 +56,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
- * Создатель контрагентов из одной базы.
+ * Customer creator for a single database
  */
 public class ServerCustomerCreator {
     private static final Log log = Log.getLog();
@@ -73,8 +73,8 @@ public class ServerCustomerCreator {
 
     private final String billingId;
 
-    // соответствие параметра контрагента параметр(ам) биллинга
-    // несколько параметров биллинга поддержаны для адреса
+    // mapping of a customer parameter to billing parameter(s)
+    // multiple billing parameters are supported for the address
     private Map<Parameter, ParamMappingValue> paramTypeMapping = new HashMap<>();
 
     private Connection con;
@@ -232,7 +232,7 @@ public class ServerCustomerCreator {
         Pageable<Customer> result = new Pageable<>();
         customerDao.searchCustomerList(result, LikePattern.SUB.get(customerTitle));
 
-        // строковые представления параметров договоров
+        // string representations of the contract's parameters
         Map<Integer, String> paramValues = getContractParamValues(contractId);
 
         Customer customer = findCustomerByTitleWithParamsConfirm(customerTitle, contractId, paramValues);
@@ -243,7 +243,7 @@ public class ServerCustomerCreator {
 
         if (customer == null) {
             customer = findCustomerByParamsWithTitleConfirm(customerTitle, contractId, paramValues);
-            // создание нового контрагента, если не был найден подходящий
+            // creating a new customer if a suitable one wasn't found
             if (customer == null) {
                 customer = new Customer();
                 customer.setTitle(customerTitle);
@@ -299,7 +299,7 @@ public class ServerCustomerCreator {
         return result;
     }
 
-    // поиск контрагента по имени с подтверждением по параметрам
+    // customer search by title, confirmed by parameters
     private Customer findCustomerByTitleWithParamsConfirm(String customerTitle, int contractId, Map<Integer, String> paramValues) throws Exception {
         Pageable<Customer> result = new Pageable<>();
         result.getPage().setPageSize(300);
@@ -307,17 +307,17 @@ public class ServerCustomerCreator {
 
         customerDao.searchCustomerList(result, LikePattern.SUB.get(customerTitle));
 
-        // есть уже контрагенты с таким наименованием
+        // customers with this title already exist
         if (result.getList().size() != 0) {
             for (Customer customer : result.getList()) {
-                // сверка по ключевым параметрам
+                // matching by key parameters
                 for (Parameter param : config.confirmParameterList) {
                     ParamMappingValue mapping = paramTypeMapping.get(param);
                     if (mapping == null) {
                         continue;
                     }
 
-                    // поочерёдно выбираем значение параметра из нескольких значений (может быть старое значение параметра)
+                    // pick the parameter value in turn from several values (there may be an old parameter value)
                     String billingParamValue = null;
                     for (Integer paramId : mapping.billingParamIdList) {
                         billingParamValue = paramValues.get(paramId);
@@ -330,7 +330,7 @@ public class ServerCustomerCreator {
                         continue;
                     }
 
-                    // сверка значений с параметром в контрагенте
+                    // matching values against the parameter on the customer
 
                     if (Parameter.TYPE_TEXT.equals(param.getType())) {
                         String val = paramValueDao.getParamText(customer.getId(), param.getId());
@@ -374,9 +374,9 @@ public class ServerCustomerCreator {
         return null;
     }
 
-    // поиск контрагента по ключевым параметрам с подтверждением по совпадению имени
+    // customer search by key parameters, confirmed by a title match
     private Customer findCustomerByParamsWithTitleConfirm(String customerTitle, int contractId, Map<Integer, String> paramValues) throws Exception {
-        // поиск по ключевым параметрам
+        // search by key parameters
         for (Parameter param : config.confirmParameterList) {
             ParamMappingValue mapping = paramTypeMapping.get(param);
             if (mapping == null) {
@@ -444,22 +444,22 @@ public class ServerCustomerCreator {
         return null;
     }
 
-    // привязка договора к контрагенту, перенос параметров
+    // linking the contract to the customer, transferring parameters
     private void linkCustomer(Customer customer, int contractId, String contractNumber, Map<Integer, String> paramValues) throws Exception {
         log.info("Linking contract: " + contractId + " to customer: " + customer.getId());
 
-        // привязка договора к контрагенту
+        // linking the contract to the customer
         CommonObjectLink link = new CommonObjectLink(Customer.OBJECT_TYPE, customer.getId(), "contract:" + dbInfo.getId(), contractId,
                 contractNumber);
 
         linkDao.deleteLinksTo(link);
 
-        // для привязки в биллинге
+        // for linking in the billing
         EventProcessor.processEvent(new LinkAddingEvent(new DynActionForm(user), link), new SingleConnectionSet(con));
 
         linkDao.addLink(link);
 
-        // указание в биллинге кода контрагента
+        // setting the customer ID in the billing
         //contractDao.updateParamText( contractId, customerIdParam, String.valueOf( customer.getId() ) );
 
         for (Parameter param : config.importParameterList) {
@@ -470,7 +470,7 @@ public class ServerCustomerCreator {
             }
 
             for (int billingParamId : mapping.billingParamIdList) {
-                // проверка, что параметр договора заполнен
+                // checking that the contract's parameter is filled
                 String stringValue = paramValues.get(billingParamId);
                 if (Utils.isBlankString(stringValue)) {
                     continue;
@@ -496,7 +496,7 @@ public class ServerCustomerCreator {
 
                     ParameterPhoneValue customerParamValue = paramValueDao.getParamPhone(customer.getId(), param.getId());
                     if (customerParamValue != null) {
-                        // удаление из номеров параметра договора всего что уже есть в контрагенте
+                        // removing from the contract parameter's numbers everything already present on the customer
                         for (ParameterPhoneValueItem item : customerParamValue.getItemList()) {
                             billingValues.remove(item.getPhone());
                         }
@@ -505,7 +505,7 @@ public class ServerCustomerCreator {
                         customerParamValue.setItemList(new ArrayList<>());
                     }
 
-                    // если остались номера которых нет
+                    // if there are remaining numbers not yet present
                     if (billingValues.size() > 0) {
                         log.info("Add phone param values, param: " + param.getId() + "; values: " + Utils.toString(billingValues));
 
@@ -553,7 +553,7 @@ public class ServerCustomerCreator {
                         continue;
                     }
 
-                    // маппинг
+                    // mapping
                     if (mapping.billingListValues.size() > 0) {
                         int pos = mapping.billingListValues.indexOf(billingValue.getId());
                         if (pos < 0) {
@@ -568,7 +568,7 @@ public class ServerCustomerCreator {
 
                         int crmListParamValue = mapping.crmListValues.get(pos);
 
-                        // добавление значения на случай установки противоречивых значений будет хоть видно
+                        // adding the value so that, in case conflicting values get set, it's at least visible
                         Set<Integer> values = paramValueDao.getParamList(customer.getId(), param.getId());
                         values.add(crmListParamValue);
 
@@ -591,13 +591,13 @@ public class ServerCustomerCreator {
                         String email = "";
                         String comment = "";
 
-                        // в 5.2 возможен вариант EMail ов по RFC: Иванов Иван Иванович <ivan@ivan.com>
+                        // in 5.2 an RFC email format is possible: Ivanov Ivan Ivanovich <ivan@ivan.com>
                         try {
                             InternetAddress addr = InternetAddress.parse(value)[0];
                             email = addr.getAddress();
                             comment = Utils.maskNull(addr.getPersonal());
                         }
-                        // вариант для строки Email пробел примечание
+                        // variant for an "email space comment" string
                         catch (Exception e) {
                             int pos = value.indexOf(' ');
                             if (pos > 0) {
@@ -613,7 +613,7 @@ public class ServerCustomerCreator {
 
                     SortedMap<Integer, ParameterEmailValue> customerParamValue = paramValueDao.getParamEmail(customer.getId(), param.getId());
                     if (customerParamValue != null) {
-                        // удаление из номеров параметра договора всего что уже есть в контрагенте
+                        // removing from the contract parameter's numbers everything already present on the customer
                         for (ParameterEmailValue item : customerParamValue.values()) {
                             billingValues.remove(item.getValue().trim());
                         }

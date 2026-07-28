@@ -28,12 +28,12 @@ import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.util.Utils;
 
 /**
- * Логика взаимодействия с сервером биллинга должна быть постепенно перенесена в
+ * The logic of interacting with the billing server should be gradually moved into
  * {@link ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO},
  * {@link ContractParamDAO}.
  *
- * Возможно, в этом классе останется что-то связанное одновременно с CRM и
- * биллингом, например, копирование параметров.
+ * This class may still end up keeping something related to both CRM and the
+ * billing at the same time, e.g. copying parameters.
  */
 @Deprecated
 public class ContractDAO extends BillingDAO {
@@ -167,11 +167,11 @@ public class ContractDAO extends BillingDAO {
                         String fromValue = "-1";
 
                         if (listValue != null && listValue.size() > 0) {
-                            // биллинг не поддерживает множественные значения списков, поэтому берем первый
+                            // the billing doesn't support multiple list values, so we take the first one
                             fromValue = listValue.iterator().next().toString();
 
                             String toValue = null;
-                            // преобразование по карте соответствий
+                            // conversion via the mapping table
                             if (keyValue[0].indexOf('[') > 0) {
                                 String[] fromVals = keyValue[0]
                                         .substring(keyValue[0].indexOf('[') + 1, keyValue[0].indexOf(']')).split(",");

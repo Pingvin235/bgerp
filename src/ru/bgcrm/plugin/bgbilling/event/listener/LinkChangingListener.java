@@ -17,8 +17,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Слушатель события перед изменениями привязок.
- * Проверяет возможность и производит привязку/отвязку договора биллинга от контрагента.
+ * Listener for the event before link changes. Checks whether it's possible, and links/unlinks the billing contract from the customer
  */
 public class LinkChangingListener {
     public LinkChangingListener() {
@@ -59,10 +58,10 @@ public class LinkChangingListener {
         try {
             ContractParamDAO contractParamDAO = new ContractParamDAO(event.getUser(), dbInfo);
 
-            // пустая строка а не 0, т.к. по нулю будет импортировать его сразу же пытаться.
+            // an empty string, not 0, since 0 would make it try to import it right away
             contractParamDAO.updateTextParameter(contractId, customerIdParam, customerId > 0 ? String.valueOf(customerId) : "");
         } catch (Exception e) {
-            // при отвязке не существующего в билллинге договора будет возникать исключение на updateTextParameter, это не должно мешать отвязать договор от контрагента
+            // unlinking a contract that doesn't exist in the billing raises an exception on updateTextParameter, which shouldn't prevent unlinking the contract from the customer
             if (customerId > 0)
                 throw new BGException("Ошибка привязки договора к контрагенту: " + e.getMessage(), e);
         }

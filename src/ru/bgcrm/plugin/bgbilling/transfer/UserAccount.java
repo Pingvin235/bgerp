@@ -5,7 +5,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.model.user.User;
 
 /**
- * Аккаунт, используемый в TransferData
+ * Account used in {@link ru.bgcrm.plugin.bgbilling.TransferData}
  */
 public class UserAccount extends User {
     public static final UserAccount getUserAccount(String billingId, User user) {

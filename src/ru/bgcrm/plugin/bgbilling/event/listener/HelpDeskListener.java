@@ -36,7 +36,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /*
- * Слушатель для интеграции с HelpDesk ами.
+ * Listener for integration with HelpDesk instances
  */
 public class HelpDeskListener {
     public HelpDeskListener() {
@@ -46,7 +46,7 @@ public class HelpDeskListener {
 
     @SuppressWarnings("unchecked")
     private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws BGMessageException {
-        // TODO: Предварительно можно сделать отсев по кодам параметров, которые могут быть связаны с хелпдеском.
+        // TODO: A preliminary filtering by parameter IDs that may be related to the helpdesk could be done.
         if (!Process.OBJECT_TYPE.equals(e.getParameter().getObjectType())) {
             return;
         }
@@ -76,29 +76,29 @@ public class HelpDeskListener {
             throw new BGException("Не найден топик HelpDesk с кодом: " + topicId);
         }
 
-        // статус (категория)
+        // status (category)
         if (paramId == mt.getStatusParamId()) {
             hdDao.setTopicStatus(topic.getContractId(), topicId, Utils.getFirst(((Map<Integer, String>) e.getValue()).keySet()));
         }
-        // стоимость
+        // cost
         else if (paramId == mt.getCostParamId()) {
             hdDao.setTopicCost(topic.getContractId(), topicId, Utils.parseBigDecimal((String) e.getValue(), BigDecimal.ZERO));
         }
-        // автозакрытие
+        // auto-close
         else if (paramId == mt.getAutoCloseParamId()) {
             hdDao.setTopicAutoClose(topic.getContractId(), topicId, ((Set<Integer>) e.getValue()).size() > 0);
         }
     }
 
     private void processChanged(ProcessChangingEvent e, ConnectionSet conSet) throws Exception {
-        // при закрытии/открытии темы - закрытие в HelpDesk
+        // on topic closing/opening - close it in HelpDesk
         if (e.isOpening() || e.isClosing()) {
             Pair<MessageTypeHelpDesk, Integer> pair = getTypeAndTopic(conSet.getConnection(), e.getProcess().getId());
             if (pair != null) {
                 new HelpDeskDAO(e.getUser(), pair.getFirst().getDbInfo()).setTopicState(pair.getSecond(), e.isClosing());
             }
         }
-        // изменение исполнителей - установка в HelpDesk
+        // executor change - set in HelpDesk
         else if (e.isExecutors()) {
             Pair<MessageTypeHelpDesk, Integer> pair = getTypeAndTopic(conSet.getConnection(), e.getProcess().getId());
             if (pair != null) {
@@ -131,7 +131,7 @@ public class HelpDeskListener {
         }
 
         if (e.isStatus()) {
-            // TODO: Также можно предварительно фильтровать по статусам.
+            // TODO: A preliminary filtering by statuses could also be done.
             Pair<MessageTypeHelpDesk, Integer> pair = getTypeAndTopic(conSet.getConnection(), e.getProcess().getId());
             if (pair != null) {
                 MessageTypeHelpDesk mt = pair.getFirst();

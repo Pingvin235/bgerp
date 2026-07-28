@@ -67,8 +67,8 @@ public class TransferData {
     private static class BitelJsonDateFormat extends StdDateFormat {
         private static final TimeZone CURRENT_TIMEZONE = TimeZone.getDefault();
 
-        // формат вида 2014-12-01T00:00:00+05:00 поддержан приоритетно,
-        // парсится из него в первую очередь (потом пытается распарсить другие форматы) и в него всё сериализуется
+        // the format like 2014-12-01T00:00:00+05:00 is supported preferentially,
+        // it's parsed first (other formats are then tried) and everything is serialized into it
         private static final String BITEL_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
 
         private BitelJsonDateFormat(TimeZone tz) {
@@ -238,11 +238,11 @@ public class TransferData {
                 request.setAttribute(param, value);
             }
 
-            // HTTP сессия в биллинге уничтожается сразу после создания, в перспективе не будет создаваться вовсе
+            // the HTTP session in the billing is destroyed right after creation, in the future it won't be created at all
             request.setAttribute("authToSession", 0);
 
             PrintStream ps = new PrintStream(con.getOutputStream(), true);
-            // параметры установленные в запросе
+            // parameters set on the request
             for (String key : request.keys()) {
                 ps.print(key);
                 ps.print('=');
@@ -279,17 +279,17 @@ public class TransferData {
                     ? str.substring(0, LOGGING_RESPONSE_TRIM_LENGTH) + "..." : str.toString()));
         }
 
-        // костыль: защита от того, что приходят кривые символы, чтобы просто парсер тупо не валился (нулевой символ может прийти в странных ситуациях HD#5692)
+        // workaround: protection against malformed characters coming in, so the parser simply doesn't crash (a null character can arrive in odd situations, HD#5692)
         str = CHARACTER_ENTITY_INVALID_REGEXP.matcher(str).replaceAll("?");
 
         return XMLUtils.parseDocument(new InputSource(new StringReader(str.toString())));
     }
 
     /**
-     * Отправляет запрос в биллинг, в случае ошибки кидает исключение, при достиженнии таймаута выбрасывается также выбрасывается исключение.
-     * @param request
-     * @param user
-     * @return
+     * Sends a request to the billing, throws an exception on error, and also throws an exception when the timeout is reached
+     * @param request the request
+     * @param user the user
+     * @return the response document
      */
     public Document postData(Request request, User user) {
         try {
@@ -304,12 +304,11 @@ public class TransferData {
     }
 
     /**
-     * Отправляет запрос к Web-сервису в формате JSON-RPC.
-     * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
+     * Sends a request to the web service in JSON-RPC format. Details on working with the format are in the {@link RequestJsonRpc} documentation
      *
-     * @param request
-     * @param user
-     * @return елемент {@code data} из ответа.
+     * @param request the request
+     * @param user the user
+     * @return the {@code data} element from the response
      */
     public JsonNode postData(RequestJsonRpc request, User user) {
         try {
@@ -326,22 +325,21 @@ public class TransferData {
     }
 
     /**
-     * Отправляет запрос к Web-сервису в формате JSON-RPC.
-     * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
+     * Sends a request to the web service in JSON-RPC format. Details on working with the format are in the {@link RequestJsonRpc} documentation
      *
-     * @param request
-     * @param user
-     * @return  елемент {@code return} из ответа.
+     * @param request the request
+     * @param user the user
+     * @return the {@code return} element from the response
      */
     public JsonNode postDataReturn(RequestJsonRpc request, User user) {
         return postData(request, user).path("return");
     }
 
     /**
-     * Отправляет запрос и возвращает результат в виде массива байтов.
-     * @param request
-     * @param user
-     * @return
+     * Sends a request and returns the result as a byte array
+     * @param request the request
+     * @param user the user
+     * @return the response bytes
      */
     public byte[] postDataGetBytes(Request request, User user) {
         try {
@@ -352,10 +350,10 @@ public class TransferData {
     }
 
     /**
-     * Отправляет запрос и возвращает результат в виде строки, раскодированной {@link #RESPONSE_ENCODING}.
-     * @param request
-     * @param user
-     * @return
+     * Sends a request and returns the result as a string, decoded with {@link #RESPONSE_ENCODING}
+     * @param request the request
+     * @param user the user
+     * @return the response string
      */
     public String postDataGetString(Request request, User user) {
         try {
@@ -366,10 +364,10 @@ public class TransferData {
     }
 
     /**
-     * Выгружает файл на сервер биллинга.
-     * @param handler - строка вида kernel/0/method, module/id/method, plugin.id/method
-     * @param bgServerFile
-     * @param inputStream
+     * Uploads a file to the billing server
+     * @param handler a string like kernel/0/method, module/id/method, plugin.id/method
+     * @param bgServerFile the file metadata
+     * @param inputStream the file content
      * @throws IOException
      * @throws URISyntaxException
      */
@@ -384,7 +382,7 @@ public class TransferData {
         // con.setRequestProperty( "bgbilling-client-version", BGClientInit.getClientVersion() );
         con.setRequestProperty( "bgbilling-handler", handler );
         String json = BaseAction.MAPPER.writeValueAsString(bgServerFile);
-        // base64 потому что в хидерах лезет только ascii, а тут запросто русские буквы
+        // base64 because headers only accept ascii, and here Russian letters can easily appear
         con.setRequestProperty( "bgbilling-file-info", Base64.getEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8)));
         con.setDoOutput(true);
         con.setDoInput(true);
@@ -406,8 +404,8 @@ public class TransferData {
 
     public void initSession(User user) {
         if (dbInfo.getPluginSet() == null) {
-            // т.к. PluginDAO обратится к этому же методу - то сразу
-            // устанавливаем pluginSet, чтобы был не null, иначе - бесконечная рекурсия
+            // since PluginDAO will call this same method, set pluginSet
+            // right away so it's not null, otherwise infinite recursion
             Set<String> pluginSet = new HashSet<>();
             dbInfo.setPluginSet(pluginSet);
 
@@ -415,7 +413,7 @@ public class TransferData {
         }
 
         if (dbInfo.getGuiConfigValues() == null) {
-            // сразу установка, чтобы избежать зацикливания
+            // set right away to avoid an infinite loop
             Preferences prefs = new Preferences();
             dbInfo.setGuiConfigValues(prefs);
 

@@ -3,8 +3,7 @@ package ru.bgcrm.plugin.bgbilling.event.client;
 import org.bgerp.event.base.ClientEvent;
 
 /**
- * Сообщение о необходимости открыть вкладку договора,
- * либо обновить, если она уже открыта.
+ * Message about the need to open the contract tab, or refresh it if it's already open
  */
 public class ContractOpenEvent extends ClientEvent {
     private String billingId;

@@ -37,20 +37,20 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     public final List<ServerCustomerCreator> serverCreatorList = new ArrayList<>();
 
-    // коды биллингов, импортируемые; если не указаны - импортируются все
+    // billing IDs to import; if not specified, all are imported
     public final Set<String> importBillingIds;
 
-    // подтверждающие контрагента поля для первой фазы поиска
+    // customer-confirming fields for the first search phase
     public final List<Parameter> confirmParameterList;
-    // поля по которым ищут контрагента, вторая фаза поиска
+    // fields the customer is searched by, second search phase
     public final List<Parameter> searchParameterList;
-    // максимальное расстояние между наименованиями для второго режима поиска
+    // maximum distance between titles for the second search mode
     private final int titleDistance;
-    // это же расстояние, определённое для конкретного параметра
+    // the same distance, defined for a specific parameter
     private final Map<Integer, Integer> titleDistanceForParam = new HashMap<>();
-    // поля, импортируемые при привязке договора к контрагенту
+    // fields imported when linking a contract to a customer
     public final List<Parameter> importParameterList;
-    // правила определения группы параметров контрагента из номера договора
+    // rules for determining the customer's parameter group from the contract number
     private final List<ParameterGroupTitlePatternRule> paramGroupRuleList = new ArrayList<>();
 
     public Config(ConfigMap setup) {
@@ -73,7 +73,7 @@ public class Config extends org.bgerp.app.cfg.Config {
 
         for (Map.Entry<Integer, ConfigMap> me : setup.subIndexed(paramGroupPrefix).entrySet()) {
             int paramGroupId = me.getValue().getInt("paramGroupId", 0);
-            // -1 - по-умолчанию без шаблона
+            // -1 - no pattern by default
             int titlePatternId = me.getValue().getInt("titlePatternId", -1);
             String contractTitlePattern = me.getValue().get("contractTitlePattern");
 

@@ -8,7 +8,7 @@ import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
 
 /**
- * Задача планировщика импорта контрагента с серверов биллингов.
+ * Scheduler task for importing customers from billing servers
  */
 @Bean
 public class CustomerCreator extends Task {

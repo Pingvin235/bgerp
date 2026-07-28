@@ -174,13 +174,13 @@ public class ContractAction extends BaseAction {
                     contract.getTitle());
         }
 
-        // комментарий
+        // comment
         if (Utils.notBlankString(comment)) {
             contractDao.bgbillingUpdateContractTitleAndComment(contract.getId(), comment, 0);
             contract.setComment(comment);
         }
 
-        // тариф
+        // tariff
         if (tariffId > 0) {
             ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), billingId);
             int tariffPosition = type.getTariffPosition();

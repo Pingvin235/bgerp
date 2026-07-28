@@ -59,11 +59,11 @@ public class InetAction extends BaseAction {
         InetService service = null;
         if (form.getId() > 0) {
             service = inetDao.getService(form.getId());
-            // getService не возвращает многие поля сервисов типа deviceTitle
+            // getService doesn't return many service fields like deviceTitle
             InetDevice device = inetDao.getDevice(service.getDeviceId());
             if (device != null) {
                 service.setDeviceTitle(device.getTitle() + " (" + device.getId() + ')');
-                // интерфейсы
+                // interface
                 service.setInterfaceTitle(inventoryDAO.devicePort(device.getInvDeviceId(), service.getIfaceId())
                         .map(InetDeviceInterface::getTitle)
                         .orElse(""));

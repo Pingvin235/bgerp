@@ -16,16 +16,16 @@ public class RequestToBilling implements Runnable {
     private Request request;
     private User user;
 
-    // параметры асинхронного режима
+    // asynchronous mode parameters
     private Map<String, Document> resultDocs;
     private TransferData transferData;
     private AtomicInteger taskCount;
 
     /**
-     * Конструктор запроса в синхронном режиме, запрос к одному биллингу.
-     * @param transferData
-     * @param user
-     * @param req
+     * Constructs a request in synchronous mode, a request to a single billing
+     * @param transferData the transfer data
+     * @param user the user
+     * @param req the request
      */
     public RequestToBilling(TransferData transferData, User user, Request req) {
         this.transferData = transferData;
@@ -34,13 +34,13 @@ public class RequestToBilling implements Runnable {
     }
 
     /**
-     * Конструктор запроса в асинхронном режиме, одновременный опрос нескольких биллингов.
-     * @param taskCount
-     * @param transferData
-     * @param dbKey
-     * @param user
-     * @param req
-     * @param resultDocs
+     * Constructs a request in asynchronous mode, simultaneous polling of multiple billings
+     * @param taskCount the task counter
+     * @param transferData the transfer data
+     * @param dbKey the billing key
+     * @param user the user
+     * @param req the request
+     * @param resultDocs the result document map
      */
     public RequestToBilling(AtomicInteger taskCount, TransferData transferData, String dbKey, User user, Request req,
             Map<String, Document> resultDocs) {

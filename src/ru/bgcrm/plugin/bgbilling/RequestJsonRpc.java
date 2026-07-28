@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
- Примерный URL запроса:
+ Sample request URL:
 
  http://127.0.0.1:8080/bgbilling/executer/json/ru.bitel.bgbilling.kernel.contract.api/ContractService
     {"method" : "contractList",
@@ -19,7 +19,7 @@ import java.util.Map;
     "page" : { "pageIndex" : 2, "pageSize" : 2 }
     } }
 
- Примерный ответ:
+ Sample response:
 
  {"status":"ok","message":"",
     "data":
@@ -29,19 +29,14 @@ import java.util.Map;
      [{"id":353023,"title":"0022010","groups":0,"password":"bg2rFZ2PEX","dateFrom":"2010-01-02","dateTo":null,"balanceMode":0,"paramGroupId":14,"personType":0,"comment":"","hidden":false,"superCid":0,"dependSubList":"","status":0,"statusTimeChange":"2010-01-13","titlePatternId":0,"balanceSubMode":0,"sub":false,"independSub":false,"balanceLimit":0.00,"super":false,"dependSub":false},
      {"id":353209,"title":"06-10-10/И-Г/0","groups":0,"password":"9351220759","dateFrom":"2010-10-06","dateTo":null,"balanceMode":1,"paramGroupId":14,"personType":0,"comment":"","hidden":false,"superCid":0,"dependSubList":"","status":0,"statusTimeChange":"2010-10-06","titlePatternId":0,"balanceSubMode":0,"sub":false,"independSub":false,"balanceLimit":0.00,"super":false,"dependSub":false}]}}
 
- Примеры.
+ Examples.
 
- Преобразование в тип:
+ Conversion to a type:
   TypeTreeItem childItem = jsonMapper.convertValue(transferData.postDataReturn(req, user), TypeTreeItem.class);
 
- Получение как List:
+ Getting as a List:
   readJsonValue(transferData.postDataReturn(req, user).traverse(),
                  jsonTypeFactory.constructCollectionType( List.class, IdTitle.class ) )
-
- Ссылки:
-  http://www.bgbilling.ru/v6.1/doc/ch02s08.html
-  http://wiki.fasterxml.com/JacksonInFiveMinutes
-
 */
 public class RequestJsonRpc {
     private final String module;

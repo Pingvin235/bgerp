@@ -24,7 +24,7 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.directory.Directory;
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 
 /**
- * Данные для подсоединения к биллингу.
+ * Data for connecting to the billing
  */
 public class DBInfo {
     private final ConfigMap setup;
@@ -93,7 +93,7 @@ public class DBInfo {
         return connectionPool;
     }
 
-    // код текстового параметра с кодом контрагента
+    // ID of the text parameter holding the customer ID
     public int getCustomerIdParam() {
         return setup.getInt("customerIdParam", 0);
     }

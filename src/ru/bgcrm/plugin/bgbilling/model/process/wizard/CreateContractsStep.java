@@ -87,8 +87,8 @@ public class CreateContractsStep extends BaseStep {
         public boolean isFilled(DynActionForm form, Connection con) {
             List<StepData<?>> stepDataList = data.getStepDataList();
 
-            // находим первый предшествующий шаг заполнения параметра с адресом и выбором контрагента
-            // TODO: может в последствии сделать первый предшествующий с нужным параметром
+            // find the first preceding step that fills an address parameter and picks a customer
+            // TODO: could later be changed to the first preceding step with the needed parameter
             for (int i = stepDataList.indexOf(this); i >= 0; i--) {
                 StepData<?> stepData = stepDataList.get(i);
 

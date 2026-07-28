@@ -14,8 +14,9 @@ public class ContractType extends IdTitle {
     private final int patternId;
     private final List<IdTitle> tariffList;
     private final Map<Integer, String> tariffMap = new HashMap<>();
-    /** -1  - тариф заменит первый существующий либо будет добавлен, если текущего нет;
-     * >= 0 - тариф будет добавлен с позицией.
+    /**
+     * -1 - the tariff replaces the first existing one, or is added if there is none yet
+     * &gt;= 0 - the tariff is added at the position
      */
     private final int tariffPosition;
 

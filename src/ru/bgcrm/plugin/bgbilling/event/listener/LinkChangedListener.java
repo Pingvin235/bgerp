@@ -40,7 +40,7 @@ public class LinkChangedListener {
     private void linkAdded(LinkAddingEvent event, ConnectionSet connectionSet) throws Exception {
         CommonObjectLink link = event.getLink();
 
-        // обработка только привязки договора к процессу
+        // handle only linking a contract to a process
         if (!Process.OBJECT_TYPE.equals(link.getObjectType()) || !link.getLinkObjectType().startsWith("contract:")) {
             return;
         }
@@ -66,7 +66,7 @@ public class LinkChangedListener {
 
         boolean groupsChanged = false;
 
-        // переход до первого подходящего правила и установка групп
+        // iterate until the first matching rule and set the groups
         for (ConfigMap pm : type.getProperties().getConfigMap().subIndexed("bgbilling:processLinkedContract.").values()) {
             String titleRegexp = pm.get("titleRegexp");
             Set<String> billingIds = Utils.toSet(pm.get("billingIds"));

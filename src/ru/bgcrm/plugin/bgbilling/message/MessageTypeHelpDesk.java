@@ -68,28 +68,28 @@ public class MessageTypeHelpDesk extends MessageType {
     private final User user;
     private final int processTypeId;
 
-    // в какой статус переводить процесс, если тема HD открылась
+    // which status to move the process to when the HD topic opens
     private final int openStatusId;
-    // в какой статус переводить процесс, если тема HD закрылась
+    // which status to move the process to when the HD topic closes
     private final int closeStatusId;
-    // при переходе в эти статусы помечать все сообщения прочитанными
+    // mark all messages as read when transitioning to these statuses
     private final Set<Integer> markMessagesReadStatusIds;
 
-    // текстовый параметр со стоимостью
+    // text parameter with the cost
     private final int costParamId;
-    // списковый параметр со статусом
+    // list parameter with the status
     private final int statusParamId;
-    // списковый параметр - признак автозакрытия
+    // list parameter - auto-close flag
     private final int autoCloseParamId;
 
-    // количество выбираемых тем
+    // number of topics to select
     private final int pageSize;
-    // импорт одного топика, для отладки
+    // import a single topic, for debugging
     private final int topicId;
 
-    // первое сообщение добавлять в описание процесса
+    // add the first message to the process description
     private final boolean addFirstMessageInDescription;
-    // событие о новых сообщениях
+    // event about new messages
     private final boolean newMessageEvent;
 
     public MessageTypeHelpDesk(int id, ConfigMap config) {
@@ -186,7 +186,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
     @Override
     public boolean isEditable(Message message) {
-        // новое либо исходящее но не прочитанное ещё сообщение
+        // a new message, or an outgoing one not yet read
         return message == null || (message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null);
     }
 
@@ -217,7 +217,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
             final String objectType = getObjectType();
 
-            // выбрать активные процессы, чтобы закрыть те, что привязаны к неактивным уже топикам
+            // select active processes so we can close the ones linked to topics that are already inactive
             Map<Integer, Integer> openHdProcessTopicIds = new TreeMap<>();
 
             String query = "SELECT p.id, pl.object_id FROM " + TABLE_PROCESS + " AS p "
@@ -253,7 +253,7 @@ public class MessageTypeHelpDesk extends MessageType {
                 con.commit();
             }
 
-            // оставшиеся процессы привязаны к уже закрытым темам хелпдеска - нужно их закрыть
+            // remaining processes are linked to already closed helpdesk topics - need to close them
             for (Integer processId : openHdProcessTopicIds.keySet()) {
                 log.info("Closing process: {}", processId);
 
@@ -273,7 +273,7 @@ public class MessageTypeHelpDesk extends MessageType {
                 if (topic == null)
                     log.warn("Topic not found: {}", topicId);
                 else
-                    // загрузка параметров
+                    // loading parameters
                     updateProcessFromTopic(con, processType, process, topic, null);
 
                 StatusChange status = new StatusChange();
@@ -282,7 +282,7 @@ public class MessageTypeHelpDesk extends MessageType {
                 status.setProcessId(processId);
                 status.setStatusId(closeStatusId);
 
-                // вызов не через ProcessAction, чтобы по событию повторно тема не закрылась
+                // called not through ProcessAction, so the topic doesn't close again via the event
                 new StatusChangeDAO(con).changeStatus(process, processType, status);
 
                 con.commit();
@@ -316,11 +316,11 @@ public class MessageTypeHelpDesk extends MessageType {
 
             ProcessAction.processCreate(form, con, process);
 
-            // привязка к топику
+            // linking to the topic
             LinkAction.addLink(form, con,
                     new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), objectType, topic.getId(), ""));
 
-            // привязка к договору
+            // linking to the contract
             LinkAction.addLink(form, con, new CommonObjectLink(Process.OBJECT_TYPE, process.getId(),
                     Contract.OBJECT_TYPE + ":" + billingId, topic.getContractId(), topic.getContractTitle()));
         } else {
@@ -329,7 +329,7 @@ public class MessageTypeHelpDesk extends MessageType {
             if (process.getCloseTime() != null) {
                 var pair = hdDao.getTopicWithMessages(topic.getId());
 
-                // если тема оказалась закрытой, например её закрыли во время работы этой задачи, то переоткрытие
+                // if the topic turned out to be closed, e.g. it was closed while this task was running, then reopen it
                 if (pair != null && !pair.getFirst().isClosed()) {
                     log.info("Opening process: {} for topic: {}", process.getId(), topic.getId());
 
@@ -339,7 +339,7 @@ public class MessageTypeHelpDesk extends MessageType {
                     status.setProcessId(process.getId());
                     status.setStatusId(openStatusId);
 
-                    // вызов не через ProcessAction, чтобы по событию повторно тема не открылась
+                    // called not through ProcessAction, so the topic doesn't open again via the event
                     new StatusChangeDAO(con).changeStatus(process, processType, status);
 
                     con.commit();
@@ -360,10 +360,10 @@ public class MessageTypeHelpDesk extends MessageType {
 
         HelpDeskDAO hdDao = new HelpDeskDAO(user, dbInfo);
 
-        // ключ - Id сообщения в биллинге, значение - в ЦРМ, если есть
+        // key - message ID in the billing, value - in the CRM, if any
         Map<Integer, Message> messageMap = new HashMap<>();
 
-        // все сообщения из данного HD топика в данном процессе
+        // all messages from this HD topic in this process
         Pageable<Message> messages = new Pageable<>();
         new MessageSearchDAO(con)
             .withProcessIds(Set.of(process.getId()))
@@ -373,8 +373,8 @@ public class MessageTypeHelpDesk extends MessageType {
         for (Message message : messages.getList())
             messageMap.put(Utils.parseInt(message.getSystemId()), message);
 
-        // обработка сообщений и точных данных, повторная выборка позволяет получить актуальное состояние
-        // т.к. до этого во время синхронизации иногда что-то менялось и синхронизация сбрасывала изменения в BGERP (исполнителя)
+        // processing messages and exact data, re-fetching lets us get the current state,
+        // since before this, sometimes something changed during synchronization and the sync would reset changes in BGERP (the executor)
         if (hdMessages == null) {
             Pair<HdTopic, List<HdMessage>> pair = hdDao.getTopicWithMessages(topic.getId());
             if (pair != null) {
@@ -383,7 +383,7 @@ public class MessageTypeHelpDesk extends MessageType {
             }
         }
 
-        // соотнесение исполнителей
+        // matching executors
         if (topic.getUserId() > 0) {
             int crmUserId = dbInfo.getUserId(topic.getUserId());
             if (crmUserId > 0) {
@@ -403,24 +403,24 @@ public class MessageTypeHelpDesk extends MessageType {
         } else
             processDao.updateProcessExecutors(Set.of(), process.getId());
 
-        // статус HelpDesk   - ошибка, консультация
+        // HelpDesk status - error, consultation
         if (statusParamId > 0 && topic.getStatusId() > 0)
             paramDao.updateParamList(process.getId(), statusParamId, Collections.singleton(topic.getStatusId()));
 
-        // стоимость
+        // cost
         if (costParamId > 0)
             paramDao.updateParamText(process.getId(), costParamId, Utils.format(topic.getCost()));
 
-        // автозакрытие
+        // auto-close
         if (autoCloseParamId > 0)
             paramDao.updateParamList(process.getId(), autoCloseParamId, topic.isAutoClose() ? Set.of(1) : null);
 
         boolean firstMessageAddInDescription = addFirstMessageInDescription && messageMap.size() == 0;
 
-        // добавление недостающих сообщений
+        // adding missing messages
         for (HdMessage topicMessage : hdMessages) {
             Message message = messageMap.get(topicMessage.getId());
-            // сообщения нет
+            // there is no message
             if (message == null) {
                 message = new Message();
                 message.setTypeId(id);
@@ -437,7 +437,7 @@ public class MessageTypeHelpDesk extends MessageType {
                 topicMessage = hdDao.getMessage(topic.getId(), topicMessage.getId());
 
                 if (firstMessageAddInDescription) {
-                    // возможно, что-то поменяли в базе
+                    // something may have been changed in the DB
                     process = processDao.getProcess(process.getId());
 
                     process.setDescription(process.getDescription() + "\n" + topicMessage.getText());
@@ -456,12 +456,12 @@ public class MessageTypeHelpDesk extends MessageType {
                 messageDao.updateMessage(message);
 
                 if (newMessageEvent && message.getDirection() == Message.DIRECTION_INCOMING)
-                    // событие о новом сообщении
+                    // event about a new message
                     EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SYSTEM_FORM, message, process),
                             new SingleConnectionSet(con));
             }
 
-            // отметка сообщения прочитанным
+            // marking the message as read
             if (topicMessage.getTimeTo() != null && message.getToTime() == null) {
                 message.setToTime(topicMessage.getTimeTo());
                 if (message.getDirection() == Message.DIRECTION_INCOMING) {
@@ -509,7 +509,7 @@ public class MessageTypeHelpDesk extends MessageType {
             hdDao.putAttach(msg.getId(), fileInfo.getTitle(), out.toByteArray());
         }
 
-        // вложение выбираются из хелпдеска
+        // attachments are pulled from the helpdesk
         message.getAttachList().clear();
 
         msg = hdDao.getMessage(topicId, msg.getId());

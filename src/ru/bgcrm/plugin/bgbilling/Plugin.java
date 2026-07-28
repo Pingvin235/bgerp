@@ -38,7 +38,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     /**
-     * @return BGBilling servers.
+     * @return BGBilling servers
      */
     @Dynamic
     public DBInfoManager getDbInfoManager() {

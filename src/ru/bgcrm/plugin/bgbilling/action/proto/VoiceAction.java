@@ -50,7 +50,7 @@ public class VoiceAction extends BaseAction {
         VoiceAccount account;
         if (form.getId() > 0) {
             account = dao.getAccount(form.getId());
-            // getService не возвращает многие поля сервисов типа deviceTitle
+            // getService doesn't return many service fields like deviceTitle
             var device = dao.getDevice(account.getDeviceId());
             if (device != null) {
                 account.setDeviceTitle(device.getTitle() + " (" + device.getId() + ')');

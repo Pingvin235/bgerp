@@ -29,7 +29,7 @@ public class CardAction extends BaseAction {
 
         List<CardActivationData> cardList = new ArrayList<>();
         if (serviceId == -1) {
-            // попробуем взять первую услугу
+            // try to take the first service
             List<IdTitle> sList = new CardDAO(form.getUser(), billingId, moduleId).CardContractInfo(contractId, serviceId, cardList);
             if (sList.size() > 0) {
                 serviceId = sList.get(0).getId();

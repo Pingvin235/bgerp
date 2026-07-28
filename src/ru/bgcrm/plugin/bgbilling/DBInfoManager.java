@@ -43,7 +43,7 @@ public class DBInfoManager {
     }
 
     public static void flush() {
-        // закрытие соединений к БД
+        // closing DB connections
         if (instance != null) {
             for (DBInfo dbInfo : instance.getDbInfoList()) {
                 dbInfo.getConnectionPool().close();
