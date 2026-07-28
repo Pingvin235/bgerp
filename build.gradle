@@ -44,6 +44,51 @@ idea {
     module {}
 }
 
+task vscode(description: 'Sets up VS Code project files and installs recommended extensions') {
+    doLast {
+        copy {
+            from '.vscode/settings.template.json'
+            into '.vscode'
+            rename { 'settings.json' }
+        }
+        copy {
+            from '.vscode/launch.template.json'
+            into '.vscode'
+            rename { 'launch.json' }
+        }
+
+        def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+
+        if (!isWindows) {
+            def settingsFile = file('.vscode/settings.json')
+            settingsFile.text = settingsFile.text.replace('C:\\\\Java\\\\', '/opt/java/')
+        }
+
+        [
+            'redhat.java',
+            'vscjava.vscode-java-debug',
+            'vscjava.vscode-java-test',
+            'eamodio.gitlens',
+            'mhutchie.git-graph',
+            'donjayamanne.githistory',
+            'alphabotsec.vscode-eclipse-keybindings',
+            'asciidoctor.asciidoctor-vscode'
+        ].each { extension ->
+            try {
+                providers.exec {
+                    // 'code' is a shell script/'.cmd' wrapper, Windows needs 'cmd /c' to resolve it
+                    commandLine isWindows
+                        ? ['cmd', '/c', 'code', '--install-extension', extension]
+                        : ['code', '--install-extension', extension]
+                    ignoreExitValue = true
+                }.result.get()
+            } catch (Exception e) {
+                logger.warn("Could not install VS Code extension '$extension': ${e.message}")
+            }
+        }
+    }
+}
+
 /* sonarqube {
     properties {
         property "sonar.projectKey", "org.bgerp"

@@ -10,7 +10,7 @@
         "target": true,
         "tmp": true
     },
-    "java.jdt.ls.java.home": "C:\\Java\\jdk-21.0.0.35",
+    "java.jdt.ls.java.home": "C:\\Java\\jdk25",
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.format.settings.url": ".vscode/formatter.xml",
     "files.trimTrailingWhitespace": true,
