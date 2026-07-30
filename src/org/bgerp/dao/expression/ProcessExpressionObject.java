@@ -11,8 +11,12 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class ProcessExpressionObject implements ExpressionObject {
-    public static final String KEY = Process.OBJECT_TYPE;
+    private static final String KEY = Process.OBJECT_TYPE;
     private static final String KEY_SHORT = "p";
+
+    public static final Process contextProcess(Map<String, Object> context) {
+        return (Process) context.get(KEY);
+    }
 
     public static final boolean called(String expression) {
         return Utils.notBlankString(expression) && (expression.contains(KEY_SHORT + ".") || expression.contains(KEY + "."));

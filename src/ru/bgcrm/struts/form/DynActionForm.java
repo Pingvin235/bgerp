@@ -56,7 +56,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final Log log = Log.getLog();
 
-    public static final String KEY = "form";
+    private static final String KEY = "form";
 
     public static final String RESPONSE_TYPE_HTML = "html";
     public static final String RESPONSE_TYPE_JSON = "json";
@@ -92,6 +92,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     private static final String PARAM_OVERWRITE_NAME_PREFIX = "!";
+
+    /**
+     * Gets a form object from a context by {@link #KEY}
+     * @param context the context
+     * @return the form
+     */
+    public static final DynActionForm context(Map<String, Object> context) {
+        return (DynActionForm) context.get(DynActionForm.KEY);
+    }
 
     private HttpServletRequest httpRequest;
     private HttpServletResponse httpResponse;
@@ -819,6 +828,14 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      */
     public void setRequestAttribute(String key, Object value) {
         httpRequest.setAttribute(key, value);
+    }
+
+    /**
+     * Puts the form to a context by {@link #KEY}
+     * @param context the context
+     */
+    public void toContext(Map<String, Object> context) {
+        context.put(KEY, this);
     }
 
     // DynBean

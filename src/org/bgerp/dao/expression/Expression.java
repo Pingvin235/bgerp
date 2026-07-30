@@ -101,7 +101,7 @@ public class Expression {
         context.put("NEW_LINE2", "\n\n");
 
         try {
-            EventProcessor.processEvent(new ContextInitEvent(context), (ConnectionSet) context.get(ConnectionSet.KEY));
+            EventProcessor.processEvent(new ContextInitEvent(context), ConnectionSet.context(context));
         } catch (Exception e) {
             log.error(e);
         }
@@ -166,8 +166,8 @@ public class Expression {
         new ProcessParamExpressionObject(con, process.getId()).toContext(context);
         new ProcessLinkExpressionObject(con, process.getId()).toContext(context);
         new UiExpressionObject(form, process).toContext(context);
-        context.put(ConnectionSet.KEY, conSet);
-        context.put(DynActionForm.KEY, form);
+        conSet.toContext(context);
+        form.toContext(context);
         if (event != null)
             context.put(Event.KEY, event);
 

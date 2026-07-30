@@ -47,8 +47,8 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws MessagingException
     */
     public void sendMessageToExecutors(int paramId, String subject, String text) throws BGMessageException, SQLException, MessagingException {
-        Process process = (Process)context.get(ProcessExpressionObject.KEY);
-        DynActionForm form = (DynActionForm)context.get(DynActionForm.KEY);
+        Process process = ProcessExpressionObject.contextProcess(context);
+        DynActionForm form = DynActionForm.context(context);
 
         Set<Integer> executorIds = process.getExecutorIds().stream()
             .filter(userId -> userId != form.getUserId())
@@ -68,7 +68,7 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws MessagingException
      */
     public void sendMessageToUsers(Iterable<Integer> userIds, int paramId, String subject, String text) throws BGMessageException, SQLException, MessagingException {
-        DynActionForm form = (DynActionForm)context.get(DynActionForm.KEY);
+        DynActionForm form = DynActionForm.context(context);
 
         Parameter param = null;
         if (paramId == 0)

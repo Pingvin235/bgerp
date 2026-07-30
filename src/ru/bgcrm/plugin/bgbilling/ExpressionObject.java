@@ -44,13 +44,13 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * </ul>
      */
     public void cp(int contractParamId, String contractParamType, int processParamId) throws Exception {
-        Process process = (Process)context.get(ProcessExpressionObject.KEY);
+        Process process = ProcessExpressionObject.contextProcess(context);
 
         Parameter processParam = ParameterCache.getParameter(processParamId);
         if (processParam == null)
             throw new NotFoundException("Not found parameter with ID: " + processParamId);
 
-        ConnectionSet conSet = (ConnectionSet)context.get(ConnectionSet.KEY);
+        ConnectionSet conSet = ConnectionSet.context(context);
 
         var linkDao = new ProcessLinkDAO(conSet.getSlaveConnection());
         var contractLink = Utils.getFirst(linkDao.getObjectLinksWithType(process.getId(), Contract.OBJECT_TYPE + "%"));

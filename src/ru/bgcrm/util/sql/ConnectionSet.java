@@ -20,12 +20,20 @@ import org.bgerp.util.sql.pool.fakesql.FakeConnection;
 public class ConnectionSet implements AutoCloseable {
     private static final Log log = Log.getLog();
 
-    public static final String KEY = "conSet";
+    private static final String KEY = "conSet";
 
-    public final static int TYPE_MASTER = 1;
-    public final static int TYPE_SLAVE = 2;
-    public final static int TYPE_TRASH = 3;
-    public final static int TYPE_FAKE = 4;
+    private final static int TYPE_MASTER = 1;
+    private final static int TYPE_SLAVE = 2;
+    private final static int TYPE_FAKE = 4;
+
+    /**
+     * Gets a connection set object from a context by {@link #KEY}
+     * @param context the context
+     * @return the connection set
+     */
+    public static ConnectionSet context(Map<String, Object> context) {
+        return (ConnectionSet) context.get(KEY);
+    }
 
     /** Pool for getting new connections */
     private final ConnectionPool pool;
@@ -272,6 +280,14 @@ public class ConnectionSet implements AutoCloseable {
 
             masterConnection = null;
         }
+    }
+
+    /**
+     * Puts the connection set to a context by {@link #KEY}
+     * @param context the context
+     */
+    public void toContext(Map<String, Object> context) {
+        context.put(KEY, this);
     }
 
     /**

@@ -34,8 +34,8 @@ public class ExpressionObject extends ExpressionContextAccessingObject {
      * @throws SQLException
      */
     public void sendMessageToExecutors(String subject, String text) throws SQLException {
-        Process process = (Process)context.get(ProcessExpressionObject.KEY);
-        DynActionForm form = (DynActionForm)context.get(DynActionForm.KEY);
+        Process process = ProcessExpressionObject.contextProcess(context);
+        DynActionForm form = DynActionForm.context(context);
 
         Collection<Integer> userIds = process.getExecutorIds().stream()
             .filter(userId -> userId != form.getUserId())
