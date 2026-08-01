@@ -103,7 +103,7 @@ ul.ui-autocomplete.ui-menu {
 }
 
 /* Override re-authorization dialog styles */
-.ui-dialog .ui-widget-header,
+.ui-dialog .ui-dialog-titlebar,
 .ui-datepicker .ui-widget-header {
 	color: #fff;
 	border-radius: 3px;
@@ -112,14 +112,14 @@ ul.ui-autocomplete.ui-menu {
 	<%@ include file="/WEB-INF/jspf/css/button.blue.gradient.jsp"%>
 }
 
-.ui-dialog .ui-widget-header .ui-button-icon-only,
-.ui-dialog .ui-widget-header .ui-button-icon-only .ui-icon {
+.ui-dialog .ui-dialog-titlebar .ui-button-icon-only,
+.ui-dialog .ui-dialog-titlebar .ui-button-icon-only .ui-icon {
 	border: none;
 	background: none;
 	text-indent: 0;
 }
 
-.ui-dialog .ui-widget-header .ui-button-icon-only .ui-icon:before {
+.ui-dialog .ui-dialog-titlebar .ui-button-icon-only .ui-icon:before {
 	font-family: 'themify';
 	font-weight: bold;
 	display: block;
