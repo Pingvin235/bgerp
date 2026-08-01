@@ -86,7 +86,6 @@ public class StatusChangeDAO extends CommonDAO {
                 query.append("FROM ");
                 query.append(TABLE_PROCESS_STATUS);
                 query.append(" AS status_change ");
-                //query.append( "LEFT JOIN " + TABLE_PROCESS_STATUS_TITLE + " AS status ON status_change.status_id=status.id " );
                 query.append("WHERE status_change.process_id=? ");
                 if (statusIds != null && statusIds.size() > 0) {
                     query.append("AND status_change.status_id IN( ");
@@ -126,7 +125,6 @@ public class StatusChangeDAO extends CommonDAO {
             query.append(" FROM ");
             query.append(TABLE_PROCESS_STATUS);
             query.append(" AS status_change ");
-            //query.append( " LEFT JOIN " + TABLE_PROCESS_STATUS_TITLE + " AS status ON status_change.status_id=status.id " );
             query.append(" WHERE status_change.process_id=? ");
             query.append(" AND status_change.status_id = ? ");
             query.append(" ORDER BY status_change.dt DESC");

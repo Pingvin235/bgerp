@@ -29,14 +29,6 @@ public class CerberCryptDAO extends BillingModuleDAO {
     }
 
     public List<Long> getFreeCards() {
-        /*WSCardActions service = getWebService(WSCardActions_Service.class, WSCardActions.class, moduleId);
-        try {
-            List<Long> cardNumbers = service.getFreeCardNumbers();
-            return cardNumbers;
-        } catch (BGException_Exception e) {
-            processWebServiceException(e);
-        }
-        return null;*/
         throw new UnsupportedOperationException();
     }
 

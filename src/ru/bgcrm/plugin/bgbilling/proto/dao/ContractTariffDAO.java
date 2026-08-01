@@ -42,31 +42,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
         super(user, dbInfo);
     }
 
-    /* private static ArrayList<Element> getSortedTariffList(Iterator<Element> iterator) {
-        ArrayList<Element> list = new ArrayList<Element>();
-        while (iterator.hasNext()) {
-            list.add(iterator.next());
-        }
-
-        boolean swapped = true;
-        int j = 0;
-        while (swapped) {
-            swapped = false;
-            j++;
-            for (int i = 0; i < list.size() - j; i++) {
-                if (Utils.parseInt(list.get(i).getAttribute("id"), -1) > Utils
-                        .parseInt(list.get(i + 1).getAttribute("id"), -1)) {
-                    Element tmp = list.get(i);
-                    list.set(i, list.get(i + 1));
-                    list.set(i + 1, tmp);
-                    swapped = true;
-                }
-            }
-        }
-
-        return list;
-    } */
-
     public void addTariffPlan(int contractId, int tariffId, int position) {
         if (dbInfo.versionCompare("9.2") >= 0) {
             ContractTariff contractTariff = new ContractTariff();
@@ -90,36 +65,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
             transferData.postData(billingRequest, user);
         }
     }
-
-    /*public void setTariffPlan(int contractId, int tariffId, int position) {
-        Request request = new Request();
-        request.setModule("contract");
-        request.setAction("ContractTariffPlans");
-        request.setAttribute("cid", contractId);
-
-        Document doc = transferData.postData(request, user);
-
-        Iterator<Element> it = XMLUtils.selectElements(doc, "/data/table/data/row").iterator();
-        ArrayList<Element> tariffPlans = getSortedTariffList(it);
-
-        for (Element e : tariffPlans) {
-            if (Utils.parseInt(e.getAttribute("pos")) == position) {
-                request = new Request();
-                request.setModule(CONTRACT_MODULE_ID);
-                request.setAction("UpdateContractTariffPlan");
-                request.setAttribute("id", Utils.parseInt(e.getAttribute("id"), -1));
-                request.setAttribute("cid", contractId);
-                request.setAttribute("tpid", tariffId);
-                request.setAttribute("pos", e.getAttribute("pos"));
-                request.setAttribute("date1", e.getAttribute("date1"));
-                request.setAttribute("date2", e.getAttribute("date2"));
-                request.setAttribute("comment", e.getAttribute("comment"));
-                transferData.postData(request, user);
-
-                break;
-            }
-        }
-    }*/
 
     public void setTariffPlan(int contractId, int tariffId) {
         List<ContractTariff> list = contractTariffList(contractId);

@@ -115,10 +115,6 @@ public class ProcessGroup implements Comparable<ProcessGroup> {
         return resultSet;
     }
 
-    /* public static Set<ProcessGroup> toProcessGroupSet(Set<Integer> set) {
-        return toProcessGroupSet(set, 0);
-    } */
-
     public static ProcessGroups toProcessGroupSet(Set<Integer> set, int roleId) {
         ProcessGroups resultSet = new ProcessGroups();
 

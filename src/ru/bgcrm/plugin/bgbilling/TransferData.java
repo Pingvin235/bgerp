@@ -379,7 +379,6 @@ public class TransferData {
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/octet-stream");
         con.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString(userAndPswd.getBytes(StandardCharsets.UTF_8)));
-        // con.setRequestProperty( "bgbilling-client-version", BGClientInit.getClientVersion() );
         con.setRequestProperty( "bgbilling-handler", handler );
         String json = BaseAction.MAPPER.writeValueAsString(bgServerFile);
         // base64 because headers only accept ascii, and here Russian letters can easily appear

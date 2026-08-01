@@ -107,11 +107,6 @@ public class Request {
 		return data.keySet();
 	}
 
-	/* public String getVersion()
-	 {
-	 	return version;
-	 }*/
-
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		for (String key : keys()) {

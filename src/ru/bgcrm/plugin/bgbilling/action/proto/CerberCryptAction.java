@@ -96,20 +96,6 @@ public class CerberCryptAction extends BaseAction {
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, form.getParamInt("moduleId"));
         cerbercryptDAO.updateUserCard(userCard);
 
-        /*
-         * if( Utils.notEmptyString( date1 ) ) { userCard.setDate1( date1 ); } else {
-         * userCard.setDate1( new SimpleDateFormat( "yyyy-MM-dd" ).format( new Date() )
-         * ); }
-         *
-         * if( Utils.notEmptyString( date2 ) && !"now".equals( date2 ) ) {
-         * userCard.setDate2( date2 ); } else if( "now".equals( date2 ) ) {
-         * userCard.setDate2( new SimpleDateFormat( "yyyy-MM-dd" ).format( new Date() )
-         * ); }
-         *
-         * WSUserCard userCardWs = new UserCardWebServiceDAO( billingId, form.getUser()
-         * ).getWSUserCard(); userCardWs.updateUserCard( userCard );
-         */
-
         return json(conSet, form);
     }
 

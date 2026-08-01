@@ -459,9 +459,6 @@ public class ServerCustomerCreator {
 
         linkDao.addLink(link);
 
-        // setting the customer ID in the billing
-        //contractDao.updateParamText( contractId, customerIdParam, String.valueOf( customer.getId() ) );
-
         for (Parameter param : config.importParameterList) {
             ParamMappingValue mapping = paramTypeMapping.get(param);
             if (mapping == null) {

@@ -91,8 +91,6 @@ public class InetDeviceInterface {
     private int remoteDeviceId;
     private int remotePort;
 
-    //private List<DeviceInterfaceIndex> indexList;
-
     private int ipCategoryId;
 
     private int subscriberId;

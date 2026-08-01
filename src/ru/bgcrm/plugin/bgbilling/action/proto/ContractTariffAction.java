@@ -62,20 +62,6 @@ public class ContractTariffAction extends BaseAction {
             form.setResponseData("options", "Нет прав просмотра");
         }
 
-        /* try {
-            StringBuilder groups = new StringBuilder();
-
-            List<ContractTariffGroup> groupList = crmDAO.contractTariffGroupList(contractId);
-            for (ContractTariffGroup group : groupList) {
-                if (group.getDateTo() == null) {
-                    Utils.addCommaSeparated(groups, group.getTitle());
-                }
-            }
-            form.setResponseData("groups", groups);
-        } catch (Exception e) {
-            form.setResponseData("groups", "Нет прав просмотра");
-        } */
-
         return html(conSet, form, PATH_JSP + "/tariff.jsp");
     }
 
@@ -256,51 +242,4 @@ public class ContractTariffAction extends BaseAction {
         return json(conSet, form);
     }
 
-    /* public ActionForward groupTariffList(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-        Integer contractId = form.getParamInt("contractId");
-
-        ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-        form.setResponseData("tariffGroupList", crmDAO.contractTariffGroupList(contractId));
-
-        return html(conSet, form, PATH_JSP + "/group_tariff_list.jsp");
-    }
-
-    public ActionForward getContractTariffGroup(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-
-        if (form.getId() > 0) {
-            ContractTariffGroup groupTariff = new ContractTariffDAO(form.getUser(), billingId)
-                    .getContractTariffGroup(form.getId());
-            form.setResponseData("tariffGroup", groupTariff);
-        }
-        form.setResponseData("registredTariffGroupList",
-                new DirectoryDAO(form.getUser(), billingId).getRegistredTariffGroupList(0));
-
-        return html(conSet, form, PATH_JSP + "/group_tariff_editor.jsp");
-    }
-
-    public ActionForward updateContractTariffGroup(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-        String dateFrom = form.getParam("dateFrom");
-        String dateTo = form.getParam("dateTo");
-        String comment = form.getParam("comment");
-
-        Integer contractId = form.getParamInt("contractId");
-        Integer tariffGroupId = form.getParamInt("tariffGroupId");
-
-        ContractTariffDAO dao = new ContractTariffDAO(form.getUser(), billingId);
-        dao.updateContractTariffGroup(contractId, form.getId(), tariffGroupId, dateFrom, dateTo, comment);
-
-        return json(conSet, form);
-    }
-
-    public ActionForward deleteContractTariffGroup(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
-
-        ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-        crmDAO.deleteContractTariffGroup(form.getId());
-
-        return json(conSet, form);
-    }*/
 }

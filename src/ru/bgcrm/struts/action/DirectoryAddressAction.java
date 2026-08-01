@@ -53,7 +53,6 @@ public class DirectoryAddressAction extends BaseAction {
         Set<Integer> allowedCityIds = Utils.toIntegerSet(permission.get("cityIds"));
 
         if (addressStreetId > 0) {
-            //searchMode = "house";
             AddressItem addressStreet = addressDAO.getAddressStreet(addressStreetId, true, true);
             if (addressStreet != null) {
                 AddressCity addressCity = addressStreet.getAddressCity();
@@ -66,7 +65,6 @@ public class DirectoryAddressAction extends BaseAction {
                 form.setParam("addressCountryId", String.valueOf(addressCountry.getId()));
             }
         } else if (addressCityId > 0) {
-            //searchMode = "item";
             AddressCity addressCity = addressDAO.getAddressCity(addressCityId, true);
             if (addressCity != null) {
                 AddressCountry addressCountry = addressCity.getAddressCountry();
@@ -76,7 +74,6 @@ public class DirectoryAddressAction extends BaseAction {
                 form.setParam("addressCountryId", String.valueOf(addressCountry.getId()));
             }
         } else if (addressCountryId > 0) {
-            //searchMode = "city";
             AddressCountry addressCountry = addressDAO.getAddressCountry(addressCountryId);
             if (addressCountry != null) {
                 form.setParam("addressCountryTitle", addressCountry.getTitle());
@@ -145,7 +142,6 @@ public class DirectoryAddressAction extends BaseAction {
             if (Utils.isBlankString(form.getParam("addressCountryTitle"))) {
                 form.setParam("addressCountryTitle", addressHouse.getAddressStreet().getAddressCity().getAddressCountry().getTitle());
                 form.setParam("addressCityTitle", addressHouse.getAddressStreet().getAddressCity().getTitle());
-                //form.setParam( "addressItemTitle", addressHouse.getAddressStreet().getTitle() );
             }
 
             form.setResponseData("house", addressHouse);

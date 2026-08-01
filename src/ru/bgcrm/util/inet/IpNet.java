@@ -59,21 +59,6 @@ public class IpNet {
         return sb.append('/').append(mask).toString();
     }
 
-    // public static int maskToInt(byte[] mask) {
-    //     int result = 0;
-    //     for (int i = mask.length - 1; i >= 0; i--) {
-    //         int num = Integer.numberOfTrailingZeros(mask[i]);
-    //         if (num >= 8) {
-    //             result += 8;
-    //         } else {
-    //             result += num;
-    //             break;
-    //         }
-    //     }
-
-    //     return result;
-    // }
-
     public byte[] getMaxIp() {
         byte[] addressTo = new byte[subnet.length];
         System.arraycopy(subnet, 0, addressTo, 0, subnet.length);

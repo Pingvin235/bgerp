@@ -113,25 +113,6 @@ public class CommonDocumentGenerator implements EventListener<Event> {
 
                 writer.flush();
 
-                /*// for HTML result, output of the final result is possible
-                if (type == Pattern.TYPE_XSLT_HTML)
-                {
-                	if (Utils.notBlankString( pattern.getExpression()))
-                	{
-                		writer.write( "\n\n" );
-                		writer.write( "Full XML document:\n" );
-
-                		writer.flush();
-                		XMLUtils.serialize( getFullDocument( results ), new StreamResult(result), null, true );
-                	}
-
-                	writer.write( "\n\n" );
-                	writer.write( "HTML result:\n" );
-                	writer.flush();
-
-                	xmlToHtml( results, pattern, result );
-                }*/
-
             } else if (type == Pattern.TYPE_PDF_FORM) {
                 Document docData = processToDocument(event.getObjectId()).getFirst();
 
