@@ -38,11 +38,11 @@ public class ProcessTextListener {
         log.debug("processChanged ID: {}, event: {}", process.getId(), e);
 
         var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
-        if (titleConfig != null && titleConfig.isProcessUsed())
+        if (titleConfig != null && titleConfig.isProcessUsed(e))
             updateProcessTitle(e.getForm(), conSet, process, titleConfig.getExpression());
 
         var descriptionConfig  = configMap.getConfig(ProcessDescriptionConfig.class);
-        if (descriptionConfig != null && descriptionConfig.isProcessUsed())
+        if (descriptionConfig != null && descriptionConfig.isProcessUsed(e))
             updateProcessDescription(e.getForm(), conSet, process, descriptionConfig.getExpression());
     }
 

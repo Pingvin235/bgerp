@@ -57,6 +57,7 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageTypeNote;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.StatusChangeDAO;
+import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.listener.TemporaryObjectOpenListener;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
@@ -257,6 +258,9 @@ public class ProcessAction extends BaseAction {
         }
 
         EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATED), new SingleConnectionSet(con));
+
+        // additional process opening may be added in event processing
+        form.getResponse().getEventList().removeIf(event -> event instanceof ProcessOpenEvent poe && poe.getId() == process.getId());
 
         form.setResponseData("process", process);
     }
