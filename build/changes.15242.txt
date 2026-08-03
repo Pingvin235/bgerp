@@ -1,0 +1,1 @@
+A: Plugin Kanban - drag-and-drop Kanban board over process queues. https://bgerp.org/change/0/doc/plugin/pln/kanban

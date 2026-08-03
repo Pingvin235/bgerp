@@ -1,0 +1,6 @@
+# In Kanban Board:
+- Pick the queue from the "Queue" combo
+- Columns are the type's statuses, cards are its processes
+- Drag a card to another column to change its status
+- "Filters" toggles which filters are shown - try Status/Closed
+- Click a card's ID to preview the process in a dialog without leaving the board
