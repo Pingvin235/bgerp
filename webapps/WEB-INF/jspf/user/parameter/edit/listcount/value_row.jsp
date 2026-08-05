@@ -3,21 +3,21 @@
 
 <%--
 Incoming variables:
-	itemId or form.param.itemId
-	itemTitle or form.param.itemTitle
-	itemCount or form.param.itemCount
+	frd.listValues - available values, put by 'listValues' both on editor opening and on a row adding
+	multiple       - multiple values
+Optional for a value:
+	itemId         - id
+	itemCount      - count
 --%>
 
 <tr>
 	<td>
-		<input type="hidden" name="itemId" value="${not empty itemId ? itemId : form.param.itemId}"/>
-		${not empty itemTitle ? itemTitle : form.param.itemTitle}
+		<ui:select-single list="${frd.listValues}" name="itemId" value="${itemId}" styleClass="w100p"/>
 	</td>
 	<td>
-		<input type="text" name="itemCount" value="${not empty itemCount ? itemCount : form.param.itemCount}" size="4"
-			onkeydown="return $$.keys.numericPressed(event)" title="${l.l('Use dot as a decimal separator')}"/>
+		<ui:input-decimal name="itemCount" value="${itemCount}" digits="2" size="4" title="${l.l('Use dot as a decimal separator')}"/>
 	</td>
 	<td>
-		<button class="btn-white icon" onclick="$(this).closest('tr').remove();"><i class='ti-trash'></i></button>
+		<button type="button" class="btn-white btn-small icon" onclick="$$.param.listcount.delValue(this, ${multiple})"><i class='ti-trash'></i></button>
 	</td>
 </tr>

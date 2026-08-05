@@ -56,47 +56,69 @@ $$.param = new function () {
 	this.editorTypeChanged = editorTypeChanged;
 	this.menuInit = menuInit;
 
-	const addValueCount = ($table, errors, action, multiple) => {
-		const form = $table.closest("form")[0];
-
-		const itemId = form.newItemId.value;
-		const itemTitle = form.newItemTitle.value;
-		const itemCount = form.newItemCount.value;
-
-		if (!itemId) {
-			alert(errors[0]);
+	/**
+	 * Toggles add button visibility in a count parameter editor, either listcount or treecount
+	 * @param {HTMLElement} element any element inside the editor
+	 * @param {Boolean} multiple multiple values supported
+	 */
+	const countToggleAddButton = (element, multiple) => {
+		if (multiple) {
 			return;
 		}
 
-		if (!itemCount) {
-			alert(errors[1]);
-			return;
-		}
+		const table = element.closest('table');
+		$(table.querySelector('tr:first-child button')).toggle(table.rows.length === 1);
+	}
 
-		return $$.ajax
-			.post(
-				"/user/parameter.do?method=" + action + "&multiple=" + multiple + "&itemId=" + itemId +
-				"&itemTitle=" + encodeURIComponent(itemTitle) + "&itemCount=" + encodeURIComponent(itemCount),
-				{ html: true }
-			).done(result => {
-				$table.find("tr:last-child").before(result);
-			});
+	/**
+	 * Adds a new empty value to a count parameter editor, either listcount or treecount
+	 * @param {HTMLButtonElement} button add button that was clicked
+	 * @param {Boolean} multiple multiple values supported
+	 * @param {String} method name of the action, returning HTML of the added row
+	 * @param {Function} rowAdded optional callback, called with the jQuery values table after the row insertion
+	 */
+	const countAddValue = (button, multiple, method, rowAdded) => {
+		$$.ajax
+			.post("/user/parameter.do?method=" + method + "&paramId=" + button.form.paramId.value, { html: true })
+			.done(result => {
+				const $table = $(button).closest('table');
+				// JS native insertAdjacentHTML('afterend', result) doesn't work here, because of not called JS in result
+				$table.find('tr:last').after(result);
+				countToggleAddButton(button, multiple);
+				if (rowAdded) {
+					rowAdded($table);
+				}
+			})
+	}
+
+	/**
+	 * Deletes a value in a count parameter editor, either listcount or treecount
+	 * @param {HTMLButtonElement} button deletion button
+	 * @param {Boolean} multiple multiple values supported
+	 */
+	const countDelValue = (button, multiple) => {
+		const tr = button.closest('tr');
+		const parent = tr.parentElement;
+		tr.remove();
+		countToggleAddButton(parent, multiple);
 	}
 
 	// $$.param.listcount
 	this.listcount = new function () {
 		/**
-		 * Adds a new value in listcount editor
-		 * @param {jQuery} $table values table selector
-		 * @param {Array} errors array with two alerted errors
-		 * @returns
+		 * Adds a new empty value to listcount parameter editor
+		 * @param {HTMLButtonElement} button add button that was clicked
+		 * @param {Boolean} multiple multiple values supported
 		 */
-		const addValue = ($table, errors) => {
-			addValueCount($table, errors, "parameterListCountAddValue");
+		const addValue = (button, multiple) => {
+			// focus the value select of the added row
+			countAddValue(button, multiple, "parameterListCountAddValue", $table => $table.find('tr:last .select input[name="data"]').focus());
 		}
 
 		// public functions
 		this.addValue = addValue;
+		this.delValue = countDelValue;
+		this.toggleAddButton = countToggleAddButton;
 	}
 
 	// $$.param.phone
@@ -182,53 +204,20 @@ $$.param = new function () {
 		}
 
 		/**
-		 * Toggles add button visibility in treecount parameter editor
-		 * @param {HTMLElement} element any element inside the editor
-		 * @param {*} multiple multiple values supported
-		 */
-		const toggleAddButton = (element, multiple) => {
-			if (multiple) {
-				return;
-			}
-
-			const table = element.closest('table');
-			$(table.querySelector('tr:first-child button')).toggle(table.rows.length === 1);
-		}
-
-		/**
 		 * Adds a new empty value to treecount parameter editor
 		 * @param {HTMLButtonElement} button add button that was clicked
 		 * @param {Boolean} multiple multiple values supported
 		 */
 		const addValue = (button, multiple) => {
-			$$.ajax
-				.post("/user/parameter.do?method=parameterTreeCountAddValue&paramId=" + button.form.paramId.value, { html: true })
-				.done(result => {
-					const $table = $(button).closest('table');
-					// JS native insertAdjacentHTML('afterend', result) doesn't work here, because of not called JS in result
-					$table.find('tr:last').after(result);
-					toggleAddButton(button, multiple);
-					// open the tree
-					$table.find('tr:last td:first-child a').click();
-				})
+			// open the tree
+			countAddValue(button, multiple, "parameterTreeCountAddValue", $table => $table.find('tr:last td:first-child a').click());
 		}
 
-		/**
-		 * Deletes a value in treecount parameter editor
-		 * @param {HTMLButtonElement} button deletion button
-		 * @param {Boolean} multiple multiple values supported
-		 */
-		const delValue = (button, multiple) => {
-			const tr = button.closest('tr');
-			const parent = tr.parentElement;
-			tr.remove();
-			toggleAddButton(parent, multiple);
-		}
 		// public functions
 		this.treeOpen = treeOpen;
 		this.treeClose = treeClose;
-		this.toggleAddButton = toggleAddButton;
+		this.toggleAddButton = countToggleAddButton;
 		this.addValue = addValue;
-		this.delValue = delValue;
+		this.delValue = countDelValue;
 	}
 }

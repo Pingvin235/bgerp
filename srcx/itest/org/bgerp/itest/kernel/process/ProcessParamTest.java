@@ -54,6 +54,7 @@ public class ProcessParamTest {
     private int paramListId;
     private int paramListDirConfigId;
     private int paramListCountId;
+    private int paramListCountMultId;
     private int paramMoneyId;
     private int paramTextId;
     private int paramTextRegexpId;
@@ -100,6 +101,11 @@ public class ProcessParamTest {
                 ResourceHelper.getResource(this, "param.listcount.config.txt"),
                 ResourceHelper.getResource(this, "param.listcount.values.txt"));
 
+        paramListCountMultId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LISTCOUNT, TITLE + " type 'listcount' multiple",
+                ProcessTest.posParam += 2,
+                ResourceHelper.getResource(this, "param.listcount.mult.config.txt"),
+                ResourceHelper.getResource(this, "param.listcount.values.txt"));
+
         paramMoneyId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " type 'money'", ProcessTest.posParam += 2);
 
         paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text'",
@@ -142,8 +148,8 @@ public class ProcessParamTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(
             paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId, paramListDirConfigId,
-            paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongId, paramTextCommentId, paramTextRegexpId,
-            paramPhoneId, paramTreeId, paramTreeCountId, paramConditionallyShownId
+            paramListCountId, paramListCountMultId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongId, paramTextCommentId,
+            paramTextRegexpId, paramPhoneId, paramTreeId, paramTreeCountId, paramConditionallyShownId
         ));
         props.setConfig(ConfigHelper.generateConstants(
             "CONDITIONALLY_SHOWN_PARAM_ID", paramConditionallyShownId,
@@ -195,6 +201,7 @@ public class ProcessParamTest {
         paramValueFile(processId);
         paramValueList(processId);
         paramValueListCount(processId);
+        paramValueListCountMult(processId);
         paramValueMoney(processId);
         paramValueText(processId);
         paramValuePhone(processId);
@@ -412,18 +419,26 @@ public class ProcessParamTest {
     private void paramValueListCount(int processId) throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
 
-        dao.updateParamListCount(processId, paramListCountId, Map.of(1, "5.2", 2, Utils.parseBigDecimal("4.3")));
-        Assert.assertEquals(dao.getParamListCount(processId, paramListCountId),
-                Map.of(1, Utils.parseBigDecimal("5.20"), 2, Utils.parseBigDecimal("4.30")));
-
-        dao.updateParamListCount(processId, paramListCountId, null);
-        Assert.assertTrue(dao.getParamListCount(processId, paramListCountId).isEmpty());
-
-        var values = Map.of(2, Utils.parseBigDecimal("4.50"), 3, Utils.parseBigDecimal("9.20"));
+        var values = Map.of(1, Utils.parseBigDecimal("2.00"));
         dao.updateParamListCount(processId, paramListCountId, values);
         Assert.assertEquals(dao.getParamListCount(processId, paramListCountId), values);
+    }
 
-        var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramListCountId)), false, new Pageable<>());
+    private void paramValueListCountMult(int processId) throws Exception {
+        var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
+
+        dao.updateParamListCount(processId, paramListCountMultId, Map.of(1, "5.2", 2, Utils.parseBigDecimal("4.3")));
+        Assert.assertEquals(dao.getParamListCount(processId, paramListCountMultId),
+                Map.of(1, Utils.parseBigDecimal("5.20"), 2, Utils.parseBigDecimal("4.30")));
+
+        dao.updateParamListCount(processId, paramListCountMultId, null);
+        Assert.assertTrue(dao.getParamListCount(processId, paramListCountMultId).isEmpty());
+
+        var values = Map.of(2, Utils.parseBigDecimal("4.50"), 3, Utils.parseBigDecimal("9.20"));
+        dao.updateParamListCount(processId, paramListCountMultId, values);
+        Assert.assertEquals(dao.getParamListCount(processId, paramListCountMultId), values);
+
+        var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramListCountMultId)), false, new Pageable<>());
         int cnt = 3;
         Assert.assertEquals(log.size(), cnt);
         Assert.assertEquals(log.get(--cnt).getText(), "Value1: 5.2, Value2: 4.3");

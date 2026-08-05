@@ -30,7 +30,6 @@ import org.apache.struts.upload.FormFile;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.EventProcessor;
-import org.bgerp.app.exception.BGIllegalArgumentException;
 import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.cache.ProcessTypeCache;
@@ -276,6 +275,13 @@ public class ParameterAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/edit.jsp");
     }
 
+    /**
+     * Puts available values of a list parameter to response data, used by editors and by external systems,
+     * service values with titles started from '@' are filtered out, sorting by title is applied
+     * when it is requested in the parameter's configuration
+     * @param form the form
+     * @param param the parameter
+     */
     private void listValues(DynActionForm form, Parameter param) {
         List<IdTitle> listValues = ParameterCache.getListParamValues(param).stream()
             .filter(item -> !item.getTitle().startsWith("@"))
@@ -290,7 +296,6 @@ public class ParameterAction extends BaseAction {
             });
         }
 
-        // for external systems
         form.setResponseData("listValues", listValues);
     }
 
@@ -493,24 +498,25 @@ public class ParameterAction extends BaseAction {
                 paramValueDAO.updateParamListWithComments(id, paramId, values);
             }
             case LISTCOUNT -> {
-                final List<String> emptyValues = List.of("");
+                Map<Integer, BigDecimal> values = new TreeMap<>();
 
                 List<String> itemIds = form.getParamValuesListStr("itemId");
                 List<String> itemCounts = form.getParamValuesListStr("itemCount");
 
-                Map<Integer, BigDecimal> values = new TreeMap<>();
+                for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
+                    String itemId = itemIds.get(i);
+                    String itemCount = itemCounts.get(i);
+                    if (Utils.isBlankString(itemId) && Utils.isBlankString(itemCount))
+                        continue;
 
-                // two single empty sting lists mean deletion
-                if (!itemIds.equals(emptyValues) || !itemCounts.equals(emptyValues)) {
-                    for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
-                        Integer itemId = Utils.parseInt(itemIds.get(i));
-                        BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
+                    int valueId = Utils.parseInt(itemId);
+                    if (valueId <= 0)
+                        throw new BGMessageException("No value chosen");
 
-                        if (itemId <= 0 || BigDecimal.ZERO.equals(itemCount))
-                            throw new BGIllegalArgumentException("itemCount");
+                    if (Utils.isBlankString(itemCount))
+                        throw new BGMessageException("No quantity defined");
 
-                        values.put(itemId, itemCount);
-                    }
+                    values.put(valueId, Utils.parseBigDecimal(itemCount));
                 }
 
                 paramChangingProcess(con, form, parameter, id, paramValue = values);
@@ -581,6 +587,12 @@ public class ParameterAction extends BaseAction {
     }
 
     public ActionForward parameterListCountAddValue(DynActionForm form, ConnectionSet conSet) {
+        var parameter = ParameterCache.getParameter(form.getParamInt("paramId"));
+        if (parameter != null) {
+            listValues(form, parameter);
+            form.setRequestAttribute("multiple", parameter.getConfigMap().getBoolean("multiple"));
+        }
+
         return html(conSet, form, PATH_JSP + "/edit/listcount/value_row.jsp");
     }
 
