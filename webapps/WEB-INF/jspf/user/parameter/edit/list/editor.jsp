@@ -3,14 +3,14 @@
 
 <%--
 Incoming variables:
+	parameter       - the parameter
 	listValues      - available list values
 	value           - current values
-	multiple        - multiple values
 	listParamConfig - list parameter configuration
 --%>
 
 <c:choose>
-	<c:when test="${multiple}">
+	<c:when test="${parameter.multiple}">
 		<c:forEach var="item" items="${listValues}">
 			<table style="width: 100%;" class="nopad">
 				<tr>

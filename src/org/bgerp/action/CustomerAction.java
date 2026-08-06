@@ -179,7 +179,7 @@ public class CustomerAction extends BaseAction {
 
             if (paramCustomerValue != null && paramMergingCustomerValue != null) {
                 // param merging
-                boolean isMultiple = param.getConfigMap().getBoolean(Parameter.PARAM_MULTIPLE_KEY, false);
+                boolean isMultiple = param.isMultiple();
 
                 if (Parameter.TYPE_ADDRESS.equals(type) && isMultiple) {
                     SortedMap<Integer, ParameterAddressValue> customerAddressMap = paramValueDAO.getParamAddress(customerId, paramId);

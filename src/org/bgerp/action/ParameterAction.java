@@ -588,10 +588,8 @@ public class ParameterAction extends BaseAction {
 
     public ActionForward parameterListCountAddValue(DynActionForm form, ConnectionSet conSet) {
         var parameter = ParameterCache.getParameter(form.getParamInt("paramId"));
-        if (parameter != null) {
+        if (parameter != null)
             listValues(form, parameter);
-            form.setRequestAttribute("multiple", parameter.getConfigMap().getBoolean("multiple"));
-        }
 
         return html(conSet, form, PATH_JSP + "/edit/listcount/value_row.jsp");
     }
@@ -602,10 +600,8 @@ public class ParameterAction extends BaseAction {
 
     public ActionForward parameterTreeCountAddValue(DynActionForm form, ConnectionSet conSet) {
         var parameter = ParameterCache.getParameter(form.getParamInt("paramId"));
-        if (parameter != null) {
+        if (parameter != null)
             form.setRequestAttribute("treeRootNode", ParameterCache.getTreeParamRootNode(parameter));
-            form.setRequestAttribute("multiple", parameter.getConfigMap().getBoolean("multiple"));
-        }
 
         return html(conSet, form, PATH_JSP + "/edit/treecount/value_row.jsp");
     }

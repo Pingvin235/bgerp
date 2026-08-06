@@ -3,10 +3,10 @@
 
 <%--
 Incoming variables:
+	parameter    - the parameter
 	treeRootNode - tree root node
 	values       - current values
 	treeValues   - tree parameter values
-	multiple     - multiple values
 --%>
 
 <u:sc>
@@ -20,7 +20,7 @@ Incoming variables:
 			</td>
 			<td>
 				<c:set var="addButtonUiid" value="${u:uiid()}"/>
-				<ui:button type="add" id="${addButtonUiid}" styleClass="btn-small" onclick="$$.param.treecount.addValue(this, ${multiple})" />
+				<ui:button type="add" id="${addButtonUiid}" styleClass="btn-small" onclick="$$.param.treecount.addValue(this, ${parameter.multiple})" />
 			</td>
 		</tr>
 		<c:forEach var="item" items="${treeValues}">
@@ -39,6 +39,6 @@ Incoming variables:
 		<c:if test="${empty values}">
 			document.getElementById('${addButtonUiid}').click();
 		</c:if>
-		$$.param.treecount.toggleAddButton(document.getElementById('${addButtonUiid}'), ${multiple});
+		$$.param.treecount.toggleAddButton(document.getElementById('${addButtonUiid}'), ${parameter.multiple});
 	</script>
 </u:sc>

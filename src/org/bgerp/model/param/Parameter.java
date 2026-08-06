@@ -25,8 +25,6 @@ import ru.bgcrm.util.Utils;
 public class Parameter extends IdTitleComment {
     private static final Log log = Log.getLog();
 
-    public static final String PARAM_MULTIPLE_KEY = "multiple";
-
     public static final String LIST_PARAM_USE_DIRECTORY_KEY = "directory";
     public static final String LIST_PARAM_AVAILABLE_VALUES_KEY = "availableValues";
     public static final String LIST_PARAM_AVAILABLE_VALUES_INNER_JOIN_FILTER_KEY = "availableValuesInnerJoinFilter";
@@ -259,6 +257,14 @@ public class Parameter extends IdTitleComment {
 
     public Map<Integer, BigDecimal> getListCountDefaultValues() {
         return Utils.toIntegerSet(configMap.get("defaultValues")).stream().collect(Collectors.toMap(Function.identity(), unused -> BigDecimal.ZERO));
+    }
+
+    /**
+     * Are multiple values allowed
+     * @return config key {@code multiple} as boolean, {@code false} by default
+     */
+    public boolean isMultiple() {
+        return configMap.getBoolean("multiple", false);
     }
 
     public boolean isReadonly() {

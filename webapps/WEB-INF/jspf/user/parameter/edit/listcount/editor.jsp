@@ -3,13 +3,13 @@
 
 <%--
 Incoming variables:
+	parameter  - the parameter
 	listValues - available list values
 	values     - current values
-	multiple   - multiple values
 --%>
 
 <c:choose>
-	<c:when test="${multiple}">
+	<c:when test="${parameter.multiple}">
 		<u:sc>
 			<table class="data">
 				<tr>
@@ -21,7 +21,7 @@ Incoming variables:
 					</td>
 					<td>
 						<c:set var="addButtonUiid" value="${u:uiid()}"/>
-						<ui:button type="add" id="${addButtonUiid}" styleClass="btn-small" onclick="$$.param.listcount.addValue(this, ${multiple})" />
+						<ui:button type="add" id="${addButtonUiid}" styleClass="btn-small" onclick="$$.param.listcount.addValue(this, ${parameter.multiple})" />
 					</td>
 				</tr>
 				<c:forEach var="item" items="${listValues}">
@@ -39,7 +39,7 @@ Incoming variables:
 				<c:if test="${empty values}">
 					document.getElementById('${addButtonUiid}').click();
 				</c:if>
-				$$.param.listcount.toggleAddButton(document.getElementById('${addButtonUiid}'), ${multiple});
+				$$.param.listcount.toggleAddButton(document.getElementById('${addButtonUiid}'), ${parameter.multiple});
 			</script>
 		</u:sc>
 	</c:when>

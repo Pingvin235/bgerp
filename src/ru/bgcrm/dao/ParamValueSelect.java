@@ -35,7 +35,7 @@ public class ParamValueSelect extends CommonDAO {
             if (param == null) {
                 selectPart.append("'PARAM NOT FOUND:" + paramId + "' ");
             } else {
-                boolean isMultiple = param.getConfigMap().getBoolean(Parameter.PARAM_MULTIPLE_KEY, false);
+                boolean isMultiple = param.isMultiple();
 
                 String type = param.getType();
 

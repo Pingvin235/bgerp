@@ -25,8 +25,6 @@
 	<input type="hidden" name="method" value="parameterUpdate" />
 	<input type="hidden" name="paramId" value="${parameter.id}" />
 
-	<c:set var="multiple" value="${parameter.configMap.getBoolean('multiple')}" />
-
 	<h1>${parameter.title}</h1>
 
 	<%-- этот хитрый атрибут changed ловится в некоторых местах, например в мастере, чтобы перегрузить всё,
@@ -155,13 +153,13 @@
 			</c:when>
 
 			<c:when test="${parameter.type eq 'list'}">
-				<%-- Also used: 'listValues', 'multiple', 'listParamConfig' --%>
+				<%-- Also used: 'listValues', 'listParamConfig' --%>
 				<c:set var="value" value="${frd.values}"/>
 				<%@ include file="edit/list/editor.jsp"%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'listcount'}">
-				<%-- Also used: 'listValues', 'multiple' --%>
+				<%-- Also used: 'listValues' --%>
 				<c:set var="values" value="${empty frd.values ? parameter.listCountDefaultValues : frd.values}"/>
 				<%@ include file="edit/listcount/editor.jsp"%>
 			</c:when>
@@ -205,14 +203,13 @@
 					$(function()
 					{
 						$("#${treeValueId}").Tree({
-							 <c:if test="${not multiple}">singleSelect : 'singleSelect'</c:if>
+							 <c:if test="${not parameter.multiple}">singleSelect : 'singleSelect'</c:if>
 						});
 					});
 				</script>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'treecount'}">
-				<%-- Also used: 'multiple'? --%>
 				<c:set var="values" value="${frd.values}"/>
 				<c:set var="treeValues" value="${frd.treeValues}"/>
 				<c:set var="treeRootNode" value="${frd.treeRootNode}"/>

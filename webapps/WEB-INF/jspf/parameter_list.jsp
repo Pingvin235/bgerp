@@ -37,7 +37,7 @@
 		<%-- TODO: Check permission for parameter update. --%>
 		<c:set var="readonly" value="${parameter.readonly or form.param.readOnly eq '1'}"/>
 
-		<c:set var="multiple" value="${parameter.configMap.multiple eq '1'}" />
+		<c:set var="multiple" value="${parameter.multiple}"/>
 
 		<c:set var="style" value="${parameter.configMap.style}"/>
 
