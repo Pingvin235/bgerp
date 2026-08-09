@@ -53,9 +53,9 @@ cmd do && cmd undo
 		<ui:button type="out"/>
 		<ui:button type="more"/>
 
-		<button class="btn-white" title="White buttons don't cause data retrieving/modification requests to the server side">Text Button</button>
+		<button class="btn-white" title="White buttons don't cause data modification requests to the server side">Text Button</button>
 
-		<button class="btn-grey" title="Grey buttons cause data retrieving/modification requests to the server side">Text Button</button>
+		<button class="btn-grey" title="Grey buttons cause data modification requests to the server side">Text Button</button>
 
 		<button class="btn-blue" onclick="$(this).toggleClass('btn-white btn-blue')" title="Blue-white buttons can be used as toggles">Text Button</button>
 
