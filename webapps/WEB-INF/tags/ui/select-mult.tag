@@ -16,10 +16,10 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="hidden input's name"%>
 <%@ attribute name="values" type="java.util.Collection" description="hidden parameter's current value"%>
+<%@ attribute name="onChange" description="JS call when values were changed"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
-<%@ attribute name="onChange" description="JS call when values were changed"%>
 
 <%@ attribute name="showId" description="show Id"%>
 <%@ attribute name="showComment" description="show comments"%>

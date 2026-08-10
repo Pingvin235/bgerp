@@ -4,12 +4,12 @@
 <%@ attribute name="id" description="id of the checkbox input, if not mentioned will be generated" %>
 <%@ attribute name="name" description="checkbox input's name" %>
 <%@ attribute name="value" type="java.lang.Boolean" description="checkbox input's value" %>
+<%@ attribute name="onChange" description="JS call when the value was changed" %>
 <%@ attribute name="styleClass" description="additional class for the button element" %>
 <%@ attribute name="prefixText" description="label before toggle button" %>
 <%@ attribute name="title" description="Optional outer div's title" %>
 <%@ attribute name="textOn" description="text which appears when toggle button is ON" %>
 <%@ attribute name="textOff" description="text which appears when toggle button is OFF" %>
-<%@ attribute name="onChange" description="javascript, to be executed on change event" %>
 
 <%@ attribute name="inputName" description="Deprecated 'name'"%>
 <c:if test="${not empty inputName}">

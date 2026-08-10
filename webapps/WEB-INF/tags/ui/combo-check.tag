@@ -18,9 +18,9 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="checkbox input's name"%>
-<%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="values" type="java.util.Collection" description="current values"%>
-<%@ attribute name="onChange" description="The action to be triggered on onchange"%>
+<%@ attribute name="onChange" description="JS call when values were changed"%>
+<%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="showFilter" description="Enable filter"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV class"%>
