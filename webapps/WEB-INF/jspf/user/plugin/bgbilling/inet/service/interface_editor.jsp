@@ -27,5 +27,5 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<button class="btn-grey" type="button" onclick="$('#${uiid}').parent().text('')">Отмена</button>
+	<ui:button type="cancel" onclick="$('#${uiid}').parent().text('')"/>
 </div>

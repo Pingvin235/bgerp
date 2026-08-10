@@ -11,8 +11,7 @@
 	<ui:select-mult list="${frd.groupList}" values="${frd.selectedGroupIds}" name="groupId" style="width: 300px;" showId="1"/>
 
 	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()))">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.requestUrl}',$('#${uiid}').parent());">Oтмена</button>
+		<ui:form-ok-cancel loadReturn="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
 	</div>
 </form>
 

@@ -3,17 +3,6 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<%--
-<c:url var="url" value="plugin/bgbilling/proto/npay.do">
-	<c:param name="method" value="serviceGet"/>
-	<c:param name="contractId" value="${form.param.contractId}"/>
-	<c:param name="billingId" value="${form.param.billingId}"/>
-	<c:param name="moduleId" value="${form.param.moduleId}"/>
-	<c:param name="returnUrl" value="${form.requestUrl}"/>
-</c:url>
-<button type="button" class="btn-green mb1" title="Добавить абонплату" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
---%>
-
 <table class="data hl" id="${uiid}">
 	<tr>
 		<td>Карта</td>

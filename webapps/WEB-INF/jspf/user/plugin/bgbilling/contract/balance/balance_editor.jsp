@@ -67,15 +67,15 @@
 	<textarea rows="2" cols="300" style="width:100%;" name="comment" class="mb1">${balanceItem.getComment()}</textarea>
 
 	<c:set var="printCheckForm" value="${form.param.billingId}-${form.param.contractId}-printCheck-form"/>
-	<button type="button" class="btn-grey" onclick="
+	<ui:button type="ok" onclick="
 			$$.ajax.post(this.form).done((result) => {
 				if($(this.form).find('input[name=printCheck]').is(':checked'))
 				{
 					$('#${printCheckForm} input[name=paymentId]').val(result.data.id);
 					$('#${printCheckForm} input[name=clientCash]').val(this.form.summa.value);
-					$('#${printCheckForm}').dialog( 'open' );
+					$('#${printCheckForm}').dialog('open');
 				}
 				$$.ajax.load('${form.param.returnUrl}', $(this.form).parent());
-			})">OK</button>
-	<button type="button" class="btn-white ml1" onClick="$$.ajax.load('${form.param.returnUrl}', $(this.form).parent());">Отмена</button>
+			})"/>
+	<ui:button type="cancel" styleClass="ml1" onclick="$$.ajax.load('${form.param.returnUrl}', $(this.form).parent());"/>
 </form>

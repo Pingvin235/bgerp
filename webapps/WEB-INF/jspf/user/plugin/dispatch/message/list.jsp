@@ -11,7 +11,7 @@
 </c:url>
 
 <html:form action="/user/plugin/dispatch/dispatch" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
-	<button type="button" class="btn-green" onclick="$$.ajax.loadContent('${getUrl}');">+</button>
+	<ui:button type="add" onclick="$$.ajax.loadContent('${getUrl}');"/>
 
 	<input type="hidden" name="method" value="messageList"/>
 
@@ -20,7 +20,7 @@
 	<ui:page-control nextCommand="${nextCommand}" />
 </html:form>
 
-<table class="data">
+<table class="data hl">
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
@@ -35,13 +35,15 @@
 		 	<c:url var="editUrl" value="${getUrl}">
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			<c:url var="deleteAjaxUrl" value="/user/plugin/dispatch/dispatch.do">
+			<c:url var="delUrl" value="/user/plugin/dispatch/dispatch.do">
 				<c:param name="method" value="messageDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			<c:url var="deleteAjaxCommandAfter" value="${showCode}"/>
 
-			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+			<td nowrap="nowrap">
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}')"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${delUrl}').done(() => { ${showCode} })"/>
+			</td>
 			<td>${item.id}</td>
 			<td>${item.title}</td>
 			<td>${u.getObjectTitles( dispatchList, item.dispatchIds )}</td>

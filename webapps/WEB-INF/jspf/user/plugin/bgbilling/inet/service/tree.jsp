@@ -41,11 +41,11 @@
 					<c:param name="id" value="${item.id}"/>
 					<c:param name="deviceId" value="${item.deviceId}"/>
 				</c:url>
-				<button type="button" class="menu btn-white btn-small icon" title="Управление состоянием" onclick="
+				<ui:button type="more" styleClass="btn-small menu" title="Управление состоянием" onclick="
 					$$.ajax
 						.load('${serviceMenuUrl}', document.getElementById('${uiidMenu}'), {control: this})
 						.done(() => $$.ui.menuInit($(this), $('#${uiidMenu}'), 'left', true));
-				"><i class="ti-more"></i></button>
+				"/>
 
 				<c:url var="editUrl" value="${url}">
 					<c:param name="method" value="serviceGet"/>

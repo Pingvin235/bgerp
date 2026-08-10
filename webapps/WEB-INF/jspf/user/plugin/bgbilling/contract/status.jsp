@@ -34,7 +34,7 @@
 						<input name="comment" onkeypress="if ($$.keys.enterPressed(event)) { ${saveCommand}; return false; }" style="width: 100%"/>
 					</td>
 					<td>
-						<button type="button" type="button" class="btn-grey ml05" style="float: right;" onclick="${saveCommand}">Изменить</button>
+						<button type="button" class="btn-grey ml05" style="float: right;" onclick="${saveCommand}">Изменить</button>
 					</td>
 				</tr>
 			</table>

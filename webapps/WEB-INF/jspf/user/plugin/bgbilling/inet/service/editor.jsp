@@ -111,7 +111,7 @@
 					<input type="text" disabled="disabled" class="deviceTitle" name="deviceTitle" style="width: 100%;" value="${service.deviceTitle}"/>
 				</div>
 				<div>
-					<button type="button" class="btn-white" onclick="$$.bgbilling.inet.devices(this.form)">&lt;&lt;&lt;</button>
+					<button type="button" class="btn-white icon" title="Выбрать" onclick="$$.bgbilling.inet.devices(this.form)"><i class="ti-arrow-left"></i></button>
 				</div>
 			</div>
 		</div><%--
@@ -124,7 +124,7 @@
 					<input type="text" id="${uiid}-ifaceTitle" name="ifaceTitle" disabled="disabled" style="width: 100%;" value="${service.interfaceTitle}"/>
 				</div>
 				<div>
-					<button type="button" class="btn-white" onclick="$$.bgbilling.inet.ifaces(this.form)">&lt;&lt;&lt;</button>
+					<button type="button" class="btn-white icon" title="Выбрать" onclick="$$.bgbilling.inet.ifaces(this.form)"><i class="ti-arrow-left"></i></button>
 				</div>
 			</div>
 
@@ -136,7 +136,7 @@
 					<input type="text" style="width: 100%;"  id="${uiid}-vlan" name="vlan" value="${service.vlan}"/>
 				</div>
 				<div>
-					<button type="button" class="btn-white" onclick="$$.bgbilling.inet.vlans(this.form)">&lt;&lt;&lt;</button>
+					<button type="button" class="btn-white icon" title="Выбрать" onclick="$$.bgbilling.inet.vlans(this.form)"><i class="ti-arrow-left"></i></button>
 				</div>
 			</div>
 		</div>

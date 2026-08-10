@@ -9,7 +9,6 @@
 		<c:param name="billingId" value="${form.param.billingId}"/>
 		<c:param name="returnUrl" value="${form.param.requestUrl}"/>
 	</c:url>
-	<button type="button" class="btn-green" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 	<ui:button type="add" onclick="$$.ajax.load('${url}', $('#${uiid}').parent());"/>
 
 	<h2>Текущие</h2>

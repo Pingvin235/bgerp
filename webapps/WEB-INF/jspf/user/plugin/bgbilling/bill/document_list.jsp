@@ -79,7 +79,7 @@
 									<input name=\"summa\" type=\"text\" placeholder=\"Сумма\" style=\"width: 100%;\" value=\"" + bill.summa + "\"/>\
 									<input name=\"comment\" type=\"text\" placeholder=\"Пароль\" style=\"width: 100%;\" value=\"Оплата по счёту " + bill.number + " от " + bill.date +  "\"/>\
 									<button type=\"button\" class=\"btn-grey\" id=\"ok\">OK</button>\
-									<button type=\"button\" class=\"btn-grey ml1\" id=\"cancel\">Отмена</button>\
+									<button type=\"button\" class=\"btn-white ml1\" id=\"cancel\">Отмена</button>\
 								</div>" );
 
 								if( date )
@@ -204,7 +204,7 @@
 			<c:forEach var="item" items="${frd.list}">
 				<tr>
 					<td>
-						<button type="button" class="btn-white btn-small menu" title="Меню" billId="${item.id}">*</button>
+						<ui:button type="more" styleClass="btn-small menu" title="Меню"/>
 						<input type="hidden" name="date"/>
 					</td>
 					<c:url var="url" value="${baseUrl}">

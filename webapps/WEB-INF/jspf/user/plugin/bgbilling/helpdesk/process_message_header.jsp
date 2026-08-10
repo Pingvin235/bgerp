@@ -34,7 +34,7 @@
 			<c:param name="messageId" value="${message.id}"/>
 		</c:url>
 
-		<button class="btn-white" type="button"
+		<button class="btn-grey" type="button"
 			onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent()) })">Прочитано</button>
 	</div>
 </c:if>

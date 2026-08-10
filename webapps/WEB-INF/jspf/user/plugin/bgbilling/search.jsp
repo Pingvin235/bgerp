@@ -84,8 +84,8 @@
 			</div>
 
 			<div>
-				<input type="button" class="btn-white" value="Очистить"
-						onclick="$('#searchForm-bgbilling-searchContract').each (function(){this.reset(); });"/>
+				<ui:button type="clear" title="Очистить"
+						onclick="$('#searchForm-bgbilling-searchContract').each(function() { this.reset(); });"/>
 			</div>
 		</html:form>
 	</c:otherwise>

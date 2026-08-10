@@ -16,6 +16,6 @@
 		</div>
 	</div>
 
-	<button class="btn-white mr1" type="button" onclick="this.form.number.value = this.form.freeNumber.value; ${closeCode}">OK</button>
-	<button class="btn-white" type="button" onclick="${closeCode}">Отмена</button>
+	<button type="button" class="btn-white mr1" onclick="this.form.number.value = this.form.freeNumber.value; ${closeCode}">OK</button>
+	<ui:button type="cancel" onclick="${closeCode}"/>
 </div>

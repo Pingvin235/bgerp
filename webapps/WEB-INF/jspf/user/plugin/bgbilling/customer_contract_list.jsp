@@ -36,12 +36,12 @@
 		<%-- сюда динамически загружаются тарифы --%>
 	</div>
 	<div>
-		<button type="button" class="btn-grey ml1" onclick="
+		<ui:button type="ok" styleClass="ml1" onclick="
 			$$.bgbilling.contract
 				.create(this)
 				.done(() => $$.ajax.load('${form.requestUrl}', $('#${createContractUiid}').parent()))
-		">OK</button>
-		<button type="button" class="btn-white ml05" onclick="$('#${createContractUiid}').hide(); $('#${createButtonsUiid}').show();">Отмена</button>
+		"/>
+		<ui:button type="cancel" styleClass="ml05" onclick="$('#${createContractUiid}').hide(); $('#${createButtonsUiid}').show();"/>
 	</div>
 </html:form>
 

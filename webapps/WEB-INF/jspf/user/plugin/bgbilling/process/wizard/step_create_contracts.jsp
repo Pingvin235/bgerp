@@ -8,7 +8,7 @@
 		Созданные договора:
 	</div>
 
-	<table class="oddeven" style="width: 100%;">
+	<table class="data hl" style="width: 100%;">
 		<c:choose>
 			<c:when test="${not empty stepData.contractLinkList}">
 				<c:forEach var="item" items="${stepData.contractLinkList}">
@@ -34,21 +34,23 @@
 	<jsp:useBean id="now" class="java.util.Date" scope="page"/>
 	<c:set var="currentDate" value="${tu.format(now, 'dd.MM.yyyy')}"/>
 
-	<html:form action="/user/plugin/bgbilling/contract">
+	<c:set var="uiidForm" value="${u:uiid()}"/>
+
+	<html:form action="/user/plugin/bgbilling/contract" styleId="${uiidForm}">
 		<input type="hidden" name="method" value="contractCreate"/>
 		<input type="hidden" name="date" value="${currentDate}"/>
 		<input type="hidden" name="customerId" value="${stepData.customer.id}"/>
-		<input type="hidden" name="billingId"/>
-		<input type="hidden" name="patternId"/>
-		<input type="hidden" name="сomment" value="${stepData.customer.title}"/>
-
-		<c:set var="contractTypesConfig" value="${stepData.step}"/>
+		<input type="hidden" name="comment" value="${stepData.customer.title}"/>
 
 		<c:set var="afterContractCreateCode">
-			addLink('process', ${process.id}, type, contractId, contractTitle, {'typeId': typeId, 'tariffId': tariffId}).done(() => {
+			addLink('process', ${process.id}, 'contract:' + this.form.billingId.value,
+					result.data.contract.id, result.data.contract.title,
+					{'typeId': this.form.typeId.value, 'tariffId': this.form.tariffId.value}).done(() => {
 				${reopenProcessEditorCode}
 			})
 		</c:set>
+
+		<c:set var="typeChangedCode" value="$$.bgbilling.contract.createTariff('${uiidForm}')"/>
 
 		<table style="width: 100%;">
 			<tr>
@@ -58,22 +60,27 @@
 					</td>
 				</c:if>
 				<td width="40%">
-					<%@ include file="/WEB-INF/jspf/user/plugin/bgbilling/contract_create_code.jsp"%>
-
-					<select style="width: 100%;" name="selectType" id="selectType" onchange="${typeChangedCode}">
-						<option value="0">-- выберите тип --</option>
-						<c:forEach var="item" items="${stepData.allowedTypeList}">
-							<option value="${item.id}">${item.title}</option>
-						</c:forEach>
-					</select>
+					<ui:combo-single name="typeId" onSelect="if (this.value > 0) { ${typeChangedCode} } else { $(this.form).find('#selectTariff').empty() }" style="width: 100%;">
+						<jsp:attribute name="valuesHtml">
+							<li value="0">-- выберите тип --</li>
+							<c:forEach var="item" items="${stepData.allowedTypeList}">
+								<li value="${item.id}">${item.title}</li>
+							</c:forEach>
+						</jsp:attribute>
+					</ui:combo-single>
 				</td>
 				<td width="40%">
-					<select style="width: 100%;" name="tariffId" id="selectTariff">
+					<div id="selectTariff">
 						<%-- сюда динамически загружаются тарифы --%>
-					</select>
+					</div>
 				</td>
 				<td>
-					<input type="button" value="Создать" onclick="${contractCreateCode}"/>
+					<button type="button" class="btn-grey" onclick="
+						if (!this.form.tariffId) { alert('Выберите тип договора.'); return; }
+						$$.bgbilling.contract
+							.create(this)
+							.done((result) => { ${afterContractCreateCode} })
+					">Создать</button>
 				</td>
 			</tr>
 		</table>

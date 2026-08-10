@@ -88,11 +88,7 @@
 				</c:when>
 
 				<c:when test="${parameter.typeId eq 2}"> <!-- list -->
-					<select name="listValueId" style="width: 100%" multiline size="10" >
-						<c:forEach var="value" items="${data.valueList}">
-							 <option value="${ value.getId() }">${ value.getTitle() }</option>
-						</c:forEach>
-					</select>
+					<ui:select-single name="listValueId" style="width: 100%;" list="${data.valueList}"/>
 				</c:when>
 
 				<c:otherwise>
@@ -101,11 +97,10 @@
 			</c:choose>
 
 			</br>
-			<input type="button" value="OK" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent()))"/>
-			<input type="button" value="Отмена" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())"/>
+			<ui:form-ok-cancel loadReturn="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())"/>
 		</form>
 	</c:when>
 	<c:otherwise>
-		<input type="button" value="Отмена" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())"/>
+		<ui:button type="cancel" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())"/>
 	</c:otherwise>
 </c:choose>

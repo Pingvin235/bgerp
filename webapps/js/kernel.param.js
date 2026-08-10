@@ -160,7 +160,7 @@ $$.param = new function () {
 				"<tr>" +
 				"<td><input type='text' name='address' class='w100p'/></td>" +
 				"<td><input type='text' name='name' class='w100p'/></td>" +
-				"<td><button type='button' class='btn-white btn-small icon' onclick='$$.param.email.delValue(this)'><i class='ti-trash'></i></button></td>" +
+				"<td><button type='button' class='btn-white icon btn-small' onclick='if ($$.confirm.del()) { $$.param.email.delValue(this) };'><i class='ti-trash'></i></button></td>" +
 				"</tr>"
 			);
 			$(button).closest('table').find('tr:last').after($tr);

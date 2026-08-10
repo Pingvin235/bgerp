@@ -25,7 +25,7 @@
 			Название&nbsp;
 		</div>
 		<input type="text" style="width: 100%;" name="title" value="${object.title}"/>
-		<button class="btn-grey ml1" onclick="$$.ajax.post(this).done(() => alert('Изменения произведены успешно!'))">Применить</button>
+		<button type="button" class="btn-grey ml1" onclick="$$.ajax.post(this).done(() => alert('Изменения произведены успешно!'))">Применить</button>
 	</div>
 </form>
 

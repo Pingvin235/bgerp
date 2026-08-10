@@ -91,7 +91,7 @@
 				<c:when test="${dbInfo.getVersion().compareTo( '9.1' ) gt 0 }">
 					<div class="mb1">
 						<c:set var="addButtonUiid" value="${u:uiid()}"/>
-						<table class="data">
+						<table class="data hl">
 							<tr>
 								<td width="50%">Email</td>
 								<td width="50%">Имя</td>
@@ -101,7 +101,7 @@
 								<tr>
 									<td><input type="text" name="address" value="${item.address}" class="w100p"/></td>
 									<td><input type="text" name="name" value="${item.name}" class="w100p"/></td>
-									<td><button class="btn-white btn-small icon" onclick="$$.param.email.delValue(this)"><i class="ti-trash"></i></button></td>
+									<td><ui:button type="del" styleClass="btn-small" onclick="$$.param.email.delValue(this)"/></td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -166,18 +166,12 @@
 
 		<c:when test="${paramType eq 5 }"> <!-- flag -->
 
-			<select name="value" >
-				<c:choose>
-					<c:when test="${form.param.value eq 1}">
-						<option value="1" selected="selected">Да</option>
-						<option value="0">Нет</option>
-					</c:when>
-					<c:when test="${form.param.value eq 0 or empty form.param.values}">
-						<option value="1">Да</option>
-						<option value="0" selected="selected">Нет</option>
-					</c:when>
-				</c:choose>
-			</select>
+			<ui:combo-single name="value" value="${empty form.param.value ? '0' : form.param.value}" style="width: 10em;">
+				<jsp:attribute name="valuesHtml">
+					<li value="1">${l.l('Да')}</li>
+					<li value="0">${l.l('Нет')}</li>
+				</jsp:attribute>
+			</ui:combo-single>
 			<br>
 			<br>
 		</c:when>
@@ -193,8 +187,8 @@
 
 	<c:if test="${empty hideButtons}">
 		<div style="display: inline-block;">
-			<button type="button" class="btn-grey" onclick="${saveCommand}">OK</button>
-			<button type="button" class="btn-white ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())">Отмена</button>
+			<ui:button type="ok" onclick="${saveCommand}"/>
+			<ui:button type="cancel" styleClass="ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())"/>
 		</div>
 	</c:if>
 </form>

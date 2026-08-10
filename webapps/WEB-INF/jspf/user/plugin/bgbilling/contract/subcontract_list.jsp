@@ -16,7 +16,7 @@
 					<td align="center" >${status.index+1}</td>
 					<td width="100%">${subContract.getTitle() }</td>
 					<td align="center" nowrap="nowrap">
-						<input type="button" value="Открыть" onclick="$$.bgbilling.contract.open( '${form.param.billingId}', '${subContract.getId()}' ); return false;"/>
+						<button type="button" class="btn-white btn-small" onclick="$$.bgbilling.contract.open('${form.param.billingId}', '${subContract.getId()}'); return false;">Открыть</button>
 					</td>
 				</tr>
 			</c:forEach>
@@ -27,7 +27,7 @@
 <c:set var="supperContract" value="${frd.superContract}"/>
 <c:if test="${not empty supperContract}">
 	<h2>Договор является субдоговором для: </br> ${supperContract.getTitle()} </h2>
-	<input type="button" value="Открыть" onclick="$$.bgbilling.contract.open( '${form.param.billingId}', '${supperContract.getId()}' ); return false;"/>
+	<button type="button" class="btn-white" onclick="$$.bgbilling.contract.open('${form.param.billingId}', '${supperContract.getId()}'); return false;">Открыть</button>
 </c:if>
 
 <c:if test="${ empty supperContract and empty frd.subContractList}">

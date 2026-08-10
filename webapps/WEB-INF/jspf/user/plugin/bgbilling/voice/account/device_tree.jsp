@@ -9,6 +9,6 @@
 
 	<c:set var="closeCode">$(this.form).find('#needDevice').toggle(); $(this.form).find('#deviceEditor').toggle();</c:set>
 
-	<button class="btn-white mr1" type="button" onclick="$$.bgbilling.voice.setDevice(this.form); ${closeCode}">OK</button>
-	<button class="btn-white" type="button" onclick="${closeCode}">Отмена</button>
+	<button type="button" class="btn-white mr1" onclick="$$.bgbilling.voice.setDevice(this.form); ${closeCode}">OK</button>
+	<ui:button type="cancel" onclick="${closeCode}"/>
 </div>

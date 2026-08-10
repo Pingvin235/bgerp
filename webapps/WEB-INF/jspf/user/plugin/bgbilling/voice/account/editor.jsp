@@ -54,7 +54,7 @@
 		</div>
 	</div>
 
-	<table class="data mt1" style="display: none;">
+	<table class="data mt1 hl" style="display: none;">
 		<tr>
 			<td>Параметр</td>
 			<td>Значение</td>
@@ -87,7 +87,7 @@
 			<td>
 				<div style="display: flex;">
 					<input type="text" name="number" value="${account.number}" disabled="disabled" class="w100p mr1"/>
-					<button type="button" class="btn-white" onclick="$$.bgbilling.voice.categories(this)">&lt;&lt;&lt;</button>
+					<button type="button" class="btn-white icon" title="Выбрать" onclick="$$.bgbilling.voice.categories(this)"><i class="ti-arrow-left"></i></button>
 				</div>
 			</td>
 		</tr>

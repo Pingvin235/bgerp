@@ -165,9 +165,8 @@
 					}
 				});
 			</c:set>
-			<button type="button" class="btn-grey ml1" onclick="${changeCustomerScript}">OK</button>
-			<button type="button" class="btn-white ml05"
-				onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();">Отмена</button>
+			<ui:button type="ok" styleClass="ml1" onclick="${changeCustomerScript}"/>
+			<ui:button type="cancel" styleClass="ml05" onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();"/>
 		</div>
 
 		<c:if test="${not empty contract.title}">

@@ -29,7 +29,6 @@
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${script.comment}</textarea>
 
 	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').parent()))">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());">Oтмена</button>
+		<ui:form-ok-cancel loadReturn="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())"/>
 	</div>
 </form>

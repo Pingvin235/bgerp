@@ -7,6 +7,6 @@
 
 	<ui:tree-single rootNode="${frd.rootDevice}" name="deviceIdSelect" nameTitle="deviceTitleSelect"
 		value="${form.param.deviceId}" style="height: 30em; overflow: auto;" />
-	<button class="btn-white mr1" type="button" onclick="$$.bgbilling.inet.setDevice(this.form)">OK</button>
-	<button class="btn-white" type="button" onclick="$('#${uiid}').parent().text('')">Отмена</button>
+	<button type="button" class="btn-white mr1" onclick="$$.bgbilling.inet.setDevice(this.form)">OK</button>
+	<ui:button type="cancel" onclick="$('#${uiid}').parent().text('')"/>
 </div>
