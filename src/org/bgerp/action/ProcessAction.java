@@ -708,8 +708,6 @@ public class ProcessAction extends BaseAction {
                         + Utils.getObjectList(UserCache.getUserGroupList(), new HashSet<>(denyGroupIds)));
         }
 
-        checkExecutorRestriction(process);
-
         Set<Integer> allowOnlyUsers = Utils.toIntegerSet(perm.get("allowOnlyUsers"));
         if (allowOnlyUsers.size() > 0) {
             // коды исполнителей которые добавляются либо удаляются
@@ -757,44 +755,30 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessChangingEvent(form, process, executors, ProcessChangingEvent.MODE_EXECUTORS_CHANGING), con);
 
         process.setExecutors(executors);
+
+        checkExecutorRestriction(process);
+
         processDao.updateProcessExecutors(executors, process.getId());
 
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_EXECUTORS_CHANGED), con);
     }
 
     /**
-     * Проверяет ограничение на количество исполнителей в процессе
-     * @param process
+     * Checks {@code executorRestriction} limitations on numbers of executors
+     * @param process the process
      * @throws BGMessageException
      */
     private static void checkExecutorRestriction(Process process) throws BGMessageException {
-        Set<Integer> executorIds = process.getExecutorIds();
-
-        ProcessType processType = ProcessTypeCache.getProcessType(process.getTypeId());
+        ProcessType processType = process.getType();
         for (Map.Entry<Integer, ConfigMap> entry : processType.getProperties().getConfigMap().subIndexed("executorRestriction.").entrySet()) {
             ConfigMap paramMap = entry.getValue();
-            int groupId = paramMap.getInt("groupId", 0);
-            int maxCount = paramMap.getInt("maxCount", 0);
-
+            int groupId = paramMap.getInt("groupId");
+            int maxCount = paramMap.getInt("maxCount");
             if (groupId > 0 && maxCount > 0) {
-                int count = 0;
-                List<User> userList = UserCache.getUserList(new HashSet<>(Arrays.asList(new Integer[]{groupId})));
-
-                for (Integer executorId : executorIds) {
-                    User executor = UserCache.getUser(executorId);
-                    if (userList.contains(executor)) {
-                        count++;
-                        if (count > maxCount) {
-                            Group group = UserCache.getUserGroup(groupId);
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("Максимальное количество исполнителей для группы\"");
-                            sb.append(group.getTitle());
-                            sb.append("\" равно ");
-                            sb.append(maxCount);
-                            sb.append(".");
-                            throw new BGMessageException(sb.toString());
-                        }
-                    }
+                int count = process.getExecutorIdsWithGroups(Set.of(groupId)).size();
+                if (count > maxCount) {
+                    Group group = UserCache.getUserGroup(groupId);
+                    throw new BGMessageException("The maximum number of executors for group {} is {}", group.getTitle(), maxCount);
                 }
             }
         }

@@ -682,6 +682,7 @@ if position isn't re-defined in process type or parameter group.</en>
 		<en>Parameter with ID {} does not exist. Specified in the '{}' parameter configuration.</en>
 		<ru>Параметр с ID  {} не существует.\nУказан в ' {}'  конфигурации параметра.</ru>
 	</p>
+	<p><en>The maximum number of executors for group {} is {}</en><ru>Максимальное количество исполнителей для группы {} равно {}</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
