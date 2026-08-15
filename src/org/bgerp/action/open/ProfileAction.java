@@ -32,7 +32,7 @@ public class ProfileAction extends BaseAction {
 
         private final ConfigMap config;
 
-        /** Parameter type 'list', enabling opening of user with value=1.  */
+        /** Parameter type 'list', enabling opening of user with value=1 */
         private final Parameter openParam;
         private final List<Integer> showParamIds;
         private final Set<Integer> shownUserIds;
@@ -67,9 +67,9 @@ public class ProfileAction extends BaseAction {
         }
 
         /**
-         * Is a user profile open.
+         * Is a user profile open
          * @param userId
-         * @return
+         * @return {@code true} if the user profile can be open
          * @throws Exception
          */
         public boolean isOpen(int userId) throws Exception {
@@ -77,9 +77,9 @@ public class ProfileAction extends BaseAction {
         }
 
         /**
-         * User profile accessing {@link Interface#OPEN} URL.
+         * User profile accessing {@link Interface#OPEN} URL
          * @param userId
-         * @return
+         * @return the URL
          */
         @Dynamic
         public String url(int userId) {

@@ -27,7 +27,7 @@ public class ProcessCreateType extends TreeItem<Integer, ProcessCreateType>  {
      * @param form current request form user and permission
      * @param area creation area
      * @param ids optional additional restricting process IDs
-     * @return
+     * @return root node of the process creation types tree
      */
     public static ProcessCreateType treeRoot(DynActionForm form, String area, Set<Integer> ids) {
         var types = ProcessAction.processCreateTypes(form, area, ids);

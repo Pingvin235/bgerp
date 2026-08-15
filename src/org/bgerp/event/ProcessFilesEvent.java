@@ -10,15 +10,15 @@ import org.bgerp.model.file.FileData;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Get files for attaching to message.
+ * Get files for attaching to message
  *
  * @author Shamil Vakhitov
  */
 public class ProcessFilesEvent extends UserEvent {
     private final int processId;
-    /** Already DB stored FileData objects. */
+    /** Already DB stored FileData objects */
     private final List<FileData> files = new ArrayList<>();
-    /** Announced files, got after using {@link ProcessFileGetEvent}.*/
+    /** Announced files, got after using {@link ProcessFileGetEvent} */
     private final List<IdStringTitle> announcedFiles = new ArrayList<>();
 
     public ProcessFilesEvent(DynActionForm form, int processId) {

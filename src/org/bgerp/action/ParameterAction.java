@@ -199,7 +199,6 @@ public class ParameterAction extends BaseAction {
         switch (Parameter.Type.of(parameter.getType())) {
             case ADDRESS -> {
                 ParameterAddressValue addressValue = paramDAO.getParamAddress(id, paramId, Utils.parseInt(form.getParam("position")));
-                // значений
                 if (addressValue != null) {
                     int houseId = addressValue.getHouseId();
 
@@ -225,7 +224,7 @@ public class ParameterAction extends BaseAction {
                 form.setResponseData("values", paramDAO.getParamEmail(id, paramId).values());
             }
             case FILE -> {
-                //TODO: Сделать поддержку разных типов.
+                //TODO: Add support for different types
                 response.setContentType("image/jpeg");
                 FileData fileData = paramDAO.getParamFile(id, paramId, 1);
 
@@ -319,7 +318,7 @@ public class ParameterAction extends BaseAction {
         if (parameter == null)
             throw new BGMessageException("Parameter not found");
 
-        // проверка тегов
+        // tags check
         Set<String> tags = Utils.toSet(parameter.getConfigMap().get("tags"));
         if (tags.size() > 0) {
             Set<String> allowedTags = Utils.toSet(form.getPermission().get("tags"));
@@ -413,7 +412,7 @@ public class ParameterAction extends BaseAction {
 
                 paramValue = TimeUtils.parse(value, TimeUtils.FORMAT_TYPE_YMD);
                 if (Utils.notBlankString(value) &&
-                // при годе большим 4х знаков MySQL сохраняет нули и потом выдаёт ошибку при выборке
+                // for a year longer than 4 digits, MySQL stores zeros and later throws an error on select
                         (paramValue == null || TimeUtils.convertDateToCalendar((Date) paramValue).get(Calendar.YEAR) >= 10000)) {
                     throw new BGMessageException("Неверный формат.");
                 }
@@ -427,7 +426,7 @@ public class ParameterAction extends BaseAction {
 
                 paramValue = TimeUtils.parse(value, parameter.getDateParamFormat());
                 if (Utils.notBlankString(value) &&
-                // при годе большим 4х знаков MySQL сохраняет нули и потом выдаёт ошибку при выборке
+                // for a year longer than 4 digits, MySQL stores zeros and later throws an error on select
                         (paramValue == null || TimeUtils.convertDateToCalendar((Date) paramValue).get(Calendar.YEAR) >= 10000)) {
                     throw new BGMessageException("Неверный формат.");
                 }
@@ -547,7 +546,7 @@ public class ParameterAction extends BaseAction {
             }
             case TREE -> {
                 Set<String> values = form.getParamValuesStr("value");
-                // TODO: Попробовать убрать, проверить.
+                // TODO: Try removing, verify
                 values.removeAll(Arrays.asList("0", "-1"));
 
                 paramChangingProcess(con, form, parameter, id, paramValue = values);

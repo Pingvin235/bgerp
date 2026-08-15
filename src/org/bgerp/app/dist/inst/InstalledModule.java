@@ -16,16 +16,16 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.util.Log;
 
 /**
- * Installed module's properties, stored in version.properties files in application JAR.
+ * Installed module's properties, stored in version.properties files in application JAR
  *
  * @author Shamil Vakhitov
  */
 public class InstalledModule {
     private static final Log log = Log.getLog();
 
-    /** The application's classes. */
+    /** The application's classes */
     public static final String MODULE_UPDATE = "update";
-    /** External jars. */
+    /** External jars */
     public static final String MODULE_UPDATE_LIB = "update_lib";
 
     private static final String LIB_APP_DIR = "lib/app";
@@ -60,9 +60,9 @@ public class InstalledModule {
     }
 
     /**
-     * Gets module version info.
-     * @param module module name, {@link #MODULE_UPDATE} or {@link #MODULE_UPDATE_LIB}.
-     * @return
+     * Gets module version info
+     * @param module module name, {@link #MODULE_UPDATE} or {@link #MODULE_UPDATE_LIB}
+     * @return the module version info, or {@code null} if not found
      */
     public static final InstalledModule get(String module) {
         InstalledModule result = null;
@@ -86,7 +86,7 @@ public class InstalledModule {
     }
 
     /**
-     * @return version infos of currently existing in the running app modules.
+     * @return version infos of currently existing in the running app modules
      */
     public static final List<InstalledModule> getInstalled() {
         List<InstalledModule> result = new ArrayList<>();

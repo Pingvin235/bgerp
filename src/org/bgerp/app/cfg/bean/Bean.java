@@ -24,7 +24,7 @@ public class Bean {
     }
 
     /**
-     * Reloads statically loaded and {@link Custom} {@link Bean} annotated classes.
+     * Reloads statically loaded and {@link Custom} {@link Bean} annotated classes
      */
     public static final void loadBeanClasses() {
         log.debug("loadBeanClasses");
@@ -65,7 +65,7 @@ public class Bean {
     }
 
     /**
-     * @return reflection object, configured for statically loaded from {@link PluginManager#ERP_PACKAGES} and {@link Custom} classes.
+     * @return reflection object, configured for statically loaded from {@link PluginManager#ERP_PACKAGES} and {@link Custom} classes
      */
     public static Reflections classes() {
         var builder = new ConfigurationBuilder().forPackages(PluginManager.ERP_PACKAGES);
@@ -84,8 +84,8 @@ public class Bean {
     /**
      * Provides class by a simple {@link Bean} of a full class name.
      * Both {@link Custom} and normal classes are checked.
-     * @param name the simple {@link Bean} of the full class name.
-     * @return
+     * @param name the simple {@link Bean} of the full class name
+     * @return the found class
      * @throws ClassNotFoundException
      */
     public static Class<?> getClass(String name) throws ClassNotFoundException {
@@ -109,9 +109,9 @@ public class Bean {
     }
 
     /**
-     * Creates an object of a given class, loaded with {@link Bean#getClass(String)}.
-     * @param name the full class name or a simple {@link Bean} name.
-     * @return created object instance.
+     * Creates an object of a given class, loaded with {@link Bean#getClass(String)}
+     * @param name the full class name or a simple {@link Bean} name
+     * @return created object instance
      */
     @SuppressWarnings("unchecked")
     public static final <T> T newInstance(String name) throws ClassNotFoundException {

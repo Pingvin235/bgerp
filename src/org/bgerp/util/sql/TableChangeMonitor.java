@@ -15,7 +15,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.util.sql.SQLUtils;
 
 /**
- * Монитор, отслеживает изменения таблиц и оповещает подписавшихся слушателей.
+ * Monitor, tracks table changes and notifies subscribed listeners
  */
 public class TableChangeMonitor extends Thread {
     private static final Log log = Log.getLog();
@@ -32,9 +32,9 @@ public class TableChangeMonitor extends Thread {
         tablesMap.put(tableName, callback);
     }
 
-    // конец статической части
+    // end of static part
 
-    // первый ключ - строка, идентифицирующая подписчика, второй - таблица
+    // first key - string identifying the subscriber, second - the table
     private Map<String, Map<String, Runnable>> subscriberMap = new ConcurrentHashMap<>();
     private Map<String, String> rowCounts = new HashMap<>();
 
@@ -48,7 +48,7 @@ public class TableChangeMonitor extends Thread {
             while (true) {
                 Connection con = Setup.getSetup().getDBConnectionFromPool();
 
-                // ключ - имя таблицы, значение - вызываемые коллбеки
+                // key - table name, value - callbacks to call
                 Map<String, List<Runnable>> runnableMap = new HashMap<>();
 
                 for (Map.Entry<String, Map<String, Runnable>> me : subscriberMap.entrySet()) {
@@ -64,8 +64,8 @@ public class TableChangeMonitor extends Thread {
                     }
                 }
 
-                // пока простейшая проверка изменённости таблицы подсчётом записей,
-                // лучше метода не найдено пока
+                // for now the simplest check of table changes is by counting rows,
+                // no better method has been found yet
                 for (String tableName : runnableMap.keySet()) {
                     String query = "SELECT COUNT(*) FROM " + tableName;
                     PreparedStatement ps = con.prepareStatement(query);

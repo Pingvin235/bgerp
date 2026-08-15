@@ -7,7 +7,7 @@ import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 /**
- * Factory of list of titled actions.
+ * Factory of list of titled actions
  *
  * @author Shamil Vakhitov
  */

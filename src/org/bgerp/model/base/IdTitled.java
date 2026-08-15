@@ -4,7 +4,7 @@ import org.bgerp.app.l10n.Localizer;
 import org.bgerp.model.base.iface.Titled;
 
 /**
- * Item with localized title.
+ * Item with localized title
  *
  * @author Shamil Vakhitov
  */

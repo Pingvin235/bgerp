@@ -21,7 +21,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
 /**
- * List of logged in user sessions.
+ * List of logged in user sessions
  *
  * @author Shamil Vakhitov
  */
@@ -41,12 +41,12 @@ public class LoginStat {
     private volatile long sessionTimeout = 0;
 
     /**
-     * Key - session ID.
+     * Key - session ID
      */
     private final Map<String, UserSession> sessionMap = Collections.synchronizedMap(new LinkedHashMap<>());
 
     /**
-     * Logged users IDs ordered by first session login time.
+     * Logged users IDs ordered by first session login time
      */
     private volatile List<Integer> loggedUserIds = List.of();
 
@@ -66,10 +66,10 @@ public class LoginStat {
     }
 
     /**
-     * Registers user session after auth.
-     * @param session HTTP session.
-     * @param user user.
-     * @param ip IP address.
+     * Registers user session after auth
+     * @param session HTTP session
+     * @param user user
+     * @param ip IP address
      */
     public void userLoggedIn(HttpSession session, User user, String ip) {
         synchronized (sessionMap) {
@@ -91,8 +91,8 @@ public class LoginStat {
     }
 
     /**
-     * Unregister user session.
-     * @param session HTTP session.
+     * Unregister user session
+     * @param session HTTP session
      */
     public void sessionClosed(HttpSession session) {
         synchronized (sessionMap) {
@@ -117,8 +117,8 @@ public class LoginStat {
     }
 
     /**
-     * Updates session last activity time.
-     * @param session HTTP session.
+     * Updates session last activity time
+     * @param session HTTP session
      */
     public void actionWasCalled(HttpSession session) {
         UserSession data = sessionMap.get(session.getId());
@@ -127,9 +127,9 @@ public class LoginStat {
     }
 
     /**
-     * Checks if session is not timed out.
-     * @param session HTTP session.
-     * @return last activity time is not older as timeout.
+     * Checks if session is not timed out
+     * @param session HTTP session
+     * @return last activity time is not older as timeout
      */
     public boolean isSessionValid(HttpSession session) {
         if (sessionTimeout > 0) {
@@ -144,14 +144,14 @@ public class LoginStat {
     }
 
     /**
-     * @return logged in users ordered by first session login time.
+     * @return logged in users ordered by first session login time
      */
     public List<User> loggedUsers() {
         return Utils.getObjectList(UserCache.getUserMap(), loggedUserIds);
     }
 
     /**
-     * @return logged in users with their sessions.
+     * @return logged in users with their sessions
      */
     public LinkedHashMap<User, List<UserSession>> loggedUsersWithSessions() {
         LinkedHashMap<User, List<UserSession>> result = new LinkedHashMap<>();

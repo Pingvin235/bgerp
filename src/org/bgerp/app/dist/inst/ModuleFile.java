@@ -4,13 +4,13 @@ import java.net.URL;
 import java.util.regex.Pattern;
 
 /**
- * File with update module.
+ * File with update module
  *
  * @author Shamil Vakhitov
  */
 public class ModuleFile {
     /**
-     * Regexp for parsing zip file names.
+     * Regexp for parsing zip file names
      */
     static final Pattern PATTERN_ZIP = java.util.regex.Pattern.compile("^(\\w+)_[\\d\\.]+_(\\d+)\\.zip$");
 
@@ -31,9 +31,9 @@ public class ModuleFile {
     }
 
     /**
-     * Check file name starts from 'update_' and ends by '.zip'.
+     * Check file name starts from 'update_' and ends by '.zip'
      * @param name
-     * @return
+     * @return {@code true} if the name is valid
      */
     static boolean isValidFileName(String name) {
         return name.startsWith("update_") && name.endsWith(".zip");

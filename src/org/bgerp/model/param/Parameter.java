@@ -43,7 +43,7 @@ public class Parameter extends IdTitleComment {
     public static final String TYPE_TREE = "tree";
     public static final String TYPE_TREECOUNT = "treecount";
 
-    /** Sorted list of parameter types. */
+    /** Sorted list of parameter types */
     @Dynamic
     public static final List<IdStringTitle> TYPES = EnumSet.allOf(Type.class).stream()
         .map(type -> type.name).sorted()
@@ -53,7 +53,7 @@ public class Parameter extends IdTitleComment {
     private static Map<String, Type> NAME_MAP = EnumSet.allOf(Type.class).stream()
             .collect(Collectors.toMap(type -> type.name, type -> type));
 
-    /** Parameter types enum. */
+    /** Parameter types enum */
     public static enum Type {
         ADDRESS(TYPE_ADDRESS), BLOB(TYPE_BLOB), DATE(TYPE_DATE), DATETIME(TYPE_DATETIME), EMAIL(TYPE_EMAIL),
         FILE(TYPE_FILE), LIST(TYPE_LIST), LISTCOUNT(TYPE_LISTCOUNT), MONEY(TYPE_MONEY), TEXT(TYPE_TEXT),
@@ -68,7 +68,7 @@ public class Parameter extends IdTitleComment {
          * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values with comments
-         * @return
+         * @return string with comma-separated titles of the selected values
          */
         public static String listToString(int paramId, Map<Integer, String> values) {
             var result = new StringBuilder(100);
@@ -87,7 +87,7 @@ public class Parameter extends IdTitleComment {
          * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values
-         * @return
+         * @return string with comma-separated titles and counts of the selected values
          */
         public static String listCountToString(int paramId, Map<Integer, BigDecimal> values) {
             var result = new StringBuilder(100);
@@ -106,7 +106,7 @@ public class Parameter extends IdTitleComment {
          * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values
-         * @return
+         * @return string with comma-separated titles of the selected tree values
          */
         public static String treeToString(int paramId, Set<String> values) {
             var result = new StringBuilder(100);
@@ -125,7 +125,7 @@ public class Parameter extends IdTitleComment {
          * The logic is duplicated in {@link ru.bgcrm.dao.ParamValueSelect#paramSelectQuery(String, String, StringBuilder, StringBuilder, boolean)} for process queues.
          * @param paramId the parameter ID
          * @param values the parameter values
-         * @return
+         * @return string with comma-separated titles and counts of the selected tree values
          */
         public static String treeCountToString(int paramId, Map<String, BigDecimal> values) {
             var result = new StringBuilder(100);

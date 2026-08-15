@@ -18,7 +18,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * Fluent DAO for selection processes by links.
+ * Fluent DAO for selection processes by links
  *
  * @author Shamil Vakhitov
  */
@@ -68,7 +68,7 @@ public class ProcessLinkSearchDAO extends SearchDAO {
     /**
      * Filter by link object type
      * @param value the value
-     * @return
+     * @return {@code this}
      */
     public ProcessLinkSearchDAO withLinkObjectType(String value) {
         this.linkObjectType = value;
@@ -78,7 +78,7 @@ public class ProcessLinkSearchDAO extends SearchDAO {
     /**
      * Filter by link object type using SQL LIKE
      * @param value the LIKE pattern
-     * @return
+     * @return {@code this}
      */
     public ProcessLinkSearchDAO withLinkObjectTypeLike(String value) {
         this.linkObjectTypeLike = value;
@@ -86,9 +86,9 @@ public class ProcessLinkSearchDAO extends SearchDAO {
     }
 
     /**
-     * Filter by link object ID.
+     * Filter by link object ID
      * @param value
-     * @return
+     * @return {@code this}
      */
     public ProcessLinkSearchDAO withLinkObjectId(int value) {
         this.linkObjectId = value;
@@ -98,7 +98,7 @@ public class ProcessLinkSearchDAO extends SearchDAO {
     /**
      * Queries processes
      * @param result pageable result
-     * throws SQLException
+     * @throws SQLException
      */
     public void search(Pageable<Process> result) throws SQLException {
         try (var pq = new PreparedQuery(con)) {
@@ -117,7 +117,7 @@ public class ProcessLinkSearchDAO extends SearchDAO {
     /**
      * Queries processes together with link object types
      * @param result pageable result
-     * throws SQLException
+     * @throws SQLException
      */
     public void searchWithLinkObjectTypes(Pageable<Pair<Process, String>> result) throws SQLException {
         try (var pq = new PreparedQuery(con)) {

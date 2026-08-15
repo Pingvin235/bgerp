@@ -22,7 +22,7 @@ import ru.bgcrm.model.process.Status;
 import ru.bgcrm.util.Utils;
 
 /**
- * In-memory process types cache.
+ * In-memory process types cache
  *
  * @author Shamil Vakhitov
  */
@@ -36,18 +36,18 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     /**
-     * Retrieves process type object.
-     * @param id ID.
-     * @return type instance or {@code null}.
+     * Retrieves process type object
+     * @param id ID
+     * @return type instance or {@code null}
      */
     public static ProcessType getProcessType(int id) {
         return HOLDER.getInstance().typeMap.get(id);
     }
 
     /**
-     * Gets process type by ID.
-     * @param id ID.
-     * @return
+     * Gets process type by ID
+     * @param id ID
+     * @return the process type
      * @throws NotFoundException
      */
     public static ProcessType getProcessTypeOrThrow(int id) throws NotFoundException {
@@ -58,9 +58,9 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     }
 
     /**
-     * Retrieves process type object null-safe.
-     * @param id ID.
-     * @return type instance or mock object with a title, generated out of {@code id}.
+     * Retrieves process type object null-safe
+     * @param id ID
+     * @return type instance or mock object with a title, generated out of {@code id}
      */
     public static ProcessType getProcessTypeSafe(int id) {
         return Utils.maskNull(getProcessType(id), new ProcessType(id, IdTitle.unknown(id)));

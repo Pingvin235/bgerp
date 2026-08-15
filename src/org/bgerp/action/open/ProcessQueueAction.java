@@ -25,7 +25,7 @@ public class ProcessQueueAction extends BaseAction {
     private static final String PATH_JSP =  PATH_JSP_OPEN + "/process/queue";
 
     /**
-     * Configuration for open process queues.
+     * Configuration for open process queues
      */
     public static class Config extends org.bgerp.app.cfg.Config {
         private final Map<String, Queue> openQueues;

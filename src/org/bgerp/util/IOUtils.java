@@ -7,9 +7,9 @@ import java.nio.file.Files;
 public class IOUtils {
     /**
      * Reads byte array out of file with {@code path} case if exists,
-     * otherwise treats {@code path} as Java resource and reads it.
-     * @param path file path or Java resource identifier, examples: {@code /org/bgerp/util/SomeFile.data} or {@code /tmp/SomeFile.data}.
-     * @return
+     * otherwise treats {@code path} as Java resource and reads it
+     * @param path file path or Java resource identifier, examples: {@code /org/bgerp/util/SomeFile.data} or {@code /tmp/SomeFile.data}
+     * @return the read bytes
      * @throws IOException
      */
     public static final byte[] read(String path) throws IOException {

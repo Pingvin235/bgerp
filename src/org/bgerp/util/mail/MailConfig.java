@@ -17,7 +17,7 @@ import ru.bgcrm.util.Utils;
  */
 public class MailConfig {
     /**
-     * @return default set of IMAP session properties.
+     * @return default set of IMAP session properties
      */
     public static Properties getImapSessionStaticProperties() {
         Properties props = new Properties();

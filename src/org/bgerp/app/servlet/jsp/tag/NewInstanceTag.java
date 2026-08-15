@@ -76,10 +76,10 @@ public class NewInstanceTag extends BodyTagSupport {
     }
 
     /**
-     * Преобразует типы параметров конструктора, либо возвращает null.
-     * @param params оригинальный массив параметров.
-     * @param constructorParams типы параметров конструктора.
-     * @return
+     * Converts constructor parameter types, or returns null
+     * @param params the original array of parameters
+     * @param constructorParams constructor parameter types
+     * @return the converted parameter array, or {@code null} if types don't match
      */
     public static Object[] convertObjectTypes(List<Object> params, Class<?>[] constructorParams) {
         Object[] result = new Object[params.size()];

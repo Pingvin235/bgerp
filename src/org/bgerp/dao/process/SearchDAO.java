@@ -29,8 +29,8 @@ abstract class SearchDAO extends CommonDAO {
     protected String idOrDescriptionLike;
     private Order order;
 
-     /**
-     * Constructor without isolations support.
+    /**
+     * Constructor without isolations support
      * @param con
      */
     protected SearchDAO(Connection con) {
@@ -39,7 +39,7 @@ abstract class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Constructor with isolations support.
+     * Constructor with isolations support
      * @param con
      * @param form
      */
@@ -51,7 +51,7 @@ abstract class SearchDAO extends CommonDAO {
     /**
      * Filter by process closing date
      * @param value {@code null} - no filter, or process closing date is not null
-     * @return
+     * @return {@code this}
      */
     protected SearchDAO withOpen(Boolean value) {
         this.open = value;
@@ -61,7 +61,7 @@ abstract class SearchDAO extends CommonDAO {
     /**
      * Filter by process type ID
      * @param values {@code null} or empty - no filter, or set with type IDs
-     * @return
+     * @return {@code this}
      */
     protected SearchDAO withType(Set<Integer> values) {
         this.typeIds = values;
@@ -71,7 +71,7 @@ abstract class SearchDAO extends CommonDAO {
     /**
      * Filter by process status ID
      * @param values {@code null} or empty - no filter, or set with status IDs
-     * @return
+     * @return {@code this}
      */
     protected SearchDAO withStatus(Set<Integer> values) {
         this.statusIds = values;
@@ -81,7 +81,7 @@ abstract class SearchDAO extends CommonDAO {
     /**
      * Filter by process executors
      * @param values {@code null} or empty - no filter, or set with executor user IDs
-     * @return
+     * @return {@code this}
      */
     protected SearchDAO withExecutor(Set<Integer> values) {
         this.executorIds = values;
@@ -91,7 +91,7 @@ abstract class SearchDAO extends CommonDAO {
     /**
      * Excluded process IDs
      * @param values the process IDs
-     * @return
+     * @return {@code this}
      */
     protected SearchDAO withoutId(Set<Integer> values) {
         this.excludeIds = values;
@@ -99,9 +99,9 @@ abstract class SearchDAO extends CommonDAO {
     }
 
     /**
-     * SQL LIKE expression for id or description.
-     * @param value the LIKE expression.
-     * @return
+     * SQL LIKE expression for id or description
+     * @param value the LIKE expression
+     * @return {@code this}
      */
     protected SearchDAO withIdOrDescriptionLike(String value) {
         this.idOrDescriptionLike = value;
@@ -109,9 +109,9 @@ abstract class SearchDAO extends CommonDAO {
     }
 
     /**
-     * Selection order.
-     * @param value enum value.
-     * @return
+     * Selection order
+     * @param value enum value
+     * @return {@code this}
      */
     protected SearchDAO order(Order value) {
         this.order = value;

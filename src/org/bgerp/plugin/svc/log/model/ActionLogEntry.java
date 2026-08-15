@@ -12,7 +12,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
 /**
- * Action log record.
+ * Action log record
  *
  * @author Shamil Vakhitov
  */
@@ -54,7 +54,7 @@ public class ActionLogEntry extends Id {
     }
 
     /**
-     * @return user ID.
+     * @return user ID
      */
     public int getUserId() {
         return userId;
@@ -65,7 +65,7 @@ public class ActionLogEntry extends Id {
     }
 
     /**
-     * @return calling IP address.
+     * @return calling IP address
      */
     public String getIpAddress() {
         return ipAddress;
@@ -76,7 +76,7 @@ public class ActionLogEntry extends Id {
     }
 
     /**
-     * @return semicolon separated action class and method.
+     * @return semicolon separated action class and method
      */
     public String getAction() {
         return action;
@@ -87,7 +87,7 @@ public class ActionLogEntry extends Id {
     }
 
     /**
-     * @return HTTP request parameters in form of query string.
+     * @return HTTP request parameters in form of query string
      */
     public String getParameters() {
         return parameters == null ? "" : parameters;
@@ -98,7 +98,7 @@ public class ActionLogEntry extends Id {
     }
 
     /**
-     * @return execution start time.
+     * @return execution start time
      */
     public Date getTime() {
         return time;
@@ -109,7 +109,7 @@ public class ActionLogEntry extends Id {
     }
 
     /**
-     * @return action duration in milliseconds.
+     * @return action duration in milliseconds
      */
     public long getDuration() {
         return duration;
@@ -120,7 +120,7 @@ public class ActionLogEntry extends Id {
     }
 
     /**
-     * @return execution error text or empty string for correct execution.
+     * @return execution error text or empty string for correct execution
      */
     public String getError() {
         return error;

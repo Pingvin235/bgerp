@@ -46,8 +46,8 @@ public class ConnectionPool {
 
     private boolean dbTrace;
     /**
-     * предотвращение перерасхода slave-соединений и залипания сервера, если
-     * кончаются slave-соединения (например, при подвешивании реплики), берутся master-соединения.
+     * prevention of slave connection overuse and server freezing - if slave connections run out
+     * (e.g. when a replica hangs), master connections are used instead
      */
     private boolean disablePreventionSlaveOverrun = false;
 
@@ -56,28 +56,28 @@ public class ConnectionPool {
     private GuardSupportedPool connectionPool;
     private DataSource dataSource;
 
-    // последнее время, когда попытка соединения с Мастер БД окончилась ошибкой
+    // last time a connection attempt to Master DB failed
     private final AtomicLong lastMasterErrorTime = new AtomicLong();
-    // через какое количество миллисекунд после ошибки можно попробовать снова установить соединений
+    // how many milliseconds after the error a new connection attempt can be made
     private static final long MASTER_RETEST_INTERVAL = 5000;
 
-    // пулы соединений к Slave - базам
+    // connection pools to Slave databases
     private final ConcurrentHashMap<String, GuardSupportedPool> slavePools = new ConcurrentHashMap<>();
-    // времена, когда из слейв пула была ошибка получения коннекта
+    // times when getting a connection from the slave pool failed
     private ConcurrentHashMap<String, Long> slaveErrorTimes = new ConcurrentHashMap<>();
-    // если из слейв пула была ошибка получения коннекта - минимальное время, через которое попытка будет повторена
+    // if getting a connection from the slave pool failed - the minimum time before the attempt is retried
     private static final long MIN_TIME_FOR_SLAVE_USE = 10000;
 
-    // пулы соединений к "мусорным" базам
+    // connection pools to "trash" databases
     private final ConcurrentHashMap<String, GuardSupportedPool> trashPools = new ConcurrentHashMap<>();
-    // селектор нужной "мусорной" базы
+    // selector of the needed "trash" database
     private TrashDatabaseSelector trashSelector;
 
-    // управление репликацией
+    // replication management
     private final Object repMutex = new Object();
-    // флаг отставания слейва от мастера
+    // flag of slave lagging behind master
     private final Set<String> behindMasterReplications = new TreeSet<>();
-    // флаг отключенных слейвов
+    // flag of disabled slaves
     private final Set<String> notAvailableReplications = new TreeSet<>();
 
     public ConnectionPool(String name, ConfigMap map) {
@@ -110,9 +110,9 @@ public class ConnectionPool {
     }
 
     /**
-     * Инициализация пула соединений к базе данных
-     * @param prefix - префикс к переменным конфигурации, содержащим опция соединения
-     * @return
+     * Initializes a connection pool to the database
+     * @param prefix - prefix for config variables containing the connection options
+     * @return the created connection pool, or {@code null} if URL is not configured
      * @throws Exception
      */
     private GuardSupportedPool initConnectionPool(ConfigMap prefs, String prefix) throws Exception {
@@ -228,7 +228,7 @@ public class ConnectionPool {
         if (connectionPool != null) {
             try {
                 connectionPool.pool.close();
-                //TODO: Сделать закрытие различных соединений реплик и мусорных баз.
+                // TODO: implement closing of various replica and trash database connections
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
@@ -236,8 +236,8 @@ public class ConnectionPool {
     }
 
     /**
-     * Возвращает соединение с Master БД из пула.
-     * @return соединение с Master БД либо null в случае недоступности.
+     * Returns a connection to the Master DB from the pool
+     * @return the connection to the Master DB, or {@code null} if unavailable
      */
     public final Connection getDBConnectionFromPool() {
         if (connectionPool == null) {
@@ -246,8 +246,8 @@ public class ConnectionPool {
 
         Connection con = null;
 
-        // т.к. сбой соединения определяется по таймауту в 1 с выполннения запроса, то чтобы не было задержек
-        // после сбоя попытки получения соединения в течении MASTER_RETEST_INTERVAL возвращаются null без фактической попытки реконнекта
+        // since a connection failure is detected by a 1 second query execution timeout, to avoid delays
+        // after a failure, connection attempts within MASTER_RETEST_INTERVAL return null without an actual reconnect attempt
         final long lastMasterErrorTime = this.lastMasterErrorTime.get();
         if (lastMasterErrorTime != 0) {
             long now = System.currentTimeMillis();
@@ -291,18 +291,18 @@ public class ConnectionPool {
                 long now = System.currentTimeMillis();
 
                 float minRatio = Float.MAX_VALUE;
-                // выбор наименнее загруженной базы по минимальному отношению активных коннектов
-                // к максимальному числу активных
+                // selecting the least loaded database by the minimal ratio of active connections
+                // to the maximum number of active connections
                 for (Map.Entry<String, GuardSupportedPool> me : slavePools.entrySet()) {
                     String key = me.getKey();
                     GuardSupportedPool pool = me.getValue();
 
-                    //отстающая база
+                    // lagging database
                     if (!isReplicationNotBehindMaster(key)) {
                         continue;
                     }
 
-                    // была ошибка получения коннекта со слейва и не прошло необходимое время
+                    // there was an error getting a connection from the slave and the required time hasn't passed yet
                     Long errorTime = slaveErrorTimes.get(key);
                     if (errorTime != null && now - errorTime < MIN_TIME_FOR_SLAVE_USE) {
                         continue;
@@ -317,7 +317,7 @@ public class ConnectionPool {
                 }
 
                 try {
-                    // null может получится, если все Slave базы отстали
+                    // null can result if all Slave databases are lagging
                     if (prefPool != null) {
                         boolean slaveOk = true;
 
@@ -329,7 +329,7 @@ public class ConnectionPool {
                                 "\nSomething has to be done to speed up work of Slave DB." +
                                 "\n\n" + poolStatus());
 
-                            // можно использоать slave только если не включена защита от зависания БД
+                            // slave can be used only if protection against DB hanging is not enabled
                             slaveOk = disablePreventionSlaveOverrun;
 
                             slaveErrorTimes.remove(prefId);
@@ -352,7 +352,7 @@ public class ConnectionPool {
             }
         }
 
-        // Slave база не выдана
+        // no Slave database was returned
         return connectionPool;
     }
 
@@ -365,19 +365,19 @@ public class ConnectionPool {
     }
 
     /**
-     * Возвращает соединение с Slave БД из пула. Если Slave БД не определены в
-     * конфигурации - возвращает из Master пула.
-     * @return
+     * Returns a connection to the Slave DB from the pool. If Slave DB isn't defined in
+     * the configuration - returns from the Master pool.
+     * @return the connection
      */
     public final Connection getDBSlaveConnectionFromPool() {
         return getDBSlaveConnectionFromPool(null);
     }
 
     /**
-     * Возвращает соединение с Slave БД из пула. Если Slave БД не определены в
-     * конфигурации - возвращает из Master пула.
-     * @param master если false то при отсутсвии slave баз вернет null.
-     * @return
+     * Returns a connection to the Slave DB from the pool. If Slave DB isn't defined in
+     * the configuration - returns from the Master pool.
+     * @param master if {@code false}, returns {@code null} when there are no slave bases
+     * @return the connection
      */
     public final Connection getDBSlaveConnectionFromPool(final Connection master) {
         Connection con = null;
@@ -391,9 +391,9 @@ public class ConnectionPool {
             }
         }
 
-        // slave база не выдана
+        // no slave database was returned
         if (con == null) {
-            log.warn("Не удалось получить подключение к slave базе данных!\n" + poolStatus());
+            log.warn("Failed to get connection to the slave database!\n" + poolStatus());
 
             if (master == null) {
                 con = getDBConnectionFromPool();
@@ -406,10 +406,10 @@ public class ConnectionPool {
     }
 
     /**
-     * Возвращает соединение с мусорной БД если она описана для таблицы в конфиге либо в зависимости от retType.
-     * @param tableName имя таблицы.
-     * @param retType {@link #RETURN_FAKE}, {@link #RETURN_SLAVE} либо {@link #RETURN_MASTER}.
-     * @return если не указана конфигурация мусорной БД может быть возвращен коннект к мастер БД, фейковый коннект либо коннект Slave БД.
+     * Returns a connection to the trash DB if it's configured for the table, or depending on retType
+     * @param tableName table name
+     * @param retType {@link #RETURN_FAKE}, {@link #RETURN_SLAVE} or {@link #RETURN_MASTER}
+     * @return if trash DB configuration is not specified, a connection to the master DB, a fake connection, or a connection to the Slave DB may be returned
      */
     public final Connection getDBTrashConnectionFromPool(String tableName, int retType) {
         Connection result = null;
@@ -435,7 +435,7 @@ public class ConnectionPool {
                 }
             }
 
-            // конфигурация Trash базы не определена
+            // Trash DB configuration is not defined
             if (result == null) {
                 switch (retType) {
                     case RETURN_FAKE: {
@@ -456,7 +456,7 @@ public class ConnectionPool {
                 }
             }
         } catch (Exception e) {
-            //конекшн заглушка, ничего не делает, возвращает пустые имплементации интерфейсов
+            // connection stub, does nothing, returns empty interface implementations
             result = new FakeConnection();
             log.error(e.getMessage(), e);
         }
@@ -464,19 +464,19 @@ public class ConnectionPool {
     }
 
     /**
-     * Возвращение соединения к выделенной "мусорной" либо Master-базе (если
-     * треш-база не найдена).
+     * Returns a connection to the dedicated "trash" or Master database (if
+     * the trash database is not found)
      * @param tableName
-     * @return
+     * @return the connection
      */
     public final Connection getDBTrashOrMasterConnectionFromPool(String tableName) {
         return getDBTrashConnectionFromPool(tableName, RETURN_MASTER);
     }
 
     /**
-     * Возвращение соединения к выделенной "мусорной" либо Slave-базе
+     * Returns a connection to the dedicated "trash" or Slave database
      * @param tableName
-     * @return
+     * @return the connection
      */
     public final Connection getDBTrashOrSlaveConnectionFromPool(String tableName) {
         return getDBTrashConnectionFromPool(tableName, RETURN_SLAVE);
@@ -484,28 +484,27 @@ public class ConnectionPool {
 
 
     /**
-     * Возвращает идентификаторы slave баз.
-     * @return
+     * Returns identifiers of slave databases
+     * @return the slave database identifiers
      */
     public final Set<String> getSlaveBaseId() {
         return slavePools.keySet();
     }
 
     /**
-     * Возвращает идентификаторы trash баз.
-     * @return
+     * Returns identifiers of trash databases
+     * @return the trash database identifiers
      */
     public final Set<String> getTrashBaseId() {
         return trashPools.keySet();
     }
 
     /**
-     * Возвращает соединение с trash базой.
-     * если неверная база то null со всем вытекающим, так как
-     * применяется только при принудительном выборе базы в некоторых специфичных
-     * служебных случаях.
-     * @param poolId - ид базы
-     * @return коннекшен
+     * Returns a connection to the trash database.
+     * If the database ID is incorrect, returns {@code null} with all the consequences, since this
+     * is used only for forced database selection in some specific service cases.
+     * @param poolId - database ID
+     * @return connection
      */
     public final Connection getTrashConnectionFromPool(String poolId) {
         Connection con = null;
@@ -524,7 +523,7 @@ public class ConnectionPool {
     }
 
     /**
-     * @return status text report for connection pools.
+     * @return status text report for connection pools
      */
     public String poolStatus() {
         if (connectionPool == null) {
@@ -532,10 +531,10 @@ public class ConnectionPool {
         }
 
         StringBuffer sb = new StringBuffer("Connections pool to Master '" + name + "' status ");
-        // статус Master пула
+        // Master pool status
         sb.append(poolStatus(connectionPool.pool));
 
-        // статусы Slave пулов
+        // Slave pools statuses
         for (Map.Entry<String, GuardSupportedPool> me : slavePools.entrySet()) {
             String name = me.getKey();
             GenericObjectPool<?> pool = me.getValue().pool;
@@ -545,7 +544,7 @@ public class ConnectionPool {
             sb.append(poolStatus(pool));
         }
 
-        // статусы Trash пулов
+        // Trash pools statuses
         for (Map.Entry<String, GuardSupportedPool> me : trashPools.entrySet()) {
             String name = me.getKey();
             GenericObjectPool<?> pool = me.getValue().pool;
@@ -572,7 +571,7 @@ public class ConnectionPool {
     }
 
     /**
-     * @return pool connections borowing stack traces text report.
+     * @return pool connections borrowing stack traces text report
      */
     public String getDbTrace() {
         StringBuilder sb = new StringBuilder(100);
@@ -598,9 +597,9 @@ public class ConnectionPool {
     }
 
     /**
-     * Включение/Отключение флага отставания Slave базы
-     * @param slaveId идентификатор Slave базы
-     * @param isNotBehind true - отставание выключено, false - отставание включено
+     * Enables/disables the Slave database lag flag
+     * @param slaveId Slave database identifier
+     * @param isNotBehind {@code true} - lag disabled, {@code false} - lag enabled
      */
     @Deprecated
     public void setReplicationNotBehindMaster(String slaveId, boolean isNotBehind) {
@@ -614,9 +613,9 @@ public class ConnectionPool {
     }
 
     /**
-     * Проверяет есть ли отставание Slave базы
-     * @param slaveId идентификатор Slave базы
-     * @return
+     * Checks whether the Slave database is lagging
+     * @param slaveId Slave database identifier
+     * @return {@code true} if not lagging
      */
     @Deprecated
     public boolean isReplicationNotBehindMaster(String slaveId) {
@@ -626,9 +625,9 @@ public class ConnectionPool {
     }
 
     /**
-     * Проверяет доступность Slave базы
-     * @param slaveId идентификатор Slave базы
-     * @return true - если доступна, false - если не доступна
+     * Checks availability of the Slave database
+     * @param slaveId Slave database identifier
+     * @return {@code true} if available, {@code false} if not available
      */
     @Deprecated
     public boolean isReplicationAvailable(String slaveId) {

@@ -6,7 +6,7 @@ import org.bgerp.dao.FileDataDAO;
 import org.bgerp.util.Log;
 
 /**
- * Migrates old files in 'filestorage' to sub-directories yyyy/MM/dd.
+ * Migrates old files in 'filestorage' to sub-directories yyyy/MM/dd
  *
  * @author Shamil Vakhitov
  */

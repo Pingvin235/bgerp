@@ -30,7 +30,7 @@ public class NewsAction extends BaseAction {
         int requestUserId = form.getParamInt("requestUserId", 0);
         String kindOf = requestUserId > 0 ? "сообщение" : "новость";
 
-        // 0 - обычная, 1 - всплывающая
+        // 0 - regular, 1 - popup
         int type = form.getParamInt("type");
         if (type < 0) {
             throw new BGMessageException("Не выбран тип новости");

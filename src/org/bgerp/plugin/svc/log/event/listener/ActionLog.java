@@ -10,7 +10,7 @@ import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.util.Log;
 
 /**
- * Action log listener.
+ * Action log listener
  *
  * @author Shamil Vakhitov
  */

@@ -17,7 +17,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 
 /**
  * Implementation of {@link javax.servlet.ServletResponse} allowing
- * to intercept JSP template output.
+ * to intercept JSP template output
  */
 public class ServletResponseInterceptor extends HttpServletResponseWrapper {
     private CustomServletOutPutStream outputStream;
@@ -46,10 +46,10 @@ public class ServletResponseInterceptor extends HttpServletResponseWrapper {
 
     /**
      * Renders JSP page. Clears {@link org.bgerp.action.base.form.Response#getData()} in {@link DynActionForm#getResponse()}.
-     * @param form form object, contains servlet request and response.
-     * @param jsp path to JSP pattern, starting from webapps.
-     * @param approxSize expected size of resulting HTML.
-     * @return byte with HTML.
+     * @param form form object, contains servlet request and response
+     * @param jsp path to JSP pattern, starting from webapps
+     * @param approxSize expected size of resulting HTML
+     * @return byte with HTML
      * @throws Exception
      */
     public static byte[] jsp(DynActionForm form, String jsp, int approxSize) throws Exception {

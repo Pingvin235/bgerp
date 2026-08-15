@@ -70,7 +70,7 @@ public class FileData extends IdTitle {
     }
 
     /**
-     * @return output stream to the stored file.
+     * @return output stream to the stored file
      */
     public OutputStream getOutputStream() {
         return outputStream;

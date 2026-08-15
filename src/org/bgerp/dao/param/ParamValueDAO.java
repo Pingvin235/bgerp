@@ -81,9 +81,9 @@ public class ParamValueDAO extends CommonDAO {
 
     public static final String COPY_PARAMS_SEPARATORS = ";,";
 
-    /** Write param changes history. */
+    /** Write param changes history */
     private boolean history;
-    /** User ID for changes history. */
+    /** User ID for changes history */
     private int userId;
 
     public ParamValueDAO(Connection con) {
@@ -97,21 +97,21 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Копирует параметр с объекта на объект.
-     * @param fromObjectId object ID исходного.
-     * @param toObjectId object ID целевого.
-     * @param paramId коды параметра.
+     * Copies a parameter from an object to an object
+     * @param fromObjectId object ID of the source
+     * @param toObjectId object ID of the target
+     * @param paramId the parameter's code
      */
     public void copyParam(int fromObjectId, int toObjectId, int paramId) throws SQLException {
         copyParam(fromObjectId, paramId, toObjectId, paramId);
     }
 
     /**
-     * Копирует параметр с объекта на объект. Параметры должны быть одного типа.
-     * @param fromObjectId object ID исходного.
-     * @param fromParamId param ID исходного.
-     * @param toObjectId object ID целевого
-     * @param toParamId param ID целевого.
+     * Copies a parameter from an object to an object. Parameters must be of the same type.
+     * @param fromObjectId object ID of the source
+     * @param fromParamId param ID of the source
+     * @param toObjectId object ID of the target
+     * @param toParamId param ID of the target
      */
     public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException {
         String query = null;
@@ -204,10 +204,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Копирует параметры с объекта на другой объект по указанной конфигурации.
-     * @param fromObjectId исходный объект.
-     * @param toObjectId целевой объект.
-     * @param copyMapping конфигурация.
+     * Copies parameters from an object to another object according to the given configuration
+     * @param fromObjectId the source object
+     * @param toObjectId the target object
+     * @param copyMapping the configuration
      * @throws SQLException
      */
     public void copyParams(int fromObjectId, int toObjectId, String copyMapping) throws SQLException {
@@ -228,10 +228,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Копирует параметры с объекта на объект
-     * @param fromObjectId object ID исходного.
-     * @param toObjectId object ID целевого.
-     * @param paramIds коды параметров.
+     * Copies parameters from an object to an object
+     * @param fromObjectId object ID of the source
+     * @param toObjectId object ID of the target
+     * @param paramIds the parameters' codes
      * @throws SQLException
      */
     public void copyParams(int fromObjectId, int toObjectId, Collection<Integer> paramIds) throws SQLException {
@@ -241,8 +241,8 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет параметры объекта.
-     * @param objectType тип объекта.
+     * Deletes object's parameters
+     * @param objectType object type
      * @param id object ID
      * @throws SQLException
      */
@@ -269,11 +269,11 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает адресный параметр объекта.
-     * @param id - код объекта.
-     * @param paramId - param ID.
-     * @param position - позиция, начиная от 1, если в параметре установлены несколько значений.
-     * @return
+     * Returns an object's address parameter
+     * @param id - object code
+     * @param paramId - param ID
+     * @param position - position, starting from 1, if the parameter has multiple values set
+     * @return the value
      * @throws SQLException
      */
     public ParameterAddressValue getParamAddress(int id, int paramId, int position) throws SQLException {
@@ -294,10 +294,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения адресного параметра объекта.
-     * @param id - код объекта.
-     * @param paramId - param ID.
-     * @return ключ - позиция, значение - значение на позиции.
+     * Returns values of an object's address parameter
+     * @param id - object code
+     * @param paramId - param ID
+     * @return key - position, value - the value at the position
      * @throws SQLException
      */
     public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId) throws SQLException {
@@ -305,11 +305,11 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения адресного параметра объекта.
-     * @param id - код объекта.
-     * @param paramId - param ID.
-     * @param loadDirs - признак необходимости загрузить справочники, чтобы был корректно заполнен {@link ParameterAddressValue#getHouse()}/
-     * @return ключ - позиция, значение - значение на позиции.
+     * Returns values of an object's address parameter
+     * @param id - object code
+     * @param paramId - param ID
+     * @param loadDirs - flag whether directories need to be loaded, so that {@link ParameterAddressValue#getHouse()} is correctly filled
+     * @return key - position, value - the value at the position
      * @throws SQLException
      */
     public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId, boolean loadDirs) throws SQLException {
@@ -317,12 +317,12 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения адресного параметра объекта.
-     * @param id - код объекта.
-     * @param paramId - param ID.
-     * @param loadDirs - признак необходимости загрузить справочники, чтобы был корректно заполнен {@link ParameterAddressValue#getHouse()}.
-     * @param formatName - наименование формата адреса из конфигурации, с помощью которого форматировать значение адреса.
-     * @return ключ - позиция, значение - значение на позиции.
+     * Returns values of an object's address parameter
+     * @param id - object code
+     * @param paramId - param ID
+     * @param loadDirs - flag whether directories need to be loaded, so that {@link ParameterAddressValue#getHouse()} is correctly filled
+     * @param formatName - name of the address format from the configuration, used to format the address value
+     * @return key - position, value - the value at the position
      * @throws SQLException
      */
     public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId, boolean loadDirs, String formatName)
@@ -376,10 +376,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a value for parameter type 'blob'.
+     * Selects a value for parameter type 'blob'
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the value
      * @throws SQLException
      */
     public String getParamBlob(int id, int paramId) throws SQLException {
@@ -411,10 +411,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a value for parameter type 'date'.
+     * Selects a value for parameter type 'date'
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the value
      * @throws SQLException
      */
     public Date getParamDate(int id, int paramId) throws SQLException {
@@ -422,10 +422,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a value for parameter type 'datetime'.
+     * Selects a value for parameter type 'datetime'
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the value
      * @throws SQLException
      */
     public Date getParamDateTime(int id, int paramId) throws SQLException {
@@ -450,10 +450,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects values for parameter type 'email'.
+     * Selects values for parameter type 'email'
      * @param id object ID
      * @param paramId param ID
-     * @return key - param value position, value - a value itself.
+     * @return key - param value position, value - a value itself
      * @throws SQLException
      */
     public SortedMap<Integer, ParameterEmailValue> getParamEmail(int id, int paramId) throws SQLException {
@@ -475,11 +475,11 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a value for parameter type 'file'.
+     * Selects a value for parameter type 'file'
      * @param id object ID
      * @param paramId param ID
-     * @param position position number for multiple values.
-     * @return
+     * @param position position number for multiple values
+     * @return the value
      * @throws SQLException
      */
     public FileData getParamFile(int id, int paramId, int position) throws SQLException {
@@ -504,10 +504,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects values for parameter type 'file'.
+     * Selects values for parameter type 'file'
      * @param id object ID
      * @param paramId param ID
-     * @return map with key equals value's position.
+     * @return map with key equals value's position
      * @throws SQLException
      */
     public SortedMap<Integer, FileData> getParamFile(int id, int paramId) throws SQLException {
@@ -531,10 +531,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'list'.
+     * Selects a parameter value with type 'list'
      * @param id object ID
      * @param paramId
-     * @return Set с кодами значений.
+     * @return Set with value codes
      * @throws SQLException
      */
     public Set<Integer> getParamList(int id, int paramId) throws SQLException {
@@ -555,10 +555,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'list' с комментариями значений.
+     * Selects a parameter value with type 'list' with value comments
      * @param id object ID
      * @param paramId param ID
-     * @return ключ - код значения, значение - комментарий.
+     * @return key - value code, value - the comment
      * @throws SQLException
      */
     public Map<Integer, String> getParamListWithComments(int id, int paramId) throws SQLException {
@@ -579,10 +579,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'listcount'.
+     * Selects a parameter value with type 'listcount'
      * @param id object ID
      * @param paramId param ID
-     * @return a map with key equals value IDs and values counts.
+     * @return a map with key equals value IDs and values counts
      * @throws SQLException
      */
     public Map<Integer, BigDecimal> getParamListCount(int id, int paramId) throws SQLException {
@@ -602,10 +602,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'money'.
+     * Selects a parameter value with type 'money'
      * @param id object ID
      * @param paramId param ID
-     * @return the value or {@code null}.
+     * @return the value or {@code null}
      * @throws SQLException
      */
     public BigDecimal getParamMoney(int id, int paramId) throws SQLException {
@@ -613,10 +613,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'phone'.
+     * Selects a parameter value with type 'phone'
      * @param id object ID
      * @param paramId param ID
-     * @return the value or {@code null}.
+     * @return the value or {@code null}
      * @throws SQLException
      */
     public ParameterPhoneValue getParamPhone(int id, int paramId) throws SQLException {
@@ -648,10 +648,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a value of parameter type 'text'.
+     * Selects a value of parameter type 'text'
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the value
      * @throws SQLException
      */
     public String getParamText(int id, int paramId) throws SQLException {
@@ -659,10 +659,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'tree'.
+     * Selects a parameter value with type 'tree'
      * @param id object ID
      * @param paramId param ID
-     * @return набор значений.
+     * @return set of values
      * @throws SQLException
      */
     public Set<String> getParamTree(int id, int paramId) throws SQLException {
@@ -683,10 +683,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects parameter values with type 'treecount'.
+     * Selects parameter values with type 'treecount'
      * @param id object ID
      * @param paramId param ID
-     * @return map with a key equal to the parameter value ID, and the value - value amount (count).
+     * @return map with a key equal to the parameter value ID, and the value - value amount (count)
      * @throws SQLException
      */
     public Map<String, BigDecimal> getParamTreeCount(int id, int paramId) throws SQLException {
@@ -706,10 +706,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Проверяет заполненость параметра для объекта с кодом id.
+     * Checks whether the parameter is filled for the object with code id
      * @param id object ID
-     * @param param параметр.
-     * @return
+     * @param param the parameter
+     * @return {@code true} if filled
      * @throws Exception
      */
     public boolean isParameterFilled(int id, Parameter param) throws Exception {
@@ -726,8 +726,8 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Переносит параметры при с кода объекта на -код объекта.
-     * Используется при преобразовании не созданного до конца процесса с отрицательным кодом в созданный.
+     * Moves parameters from object code to -object code.
+     * Used when converting a not-fully-created process with a negative code into a created one.
      * @param objectType
      * @param currentObjectId
      * @throws SQLException
@@ -758,9 +758,9 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Loads parameters for {@link ru.bgcrm.model.customer.Customer}, {@link ru.bgcrm.model.process.Process},
-     * {@link ru.bgcrm.model.user.User} or {@link ru.bgcrm.model.param.address.AddressHouse}.
-     * @param object customer or process.
-     * @return
+     * {@link ru.bgcrm.model.user.User} or {@link ru.bgcrm.model.param.address.AddressHouse}
+     * @param object customer or process
+     * @return the parameters map, key - parameter ID
      * @throws SQLException
      */
     public Map<Integer, ParameterValue> parameters(Id object) throws SQLException {
@@ -784,11 +784,11 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Updates, appends and deletes an address parameter value.
-     * @param id - entity ID.
-     * @param paramId - param ID.
-     * @param position - starting from 1 value's position, 0 - appends a value with position MAX+1.
-     * @param value - the value, {@code null} - delete value from the position if {@code position} > 0, else delete all the values.
+     * Updates, appends and deletes an address parameter value
+     * @param id - entity ID
+     * @param paramId - param ID
+     * @param position - starting from 1 value's position, 0 - appends a value with position MAX+1
+     * @param value - the value, {@code null} - delete value from the position if {@code position} > 0, else delete all the values
      * @throws SQLException
      */
     public void updateParamAddress(int id, int paramId, int position, ParameterAddressValue value) throws SQLException {
@@ -908,9 +908,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет строки адресных параметров для дома. Используется после изменений в адресных справочников,
-     * для генерации корректных строк с адресными параметрами.
-     * @param houseId код дома.
+     * Updates address parameter strings for a house. Used after changes in address directories,
+     * to generate correct strings with address parameters.
+     * @param houseId house code
      * @throws SQLException
      */
     public void updateParamsAddressOnHouseUpdate(int houseId) throws SQLException {
@@ -937,7 +937,7 @@ public class ParamValueDAO extends CommonDAO {
      * Updates value for parameter type 'blob'
      * @param id object ID
      * @param paramId param ID
-     * @param value значение, null или пустая строка - удалить значение.
+     * @param value the value, null or empty string - delete the value
      * @throws SQLException
      */
     public void updateParamBlob(int id, int paramId, String value) throws SQLException {
@@ -1464,10 +1464,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Loads parameter's values.
-     * @param paramList parameters list.
-     * @param id entity id.
-     * @param offEncryption decrypt pseudo encrypted values.
+     * Loads parameter's values
+     * @param paramList parameters list
+     * @param id entity id
+     * @param offEncryption decrypt pseudo encrypted values
      * @throws SQLException
      */
     public List<ParameterValue> loadParameters(List<Parameter> paramList, int id, boolean offEncryption) throws SQLException {
@@ -1497,11 +1497,11 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Loads parameters for a type.
-     * @param paramMap target map.
-     * @param type type.
-     * @param ids IDs.
-     * @param objectId object ID.
+     * Loads parameters for a type
+     * @param paramMap target map
+     * @param type type
+     * @param ids IDs
+     * @param objectId object ID
      * @throws SQLException
      */
     @SuppressWarnings("unchecked")
@@ -1643,11 +1643,11 @@ public class ParamValueDAO extends CommonDAO {
     // DEPRECATED
 
     /**
-     * Selects a value for parameter type 'email'.
+     * Selects a value for parameter type 'email'
      * @param id object ID
      * @param paramId param ID
-     * @param position param value position.
-     * @return
+     * @param position param value position
+     * @return the value
      * @throws SQLException
      */
     @Deprecated
@@ -1673,10 +1673,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'list' с наименованиями значений.
+     * Selects a parameter value with type 'list' with value titles
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the values
      * @throws SQLException
      */
     @Deprecated
@@ -1688,10 +1688,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'list' с наименованиями значений и примечаниями.
+     * Selects a parameter value with type 'list' with value titles and comments
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the values
      * @throws SQLException
      */
     @Deprecated
@@ -1724,10 +1724,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Selects a parameter value with type 'listcount' с наименованиями значений.
+     * Selects a parameter value with type 'listcount' with value titles
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the values
      * @throws SQLException
      */
     @Deprecated
@@ -1760,10 +1760,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Значения параметра объекта типа 'tree' с текстовыми наименованиями.
+     * Values of an object's parameter with type 'tree' with text titles
      * @param id object ID
      * @param paramId param ID
-     * @return
+     * @return the values
      * @throws SQLException
      */
     @Deprecated
@@ -1811,7 +1811,7 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Использовать {@link #updateParamListCount(int, int, Map)}.
+     * Use {@link #updateParamListCount(int, int, Map)}
      */
     @Deprecated
     public void updateParamListCount(int id, int paramId, Map<Integer, Double> values, Map<Integer, String> valuesComments) throws SQLException {

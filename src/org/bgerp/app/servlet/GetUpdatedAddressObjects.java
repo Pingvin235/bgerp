@@ -23,9 +23,9 @@ import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.util.sql.SQLUtils;
 
 /**
- * Сервлет позволяет получить из информацию об адресах из БД
- * (страны, города, районы, кварталы, улицы и дома),
- * измененные после определенной даты.
+ * Servlet for getting address information from the DB
+ * (countries, cities, areas, quarters, streets and houses),
+ * changed after a specific date
  */
 public class GetUpdatedAddressObjects extends BaseServlet {
     public GetUpdatedAddressObjects() {
@@ -55,8 +55,8 @@ public class GetUpdatedAddressObjects extends BaseServlet {
         Connection con = setup.getDBConnectionFromPool();
         try {
             AddressDAO addressDAO = new AddressDAO(con);
-            //если не заданы конкретные города
-            //выбираем все объекты согласно времени time
+            // if no specific cities are set
+            // select all objects according to time
             int[] citiesId = null;
             int[] countriesId = null;
             if (selectedCities != null) {
@@ -153,7 +153,7 @@ public class GetUpdatedAddressObjects extends BaseServlet {
                 record.setAttribute("postIndex", house.getPostIndex());
                 record.setAttribute("comment", house.getComment());
 
-                // для совместимости с синхронизатором биллинга
+                // for compatibility with the billing synchronizer
                 house.getConfig().put("s.box.index", house.getPostIndex());
 
                 addConfigElements(record, document, house.getConfig());

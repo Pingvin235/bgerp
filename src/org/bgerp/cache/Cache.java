@@ -11,7 +11,7 @@ import org.apache.commons.lang3.time.DateUtils;
  */
 public abstract class Cache<C extends Cache<C>> {
     /**
-     * Creation time.
+     * Creation time
      */
     private final Date created = new Date();
 

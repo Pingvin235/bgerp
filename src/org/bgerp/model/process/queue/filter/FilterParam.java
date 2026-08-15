@@ -89,7 +89,7 @@ public class FilterParam extends Filter {
                         joinPart.append(" AS " + quarterAlias + " ON " + houseAlias + ".quarter_id="
                                 + quarterAlias + ".id AND" + quarterAlias + ".id=" + quarterId);
                     } else if (Utils.notBlankString(quarter)) {
-                        //TODO: Сделать по запросу.
+                        // TODO: implement on request
                     }
 
                     if (streetId > 0) {
@@ -105,7 +105,7 @@ public class FilterParam extends Filter {
                     }
 
                     Runnable addStreetJoin = () -> {
-                        // JOIN может быть уже добавлен фильтром по названию улицы
+                        // JOIN might already be added by the street name filter
                         if (!joinPart.toString().contains(streetAlias)) {
                             joinPart.append(SQL_INNER_JOIN);
                             joinPart.append(TABLE_ADDRESS_STREET);
@@ -116,11 +116,11 @@ public class FilterParam extends Filter {
                     if (streetId <= 0 && quarterId <= 0) {
                         if (cityId > 0) {
                             addStreetJoin.run();
-                            // добавка к фильтру по названию улицы
+                            // addition to the street name filter
                             joinPart.append(" AND " + streetAlias + ".city_id=" + cityId);
                         } else if (Utils.notBlankString(city)) {
                             addStreetJoin.run();
-                            // добавка джойна города
+                            // addition of the city join
                             joinPart.append(SQL_INNER_JOIN);
                             joinPart.append(TABLE_ADDRESS_CITY);
                             joinPart.append(" AS " + cityAlias + " ON " + cityAlias + ".id=" + streetAlias +

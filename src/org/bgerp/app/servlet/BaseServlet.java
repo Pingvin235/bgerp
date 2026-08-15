@@ -26,7 +26,7 @@ public class BaseServlet extends HttpServlet {
 
     protected void putDocumentToResponse(HttpServletResponse response, Document document) throws TransformerFactoryConfigurationError {
         response.setContentType("text/xml");
-        // переносим данные в объект response
+        // transfer data to the response object
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();

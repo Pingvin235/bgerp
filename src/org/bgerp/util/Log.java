@@ -8,7 +8,7 @@ import org.apache.logging.log4j.util.StackLocatorUtil;
 import org.bouncycastle.util.Arrays;
 
 /**
- * Logging wrapper around Log4j version 1 with additional functions from version 2.
+ * Logging wrapper around Log4j version 1 with additional functions from version 2
  *
  * @author Shamil Vakhitov
  */
@@ -17,8 +17,8 @@ public class Log {
     public static final String MSG_WS_CREATE_NEW_INSTANCE_INSTEAD = " Create a new instance using 'new' instead.";
 
     /**
-     * Class connected logger.
-     * @param clazz the class.
+     * Class connected logger
+     * @param clazz the class
      * @return logger configured for {@code clazz}
      */
     public static Log getLog(Class<?> clazz) {
@@ -26,27 +26,27 @@ public class Log {
     }
 
     /**
-     * Using {@link StackLocatorUtil} gets the caller's object and logger for its class.
-     * @return logger configured for the caller object's class.
+     * Using {@link StackLocatorUtil} gets the caller's object and logger for its class
+     * @return logger configured for the caller object's class
      */
     public static Log getLog() {
        return getLog(StackLocatorUtil.getCallerClass(2));
     }
 
     /**
-     * Formats message using pattern with substitutions.
-     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
-     * @param args parameters for replacements in {@code message}.
-     * @return
+     * Formats message using pattern with substitutions
+     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions
+     * @param args parameters for replacements in {@code message}
+     * @return the formatted message
      */
     public static String format(String message, Object... args) {
         return new FormattedMessage(message, args).getFormattedMessage();
     }
 
-    /** Wrapped logger. */
+    /** Wrapped logger */
     private final Logger logger;
 
-    /** Make private later, temporary protected for backward compatible inherited class. */
+    /** Make private later, temporary protected for backward compatible inherited class */
     protected Log(Logger logger) {
         this.logger = logger;
     }
@@ -65,28 +65,28 @@ public class Log {
         log(Level.DEBUG, message, args);
     }
 
-    /** @return is {@link Level#DEBUG} enabled. */
+    /** @return is {@link Level#DEBUG} enabled */
     public boolean isDebugEnabled() {
         return logger.isDebugEnabled();
     }
 
     /**
-     * Executes {@link #log(Priority, String, Object...)} with {@link Level#INFO}.
+     * Executes {@link #log(Priority, String, Object...)} with {@link Level#INFO}
      */
     public void info(String message, Object... args) {
         log(Level.INFO, message, args);
     }
 
     /**
-     * Executes {@link #log(Priority, String, Object...)} with {@link Level#WARN}.
+     * Executes {@link #log(Priority, String, Object...)} with {@link Level#WARN}
      */
     public void warn(String message, Object... args) {
         log(Level.WARN, message, args);
     }
 
     /**
-     * Special warn call for deprecation messages.
-     * @param message the message text pattern.
+     * Special warn call for deprecation messages
+     * @param message the message text pattern
      * @param args
      */
     public void warnd(String message, Object... args) {
@@ -132,31 +132,31 @@ public class Log {
     }
 
     /**
-     * Executes {@link #log(Priority, String, Object...)} with {@link Level#ERROR}.
+     * Executes {@link #log(Priority, String, Object...)} with {@link Level#ERROR}
      */
     public void error(String message, Object... args) {
         log(Level.ERROR, message, args);
     }
 
     /**
-     * Logs error message from {@code e} and stack trace.
-     * @param e the exception.
+     * Logs error message from {@code e} and stack trace
+     * @param e the exception
      */
     public void error(Throwable e) {
         logger.error(e.getMessage(), e);
     }
 
     /**
-     * Logs error message and stack trace.
-     * @param message message text.
-     * @param e exception.
+     * Logs error message and stack trace
+     * @param message message text
+     * @param e exception
      */
     public void error(String message, Throwable e) {
         logger.error(message, e);
     }
 
     /**
-     * Wraps function to {@link Logger}.
+     * Wraps function to {@link Logger}
      * @param level
      * @param message
      */
@@ -165,10 +165,10 @@ public class Log {
     }
 
     /**
-     * Writes log message with possibilities of pattern definitions.
-     * @param level log level.
-     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
-     * @param args parameters for replacements in {@code pattern}.
+     * Writes log message with possibilities of pattern definitions
+     * @param level log level
+     * @param message format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions
+     * @param args parameters for replacements in {@code pattern}
      */
     private final void log(Priority level, String message, Object... args) {
         if (logger.isEnabledFor(level))

@@ -4,7 +4,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.servlet.jsp.GetJsp;
 
 /**
- * JSP report configuration.
+ * JSP report configuration
  */
 public class Report implements GetJsp {
     private final String id;

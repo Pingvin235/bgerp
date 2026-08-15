@@ -10,11 +10,11 @@ import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.user.User;
 
 /**
- * Search types of possible processes.
+ * Search types of possible processes
  */
 public abstract class MessagePossibleProcessSearch extends CommonDAO {
     private final int id;
-    /** Optionally color. */
+    /** Optionally color */
     private final String color;
 
     protected MessagePossibleProcessSearch(int id, ConfigMap configMap) {

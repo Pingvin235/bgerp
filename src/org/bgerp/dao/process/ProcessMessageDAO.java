@@ -24,11 +24,11 @@ public class ProcessMessageDAO extends ProcessDAO {
     }
 
     /**
-     * Searches processes, related to a message using search types from {@link MessagePossibleProcessSearch}.
-     * @param searchResult result list sorted by {@link MessagePossibleProcessSearch} config IDs, {@link Pair#getSecond()} defines type of relation.
-     * @param from message from address.
-     * @param links not {@code null} list with found link objects.
-     * @param open when not {@code null} - filter only opened or closed processes.
+     * Searches processes, related to a message using search types from {@link MessagePossibleProcessSearch}
+     * @param searchResult result list sorted by {@link MessagePossibleProcessSearch} config IDs, {@link Pair#getSecond()} defines type of relation
+     * @param from message from address
+     * @param links not {@code null} list with found link objects
+     * @param open when not {@code null} - filter only opened or closed processes
      * @throws SQLException
      */
     public void searchProcessListForMessage(Pageable<Pair<Process, MessagePossibleProcessSearch>> searchResult, String from, List<ProcessLink> links,

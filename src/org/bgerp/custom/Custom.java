@@ -26,7 +26,7 @@ import org.bgerp.custom.java.CompilerWrapper;
 import org.bgerp.util.Log;
 
 /**
- * Customization manager.
+ * Customization manager
  *
  * @author Shamil Vakhitov
  */
@@ -50,7 +50,7 @@ public class Custom {
     private volatile URLClassLoader classLoader;
 
     /**
-     * Configures custom webapps directory.
+     * Configures custom webapps directory
      * @param catalinaHome
      * @param context
      */
@@ -66,8 +66,8 @@ public class Custom {
     }
 
     /**
-     * Compiles all Java sources in {@link #DIR}/src.
-     * @return null or compilation result.
+     * Compiles all Java sources in {@link #DIR}/src
+     * @return null or compilation result
      */
     public CompilationResult compileJava() throws IOException, BGMessageException {
         if (!DIR_SRC.isDirectory())
@@ -91,7 +91,7 @@ public class Custom {
     }
 
     /**
-     * @return classloader for {@link #JAR} if it was built in the instance.
+     * @return classloader for {@link #JAR} if it was built in the instance
      */
     public URLClassLoader getClassLoader() {
         return classLoader;
@@ -149,7 +149,7 @@ public class Custom {
     }
 
     /**
-     * Collects absolute paths to all java source files.
+     * Collects absolute paths to all java source files
      * @param files
      * @param directory
      */

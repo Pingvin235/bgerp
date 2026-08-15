@@ -3,7 +3,7 @@ package org.bgerp.app.exception;
 import org.bgerp.app.l10n.Localizer;
 
 /**
- * Message exception without localization of the message.
+ * Message exception without localization of the message
  *
  * @author Shamil Vakhitov
  */

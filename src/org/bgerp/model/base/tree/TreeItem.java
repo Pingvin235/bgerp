@@ -175,7 +175,7 @@ public abstract class TreeItem<T, C extends TreeItem<T, C>> implements org.bgerp
     /**
      * Checks is ID set contains the item's ID or ID of any child of it
      * @param ids the IDs
-     * @return
+     * @return {@code true} if the ID set contains the item's ID or ID of any child of it
      */
     public boolean isInPathTo(Set<T> ids) {
         if (ids.contains(this.getId()))

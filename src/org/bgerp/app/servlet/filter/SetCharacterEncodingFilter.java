@@ -21,7 +21,7 @@ public class SetCharacterEncodingFilter implements Filter {
         this.filterConfig = null;
     }
 
-    //TODO: Установка тут кодировки бессмысленна, т.к. она ставится в FormAuthenticator ранее. Разобраться и сделать!
+    //TODO: Setting the encoding here is pointless, since it's already set earlier in FormAuthenticator. Figure it out and fix!
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // Conditionally select and set the character encoding to be used
         if (ignore || (request.getCharacterEncoding() == null)) {

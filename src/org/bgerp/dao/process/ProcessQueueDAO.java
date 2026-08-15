@@ -43,26 +43,26 @@ public class ProcessQueueDAO extends ProcessDAO {
             + TABLE_PROCESS + " AS " + LINKED_PROCESS + " ON pllp.process_id=" + LINKED_PROCESS + ".id";
 
     /**
-     * Constructor without user isolation.
-     * @param con DB connection.
+     * Constructor without user isolation
+     * @param con DB connection
      */
     public ProcessQueueDAO(Connection con) {
         super(con);
     }
 
     /**
-     * Constructor with isolation support.
-     * @param con DB connection.
-     * @param form value of {@link #form}.
+     * Constructor with isolation support
+     * @param con DB connection
+     * @param form value of {@link #form}
      */
     public ProcessQueueDAO(Connection con, DynActionForm form) {
         super(con, form);
     }
 
     /**
-     * Selects processes for a queue's.
+     * Selects processes for a queue's
      * @param searchResult
-     * @param aggregatedValues if not null - aggregated values are stored there.
+     * @param aggregatedValues if not null - aggregated values are stored there
      * @param queue
      * @param form
      * @throws Exception
@@ -167,8 +167,8 @@ public class ProcessQueueDAO extends ProcessDAO {
                 continue;
             }
 
-            // если код параметра между двоеточиями, то указан либо формат либо поле адресного параметра
-            // либо :value для параметра date(time)
+            // if the parameter code is between colons, either a format or an address parameter field is specified
+            // or :value for a date(time) parameter
             int paramId = Utils.parseInt(StringUtils.substringBetween(value, ":"));
             if (paramId <= 0) {
                 continue;
@@ -180,14 +180,14 @@ public class ProcessQueueDAO extends ProcessDAO {
                 continue;
             }
 
-            // это не ошибка, просто параметр не того типа
+            // this isn't an error, the parameter is just of the wrong type
             if (!Parameter.TYPE_ADDRESS.equals(param.getType())) {
                 continue;
             }
 
             String formatName = StringUtils.substringAfterLast(value, ":");
 
-            // это не формат а поле адресного параметра
+            // this isn't a format but an address parameter field
             if (ParamValueSelect.PARAM_ADDRESS_FIELDS.contains(formatName)) {
                 continue;
             }
@@ -284,7 +284,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     typeIds = Utils.toString(filter.getOnEmptyValues());
                 }
 
-                // жёстко заданные типы процессов убраны, т.к. фильтр по типам есть в очереди всегда
+                // hardcoded process types were removed, since there's always a type filter in the queue
 
                 if (Utils.notBlankString(typeIds)) {
                     wherePart.append(" AND process.type_id IN (");
@@ -319,7 +319,7 @@ public class ProcessQueueDAO extends ProcessDAO {
             } else if (f instanceof FilterCustomerParam) {
                 FilterCustomerParam filter = (FilterCustomerParam) f;
 
-                //FIXME: Тут нет проверки, что параметр привязанного контрагента "list".
+                //FIXME: There's no check here that the linked customer's parameter is "list"
 
                 int paramId = filter.getParameter().getId();
 
@@ -478,12 +478,12 @@ public class ProcessQueueDAO extends ProcessDAO {
 
     // TODO: Extract hasAggregateFunctions to a separated method.
     /**
-     * Appends column expression in SQL query.
-     * @param queue queue with columns.
-     * @param selectPart SELECT query part.
-     * @param joinPart JOIN query part.
+     * Appends column expression in SQL query
+     * @param queue queue with columns
+     * @param selectPart SELECT query part
+     * @param joinPart JOIN query part
      * @param aggregate
-     * @return existence of an aggregating function.
+     * @return existence of an aggregating function
      * @throws Exception
      */
     private boolean addColumns(Queue queue, StringBuilder selectPart, StringBuilder joinPart, boolean aggregate) throws Exception {
@@ -502,8 +502,8 @@ public class ProcessQueueDAO extends ProcessDAO {
                     selectPartBuffer.append(aggregateFunction);
                     selectPartBuffer.append("(");
 
-                    // вся это свистопляска с размером нужна, т.к. в случае ошибки в конфигурации
-                    // addColumn не добавляет столбец напрочь
+                    // all this dancing around with the length is needed because, in case of a configuration error,
+                    // addColumn doesn't add the column at all
                     int lengthBefore = selectPartBuffer.length();
 
                     col.addQuery(selectPartBuffer, joinPart);

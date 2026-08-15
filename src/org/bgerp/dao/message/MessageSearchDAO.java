@@ -25,7 +25,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
- * Fluent DAO for message search.
+ * Fluent DAO for message search
  *
  * @author Shamil Vakhitov
  */
@@ -53,9 +53,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by message tag IDs.
+     * Filter by message tag IDs
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withTagIds(Set<Integer> value) {
         this.tagIds = value;
@@ -63,9 +63,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by message tag ID.
-     * @param value positive ID.
-     * @return
+     * Filter by message tag ID
+     * @param value positive ID
+     * @return {@code this}
      */
     public MessageSearchDAO withTagId(int value) {
         if (value > 0)
@@ -74,9 +74,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by linked to message process IDs.
+     * Filter by linked to message process IDs
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withProcessIds(Set<Integer> value) {
         this.processIds = value;
@@ -84,9 +84,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by message type IDs.
+     * Filter by message type IDs
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withTypeIds(Set<Integer> value) {
         this.typeIds = value;
@@ -94,9 +94,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by single type ID.
-     * @param value positive ID.
-     * @return
+     * Filter by single type ID
+     * @param value positive ID
+     * @return {@code this}
      */
     public MessageSearchDAO withTypeId(int value) {
         if (value > 0)
@@ -105,9 +105,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by {@link Message#getDirection()}.
+     * Filter by {@link Message#getDirection()}
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withDirection(Integer value) {
         this.direction = value;
@@ -115,9 +115,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by processed flag.
+     * Filter by processed flag
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withProcessed(Boolean value) {
         this.processed = value;
@@ -125,9 +125,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by {@link Message#getToTime()} not {@code null}.
+     * Filter by {@link Message#getToTime()} not {@code null}
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withRead(Boolean value) {
         this.read = value;
@@ -135,9 +135,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by attachment existence.
+     * Filter by attachment existence
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withAttach(Boolean value) {
         this.attach = value;
@@ -145,9 +145,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * SQL LIKE filter by {@link Message#getFrom()}.
+     * SQL LIKE filter by {@link Message#getFrom()}
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO withFrom(String value) {
         this.from = value;
@@ -155,10 +155,10 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Filter by {@link Message#getFromTime()}, day precision.
-     * @param from from day including.
-     * @param to to day, including.
-     * @return
+     * Filter by {@link Message#getFromTime()}, day precision
+     * @param from from day including
+     * @param to to day, including
+     * @return {@code this}
      */
     public MessageSearchDAO withDateFrom(Date from, Date to) {
         this.dateFrom = new Period(from, to);
@@ -166,9 +166,9 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Adds selection order.
+     * Adds selection order
      * @param value
-     * @return
+     * @return {@code this}
      */
     public MessageSearchDAO order(Order value) {
         orders.add(value);
@@ -176,8 +176,8 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
-     * Executes search.
-     * @param result pageable result.
+     * Executes search
+     * @param result pageable result
      * @throws SQLException
      */
     public void search(Pageable<Message> result) throws SQLException {

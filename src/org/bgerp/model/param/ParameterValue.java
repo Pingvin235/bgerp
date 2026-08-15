@@ -48,7 +48,7 @@ public class ParameterValue {
     }
 
     /**
-     * @return object representation depending on parameter's type.
+     * @return object representation depending on parameter's type
      */
     public Object getValue() {
         return value;
@@ -99,9 +99,9 @@ public class ParameterValue {
     }
 
     /**
-     * Provides {@code src} attribute for HTML {@code img} tag in form of {@code data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA...===}.
-     * @return encoded string or {@code null} if parameter value is also {@code null}.
-     * @throws IllegalArgumentException when parameter type is not 'file'.
+     * Provides {@code src} attribute for HTML {@code img} tag in form of {@code data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUA...===}
+     * @return encoded string or {@code null} if parameter value is also {@code null}
+     * @throws IllegalArgumentException when parameter type is not 'file'
      */
     @SuppressWarnings("unchecked")
     public String getBase64EncodedImgSrc() throws Exception {

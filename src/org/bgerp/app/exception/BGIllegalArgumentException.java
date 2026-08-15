@@ -1,7 +1,7 @@
 package org.bgerp.app.exception;
 
 /**
- * Incorrect action parameters.
+ * Incorrect action parameters
  *
  * @author Shamil Vakhitov
  */
@@ -13,7 +13,7 @@ public class BGIllegalArgumentException extends BGMessageException {
     }
 
     /**
-     * Constructor with parameter name.
+     * Constructor with parameter name
      * @param name
      */
     public BGIllegalArgumentException(String name) {
@@ -22,8 +22,7 @@ public class BGIllegalArgumentException extends BGMessageException {
     }
 
     /**
-     * First failing parameter name = name of HTML form input.
-     * @return
+     * @return first failing parameter name = name of HTML form input
      */
     public String getName() {
         return name;

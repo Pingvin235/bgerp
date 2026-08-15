@@ -13,15 +13,15 @@ import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.util.Utils;
 
 /**
- * Process execution groups.
+ * Process execution groups
  *
  * @author Shamil Vakhitov
  */
 public class ProcessGroups extends TreeSet<ProcessGroup> {
     /**
-     * Converts array of IDs groupId:roleId.
+     * Converts array of IDs groupId:roleId
      * @param array
-     * @return
+     * @return process groups
      */
     public static ProcessGroups of(String[] array) {
         ProcessGroups result = new ProcessGroups();
@@ -50,9 +50,9 @@ public class ProcessGroups extends TreeSet<ProcessGroup> {
     }
 
     /**
-     * Converts list of ID with titles.
+     * Converts list of ID with titles
      * @param list
-     * @return
+     * @return process groups
      */
     public static ProcessGroups of(List<IdTitle> list) {
         ProcessGroups result = new ProcessGroups();
@@ -85,22 +85,22 @@ public class ProcessGroups extends TreeSet<ProcessGroup> {
     }
 
     /**
-     * @return group IDs.
+     * @return group IDs
      */
     public Set<Integer> getGroupIds() {
         return stream().map(ProcessGroup::getGroupId).collect(Collectors.toSet());
     }
 
     /**
-     * @return role IDs.
+     * @return role IDs
      */
     public Set<Integer> getRoleIds() {
         return stream().map(ProcessGroup::getRoleId).collect(Collectors.toSet());
     }
 
     /**
-     * Set of concatenated IDs from {@code groupId + ':' + roleId.}
-     * @return
+     * Set of concatenated IDs from {@code groupId + ':' + roleId}
+     * @return set of concatenated group and role IDs
      */
     @Dynamic
     public Set<String> getGroupRoleIds() {

@@ -32,9 +32,9 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class ExecuteSQL extends CommonDAO implements InstallationCall {
     private static final Log log = Log.getLog();
 
-    /** Table for storing applied SQL updates. */
+    /** Table for storing applied SQL updates */
     private static final String TABLE_DB_UPDATE = "db_update_log";
-    /** Column with query hash. */
+    /** Column with query hash */
     private static final String HASH_COLUMN = "query_hash";
 
     public static void clearHashes() throws SQLException {
@@ -73,9 +73,9 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
     }
 
     /**
-     * Executes multiline SQL script.
-     * @param con connection.
-     * @param query SQL script, tokenized to commands by {@code ;}.
+     * Executes multiline SQL script
+     * @param con connection
+     * @param query SQL script, tokenized to commands by {@code ;}
      * @throws SQLException
      */
     public void call(Connection con, String query) throws SQLException {
@@ -87,9 +87,9 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
     }
 
     /**
-     * Executes SQL commands.
-     * @param con DB connection.
-     * @param queries query file lines.
+     * Executes SQL commands
+     * @param con DB connection
+     * @param queries query file lines
      * @throws SQLException
      */
     private void executeSqlCommands(Connection con, String[] queries) throws SQLException {
@@ -139,12 +139,12 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
     }
 
     /**
-     * Executes SQL query.
-     * @param st SQL statement, running the query.
-     * @param query the query.
-     * @param useHash use executed query hash to prevent re-execution.
-     * @param existingHashes hashes of already applied queries.
-     * @param newHashes set there added hash of executed {@code query} if it wasn't presented in {@code hashes}.
+     * Executes SQL query
+     * @param st SQL statement, running the query
+     * @param query the query
+     * @param useHash use executed query hash to prevent re-execution
+     * @param existingHashes hashes of already applied queries
+     * @param newHashes set there added hash of executed {@code query} if it wasn't presented in {@code hashes}
      * @throws SQLException
      */
     protected void doQuery(Statement st, String query, boolean useHash, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
@@ -171,9 +171,9 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
     }
 
     /**
-     * Loads applied query hashes.
-     * @param con SQL connection.
-     * @return set with hashes.
+     * Loads applied query hashes
+     * @param con SQL connection
+     * @return set with hashes
      * @throws SQLException
      */
     protected Set<String> getQueryHashes(Connection con) throws SQLException {
@@ -202,9 +202,9 @@ public class ExecuteSQL extends CommonDAO implements InstallationCall {
     }
 
     /**
-     * Stores executed queries hashes.
-     * @param con SQL connection.
-     * @param hashes set with hashes.
+     * Stores executed queries hashes
+     * @param con SQL connection
+     * @param hashes set with hashes
      * @throws SQLException
      */
     @VisibleForTesting

@@ -62,7 +62,7 @@ public class AuthResult {
     }
 
     /**
-     * Execute JEXL update expression in case of {@link #isSuccess()} and {@link #hasUpdateExpression()}
+     * Executes JEXL update expression in case of {@link #isSuccess()} and {@link #hasUpdateExpression()}
      * @param con DB connection
      * @param user the user
      */

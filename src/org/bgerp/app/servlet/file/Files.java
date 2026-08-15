@@ -25,7 +25,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * Files accessor, allowing to see and remove directory files.
+ * Files accessor, allowing to see and remove directory files
  *
  * @author Shamil Vakhitov
  */
@@ -53,34 +53,29 @@ public class Files {
     }
 
     /**
-     * Unique string ID of the files set.
-     * Used for generation action names.
-     * @return
+     * @return unique string ID of the files set, used for generation action names
      */
     public String getId() {
         return id;
     }
 
     /**
-     * Options.
-     * @return
+     * @return the options
      */
     public Options getOptions() {
         return options;
     }
 
     /**
-     * File download permission action for checking it using ctxUser.checkPerm().
-     * @return
-    */
+     * @return file download permission action for checking it using ctxUser.checkPerm()
+     */
     public String getDownloadPermissionAction() {
         return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("download");
     }
 
     /**
-     * File download URL, e.g.: '/admin/app.do?method=downloadLogUpdate'.
+     * @return file download URL, e.g.: '/admin/app.do?method=downloadLogUpdate'.
      * A {@code name} param has to be added at the end.
-     * @return
      */
     public String getDownloadURL() {
         return
@@ -99,17 +94,15 @@ public class Files {
     }
 
     /**
-     * File deletion permission action for checking it using ctxUser.checkPerm().
-     * @return
-    */
+     * @return file deletion permission action for checking it using ctxUser.checkPerm()
+     */
     public String getDeletePermissionAction() {
         return Actions.getByClass(actionClass).getId() + ":" + getActionMethod("delete");
     }
 
     /**
-     * File deletion URL, e.g.: '/admin/app.do?method=deleteLogUpdate'.
+     * @return file deletion URL, e.g.: '/admin/app.do?method=deleteLogUpdate'.
      * A {@code name} param has to be added at the end.
-     * @return
      */
     public String getDeleteURL() {
         return
@@ -122,8 +115,7 @@ public class Files {
     }
 
     /**
-     * List of files matching {@link #fileFilter} sorted accordingly {@link Options#getOrder()}
-     * @return
+     * @return list of files matching {@link #fileFilter} sorted accordingly {@link Options#getOrder()}
      */
     public List<File> list() {
         File basedir = this.basedir.toFile();

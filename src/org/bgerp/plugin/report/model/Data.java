@@ -30,8 +30,8 @@ public class Data extends Pageable<Record> {
     }
 
     /**
-     * Report's action.
-     * @return
+     * Report's action
+     * @return the report's action
      */
     public ReportActionBase getAction() {
         return action;
@@ -46,8 +46,8 @@ public class Data extends Pageable<Record> {
     }
 
     /**
-     * Adds a new record and returns it.
-     * @return
+     * Adds a new record and returns it
+     * @return the added record
      */
     public Record addRecord() {
         final var result = new Record(this);
@@ -56,7 +56,7 @@ public class Data extends Pageable<Record> {
     }
 
     /**
-     * Adds a new record out of current row of a result set.
+     * Adds a new record out of current row of a result set
      * @param rs
      * @throws SQLException
      */

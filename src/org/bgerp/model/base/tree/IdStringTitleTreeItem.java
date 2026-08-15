@@ -9,7 +9,7 @@ import ru.bgcrm.util.Utils;
 
 public class IdStringTitleTreeItem extends TreeItem<String, IdStringTitleTreeItem> {
     /**
-     * Comparator items by keys.
+     * Comparator items by keys
      */
     public static Comparator<IdStringTitleTreeItem> COMPARATOR = (a, b) -> {
         Iterator<Integer> idsA = a.getIds().iterator();
@@ -61,7 +61,7 @@ public class IdStringTitleTreeItem extends TreeItem<String, IdStringTitleTreeIte
         this.title = title;
     }
 
-    // TODO: The method is used for keys ordering, but only on a single place.
+    // TODO: The method is used for keys ordering, but only on a single place
     public List<Integer> getIds() {
         return ids;
     }

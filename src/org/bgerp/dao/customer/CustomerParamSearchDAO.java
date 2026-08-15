@@ -17,7 +17,7 @@ import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.util.Utils;
 
 /**
- * Fluent DAO for selection customers by parameter values.
+ * Fluent DAO for selection customers by parameter values
  *
  * @author Shamil Vakhitov
  */
@@ -44,8 +44,8 @@ public class CustomerParamSearchDAO extends CommonDAO {
     }
 
     /**
-     * Queries customers with param values.
-     * @param result pageable result.
+     * Queries customers with param values
+     * @param result pageable result
      * @throws SQLException
      */
     public void search(Pageable<ParameterSearchedObject<Customer>> result) throws SQLException {

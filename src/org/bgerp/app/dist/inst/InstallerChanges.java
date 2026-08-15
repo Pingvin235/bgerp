@@ -26,7 +26,7 @@ import com.google.common.annotations.VisibleForTesting;
 import ru.bgcrm.util.Utils;
 
 /**
- * Parse changes info out of NGINX directory listing HTML.
+ * Parse changes info out of NGINX directory listing HTML
  *
  * @author Shamil Vakhitov
  */
@@ -52,9 +52,9 @@ public class InstallerChanges {
     }
 
     /**
-     * Constructor downloads update files from {@link #UPDATE_TO_CHANGE_URL} / {@param changeId}
+     * Constructor downloads update files from {@link #UPDATE_TO_CHANGE_URL} / {@param changeId}.
      * The names of this files are available after with {@link #getUpdateFiles()}.
-     * @param changeId string with directory name.
+     * @param changeId string with directory name
      * @throws IOException
      * @throws URISyntaxException
      */
@@ -105,23 +105,21 @@ public class InstallerChanges {
     }
 
     /**
-     * Changes list. Each {@link IdStringTitle} has numeric change ID and ID plus file modification time in title.
-     * @return
+     * @return changes list, each {@link IdStringTitle} has numeric change ID and ID plus file modification time in title
      */
     public List<Change> getChanges() {
         return changes;
     }
 
     /**
-     * Update ZIP files, stored in {@link Utils#getTmpDir()}
-     * @return
+     * @return update ZIP files, stored in {@link Utils#getTmpDir()}
      */
     public List<String> getUpdateFiles() {
         return updateFiles;
     }
 
     /**
-     * Change info.
+     * Change info
      */
     public static class Change extends IdStringTitle {
         private final Date time;

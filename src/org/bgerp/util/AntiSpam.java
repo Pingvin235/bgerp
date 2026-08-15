@@ -11,22 +11,22 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class AntiSpam {
-    /** Maximum timeout in milliseconds. */
+    /** Maximum timeout in milliseconds */
     private final long timeout;
 
     private volatile String lastIp;
     private volatile long lastTime;
 
     /**
-     * Constructor.
-     * @param timeout - timeout in milliseconds.
+     * Constructor
+     * @param timeout - timeout in milliseconds
      */
     public AntiSpam(long timeout) {
         this.timeout = timeout;
     }
 
     /**
-     * Constructor.
+     * Constructor
      * @param timeout
      */
     public AntiSpam(Duration timeout) {
@@ -34,9 +34,9 @@ public class AntiSpam {
     }
 
     /**
-     * How many milliseconds wait until next request from the IP.
-     * @param ip IP address.
-     * @return
+     * How many milliseconds wait until next request from the IP
+     * @param ip IP address
+     * @return milliseconds to wait until the next request from the IP is allowed
      */
     public long getWaitTimeout(String ip) {
         if (Utils.isBlankString(ip))

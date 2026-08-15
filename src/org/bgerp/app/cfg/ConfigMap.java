@@ -22,7 +22,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.util.Utils;
 
 /**
- * Key - value strings map.
+ * Key - value strings map
  *
  * @author Shamil Vakhitov
  */
@@ -37,7 +37,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     private static final Class<?>[] CONFIG_CONSTR_ARGS = new Class[] { ConfigMap.class };
 
     /**
-     * Parsed configurations.
+     * Parsed configurations
      */
     private volatile ConcurrentHashMap<Class<?>, Config> configMap;
 
@@ -51,11 +51,11 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves by key value with support of old keys.
-     * @param def default value.
-     * @param validate throw an exception on using old keys.
-     * @param keys first key is the actual one, after - olds.
-     * @return
+     * Retrieves by key value with support of old keys
+     * @param def default value
+     * @param validate throw an exception on using old keys
+     * @param keys first key is the actual one, after - olds
+     * @return the found value, or {@code def} if none of the keys are set
      * @throws BGMessageException
      */
     public String getSok(String def, boolean validate, String... keys) throws BGMessageException {
@@ -78,9 +78,9 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves by key value with support of old keys.
-     * @param keys first key is the actual one, after - olds.
-     * @return
+     * Retrieves by key value with support of old keys
+     * @param keys first key is the actual one, after - olds
+     * @return the found value, or {@code null} if none of the keys are set
      */
     public String getSok(String... keys) {
         try {
@@ -123,22 +123,22 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves by key value with support of old keys.
-     * @param def default value.
-     * @param validate throw an exception on using old keys.
-     * @param keys first key is the actual one, after - olds.
-     * @return
+     * Retrieves by key value with support of old keys
+     * @param def default value
+     * @param validate throw an exception on using old keys
+     * @param keys first key is the actual one, after - olds
+     * @return the found value, or {@code def} if none of the keys are set
      * @throws BGMessageException
      */
     public long getSokLong(long def, boolean validate, String... keys) throws BGMessageException {
         return Utils.parseLong(getSok(String.valueOf(def), validate, keys), def);
     }
 
-   /**
-     * Retrieves by key value with support of old keys.
-     * @param def default value.
-     * @param keys first key is the actual one, after - olds.
-     * @return
+    /**
+     * Retrieves by key value with support of old keys
+     * @param def default value
+     * @param keys first key is the actual one, after - olds
+     * @return the found value, or {@code def} if none of the keys are set
      */
     public long getSokLong(long def, String... keys) {
         try {
@@ -149,9 +149,9 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves by key a boolean value with default {@code false}.
-     * @param key the key.
-     * @return
+     * Retrieves by key a boolean value with default {@code false}
+     * @param key the key
+     * @return the found value, or {@code false} if not set
      * @see #getBoolean(String, boolean)
      */
     public final boolean getBoolean(String key) {
@@ -159,10 +159,10 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves by key a boolean value.
-     * @param key the key.
-     * @param defaultValue default value.
-     * @return
+     * Retrieves by key a boolean value
+     * @param key the key
+     * @param defaultValue default value
+     * @return the found value, or {@code defaultValue} if not set
      * @see Utils#parseBoolean(String, Boolean)
      */
     public final boolean getBoolean(String key, boolean defaultValue) {
@@ -170,11 +170,11 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves by key value with support of old keys.
-     * @param def default value.
-     * @param validate throw an exception on using old keys.
-     * @param keys first key is the actual one, after - olds.
-     * @return
+     * Retrieves by key value with support of old keys
+     * @param def default value
+     * @param validate throw an exception on using old keys
+     * @param keys first key is the actual one, after - olds
+     * @return the found value, or {@code def} if none of the keys are set
      * @throws BGMessageException
      */
     public boolean getSokBoolean(boolean def, boolean validate, String... keys) throws BGMessageException {
@@ -182,10 +182,10 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves by key value with support of old keys.
-     * @param def default value.
-     * @param keys first key is the actual one, after - olds.
-     * @return
+     * Retrieves by key value with support of old keys
+     * @param def default value
+     * @param keys first key is the actual one, after - olds
+     * @return the found value, or {@code def} if none of the keys are set
      */
     public boolean getSokBoolean(boolean def, String... keys) {
         try {
@@ -381,8 +381,8 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     /**
      * Creates if needed and gets pre parsed and cached configuration.
      * Cache key - the class object of the configuration.
-     * @param clazz the configuration class.
-     * @return
+     * @param clazz the configuration class
+     * @return the configuration instance, or {@code null} if it couldn't be created
      */
     @SuppressWarnings("unchecked")
     public final <K extends Config> K getConfig(final Class<K> clazz) {
@@ -410,10 +410,10 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Same with {@link #getConfig(Class)}, but with string parameter for calling from scripts.
-     * The method is less recommended as {@link #getConfig(Class)}, which is checked by compiler.
-     * @param className the full class name.
-     * @return
+     * Gets or creates the cached configuration for a class given by name, for calling from scripts.
+     * Less recommended than {@link #getConfig(Class)}, which is checked by the compiler.
+     * @param className the full class name
+     * @return the configuration instance, or {@code null} if it couldn't be created
      */
     @SuppressWarnings("unchecked")
     @Dynamic
@@ -427,7 +427,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Removes config from cache.
+     * Removes config from cache
      * @param <K>
      * @param clazz
      */
@@ -436,14 +436,14 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Clears all the parsed configurations from {@link #configMap}.
+     * Clears all the parsed configurations from {@link #configMap}
      */
     protected void clearConfigs() {
         configMap = null;
     }
 
     /**
-     * Creates a configuration for validation purposes only..
+     * Creates a configuration for validation purposes only
      * @param clazz
      */
     public final <K extends Config> void validateConfig(final Class<K> clazz) throws BGMessageException {
@@ -458,11 +458,11 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Creates a configuration.
+     * Creates a configuration
      * @param <K>
      * @param clazz
-     * @param validate run validation.
-     * @return
+     * @param validate run validation
+     * @return the created configuration, or {@code null} if initialization was stopped
      * @throws Exception
      */
     private <K extends Config> K createConfig(final Class<K> clazz, boolean validate) throws Exception {

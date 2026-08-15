@@ -27,7 +27,7 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.util.Utils;
 
 /**
- * Java compiler wrapper.
+ * Java compiler wrapper
  *
  * @author Kirill Berezin
  * @author Kirill Sergeev
@@ -70,10 +70,10 @@ public class CompilerWrapper {
     }
 
     /**
-     * Компилирует поданные исходники
+     * Compiles the given sources
      *
-     * @param srcFiles список полных путей к файлам
-     * @return пара: результат компиляции и список скомпилированных файлов
+     * @param srcFiles list of full paths to files
+     * @return pair: compilation result and list of compiled files
      */
     public Pair<CompilationResult, List<CompiledUnit>> compile(List<String> srcFiles) {
         String encoding = Setup.getSetup().get("custom.src.encoding", StandardCharsets.UTF_8.name());
@@ -122,17 +122,17 @@ public class CompilerWrapper {
     }
 
     /**
-     * Получает список объектов с информацией о скомпилированных файлах, лежащих в
-     * указанной директории.
+     * Gets a list of objects with information about compiled files located in
+     * the specified directory
      *
      * @param directory
-     * @return
+     * @return the list
      */
     private List<CompiledUnit> compiledFiles(File directory) {
         List<CompiledUnit> result = new ArrayList<>();
 
         for (File tmpdirFile : directory.listFiles()) {
-            // если файл (а не папка), добавляем его данные в список
+            // if it's a file (not a directory), add its data to the list
             if (tmpdirFile.isFile()) {
                 File compiledFile = tmpdirFile;
                 String filePath = compiledFile.getAbsolutePath();
@@ -148,7 +148,7 @@ public class CompilerWrapper {
                 unit.srcFile = getClassSrc(className);
                 result.add(unit);
             }
-            // если папка, то проверяем ее содержимое
+            // if it's a directory, check its contents
             else if (tmpdirFile.isDirectory()) {
                 result.addAll(compiledFiles(tmpdirFile));
             }
@@ -162,7 +162,7 @@ public class CompilerWrapper {
     }
 
     /*
-     * удаляет директорию outputdir, в которой находятся скомпилированные файлы
+     * deletes the outputDir directory, which contains the compiled files
      */
     public void deleteClassDir() {
         if (outputDir != null && outputDir.exists()) {

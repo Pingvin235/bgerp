@@ -1,7 +1,7 @@
 package org.bgerp.util.log;
 
 /**
- * Inherited Logger for access the parent's constructor only.
+ * Inherited Logger for access the parent's constructor only
  *
  * @author Shamil Vakhitov
  */

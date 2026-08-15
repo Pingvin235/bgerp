@@ -75,10 +75,10 @@ public class UserCache extends Cache<UserCache> {
     }
 
     /**
-     * Gets user permission for an action.
-     * @param userId the user ID.
-     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}.
-     * @return allowed permission with options or {@code null}.
+     * Gets user permission for an action
+     * @param userId the user ID
+     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}
+     * @return allowed permission with options or {@code null}
      */
     public static ConfigMap getPerm(final int userId, String action) {
         final User user = getUser(userId);
@@ -131,7 +131,7 @@ public class UserCache extends Cache<UserCache> {
     }
 
     /**
-     * Users with status not {@link User#STATUS_DISABLED}.
+     * Users with status not {@link User#STATUS_DISABLED}
      * @return unordered collection
      */
     public static Collection<User> getActiveUsers() {
@@ -171,9 +171,9 @@ public class UserCache extends Cache<UserCache> {
     }
 
     /**
-     * Provides full list of groups with for a role with IDs concatenated from group ID and role ID.
+     * Provides full list of groups with for a role with IDs concatenated from group ID and role ID
      * @param roleId
-     * @return
+     * @return the list
      */
     @Dynamic
     public static List<IdStringTitle> getUserGroupRoleFullTitledList(int roleId) {
@@ -232,7 +232,7 @@ public class UserCache extends Cache<UserCache> {
     }
 
     /**
-     * @return alphabetically sorted list with all permission sets.
+     * @return alphabetically sorted list with all permission sets
      */
     public static List<Permset> getUserPermsetList() {
         return HOLDER.getInstance().userPermsetList;
@@ -307,7 +307,7 @@ public class UserCache extends Cache<UserCache> {
                 }
             }
 
-            // группы
+            // groups
             result.userGroupList = groupDAO.getGroupList();
 
             result.userGroupMap = new HashMap<>(result.userGroupList.size());
@@ -327,10 +327,10 @@ public class UserCache extends Cache<UserCache> {
                 result.userGroupFullTitledMap.put(group.getId(), group);
             }
 
-            //привязки пользователей и групп
+            // user-to-group bindings
             result.userGroupListsMap = userDAO.getAllUserGroups();
 
-            // наборы прав
+            // permission sets
             result.userPermsetList = permsetDAO.getPermsetList();
 
             result.userPermsetMap = new HashMap<>(result.userPermsetList.size());
@@ -338,7 +338,7 @@ public class UserCache extends Cache<UserCache> {
                 result.userPermsetMap.put(permset.getId(), permset);
             }
 
-            // сбор свойств пользователей из групп и наборов прав
+            // collecting user properties from groups and permission sets
             final Map<Integer, List<Integer>> allUserPermsetIds = userDAO.getAllUserPermsetIds();
             final Map<Integer, Set<Integer>> allUserQueueIds = userDAO.getAllUserQueueIds();
 
@@ -362,7 +362,7 @@ public class UserCache extends Cache<UserCache> {
                     user.setGroupIds(getActualUserGroupIdSet(new Date(), ugList));
                 }
 
-                // действующие группы пользователя
+                // user's active groups
                 final List<Group> userGroupList = new ArrayList<>();
                 for (final Group group : result.userGroupList) {
                     if (user.getGroupIds().contains(group.getId())) {
@@ -370,23 +370,23 @@ public class UserCache extends Cache<UserCache> {
                     }
                 }
 
-                // действующие наборы прав пользователя
+                // user's active permission sets
                 final List<Integer> userPermsetIds = new ArrayList<>();
-                // сначала собираются все наборы групп в порядке алфавита, установленных у пользователя
-                // наборы в каждой группе установлены в определённом порядке
+                // first, all group permission sets are collected, in the alphabetical order the groups are set for the user
+                // permission sets within each group are set in a specific order
                 for (final Group group : userGroupList) {
                     final List<Integer> groupPermsetIds = allGroupPermsetIds.get(group.getId());
                     if (groupPermsetIds != null) {
                         userPermsetIds.addAll(groupPermsetIds);
                     }
                 }
-                // далее - наборы из пользователя в порядке установки
+                // next - the user's own permission sets, in the order they were set
                 userPermsetIds.addAll(user.getPermsetIds());
 
-                // склеенная конфигурация наборов прав
+                // concatenated configuration of permission sets
                 final StringBuilder permsetConfig = new StringBuilder(500);
 
-                // сбор прав, ролей и конфигураций из действующих наборов пользователя
+                // collecting permissions, roles and configurations from the user's active permission sets
                 for (final Integer permsetId : userPermsetIds) {
                     final Map<String, ConfigMap> permsetPermMap = allPermsetPermById.get(permsetId);
                     if (permsetPermMap != null) {
@@ -402,7 +402,7 @@ public class UserCache extends Cache<UserCache> {
                     }
                 }
 
-                // склеенная конфигурация групп
+                // concatenated configuration of groups
                 final StringBuilder groupConfig = new StringBuilder(500);
 
                 for (final Group group : userGroupList) {
@@ -411,13 +411,13 @@ public class UserCache extends Cache<UserCache> {
 
                 user.setConfig(permsetConfig.toString() + groupConfig.toString() + user.getConfig());
 
-                // персональные права
+                // personal permissions
                 final Map<String, ConfigMap> personalPermMap = allUserPermById.get(user.getId());
                 if (personalPermMap != null) {
                     perm.putAll(personalPermMap);
                 }
 
-                // очереди процессов из групп
+                // process queues from groups
                 for (final Integer groupId : user.getGroupIds()) {
                     final Set<Integer> groupQueueIds = allGroupQueueIds.get(groupId);
                     if (groupQueueIds != null) {
@@ -448,9 +448,9 @@ public class UserCache extends Cache<UserCache> {
     }
 
     /**
-     * Sets primary actions for all sub-maps, stored by IDs.
-     * @param permMapById key - some ID, value - permission map with obitary keys.
-     * @return modified {@code permMapById}.
+     * Sets primary actions for all sub-maps, stored by IDs
+     * @param permMapById key - some ID, value - permission map with obitary keys
+     * @return modified {@code permMapById}
      */
     private Map<Integer, Map<String, ConfigMap>> primaryActions(final Map<Integer, Map<String, ConfigMap>> permMapById) {
         for (final var me : permMapById.entrySet())

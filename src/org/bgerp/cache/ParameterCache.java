@@ -36,9 +36,9 @@ public class ParameterCache extends Cache<ParameterCache> {
     }
 
     /**
-     * Parameters for {@code objectType}, position sorted.
+     * Parameters for {@code objectType}, position sorted
      * @param objectType {@link ru.bgcrm.model.process.Process#OBJECT_TYPE}, {@link ru.bgcrm.model.customer.Customer#OBJECT_TYPE}, {@link ru.bgcrm.model.user.User#OBJECT_TYPE}, {@link ru.bgcrm.model.param.address.AddressHouse#OBJECT_TYPE}
-     * @return
+     * @return the parameters
      */
     @Dynamic
     public static List<Parameter> getObjectTypeParameterList(String objectType) {
@@ -47,9 +47,9 @@ public class ParameterCache extends Cache<ParameterCache> {
 
 
     /**
-     * Parameters for {@code objectType}, position sorted.
+     * Parameters for {@code objectType}, position sorted
      * @param objectType {@link ru.bgcrm.model.process.Process#OBJECT_TYPE}, {@link ru.bgcrm.model.customer.Customer#OBJECT_TYPE}, {@link ru.bgcrm.model.user.User#OBJECT_TYPE}, {@link ru.bgcrm.model.param.address.AddressHouse#OBJECT_TYPE}
-     * @return
+     * @return the parameters
      */
     public static List<Parameter> getObjectTypeParameterList(String objectType, int parameterGroupId) {
         List<Parameter> result = new ArrayList<>();
@@ -72,9 +72,9 @@ public class ParameterCache extends Cache<ParameterCache> {
     }
 
     /**
-     * Parameter IDs for {@code objectType}, position sorted.
+     * Parameter IDs for {@code objectType}, position sorted
      * @param objectType {@link ru.bgcrm.model.process.Process#OBJECT_TYPE}, {@link ru.bgcrm.model.customer.Customer#OBJECT_TYPE}, {@link ru.bgcrm.model.user.User#OBJECT_TYPE}, {@link ru.bgcrm.model.param.address.AddressHouse#OBJECT_TYPE}
-     * @return
+     * @return the parameter IDs
      */
     public static List<Integer> getObjectTypeParameterIds(String objectType) {
         List<Integer> result = Collections.emptyList();
@@ -87,9 +87,9 @@ public class ParameterCache extends Cache<ParameterCache> {
     }
 
     /**
-     * Parameters with defined IDs.
-     * @param pids - IDs.
-     * @return
+     * Parameters with defined IDs
+     * @param pids - IDs
+     * @return the parameters
      */
     public static List<Parameter> getParameterList(List<Integer> pids) {
         List<Parameter> result = new ArrayList<>();
@@ -104,16 +104,16 @@ public class ParameterCache extends Cache<ParameterCache> {
     /**
      * Map of list parameter values. Key - value ID, value - value.
      * @param paramId
-     * @return
+     * @return the map
      */
     public static Map<Integer, IdTitle> getListParamValuesMap(int paramId) {
         return getListParamValues(paramId).stream().collect(Collectors.toMap(IdTitle::getId, Function.identity()));
     }
 
     /**
-     * List of values for parameter with type 'list'.
+     * List of values for parameter with type 'list'
      * @param paramId
-     * @return
+     * @return the values
      */
     public static List<IdTitle> getListParamValues(int paramId) {
         var param = getParameter(paramId);
@@ -123,9 +123,9 @@ public class ParameterCache extends Cache<ParameterCache> {
     }
 
     /**
-     * List of values for parameter with type 'list'.
+     * List of values for parameter with type 'list'
      * @param param
-     * @return
+     * @return the values
      */
     public static List<IdTitle> getListParamValues(final Parameter param) {
         final ParameterCache instance = HOLDER.getInstance();
@@ -194,7 +194,7 @@ public class ParameterCache extends Cache<ParameterCache> {
 
                 listValues = instance.listParamValuesFromDir.get(param.getId());
 
-                // кэллбаки на изменение таблиц со значениями для перечитывания значений списка
+                // callbacks on changes to value tables, for re-reading list values
                 TableChangeMonitor.subscribeOnChange("param-list:" + param.getId(), tableName, paramExtractor);
                 if (joinFilterTableName.length() > 0) {
                     TableChangeMonitor.subscribeOnChange("param-list-jf:" + param.getId(), joinFilterTableName.toString(), paramExtractor);
@@ -217,8 +217,8 @@ public class ParameterCache extends Cache<ParameterCache> {
 
     /**
      * Map of tree parameter values. Key - value ID, value - title.
-     * @param paramId the parameter ID.
-     * @return a map with entries sorted by keys.
+     * @param paramId the parameter ID
+     * @return a map with entries sorted by keys
      */
     public static Map<String, String> getTreeParamValues(int paramId) {
         // TODO: Cache??
@@ -256,7 +256,7 @@ public class ParameterCache extends Cache<ParameterCache> {
         HOLDER.flush(con);
     }
 
-    // конец статической части
+    // end of static part
 
     private Map<Integer, Parameter> parameterMap;
     private Map<String, List<Parameter>> objectTypeParameters;

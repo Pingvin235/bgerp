@@ -4,7 +4,7 @@ import org.bgerp.app.event.iface.Event;
 import org.bgerp.app.servlet.user.UserSession;
 
 /**
- * User session created.
+ * User session created
  *
  * @author Shamil Vakhitov
  */

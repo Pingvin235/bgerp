@@ -881,12 +881,12 @@ public class FakeResultSet implements ResultSet {
         return null;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
         return null;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
         return null;
     }

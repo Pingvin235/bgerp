@@ -53,7 +53,7 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагентов по названию.
+     * Selects customers by title
      * @param searchResult
      * @param title
      */
@@ -132,17 +132,17 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагентов по параметру типа Email.
+     * Selects customers by an Email-type parameter
      * @param searchResult
      * @param emailParamIdList
-     * @param email Email, поиск идёт по точному совпадению и совпадению домена
+     * @param email Email, search is done by exact match and domain match
      */
     public void searchCustomerListByEmail(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> emailParamIdList, String email) {
         new OldParamSearchDAO(con).searchObjectListByEmail(TABLE_CUSTOMER, rs -> getCustomerFromRs(rs, "c."), searchResult, emailParamIdList, email);
     }
 
     /**
-     * Выбирает контрагентов по строковому параметру.
+     * Selects customers by a text parameter
      * @param searchResult
      * @param textParamIdList
      * @param value
@@ -191,7 +191,7 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагентов по адресному параметру.
+     * Selects customers by an address parameter
      * @param searchResult
      * @param addressParamIdList
      * @param streetId
@@ -267,12 +267,12 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагентов по адресному параметру.
+     * Selects customers by an address parameter
      * @param searchResult
      * @param addressParamIdList
-     * @param houseId код дома
-     * @param houseFlat квартира
-     * @param houseRoom комната
+     * @param houseId house code
+     * @param houseFlat flat
+     * @param houseRoom room
      */
     public void searchCustomerListByAddress(Pageable<ParameterSearchedObject<Customer>> searchResult, List<Integer> addressParamIdList,
             int houseId, String houseFlat, String houseRoom) {
@@ -325,7 +325,7 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагентов по номеру или номерам телефонов.
+     * Selects customers by a phone number or numbers
      * @param searchResult
      * @param phoneParamIdList
      * @param phoneNumbers
@@ -353,7 +353,7 @@ public class CustomerDAO extends CommonDAO {
                 joinPart.append(" ) ");
             }
 
-            // иначе MySQL не понимает, что можно использовать индекс
+            // otherwise MySQL doesn't understand it can use the index
             for (int i = 0; i < phoneNumbers.length; i++) {
                 phoneNumbers[i] = "'" + phoneNumbers[i] + "'";
             }
@@ -383,9 +383,9 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает контрагента по его коду.
+     * Selects a customer by its code
      * @param customerId
-     * @return
+     * @return the customer
      */
     public Customer getCustomerById(int customerId) {
         Customer customer = null;
@@ -407,7 +407,7 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет информацию о контрагенте в БД.
+     * Updates customer information in DB
      * @param customer
      */
     public void updateCustomer(Customer customer) throws SQLException {
@@ -448,7 +448,7 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Удаляет контрагента из БД по коду.
+     * Deletes a customer from DB by code
      * @param id
      * @throws SQLException
      */
@@ -460,11 +460,11 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет название контрагента,генерируя его из параметров.
-     * @param titleBefore исходное название.
-     * @param customer контрагент.
-     * @param changedParamId код изменённого параметра.
-     * @param response если параметр передан, туда будет добавлено событие о изменении названия договора.
+     * Updates the customer's title, generating it from parameters
+     * @param titleBefore the original title
+     * @param customer the customer
+     * @param changedParamId the changed parameter's code
+     * @param response if passed, an event about the title change will be added there
      * @throws Exception
      */
     public void updateCustomerTitle(String titleBefore, Customer customer, int changedParamId, Response response) throws Exception {
@@ -474,13 +474,13 @@ public class CustomerDAO extends CommonDAO {
         oldCustomer.setGroupIds(this.getGroupIds(customer.getId()));
 
         try {
-            // предполагаем, что -1 - персональный шаблон
+            // assume -1 means a personal pattern
             String titlePattern = customer.getTitlePattern();
-            // без шаблона
+            // no pattern
             if (customer.getTitlePatternId() == 0) {
                 customer.setTitlePattern(titlePattern = "");
             }
-            // шаблон из справочника
+            // pattern from the directory
             else if (customer.getTitlePatternId() > 0) {
                 Pattern pattern = patternDAO.getPattern(customer.getTitlePatternId());
                 if (pattern != null) {
@@ -488,7 +488,7 @@ public class CustomerDAO extends CommonDAO {
                 }
             }
 
-            // формирование названия по шаблону
+            // generating the title from the pattern
             if (Utils.notBlankString(titlePattern) && (changedParamId < 0 || titlePattern.contains(String.valueOf(changedParamId)))) {
                 customer.setTitle(PatternDAO.format(new ParamExpressionObject(con, customer.getId()), titlePattern));
             }
@@ -505,7 +505,7 @@ public class CustomerDAO extends CommonDAO {
             }
 
             if (changed) {
-                // обновление наименования контрагента в привязках процессов
+                // updating the customer's title in process links
                 new ProcessLinkDAO(con).updateLinkTitles(customer.getId(), Customer.OBJECT_TYPE + "%", customer.getTitle());
             }
         } catch (SQLException e) {
@@ -514,10 +514,10 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает названия контрагенов с подстрокой.
-     * @param title подстрока, поиск идёт с помощью LIKE выражения.
-     * @param count количество первых названий.
-     * @return
+     * Returns customer titles containing a substring
+     * @param title the substring, search uses a LIKE expression
+     * @param count count of the first titles
+     * @return the titles
      */
     public List<String> getCustomerTitles(String title, int count) {
         List<String> result = new ArrayList<>();
@@ -550,7 +550,7 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает созданный объект {@link Customer} заполненный из {@link ResultSet}.
+     * Returns a created {@link Customer} object filled from {@link ResultSet}
      * @param rs
      * @param prefix
      * @throws SQLException

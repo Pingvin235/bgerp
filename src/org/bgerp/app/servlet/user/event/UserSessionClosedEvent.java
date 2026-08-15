@@ -3,7 +3,7 @@ package org.bgerp.app.servlet.user.event;
 import org.bgerp.app.servlet.user.UserSession;
 
 /**
- * User session closed.
+ * User session closed
  *
  * @author Shamil Vakhitov
  */

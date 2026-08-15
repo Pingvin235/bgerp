@@ -37,7 +37,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
- * Servlet auth filter.
+ * Servlet auth filter
  *
  * @author Shamil Vakhitov
  */
@@ -103,7 +103,7 @@ public class AuthFilter implements Filter {
                         request.setAttribute(SetRequestParamsFilter.REQUEST_KEY_LOCALIZER, l);
                         forward(request, response, "/" + ifaceRealm + SHELL_PAGE + app);
                     }
-                    // запрос заканчивается на /user или /usermob - редирект со слешем, так как это создаёт проблемы в вызове меню
+                    // the request ends with /user or /usermob - redirect with a trailing slash, since it causes issues in menu calls
                     else
                         response.sendRedirect(requestURI + "/" + app);
                 }
@@ -117,11 +117,11 @@ public class AuthFilter implements Filter {
     }
 
     /**
-     * Authenticates user by username and password, sent in HTTP request.
+     * Authenticates user by username and password, sent in HTTP request
      *
      * @param request
      * @param response
-     * @return authenticated user or {@code null}.
+     * @return authenticated user or {@code null}
      */
     private User authUser(HttpServletRequest request, HttpServletResponse response) {
         final String login = request.getParameter(Constants.FORM_USERNAME);
@@ -162,10 +162,10 @@ public class AuthFilter implements Filter {
     }
 
     /**
-     * Stores user to session or restores from there.
-     * @param request HTTP request.
-     * @param user user from auth.
-     * @return {@code user} parameter or restored from session value.
+     * Stores user to session or restores from there
+     * @param request HTTP request
+     * @param user user from auth
+     * @return {@code user} parameter or restored from session value
      */
     private User userInSession(HttpServletRequest request, User user) {
         if (user != null) {
@@ -187,9 +187,9 @@ public class AuthFilter implements Filter {
     }
 
     /**
-     * Gets the current user, preserved in request's attribute.
+     * Gets the current user, preserved in request's attribute
      * @param request
-     * @return
+     * @return the current user, or {@code null}
      */
     public static final User getUser(HttpServletRequest request) {
         return (User) request.getAttribute(REQUEST_ATTRIBUTE_USER_NAME);

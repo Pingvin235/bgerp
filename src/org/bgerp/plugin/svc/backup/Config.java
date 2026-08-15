@@ -12,11 +12,11 @@ import org.bgerp.util.Dynamic;
 
 public class Config extends org.bgerp.app.cfg.Config {
     /**
-     * More than that amount of backup files will became cleanup candidate.
+     * More than that amount of backup files will became cleanup candidate
      */
     private final int cleanupCandidateCountMoreThan;
     /**
-     * More than that amount of backup with DB files will became cleanup candidate.
+     * More than that amount of backup with DB files will became cleanup candidate
      */
     private final int cleanupCandidateDbCountMoreThan;
 
@@ -28,9 +28,9 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * File names - candidates to cleaning up.
-     * @param files must be sorted by modification time desc.
-     * @return set with names.
+     * File names - candidates to cleaning up
+     * @param files must be sorted by modification time desc
+     * @return set with names
      */
     @Dynamic
     public Set<String> cleanupCandidates(Files files) {

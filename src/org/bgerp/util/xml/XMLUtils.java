@@ -29,7 +29,7 @@ public class XMLUtils {
     private static final Log logger = Log.getLog();
 
     /***
-     * Extracts content of a XML element as a string with all sub-tags.
+     * Extracts content of a XML element as a string with all sub-tags
      * @param node the element node
      * @return the nodes' content
      */
@@ -38,7 +38,7 @@ public class XMLUtils {
     }
 
     /***
-     * Extracts content of a XML element as a string with all sub-tags.
+     * Extracts content of a XML element as a string with all sub-tags
      * @param node the element node
      * @param skipNodeNames if not {@code null} - node names to be skipped
      * @return the nodes' content
@@ -82,8 +82,8 @@ public class XMLUtils {
     }
 
     /**
-     * Создаёт и возвращает новый объект XML документ.
-     * @return
+     * Creates and returns a new XML document object
+     * @return the created document
      */
     public static final Document newDocument() {
         try {
@@ -98,13 +98,13 @@ public class XMLUtils {
         return null;
     }
 
-    // модификация документа
+    // document modification
 
     /**
-     * Создаёт объект-узел с заданным именем в родительском узле.
-     * @param parent родительский узел.
-     * @param name имя нового узла.
-     * @return
+     * Creates a node object with the given name in the parent node
+     * @param parent the parent node
+     * @param name the new node's name
+     * @return the created element
      */
     public static final Element newElement(Element parent, String name) {
         Element result = parent.getOwnerDocument().createElement(name);
@@ -113,12 +113,11 @@ public class XMLUtils {
     }
 
     /**
-     * Создать элемент на родительском документе. Ибо для Element версия ни
-     * при каких условиях не работает (OwnerDocument всегда null), не помогает
-     * и всякие getDocumentElement.
+     * Creates an element on the parent document. The {@code Element} overload never works
+     * (OwnerDocument is always {@code null}), and {@code getDocumentElement} doesn't help either.
      * @param parent
      * @param name
-     * @return
+     * @return the created element
      */
     public static final Element newElement(Document parent, String name) {
         Element result = parent.createElement(name);
@@ -127,10 +126,10 @@ public class XMLUtils {
     }
 
     /**
-     * Создание текстового узла - потомка. То есть "устанавливаем текст внутрь
-     * указанного нода". Если нод - /data, то будет &lt;data&gt;текст&lt;/data&gt;
-     * @param node узел
-     * @param text текст
+     * Creates a text child node. In other words, sets text inside the specified node.
+     * If the node is /data, the result will be &lt;data&gt;text&lt;/data&gt;
+     * @param node the node
+     * @param text the text
      */
     public static void createTextNode(Node node, String text) {
         if (node != null && text != null) {
@@ -154,23 +153,23 @@ public class XMLUtils {
         }
     }
 
-    // методы выборки узлов
+    // node selection methods
 
     /**
-     * Ищет элемент в документе по имени. Если не находит - возвращает созданный.
+     * Searches for an element in the document by name. If not found - returns a created one.
      * @param doc
      * @param elementName
-     * @return
+     * @return the found or created element
      */
     public static Element getElement(Document doc, String elementName) {
         return (Element) getNode(doc, elementName);
     }
 
     /**
-     * Берёт Node по имени тега из Document. В случае отсутствия - создаёт новый Node и возвращает его.
-     * @param doc документ
-     * @param nodeName имя узла
-     * @return узел
+     * Gets a Node by tag name from Document. If absent - creates a new Node and returns it.
+     * @param doc the document
+     * @param nodeName the node name
+     * @return the node
      * @see #getElement(Document, String)
      */
     public static Node getNode(Document doc, String nodeName) {
@@ -188,10 +187,10 @@ public class XMLUtils {
     }
 
     /**
-     * Возвращает элемент по XPath expression.
+     * Returns element by XPath expression
      * @param node
      * @param expression XPath expression
-     * @return элемент, если найден - иначе null
+     * @return the element, if found - otherwise {@code null}
      * @see #selectNode( Node, String )
      */
     public static Element selectElement(Node node, String expression) {
@@ -199,14 +198,14 @@ public class XMLUtils {
     }
 
     /**
-     * Возвращает Node по XPath expression.
+     * Returns Node by XPath expression
      *
-     * Пример: /data/table - выбрать элемент table лежащий в корне.
-     * Пример: //table - выбрать элемент table где попало
+     * Example: /data/table - select the table element at the root
+     * Example: //table - select the table element anywhere
      *
      * @param node
      * @param expression XPath expression
-     * @return Node, если найден - иначе null
+     * @return Node, if found - otherwise {@code null}
      */
     public static Node selectNode(Node node, String expression) {
         try {
@@ -218,11 +217,11 @@ public class XMLUtils {
     }
 
     /**
-     * Возвращает NodeList по XPath expression.
+     * Returns NodeList by XPath expression
      *
      * @param node
      * @param expression XPath expression
-     * @return NodeList, если найден - иначе null
+     * @return NodeList, if found - otherwise {@code null}
      */
     public static NodeList selectNodeList(Node node, String expression) {
         try {
@@ -235,7 +234,7 @@ public class XMLUtils {
 
     public static Iterable<Element> selectElements(Node node, String expression) {
         try {
-            // Возвращает NodeList по XPath expression.
+            // Returns NodeList by XPath expression
             final NodeList nodeList = selectNodeList(node, expression);
             return elements(nodeList);
         } catch (Exception e) {
@@ -245,9 +244,9 @@ public class XMLUtils {
     }
 
     /**
-     * Делает Iterable от Element из NodeList, для удобного обхода.
-     * @param nodeList исходный NodeList
-     * @return Iterable&lt;Element&gt;.
+     * Makes an Iterable of Element from NodeList, for convenient iteration
+     * @param nodeList the source NodeList
+     * @return Iterable&lt;Element&gt;
      */
     public static Iterable<Element> elements(final NodeList nodeList) {
         return new Iterable<>() {
@@ -259,7 +258,7 @@ public class XMLUtils {
     }
 
     /**
-     * Выборка строкового значения по xpath. Дефолт валуе - null.
+     * Selection of a string value by xpath. Default value - {@code null}.
      * @see #selectText( Node, String, String )
      */
     public static String selectText(Node node, String expression) {
@@ -267,34 +266,34 @@ public class XMLUtils {
     }
 
     /**
-     * Выборка строкового значения по xpath. То есть практически тоже самое, что
-     * selectNode, только от него возвращается node value, либо null, если
-     * что-то не найдено или какая-то ошибка (нуть не должен возвращать текст итд)
-     * Может возвращать и значения текстовых нод и значения атрибутов, универсальная.<br/>
+     * Selection of a string value by xpath. That is, practically the same as
+     * selectNode, only it returns the node value instead, or {@code null} if
+     * nothing is found or some error occurs (should not return text etc.)
+     * Can return both text node values and attribute values, universal.<br/>
      * <br/>
-     * <b>В целом, не предназначен для выборок вроде selectText( node, "@selected", null),
-     * потому что в том что getAttribute возвращает не null,
-     * а пустую строку нет ничего страшного.</b> Тем более есть метод, который и
-     * null возвращает и работает быстрее.<br/>
+     * <b>In general, not intended for selections like selectText(node, "@selected", null),
+     * because it's not a problem that getAttribute returns not {@code null}
+     * but an empty string.</b> Moreover, there is a method that both
+     * returns {@code null} and works faster.<br/>
      * <br/>
-     * Примеры запросов:<br>
-     * 1) запрос текстового значения атрибута<pre>
+     * Query examples:<br>
+     * 1) query for an attribute's text value<pre>
      * &lt;data&gt;&lt;payment cardnumber="111"&gt;...
      * /data/payment/@cardnumber
      * </pre>
-     * 2) запрос текстового значения ноды<pre>
-     * ...&lt;operation&gt;&lt;pursesrc&gt;текст&lt;/pursesrc&gt;...
+     * 2) query for a node's text value<pre>
+     * ...&lt;operation&gt;&lt;pursesrc&gt;text&lt;/pursesrc&gt;...
      * /operation/pursesrc/text()
      * </pre>
-     * 3) не от корня, а относительно - начиная не со сшеша<br>
-     * 4) искать где попало - два слеша<br>
-     * 5) и т.д., ну вы поняли
+     * 3) not from the root, but relative - not starting with a slash<br>
+     * 4) search anywhere - double slash<br>
+     * 5) etc., you get the idea
      * @param node
-     *            ноде корневой
+     *            the root node
      * @param expression
      *            xpath
-     * @param defaultValue значение по умолчанию
-     * @return строка
+     * @param defaultValue the default value
+     * @return the string
      * @see #selectNode
      */
     public static String selectText(Node node, String expression, String defaultValue) {
@@ -307,7 +306,7 @@ public class XMLUtils {
         }
     }
 
-    // методы сериализации
+    // serialization methods
 
     public static void serialize(Node xml, OutputStream result, String encoding, boolean pretty) throws Exception {
         // https://github.com/AdoptOpenJDK/openjdk-jdk11/blob/master/test/jaxp/javax/xml/jaxp/unittest/common/prettyprint/PrettyPrintTest.java#L362

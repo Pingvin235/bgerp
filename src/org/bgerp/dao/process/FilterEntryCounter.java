@@ -112,7 +112,7 @@ public class FilterEntryCounter extends Thread {
 
     private int getCount(String query) {
         CountAndTime result = queries.get(query);
-        // "заявка" на подсчёт количества
+        // "request" for a count
         if (result == null) {
             queries.put(query, result = new CountAndTime(-1, System.currentTimeMillis()));
         }

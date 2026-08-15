@@ -1,7 +1,7 @@
 package org.bgerp.model.base;
 
 /**
- * Message with title.
+ * Message with title
  *
  * @author Shamil Vakhitov
  */

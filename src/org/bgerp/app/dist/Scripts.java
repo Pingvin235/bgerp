@@ -8,7 +8,7 @@ import org.bgerp.util.Log;
 import org.bgerp.util.RuntimeRunner;
 
 /**
- * Distribution's scripts.
+ * Distribution's scripts
  *
  * @author Shamil Vakhitov
  */

@@ -116,7 +116,7 @@ public class Column {
     }
 
     /**
-     * @return {@code process} by default, or {@code linked} for parent linked process.
+     * @return {@code process} by default, or {@code linked} for parent linked process
      */
     public String getProcess() {
         return config.get("process", "process");
@@ -287,14 +287,14 @@ public class Column {
                                 + " WHERE link.object_type LIKE 'contract%' AND link.process_id=" + target + ".id "
                                 + " GROUP BY link.process_id ) AS contract ");
             }
-            // FIXME: contract:ds - должно выводить названия договоров определённого только биллинга, но по сути вряд ли до сюда вообще доберётся когда-нибудь
+            // FIXME: contract:ds - should output contract titles for a specific billing only, but in practice it will hardly ever get here
             else if (parameters[1].startsWith("contract")) {
                 String columnValue = "contract";
                 selectPart.append(" ( SELECT GROUP_CONCAT(link.object_title SEPARATOR ', ') FROM process_link AS link "
                         + " WHERE link.object_type LIKE '" + columnValue + "%' AND link.process_id=" + target + ".id "
                         + " GROUP BY link.process_id ) AS contract ");
             }
-            // тип объекта : id
+            // object type : id
             else if (parameters.length > 2 && parameters[2].equals("id")) {
                 selectPart.append(" ( SELECT GROUP_CONCAT(link.object_id SEPARATOR ', ') FROM process_link AS link "
                         + " WHERE link.object_type LIKE '" + parameters[1] + "%' AND link.process_id=" + target + ".id "
@@ -401,8 +401,8 @@ public class Column {
             selectPart.append(" WHERE " + target + ".id=pl." + (col.linked ? "object_id" : "process_id"))
                     .append(" AND pl.object_type LIKE '" + (Utils.isEmptyString(col.linkType) ? "process%" : col.linkType) + "')");
         }
-        // колонка обрабатывается в JSP - список операций, в конфиге колонок чтобы была возможность ставить nowrap, выравнивание и т.п.
-        // TODO: Сюда же можно перенести макросы выбора наименования типа, статуса и т.п., т.к. их можно выбрать из справочников
+        // the column is handled in JSP - list of operations, kept in the column config to allow setting nowrap, alignment etc.
+        // TODO: the macros for selecting type, status etc. titles could be moved here too, since they can be selected from directories
         else if (value.equals("title") || value.startsWith("executors") || value.startsWith("groups") || value.equals("actions")
                 || value.startsWith("linkProcessList") || value.startsWith("linkedProcessList") || value.equals("N")) {
             selectPart.append("'0' ");
@@ -427,10 +427,10 @@ public class Column {
         return new Pair<>(openTag, closeTag);
     }
 
-    // функция добавляет выбор требуемого параметра в нужном формате или без формата (value),
-    // тогда столбец можно корректно использовать для сортировки
+    // the function adds selection of the required parameter in the needed format, or without format (value),
+    // so the column can correctly be used for sorting
     private void addDateTimeParam(StringBuilder selectPart, String columnName, String value) {
-        // нельзя делать substringAfterLast, чтобы не поломать двоеточия в формате дат!!
+        // substringAfterLast can't be used here, to avoid breaking colons in the date format!!
         String format = StringUtils.substringAfter(value, ":");
         // status:6:dt
         if (Utils.isBlankString(format) || format.equals("dt")) {
@@ -440,7 +440,7 @@ public class Column {
         } else if (format.equals("value") || format.equals("nf")) {
             selectPart.append(columnName);
         }
-        // произвольный формат
+        // arbitrary format
         else {
             selectPart.append(" DATE_FORMAT( ");
             selectPart.append(columnName);
@@ -526,7 +526,7 @@ public class Column {
             if (isHtmlMedia) {
                 result = rawCellValue;
             }
-            //FIXME: Это должно быть в плагине BGBilling.
+            // FIXME: this should be in the BGBilling plugin
             else if (columnValue.startsWith("linkObject:contract")) {
                 result = String.valueOf(rawCellValue).replaceAll("\\w+:\\d+:", "");
             } else {
@@ -538,7 +538,7 @@ public class Column {
     }
 
     /**
-     * @return special cell rendering HTML page, can be overwritten by different cells.
+     * @return special cell rendering HTML page, can be overwritten by different cells
      */
     public String cellHtml(Process process, Object col) {
         return null;

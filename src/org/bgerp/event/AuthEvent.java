@@ -5,7 +5,7 @@ import org.bgerp.app.event.iface.Event;
 import ru.bgcrm.model.user.User;
 
 /**
- * User authorization event.
+ * User authorization event
  *
  * @author Shamil Vakhitov
  */
@@ -22,21 +22,21 @@ public class AuthEvent implements Event {
     }
 
     /**
-     * @return user login.
+     * @return user login
      */
     public String getLogin() {
         return login;
     }
 
     /**
-     * @return user password.
+     * @return user password
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * @return the event was processed, newly created user available via {@link #getUser()}.
+     * @return the event was processed, newly created user available via {@link #getUser()}
      */
     public boolean isProcessed() {
         return processed;
@@ -51,14 +51,14 @@ public class AuthEvent implements Event {
     }
 
     /**
-     * @return already existing local user with {@link #getLogin()}.
+     * @return already existing local user with {@link #getLogin()}
      */
     public User getUser() {
         return user;
     }
 
     /**
-     * Sets newly created local user.
+     * Sets newly created local user
      * @param user
      */
     public void setUser(User user) {

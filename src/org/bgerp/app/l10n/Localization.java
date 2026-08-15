@@ -28,7 +28,7 @@ import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Utils;
 
 /**
- * A localization unit, loaded from l10n.xml for a plugin.
+ * A localization unit, loaded from l10n.xml for a plugin
  *
  * @author Shamil Vakhitov
  */
@@ -42,10 +42,10 @@ public class Localization {
     public static final String LANG_EN = Lang.EN.getId();
     public static final String LANG_DE = Lang.DE.getId();
 
-    /** Custom localizations may be placed in the custom/l10n.xml file in the application's directory. */
+    /** Custom localizations may be placed in the custom/l10n.xml file in the application's directory */
     private static final String PLUGIN_CUSTOM = "custom";
 
-    /** Localizations of plugins. */
+    /** Localizations of plugins */
     private static volatile Map<String, Localization> localizations;
 
     // end of static part
@@ -59,9 +59,9 @@ public class Localization {
     }
 
     /**
-     * Gets localization for the plugin.
-     * @param p the plugin.
-     * @return localization if {@link #FILE_NAME} exists for the plugin, or null if missing.
+     * Gets localization for the plugin
+     * @param p the plugin
+     * @return localization if {@link #FILE_NAME} exists for the plugin, or null if missing
      */
     public static Localization getLocalization(Plugin p) {
         var doc = p.getXml(FILE_NAME, null);
@@ -94,28 +94,28 @@ public class Localization {
     }
 
     /**
-     * Translation for a phrase.
-     * @param toLang target lang.
-     * @param value phrase.
-     * @return translation or null if missing.
+     * Translation for a phrase
+     * @param toLang target lang
+     * @param value phrase
+     * @return translation or null if missing
      */
     String getTranslation(String toLang, String value) {
         return translations.containsKey(value) ? translations.get(value).get(toLang) : null;
     }
 
     /**
-     * Retrieves a Localizer for a plugin, using request URI.
-     * @param request plugin ID is got out of getRequestURI().
-     * @return
+     * Retrieves a Localizer for a plugin, using request URI
+     * @param request plugin ID is got out of getRequestURI()
+     * @return the localizer
      */
     public static Localizer getLocalizer(HttpServletRequest request) {
         return getLocalizer(getLang(request), getPluginIdsFromURI(ServletUtils.getRequestURI(request)));
     }
 
     /**
-     * Retrieves plugin IDs as substring after '/plugin/' and the following '/'.
-     * @param uri HTTP request URI.
-     * @return {@code null} if no plugin ID was found, otherwise array with plugin IDs.
+     * Retrieves plugin IDs as substring after '/plugin/' and the following '/'
+     * @param uri HTTP request URI
+     * @return {@code null} if no plugin ID was found, otherwise array with plugin IDs
      */
     @VisibleForTesting
     static String[] getPluginIdsFromURI(String uri) {
@@ -138,7 +138,7 @@ public class Localization {
      * If not found language is taken from configuration parameter 'lang'.
      * If not defined there - returned 'ru'.
      * @param request
-     * @return
+     * @return the target language ID
      */
     @Dynamic
     public static String getLang(HttpServletRequest request) {
@@ -165,17 +165,14 @@ public class Localization {
     }
 
     /**
-     * Default UI language for open interface and the only one for others.
-     * Calls {@link #getLang(HttpServletRequest)} with 'null'.
-     * @return
+     * @return default UI language for open interface and the only one for others, read from the 'lang' configuration parameter
      */
     public static final String getLang() {
         return getLang(null);
     }
 
     /**
-     * Old version of {@link #getLang()}.
-     * @return
+     * @return same as {@link #getLang()}, kept under the old method name for compatibility
      */
     @Deprecated
     public static final String getSysLang() {
@@ -218,10 +215,10 @@ public class Localization {
     }
 
     /**
-     * Retrieves {@link Localizer} object for a single plugin.
-     * @param pluginId plugin ID.
-     * @param request used for getting target language in case of open interface.
-     * @return
+     * Retrieves {@link Localizer} object for a single plugin
+     * @param pluginId plugin ID
+     * @param request used for getting target language in case of open interface
+     * @return the localizer
      */
     @Dynamic
     public static Localizer getLocalizer(String pluginId, HttpServletRequest request) {
@@ -229,8 +226,7 @@ public class Localization {
     }
 
     /**
-     * Localizer for kernel only to the language, taken from {@link #getLang()}.
-     * @return
+     * @return localizer for kernel only to the language, taken from {@link #getLang()}
      */
     public static Localizer getLocalizer() {
         return getLocalizer(getLang(), (String) null);

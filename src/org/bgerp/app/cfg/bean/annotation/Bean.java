@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to mark created by name classes.
+ * Annotation to mark created by name classes
  *
  * @author Shamil Vakhitov
  */
@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Bean {
     /**
-     * @return old bean full class names, which can be still used in configurations.
+     * @return old bean full class names, which can be still used in configurations
      */
     String[] oldClasses() default {};
 }

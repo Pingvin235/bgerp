@@ -23,8 +23,8 @@ public class PhoneFormat {
             return null;
         }
 
-        // Первоначальная сортировка префиксов по количеству цифр.
-        // Результат - мэп, ключ - количество цифр в префиксе
+        // Initial sorting of prefixes by number of digits.
+        // Result - a map, key is the number of digits in the prefix
         String[] prefixsArray = formats.split(",");
         Map<Integer, List<String>> prefixs = new HashMap<>();
         for (int i = 0; i < prefixsArray.length; ++i) {
@@ -45,7 +45,7 @@ public class PhoneFormat {
             return value;
         }
 
-        //  Поиск префикса
+        // Search for the prefix
         String prefix = "";
         for (int i = value.length(); i >= 0; --i) {
             List<String> prefixsList = prefixMap.get(i);
@@ -53,12 +53,12 @@ public class PhoneFormat {
                 continue;
             }
 
-            // Цифры нашего значения
+            // Digits of our value
             String valueOnlyDigits = phoneUnformatted(value);
             for (String pref : prefixsList) {
-                // Цифры текущего префикса
+                // Digits of the current prefix
                 String prefixOnlyDigits = phoneUnformatted(pref);
-                // Берем только такое количество цифр, сколько есть в префиксе
+                // Take only as many digits as there are in the prefix
                 if (prefixOnlyDigits.length() <= valueOnlyDigits.length()) {
                     if (valueOnlyDigits.startsWith(prefixOnlyDigits)) {
                         prefix = pref;
@@ -79,7 +79,7 @@ public class PhoneFormat {
             value = value.substring(0, prefix.length());
         }
 
-        // Расставляем пробелы в соответствии с найденным префиксом
+        // Arrange spaces according to the found prefix
         int posValue = 0, posResult = 0;
         StringBuilder resValue = new StringBuilder();
         while (true) {
@@ -103,11 +103,11 @@ public class PhoneFormat {
     }
 
     /**
-     * Превращает форматированный телефон в набор цифр
+     * Converts a formatted phone number into a set of digits
      * @param phone +7 (347) 2 924-823
      * @return 73472924823
      */
-    // вызываться теоретически может часто, а логика довольно простая, чтобы создавать каждый раз объекты Matcher.
+    // can theoretically be called often, and the logic is simple enough to avoid creating Matcher objects each time
     private String phoneUnformatted(String phone) {
         if (Utils.isEmptyString(phone)) {
             return "";

@@ -35,8 +35,8 @@ public class Setup extends Preferences {
 
     /**
      * Use this singleton call wisely, because introducing that
-     * everywhere makes code hardly testable.
-     * @return
+     * everywhere makes code hardly testable
+     * @return the setup singleton instance
      */
     public static Setup getSetup() {
         return getSetup(true);
@@ -84,7 +84,7 @@ public class Setup extends Preferences {
     }
 
     /**
-     * Set system properties out of the setup.
+     * Set system properties out of the setup
      * @param keys the keys to be copied, will be prepended by {@code bgerp.}
      */
     private void setSystemProperties(String... keys) {
@@ -149,10 +149,10 @@ public class Setup extends Preferences {
     }
 
     /**
-     * Handles old style includes and updates parents for included configs.
-     * @param con DB connection.
-     * @param includes map, already containing new style includes.
-     * @param config config with includes.
+     * Handles old style includes and updates parents for included configs
+     * @param con DB connection
+     * @param includes map, already containing new style includes
+     * @param config config with includes
      * @throws SQLException
      */
     private void oldIncludes(Connection con, Map<Integer, String> includes, Config config) throws SQLException {
@@ -180,7 +180,7 @@ public class Setup extends Preferences {
     }
 
     /**
-     * Use {@link #getDBConnectionFromPool()}.
+     * Use {@link #getDBConnectionFromPool()}
      */
     @Deprecated
     public DataSource getDataSource() {
@@ -188,8 +188,8 @@ public class Setup extends Preferences {
     }
 
     /**
-    * Use {@link #getDBSlaveConnectionFromPool()}.
-    */
+     * Use {@link #getDBSlaveConnectionFromPool()}
+     */
     @Deprecated
     public DataSource getSlaveDataSource() {
         return connectionPool.getSlaveDataSource();

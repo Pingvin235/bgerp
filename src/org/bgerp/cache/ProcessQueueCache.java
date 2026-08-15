@@ -20,7 +20,7 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
 
     public static Queue getQueue(int id, User user) {
         Queue result = HOLDER.getInstance().queueMap.get(id);
-        // фильтр по разрешённым очередям процессов
+        // filter by allowed process queues
         if (result != null && user != null && !user.getQueueIds().contains(result.getId())) {
             result = null;
         }
@@ -70,12 +70,12 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
 
             QueueDAO queueDAO = new QueueDAO(con);
             for (Queue queue : queueDAO.getQueueList()) {
-                // выбор явно указанных в конфигурации очереди типов процессов
+                // select process types explicitly specified in the queue's configuration
                 queue.setProcessTypeIds(queueDAO.getQueueProcessTypeIds(queue.getId()));
 
                 log.debug("Queue {} selected process types: {}", queue.getId(), queue.getProcessTypeIds());
 
-                // выбор дочерних типов привязанных процессов
+                // select child types of the linked process types
                 queue.setProcessTypeIds(ProcessTypeCache.getTypeTreeRoot().getSelectedChildIds(queue.getProcessTypeIds()));
 
                 log.debug("Queue {} process types with children: {}", queue.getId(), queue.getProcessTypeIds());

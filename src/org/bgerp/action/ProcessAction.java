@@ -167,7 +167,7 @@ public class ProcessAction extends BaseAction {
      * Or the check must pass for one of child types.
      * @param type
      * @param user
-     * @return
+     * @return {@code true} if the type is included in the user's process isolation
      */
     private static boolean isolationCheck(ProcessType type, User user) {
         boolean result =
@@ -242,17 +242,17 @@ public class ProcessAction extends BaseAction {
         changeDao.changeStatus(process, type, change);
 
         if (groupId > 0) {
-            // если вручную указали группу из списка в конфига типа процесса onCreateSelectGroup, то выбраем ее
+            // if a group from the process type's onCreateSelectGroup config list was set explicitly, use it
             ProcessGroups processGroups = new ProcessGroups();
             processGroups.add(new ProcessGroup(groupId, 0));
             process.setGroups(processGroups);
         } else {
-            // иначе выставляем то что указано в конфигурации типа процесса
+            // otherwise set what's specified in the process type configuration
             process.setGroups(new ProcessGroups(typeProperties.getGroups()));
         }
         processDAO.updateProcessGroups(process.getGroups(), process.getId());
 
-        // wizard=0 в обработке сообщений
+        // wizard=0 in message processing
         if (form.getParamBoolean("wizard", true)) {
             doCreateWizard(form, con, process, type);
         }
@@ -266,7 +266,7 @@ public class ProcessAction extends BaseAction {
     }
 
     protected static void doCreateWizard(DynActionForm form, Connection con, Process process, ProcessType type) throws SQLException {
-        // временный процесс - с отрицательным кодом
+        // temporary process - with a negative code
         Wizard wizard = type.getProperties().getWizard();
         if (wizard != null && !wizard.getCreateStepList().isEmpty()) {
             new ProcessDAO(con).processIdInvert(process);
@@ -276,7 +276,7 @@ public class ProcessAction extends BaseAction {
     }
 
     /**
-     * Создаёт процесс и возвращает его код для перехода в редактор.
+     * Creates the process and returns its code for navigating to the editor
      */
     public ActionForward processCreate(DynActionForm form, Connection con) throws Exception {
         ProcessAction.processCreateAndGet(form, con);
@@ -372,7 +372,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessType type = getProcessType(process.getTypeId());
 
-        // указаны обязательные при смене статуса к заполнению параметры
+        // parameters required to be filled in when changing to this status
         final String requireParamName = "requireFillParamIdsBeforeStatusSet." + change.getStatusId();
 
         if (Utils.isBlankString(change.getComment())) {
@@ -580,7 +580,7 @@ public class ProcessAction extends BaseAction {
         process.setGroups(new ProcessGroups(processGroups));
         processDao.updateProcessGroups(processGroups, process.getId());
 
-        // удаление исполнителей, привязанных к удалённым группоролям
+        // remove executors bound to removed group-roles
         boolean updated = false;
         Set<ProcessExecutor> processExecutors = process.getExecutors();
         Iterator<ProcessExecutor> processExecutorsIt = processExecutors.iterator();
@@ -656,7 +656,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward processExecutorsUpdate(DynActionForm form, Connection con) throws Exception {
         Process process = getProcess(new ProcessDAO(con, form), form.getId());
 
-        // группороли в которых обновляются исполнители
+        // group-roles for which executors are being updated
         Set<ProcessGroup> updateGroups = ProcessGroup.parseFromStringSet(form.getParamValuesStr("group"));
         Set<ProcessExecutor> executors = ProcessExecutor.parseUnsafe(form.getParamValuesStr("executor"), updateGroups);
 
@@ -699,7 +699,7 @@ public class ProcessAction extends BaseAction {
         ProcessDAO processDao = new ProcessDAO(con, form);
         ConfigMap perm = form.getPermission();
 
-        // различные проверки
+        // various checks
         Set<Integer> allowOnlyGroupIds = Utils.toIntegerSet(perm.get("allowOnlyGroups"));
         if (allowOnlyGroupIds.size() != 0) {
             Collection<Integer> denyGroupIds = CollectionUtils.subtract(ProcessGroup.toGroupSet(processGroups), allowOnlyGroupIds);
@@ -710,7 +710,7 @@ public class ProcessAction extends BaseAction {
 
         Set<Integer> allowOnlyUsers = Utils.toIntegerSet(perm.get("allowOnlyUsers"));
         if (allowOnlyUsers.size() > 0) {
-            // коды исполнителей которые добавляются либо удаляются
+            // executor IDs being added or removed
             Collection<Integer> changingExecutorIds = CollectionUtils.disjunction(process.getExecutorIds(),
                     ProcessExecutor.toExecutorSet(processExecutors));
 
@@ -724,9 +724,9 @@ public class ProcessAction extends BaseAction {
         if (allowOnlyProcessTypeIds.size() > 0 && !CollectionUtils.containsAny(allowOnlyProcessTypeIds, Arrays.asList(process.getTypeId())))
             throw new BGMessageException("Запрещена правка исполнителей у данного типа процесса!");
 
-        // проверка обновляемых групп
+        // check of the updated groups
         for (ProcessGroup processGroup : processGroups) {
-            // удаление не привязанных к группе пользователей
+            // remove users not bound to the group
             if (processGroup.getGroupId() <= 0)
                 continue;
 
@@ -738,10 +738,10 @@ public class ProcessAction extends BaseAction {
                 throw new BGMessageException("Группа: " + group.getTitle() + " с ролью: " + processGroup.getRoleId() + " не участвует в процессе.");
         }
 
-        // текущие исполнители
+        // current executors
         Set<ProcessExecutor> executors = new LinkedHashSet<>(process.getExecutors());
 
-        // удаление исполнителей привязанных к обновляемым группоролям, они будут заменены
+        // remove executors bound to the group-roles being updated, they will be replaced
         Iterator<ProcessExecutor> currentExecutorsIt = executors.iterator();
         while (currentExecutorsIt.hasNext()) {
             ProcessExecutor executor = currentExecutorsIt.next();
@@ -749,7 +749,7 @@ public class ProcessAction extends BaseAction {
                 currentExecutorsIt.remove();
         }
 
-        // обновляемые исполнители
+        // executors being updated
         executors.addAll(processExecutors);
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, executors, ProcessChangingEvent.MODE_EXECUTORS_CHANGING), con);
@@ -792,12 +792,12 @@ public class ProcessAction extends BaseAction {
     }
 
     /**
-     * Gets process entity by ID.
-     * @param processDao DAO.
-     * @param id process ID.
-     * @return
-     * @throws SQLException - DB exception.
-     * @throws BGMessageException - entity not found.
+     * Gets process entity by ID
+     * @param processDao DAO
+     * @param id process ID
+     * @return the process
+     * @throws SQLException - DB exception
+     * @throws BGMessageException - entity not found
      */
     protected Process getProcess(ProcessDAO processDao, int id) throws SQLException, BGMessageException {
         Process process = processDao.getProcess(id);
@@ -808,9 +808,9 @@ public class ProcessAction extends BaseAction {
     }
 
     /**
-     * Возвращает тип процесса из кэша по его коду либо генерит исключение, если его нет.
+     * Returns the process type from the cache by its code, or throws an exception if it doesn't exist
      * @param typeId
-     * @return
+     * @return the process type
      * @throws BGMessageException
      */
     public static ProcessType getProcessType(int typeId) throws BGMessageException {

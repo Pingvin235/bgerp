@@ -18,7 +18,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * Fluent DAO for selection processes by parameter values.
+ * Fluent DAO for selection processes by parameter values
  *
  * @author Shamil Vakhitov
  */
@@ -61,8 +61,8 @@ public class ProcessParamSearchDAO extends SearchDAO {
     }
 
     /**
-     * Queries processes with param values.
-     * @param result pageable result.
+     * Queries processes with param values
+     * @param result pageable result
      * @throws SQLException
      */
     public void search(Pageable<ParameterSearchedObject<Process>> result) throws SQLException {

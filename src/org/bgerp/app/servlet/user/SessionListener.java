@@ -7,7 +7,7 @@ import org.bgerp.model.file.tmp.SessionTemporaryFiles;
 import org.bgerp.util.Dynamic;
 
 /**
- * HTTP session listener, configured in web.xml.
+ * HTTP session listener, configured in web.xml
  *
  * @author Shamil Vakhitov
  */

@@ -16,7 +16,7 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.util.Utils;
 
 /**
- * DAO for adding action log records and fluent search.
+ * DAO for adding action log records and fluent search
  *
  * @author Shamil Vakhitov
  */
@@ -74,9 +74,9 @@ public class ActionLogDAO extends PeriodicDAO {
     }
 
     /**
-     * Sets user IDs filter.
-     * @param value user IDs.
-     * @return
+     * Sets user IDs filter
+     * @param value user IDs
+     * @return the current instance
      */
     public ActionLogDAO withUserIds(Set<Integer> value) {
         this.userIds = value;
@@ -84,9 +84,9 @@ public class ActionLogDAO extends PeriodicDAO {
     }
 
     /**
-     * Sets IP address filter.
-     * @param value user IP.
-     * @return
+     * Sets IP address filter
+     * @param value user IP
+     * @return the current instance
      */
     public ActionLogDAO withIpAddress(String value) {
         this.ipAddress = value;
@@ -94,9 +94,9 @@ public class ActionLogDAO extends PeriodicDAO {
     }
 
     /**
-     * Sets actions filter.
-     * @param value semicolon separated strings with action class and method names.
-     * @return
+     * Sets actions filter
+     * @param value semicolon separated strings with action class and method names
+     * @return the current instance
      */
     public ActionLogDAO withActions(Set<String> value) {
         this.actions = value;

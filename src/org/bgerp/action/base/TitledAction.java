@@ -3,7 +3,7 @@ package org.bgerp.action.base;
 import org.bgerp.model.base.iface.Title;
 
 /**
- * Action with localized title.
+ * Action with localized title
  *
  * @author Shamil Vakhitov
  */
@@ -24,9 +24,8 @@ public class TitledAction implements Title {
     }
 
     /**
-     * Action class and method, separated by semicolon.
+     * @return action class and method, separated by semicolon.
      * 'null' - for unspecified method. The same format, as used in action.xml files.
-     * @return
      */
     public String getAction() {
         return Actions.getByClass(actionClass).getId() + ":null";

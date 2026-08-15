@@ -23,23 +23,23 @@ public class Filter extends CommonDAO {
     protected final ConfigMap configMap;
 
     private final int id;
-    // произвольное наименование фильтра
+    // arbitrary filter title
     private final String title;
-    // фильтр по допустимым значениям
+    // filter by allowed values
     private final List<Integer> availableValues;
-    // значения по-умолчанию
+    // default values
     private final Set<Integer> defaultValues;
-    // жёстко определённые значения
+    // hard-coded values
     private final Set<String> values;
-    // значения, если ни одно значение фильтра не выбрано
+    // values used when no filter value is selected
     private final Set<Integer> onEmptyValues;
-    // отображать фильтр, он может быть скрытым, в этом случае всё время передаются defaultValues
+    // show the filter, it can be hidden, in which case defaultValues are always sent
     private final boolean show;
-    // ширина фильтра
+    // filter width
     private final String width;
-    //тип фильтра
+    // filter type
     private final String type;
-    //мап параметров
+    // map of parameters
 
     public Filter(int id, ConfigMap filter) {
         this.id = id;
@@ -71,7 +71,7 @@ public class Filter extends CommonDAO {
     }
 
     /**
-     * @return default values, selected in UI.
+     * @return default values, selected in UI
      */
     @Dynamic
     public Set<Integer> getDefaultValues() {
@@ -79,7 +79,7 @@ public class Filter extends CommonDAO {
     }
 
     /**
-     * @return available values in UI.
+     * @return available values in UI
      */
     @Dynamic
     public List<Integer> getAvailableValues() {
@@ -87,14 +87,14 @@ public class Filter extends CommonDAO {
     }
 
     /**
-     * @return predefined values.
+     * @return predefined values
      */
     public Set<String> getValues() {
         return values;
     }
 
     /**
-     * @return values when no others sent from UI in request.
+     * @return values when no others sent from UI in request
      */
     public Set<Integer> getOnEmptyValues() {
         return onEmptyValues;
@@ -109,7 +109,7 @@ public class Filter extends CommonDAO {
     }
 
     /**
-     * Values of a request parameter, taking on account {@link Filter#getValues()} and {@link Filter#getOnEmptyValues()}.
+     * Values of a request parameter, taking on account {@link Filter#getValues()} and {@link Filter#getOnEmptyValues()}
      * @param form form with the HTTP request
      * @param paramName the parameter name
      * @return comma-separated list

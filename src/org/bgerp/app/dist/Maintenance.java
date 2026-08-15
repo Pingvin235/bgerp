@@ -24,18 +24,18 @@ public class Maintenance {
     private static volatile Maintenance instance;
 
     /**
-     * @return the current maintenance instance or {@code null}, if its missing.
+     * @return the current maintenance instance or {@code null}, if its missing
      */
     public static Maintenance instance() {
         return instance;
     }
 
     /**
-     * Starts maintenance.
-     * @param user the user.
-     * @param logoffDelay delay before logging users off.
-     * @return the created maintenance instance.
-     * @throws IllegalStateException if maintenance is already running.
+     * Starts maintenance
+     * @param user the user
+     * @param logoffDelay delay before logging users off
+     * @return the created maintenance instance
+     * @throws IllegalStateException if maintenance is already running
      */
     public static Maintenance start(User user, Duration logoffDelay) {
         if (instance != null)
@@ -45,8 +45,8 @@ public class Maintenance {
     }
 
     /**
-     * Cancels maintenance.
-     * @return the cancelled maintenance instance.
+     * Cancels maintenance
+     * @return the cancelled maintenance instance
      */
     public static Maintenance cancel() {
         log.info("Cancel");

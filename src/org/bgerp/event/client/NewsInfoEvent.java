@@ -9,7 +9,7 @@ import org.bgerp.app.l10n.Localizer;
 import org.bgerp.event.base.ClientEvent;
 
 /**
- * Unread messages and news state.
+ * Unread messages and news state
  *
  * @author Shamil Vakhitov
  */
@@ -74,7 +74,7 @@ public class NewsInfoEvent extends ClientEvent {
     }
 
     /**
-     * @return map with localized messages.
+     * @return map with localized messages
      */
     public Map<String, String> getMessage() {
         return Collections.unmodifiableMap(message);

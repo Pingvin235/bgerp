@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Results of java compilation.
- * 
+ * Results of java compilation
+ *
  * @author Kirill Berezin
  * @author Shamil Vakhitov
  */

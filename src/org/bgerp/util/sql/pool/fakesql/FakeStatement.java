@@ -1018,21 +1018,21 @@ public class FakeStatement implements CallableStatement {
         return false;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public void closeOnCompletion() throws SQLException {
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public boolean isCloseOnCompletion() throws SQLException {
         return false;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public <T> T getObject(int arg0, Class<T> arg1) throws SQLException {
         return null;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public <T> T getObject(String arg0, Class<T> arg1) throws SQLException {
         return null;
     }

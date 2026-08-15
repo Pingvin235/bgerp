@@ -10,7 +10,7 @@ import ru.bgcrm.util.Utils;
 
 /**
  * Secret DAO for secrets with 32 ASCII chars,
- * used for accessing URLs.
+ * used for accessing URLs
  *
  * @author Shamil Vakhitov
  */
@@ -22,9 +22,9 @@ public class SecretDAO extends CommonDAO {
     }
 
     /**
-     * Updates existing secret or inserts missing with a randomly generated.
-     * @param key unique ID.
-     * @return generated value.
+     * Updates existing secret or inserts missing with a randomly generated
+     * @param key unique ID
+     * @return generated value
      * @throws SQLException
      */
     public String update(String key) throws SQLException {
@@ -39,9 +39,9 @@ public class SecretDAO extends CommonDAO {
     }
 
     /**
-     * Selects secret.
-     * @param key unique ID.
-     * @return found secret or {@code null}.
+     * Selects secret
+     * @param key unique ID
+     * @return found secret or {@code null}
      * @throws SQLException
      */
     public String get(String key) throws SQLException {

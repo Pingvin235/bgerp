@@ -1,7 +1,7 @@
 package org.bgerp.app.exec;
 
 /**
- * Java class, listed in user UI to be run.
+ * Java class, listed in user UI to be run
  *
  * @author Shamil Vakhitov
  */

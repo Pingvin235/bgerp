@@ -9,7 +9,7 @@ import org.bgerp.app.servlet.filter.OpenFilter;
 import ru.bgcrm.util.Utils;
 
 /**
- * Types of user interfaces.
+ * Types of user interfaces
  *
  * @author Shamil Vakhitov
  */
@@ -19,8 +19,7 @@ public class Interface {
     public static final String USER_MOB = "usermob";
 
     /**
-     * Detects request interface.
-     * @return {@link #USER}, {@link #OPEN}, {@link #USER_MOB} or {@code "undef"}
+     * @return detected request interface: {@link #USER}, {@link #OPEN}, {@link #USER_MOB} or {@code "undef"}
      */
     public static String getIface(HttpServletRequest request) {
         var uri = OpenFilter.getRequestURI(request);
@@ -39,24 +38,21 @@ public class Interface {
     }
 
     /**
-     * Parameter {@code url.user} from {@link org.bgerp.app.cfg.Setup}.
-     * @return parameter value or {@code /user}.
+     * @return the {@code url.user} parameter value from {@link org.bgerp.app.cfg.Setup}, or {@code /user} by default
      */
     public static String getUrlUser() {
         return Setup.getSetup().get("url.user", URL() + "/user");
     }
 
     /**
-     * Parameter {@code url.open} from {@link org.bgerp.app.cfg.Setup}.
-     * @return parameter value or {@code /open}.
+     * @return the {@code url.open} parameter value from {@link org.bgerp.app.cfg.Setup}, or {@code /open} by default
      */
     public static String getUrlOpen() {
         return Setup.getSetup().get("url.open", URL() + "/open");
     }
 
     /**
-     * URL parameter value.
-     * @return value or ''.
+     * @return the {@code URL} parameter value, or '' by default
      */
     private static String URL() {
         return Setup.getSetup().get("URL", "");

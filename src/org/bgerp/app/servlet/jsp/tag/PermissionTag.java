@@ -9,7 +9,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.model.user.User;
 
 /**
- * JSP tag, used also as static object for checking action's allowance.
+ * JSP tag, used also as static object for checking action's allowance
  *
  * @author Shamil Vakhitov
  */

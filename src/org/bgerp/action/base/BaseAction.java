@@ -63,9 +63,9 @@ public abstract class BaseAction extends DispatchAction {
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        // TODO: Разобраться с сериализацией дат и дата+время в JSON, узнать как в биллинге.
-        // при указании данной опции сериализуется в виде:
-        // "2013-11-22T18:37:55.645+0011", вроде как миллисекунды и не нужны.
+        // TODO: Figure out date and date-time serialization in JSON, check how it's done in billing.
+        // When this option is set, it's serialized as:
+        // "2013-11-22T18:37:55.645+0011", seems like the milliseconds aren't even needed.
         // mapper.configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false );
         MAPPER.setTimeZone(TimeZone.getDefault());
     }
@@ -96,7 +96,7 @@ public abstract class BaseAction extends DispatchAction {
      * Default action method if no parameter 'action' passed. Overwrite and implement.
      * @param form
      * @param conSet
-     * @return
+     * @return the action forward
      * @throws Exception
      */
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -107,7 +107,7 @@ public abstract class BaseAction extends DispatchAction {
      * Default action method if no parameter 'action' passed. Overwrite and implement.
      * @param form
      * @param con
-     * @return
+     * @return the action forward
      * @throws Exception
      */
     public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
@@ -172,8 +172,8 @@ public abstract class BaseAction extends DispatchAction {
 
             String includeServletPath = (String) request.getAttribute(RequestDispatcher.INCLUDE_SERVLET_PATH);
 
-            // так сделано, т.к. при включении вызова акшена директивой <c:import или <jsp:import
-            // в requestURI приходит та JSP шка из которой был вызван импорт..
+            // this is done because, when an action call is included via the <c:import or <jsp:import directive,
+            // requestURI contains the JSP page that invoked the import
             if (includeServletPath != null)
                 form.requestUrl(includeServletPath, (String) request.getAttribute(RequestDispatcher.INCLUDE_QUERY_STRING));
             else
@@ -239,12 +239,12 @@ public abstract class BaseAction extends DispatchAction {
     }
 
     /**
-     * Checks action permission.
-     * @param form form with user.
-     * @param action semicolon separated action class and method.
-     * @return permission node.
-     * @throws NotFoundException permission node for {@code action} not found.
-     * @throws BGMessageException permission is denied.
+     * Checks action permission
+     * @param form form with user
+     * @param action semicolon separated action class and method
+     * @return permission node
+     * @throws NotFoundException permission node for {@code action} not found
+     * @throws BGMessageException permission is denied
      */
     protected PermissionNode permissionCheck(DynActionForm form, String action) throws NotFoundException, BGMessageException {
         var permissionNode = PermissionNode.getPermissionNodeOrThrow(action);
@@ -259,9 +259,9 @@ public abstract class BaseAction extends DispatchAction {
     }
 
     /**
-     * Updates page setting for user.
-     * @param conSet DB connections.
-     * @param form for taking {@link DynActionForm#getPageableId()} and {@link DynActionForm#getPage()}.
+     * Updates page setting for user
+     * @param conSet DB connections
+     * @param form for taking {@link DynActionForm#getPageableId()} and {@link DynActionForm#getPage()}
      * @throws SQLException
      */
     private void updateUserPageSettings(ConnectionSet conSet, DynActionForm form) throws SQLException {
@@ -307,7 +307,7 @@ public abstract class BaseAction extends DispatchAction {
      * @param con SQL connection
      * @param form form object
      * @param path JSP path
-     * @return
+     * @return the action forward
      */
     protected ActionForward html(Connection con, DynActionForm form, String path) {
         return html(new SingleConnectionSet(con), form, path);
@@ -318,7 +318,7 @@ public abstract class BaseAction extends DispatchAction {
      * @param conSet set of SQL connections
      * @param form form object
      * @param path JSP path
-     * @return
+     * @return the action forward
      */
     protected ActionForward html(ConnectionSet conSet, DynActionForm form, String path) {
         // response requested in JSON (API call)
@@ -333,20 +333,20 @@ public abstract class BaseAction extends DispatchAction {
     }
 
     /**
-     * Sends response result in JSON format.
+     * Sends response result in JSON format
      * @param con
      * @param form
-     * @return
+     * @return always {@code null}, the response is written directly to the output
      */
     protected ActionForward json(Connection con, DynActionForm form) {
         return json(new SingleConnectionSet(con), form);
     }
 
     /**
-     * Sends response result in JSON format.
+     * Sends response result in JSON format
      * @param conSet
      * @param form
-     * @return
+     * @return always {@code null}, the response is written directly to the output
      */
     protected ActionForward json(ConnectionSet conSet, DynActionForm form) {
         try {
@@ -381,10 +381,10 @@ public abstract class BaseAction extends DispatchAction {
     }
 
     /**
-     * Checks concurrent modifications by different users.
-     * @param lastModify initial state of modified item.
-     * @param form request with parameters {@code lastModifyUserId} and {@code lastModifyTime} for comparing to {@code lastModify}.
-     * @throws BGMessageException entity was stored by another user in between.
+     * Checks concurrent modifications by different users
+     * @param lastModify initial state of modified item
+     * @param form request with parameters {@code lastModifyUserId} and {@code lastModifyTime} for comparing to {@code lastModify}
+     * @throws BGMessageException entity was stored by another user in between
      */
     protected void checkModified(LastModify lastModify, DynActionForm form) throws BGMessageException {
         if (lastModify.getTime() != null) {
@@ -405,11 +405,11 @@ public abstract class BaseAction extends DispatchAction {
     /**
      * Saves and restores HTTP request parameters.
      * As storage used {@link User#getPers()}, key is 'param.' + {@link DynActionForm#getAreaId()}.
-     * @param con DB connection.
-     * @param form there params are taken and restored, also contains 'areaId' param.
-     * @param get restore values.
-     * @param set save values.
-     * @param params parameter names.
+     * @param con DB connection
+     * @param form there params are taken and restored, also contains 'areaId' param
+     * @param get restore values
+     * @param set save values
+     * @param params parameter names
      * @throws SQLException
      */
     protected void restoreRequestParams(Connection con, DynActionForm form, boolean get, boolean set, String... params) throws SQLException {
@@ -448,10 +448,10 @@ public abstract class BaseAction extends DispatchAction {
     }
 
     /**
-     * Stores new values in personalization map and update it if changed.
-     * @param form the form for obtaining the user.
-     * @param con DB connection.
-     * @param setFunction function for setting map parameters.
+     * Stores new values in personalization map and update it if changed
+     * @param form the form for obtaining the user
+     * @param con DB connection
+     * @param setFunction function for setting map parameters
      * @throws Exception
      */
     protected void updatePersonalization(DynActionForm form, Connection con, Consumer<Preferences> setFunction) throws Exception {

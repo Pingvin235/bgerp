@@ -1,5 +1,5 @@
 /**
- * App distribution.
+ * App distribution
  */
 package org.bgerp.app.dist;
 

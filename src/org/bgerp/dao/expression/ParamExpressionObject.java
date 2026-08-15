@@ -350,7 +350,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Use {@link ParamValueDAO#getParamDate(int, int)}.
+     * Use {@link ParamValueDAO#getParamDate(int, int)}
      */
     @Deprecated
     public Date getParamDate(int paramId) throws SQLException {
@@ -359,7 +359,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Use {@link ParamValueDAO#getParamDateTime(int, int)}.
+     * Use {@link ParamValueDAO#getParamDateTime(int, int)}
      */
     @Deprecated
     public Date getParamDateTime(int paramId) throws SQLException {
@@ -368,7 +368,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Use {@link ParamValueDAO#getParamPhone(int, int)}.
+     * Use {@link ParamValueDAO#getParamPhone(int, int)}
      */
     @Deprecated
     public String getParamPhoneNoFormat(int paramId) throws SQLException {

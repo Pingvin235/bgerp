@@ -70,7 +70,7 @@ public class CustomerAction extends BaseAction {
             customer.setGroupIds(customerDAO.getGroupIds(form.getId()));
             form.setResponseData("customer", customer);
 
-            // TODO: Переделать на кэш.
+            // TODO: Rewrite to use a cache
             var request = form.getHttpRequest();
             request.setAttribute("patternList", patternDAO.getPatternList(Customer.OBJECT_TYPE));
             request.setAttribute("parameterGroupList", groupDAO.getParameterGroupList(Customer.OBJECT_TYPE));
@@ -238,7 +238,7 @@ public class CustomerAction extends BaseAction {
             } else if (paramMergingCustomerValue != null) {
                 paramValueDAO.copyParam(mergingCustomerId, customerId, paramId);
             }
-            //оба null, оба пустые или менять не надо
+            // both null, both empty, or no change needed
         }
 
         // links copy (there are only bgbilling contracts)

@@ -67,7 +67,7 @@ public class ProcessPriorityConfig extends Config {
     }
 
     /**
-     * @return map with key process priority and value hex color string.
+     * @return map with key process priority and value hex color string
      */
     @Dynamic
     public SortedMap<Integer, String> getPriorityColors() {

@@ -4,7 +4,7 @@ import org.bgerp.app.exception.BGMessageException;
 import org.bgerp.util.Log;
 
 /**
- * Configuration, created on demand in {@link ConfigMap#getConfig(Class)} and cached before it has changed.
+ * Configuration, created on demand in {@link ConfigMap#getConfig(Class)} and cached before it has changed
  *
  * @author Shamil Vakhitov
  */
@@ -19,23 +19,23 @@ public abstract class Config {
     };
 
     /**
-     * The exception, thrown on empty configuration.
+     * The exception, thrown on empty configuration
      */
     public static class InitStopException extends Exception {}
 
     /**
      * The constructor has to be overwritten and implement parameters parsing.
      * Simple constructor, without deprecated keys validation support.
-     * @param config configuration, MUST be {@code null} when calling {@code super}.
+     * @param config configuration, MUST be {@code null} when calling {@code super}
      */
     protected Config(ConfigMap config) {
         this(config, false);
     }
 
     /**
-     * The constructor has to be overwritten and implement parameters parsing.
-     * @param config configuration, MUST be {@code null} when calling {@code super}.
-     * @param validate validation old configuration keys.
+     * The constructor has to be overwritten and implement parameters parsing
+     * @param config configuration, MUST be {@code null} when calling {@code super}
+     * @param validate validation old configuration keys
      */
     protected Config(ConfigMap config, boolean validate) {
         if (config != null)
@@ -43,9 +43,9 @@ public abstract class Config {
     }
 
     /**
-     * Check, is the configuration initialized.
+     * Check, is the configuration initialized
      * @param criteria
-     * @throws InitStopException if {@param criteria} is false.
+     * @throws InitStopException if {@param criteria} is false
      */
     protected void initWhen(boolean criteria) throws InitStopException {
         if (!criteria)
@@ -53,7 +53,7 @@ public abstract class Config {
     }
 
     /**
-     * Throws validation exception.
+     * Throws validation exception
      * @param message
      * @param args
      * @throws BGMessageException

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.WriterAppender;
 
 /**
- * In-memory log appender for the current user' session.
+ * In-memory log appender for the current user's session
  *
  * @author Shamil Vakhitov
  */
@@ -24,7 +24,7 @@ public class SessionLogAppender extends WriterAppender {
     }
 
     /**
-     * Add to tracked the current thread for a session
+     * Adds to tracked the current thread for a session
      * @param session the session
      */
     public static final void track(HttpSession session, boolean create) {
@@ -51,7 +51,7 @@ public class SessionLogAppender extends WriterAppender {
     }
 
     /**
-     * Found a tracked session for the current thread
+     * Finds a tracked session for the current thread
      * @return the found tracked session or {@code null}
      */
     public static TrackedSession getTracked() {

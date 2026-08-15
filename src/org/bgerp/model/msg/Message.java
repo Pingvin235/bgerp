@@ -11,7 +11,7 @@ import org.bgerp.model.file.FileData;
 import ru.bgcrm.model.process.Process;
 
 /**
- * Message.
+ * Message
  *
  * @author Shamil Vakhitov
  */
@@ -21,7 +21,7 @@ public class Message extends Id {
     public static final int DIRECTION_INCOMING = 1;
     public static final int DIRECTION_OUTGOING = 2;
 
-    // системный идентификатор
+    // system identifier
     private String systemId = "";
 
     private int processId;
@@ -29,39 +29,39 @@ public class Message extends Id {
 
     private int customerId;
 
-    // тип сообщения
+    // message type
     private int typeId = -1;
-    // направение сообщения
+    // message direction
     private int direction = DIRECTION_INCOMING;
 
-    // для исходящего звонка - код звонившего пользователя
-    // для входящего звонка - код принявшего пользователя
-    // для входящего HD, EMail - код прочитавшего пользователя
-    // для исходящего HD, EMail - код отписавшего пользователя
+    // for an outgoing call - the ID of the user who called
+    // for an incoming call - the ID of the user who answered
+    // for an incoming HD, EMail - the ID of the user who read it
+    // for an outgoing HD, EMail - the ID of the user who replied
     private int userId;
 
-    // для звонка - время начала, для HD - время создания сообщения
-    // для входящих EMail - время получения сообщения демоном
-    // для исходящих EMail - время создания сообщения
+    // for a call - start time, for HD - message creation time
+    // for incoming EMail - time the message was received by the daemon
+    // for outgoing EMail - message creation time
     private Date fromTime;
 
-    // для звонка - время окончания, для HD - время прочтения,
-    // для входящих EMail - время прочтения
-    // для исходящих EMail - время отправки
+    // for a call - end time, for HD - time read,
+    // for incoming EMail - time read
+    // for outgoing EMail - time sent
     private Date toTime;
 
-    // для звонка - с номера, для EMail - с адреса, для HD - код контрагента в виде строки
+    // for a call - from number, for EMail - from address, for HD - customer ID as a string
     private String from = "";
-    // для звонка - на номер, для EMail - на адрес, для HD - код контрагента в виде строки
+    // for a call - to number, for EMail - to address, for HD - customer ID as a string
     private String to = "";
 
-    // для HD/Email - тема сообщения
+    // for HD/Email - message subject
     private String subject = "";
 
-    // для HD/Email - текст сообщения, для телефона - краткое описание.
+    // for HD/Email - message text, for phone - brief description
     private String text = "";
 
-    // прикрепленные файлы
+    // attached files
     private List<FileData> attaches = new ArrayList<>();
 
     public String getSystemId() {
@@ -199,14 +199,14 @@ public class Message extends Id {
     }
 
     /**
-     * @return {@link #direction} equals {@link #DIRECTION_INCOMING} and {@link #toTime} is nul {@code null}.
+     * @return {@link #direction} equals {@link #DIRECTION_INCOMING} and {@link #toTime} is not {@code null}
      */
     public boolean isRead() {
         return toTime != null && direction == DIRECTION_INCOMING;
     }
 
     /**
-     * @return {@link #direction} equals {@link #DIRECTION_INCOMING} and {@link #toTime} is {@code null}.
+     * @return {@link #direction} equals {@link #DIRECTION_INCOMING} and {@link #toTime} is {@code null}
      */
     public boolean isUnread() {
         return toTime == null && direction == DIRECTION_INCOMING;
@@ -253,15 +253,14 @@ public class Message extends Id {
     }
 
     /**
-     * Получить список прикрепленных файлов
-     * @return список файлов
+     * @return list of attached files
      */
     public List<FileData> getAttachList() {
         return attaches;
     }
 
     /**
-     * Добавляет к сообщению файл
+     * Adds a file to the message
      * @param messageAttach
      */
     public void addAttach(FileData messageAttach) {

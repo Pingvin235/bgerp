@@ -15,7 +15,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import ru.bgcrm.util.Utils;
 
 /**
- * Scheduler for running single or periodical tasks.
+ * Scheduler for running single or periodical tasks
  *
  * @author Shamil Vakhitov
  */
@@ -29,7 +29,7 @@ public class Scheduler extends Thread {
         return INSTANCE;
     }
 
-    /** Executor service, created only when the thread has started. */
+    /** Executor service, created only when the thread has started */
     private ThreadPoolExecutor pool;
 
     private Scheduler() {

@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import ru.bgcrm.util.Utils;
 
 /**
- * Encodes all bytes to {@code %} with hex digits.
+ * Encodes all bytes to {@code %} with hex digits
  *
  * @author Shamil Vakhitov
  */

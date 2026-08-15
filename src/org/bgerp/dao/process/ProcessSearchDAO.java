@@ -15,7 +15,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Fluent process search DAO.
+ * Fluent process search DAO
  *
  * @author Shamil Vakhitov
  */
@@ -91,8 +91,8 @@ public class ProcessSearchDAO extends SearchDAO {
     }
 
     /**
-     * Queries processes.
-     * @param result pageable result.
+     * Queries processes
+     * @param result pageable result
      * @throws SQLException
      */
     public void search(Pageable<Process> result) throws SQLException {

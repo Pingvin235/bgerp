@@ -52,7 +52,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
 
     /**
      * Delete the current process
-    */
+     */
     public void delete() throws Exception {
         ProcessAction.processDelete(form, con, process);
     }
@@ -99,7 +99,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
      * @throws Exception
      */
     public void addExecutors(Set<Integer> ids) throws BGMessageException, Exception {
-        // определение единственной группороли в которую добавляются исполнители
+        // determining the single group-role executors are being added to
         ProcessGroup processGroup = null;
         for (ProcessGroup pg : process.getGroups()) {
             for (Integer executorId : ids) {

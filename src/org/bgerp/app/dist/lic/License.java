@@ -32,13 +32,13 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
- * License for plugins.
+ * License for plugins
  *
  * @author Shamil Vakhitov
  */
 public class License {
     /**
-     * Accepted signature.
+     * Accepted signature
      */
     private static final Sign SIGN = new Sign("Team <team@bgerp.org>", "AAAAB3NzaC1yc2EAAAADAQABAAABAQDE4LeZHn/rW/J5fX52ozR2B+wwxEqfE9lhkZDmG3wCCtGNXzxFpQXVRROHi0FwSZAnQXLvTwMH1Lw54SBxPbEk3f35B3ULorIzibMwokzdD6daJdmI9nq4fm7FcpnM8Wv81RvRbKjBFQz1waJLiALpTxBSOrgbFFM6jilgv9fSEJNsz2c/sh/TlMxa5XlHhwutdp6qip2QyTngD8oq1ZNtHqzx3kI/tj2L+fRZEhWZD2Fj9oWKs9uiS+G4Gzsty2bA6hHYMyDdzFKUvN3I9Lj9NF2ZeLalsen5zaoHh5kzPyzCymZfVupu6M1DQqBtE5rQgY+JWXDegBYzRawiwzpx");
 
@@ -61,7 +61,7 @@ public class License {
     private final LocalDate created = LocalDate.now();
     private final String data;
     private final ConfigMap config;
-    /** Session limit, 0 - no limit. */
+    /** Session limit, 0 - no limit */
     private final int limit;
     private final Date dateTo;
     private final byte[] digest;
@@ -80,42 +80,39 @@ public class License {
     }
 
     /**
-     * License content.
-     * @return
+     * @return license content
      */
     public String getData() {
         return data;
     }
 
     /**
-     * Digest for all the license's lines before lic.sign.signature.
-     * @return
+     * @return digest for all the license's lines before lic.sign.signature
      */
     public byte[] getDigest() {
         return digest;
     }
 
     /**
-     * License check result.
-     * @return {@code null} on correct result, or error text.
+     * License check result
+     * @return {@code null} on correct result, or error text
      */
     public String getError() {
         return error;
     }
 
     /**
-     * Plugin IDs.
-     * @return
+     * @return plugin IDs
      */
     public Set<String> getPlugins() {
         return plugins;
     }
 
     /**
-     * License content with signature on the end.
-     * @param keyFilePath file of Java resource path to SSH private key file.
-     * @param keyFilePswd password to SSH private key file, {@code null} - no password is used.
-     * @return UTF-8 encoded signed license.
+     * License content with signature on the end
+     * @param keyFilePath file of Java resource path to SSH private key file
+     * @param keyFilePswd password to SSH private key file, {@code null} - no password is used
+     * @return UTF-8 encoded signed license
      */
     public byte[] sign(String keyFilePath, String keyFilePswd) throws Exception {
         var sign = new Sign("key.id", new String(org.bgerp.util.IOUtils.read(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
@@ -129,7 +126,7 @@ public class License {
     }
 
     /**
-     * Adds {@link LicenseEvent} to {@code form} response case the license has error.
+     * Adds {@link LicenseEvent} to {@code form} response case the license has error
      * @param form
      */
     public void check(DynActionForm form) {
@@ -170,7 +167,7 @@ public class License {
      * Checks if count of logged in users is less that license limit.
      * When {@link #error} is not blank, returns {@code true} to allow fix the license.
      * Return {@code true} when license check is disabled.
-     * @return allowance to log in.
+     * @return allowance to log in
      */
     public boolean checkSessionLimit() {
         if (!isCheckEnabled() || Utils.notBlankString(error) || limit == 0)
@@ -180,7 +177,7 @@ public class License {
     }
 
     /**
-     * @return is the license object created today.
+     * @return is the license object created today
      */
     public boolean isCreatedToday() {
         return ChronoUnit.DAYS.between(created, LocalDate.now()) == 0;
@@ -240,7 +237,7 @@ public class License {
     }
 
     /**
-     * @return license plugins IDs + kernel.
+     * @return license plugins IDs + kernel
      */
     private Set<String> plugins() {
         var result = new HashSet<String>();

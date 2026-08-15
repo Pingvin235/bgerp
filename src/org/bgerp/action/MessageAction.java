@@ -63,15 +63,15 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class MessageAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/message";
     /**
-     * Maximum messages deleted at once.
+     * Maximum messages deleted at once
      */
     private static final int MAX_MESSAGE_DELETE_QNT = 1000;
     /**
-     * Key for storing counter in personalization map.
+     * Key for storing counter in personalization map
      */
     public static final String UNPROCESSED_MESSAGES_PERSONAL_KEY = "unprocessedMessages";
     /**
-     * Special action for edit and delete not owned messages.
+     * Special action for edit and delete not owned messages
      */
     @Dynamic
     public static final String ACTION_MODIFY_NOT_OWNED = ActionServlet.pathId(MessageAction.class, "modifyNotOwned");

@@ -1,7 +1,7 @@
 package org.bgerp.model.base.iface;
 
 /**
- * Entity with String or Integer ID.
+ * Entity with String or Integer ID
  *
  * @author Shamil Vakhitov
  */

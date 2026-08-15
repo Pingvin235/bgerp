@@ -33,11 +33,11 @@ public class ProcessCreateLinkConfig extends Config {
     }
 
     /**
-     * List of pairs with process creation item on first places and item enable state of seconds.
-     * @param form context form.
-     * @param con context connection.
-     * @param process context process.
-     * @return
+     * List of pairs with process creation item on first places and item enable state of seconds
+     * @param form context form
+     * @param con context connection
+     * @param process context process
+     * @return list of pairs with process creation item and its enable state
      */
     public List<Pair<ProcessCreateLinkItem, Boolean>> getItemList(DynActionForm form, Connection con, Process process) {
         List<Pair<ProcessCreateLinkItem, Boolean>> result = new ArrayList<>();
@@ -51,12 +51,12 @@ public class ProcessCreateLinkConfig extends Config {
     }
 
     /**
-     * Pair of an process creation item and it's enabling state.
-     * @param form context form.
-     * @param con context connection.
-     * @param process context process.
-     * @param id item ID.
-     * @return
+     * Pair of a process creation item and its enabling state
+     * @param form context form
+     * @param con context connection
+     * @param process context process
+     * @param id item ID
+     * @return pair with process creation item and its enable state, or {@code null} if not found
      */
     public Pair<ProcessCreateLinkItem, Boolean> getItem(DynActionForm form, Connection con, Process process, int id) {
         var item = itemMap.get(id);

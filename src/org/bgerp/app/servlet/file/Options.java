@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 /**
- * Files fluent options.
+ * Files fluent options
  *
  * @author Shamil Vakhitov
  */
@@ -36,7 +36,7 @@ public class Options {
     /**
      * File wildcards for those deletion should be replaced by clean operation
      * @param wildcards the wildcards
-     * @return
+     * @return {@code this}
      */
     public Options withDeletionByClear(String... wildcards) {
         deletionByClear = WildcardFileFilter.builder().setWildcards(wildcards).get();
@@ -63,7 +63,7 @@ public class Options {
     /**
      * Should deletion for a file be replaced by clean operation
      * @param file the file
-     * @return
+     * @return {@code true} if deletion should be replaced by clean operation
      */
     public boolean isDeletionByClear(File file) {
         return deletionByClear != null && deletionByClear.accept(file);
@@ -72,7 +72,7 @@ public class Options {
     /**
      * Finds highlighter for a file
      * @param file the file
-     * @return
+     * @return the found highlighter, or {@code null}
      */
     public Highlighter highlighter(File file) {
         return highlighters.stream().filter(hl -> hl.match(file)).findFirst().orElse(null);

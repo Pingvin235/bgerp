@@ -25,7 +25,7 @@ public class ParamLogDAO extends CommonDAO {
         PreparedStatement ps;
         String query;
 
-        // Проверяем последнюю запись по данному параметру, чтобы не записывать неизмененные параметры
+        // check the last record for this parameter, to avoid writing unchanged parameters
         query = "SELECT text FROM " + Tables.TABLE_PARAM_LOG + " WHERE object_id=? AND param_id=? "
                 + "ORDER BY dt DESC LIMIT 1";
 
@@ -43,7 +43,7 @@ public class ParamLogDAO extends CommonDAO {
         }
         ps.close();
 
-        // Запись в лог
+        // write to log
         query = "INSERT INTO" + Tables.TABLE_PARAM_LOG + "(dt, object_id, user_id, param_id, text) "
                 + "VALUES (CURRENT_TIMESTAMP(4),?,?,?,?)";
 
@@ -58,12 +58,12 @@ public class ParamLogDAO extends CommonDAO {
     }
 
     /**
-     * Pageable param changes history in reverse time order.
-     * @param id entity ID.
-     * @param params parameters.
+     * Pageable param changes history in reverse time order
+     * @param id entity ID
+     * @param params parameters
      * @param offEncryption
-     * @param result pageable result.
-     * @return {@link Pageable#getList()} from {@code result}.
+     * @param result pageable result
+     * @return {@link Pageable#getList()} from {@code result}
      * @throws SQLException
      */
     public List<ParameterLogItem> getHistory(int id, List<Parameter> params, boolean offEncryption,

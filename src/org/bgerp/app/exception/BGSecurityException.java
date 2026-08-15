@@ -3,7 +3,7 @@ package org.bgerp.app.exception;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Suspicious situation, to be monitored.
+ * Suspicious situation, to be monitored
  *
  * @author Shamil Vakhitov
  */
@@ -16,8 +16,7 @@ public class BGSecurityException extends BGException {
     }
 
     /**
-     * Request information.
-     * @return
+     * @return request information
      */
     public DynActionForm getForm() {
         return form;

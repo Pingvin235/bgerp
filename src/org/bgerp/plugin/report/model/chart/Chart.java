@@ -29,16 +29,16 @@ public abstract class Chart implements Titled {
     }
 
     /**
-     * Generates JSON data for EChart on frontend.
+     * Generates JSON data for EChart on frontend
      * @param l
      * @param data
-     * @return
+     * @return the JSON data
      */
     public abstract Object json(Localizer l, Data data);
 
     /**
-     * Adds array 'color' with 138 different HEX colors.
-     * @param series parent object.
+     * Adds array 'color' with 138 different HEX colors
+     * @param series parent object
      */
     protected void colors(final ObjectNode series) {
         series.putArray("color")

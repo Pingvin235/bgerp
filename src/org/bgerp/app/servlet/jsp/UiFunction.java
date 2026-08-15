@@ -38,7 +38,7 @@ public class UiFunction {
      * @param map
      * @param showId
      * @param showComment
-     * @return
+     * @return the JSON source
      * @throws JsonProcessingException
      */
     public static final String selectSingleSourceJson(Collection<IdTitle<?>> list, Set<?> availableIdSet, List<?> availableIdList,
@@ -81,7 +81,7 @@ public class UiFunction {
      * Localized text with process creation and closing times
      * @param l
      * @param process
-     * @return
+     * @return the localized text
      */
     public static final String processCreatedAndClosed(Localizer l, Process process) {
         var result = new StringBuilder(100)
@@ -93,9 +93,9 @@ public class UiFunction {
 
     /**
      * A string containing object's comment, case {@code object} implements {@link Comment}
-     * interface and mandatory the object's ID.
+     * interface and mandatory the object's ID
      * @param object the object, must implement {@link Id}
-     * @return
+     * @return the string
      */
     public static final String idAndComment(Object object) {
         StringBuilder result = new StringBuilder(100);

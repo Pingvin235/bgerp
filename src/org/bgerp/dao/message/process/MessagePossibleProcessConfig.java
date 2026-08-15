@@ -49,7 +49,7 @@ public class MessagePossibleProcessConfig extends Config {
     }
 
     /**
-     * @return search types map with keys equal config IDs.
+     * @return search types map with keys equal config IDs
      */
     public SortedMap<Integer, MessagePossibleProcessSearch> getSearches() {
         return searches;

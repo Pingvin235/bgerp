@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * List of report's columns.
- * 
+ * List of report's columns
+ *
  * @author Shamil Vakhitov
  */
 public class Columns {
@@ -33,26 +33,26 @@ public class Columns {
     }
 
     /**
-     * Quantity of all columns.
-     * @return
+     * Quantity of all columns
+     * @return the quantity of all columns
      */
     public int size() {
         return columnList.size();
     }
 
     /**
-     * List of visible columns with not blank title.
-     * @return
+     * List of visible columns with not blank title
+     * @return the list of visible columns
      */
     public List<Column> getVisibleColumns() {
         return visibleColumns;
     }
 
     /**
-     * Column by ID.
+     * Column by ID
      * @param id
-     * @return 
-     * @throws IllegalArgumentException - if no column found.
+     * @return the column
+     * @throws IllegalArgumentException - if no column found
      */
     public Column get(String id) {
         var result = columnMap.get(id);
@@ -62,19 +62,19 @@ public class Columns {
     }
 
     /**
-     * Column by index.
+     * Column by index
      * @param index
-     * @return
+     * @return the column
      */
     public Column getByIndex(int index) {
         return columnList.get(index);
     }
 
     /**
-     * Column index by ID.
+     * Column index by ID
      * @param id
-     * @return
-     * @throws IllegalArgumentException - if no column found.
+     * @return the column index
+     * @throws IllegalArgumentException - if no column found
      */
     public int getIndex(String id) {
         return get(id).getIndex();

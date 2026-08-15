@@ -21,7 +21,7 @@ public class Pageable<T> {
     public Pageable() {}
 
     /**
-     * Constructor with page size.
+     * Constructor with page size
      * @param pageSize
      */
     public Pageable(int pageSize) {
@@ -32,8 +32,8 @@ public class Pageable<T> {
      * Constructor sets a created Pageable object to {@code form} response.
      * Restores a page size from user personalization. If nothing is stored there,
      * then {@code defaultPageSize} is used.
-     * @param form the form.
-     * @param defaultPageSize the default page size.
+     * @param form the form
+     * @param defaultPageSize the default page size
      */
     public Pageable(DynActionForm form, int defaultPageSize) {
         this.page = form.getPage();
@@ -52,14 +52,14 @@ public class Pageable<T> {
      * Constructor sets a created Pageable object to {@code form} response.
      * Restores a page size from user personalization. If nothing is stored there,
      * then {@link Page#DEFAULT_PAGE_SIZE} is used.
-     * @param form the form.
+     * @param form the form
      */
     public Pageable(DynActionForm form) {
         this(form, Page.DEFAULT_PAGE_SIZE);
     }
 
     /**
-     * @return the instance with disabled pagination.
+     * @return the instance with disabled pagination
      */
     public Pageable<T> withoutPagination() {
         page.setPageIndex(Page.PAGE_INDEX_NO_PAGING);
@@ -67,7 +67,7 @@ public class Pageable<T> {
     }
 
     /**
-     * @return pagination options.
+     * @return pagination options
      */
     @Dynamic
     public Page getPage() {
@@ -75,7 +75,7 @@ public class Pageable<T> {
     }
 
     /**
-     * @return data list with a page content, the list is modifiable.
+     * @return data list with a page content, the list is modifiable
      */
     @Dynamic
     public List<T> getList() {

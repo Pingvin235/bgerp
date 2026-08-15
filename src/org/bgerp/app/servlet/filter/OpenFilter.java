@@ -46,17 +46,17 @@ public class OpenFilter implements Filter {
     }
 
     /**
-     * After forwarding to shell.jsp original requestURL is lost, so it is preserved as attribute.
+     * After forwarding to shell.jsp original requestURL is lost, so it is preserved as attribute
      * @return preserved URI or {@code null}
-     **/
+     */
     public static final String getRequestURI(ServletRequest request) {
         return (String) request.getAttribute(REQUEST_ATTRIBUTE_URI);
     }
 
     /**
-     * After forwarding to shell.jsp secret parameter is lost, so it is preserved as attribute.
+     * After forwarding to shell.jsp secret parameter is lost, so it is preserved as attribute
      * @return preserved secret or {@code null}
-     **/
+     */
     public static final String getRequestSecret(ServletRequest request) {
         return (String) request.getAttribute(REQUEST_ATTRIBUTE_SECRET);
     }

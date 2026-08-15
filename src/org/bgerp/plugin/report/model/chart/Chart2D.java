@@ -25,9 +25,9 @@ public abstract class Chart2D extends Chart {
     }
 
     /**
-     * Aggregate values column by categories.
+     * Aggregates values column by categories
      * @param data
-     * @return
+     * @return map of category to count
      */
     protected Map<String, Integer> prepareData(Data data) {
         Map<String, Integer> result = new TreeMap<>();

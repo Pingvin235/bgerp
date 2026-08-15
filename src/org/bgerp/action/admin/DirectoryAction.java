@@ -166,7 +166,7 @@ public class DirectoryAction extends BaseAction {
         return json(con, form);
     }
 
-    // шаблоны названия
+    // title patterns
     public ActionForward patternTitleList(DynActionForm form, Connection con) throws Exception {
         PatternDAO patternDAO = new PatternDAO(con);
         var request = form.getHttpRequest();
@@ -210,7 +210,7 @@ public class DirectoryAction extends BaseAction {
         return json(con, form);
     }
 
-    // группы параметров
+    // parameter groups
     public ActionForward parameterGroupList(DynActionForm form, Connection con) throws Exception {
         ParamGroupDAO paramGroupDAO = new ParamGroupDAO(con);
 
@@ -221,7 +221,7 @@ public class DirectoryAction extends BaseAction {
         return html(con, form, PATH_JSP + "/parameter/group/list.jsp");
     }
 
-    //переписать "!"
+    // TODO: rewrite, see "!!!" below
     public ActionForward parameterGroupGet(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
 

@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
 
 /**
  * Runner of OS commands, logging STDOUT and STDERR outputs
- * with levels INFO and ERROR respectively and collecting those.
+ * with levels INFO and ERROR respectively and collecting those
  *
  * @author Shamil Vakhitov
  */
@@ -94,7 +94,7 @@ public class RuntimeRunner {
     }
 
     /**
-     * Execute OS commands
+     * Executes OS commands
      * @throws IOException
      * @throws InterruptedException
      * @throws BGException if exit code wasn't 0
@@ -109,7 +109,7 @@ public class RuntimeRunner {
     }
 
     /**
-     * Execute OS commands
+     * Executes OS commands
      * @throws IOException
      * @throws InterruptedException
      * @return the exit code

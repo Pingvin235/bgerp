@@ -24,9 +24,9 @@ public class LDAPAttributes {
     }
 
     /**
-     * Single attribute value.
-     * @param name name of attribute.
-     * @return first value of the attribute with {@code name} or {@code null} if no presented.
+     * Single attribute value
+     * @param name name of attribute
+     * @return first value of the attribute with {@code name} or {@code null} if no presented
      * @throws NamingException
      */
     public String value(String name) throws NamingException {
@@ -34,9 +34,9 @@ public class LDAPAttributes {
     }
 
     /**
-     * List of attribute values.
-     * @param name name of attribute.
-     * @return unmodifiable list of values, never {@code null}.
+     * List of attribute values
+     * @param name name of attribute
+     * @return unmodifiable list of values, never {@code null}
      * @throws NamingException
      */
     public List<String> values(String name) throws NamingException {

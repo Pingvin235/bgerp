@@ -35,7 +35,7 @@ public class UserEvent implements Event {
     }
 
     /**
-     * Stops the event processing.
+     * Stops the event processing
      */
     public void stopProcessing() {
         processing = false;

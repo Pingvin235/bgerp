@@ -1,7 +1,7 @@
 package org.bgerp.util.log;
 
 /**
- * Factory setting additivity to {@code false} for configured loggers.
+ * Factory setting additivity to {@code false} for configured loggers
  *
  * @author Shamil Vakhitov
  */

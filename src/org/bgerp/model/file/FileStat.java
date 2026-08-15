@@ -3,7 +3,7 @@ package org.bgerp.model.file;
 import java.io.File;
 
 /**
- * Files statistic.
+ * Files statistic
  *
  * @author Shamil Vakhitov
  */
@@ -29,21 +29,21 @@ public class FileStat {
     }
 
     /**
-     * @return files count.
+     * @return files count
      */
     public int files() {
         return files;
     }
 
     /**
-     * @return dirs count.
+     * @return dirs count
      */
     public int dirs() {
         return dirs;
     }
 
     /**
-     * @return files size in bytes.
+     * @return files size in bytes
      */
     public long size() {
         return size;

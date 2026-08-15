@@ -37,9 +37,9 @@ public class TagConfig extends Config {
     }
 
     /**
-     * Returns value of selected history storing tag.
-     * @param messageTagIds all message tags.
-     * @return {@link Tag#TAG_HISTORY_ALL_ID}, {@link Tag#TAG_HISTORY_WITH_ADDRESS_ID} or 0 if none is selected.
+     * Returns value of selected history storing tag
+     * @param messageTagIds all message tags
+     * @return {@link Tag#TAG_HISTORY_ALL_ID}, {@link Tag#TAG_HISTORY_WITH_ADDRESS_ID} or 0 if none is selected
      */
     public int getSelectedHistoryTag(Collection<Integer> messageTagIds) {
         return messageTagIds.stream()

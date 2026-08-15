@@ -21,7 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import ru.bgcrm.util.Utils;
 
 /**
- * Installer of update modules.
+ * Installer of update modules
  *
  * @author Shamil Vakhitov
  */
@@ -31,7 +31,7 @@ public class InstallerModules {
     private static final String VERSION_URL = App.UPDATE_URL + "/version";
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
-    /** App version for 'update' module. */
+    /** App version for 'update' module */
     private final String version;
 
     private final Map<String, ModuleFile> remoteFileMap = new HashMap<>();
@@ -48,7 +48,7 @@ public class InstallerModules {
 
     /**
      * Update to the latest
-     * @param force compare remote build with locally installed.
+     * @param force compare remote build with locally installed
      */
     public void update(boolean force) {
         selectModulesForUpdate(force);
@@ -56,7 +56,7 @@ public class InstallerModules {
     }
 
     /**
-     * Load a list of remote zip-files.
+     * Load a list of remote zip-files
      */
     private void loadRemoteFileList() {
         try {
@@ -95,7 +95,7 @@ public class InstallerModules {
     }
 
     /**
-     * @return the running app version from {@link #version}, or if blank from {@link InstalledModule#getVersion()}, module 'update'.
+     * @return the running app version from {@link #version}, or if blank from {@link InstalledModule#getVersion()}, module 'update'
      */
     private String getVersion() {
         String result = this.version;
@@ -138,8 +138,8 @@ public class InstallerModules {
     }
 
     /**
-     * Checking update necessity.
-     * @param force - version check disable.
+     * Checking update necessity
+     * @param force - version check disable
      */
     private void selectModulesForUpdate(boolean force) {
         List<InstalledModule> modules = InstalledModule.getInstalled();

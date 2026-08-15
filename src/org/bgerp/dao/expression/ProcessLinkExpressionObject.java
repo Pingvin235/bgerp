@@ -38,9 +38,9 @@ public class ProcessLinkExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Calls {@link ProcessLinkDAO#getObjectLinksWithType(int, String)}
-     * @param typeLike SQL LIKE expression for link type.
-     * @return list of links.
+     * Returns titles of process links matching a link type
+     * @param typeLike SQL LIKE expression for link type
+     * @return list of link titles
      */
     public List<String> linkTitles(String typeLike) throws Exception {
         List<String> result = new ArrayList<>();
@@ -51,8 +51,8 @@ public class ProcessLinkExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Calls {@link #linkTitles(String)}, and returns first title link object.
-     * @return title of the the first link or null.
+     * Returns title of the first process link matching a link type
+     * @return title of the first link, or {@code null}
      */
     public String linkTitle(String typeLike) throws Exception {
         for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {

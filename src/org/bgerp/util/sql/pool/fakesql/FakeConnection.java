@@ -251,25 +251,25 @@ public class FakeConnection implements Connection {
         return null;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public void abort(Executor arg0) throws SQLException {
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public int getNetworkTimeout() throws SQLException {
         return 0;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public String getSchema() throws SQLException {
         return null;
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public void setNetworkTimeout(Executor arg0, int arg1) throws SQLException {
     }
 
-    // Нет @Override, чтобы не ругалось под 1.6.
+    // No @Override, so it doesn't complain under 1.6
     public void setSchema(String arg0) throws SQLException {
     }
 }

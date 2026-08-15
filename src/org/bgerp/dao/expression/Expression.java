@@ -134,11 +134,11 @@ public class Expression {
     }
 
     /**
-     * Creates initialized expression for a process related expression.
-     * @param conSet DB connection sets.
-     * @param event event.
-     * @param process the process.
-     * @return
+     * Creates initialized expression for a process related expression
+     * @param conSet DB connection sets
+     * @param event event
+     * @param process the process
+     * @return the expression
      * @throws Exception
      */
     public static Expression init(ConnectionSet conSet, UserEvent event, Process process) throws Exception {
@@ -148,12 +148,12 @@ public class Expression {
     }
 
     /**
-     * Creates expressions' context for process related expression.
-     * @param conSet DB connections set.
-     * @param form request form.
-     * @param event event, can be {@code null}.
-     * @param process the process.
-     * @return
+     * Creates expressions' context for process related expression
+     * @param conSet DB connections set
+     * @param form request form
+     * @param event event, can be {@code null}
+     * @param process the process
+     * @return the context map
      */
     public static Map<String, Object> context(ConnectionSet conSet, DynActionForm form, UserEvent event, Process process) {
         Connection con = conSet.getConnection();

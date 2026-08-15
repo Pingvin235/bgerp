@@ -4,7 +4,7 @@ import org.bgerp.event.base.ClientEvent;
 import org.bgerp.model.base.Message;
 
 /**
- * License state event.
+ * License state event
  *
  * @author Shamil Vakhitov
  */

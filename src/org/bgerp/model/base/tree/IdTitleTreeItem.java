@@ -1,7 +1,7 @@
 package org.bgerp.model.base.tree;
 
 /**
- * Tree node base class.
+ * Tree node base class
  *
  * @author Shamil Vakhitov
  */

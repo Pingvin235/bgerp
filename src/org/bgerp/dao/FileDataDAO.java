@@ -41,7 +41,7 @@ public class FileDataDAO extends CommonDAO {
 
     /**
      * Constructor. Creates a store directory if not exists.
-     * @param con might be null if only {@link #getFile(FileData)} is used and {@code time} is already set.
+     * @param con might be null if only {@link #getFile(FileData)} is used and {@code time} is already set
      */
     public FileDataDAO(Connection con) {
         super(con);
@@ -49,9 +49,9 @@ public class FileDataDAO extends CommonDAO {
     }
 
     /**
-     * Selects file entities with given IDs, ordered by them.
-     * @param ids the IDs.
-     * @return
+     * Selects file entities with given IDs, ordered by them
+     * @param ids the IDs
+     * @return the file entities
      * @throws SQLException
      */
     public List<FileData> list(List<Integer> ids) throws SQLException {
@@ -74,9 +74,9 @@ public class FileDataDAO extends CommonDAO {
     }
 
     /**
-     * Sets {@code secret}, {@code time} for {@code fileData} and inserts the entity in DB table.
-     * @param fileData file data.
-     * @return output stream to the related file in filesystem.
+     * Sets {@code secret}, {@code time} for {@code fileData} and inserts the entity in DB table
+     * @param fileData file data
+     * @return output stream to the related file in filesystem
      * @throws Exception
      */
     public FileOutputStream add(FileData fileData) throws Exception {
@@ -102,8 +102,8 @@ public class FileDataDAO extends CommonDAO {
     }
 
     /**
-     * Deletes file entity and the related file in a filesystem.
-     * @param fileData the file entity.
+     * Deletes file entity and the related file in a filesystem
+     * @param fileData the file entity
      * @throws Exception
      */
     public void delete(FileData fileData) throws Exception {
@@ -120,10 +120,10 @@ public class FileDataDAO extends CommonDAO {
     }
 
     /**
-     * Loads file entity from a result set.
-     * @param rs the result set.
+     * Loads file entity from a result set
+     * @param rs the result set
      * @param prefix
-     * @return
+     * @return the loaded entity
      * @throws SQLException
      */
     public static FileData getFromRs(ResultSet rs, String prefix) throws SQLException {
@@ -140,7 +140,7 @@ public class FileDataDAO extends CommonDAO {
     /**
      * Gets file object for a given file data. File's {@code time} is loaded from DB case if not defined.
      * @param fileData
-     * @return
+     * @return the file
      * @throws SQLException
      */
     public File getFile(FileData fileData) throws SQLException {
@@ -169,8 +169,7 @@ public class FileDataDAO extends CommonDAO {
     }
 
     /**
-     * Storage directory statistics.
-     * @return
+     * @return storage directory statistics
      */
     public FileStat stat() {
         checkDir();
@@ -178,9 +177,9 @@ public class FileDataDAO extends CommonDAO {
     }
 
     /**
-     * Moves batch of files placed in the root dir to subdirectories yyyy/MM/dd.
-     * @param batchSize batch size.
-     * @return is there something more to move.
+     * Moves batch of files placed in the root dir to subdirectories yyyy/MM/dd
+     * @param batchSize batch size
+     * @return is there something more to move
      * @throws SQLException
      * @throws IOException
      */

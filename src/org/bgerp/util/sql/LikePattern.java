@@ -3,7 +3,7 @@ package org.bgerp.util.sql;
 import ru.bgcrm.util.Utils;
 
 /**
- * SQL LIKE patterns generators for a substring.
+ * SQL LIKE patterns generators for a substring
  *
  * @author Shamil Vakhitov
  */
@@ -91,9 +91,9 @@ public enum LikePattern {
     }
 
     /**
-     * Generates pattern for a given strategy.
-     * @param substr substring.
-     * @return {@code substr} for {@code null} or empty string or generated pattern.
+     * Generates pattern for a given strategy
+     * @param substr substring
+     * @return {@code substr} for {@code null} or empty string or generated pattern
      */
     public abstract String get(String substr);
 }

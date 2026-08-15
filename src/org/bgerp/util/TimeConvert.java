@@ -10,7 +10,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- * Date ant time converting utils.
+ * Date and time converting utils
  *
  * @author Shamil Vakhitov
  */
@@ -18,9 +18,9 @@ public class TimeConvert {
     private static final LocalTime ZERO_TIME = LocalTime.of(0, 0);
 
     /**
-     * Converts date to month of year.
+     * Converts date to month of year
      * @param value
-     * @return {@code null} or month, containing {@code value}.
+     * @return {@code null} or month, containing {@code value}
      */
     public static final YearMonth toYearMonth(Date value) {
         return
@@ -30,9 +30,9 @@ public class TimeConvert {
     }
 
     /**
-     * Converts the first day of a month to date.
-     * @param value the month.
-     * @return {@code null} or date of the first day of the month {@code value}.
+     * Converts the first day of a month to date
+     * @param value the month
+     * @return {@code null} or date of the first day of the month {@code value}
      */
     public static final Date toDate(YearMonth value) {
         return
@@ -42,9 +42,9 @@ public class TimeConvert {
     }
 
     /**
-     * Converts beginning of a day to date.
-     * @param value the day.
-     * @return {@code null} or date of the beginning of the day {@code value}.
+     * Converts beginning of a day to date
+     * @param value the day
+     * @return {@code null} or date of the beginning of the day {@code value}
      */
     public static final Date toDate(LocalDate value) {
         return
@@ -54,9 +54,9 @@ public class TimeConvert {
     }
 
     /**
-     * Converts date to local date.
+     * Converts date to local date
      * @param value
-     * @return {@code null} or converted value.
+     * @return {@code null} or converted value
      */
     public static final LocalDate toLocalDate(Date value) {
         if (value == null)
@@ -66,9 +66,9 @@ public class TimeConvert {
     }
 
     /**
-     * Converts date to SQL timestamp.
+     * Converts date to SQL timestamp
      * @param value
-     * @return {@code null} or converted value.
+     * @return {@code null} or converted value
      */
     public static final java.sql.Timestamp toTimestamp(Date value) {
         if (value == null)
@@ -77,9 +77,9 @@ public class TimeConvert {
     }
 
     /**
-     * Converts date and time to instant.
+     * Converts date and time to instant
      * @param value
-     * @return {@code null} or converted value.
+     * @return {@code null} or converted value
      */
     public static final Instant toInstant(LocalDateTime value) {
         return
@@ -91,7 +91,7 @@ public class TimeConvert {
     /**
      * Converts a local time to duration between 0 and the time
      * @param value
-     * @return
+     * @return the duration between 0 and the time
      */
     public static Duration toDuration(LocalTime value) {
         return Duration.between(ZERO_TIME, value);
@@ -100,7 +100,7 @@ public class TimeConvert {
     /**
      * Converts a duration to time after adding the duration to 0
      * @param duration
-     * @return
+     * @return the time after adding the duration to 0
      */
     public static LocalTime toLocalTime(Duration duration) {
         return ZERO_TIME.plus(duration);

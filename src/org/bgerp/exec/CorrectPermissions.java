@@ -88,9 +88,9 @@ public class CorrectPermissions implements Runnable {
     }
 
     /**
-     * Replacements for {@code action} column in {@code tableName}.
-     * @param tableName DB table name.
-     * @return map key - replaced value in {@code action} column, value - {@code null} to remove or not null a replacement.
+     * Replacements for {@code action} column in {@code tableName}
+     * @param tableName DB table name
+     * @return map key - replaced value in {@code action} column, value - {@code null} to remove or not null a replacement
      */
     private Map<String, String> replacements(String tableName) {
         Map<String, String> replacements = new TreeMap<>();

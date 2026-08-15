@@ -1,7 +1,7 @@
 package org.bgerp.model.base.iface;
 
 /**
- * Entity with title.
+ * Entity with title
  *
  * @author Shamil Vakhitov
  */

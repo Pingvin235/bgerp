@@ -1,5 +1,5 @@
 /**
- * Installer related classes.
+ * Installer related classes
  */
 package org.bgerp.app.dist.inst;
 

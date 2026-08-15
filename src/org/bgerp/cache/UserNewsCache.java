@@ -37,7 +37,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
 
             List<Integer> notPopupNews = new ArrayList<>();
 
-            // непрочитанные новости пользователя
+            // user's unread news
             Pageable<News> searchResult = new Pageable<>();
             newsDao.searchNewsList(searchResult, userId, false, null);
 
@@ -56,7 +56,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
 
             final boolean blinkNews = !currentNonpopupUnread.equals(lastNonpopupUnread);
 
-            // необработанные сообщения
+            // unprocessed messages
             int currentUnprocessedMessages = 0;
 
             if (UserCache.getUser(userId).checkPerm(ActionServlet.pathId(MessageAction.class, "messageList"))) {
@@ -71,8 +71,8 @@ public class UserNewsCache extends Cache<UserNewsCache> {
 
             final boolean blinkMessages = currentUnprocessedMessages > 0 && currentUnprocessedMessages != lastUnprocessedMessages;
 
-            // при возврате количества необработанных в 0 мигание прекращается, но сохраняется этот ноль в известном статусе,
-            // чтобы начало мигать при любом изменении
+            // when the unprocessed count returns to 0, blinking stops, but this zero is stored in the known status,
+            // so it starts blinking again on any change
             if (currentUnprocessedMessages == 0) {
                 Preferences prefs = new Preferences();
                 prefs.put(MessageAction.UNPROCESSED_MESSAGES_PERSONAL_KEY, "0");
@@ -112,7 +112,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
     }
 
     /**
-     * The cache is always valid.
+     * The cache is always valid
      */
     @Override
     public boolean isValid() {

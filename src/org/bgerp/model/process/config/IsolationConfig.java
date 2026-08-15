@@ -9,7 +9,7 @@ import org.bgerp.model.process.config.IsolationConfig.IsolationProcess.Type;
 import ru.bgcrm.util.Utils;
 
 /**
- * User isolation config.
+ * User isolation config
  *
  * @author Shamil Vakhitov
  */
@@ -64,8 +64,8 @@ public class IsolationConfig extends Config {
         }
 
         /**
-         * Additional process type IDs, which should be filtered by executors with general group isolation.
-         * @return
+         * Additional process type IDs, which should be filtered by executors with general group isolation
+         * @return additional process type IDs, comma-separated
          */
         public String getExecutorTypeIds() {
             return executorTypeIds;

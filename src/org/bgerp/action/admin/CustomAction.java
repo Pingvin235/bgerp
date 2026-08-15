@@ -17,7 +17,7 @@ public class CustomAction extends BaseAction {
 
     private static final String JSP_CUSTOM = PATH_JSP + "/custom.jsp";
 
-    /** Accessed from JSP. */
+    /** Accessed from JSP */
     public static final Files CUSTOM_SRC = new Files(CustomAction.class, "custom", "custom",
             new Options().withDownloadEnabled().withOrder(Order.NORMAL_FS), "*");
     public static final Files CUSTOM_JAR = new Files(CustomAction.class, "customJar", "lib/app",

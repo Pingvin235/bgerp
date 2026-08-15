@@ -34,7 +34,7 @@ public class MailMsg {
     }
 
     /***
-     * Set 'Content-Disposition' header with name for an attached file
+     * Sets 'Content-Disposition' header with name for an attached file
      * @param part email part, containing the attachment
      * @param filename the file's name
      * @throws MessagingException
@@ -103,7 +103,7 @@ public class MailMsg {
     /**
      * Adds message attachment files
      * @param value the attachments
-     * @return
+     * @return the current instance
      */
     public MailMsg withAttachments(List<FileData> value) {
         attachments = value;
@@ -111,12 +111,12 @@ public class MailMsg {
     }
 
     /**
-     * Sends simple text message.
-     * @param recipients comma separated addresses.
-     * @param subject subject.
-     * @param txt body text.
+     * Sends simple text message
+     * @param recipients comma separated addresses
+     * @param subject subject
+     * @param txt body text
      * @throws MessagingException
-    */
+     */
     public void send(String recipients, String subject, String txt) throws MessagingException {
         msg.setRecipients(RecipientType.TO, Addresses.parseSafe(recipients).recipients().get(RecipientType.TO));
         msg.setSubject(subject, encoding);

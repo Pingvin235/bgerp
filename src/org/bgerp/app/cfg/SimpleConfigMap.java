@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Simple implementation of ConfigMap.
+ * Simple implementation of ConfigMap
  *
  * @author Shamil Vakhitov
  */
@@ -17,9 +17,9 @@ public class SimpleConfigMap extends ConfigMap {
     }
 
     /**
-     * Creates ParameterMap object from key values pairs.
-     * @param keyValues key1, value1,... String.valueOf() is applied to each argument.
-     * @return
+     * Creates ParameterMap object from key values pairs
+     * @param keyValues key1, value1,... String.valueOf() is applied to each argument
+     * @return the created map
      */
     public static SimpleConfigMap of(Object... keyValues) {
         Map<String, String> map = new HashMap<>(keyValues.length / 2);

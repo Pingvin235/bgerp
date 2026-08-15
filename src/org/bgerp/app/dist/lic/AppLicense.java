@@ -9,7 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.bgerp.util.Log;
 
 /**
- * Singleton object with applications license.
+ * Singleton object with applications license
  *
  * @author Shamil Vakhitov
  */
@@ -19,7 +19,7 @@ public class AppLicense {
     private static volatile License instance;
 
     /**
-     * Inits singleton instance.
+     * Inits singleton instance
      */
     public static void init() {
         var file = new File(License.FILE_NAME);
@@ -39,8 +39,7 @@ public class AppLicense {
     }
 
     /**
-     * Obtains singleton instance created if missing.
-     * @return
+     * @return singleton instance, created if missing
      */
     public static License instance() {
         synchronized (log) {

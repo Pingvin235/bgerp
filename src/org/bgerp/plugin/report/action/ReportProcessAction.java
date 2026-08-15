@@ -60,13 +60,13 @@ public class ReportProcessAction extends ReportActionBase {
             "Quantities by executors",
             COL_EXECUTORS
         )
-        // TODO: Add obitary param like 'cost' for making summs.
-        // TODO: Created by hour of the day.
-        // TODO: Closed by executor (support many).
+        // TODO: Add arbitrary param like 'cost' for making sums
+        // TODO: Created by hour of the day
+        // TODO: Closed by executor (support many)
     );
 
     /**
-     * This overwritten method is required because of action specification.
+     * This overwritten method is required because of action specification
      */
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {

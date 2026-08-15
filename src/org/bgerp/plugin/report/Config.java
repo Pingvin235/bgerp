@@ -9,11 +9,11 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.report.model.Report;
 
 /**
- * JSP reports configuration.
+ * JSP reports configuration
  */
 public class Config extends org.bgerp.app.cfg.Config {
     private final List<Report> reportList = new ArrayList<>();
-    /** Key - report ID. */
+    /** Key - report ID */
     private final Map<String, Report> reportMap = new HashMap<>();
 
     protected Config(ConfigMap config) {

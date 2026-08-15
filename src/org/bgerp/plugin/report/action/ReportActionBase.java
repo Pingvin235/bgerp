@@ -25,7 +25,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 
 /**
- * Parent action for all reports.
+ * Parent action for all reports
  *
  * @author Shamil Vakhitov
  */
@@ -76,39 +76,39 @@ public abstract class ReportActionBase extends BaseAction implements Title {
     }
 
     /**
-     * URL suffix for displaying the report in 'user' interface.
-     * @return
+     * URL suffix for displaying the report in 'user' interface
+     * @return the URL suffix
      */
     protected abstract String getHref();
 
     /**
-     * Report's columns.
-     * @return
+     * Report's columns
+     * @return the report's columns
      */
     public abstract Columns getColumns();
 
     /**
      * Supported charts. Position in the list identifies a chart.
-     * @return
+     * @return the supported charts
      */
     public List<Chart> getCharts() {
         return Collections.emptyList();
     };
 
     /**
-     * JSP template for rendering the report.
-     * @return
+     * JSP template for rendering the report
+     * @return the JSP template path
      */
     protected abstract String getJsp();
 
     /**
-     * Selector for extracting the report's data from SQL.
-     * @return
+     * Selector for extracting the report's data from SQL
+     * @return the selector
      */
     protected abstract Selector getSelector();
 
     /**
-     * Wrapper class around {@link CommonDAO} for SQL work.
+     * Wrapper class around {@link CommonDAO} for SQL work
      */
     protected static abstract class Selector extends CommonDAO {
         protected abstract void select(ConnectionSet conSet, Data data) throws Exception;
@@ -117,7 +117,7 @@ public abstract class ReportActionBase extends BaseAction implements Title {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        // TODO: Support export to CSV.
+        // TODO: Support export to CSV
 
         // Data object places 'list' key to 'response.data' in the constructor call
         final var data = new Data(this, form, getColumns());
@@ -133,7 +133,7 @@ public abstract class ReportActionBase extends BaseAction implements Title {
     }
 
     /**
-     * Prepare chart's data.
+     * Prepares chart's data
      * @param form
      * @param data
      * @throws BGIllegalArgumentException

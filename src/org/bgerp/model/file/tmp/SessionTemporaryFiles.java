@@ -28,9 +28,9 @@ public class SessionTemporaryFiles {
     private static final String STORE_KEY = "SessionTemporaryFiles";
 
     /**
-     * Upload tmp file
+     * Uploads tmp file
      * @param form
-     * @return
+     * @return ID of the uploaded tmp file
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -64,7 +64,7 @@ public class SessionTemporaryFiles {
      * Uploaded tmp files for persisting
      * @param form the form
      * @param paramName the http request param name
-     * @return
+     * @return found tmp files, key - ID
      * @throws BGMessageException duplicated tmp files were found
      */
     public static Map<Integer, FileInfo> getFiles(DynActionForm form, String paramName) throws BGMessageException {
@@ -94,7 +94,7 @@ public class SessionTemporaryFiles {
     }
 
     /**
-     * Delete tmp files after persisting those
+     * Deletes tmp files after persisting those
      * @param form the request form, with the session
      * @param ids the tmp file IDs
      */
@@ -115,7 +115,7 @@ public class SessionTemporaryFiles {
     }
 
     /**
-     * Delete tmp files on session close
+     * Deletes tmp files on session close
      * @param session the session
      */
     public static void deleteFiles(HttpSession session) {

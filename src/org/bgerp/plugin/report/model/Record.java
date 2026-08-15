@@ -20,7 +20,7 @@ public class Record {
     }
 
     /**
-     * Add value of the next column
+     * Adds value of the next column
      * @param value the value
      * @return the record
      */
@@ -35,7 +35,7 @@ public class Record {
     }
 
     /**
-     * Get a value by column ID
+     * Gets a value by column ID
      * @param id the column ID
      * @return the value
      * @throws IllegalArgumentException - no column found
@@ -45,7 +45,7 @@ public class Record {
     }
 
     /**
-     * Get a value formatted to string by column ID
+     * Gets a value formatted to string by column ID
      * @param id the column ID
      * @return the formatted value
      * @throws IllegalArgumentException - no column found
@@ -56,7 +56,7 @@ public class Record {
     }
 
     /**
-     * Get position for {@link java.sql.ResultSet}.
+     * Gets position for {@link java.sql.ResultSet}.
      * Starts from 1, and for each call incremented on 1.
      * @return the position
      */

@@ -36,9 +36,9 @@ public class Sign {
     private final Signer sign;
 
     /**
-     * Constructor for sign verification.
-     * @param id unique key ID.
-     * @param publicKey encoded public key.
+     * Constructor for sign verification
+     * @param id unique key ID
+     * @param publicKey encoded public key
      */
     Sign(String id, String publicKey) {
         this.id = id;
@@ -46,10 +46,10 @@ public class Sign {
     }
 
     /**
-     * Constructor for sign generation.
-     * @param id unique key ID.
-     * @param privateKey encoded private key.
-     * @param password for decrypting the private key, or null.
+     * Constructor for sign generation
+     * @param id unique key ID
+     * @param privateKey encoded private key
+     * @param password for decrypting the private key, or null
      */
     public Sign(String id, String privateKey, String password) {
         this.id = id;
@@ -113,10 +113,10 @@ public class Sign {
     }
 
     /**
-     * Verification of signature.
-     * @param data raw data.
-     * @param signature Base64 encoded signature.
-     * @return
+     * Verification of signature
+     * @param data raw data
+     * @param signature Base64 encoded signature
+     * @return {@code true} if the signature is valid
      */
     public boolean signatureVerify(byte[] data, String signature) {
         try {
@@ -129,9 +129,9 @@ public class Sign {
     }
 
     /**
-     * Makes a signature.
-     * @param data raw.
-     * @return Base64 encoded string.
+     * Makes a signature
+     * @param data raw
+     * @return Base64 encoded string
      */
     public String signatureGenerate(byte[] data) throws CryptoException {
         sign.update(data, 0, data.length);

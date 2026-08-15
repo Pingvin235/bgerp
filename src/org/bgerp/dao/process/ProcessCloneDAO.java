@@ -16,7 +16,7 @@ import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Fluent DAO for cloning processes.
+ * Fluent DAO for cloning processes
  */
 public class ProcessCloneDAO extends CommonDAO {
     private final DynActionForm form;

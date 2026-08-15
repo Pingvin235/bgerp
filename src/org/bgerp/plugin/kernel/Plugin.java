@@ -27,7 +27,7 @@ import ru.bgcrm.plugin.Table;
 import ru.bgcrm.plugin.Table.Type;
 
 /**
- * Special plugin for application's kernel.
+ * Special plugin for application's kernel
  *
  * @author Shamil Vakhitov
  */

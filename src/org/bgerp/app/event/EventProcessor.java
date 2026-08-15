@@ -13,7 +13,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Event processor, implementing Singleton and Observable patterns.
+ * Event processor, implementing Singleton and Observable patterns
  *
  * @author Shamil Vakhitov
  */
@@ -23,19 +23,19 @@ public class EventProcessor {
     private static final Map<Class<?>, List<PrioritizedListener>> SUBSCRIBERS = new ConcurrentHashMap<>();
 
     /**
-     * Subscribes a listener to events of a class.
-     * @param l the listener.
-     * @param clazz the event class.
+     * Subscribes a listener to events of a class
+     * @param l the listener
+     * @param clazz the event class
      */
     public static <E extends Event> void subscribe(EventListener<? super E> l, Class<E> clazz) {
         subscribe(l, clazz, 0);
     }
 
     /**
-     * Subscribes a listener to events of a class.
-     * @param l the listener.
-     * @param clazz the event class.
-     * @param priority the listener's priority, high priority listeners process events earlier.
+     * Subscribes a listener to events of a class
+     * @param l the listener
+     * @param clazz the event class
+     * @param priority the listener's priority, high priority listeners process events earlier
      */
     @SuppressWarnings({ "unchecked" })
     public static <E extends Event> void subscribe(EventListener<? super E> l, Class<E> clazz, int priority) {
@@ -55,17 +55,17 @@ public class EventProcessor {
     }
 
     /**
-     * Unsubscribes a listener from all events.
-     * @param l the listener.
+     * Unsubscribes a listener from all events
+     * @param l the listener
      */
     public static void unsubscribe(EventListener<?> l) {
         SUBSCRIBERS.values().remove((Object) l);
     }
 
     /**
-     * Processes an event with registered listeners.
-     * @param event the event.
-     * @param conSet a DB connections set.
+     * Processes an event with registered listeners
+     * @param event the event
+     * @param conSet a DB connections set
      * @throws BGMessageException
      */
     public static void processEvent(Event event, ConnectionSet conSet) throws Exception {

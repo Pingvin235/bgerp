@@ -24,7 +24,7 @@ import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.util.Utils;
 
 /**
- * Old style parameter value search DAO.
+ * Old style parameter value search DAO
  *
  * @author Shamil Vakhitov
  */
@@ -41,10 +41,10 @@ public class OldParamSearchDAO extends CommonDAO {
     }
 
     /**
-     * Добавление INNER JOIN фильтров по параметрам, пока поддерживается только значение вида для списковых.
+     * Adds INNER JOIN filters by parameters, currently only list-type value format is supported
      * {@code param:<code>:value in 1,2,3}
      * @param objectId
-     * @return
+     * @return the filter SQL
      */
     public static String getParamJoinFilters(String expression, String objectId) throws SQLException {
         StringBuilder result = new StringBuilder();
@@ -59,7 +59,7 @@ public class OldParamSearchDAO extends CommonDAO {
         String function = tokens[1];
         Set<Integer> values = Utils.toIntegerSet(tokens[2]);
 
-        // пока единственная разрешённая функция
+        // currently the only allowed function
         if (!function.equals("in")) {
             log.error("Incorrect function: " + function + " in expression: " + expression);
             return "";
@@ -95,10 +95,10 @@ public class OldParamSearchDAO extends CommonDAO {
     }
 
     /**
-     * Поиск объектов по значениям связанного телефонного параметра
-     * @param parameterId - ID параметра
-     * @param parameterPhoneValue - набор телефонов для поиска
-     * @return
+     * Searches objects by values of a linked phone parameter
+     * @param parameterId - parameter ID
+     * @param parameterPhoneValue - set of phones to search
+     * @return the object IDs
      * @throws SQLException
      */
     public Set<Integer> searchObjectByParameterPhone(int parameterId, ParameterPhoneValue parameterPhoneValue) throws SQLException {
@@ -141,10 +141,10 @@ public class OldParamSearchDAO extends CommonDAO {
     }
 
     /**
-     * Поиск объектов по значнию текстового параметра.
-     * @param parameterId param ID.
-     * @param parameterTextValue точное значение.
-     * @return список с кодами объектов.
+     * Searches objects by a text parameter's value
+     * @param parameterId param ID
+     * @param parameterTextValue exact value
+     * @return list with object codes
      * @throws SQLException
      */
     public Set<Integer> searchObjectByParameterText(int parameterId, String parameterTextValue) throws SQLException {
@@ -177,10 +177,10 @@ public class OldParamSearchDAO extends CommonDAO {
     }
 
     /**
-     * Searches object IDs by list parameter value.
+     * Searches object IDs by list parameter value
      * @param parameterId
      * @param value
-     * @return
+     * @return the object IDs
      * @throws Exception
      */
     public Set<Integer> searchObjectByParameterList(int parameterId, int value) throws Exception {

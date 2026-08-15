@@ -20,7 +20,7 @@ import ru.bgcrm.model.Config;
 import ru.bgcrm.util.Utils;
 
 /**
- * {@link ConcurrentHashMap} based implementation of {@link ConfigMap}.
+ * {@link ConcurrentHashMap} based implementation of {@link ConfigMap}
  *
  * @author Shamil Vakhitov
  */
@@ -88,10 +88,10 @@ public class Preferences extends ConfigMap {
     }
 
     /**
-     * Loads configuration file to map.
-     * @param bundleName file name without '.properties' extension.
-     * @param data target map.
-     * @param validate check used in values variables.
+     * Loads configuration file to map
+     * @param bundleName file name without '.properties' extension
+     * @param data target map
+     * @param validate check used in values variables
      */
     protected void loadBundle(String bundleName, Map<String, String> data, boolean validate) {
         File file = new File(bundleName.replace('.', '/') + ".properties");
@@ -118,11 +118,11 @@ public class Preferences extends ConfigMap {
     }
 
     /**
-     * Loads a single key value pair.
-     * @param context context for handling multiline values.
-     * @param data target map.
-     * @param line key-value line.
-     * @param validate check variables in values.
+     * Loads a single key value pair
+     * @param context context for handling multiline values
+     * @param data target map
+     * @param line key-value line
+     * @param validate check variables in values
      * @throws BGMessageException
      */
     private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, boolean validate) throws BGMessageException {
@@ -210,7 +210,7 @@ public class Preferences extends ConfigMap {
                 result.append(value);
             else {
                 if (validate) throw new BGMessageException("Variable is not found: " + variable);
-                // не найденные переменный оставляются "как есть", это необходимо для последующей их замены
+                // variables not found are left "as is", this is necessary for their later substitution
                 result.append(m.group(0));
             }
 
@@ -226,10 +226,10 @@ public class Preferences extends ConfigMap {
     }
 
     /**
-     * Inserts includes placed with <pre>include.ID=1</pre> expressions.
-     * @param configDao DAO for getting includes.
-     * @param config key-value lines of main configuration.
-     * @param validate check existence of includes configurations, variables.
+     * Inserts includes placed with <pre>include.ID=1</pre> expressions
+     * @param configDao DAO for getting includes
+     * @param config key-value lines of main configuration
+     * @param validate check existence of includes configurations, variables
      * @throws BGMessageException
      * @throws SQLException
      */

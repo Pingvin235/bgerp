@@ -57,10 +57,10 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
      * Parses email addresses.
      * Actual format: <pre>to1, to2..,CC: cc1, cc2..,BCC: bcc1, bcc2..</pre>
      * Old one: <pre>to1, to2..,CC: cc1, cc2..,BCC: bcc1, bcc2..</pre>
-     * @param lang language for translating message exceptions.
-     * @param addresses email addresses string.
-     * @return a created instance.
-     * @throws BGMessageException incorrect email was given in {@code addresses} and {@code silent} is {@code false}.
+     * @param lang language for translating message exceptions
+     * @param addresses email addresses string
+     * @return a created instance
+     * @throws BGMessageException incorrect email was given in {@code addresses} and {@code silent} is {@code false}
      */
     public static Addresses parse(String lang, String addresses) throws BGMessageException {
         return new Addresses().parse(lang, addresses, false);
@@ -70,8 +70,8 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
      * Parses email addresses.
      * Actual format: <pre>to1, to2..,CC: cc1, cc2..,BCC: bcc1, bcc2..</pre>
      * Old one: <pre>to1, to2..,CC: cc1, cc2..,BCC: bcc1, bcc2..</pre>
-     * @param addresses email addresses string.
-     * @return a created instance.
+     * @param addresses email addresses string
+     * @return a created instance
      */
     public static Addresses parseSafe(String addresses) {
         try {
@@ -124,9 +124,9 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
     }
 
     /**
-     * Appends an email as recipient {@code TO} address.
-     * @param value the email.
-     * @return
+     * Appends an email as recipient {@code TO} address
+     * @param value the email
+     * @return the current instance
      */
     public Addresses addTo(String value) {
         try {
@@ -138,9 +138,9 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
     }
 
     /**
-     * Deletes an email from all the types of existing addresses.
-     * @param value the email.
-     * @return
+     * Deletes an email from all the types of existing addresses
+     * @param value the email
+     * @return the current instance
      */
     public Addresses exclude(String value) {
         try {
@@ -176,7 +176,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
 
     /**
      * Serializes emails to a string like: <pre>to1, to2..,CC: cc1, cc2..,BCC: bcc1, bcc2..</pre>
-     * @return the string.
+     * @return the string
      */
     public String serialize() {
         StringBuilder result = new StringBuilder();
@@ -201,7 +201,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
 
     /**
      * Returns ordered recipients map. First {@code TO}, than {@code CC} and {@code BCC}.
-     * @return
+     * @return the ordered recipients map
      */
     public LinkedHashMap<RecipientType, InternetAddress[]> recipients() {
         LinkedHashMap<RecipientType, InternetAddress[]> result = new LinkedHashMap<>();

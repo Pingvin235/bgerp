@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * Search over dot-separated method calls in JEXL expressions.
+ * Searches over dot-separated method calls in JEXL expressions.
  * Like {@code a.doSomething() or pp.val(4)}.
  *
  * @author Shamil Vakhitov

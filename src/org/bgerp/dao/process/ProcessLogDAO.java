@@ -29,8 +29,8 @@ public class ProcessLogDAO extends EntityLogDAO {
     }
 
     /**
-     * Selects process change logs.
-     * @param l localizer to translate some strings.
+     * Selects process change logs
+     * @param l localizer to translate some strings
      * @param processType
      * @param processId
      * @param result

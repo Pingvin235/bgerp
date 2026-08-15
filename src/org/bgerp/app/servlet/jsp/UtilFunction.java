@@ -27,7 +27,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * Functions defined in util.tld JSP library.
+ * Functions defined in util.tld JSP library
  *
  * @author Shamil Vakhitov
  */
@@ -39,9 +39,9 @@ public class UtilFunction {
 
     /**
      * Creates a new instance of a Java class. Generic method with varargs argument, can't be called from JSP.
-     * @param className the class name.
-     * @param args constructor arguments.
-     * @return
+     * @param className the class name
+     * @param args constructor arguments
+     * @return the created instance
      */
     public static Object newInstance(String className, Object... args) throws Exception {
         if (args == null)
@@ -60,38 +60,38 @@ public class UtilFunction {
     }
 
     /**
-     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method
      */
     public static Object newInstance(String className) throws Exception {
         return newInstance(className, (Object[]) null);
     }
 
     /**
-     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method
      */
     public static Object newInstance(String className, Object arg0) throws Exception {
         return newInstance(className, new Object[] { arg0 });
     }
 
     /**
-     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method
      */
     public static Object newInstance(String className, Object arg0, Object arg1) throws Exception {
         return newInstance(className, new Object[] { arg0, arg1 });
     }
 
     /**
-     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method.
+     * Non-varargs version of {@link #newInstance(String, Object...)} for using as a JSP taglib method
      */
     public static Object newInstance(String className, Object arg0, Object arg1, Object arg2) throws Exception {
         return newInstance(className, new Object[] { arg0, arg1, arg2 });
     }
 
     /**
-     * Checks if {@link Collection}, {@link Map} or array from {@code collection} contains {@code object}.
-     * @param collection may be {@link Collection}, {@link Map} or array.
+     * Checks if {@link Collection}, {@link Map} or array from {@code collection} contains {@code object}
+     * @param collection may be {@link Collection}, {@link Map} or array
      * @param object looked object
-     * @return
+     * @return {@code true} if found
      */
     private static boolean contains(Object collection, Object object) {
         if (collection == null || object == null) {
@@ -114,11 +114,11 @@ public class UtilFunction {
     }
 
     /**
-     * Gets string if {@link #contains(Object, Object)} call is true.
-     * @param collection first param for contains.
-     * @param object second param for contains.
-     * @param string resulting string.
-     * @return {@code string} or "".
+     * Gets string if {@link #contains(Object, Object)} call is true
+     * @param collection first param for contains
+     * @param object second param for contains
+     * @param string resulting string
+     * @return {@code string} or ""
      */
     private static String string(Object collection, Object object, String string) {
         if (contains(collection, object)) {
@@ -128,10 +128,10 @@ public class UtilFunction {
     }
 
     /**
-     * Gets string if {@code object} isn't null and {@code true}.
+     * Gets string if {@code object} isn't null and {@code true}
      * @param object
      * @param string
-     * @return
+     * @return {@code string} or ""
      */
     private static String string(Boolean object, String string) {
         if (object != null && object) {
@@ -190,7 +190,7 @@ public class UtilFunction {
     }
 
     /**
-     * @return an unique identifier for HTML nodes.
+     * @return a unique identifier for HTML nodes
      */
     public static String uiid() {
         return "UIID" + UIID.incrementAndGet();
@@ -201,13 +201,13 @@ public class UtilFunction {
     }
 
     /**
-     * Replaces some HTML symbols.
+     * Replaces some HTML symbols
      * <p>{@code <} to {@code &amp;lt;}
      * <p>{@code >} to {@code &amp;gt;}
      * <p>{@code \n} to {@code &lt;br/>}
      * <p>{@code \t} to 4 whitespaces
-     * @param value input value.
-     * @return string with replacements.
+     * @param value input value
+     * @return string with replacements
      */
     public static String htmlEncode(String value) {
         String result = value.replaceAll("<", "&lt;");
@@ -219,10 +219,10 @@ public class UtilFunction {
     }
 
     /**
-     * Recognizes and replaces HTTP links to HTML code.
+     * Recognizes and replaces HTTP links to HTML code
      * http://blog.codinghorror.com/the-problem-with-urls/
      * @param value
-     * @return
+     * @return the value with links replaced
      */
     public static String httpLinksToHtml(String value) {
         Matcher m = null;
@@ -261,9 +261,9 @@ public class UtilFunction {
     }
 
     /**
-     * Escapes double quotes, used for preparation JS strings in JSPs.
+     * Escapes double quotes, used for preparation JS strings in JSPs
      * @param value
-     * @return
+     * @return the escaped value
      */
     public static String quotEscape(String value) {
         return value.replace("\"", "\\\"");
@@ -274,7 +274,7 @@ public class UtilFunction {
      * Finds a first position after all tags were closed, so the resulting length may be more than max.
      * @param s the initial string
      * @param limit maximal length
-     * @return
+     * @return the truncated string
      */
     public static String truncateHtml(String s, Integer limit) {
         final int length = s.length();

@@ -70,7 +70,7 @@ public class AccessLogValve extends org.apache.catalina.valves.AccessLogValve {
 
     /**
      * Moves old logs to sub directory.
-     * Remove later if the world will survive, 04.04.2022
+     * Remove later if the world will survive, 04.04.2022.
      */
     private void moveOldLogs() {
         var dirOld = new File(DIR_OLD);

@@ -7,7 +7,7 @@ import java.util.List;
 import ru.bgcrm.dao.CommonDAO;
 
 /**
- * DB cleaner.
+ * DB cleaner
  *
  * @author Shamil Vakhitov
  */

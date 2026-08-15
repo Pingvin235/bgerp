@@ -28,7 +28,7 @@ public class ProcessAction extends BaseAction {
     private static final String PATH_JSP =  PATH_JSP_OPEN + "/process";
 
     /**
-     * Configuration for open processes.
+     * Configuration for open processes
      */
     public static class Config extends org.bgerp.app.cfg.Config {
         /**
@@ -63,49 +63,49 @@ public class ProcessAction extends BaseAction {
         /**
          * Checks if process can be open. Used in 'used' interface only.
          * @param process
-         * @return
+         * @return {@code true} if the process can be open
          */
         public boolean isOpenForUser(Process process) {
             return process != null && processTypeIds.contains(process.getTypeId());
         }
 
         /**
-         * Checks if process can be open respecting secrets.
+         * Checks if process can be open respecting secrets
          * @param process
          * @param form
-         * @return
+         * @return {@code true} if the process can be open
          */
         public boolean isOpen(Process process, DynActionForm form) {
             return isOpenForUser(process) && secret.check(process, form);
         }
 
         /**
-         * Process accessing {@link Interface#OPEN} URL.
+         * Process accessing {@link Interface#OPEN} URL
          * @param process
-         * @return
+         * @return the URL
          */
         public String url(Process process) {
             return Interface.getUrlOpen() + "/process/" + process.getId() + secret.queryString(process);
         }
 
         /**
-         * Process param IDs allowed to be shown.
-         * @return not {@code null} value.
+         * Process param IDs allowed to be shown
+         * @return not {@code null} value
          */
         public List<Integer> getShowParamIds() {
             return showParamIds;
         }
 
         /**
-         * Message tag IDs allowed to be shown.
-         * @return {@code null} - message are hidden, empty set - all messages are shown.
+         * Message tag IDs allowed to be shown
+         * @return {@code null} - message are hidden, empty set - all messages are shown
          */
         public Set<Integer> getShowMessagesTagIds() {
             return showMessagesTagIds;
         }
 
         /**
-         * @return show customer links.
+         * @return show customer links
          */
         public boolean isShowLinkCustomer() {
             return showLinkCustomer;

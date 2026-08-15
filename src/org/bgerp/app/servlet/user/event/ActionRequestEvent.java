@@ -7,7 +7,7 @@ import org.bgerp.app.event.iface.Event;
 import ru.bgcrm.model.user.PermissionNode;
 
 /**
- * HTTP request calling action.
+ * HTTP request calling action
  *
  * @author Shamil Vakhitov
  */
@@ -27,35 +27,35 @@ public class ActionRequestEvent implements Event {
     }
 
     /**
-     * @return HTTP request.
+     * @return HTTP request
      */
     public HttpServletRequest getRequest() {
         return request;
     }
 
     /**
-     * @return action identifier, semicolon separated action class name and called method.
+     * @return action identifier, semicolon separated action class name and called method
      */
     public String getAction() {
         return action;
     }
 
     /**
-     * @return action permission node.
+     * @return action permission node
      */
     public PermissionNode getPermissionNode() {
         return permissionNode;
     }
 
     /**
-     * @return execution duration in milliseconds.
+     * @return execution duration in milliseconds
      */
     public long getDuration() {
         return duration;
     }
 
     /**
-     * @return execution status string, empty when successful.
+     * @return execution status string, empty when successful
      */
     public String getError() {
         return error;

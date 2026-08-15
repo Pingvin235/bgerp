@@ -5,7 +5,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.iface.Title;
 
 /**
- * Configurable scheduled task.
+ * Configurable scheduled task
  *
  * @author Shamil Vakhitov
  */

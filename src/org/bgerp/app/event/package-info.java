@@ -1,4 +1,4 @@
 /**
- * Event processing logic.
+ * Event processing logic
  */
 package org.bgerp.app.event;

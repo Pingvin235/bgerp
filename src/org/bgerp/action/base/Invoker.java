@@ -14,7 +14,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Action method invoker.
+ * Action method invoker
  *
  * @author Shamil Vakhitov
  */
@@ -55,7 +55,7 @@ public class Invoker {
      * @param clazz the class
      * @param method method name
      * @return not null instance
-     * @throws NoSuchMethodException invoker wasn't found.
+     * @throws NoSuchMethodException invoker wasn't found
      */
     public static final Invoker find(Class<?> clazz, String method) throws NoSuchMethodException {
         Invoker result = null;

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import ru.bgcrm.model.user.User;
 
 /**
- * User session data.
+ * User session data
  *
  * @author Shamil Vakhitov
  */
@@ -16,7 +16,7 @@ public class UserSession {
     final User user;
     private final String ip;
     private final Date loginTime = new Date();
-    /** Last activity time except pulling. */
+    /** Last activity time except pulling */
     long lastActive = loginTime.getTime();
 
     UserSession(HttpSession session, User user, String ip) {

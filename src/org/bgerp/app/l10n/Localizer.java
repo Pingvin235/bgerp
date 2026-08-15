@@ -8,7 +8,7 @@ import org.bgerp.util.Log;
 import com.google.common.annotations.VisibleForTesting;
 
 /**
- * Translator to a wanted language using many {@link Localization} sequentially.
+ * Translator to a wanted language using many {@link Localization} sequentially
  *
  * @author Shamil Vakhitov
  */
@@ -27,17 +27,17 @@ public class Localizer {
     }
 
     /**
-     * @return target language.
+     * @return target language
      */
     public String getLang() {
         return lang;
     }
 
     /**
-     * Translates to target language.
-     * @param pattern string message with '{}' placeholders.
-     * @param args arguments for replacing placeholders.
-     * @return
+     * Translates to target language
+     * @param pattern string message with '{}' placeholders
+     * @param args arguments for replacing placeholders
+     * @return the translated message
      */
     public String l(String pattern, Object... args) {
         for (Localization localization : localizations) {
@@ -55,7 +55,7 @@ public class Localizer {
     }
 
     /**
-     * @return a map entry with {@code key} and a found translation for it.
+     * @return a map entry with {@code key} and a found translation for it
      */
     public Map.Entry<String, String> entry(String key) {
         return Map.entry(key, l(key));

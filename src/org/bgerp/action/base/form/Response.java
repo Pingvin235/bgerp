@@ -11,7 +11,7 @@ import org.bgerp.event.base.ClientEvent;
 import org.bgerp.model.Pageable;
 
 /**
- * HTTP response object, may be JSON serialized.
+ * HTTP response object, may be JSON serialized
  * @author Shamil Vakhitov
  */
 public class Response {
@@ -26,15 +26,14 @@ public class Response {
     private final List<ClientEvent> eventList = new ArrayList<>();
 
     /**
-     * Status of request's execution, may be: {@link STATUS_OK}, {@link STATUS_ERROR}, {@link STATUS_MESSAGE}
-     * @return
+     * @return status of request's execution, may be: {@link STATUS_OK}, {@link STATUS_ERROR}, {@link STATUS_MESSAGE}
      */
     public String getStatus() {
         return status;
     }
 
     /**
-     * Set status of request's execution.
+     * Set status of request's execution
      * @param status
      */
     public void setStatus(String status) {
@@ -42,8 +41,7 @@ public class Response {
     }
 
     /**
-     * Message for {@link STATUS_ERROR} or {@link STATUS_MESSAGE}.
-     * @return
+     * @return message for {@link STATUS_ERROR} or {@link STATUS_MESSAGE}
      */
     public String getMessage() {
         return message;
@@ -54,15 +52,14 @@ public class Response {
     }
 
     /**
-     * Events for processing of frontend.
-     * @return
+     * @return events for processing of frontend
      */
     public List<ClientEvent> getEventList() {
         return eventList;
     }
 
     /**
-     * Add an event for frontend.
+     * Add an event for frontend
      * @param event
      */
     public void addEvent(ClientEvent event) {
@@ -74,15 +71,14 @@ public class Response {
     }
 
     /**
-     * Response data. May be serialized to JSON, or available on JSP page.
-     * @return
+     * @return response data, may be serialized to JSON, or available on JSP page
      */
     public Map<String, Object> getData() {
         return data;
     }
 
     /**
-     * Set response data object.
+     * Set response data object
      * @param key
      * @param data
      */

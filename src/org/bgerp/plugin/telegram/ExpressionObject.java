@@ -59,7 +59,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send a plain text message to a chat
+     * Sends a plain text message to a chat
      * @param chatId the chat ID
      * @param text the message
      */
@@ -68,7 +68,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send a message to a chat with a specific format
+     * Sends a message to a chat with a specific format
      * @param chatId the chat ID
      * @param text the message
      * @param parseMode the format: {@code null} - plain text, {@code MarkdownV2}, {@code HTML}
@@ -95,7 +95,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send a plain text message to users
+     * Sends a plain text message to users
      * @param userIds the user IDs
      * @param text the message
      */
@@ -104,7 +104,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send a message with a specific format to users
+     * Sends a message with a specific format to users
      * @param userIds the user IDs
      * @param text the message
      * @param parseMode the format: {@code null} - plain text, {@code MarkdownV2}, {@code HTML}
@@ -126,7 +126,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send a plain text message to a process executors
+     * Sends a plain text message to a process executors
      * @param process the process with the executor user IDs
      * @param text the message
      */
@@ -135,7 +135,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send a message with a specific format to a process executors
+     * Sends a message with a specific format to a process executors
      * @param process the process with the executor user IDs
      * @param text the message
      * @param parseMode the format: {@code null} - plain text, {@code MarkdownV2}, {@code HTML}
@@ -145,7 +145,7 @@ public class ExpressionObject implements org.bgerp.dao.expression.ExpressionObje
     }
 
     /**
-     * Send a plain text message to a process
+     * Sends a plain text message to a process
      * @param process the process
      * @param text the message
      */

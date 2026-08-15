@@ -41,7 +41,7 @@ public class Highlighter {
     /**
      * Does a file name match to the highlighter
      * @param file the file name
-     * @return
+     * @return {@code true} if it matches
      */
     public boolean match(File file) {
         return fileFilter.accept(file);
@@ -67,7 +67,7 @@ public class Highlighter {
     /**
      * Detect errors in a file line
      * @param line the line
-     * @return
+     * @return {@code true} if an error was found
      */
     protected boolean hasError(String line) {
         return false;

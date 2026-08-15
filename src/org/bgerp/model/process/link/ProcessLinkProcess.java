@@ -3,7 +3,7 @@ package org.bgerp.model.process.link;
 import ru.bgcrm.model.process.Process;
 
 /**
- * Process link to another process.
+ * Process link to another process
  *
  * @author Shamil Vakhitov
  */

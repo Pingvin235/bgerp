@@ -17,7 +17,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * Fluent DAO for selection parent or child linked processes.
+ * Fluent DAO for selection parent or child linked processes
  *
  * @author Shamil Vakhitov
  */
@@ -55,8 +55,8 @@ public class ProcessLinkProcessSearchDAO extends ProcessSearchDAO {
     }
 
     /**
-     * Filter by process to process link type.
-     * @param value set of values from {@link Process#LINK_TYPE_DEPEND}, {@link Process#LINK_TYPE_LINK}, {@link Process#LINK_TYPE_MADE}.
+     * Filter by process to process link type
+     * @param value set of values from {@link Process#LINK_TYPE_DEPEND}, {@link Process#LINK_TYPE_LINK}, {@link Process#LINK_TYPE_MADE}
      */
     public ProcessLinkProcessSearchDAO withLinkType(Set<String> value) {
         this.linkType = value;
@@ -72,10 +72,10 @@ public class ProcessLinkProcessSearchDAO extends ProcessSearchDAO {
     }
 
     /**
-     * Queries processes.
-     * @param result pageable result, first pair's param is {@link ru.bgcrm.model.CommonObjectLink#getObjectType()}.
-     * @param link {@code true} - child relations, {@code false} - parent.
-     * @param processId process ID.
+     * Queries processes
+     * @param result pageable result, first pair's param is {@link ru.bgcrm.model.CommonObjectLink#getObjectType()}
+     * @param link {@code true} - child relations, {@code false} - parent
+     * @param processId process ID
      * @throws SQLException
      */
     public void search(Pageable<Pair<String, Process>> result, boolean link, int processId) throws SQLException {

@@ -6,34 +6,34 @@ import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
 
 /**
- * Localized message, shown to end user and not written in log.
+ * Localized message, shown to end user and not written in log
  *
  * @author Shamil Vakhitov
  */
 public class BGMessageException extends Exception {
     private static final Log log = Log.getLog();
 
-    /** Internal localizer, has priority. */
+    /** Internal localizer, has priority */
     private final Localizer lInternal;
-    /** Message pattern. */
+    /** Message pattern */
     private final String pattern;
-    /** Arguments for localized message. */
+    /** Arguments for localized message */
     private final Object[] args;
 
     /**
-     * Constructor with default kernel + plugin localizer.
-     * @param pattern message pattern.
-     * @param args message arguments.
+     * Constructor with default kernel + plugin localizer
+     * @param pattern message pattern
+     * @param args message arguments
      */
     public BGMessageException(String pattern, Object... args) {
         this(null, pattern, args);
     }
 
     /**
-     * Constructor with internal localizer.
-     * @param lInternal internal localizer.
-     * @param pattern message pattern.
-     * @param args message arguments.
+     * Constructor with internal localizer
+     * @param lInternal internal localizer
+     * @param pattern message pattern
+     * @param args message arguments
      */
     public BGMessageException(Localizer lInternal, String pattern, Object... args) {
         super();
@@ -43,9 +43,9 @@ public class BGMessageException extends Exception {
     }
 
     /**
-     * Provides localized message used internal localized {@link #lInternal}, case if exists, or {@code lExternal}.
-     * @param lExternal external localizer.
-     * @return
+     * Provides localized message used internal localized {@link #lInternal}, case if exists, or {@code lExternal}
+     * @param lExternal external localizer
+     * @return the localized message
      */
     public String getMessage(Localizer lExternal) {
         if (this.lInternal != null)
@@ -56,7 +56,7 @@ public class BGMessageException extends Exception {
     /**
      * Provides exception's message with substituted pattern, but without localization like {@link #getMessage(Localizer)} does.
      * The method should not be normally called, produces WARN to log output.
-     * @return
+     * @return the message with substituted pattern, not localized
      */
     @Override
     public String getLocalizedMessage() {
@@ -67,7 +67,7 @@ public class BGMessageException extends Exception {
     /**
      * Provides exception's message with substituted pattern, but without localization like {@link #getMessage(Localizer)} does.
      * The method should not be normally called, produces WARN to log output.
-     * @return
+     * @return the message with substituted pattern, not localized
      */
     @Override
     public String getMessage() {

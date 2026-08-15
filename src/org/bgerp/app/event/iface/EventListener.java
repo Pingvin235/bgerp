@@ -3,7 +3,7 @@ package org.bgerp.app.event.iface;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Event listener.
+ * Event listener
  *
  * @author Shamil Vakhitov
  */

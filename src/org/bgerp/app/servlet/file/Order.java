@@ -4,13 +4,13 @@ import java.io.File;
 import java.util.Comparator;
 
 /**
- * Sorting comparators.
+ * Sorting comparators
  *
  * @author Shamil Vakhitov
  */
 public enum Order implements Comparator<File> {
     /**
-     * Sort by modification time, last modified first.
+     * Sort by modification time, last modified first
      */
     LAST_MODIFIED_DESC {
         @Override

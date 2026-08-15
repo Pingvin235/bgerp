@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 import org.bgerp.util.Log;
 
 /**
- * Installation module information.
+ * Installation module information
  *
  * @author Shamil Vakhitov
  */

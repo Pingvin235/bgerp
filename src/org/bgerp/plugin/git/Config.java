@@ -17,17 +17,17 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class Config extends org.bgerp.app.cfg.Config {
-    /** Branch and commit name prefix. */
+    /** Branch and commit name prefix */
     private final String prefix;
-    /** Main branch name. */
+    /** Main branch name */
     private final String mainBranch;
-    /** Process parameter with branch name. */
+    /** Process parameter with branch name */
     private final int paramBranchId;
-    /** Parameter with user GIT email. */
+    /** Parameter with user GIT email */
     private final int paramEmailId;
-    /** Restricted process status IDs when branch values is set. */
+    /** Restricted process status IDs when branch values is set */
     private final Set<Integer> statusWithBranchIds;
-    /** Command after a branch's creation. */
+    /** Command after a branch's creation */
     private final String createBranchSuffix;
 
     protected Config(ConfigMap config) throws InitStopException {
@@ -45,7 +45,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * Generates branch name parameter value.
+     * Generates branch name parameter value
      * @param e
      * @param conSet
      * @throws Exception
@@ -64,11 +64,11 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * Checks allowance of status change when branch name is filled.
+     * Checks allowance of status change when branch name is filled
      * @param e
      * @param conSet
      * @throws SQLException
-     * @throws BGMessageException when status change isn't allowed.
+     * @throws BGMessageException when status change isn't allowed
      */
     public void processChanging(ProcessChangingEvent e, ConnectionSet conSet) throws SQLException, BGMessageException {
         if (!e.isStatus() || statusWithBranchIds.isEmpty() || statusWithBranchIds.contains(e.getStatusChange().getStatusId()))
@@ -83,26 +83,26 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * @return main branch name.
+     * @return main branch name
      */
     public String mainBranch() {
         return mainBranch;
     }
 
     /**
-     * Prefix for commit and branch.
+     * Prefix for commit and branch
      * @param processId
-     * @return
+     * @return the prefix
      */
     public String prefix(int processId) {
         return this.prefix + processId;
     }
 
     /**
-     * Branch name from process parameter.
+     * Branch name from process parameter
      * @param conSet
      * @param processId
-     * @return
+     * @return the branch name
      * @throws SQLException
      */
     public String branch(ConnectionSet conSet, int processId) throws SQLException {
@@ -110,10 +110,10 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * GIT commit author.
+     * GIT commit author
      * @param conSet
      * @param p
-     * @return
+     * @return the commit author string, or {@code null} if not determined
      * @throws Exception
      */
     public String author(ConnectionSet conSet, Process p) throws Exception {
@@ -137,7 +137,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * @return command after a branch's creation.
+     * @return command after a branch's creation
      */
     public String getCreateBranchSuffix() {
         return createBranchSuffix;

@@ -3,7 +3,7 @@ package org.bgerp.model.base;
 import java.io.Serializable;
 
 /**
- * Basic entity with unique integer ID.
+ * Basic entity with unique integer ID
  *
  * @author Shamil Vakhitov
  */
