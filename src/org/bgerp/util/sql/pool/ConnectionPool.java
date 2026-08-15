@@ -138,37 +138,6 @@ public class ConnectionPool {
             poolableConFactory.setValidationQuery("SELECT 1");
             poolableConFactory.setValidationQueryTimeout(prefs.getInt(prefix + "validationTimeout", -1));
 
-            /* Previously here was an extension of PoolableConnectionFactory class with such a logic:
-            public Object makeObject() throws Exception {
-                ... copied blocks from PoolableConnectionFactory
-                return new PoolableConnection(conn, _pool, _config) {
-                    @Override
-                    public synchronized void close() throws SQLException {
-                        try {
-                            final List<?> traceList = super.getTrace();
-                            if (traceList != null && traceList.size() > 80) {
-                                StringBuilder sb = new StringBuilder(300);
-                                sb.append("Many statements was open at connection close:\n");
-
-                                int count = 0;
-
-                                for (Object o : traceList) {
-                                    if (++count > 100) {
-                                        break;
-                                    }
-
-                                    sb.append(o).append('\n');
-                                }
-
-                                log.error(name + sb.toString(), new RuntimeException());
-                            }
-                        } finally {
-                            super.close();
-                        }
-                    }
-                };
-            */
-
             GenericObjectPool<PoolableConnection> connectionPool = null;
 
             if (dbTrace) {
