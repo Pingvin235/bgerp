@@ -1,39 +1,39 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 
 public class IpResourceRange {
-	private int resId;
-	private String from;
-	private String to;
+    private int resId;
+    private String from;
+    private String to;
 
-	public IpResourceRange() {}
+    public IpResourceRange() {}
 
-	public IpResourceRange(int ipResourceId, String addressFrom, String addressTo) {
-		this.resId = ipResourceId;
-		this.from = addressFrom;
-		this.to = addressTo;
-	}
-	
-	public int getResId() {
-		return resId;
-	}
+    public IpResourceRange(int ipResourceId, String addressFrom, String addressTo) {
+        this.resId = ipResourceId;
+        this.from = addressFrom;
+        this.to = addressTo;
+    }
 
-	public void setResId(int ipResourceId) {
-		this.resId = ipResourceId;
-	}
+    public int getResId() {
+        return resId;
+    }
 
-	public String getFrom() {
-		return from;
-	}
+    public void setResId(int ipResourceId) {
+        this.resId = ipResourceId;
+    }
 
-	public void setFrom(String ipFrom) {
-		this.from = ipFrom;
-	}
+    public String getFrom() {
+        return from;
+    }
 
-	public String getTo() {
-		return to;
-	}
+    public void setFrom(String ipFrom) {
+        this.from = ipFrom;
+    }
 
-	public void setTo(String ipTo) {
-		this.to = ipTo;
-	}
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String ipTo) {
+        this.to = ipTo;
+    }
 }

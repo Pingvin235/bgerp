@@ -9,57 +9,56 @@ import org.bgerp.model.base.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class LimitChangeTask
-		extends Id {
-	private Date date;
-	private String user;
-	private BigDecimal limitChange;
+public class LimitChangeTask extends Id {
+    private Date date;
+    private String user;
+    private BigDecimal limitChange;
 
-	static Map<String,String> statusMap = new HashMap<>();
-	static {
-		statusMap.put("", "Все" );
-		statusMap.put( "on", "Активная" );
-		statusMap.put( "off", "Выполненая" );
-		statusMap.put( "cancel", "Отмененная" );
-	}
+    static Map<String, String> statusMap = new HashMap<>();
+    static {
+        statusMap.put("", "Все");
+        statusMap.put("on", "Активная");
+        statusMap.put("off", "Выполненая");
+        statusMap.put("cancel", "Отмененная");
+    }
 
-	public String getStatusString() {
-		return statusMap.get(status);
-	}
+    public String getStatusString() {
+        return statusMap.get(status);
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	private String status;
+    private String status;
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	@JsonProperty("userName")
-	public String getUser() {
-		return user;
-	}
+    @JsonProperty("userName")
+    public String getUser() {
+        return user;
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-	@JsonProperty("value")
-	public BigDecimal getLimitChange() {
-		return limitChange;
-	}
+    @JsonProperty("value")
+    public BigDecimal getLimitChange() {
+        return limitChange;
+    }
 
-	public void setLimitChange(BigDecimal limitChange) {
-		this.limitChange = limitChange;
-	}
+    public void setLimitChange(BigDecimal limitChange) {
+        this.limitChange = limitChange;
+    }
 }

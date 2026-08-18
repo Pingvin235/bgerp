@@ -5,64 +5,53 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class LimitLogItem
-{
-	private Date time;
-	private String user;
-	private BigDecimal limit;
-	private String days;
-	private String comment;
+public class LimitLogItem {
+    private Date time;
+    private String user;
+    private BigDecimal limit;
+    private String days;
+    private String comment;
 
-	@JsonProperty("date")
-	public Date getTime()
-	{
-		return time;
-	}
+    @JsonProperty("date")
+    public Date getTime() {
+        return time;
+    }
 
-	public void setTime( Date time )
-	{
-		this.time = time;
-	}
+    public void setTime(Date time) {
+        this.time = time;
+    }
 
-	@JsonProperty("userName")
-	public String getUser()
-	{
-		return user;
-	}
+    @JsonProperty("userName")
+    public String getUser() {
+        return user;
+    }
 
-	public void setUser( String user )
-	{
-		this.user = user;
-	}
+    public void setUser(String user) {
+        this.user = user;
+    }
 
-	@JsonProperty("limitValue")
-	public BigDecimal getLimit()
-	{
-		return limit;
-	}
+    @JsonProperty("limitValue")
+    public BigDecimal getLimit() {
+        return limit;
+    }
 
-	public void setLimit( BigDecimal limit )
-	{
-		this.limit = limit;
-	}
+    public void setLimit(BigDecimal limit) {
+        this.limit = limit;
+    }
 
-	public String getDays()
-	{
-		return days;
-	}
+    public String getDays() {
+        return days;
+    }
 
-	public void setDays( String days )
-	{
-		this.days = days;
-	}
+    public void setDays(String days) {
+        this.days = days;
+    }
 
-	public String getComment()
-	{
-		return comment;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setComment( String comment )
-	{
-		this.comment = comment;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
