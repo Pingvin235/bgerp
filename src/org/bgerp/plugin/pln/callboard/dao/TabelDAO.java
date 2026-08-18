@@ -44,12 +44,12 @@ public class TabelDAO extends CommonDAO {
     private static final int USER_COL_FROM = 0, USER_COLS = 27;
 
     private static final String HOLIDAY_WORK_SHORTCUT = "РВ";
-    // фиктивное сокращение в него складываются все виды работ в праздники и РВ,
-    // затем удаляется.
+    // fictitious shortcut, all work types on holidays and РВ are added into it,
+    // then removed.
     private static final String HOLIDAY_SHORTCUT = "Z";
     private static final int HOLIDAY_POS = 3;
 
-    // правый столбик "Отработано за" по сокращениям позиция в столбе
+    // right "Worked for" column - shortcut position within the column
     private static final Map<String, int[]> SHORTCUT_POS = new HashMap<>();
     static {
         SHORTCUT_POS.put("Я", new int[] { 0 });
@@ -81,16 +81,16 @@ public class TabelDAO extends CommonDAO {
         HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(callboard.getTabelConfig().getTemplatePath()));
         HSSFSheet sheet = workbook.getSheetAt(0);
 
-        // отдел
+        // department
         sheet.getRow(9).getCell(1).setCellValue(callboard.getTabelConfig().getOrgName());
 
-        // даты
+        // dates
         addDates(dateFrom, dateTo, sheet);
 
-        // количество дней в месяце
+        // number of days in the month
         final int days = TimeUtils.convertDateToCalendar(dateTo).getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        // числа
+        // day numbers
         addDays(sheet, days, 20, new GetForDay() {
             @Override
             public String add(int day, boolean upCell) {
@@ -106,10 +106,10 @@ public class TabelDAO extends CommonDAO {
         // final Map<Integer, WorkType> workTypeMap = new WorkTypeDAO( con
         // ).getWorkTypeMap();
 
-        // диапазоны в строках с пользователем
+        // ranges in the user's rows
         List<CellRangeAddress> rangesForCopy = getRangesForCopy(sheet);
 
-        // подсчёт количества рабочих часов
+        // counting the number of work hours
         int workHoursSum = 0;
 
         Calendar date = TimeUtils.convertDateToCalendar(dateFrom);
@@ -124,7 +124,7 @@ public class TabelDAO extends CommonDAO {
             date.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        // тестирование
+        // filtering
         for (int i = 0; i < userList.size(); i++) {
             if (!userShifts.containsKey(userList.get(i).getId())
             // || userList.get( i ).getId() != 35 // Князев, отладка
@@ -134,7 +134,7 @@ public class TabelDAO extends CommonDAO {
             }
         }
 
-        // обработка пользователей
+        // processing users
         final int size = userList.size();
         for (int i = 0; i < size; i++) {
             User user = userList.get(i);
@@ -152,32 +152,32 @@ public class TabelDAO extends CommonDAO {
                 post = ", " + post;
             }
 
-            // порядковый номер и ФИО
+            // sequence number and full name
             HSSFRow row = sheet.getRow(USER_ROW_FROM + offset);
             row.getCell(0).setCellValue(i + 1);
             row.getCell(1).setCellValue(user.getTitle() + post);
             row.getCell(2).setCellValue(
                     paramDao.getParamText(user.getId(), callboard.getTabelConfig().getParamTabelNumber()));
 
-            // ключ - строка
+            // key - row
             final Map<String, Integer> neyavkMap = new HashMap<>(4);
 
             @SuppressWarnings("unchecked")
             final Map<Date, WorkShift> dateShifts = (Map<Date, WorkShift>) Utils.maskNull(userShifts.get(user.getId()),
                     Collections.emptyMap());
 
-            // суммы для столбца "Отработано за месяц"
-            // по позициям в 0 элементе - сумма дней, в 1 - минут
+            // sums for the "Worked for the month" column
+            // by position, element 0 - sum of days, element 1 - minutes
             final int[][] workedForPeriod = new int[5][2];
 
-            // только для возможности увеличивать из класса
+            // only to allow incrementing from within the class
             int userWorkMinutes = 0;
 
-            // по дням сокращения
+            // shortcuts by day
             final LinkedHashMap<Integer, LinkedHashMap<String, Integer>> dayLabels = new LinkedHashMap<>(
                     31);
 
-            // выборка сокращений
+            // selecting shortcuts
             date = TimeUtils.convertDateToCalendar(dateFrom);
             while (TimeUtils.dateBeforeOrEq(date, calendarTo)) {
                 Date curDate = TimeUtils.convertCalendarToDate(date);
@@ -193,11 +193,11 @@ public class TabelDAO extends CommonDAO {
                 // prevDayType.getFirst().isHoliday();
                 final boolean curDayHoliday = curDayType != null && curDayType.getFirst().isHoliday();
 
-                // ключ - код типа работ. значение - суммарное число минут в эти сутки
+                // key - work type code, value - total number of minutes in this day
                 LinkedHashMap<String, Integer> labels = new LinkedHashMap<>();
                 dayLabels.put(day, labels);
 
-                // смены предыдущих суток, может что перешло на эти
+                // shifts from the previous day, something might have carried over to this one
                 WorkShift shift = dateShifts.get(prevDate);
                 if (shift != null) {
                     for (WorkTypeTime time : shift.getWorkTypeTimeList()) {
@@ -213,8 +213,8 @@ public class TabelDAO extends CommonDAO {
 
                                     for (String shortcut : type.getShortcutList()) {
                                         labels.put(shortcut, Utils.maskNull(labels.get(shortcut), 0) + minutes);
-                                        // РВ переходит на следующий день по дню начала смены либо остаток явки с
-                                        // предыдущего дня
+                                        // РВ carries over to the next day by the shift's start day, or the remainder
+                                        // of attendance from the previous day
                                         if (HOLIDAY_WORK_SHORTCUT.equals(shortcut)
                                                 || (curDayHoliday && !"Н".equals(shortcut))) {
                                             labels.put(HOLIDAY_SHORTCUT,
@@ -233,16 +233,16 @@ public class TabelDAO extends CommonDAO {
                     }
                 }
 
-                // смена текущих суток
+                // current day's shift
                 shift = dateShifts.get(curDate);
                 if (shift != null) {
                     for (WorkTypeTime time : shift.getWorkTypeTimeList()) {
                         WorkType type = CallboardCache.getWorkType(time.getWorkTypeId());
                         if (type != null) {
-                            // выявление неявок
+                            // detecting absences
                             if (type.getIsNonWorkHours()) {
                                 int hours = time.getMinutesInDay(type, curDate, curDate, false) / 60;
-                                // весь день не учитывамый тип работ - неявка
+                                // the entire day is a non-work-hours type - absence
                                 if (hours >= 23) {
                                     String shortcut = Utils.getFirst(type.getShortcutList());
 
@@ -251,11 +251,11 @@ public class TabelDAO extends CommonDAO {
 
                                     labels.put(shortcut, 0);
 
-                                    // еще одна поправка: индивидуальная норма высчитывается не только в отпуска и
-                                    // больничные, но на все виды работ, которые попадают под условия:
-                                    // Если в виде работы отмечено, что данный вид не надо учитывать в рабочих часах
-                                    // (Отпуск, Больничный, Прогул, Уход за ребенком и тп) и
-                                    // заполнено поле "Обозначение в табеле", https://sup.ufanet.ru/issues/9980
+                                    // one more correction: the individual norm is calculated not only for vacation and
+                                    // sick leave, but for all work types that meet the conditions:
+                                    // if the work type is marked as not counted in work hours
+                                    // (vacation, sick leave, absence, childcare leave, etc.) and
+                                    // the "Tabel designation" field is filled in, https://sup.ufanet.ru/issues/9980
                                     userWorkMinutes += curDayType.getFirst().getWorkHours() * 60;
 
                                     break;
@@ -270,7 +270,7 @@ public class TabelDAO extends CommonDAO {
 
                                     for (String shortcut : type.getShortcutList()) {
                                         labels.put(shortcut, Utils.maskNull(labels.get(shortcut), 0) + minutes);
-                                        // РВ на данный день, либо праздник и явка
+                                        // РВ on this day, or a holiday with attendance
                                         if (HOLIDAY_WORK_SHORTCUT.equals(shortcut)
                                                 || (curDayHoliday && !"Н".equals(shortcut))) {
                                             labels.put(HOLIDAY_SHORTCUT,
@@ -295,7 +295,7 @@ public class TabelDAO extends CommonDAO {
             log.debug("userWorkMinutes: {}; workHoursSum: {}", userWorkMinutes, workHoursSum);
 
             int suMinutesRest = userWorkMinutes - workHoursSum * 60;
-            // сверхурочка
+            // overtime
             if (suMinutesRest > 0) {
                 if (log.isDebugEnabled()) {
                     log.debug("su: " + suMinutesRest / 60 + "; mins: " + suMinutesRest);
@@ -309,7 +309,7 @@ public class TabelDAO extends CommonDAO {
                     final Integer yMinutes = Utils.maskNull(labels.get("Я"), 0);
                     final Integer nMinutes = Utils.maskNull(labels.get("Н"), 0);
 
-                    // нельзя в сверурочку переводить ночные и один час должен остаться в явке
+                    // night hours cannot be converted to overtime, and one hour must remain as attendance
                     Integer allowedУMinutes = yMinutes - nMinutes - 60;
                     allowedУMinutes = Math.max(allowedУMinutes, 0);
 
@@ -334,12 +334,12 @@ public class TabelDAO extends CommonDAO {
                 }
             }
 
-            // одна смена не может дважды попасть как день одного типа (например Я/С)
-            // должно дать один день явки в итоге и день сверухрочки, а не два дня явки и
-            // день сверхурочки
+            // one shift cannot count twice as a day of the same type (e.g. Я/С)
+            // it should result in one attendance day plus one overtime day, not two
+            // attendance days and one overtime day
             Set<Integer> dayInPosition = new HashSet<>(3);
 
-            // суммирование сокращений
+            // summing up shortcuts
             for (Map.Entry<Integer, LinkedHashMap<String, Integer>> meD : dayLabels.entrySet()) {
                 dayInPosition.clear();
 
@@ -375,8 +375,8 @@ public class TabelDAO extends CommonDAO {
             }
 
             addDays(sheet, days, USER_ROW_FROM + offset, new GetForDay() {
-                // т.к. первый вызов идёт для upCell, чтобы два раза не считать - сюда
-                // сохраняется строка для нижней ячейки
+                // since the first call is for upCell, to avoid computing twice, the row
+                // for the bottom cell is stored here
                 private String valueForDownCell = "";
 
                 @Override
@@ -389,7 +389,7 @@ public class TabelDAO extends CommonDAO {
 
                         for (Map.Entry<String, Integer> me : labels.entrySet()) {
                             Utils.addSeparated(labelString, "/", me.getKey());
-                            // различные Б, ОТ добавляются с 0 в минутах
+                            // various Б, ОТ are added with 0 minutes
                             if (me.getValue() > 0) {
                                 Utils.addSeparated(hoursString, "/", String.valueOf(me.getValue() / 60));
                             }
@@ -415,7 +415,7 @@ public class TabelDAO extends CommonDAO {
 
             HSSFRow rowNext = sheet.getRow(USER_ROW_FROM + offset + 2);
 
-            // раб., команд., ночн., празд., сверхур. - суммы за месяц
+            // work, business trip, night, holiday, overtime - sums for the month
             for (int k = 0; k < 5; k++) {
                 if (workedForPeriod[k][0] > 0) {
                     row.getCell(19 + k).setCellValue(workedForPeriod[k][0]);
@@ -454,7 +454,7 @@ public class TabelDAO extends CommonDAO {
     }
 
     private void addDays(HSSFSheet sheet, final int days, int rowNum, GetForDay adder) {
-        // числа
+        // day numbers
         final int daysInFirstRow = days / 2;
 
         int d = 1;

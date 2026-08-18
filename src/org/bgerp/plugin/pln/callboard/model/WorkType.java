@@ -133,7 +133,7 @@ public class WorkType extends IdTitle {
     }
 
     /**
-     * Возвращает время в минутах, требуемое для исполнения задачи.
+     * Returns the time in minutes required to execute the task
      * @param con
      * @param process
      * @return

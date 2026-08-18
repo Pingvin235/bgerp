@@ -6,21 +6,21 @@ public class ExpressionObject {
     private final Config config = Setup.getSetup().getConfig(Config.class);
 
     /**
-     * Sends a message using default Sender with ID = 0.
+     * Sends a message using default Sender with ID = 0
      *
-     * @param number recipient phone number.
-     * @param text message text.
+     * @param number recipient phone number
+     * @param text message text
      */
     public void sendSms(String number, String text) {
         sendSms(0, number, text);
     }
 
     /**
-     * Sends a message using a configured Sender.
+     * Sends a message using a configured Sender
      *
-     * @param senderId the Sender ID.
-     * @param number   recipient phone number.
-     * @param text     message text.
+     * @param senderId the Sender ID
+     * @param number   recipient phone number
+     * @param text     message text
      */
     public void sendSms(int senderId, String number, String text) {
         var sender = config.getSenders().get(senderId);

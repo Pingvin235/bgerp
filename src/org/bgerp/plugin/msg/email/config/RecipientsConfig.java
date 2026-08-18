@@ -9,13 +9,13 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.util.Utils;
 
 public class RecipientsConfig extends Config {
-    /** Process parameters. */
+    /** Process parameters */
     public static final String AREA_PROCESS = "process";
-    /** All not disabled users. */
+    /** All not disabled users */
     public static final String AREA_USERS = "users";
-    /** User executors for a process. */
+    /** User executors for a process */
     public static final String AREA_EXECUTORS = "executors";
-    /** Customers linked to a process. */
+    /** Customers linked to a process */
     public static final String AREA_PROCESS_CUSTOMERS = "process_customers";
 
     private final Set<String> areas;

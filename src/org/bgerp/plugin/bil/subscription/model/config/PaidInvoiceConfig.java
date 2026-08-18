@@ -10,7 +10,7 @@ import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import ru.bgcrm.util.Utils;
 
 /**
- * Subscription configuration for paid invoices.
+ * Subscription configuration for paid invoices
  *
  * @author Shamil Vakhitov
  */
@@ -43,28 +43,28 @@ public class PaidInvoiceConfig extends Config {
     }
 
     /**
-     * @return expression for calculation of subscription dateTo on paid invoice.
+     * @return expression for calculation of subscription dateTo on paid invoice
      */
     public String getDateToExpression() {
         return dateToExpression;
     }
 
     /**
-     * @return Email message type for sending email on paid invoice or {@code null}.
+     * @return Email message type for sending email on paid invoice or {@code null}
      */
     public MessageTypeEmail getEmailMessageType() {
         return emailMessageType;
     }
 
     /**
-     * @return Email subject.
+     * @return Email subject
      */
     public String getEmailSubject() {
         return emailSubject;
     }
 
     /**
-     * @return Email text expression.
+     * @return Email text expression
      */
     public String getEmailTextExpression() {
         return emailTextExpression;

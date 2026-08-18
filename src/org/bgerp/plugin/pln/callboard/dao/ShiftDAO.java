@@ -347,7 +347,7 @@ public class ShiftDAO extends CommonDAO {
     }
 
     /*
-     * Возвращает мап Группа - List из Рабочих смен
+     * Returns a map of Group - List of Work shifts
      */
     public Map<Integer, List<WorkShift>> getWorkShift(Callboard callboard, Date fromDate, Date toDate,
             Map<Integer, List<Integer>> groupWithUsersSet) {
@@ -358,9 +358,9 @@ public class ShiftDAO extends CommonDAO {
 
             Map<Key, List<WorkShift>> workShiftData = new HashMap<>();
 
-            // убрать в далёком будущем, 03.10.2014
-            // когда-то использовался формат хранения под кодом основной группы, потом был
-            // заменён на 0
+            // remove in the far future, 03.10.2014
+            // the storage format was once keyed by the main group's code, later
+            // replaced with 0
             String query = "UPDATE " + TABLE_SHIFT_USER + "SET `group`=0 "
                     + "WHERE graph=? AND date BETWEEN DATE_SUB(?, INTERVAL 1 DAY) AND ? AND `group`=?";
             PreparedStatement ps = con.prepareStatement(query);
@@ -373,7 +373,7 @@ public class ShiftDAO extends CommonDAO {
             con.commit();
             //
 
-            // выбор на день раньше, т.к. оттуда может перейти час
+            // selecting one day earlier, since an hour can carry over from there
             query = "SELECT * FROM " + TABLE_SHIFT_USER
                     + "WHERE graph=? AND date BETWEEN DATE_SUB(?, INTERVAL 1 DAY) AND ? "
                     + "ORDER BY time_from, time_to";
@@ -397,10 +397,10 @@ public class ShiftDAO extends CommonDAO {
             }
             ps.close();
 
-            // перебор групп
+            // iterating over groups
             for (Entry<Integer, List<Integer>> entry : groupWithUsersSet.entrySet()) {
                 List<WorkShift> workShiftList = new ArrayList<>();
-                // перебор пользователей
+                // iterating over users
                 for (Integer user : entry.getValue()) {
                     Key key = new Key(entry.getKey(), user);
                     List<WorkShift> shiftList = workShiftData.get(key);
@@ -425,7 +425,7 @@ public class ShiftDAO extends CommonDAO {
                              * if( afterCloseGroup ) continue;
                              */
 
-                            // если смена с такой датой уже есть, то нужно добавить к ней только тип работ
+                            // if a shift with this date already exists, only the work type needs to be added to it
                             if (dateWorkShift.containsKey(workShift.getDate())) {
                                 dateWorkShift.get(workShift.getDate()).getWorkTypeTimeList()
                                         .add(workShift.getWorkTypeTimeList().get(0));
@@ -454,8 +454,8 @@ public class ShiftDAO extends CommonDAO {
         return resultMap;
     }
 
-    // первый ключ - группа, второй - пользователь, далее набор дат, в которых
-    // пользователь входит в группу
+    // first key - group, second - user, followed by a set of dates on which
+    // the user is a member of the group
     public Map<Integer, Map<Integer, Set<Date>>> getAvailableDateForShift(Callboard callboard,
             Map<Integer, List<Integer>> groupWithUsersMap, Date fromDate, Date toDate) {
         Map<Integer, Map<Integer, Set<Date>>> result = new HashMap<>();
@@ -497,7 +497,7 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    // первый ключ - пользователь, далее - и данные по смене
+    // first key - user, followed by the shift data
     public Map<Integer, Map<Date, WorkShift>> getUserShifts(int graphId, Date fromDate, Date toDate)
             {
         Map<Integer, Map<Date, WorkShift>> result = new HashMap<>();
@@ -800,8 +800,8 @@ public class ShiftDAO extends CommonDAO {
     }
 
     /*
-     * Находит пользователей с рабочими сменами, которые состоят в одной бригаде в
-     * один и тот же день, в одной группе вместе с переданной сменой
+     * Finds users with work shifts who are in the same team on the same day,
+     * in the same group as the given shift
      */
     public List<WorkShift> findSameWorkShift(WorkShift workShift) {
         List<WorkShift> resultList = new ArrayList<>();
@@ -942,8 +942,8 @@ public class ShiftDAO extends CommonDAO {
         return result;
     }
 
-    // FIXME: Неведомая функция со сложной логикой, оставлена со старой версии!!!
-    // Разобраться, что делает, т.к. возможно не нужна..
+    // FIXME: Mysterious function with complex logic, left over from the old version!!!
+    // Figure out what it does, as it might not be needed..
     private boolean checkWorkShiftTimeOrder(List<WorkTypeTime> workShiftList) {
         Set<Integer> beginTimeSet = new HashSet<>();
         Set<Integer> endTimeSet = new HashSet<>();

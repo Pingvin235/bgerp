@@ -42,12 +42,12 @@ public class BoardAction extends BaseAction {
     public ActionForward show(DynActionForm form, Connection con) throws Exception {
         BoardConfig boardConf = setup.getConfig(BoardsConfig.class).getBoard(form.getId());
         if (boardConf != null) {
-            // первичные процессы
+            // primary processes
             List<Pair<Process, Map<String, Object>>> processes = new BoardDAO(con, form).getProcessList(boardConf);
 
             Set<Integer> processIds = processes.stream().map(Pair::getFirst).map(p -> p.getId()).collect(Collectors.toSet());
 
-            // связи между процессами, пока используем только родительское отношение
+            // links between processes, currently only the parent relation is used
             Collection<CommonObjectLink> links = new ProcessLinkDAO(con, form).getLinksOver(processIds);
 
             Board board = new Board(boardConf, processes, links);

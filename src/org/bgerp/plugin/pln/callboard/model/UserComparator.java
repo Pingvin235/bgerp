@@ -6,8 +6,8 @@ import java.util.Map;
 import org.bgerp.cache.UserCache;
 
 /*
- * Сортирует пользователей в группе по ФИО если не задан порядок сортировки
- * Если порядок сортировки задан, сортирует согласно ему
+ * Sorts users in a group by full name if no sort order is specified
+ * If a sort order is specified, sorts according to it
  */
 public class UserComparator implements Comparator<Integer> {
     private Map<Integer, Integer> orderMap;

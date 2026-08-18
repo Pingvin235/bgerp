@@ -9,7 +9,7 @@ import org.bgerp.plugin.bil.subscription.event.listener.PaidInvoiceListener;
 import ru.bgcrm.event.ParamChangedEvent;
 
 /**
- * Subscription plugin.
+ * Subscription plugin
  *
  * @author Shamil Vakhitov
  */

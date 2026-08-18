@@ -32,7 +32,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class Config extends org.bgerp.app.cfg.Config {
-    /** Map with all subscriptions. */
+    /** Map with all subscriptions */
     private final SortedMap<Integer, Subscription> subscriptions;
 
     private final String signKeyFile;
@@ -40,18 +40,18 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     // user params
 
-    /** Param type 'money', incoming tax percentage for a user. */
+    /** Param type 'money', incoming tax percentage for a user */
     private final int paramUserIncomingTaxPercentId;
 
     // subscription process params
 
-    /** Param type 'list', pointing to the subscription. */
+    /** Param type 'list', pointing to the subscription */
     private final int paramSubscriptionId;
-    /** Contact Email for Subscription. */
+    /** Contact Email for Subscription */
     private final int paramEmailId;
     /** Param type 'list', subscriptions' limit, e.g. sessions */
     private final int paramLimitId;
-    /** End date, placed in license file. */
+    /** End date, placed in license file */
     private final int paramDateToId;
     /** type 'file', license file */
     private final int paramLicFileId;
@@ -119,7 +119,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * @return subscription sorted by IDs.
+     * @return subscription sorted by IDs
      */
     public Collection<Subscription> getSubscriptions() {
         return subscriptions.values();
@@ -173,11 +173,11 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * Checks DateTo value to do not be later as defined months.
+     * Checks DateTo value to do not be later as defined months
      * @param e
      * @param conSet
-     * @return license update can be performed.
-     * @throws BGMessageException Date To is too far in the future.
+     * @return license update can be performed
+     * @throws BGMessageException Date To is too far in the future
      */
     private boolean dateToChanged(ParamChangedEvent e, ConnectionSet conSet) throws Exception {
         Date value = (Date) e.getValue();
@@ -191,7 +191,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * Updates subscription cost parameter value.
+     * Updates subscription cost parameter value
      * @param processId
      * @param conSet
      * @throws Exception

@@ -38,14 +38,14 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
 /**
- * Email content creator.
+ * Email content creator
  *
  * @author Shamil Vakhitov
  */
 public class MessageContent {
     private static final Log log = Log.getLog();
 
-    /** Configs source. */
+    /** Configs source */
     private final Setup setup;
     private final String encoding;
     private final String signExpression;
@@ -59,7 +59,7 @@ public class MessageContent {
     }
 
     /**
-     * Set Email message content.
+     * Sets Email message content
      * @param message
      * @param msg
      * @throws Exception
@@ -114,11 +114,11 @@ public class MessageContent {
     }
 
     /**
-     * Appends text with history info and open process link.
-     * @param text body text, can be modified during the changes.
-     * @param l localizer with target language.
-     * @param msg message.
-     * @return mime part with 'History.txt' or {@code null} if no history to attach.
+     * Appends text with history info and open process link
+     * @param text body text, can be modified during the changes
+     * @param l localizer with target language
+     * @param msg message
+     * @return mime part with 'History.txt' or {@code null} if no history to attach
      * @throws Exception
      */
     @VisibleForTesting

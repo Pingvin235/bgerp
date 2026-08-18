@@ -40,7 +40,7 @@ public class ProcessNotificationConfig extends Config {
     }
 
     /**
-     * @return user parameter type 'email' to send notifications.
+     * @return user parameter type 'email' to send notifications
      */
     public int userEmailParamId() {
         return userEmailParamId;

@@ -7,7 +7,7 @@ import org.bgerp.plugin.bil.invoice.model.Invoice;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Generator of invoice positions.
+ * Generator of invoice positions
  *
  * @author Shamil Vakhitov
  */
@@ -17,7 +17,7 @@ public abstract class PositionProvider extends Config {
     }
 
     /**
-     * Appends position to invoice.
+     * Appends position to invoice
      * @param invoice
      */
     public abstract void addPositions(ConnectionSet conSet, Invoice invoice) throws Exception;

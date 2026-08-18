@@ -29,9 +29,9 @@ public class BoardDAO extends ProcessQueueDAO {
     }
 
     /**
-     * Возвращает набор все процессов для визуализаци.
-     * Сортировка обратная по приоритету.
-     * Первый параметр в очереди - процесс, остальные - настроенные колонки.
+     * Returns the set of all processes for visualization.
+     * Sorting is reverse by priority.
+     * The first parameter in the queue is the process, the rest are configured columns.
      * @param board
      * @return
      */

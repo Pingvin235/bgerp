@@ -11,11 +11,11 @@ import org.bgerp.app.cfg.ConfigMap;
 import ru.bgcrm.util.TimeUtils;
 
 public class CallboardPlanConfig extends Config {
-    // минуты от начала дня - начало плана
+    // minutes from the start of the day - plan start
     private final int dayMinuteFrom;
-    // минуты от начала дня - окончание плана
+    // minutes from the start of the day - plan end
     private final int dayMinuteTo;
-    // шаг времени в минутах
+    // time step in minutes
     private final int dayMinuteStep;
 
     public CallboardPlanConfig(ConfigMap setup) {

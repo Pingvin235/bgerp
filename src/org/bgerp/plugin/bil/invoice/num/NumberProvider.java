@@ -8,7 +8,7 @@ import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 
 /**
- * Number generator.
+ * Number generator
  *
  * @author Shamil Vakhitov
  */

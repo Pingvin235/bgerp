@@ -9,18 +9,18 @@ import org.bgerp.plugin.pln.callboard.model.WorkType;
 import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.bgerp.util.Log;
 
-// диапазон ячеек в смене, занятый типом работ либо свободный
+// range of cells in a shift, occupied by a work type or free
 public class CellRange {
     private static final Log log = Log.getLog();
 
-    // null - свободное время
+    // null - free time
     public final WorkType workType;
-    // null - свободное время
+    // null - free time
     public final WorkTypeTime workTypeTime;
     /*private final int startDayMinute;*/
-    // сколько ячеек занимает в дневной таблице
+    // how many cells it occupies in the day table
     int cells;
-    // на сколько слотов разбит
+    // into how many slots it is split
     private final int slotCount;
     List<WorkTask> taskList = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class CellRange {
         return cells;
     }
 
-    // возвращает свободные слоты либо занятые каким-то процессом
+    // returns free slots or slots occupied by some process
     public List<SlotRange> getSlotRanges() {
         List<SlotRange> result = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class CellRange {
 
             SlotRange currentRange = null;
 
-            // WorkTask на подходе либо текущий
+            // WorkTask coming up or current
             WorkTask currentTask = null;
 
             for (int slot = 0; slot < slotCount; slot++) {
@@ -60,7 +60,7 @@ public class CellRange {
                     currentTask = taskIterator.hasNext() ? taskIterator.next() : null;
                 }
 
-                // есть текущий диапазон и слот попал в него
+                // there is a current range and the slot falls into it
                 if (currentTask != null && (currentTask.getSlotFrom() <= slot && slot < currentTask.getSlotTo())) {
                     if (currentRange == null || currentRange.task != currentTask) {
                         result.add(currentRange = new SlotRange(currentTask, slot, 1));
@@ -68,7 +68,7 @@ public class CellRange {
                         currentRange.slotCount++;
                     }
                 }
-                // нет текущего диапазона, либо не дошли до него
+                // no current range, or haven't reached it yet
                 else {
                     result.add(new SlotRange(null, slot, 1));
                 }
@@ -83,7 +83,7 @@ public class CellRange {
     }
 
     /**
-     * Возвращает свободные диапазоны слотов.
+     * Returns free slot ranges
      * @return
      *
      * 11-22/16:03:30 DEBUG [http-bio-9089-exec-9] WorkAction - Checking free ranges:
@@ -109,7 +109,7 @@ public class CellRange {
         for (SlotRange pair : getSlotRanges()) {
             log.debug("SlotRange from: {}; count: {} task: {}", pair.slotFrom, pair.slotCount, pair.task);
 
-            // слот не занят
+            // slot is not occupied
             if (pair.task != null) {
                 currentRange = null;
             } else {

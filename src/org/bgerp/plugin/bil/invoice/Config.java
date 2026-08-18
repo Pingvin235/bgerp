@@ -45,16 +45,16 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * @return types sorted by IDs.
+     * @return types sorted by IDs
      */
     public Collection<InvoiceType> getTypes() {
         return types.values();
     }
 
     /**
-     * Gets invoice type by ID.
+     * Gets invoice type by ID
      * @param id
-     * @return
+     * @return the invoice type
      * @throws NotFoundException
      */
     public InvoiceType getType(int id) throws NotFoundException {
@@ -65,7 +65,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     }
 
     /**
-     * @return positions sorted by configuration index.
+     * @return positions sorted by configuration index
      */
     public Collection<IdStringTitle> getPositions() {
         return positions.values();

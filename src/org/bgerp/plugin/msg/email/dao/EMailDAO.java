@@ -25,9 +25,9 @@ public class EMailDAO extends CommonDAO {
     }
 
      /**
-     * Selects E-Mails in process parameters.
-     * @param processId process ID.
-     * @return
+     * Selects E-Mails in process parameters
+     * @param processId process ID
+     * @return the E-Mails
      * @throws SQLException
      */
     public List<ParameterEmailValue> getProcessEmails(int processId) throws SQLException {
@@ -49,9 +49,9 @@ public class EMailDAO extends CommonDAO {
     }
 
     /**
-     * Selects E-Mails in parameters of users excluding in {@link ru.bgcrm.model.user.User#STATUS_DISABLED}.
-     * @param ids optional set of user IDs.
-     * @return
+     * Selects E-Mails in parameters of users excluding in {@link ru.bgcrm.model.user.User#STATUS_DISABLED}
+     * @param ids optional set of user IDs
+     * @return the E-Mails
      * @throws SQLException
      */
     public List<ParameterEmailValue> getUserEmails(Set<Integer> ids) throws SQLException {
@@ -76,9 +76,9 @@ public class EMailDAO extends CommonDAO {
     }
 
     /**
-     * Selects E-Mails in parameters of customers.
-     * @param ids optional set of customer IDs.
-     * @return
+     * Selects E-Mails in parameters of customers
+     * @param ids optional set of customer IDs
+     * @return the E-Mails
      * @throws SQLException
      */
     public List<ParameterEmailValue> getCustomerEmails(Set<Integer> ids) throws SQLException {

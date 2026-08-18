@@ -27,11 +27,11 @@ public class SubscriptionDAO extends CommonDAO {
     }
 
     /**
-     * Gets subscription cost out of product prices.
-     * @param subscription subscription.
-     * @param limitId sessions limit ID.
-     * @param productProcessIds product processes IDs.
-     * @return
+     * Gets subscription cost out of product prices
+     * @param subscription subscription
+     * @param limitId sessions limit ID
+     * @param productProcessIds product processes IDs
+     * @return the subscription cost
      */
     public BigDecimal getCost(Subscription subscription, int limitId, Collection<Integer> productProcessIds) throws SQLException {
         var result = BigDecimal.ZERO;
@@ -52,11 +52,11 @@ public class SubscriptionDAO extends CommonDAO {
     }
 
     /**
-     * Gets subscription cost out of product prices, minus service cost and discount.
+     * Gets subscription cost out of product prices, minus service cost and discount
      * @param config
      * @param subscription
      * @param subscriptionProcessId
-     * @return
+     * @return the subscription cost
      * @throws SQLException
      * @throws BGMessageException
      */
@@ -100,10 +100,10 @@ public class SubscriptionDAO extends CommonDAO {
     }
 
     /**
-     * Selects product IDs, related to a subscription process.
+     * Selects product IDs, related to a subscription process
      * @param config
      * @param subscriptionProcessId
-     * @return
+     * @return the product IDs
      * @throws SQLException
      */
     public List<String> getProducts(Config config, int subscriptionProcessId) throws SQLException {

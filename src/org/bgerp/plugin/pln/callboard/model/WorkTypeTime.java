@@ -23,10 +23,10 @@ public class WorkTypeTime {
 
     private boolean isDynamic;
     private int workTypeId;
-    // минуты суток, когда начинается и оканчивается вид работ
+    // minutes of the day when the work type starts and ends
     private int dayMinuteFrom;
     private int dayMinuteTo;
-    // вид работ целиком располагается в следующих сутках
+    // the work type entirely falls on the next day
     private boolean inNextDay;
     private String comment = "";
 
@@ -137,7 +137,7 @@ public class WorkTypeTime {
     private static final int getMinutes(String value) {
         int result = Utils.parseInt(value, -1);
 
-        // старый формат, использованный при сохранении
+        // old format used when saving
         if (result < 0) {
             Matcher m = OLD_TIME_PATTERN.matcher(value);
             if (m.matches()) {
@@ -158,7 +158,7 @@ public class WorkTypeTime {
         if (type != null && (!onlyWork || !type.isNonWorkHours())) {
             Calendar inDateStart = TimeUtils.convertDateToCalendar(inDate);
 
-            // все эти сложности вызваны переводами дат
+            // all this complexity is caused by date shifting
             Calendar timeFrom = new GregorianCalendar();
             timeFrom.setTime(dateStart);
             timeFrom.add(Calendar.MINUTE, dayMinuteFrom);
@@ -174,18 +174,18 @@ public class WorkTypeTime {
                 timeTo.add(Calendar.DAY_OF_YEAR, 1);
             }
 
-            // рассматриваются только случаи, что наш период началом или концом
-            // входит в дату, для которой нам нужно получить длительность смены в нём
+            // only cases where our period's start or end falls into the date
+            // for which we need to get the shift duration are considered
             if (inDate != null) {
                 Calendar inDateEnd = TimeUtils.getNextDay(inDateStart);
                 TimeUtils.clear_HOUR_MIN_MIL_SEC(inDateEnd);
 
-                // нет пересечений
+                // no overlap
                 if (inDateEnd.before(timeFrom) || timeTo.before(inDateStart)) {
                     return 0;
                 }
 
-                // усечение справа и слева диапазона
+                // truncating the range on the right and left
                 if (timeFrom.before(inDateStart)) {
                     timeFrom = inDateStart;
                 } else if (inDateEnd.before(timeTo)) {
@@ -193,7 +193,7 @@ public class WorkTypeTime {
                 }
             }
 
-            // отрицательный резуль
+            // negative result
             return Math.max((int) ((timeTo.getTimeInMillis() - timeFrom.getTimeInMillis()) / 60000L), 0);
         }
         return 0;

@@ -16,7 +16,7 @@ import jakarta.mail.MessagingException;
 import ru.bgcrm.util.Utils;
 
 /**
- * Cache of messages inside of IMAP folder.
+ * Cache of messages inside of IMAP folder
  *
  * @author Shamil Vakhitov
  */
@@ -35,7 +35,7 @@ class FolderCache {
         FETCH_PROFILE_LIST.add("Received");
     }
 
-    /** Prefix for system message ID. */
+    /** Prefix for system message ID */
     private static final String SYSTEM_ID_PREFIX = "index";
 
     private static final long MAX_CACHE_VALID_TIMEOUT_MS = Duration.ofMinutes(10).toMillis();
@@ -95,7 +95,7 @@ class FolderCache {
         lastListTimeMs = System.currentTimeMillis();
     }
 
-    /** Cached message. */
+    /** Cached message */
     public static class Item {
         public final int index;
         private final int size;
@@ -109,8 +109,8 @@ class FolderCache {
     }
 
     /**
-     * Removes one or more messages by IDs.
-     * @param ids string IDs like 'indexDDD'.
+     * Removes one or more messages by IDs
+     * @param ids string IDs like 'indexDDD'
      */
     @Deprecated
     synchronized void delete(String... ids) {
@@ -120,10 +120,10 @@ class FolderCache {
     }
 
     /**
-     * Converts string message ID to array index.
-     * @param id string ID like 'indexDDD'.
-     * @return zero-based list index.
-     * @throws ArrayIndexOutOfBoundsException position is less than zero or more that maximal index.
+     * Converts string message ID to array index
+     * @param id string ID like 'indexDDD'
+     * @return zero-based list index
+     * @throws ArrayIndexOutOfBoundsException position is less than zero or more that maximal index
      */
     int idToIndex(String id) throws ArrayIndexOutOfBoundsException {
         int result = Utils.parseInt(StringUtils.substringAfter(id, SYSTEM_ID_PREFIX), -1);

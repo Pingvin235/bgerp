@@ -8,7 +8,7 @@ import org.bgerp.model.base.IdTitle;
 import ru.bgcrm.model.process.Process;
 
 /**
- * Process executor - user or group.
+ * Process executor - user or group
  *
  * @author Shamil Vakhitov
  */

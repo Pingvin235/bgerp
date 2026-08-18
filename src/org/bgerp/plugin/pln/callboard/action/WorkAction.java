@@ -93,34 +93,34 @@ public class WorkAction extends BaseAction {
 
         form.setResponseData("callboardList", config.getCallboards(Utils.toIntegerSet(perm.get("allowOnlyCallboards"))));
 
-        //определение начальной и конечной даты, формирование сета с датами для шапки графика
+        // determine start and end date, build a set of dates for the graph header
         Date date = form.getParamDate("date");
 
         form.setResponseData("date", date);
 
-        // дата и график выбраны
+        // date and graph are selected
         if (date != null && graphId > 0) {
             Callboard callboard = config.get(graphId);
             if (callboard.getCalendarId() > 0) {
                 WorkDaysCalendar calendar = setup.getConfig(CalendarConfig.class).getCalendar(callboard.getCalendarId());
                 Map<Date, Integer> excludeDates = new WorkTypeDAO(con).getWorkDaysCalendarExcludes(callboard.getCalendarId());
 
-                // нужен ли он вообще тут?
+                // is it needed here at all?
                 form.setRequestAttribute("dayType", calendar.getDayType(date, excludeDates));
             }
 
             form.setResponseData("callboard", callboard);
 
-            // подгруппы с пользователями в ними, под ключом 0 - не вошедшие ни в одну из подгрупп
+            // subgroups with their users, key 0 - not included in any subgroup
             Map<Integer, List<Integer>> groupWithUsersMap = getGroupWithUsersMap(con, callboard,
                     getGroupList(form, callboard, true, Utils.toIntegerSet(form.getPermission().get("allowOnlyGroups"))),
                     TimeUtils.convertDateToCalendar(date), TimeUtils.convertDateToCalendar(date));
 
-            // Возвращает мап Группа - List из Рабочих смен
+            // returns a map of Group - List of Work shifts
             Map<Integer, List<WorkShift>> workShiftMap = new ShiftDAO(con).getWorkShift(callboard, TimeUtils.getNextDay(date), date,
                     groupWithUsersMap);
 
-            // ключ - группа, значение - список бригад с пользователями
+            // key - group, value - list of teams with users
             Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<>();
 
             form.setResponseData("groupDataMap", groupDataMap);
@@ -164,7 +164,7 @@ public class WorkAction extends BaseAction {
             Calendar dateTo = TimeUtils.convertDateToCalendar(date);
             dateTo.add(Calendar.DAY_OF_YEAR, timeSetConfig.getDaysShow());
 
-            // слоты с указанием бригад и т.п.
+            // slots with team indication, etc.
             List<FreeSlotRange> freeSlots = getFreeSlots(con, process, callboard, date, TimeUtils.convertCalendarToDate(dateTo));
 
             form.setResponseData("slotList", freeSlots);
@@ -195,7 +195,7 @@ public class WorkAction extends BaseAction {
             Callboard callboard = timeSetConfig.getCallboard();
 
             synchronized (SET_TIME_MUTEX) {
-                // назначение времени
+                // assigning time
                 if (time != null) {
                     Calendar cal = TimeUtils.convertDateToCalendar(time);
                     TimeUtils.clear_HOUR_MIN_MIL_SEC(cal);
@@ -231,7 +231,7 @@ public class WorkAction extends BaseAction {
 
                     new WorkTaskDAO(con).addTask(task);
 
-                    // установка исполнителей
+                    // assigning executors
                     ProcessGroup processGroup = new ProcessGroup(allowedSlot.groupId > 0 ? allowedSlot.groupId : callboard.getGroupId());
 
                     Set<ProcessExecutor> currentExecutors = process.getExecutors();
@@ -241,12 +241,12 @@ public class WorkAction extends BaseAction {
 
                     processDao.updateProcessExecutors(currentExecutors, processId);
 
-                    // установка параметра
+                    // setting the parameter
                     EventProcessor.processEvent(new ParamChangingEvent(form, timeSetConfig.getParam(), processId, time), new SingleConnectionSet(con));
                     new ParamValueDAO(con).updateParamDateTime(processId, timeSetConfig.getParam().getId(), time);
                     EventProcessor.processEvent(new ParamChangedEvent(form, timeSetConfig.getParam(), processId, time), new SingleConnectionSet(con));
 
-                    // установка статуса
+                    // setting the status
                     final int changeStatusToId = timeSetConfig.getChangeStatusToId();
                     if (changeStatusToId > 0 && changeStatusToId != process.getStatusId()) {
                         StatusChange change = new StatusChange();
@@ -260,7 +260,7 @@ public class WorkAction extends BaseAction {
 
                     form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
                 }
-                // удаление времени
+                // removing time
                 else {
                     new ParamValueDAO(con).updateParamDateTime(processId, timeSetConfig.getParam().getId(), null);
 
@@ -306,19 +306,19 @@ public class WorkAction extends BaseAction {
         Pair<CellRange, SlotRange> result = null;
 
         synchronized (SET_TIME_MUTEX) {
-            // пользователи группы
+            // group's users
             Map<Integer, List<Integer>> groupWithUsersMap = getGroupWithUsersMap(con, callboard, Collections.singletonList(groupId), cal, cal);
 
-            // Возвращает мап Группа - List из Рабочих смен
+            // returns a map of Group - List of Work shifts
             Map<Integer, List<WorkShift>> workShiftMap = new ShiftDAO(con).getWorkShift(callboard, TimeUtils.getNextDay(date), date,
                     groupWithUsersMap);
 
-            // ключ - группа, значение - список бригад с пользователями
+            // key - group, value - list of teams with users
             Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<>();
 
             separateShiftData(date, workShiftMap, groupDataMap);
 
-            // назначенные задачи
+            // assigned tasks
             new WorkTaskDAO(con).loadWorkTask(callboard.getId(), date, groupDataMap);
 
             List<ShiftData> dataList = Utils.getFirst(groupDataMap.values());
@@ -394,13 +394,13 @@ public class WorkAction extends BaseAction {
         Integer groupId = (Integer) Utils.getFirst(CollectionUtils.intersection(processGroupIds, groupIds));
 
         if (groupId != null) {
-            // пользователи группы
+            // group's users
             Map<Integer, List<Integer>> groupWithUsersMap = getGroupWithUsersMap(con, callboard, Collections.singletonList(groupId),
                     TimeUtils.convertDateToCalendar(dateFrom), TimeUtils.convertDateToCalendar(dateTo));
 
             log.debug("groupId: {}; groupWithUsersMap: {}", groupId, groupWithUsersMap);
 
-            // Возвращает мап Группа - List из Рабочих смен
+            // returns a map of Group - List of Work shifts
             Map<Integer, List<WorkShift>> workShiftMap = new ShiftDAO(con).getWorkShift(callboard, TimeUtils.getNextDay(dateFrom), dateTo,
                     groupWithUsersMap);
 
@@ -409,14 +409,14 @@ public class WorkAction extends BaseAction {
             Date date = (Date) dateFrom.clone();
 
             while (!date.after(dateTo)) {
-                // ключ - группа, значение - список бригад с пользователями
+                // key - group, value - list of teams with users
                 Map<Integer, List<ShiftData>> groupDataMap = new LinkedHashMap<>();
 
                 separateShiftData(date, workShiftMap, groupDataMap);
 
                 log.debug("Processing: {}; groupDataMap: {}", date, groupDataMap);
 
-                // назначенные задачи
+                // assigned tasks
                 new WorkTaskDAO(con).loadWorkTask(callboard.getId(), date, groupDataMap);
 
                 List<ShiftData> dataList = Utils.getFirst(groupDataMap.values());
@@ -434,7 +434,7 @@ public class WorkAction extends BaseAction {
 
                             final int slotSize = type.getTimeSetStep();
 
-                            // неположительная длительность - значит не принимает такие процессы
+                            // non-positive duration means it does not accept such processes
                             int time = type.getProcessExecuteTime(con, data, process);
                             if (time <= 0) {
                                 continue;
@@ -475,9 +475,9 @@ public class WorkAction extends BaseAction {
         return result;
     }
 
-    // разделение смен по пользователям в группах
+    // splitting shifts by users in groups
     private void separateShiftData(Date date, Map<Integer, List<WorkShift>> workShiftMap, Map<Integer, List<ShiftData>> groupDataMap) {
-        // раскладываем по группам
+        // laying out by groups
         for (Map.Entry<Integer, List<WorkShift>> me : workShiftMap.entrySet()) {
             int groupId = me.getKey();
 
@@ -498,9 +498,9 @@ public class WorkAction extends BaseAction {
 
                 ShiftData existData = null;
 
-                // попытка группировки смены по бригаде
+                // attempt to group the shift by team
                 for (ShiftData data : groupData) {
-                    // такая же смена и бригада - добавляем в неё пользователя
+                    // same shift and team - add the user to it
                     if (team > 0 && shiftId == data.shiftId && team == data.team) {
                         existData = data;
                         existData.userIds.add(userId);
@@ -535,7 +535,7 @@ public class WorkAction extends BaseAction {
         form.setResponseData("callboardList",
                 config.getCallboards(Utils.toIntegerSet(perm.get("allowOnlyCallboards", perm.get("allowOnlyTabels")))));
 
-        //определние начальной и конечной даты, формирование сета с датами для шапки графика
+        // determine start and end date, build a set of dates for the graph header
         Date fromDate = form.getParamDate("fromDate");
         Date toDate = form.getParamDate("toDate");
 
@@ -558,7 +558,7 @@ public class WorkAction extends BaseAction {
 
             form.setRequestAttribute("prevDate", TimeUtils.getPrevDay(fromDate));
 
-            //график, которой нужно строить выбран
+            // the graph to be built is selected
             if (graphId > 0) {
                 Callboard callboard = config.get(graphId);
                 if (callboard.getCalendarId() > 0) {
@@ -661,7 +661,7 @@ public class WorkAction extends BaseAction {
     public ActionForward callboardUpdateShift(DynActionForm form, Connection con) throws Exception {
         int graphId = form.getParamInt("graphId", 0);
         int userId = form.getParamInt("userId", 0);
-        // 0 - корневая группа графика
+        // 0 - graph's root group
         int groupId = form.getParamInt("groupId", -1);
         int teamId = form.getParamInt("team", 0);
         int shiftId = form.getParamInt("shiftId", 0);
@@ -700,14 +700,14 @@ public class WorkAction extends BaseAction {
             throw new BGException("График не найден");
         }
 
-        //проверка, можно ли править график прошлым
+        // check whether the past graph can be edited
         boolean allowed = callboard.getConfigMap().getBoolean("pastEditAllowed", true);
         if (!allowed && TimeUtils.dateBefore(date, new Date())) {
             throw new BGException("Запрещено править график за прошедшие дни");
         }
 
-        //состоит ли пользователь в выбранной группе на выбранный день
-        /* FIXME: Открывались группы с дневным интервалом в ЦКиБС уфанета.*/
+        // whether the user is a member of the selected group on the selected day
+        /* FIXME: Groups with a day interval were opened in Ufanet's TSaSSCC. */
 
         if (!hasMembershipAtDate(userId, groupId > 0 ? groupId : callboard.getGroupId(), date)) {
             if (callboard.getConfigMap().getBoolean("autoAddGroup", false)) {
@@ -726,7 +726,7 @@ public class WorkAction extends BaseAction {
                         continue;
                     }
 
-                    // существующая группа левая граница сдвиг влево
+                    // existing group's left border shifted left
                     if (TimeUtils.dateEqual(userGroup.getDateFrom(), nextDate)) {
                         userDao.removeUserGroup(userId, groupId, userGroup.getDateFrom(), userGroup.getDateTo());
                         userGroup.setDateFrom(date);
@@ -734,7 +734,7 @@ public class WorkAction extends BaseAction {
                         existChanged = true;
                         break;
                     }
-                    // существующая группа
+                    // existing group
                     else if (TimeUtils.dateEqual(userGroup.getDateTo(), prevDate)) {
                         userDao.removeUserGroup(userId, groupId, userGroup.getDateFrom(), userGroup.getDateTo());
                         userGroup.setDateTo(date);
@@ -828,13 +828,13 @@ public class WorkAction extends BaseAction {
     }
 
     /**
-     * Проверяет членство пользователя в группе на указанную дату
-     * без учёта часов, минут, секунд и миллисекунд
-     * @param userId ID пользователя
-     * @param groupId ID группы
-     * @param date Дата на которую проверяется членство пользователя в группе
-     * @return true если пользователь числился в укзанной группе
-     * на заданную дату, иначе - false
+     * Checks whether the user is a member of the group on the specified date,
+     * disregarding hours, minutes, seconds and milliseconds
+     * @param userId user ID
+     * @param groupId group ID
+     * @param date date on which the user's membership in the group is checked
+     * @return {@code true} if the user was a member of the specified group
+     * on the given date, otherwise {@code false}
      */
     private boolean hasMembershipAtDate(int userId, int groupId, Date date) {
         boolean hasMembership = false;
@@ -889,11 +889,11 @@ public class WorkAction extends BaseAction {
     }
 
     public ActionForward callboardGetTabel(DynActionForm form, Connection con) throws Exception {
-        //TODO: Добавить проверку прав, причём нормальную и также для получения графиков. С ограничением по ID табеля в пермишенах.
+        // TODO: Add a permission check, a proper one, also for retrieving graphs, with a limit by tabel ID in permissions.
 
         int graphId = form.getParamInt("graphId", 0);
 
-        //определние начальной и конечной даты, формирование сета с датами для шапки графика
+        // determine start and end date, build a set of dates for the graph header
         Date fromDate = form.getParamDate("fromDate");
         Date toDate = form.getParamDate("toDate");
 
@@ -991,9 +991,9 @@ public class WorkAction extends BaseAction {
             throw new BGException("Ошибка при обновлении календаря: дата не распознана");
         }
 
-        // определение типа исключительно по правилу календаря
+        // determine the type strictly by the calendar rule
         Pair<DayType, Boolean> byRule = calendar.getDayType(date, null);
-        // если такой же тип определён и правилом
+        // if the same type is also determined by the rule
         if (byRule != null && byRule.getFirst().getId() == type) {
             type = 0;
         }
@@ -1022,7 +1022,7 @@ public class WorkAction extends BaseAction {
     }
 
 
-    // Список групп
+    // list of groups
     protected List<Integer> getGroupList(DynActionForm form, Callboard callboard, boolean excludeHidden, Set<Integer> allowOnlyGroups)
             {
         List<Integer> result = new ArrayList<>();
@@ -1039,7 +1039,7 @@ public class WorkAction extends BaseAction {
 
         Set<Integer> groups = parentGroup.getChildSet();
 
-        //поверять только среди тех групп, в которые входит пользователь
+        // check only among the groups the user is a member of
         for (Group group : UserCache.getUserGroupList()) {
             final int groupId = group.getId();
 
@@ -1057,21 +1057,21 @@ public class WorkAction extends BaseAction {
         return result;
     }
 
-    //Группа - Список пользователей, входящих в эту группу
+    // Group - list of users belonging to this group
     protected Map<Integer, List<Integer>> getGroupWithUsersMap(Connection con, Callboard callboard, List<Integer> groupIds, Calendar dateFrom,
             Calendar dateTo) {
         Map<Integer, List<Integer>> resultMap = new LinkedHashMap<>();
 
         Set<Integer> userInSubGroups = new HashSet<>();
 
-        //поверять только среди тех групп, в которые входит пользователь
+        // check only among the groups the user is a member of
         for (Integer groupId : groupIds) {
             if (groupId != callboard.getGroupId()) {
                 List<Integer> userList = getGroupUsers(con, callboard, groupId, dateFrom, dateTo);
                 resultMap.put(groupId, userList);
                 userInSubGroups.addAll(userList);
             } else {
-                // корень группы - под ключом 0
+                // group root - under key 0
                 List<Integer> userList = getGroupUsers(con, callboard, callboard.getGroupId(), dateFrom, dateTo);
                 userList.removeAll(userInSubGroups);
                 resultMap.put(0, userList);

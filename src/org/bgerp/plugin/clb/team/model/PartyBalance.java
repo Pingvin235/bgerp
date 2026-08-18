@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 import ru.bgcrm.model.Pair;
 
 public class PartyBalance {
-    /** Payment transition matrix. */
+    /** Payment transition matrix */
     private final Map<Key, BigDecimal> matrix;
 
     /**
-     * Constructor.
-     * @param paymentAmounts key - member ID, value - given amount.
+     * Constructor
+     * @param paymentAmounts key - member ID, value - given amount
      */
     public PartyBalance(List<Pair<Integer, BigDecimal>> paymentAmounts) {
         final int cnt = paymentAmounts.size();
@@ -66,25 +66,25 @@ public class PartyBalance {
     }
 
     /**
-     * Returns payment transition from {@code fromId} to {@code toId}.
+     * Returns payment transition from {@code fromId} to {@code toId}
      * @param fromId
      * @param toId
-     * @return positive transition or {@code null} if missing.
+     * @return positive transition or {@code null} if missing
      */
     public BigDecimal get(int fromId, int toId) {
         return matrix.get(new Key(fromId, toId));
     }
 
     /**
-     * Transition between deltas with different signs.
-     * @param deltas deltas to modify.
-     * @param indexFrom array index from.
-     * @param idFrom member ID from.
-     * @param deltaFrom delta from.
-     * @param indexTo array index to.
-     * @param idTo member ID to.
-     * @param deltaTo delta to.
-     * @return {@code deltaFrom} was positive and transition to {@code deltaTo} happened.
+     * Transition between deltas with different signs
+     * @param deltas deltas to modify
+     * @param indexFrom array index from
+     * @param idFrom member ID from
+     * @param deltaFrom delta from
+     * @param indexTo array index to
+     * @param idTo member ID to
+     * @param deltaTo delta to
+     * @return {@code deltaFrom} was positive and transition to {@code deltaTo} happened
      */
     private boolean transition(List<BigDecimal> deltas, int indexFrom, int idFrom, BigDecimal deltaFrom, int indexTo, int idTo, BigDecimal deltaTo) {
         if (deltaFrom.compareTo(BigDecimal.ZERO) < 0)

@@ -21,25 +21,25 @@ public class Invoice extends Id {
     private int typeId;
     private int typeTitle;
     private int processId;
-    /** First day of paid period. */
+    /** First day of paid period */
     private Date dateFrom;
-    /** Last day of paid period. */
+    /** Last day of paid period */
     private Date dateTo;
-    /** Counter, used for number generation. */
+    /** Counter, used for number generation */
     private int numberCnt;
-    /** Generated number. */
+    /** Generated number */
     private String number;
-    /** Creation date. */
+    /** Creation date */
     private Date createTime;
-    /** Created user. */
+    /** Created user */
     private int createUserId;
-    /** Sent to customer. */
+    /** Sent to customer */
     private Date sentTime;
-    /** Sent by user. */
+    /** Sent by user */
     private int sentUserId;
-    /** Date of payment. */
+    /** Date of payment */
     private Date paymentDate;
-    /** User accepted payment. */
+    /** User accepted payment */
     private int paymentUserId;
 
     private BigDecimal amount = BigDecimal.ZERO;
@@ -103,17 +103,17 @@ public class Invoice extends Id {
     }
 
     /**
-     * {@link TextStyle#FULL} display name of the month of {@link #dateFrom}.
-     * @param lang language, e.g. 'en', 'ru'.
-     * @return
+     * {@link TextStyle#FULL} display name of the month of {@link #dateFrom}
+     * @param lang language, e.g. 'en', 'ru'
+     * @return the display name
      */
     public String dateFromMonthDisplayName(String lang) {
         return monthDisplayName(lang, dateFrom);
     }
 
     /**
-     * Year of {@link #dateFrom}.
-     * @return
+     * Year of {@link #dateFrom}
+     * @return the year
      */
     public int dateFromYear() {
         return TimeConvert.toYearMonth(dateFrom).getYear();
@@ -123,8 +123,8 @@ public class Invoice extends Id {
      * Formatted period of invoice months: {@code MonthFromName YearFromNumber - MonthToName YearToNumber}
      * with month names for a specified language. If {@link #dateFrom} and {@link #dateTo} are in the same month,
      * then only it is shown without range.
-     * @param lang the language of months names.
-     * @return
+     * @param lang the language of months names
+     * @return the formatted period
      */
     public String monthsPeriod(String lang) {
         var result = new StringBuilder(40)
@@ -150,7 +150,7 @@ public class Invoice extends Id {
     }
 
     /**
-     * @return count of invoice months, {@code 1} or more.
+     * @return count of invoice months, {@code 1} or more
      */
     public long months() {
         return ChronoUnit.MONTHS.between(TimeConvert.toYearMonth(dateFrom), TimeConvert.toYearMonth(getDateTo())) + 1;
@@ -249,8 +249,8 @@ public class Invoice extends Id {
     }
 
     /**
-     * Updates amount out of positions.
-     * @return the new value.
+     * Updates amount out of positions
+     * @return the new value
      */
     public BigDecimal amount() {
         return amount = positions.stream().map(Position::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);

@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 public class Event {
     private int calendarId;
     private int typeId;
-    /** Owner. */
+    /** Owner */
     private int userId;
 
-    /** Event from date and minutes, included.*/
+    /** Event from date and minutes, included */
     private LocalDateTime from;
-    /** Event to date and minutes, excluded. */
+    /** Event to date and minutes, excluded */
     private LocalDateTime to;
 
     // status - proposed, confirmed

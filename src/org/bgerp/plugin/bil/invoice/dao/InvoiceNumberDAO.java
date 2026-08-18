@@ -27,8 +27,8 @@ public class InvoiceNumberDAO extends CommonDAO {
     }
 
     /**
-     * Selects for the current process.
-     * @return
+     * Selects for the current process
+     * @return {@code this}
      */
     public InvoiceNumberDAO process() {
         pq.addQuery(SQL_AND + "process_id=?");
@@ -37,8 +37,8 @@ public class InvoiceNumberDAO extends CommonDAO {
     }
 
     /**
-     * Selects for the current month.
-     * @return
+     * Selects for the current month
+     * @return {@code this}
      */
     public InvoiceNumberDAO month() {
         pq.addQuery(SQL_AND + "date_from=?");
@@ -49,7 +49,7 @@ public class InvoiceNumberDAO extends CommonDAO {
     /**
      * Selects the next counter value.
      * Terminating function.
-     * @return
+     * @return the next counter value
      * @throws SQLException
      */
     public int next() throws SQLException {

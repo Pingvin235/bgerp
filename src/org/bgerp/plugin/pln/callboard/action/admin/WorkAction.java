@@ -163,11 +163,11 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
             throw new BGException("Не выбрана категория, либо нет прав на выбранную категорию");
         }
 
-        //цвет смены
+        // shift color
         boolean useOwnColor = form.getParamValues("useOwnColor").size() > 0;
         String color = form.getParam("color", "");
 
-        //правила
+        // rules
         List<WorkTypeTime> ruleList = new ArrayList<>();
         try {
             for (String item : form.getParam().getArray("rule")) {

@@ -266,11 +266,11 @@ public class MessageTypeEmail extends MessageType {
     }
 
     /**
-     * Takes an IMAP message by ID.
+     * Takes an IMAP message by ID
      * @param messageId message ID string, like 'indexDDD'
-     * @param tryRelist try to re-list messages cache if not found.
-     * @return
-     * @throws IllegalArgumentException {@code tryRelist} is {@code false} and no message found.
+     * @param tryRelist try to re-list messages cache if not found
+     * @return the message
+     * @throws IllegalArgumentException {@code tryRelist} is {@code false} and no message found
      * @throws Exception
      */
     private Message newMessageGet(String messageId, boolean tryRelist) throws Exception {
@@ -468,12 +468,12 @@ public class MessageTypeEmail extends MessageType {
     }
 
     /**
-     * Processes an IMAP message and moves it over folders.
-     * @param con DB connection.
-     * @param incomingFolder INBOX.
-     * @param processedFolder IMAP folder for successfully processed messages.
-     * @param skippedFolder IMAP folder for case of error on processing.
-     * @param message processed message.
+     * Processes an IMAP message and moves it over folders
+     * @param con DB connection
+     * @param incomingFolder INBOX
+     * @param processedFolder IMAP folder for successfully processed messages
+     * @param skippedFolder IMAP folder for case of error on processing
+     * @param message processed message
      * @throws MessagingException
      */
     private Message processMessage(Connection con, Folder incomingFolder, Folder processedFolder, Folder skippedFolder, jakarta.mail.Message message)
@@ -549,7 +549,7 @@ public class MessageTypeEmail extends MessageType {
             else
                 setMessageProcessed(msg, processId);
         }
-        // сообщение переделывается в исходящее и отправляется
+        // the message is converted to outgoing and sent
         else if (quickAnsweredMessageId > 0) {
             Message quickAnsweredMessage = messageDAO.getMessageById(quickAnsweredMessageId);
             if (quickAnsweredMessage == null) {
@@ -561,7 +561,7 @@ public class MessageTypeEmail extends MessageType {
                         .getTypeMap()
                         .get(quickAnsweredMessage.getTypeId());
 
-                // изменение входящего сообщения в исходящее
+                // converting incoming message to outgoing
                 msg.setTypeId(quickAnsweredMessage.getTypeId());
                 msg.setDirection(Message.DIRECTION_OUTGOING);
                 msg.setProcessId(quickAnsweredMessage.getProcessId());
@@ -571,7 +571,7 @@ public class MessageTypeEmail extends MessageType {
 
                 msg.setSubject(getAnswerSubject(quickAnsweredMessage.getSubject()));
 
-                // поиск пользователя по Email
+                // searching user by Email
                 Pageable<ParameterSearchedObject<User>> searchResult = new Pageable<>();
                 new UserDAO(con).searchUserListByEmail(searchResult, Collections.singletonList(quickAnswerEmailParamId), msg.getFrom());
                 ParameterSearchedObject<User> user = Utils.getFirst(searchResult.getList());
@@ -637,7 +637,7 @@ public class MessageTypeEmail extends MessageType {
         return msg;
     }
 
-    /** Выделяет из темы письма код привязанного процесса. */
+    /** Extracts linked process code from the message subject */
     private int getProcessId(String subject) {
         Matcher m = processIdPattern.matcher(subject);
         if (m.find())
@@ -645,7 +645,7 @@ public class MessageTypeEmail extends MessageType {
         return -1;
     }
 
-    /** Выделяет из письма код сообщения для быстрого ответа. */
+    /** Extracts quick answer message code from the message */
     private int getQuickAnswerMessageId(String subject) {
         Matcher m = quickAnswerPattern.matcher(subject);
         if (m.find())
@@ -702,7 +702,7 @@ public class MessageTypeEmail extends MessageType {
         return result;
     }
 
-    /** Create folders, if they don't exist */
+    /** Creates folders, if they don't exist */
     private void checkFolders(Folder... folders) throws MessagingException {
         for (Folder folder : folders) {
             if (!folder.exists()) {

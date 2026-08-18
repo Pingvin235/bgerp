@@ -60,7 +60,7 @@ public class BoardConfig extends IdTitle {
     }
 
     /**
-     * Returns calculated filters values.
+     * Returns calculated filters values
      * @param items
      * @return
      */
@@ -79,7 +79,7 @@ public class BoardConfig extends IdTitle {
     }
 
     /**
-     * Builds HTML cell's content using JEXL expression.
+     * Builds HTML cell's content using JEXL expression
      * @param item
      * @return
      */

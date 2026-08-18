@@ -17,7 +17,7 @@ import javassist.NotFoundException;
 import ru.bgcrm.dao.PeriodicDAO;
 
 /**
- * Invoice DAO.
+ * Invoice DAO
  *
  * @author Shamil Vakhitov
  */

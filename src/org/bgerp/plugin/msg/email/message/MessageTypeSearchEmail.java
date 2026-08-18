@@ -17,7 +17,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-// TODO: Сделать параметры с конфигурацией что искать.
+// TODO: Add parameters with configuration of what to search
 @Bean(oldClasses = "ru.bgcrm.dao.message.MessageTypeSearchEmail")
 public class MessageTypeSearchEmail extends MessageTypeSearch {
     public MessageTypeSearchEmail(ConfigMap config) {

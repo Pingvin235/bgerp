@@ -31,16 +31,16 @@ public class Board {
         return userMode;
     }
 
-    // корневой элемент
+    // root element
     private final Item root = new Item(this, null);
 
     private final BoardConfig config;
 
-    // очереди задач по исполнителям, 0 - общая
+    // task queues by executor, 0 - common
     private final Map<Integer, List<Item>> queues = new HashMap<>();
-    // все элементы
+    // all elements
     private final Iterable<Item> items;
-    // максимально занятый из юнитов в каждой из очередей
+    // maximum occupied index among units in each queue
     private final int lastIndex;
 
     public Board(BoardConfig config, List<Pair<Process, Map<String, Object>>> processes, Collection<CommonObjectLink> links) {
@@ -58,7 +58,7 @@ public class Board {
 
         for (Item item : itemList) {
             Item parent = root;
-            // поиск ссылок на данный процесс
+            // search links for this process
             for (CommonObjectLink link : links)
                 if (item.getProcess().getId() == link.getLinkObjectId() && link.getLinkObjectType().equals(Process.LINK_TYPE_MADE)) {
                     parent = itemMap.get(link.getObjectId());
@@ -118,7 +118,7 @@ public class Board {
     }
 
     /**
-     * Возвращает максимальный номер строки среди очередей исполнителей.
+     * Returns the maximum row number among executor queues
      * @return
      */
     public int getLastIndex() {
@@ -126,7 +126,7 @@ public class Board {
     }
 
     /**
-     * Возвращает столбцы с процессами по исполнителям либо общую очередь.
+     * Returns columns with processes by executor, or the common queue
      * @return
      */
     public Map<Integer, List<Item>> getQueues() {
@@ -134,7 +134,7 @@ public class Board {
     }
 
     /**
-     * Возвращает количество процессов на исполнителе.
+     * Returns count of processes for the executor
      * @param executorId
      * @return
      */
@@ -147,7 +147,7 @@ public class Board {
     }
 
     /**
-     * Возвращает сортированный список исполнителей.
+     * Returns sorted list of executors
      * @return
      */
     public List<IdTitle> getExecutors() {

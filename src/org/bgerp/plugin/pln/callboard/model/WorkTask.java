@@ -11,21 +11,21 @@ public class WorkTask {
     private int graphId;
 
     private int groupId;
-    // ключ либо группа + юзер, либо группа + бригада
+    // key is either group + user, or group + team
     private int team;
     private int userId;
 
-    // время начала - либо начало диапазона, либо попадает в диапазон
+    // start time - either the beginning of the range, or falls within the range
     private Date time;
-    // процесс
+    // process
     private int processId;
-    // слот в диапазоне - начало
+    // slot within the range - start
     private int slotFrom;
-    // длительность в минутах
+    // duration in minutes
     private int duration;
-    // слот в диапазоне - окончание (вычисляется)
+    // slot within the range - end (calculated)
     private int slotTo;
-    // автоматически генерирующееся описание
+    // automatically generated description
     private String reference;
 
     public int getGraphId() {

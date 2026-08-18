@@ -31,10 +31,10 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/open/plugin/feedback/message")
 public class MessageAction extends BaseAction {
     /**
-     * Configuration for open feedback messages.
+     * Configuration for open feedback messages
      */
     public static class Config extends org.bgerp.app.cfg.Config {
-        /** Message type, used for creating incoming messages. */
+        /** Message type, used for creating incoming messages */
         private final MessageTypeEmail messageTypeEmail;
 
         protected Config(ConfigMap setup, boolean validate) throws Exception {

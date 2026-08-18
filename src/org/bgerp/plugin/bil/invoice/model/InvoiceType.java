@@ -77,21 +77,21 @@ public class InvoiceType extends IdTitle implements GetJsp {
     }
 
     /**
-     * @return number provider.
+     * @return number provider
      */
     public NumberProvider getNumberProvider() {
         return numberProvider;
     }
 
     /**
-     * @return customer from who invoice is generated.
+     * @return customer from who invoice is generated
      */
     public int getCustomerId() {
         return customerId;
     }
 
     /**
-     * @return JSP template for rendering print form.
+     * @return JSP template for rendering print form
      */
     @Override
     public String getJsp() {

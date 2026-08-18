@@ -14,7 +14,7 @@ import org.bgerp.plugin.bil.invoice.model.Invoice;
 import ru.bgcrm.util.Utils;
 
 /**
- * Provides files with print forms for adding to messages.
+ * Provides files with print forms for adding to messages
  *
  * @author Shamil Vakhitov
  */

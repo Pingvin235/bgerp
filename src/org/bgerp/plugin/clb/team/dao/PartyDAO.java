@@ -14,7 +14,7 @@ import org.bgerp.util.sql.PreparedQuery;
 import ru.bgcrm.dao.CommonDAO;
 
 /**
- * Party DAO.
+ * Party DAO
  *
  * @author Shamil Vakhitov
  */
@@ -24,7 +24,7 @@ public class PartyDAO extends CommonDAO {
     }
 
     /**
-     * Creates or updates a party.
+     * Creates or updates a party
      * @param party
      * @throws SQLException
      */
@@ -45,9 +45,9 @@ public class PartyDAO extends CommonDAO {
     }
 
     /**
-     * Selects a single entity by secret.
-     * @param secret a secret string.
-     * @return
+     * Selects a single entity by secret
+     * @param secret a secret string
+     * @return the party, or {@code null} if not found
      * @throws SQLException
      */
     public Party get(String secret) throws SQLException {
@@ -69,10 +69,10 @@ public class PartyDAO extends CommonDAO {
     }
 
     /**
-     * Selects existing or creates a party member.
+     * Selects existing or creates a party member
      * @param partyId
      * @param title
-     * @return
+     * @return the existing or newly created party member
      * @throws SQLException
      */
     public PartyMember getOrCreateMember(int partyId, String title) throws SQLException {
@@ -94,9 +94,9 @@ public class PartyDAO extends CommonDAO {
     }
 
     /**
-     * Selects party members with payments.
-     * @param partyId party ID.
-     * @return
+     * Selects party members with payments
+     * @param partyId party ID
+     * @return the party members with payments
      * @throws SQLException
      */
     public List<PartyMember> getMembersWithPayments(int partyId) throws SQLException {
@@ -129,7 +129,7 @@ public class PartyDAO extends CommonDAO {
     }
 
     /**
-     * Creates or updates a party member.
+     * Creates or updates a party member
      * @param member
      * @throws SQLException
      */
@@ -150,8 +150,8 @@ public class PartyDAO extends CommonDAO {
     }
 
     /**
-     * Deletes a party member.
-     * @param id member DB entity ID.
+     * Deletes a party member
+     * @param id member DB entity ID
      * @throws SQLException
      */
     public void memberDelete(int id) throws SQLException {

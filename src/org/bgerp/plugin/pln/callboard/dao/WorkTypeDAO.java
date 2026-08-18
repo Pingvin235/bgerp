@@ -100,7 +100,7 @@ public class WorkTypeDAO extends CommonDAO {
     }
 
     /**
-     * По-возможности использовать {@link CallboardCache#getWorkTypeMap()}
+     * Use {@link CallboardCache#getWorkTypeMap()} when possible
      *
      * @return
      */
@@ -270,7 +270,7 @@ public class WorkTypeDAO extends CommonDAO {
         }
     }
 
-    // TODO: Добавить период выборки.
+    // TODO: Add a selection period
     public Map<Date, Integer> getWorkDaysCalendarExcludes(int calendarId) {
         Map<Date, Integer> resultSet = new HashMap<>();
 

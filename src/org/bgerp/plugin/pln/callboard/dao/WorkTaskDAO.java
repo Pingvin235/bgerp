@@ -42,7 +42,7 @@ public class WorkTaskDAO extends CommonDAO {
                 List<ShiftData> dataList = dataMap.get(task.getGroupId());
                 if (dataList != null) {
                     for (ShiftData dataItem : dataList) {
-                        // либо по бригаде либо по пользователю
+                        // either by team or by user
                         if ((dataItem.getTeam() > 0 && dataItem.getTeam() == task.getTeam())
                                 || (dataItem.getTeam() == 0 && dataItem.getUserIds().contains(task.getUserId()))) {
                             dataItem.addTask(task);

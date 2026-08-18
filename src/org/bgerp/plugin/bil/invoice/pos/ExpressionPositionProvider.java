@@ -11,7 +11,7 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Expression provider running JEXL script.
+ * Expression provider running JEXL script
  *
  * @author Shamil Vakhitov
  */

@@ -21,21 +21,21 @@ public class Subscription extends IdTitle {
     }
 
     /**
-     * @return process type ID for Subscription.
+     * @return process type ID for Subscription
      */
     public int getProcessTypeId() {
         return processTypeId;
     }
 
     /**
-     * @return param type 'listcount', value IDs same wht 'paramLimitId', set in Service processes.
+     * @return param type 'listcount', value IDs same wht 'paramLimitId', set in Service processes
      */
     public int getParamLimitPriceId() {
         return paramLimitPriceId;
     }
 
     /**
-     * @return configuration for paid invoice or {@code null}.
+     * @return configuration for paid invoice or {@code null}
      */
     public PaidInvoiceConfig getPaidInvoiceConfig() {
         return paidInvoiceConfig;

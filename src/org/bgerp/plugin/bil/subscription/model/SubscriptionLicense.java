@@ -8,7 +8,7 @@ import org.bgerp.app.dist.lic.License;
 import ru.bgcrm.model.param.ParameterEmailValue;
 
 /**
- * Builder of license plain text.
+ * Builder of license plain text
  *
  * @author Shamil Vakhitov
  */
@@ -42,7 +42,7 @@ public class SubscriptionLicense {
     }
 
     /**
-     * @return resulting license's text.
+     * @return resulting license's text
      */
     public String build() {
         pw.flush();

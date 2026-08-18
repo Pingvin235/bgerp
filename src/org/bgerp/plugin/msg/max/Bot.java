@@ -71,7 +71,7 @@ public class Bot {
     }
 
     /**
-     * Send a text message to a chat.
+     * Sends a text message to a chat
      * @return true if sent successfully
      */
     boolean sendMessage(String chatId, String text) {
@@ -79,7 +79,7 @@ public class Bot {
     }
 
     /**
-     * Send a text message to a chat with formatting.
+     * Sends a text message to a chat with formatting
      * @return true if sent successfully
      */
     boolean sendMessage(String chatId, String text, String parseMode) {

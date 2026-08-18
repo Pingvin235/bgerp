@@ -15,7 +15,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 
 /**
- * Board's cell.
+ * Board's cell
  *
  * @author Shamil Vakhitov
  */
@@ -24,17 +24,17 @@ public class Item {
 
     private final Board board;
     private final Process process;
-    /** Column values from a process queue. */
+    /** Column values from a process queue */
     private final Map<String, Object> params;
-    /** Filters, matched to this item. */
+    /** Filters, matched to this item */
     private final Set<Integer> filterIds = new HashSet<>();
 
-    /** Process hierarchy. */
+    /** Process hierarchy */
     private Item parent;
     private boolean childrenSorted = false;
     private final List<Item> children = new ArrayList<>();
 
-    /** Executor IDs: users or groups. */
+    /** Executor IDs: users or groups */
     private Set<Integer> executorIds;
 
     public Item(Board board, Pair<Process, Map<String, Object>> pair) {
@@ -83,7 +83,7 @@ public class Item {
     }
 
     /**
-     * Общий процесс - либо не закреплён за конкретным исполнителем, либо их более одного - 0.
+     * Common process - either not attached to a particular executor, or attached to more than one - 0
      *
      * @return
      */
@@ -94,7 +94,7 @@ public class Item {
     }
 
     /**
-     * Возвращает наличие указанного исполнителя на данном процессе.
+     * Returns whether the specified executor is present on this process
      *
      * @param executorId
      * @return

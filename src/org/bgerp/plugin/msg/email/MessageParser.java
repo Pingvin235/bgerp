@@ -40,7 +40,7 @@ import jakarta.mail.internet.MimeMultipart;
 import ru.bgcrm.util.Utils;
 
 /**
- * IMAP message parser.
+ * IMAP message parser
  *
  * @author Shamil Vakhitov
  */
@@ -50,17 +50,17 @@ public class MessageParser {
     private static final Pattern DATE_PATTERN = Pattern.compile("\\w{3}, \\d+ \\w{3} \\d{4} \\d{2}:\\d{2}:\\d{2} \\+\\d{4}");
     private static final MailDateFormat MAIL_DATE_FORMAT = new MailDateFormat();
 
-     /** JavaMail message. */
+     /** JavaMail message */
      private final MimeMessage message;
-     /** MIME raw data, used for testing. */
+     /** MIME raw data, used for testing */
      private final byte[] mimeData;
-     /** Lazy loaded Mime4j message. */
+     /** Lazy loaded Mime4j message */
      private Message mime4j;
 
      /**
-     * Main constructor.
-     * @param message must be {@link IMAPMessage} instance.
-     * @throws IllegalArgumentException not {@link IMAPMessage} was passed.
+     * Main constructor
+     * @param message must be {@link IMAPMessage} instance
+     * @throws IllegalArgumentException not {@link IMAPMessage} was passed
      */
     public MessageParser(jakarta.mail.Message message) {
         if (!(message instanceof IMAPMessage))
@@ -70,8 +70,8 @@ public class MessageParser {
     }
 
     /**
-     * Test constructor.
-     * @param inputStream message input stream.
+     * Test constructor
+     * @param inputStream message input stream
      * @throws Exception
      */
     MessageParser(InputStream inputStream) throws Exception {

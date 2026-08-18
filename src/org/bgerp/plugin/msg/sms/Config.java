@@ -7,7 +7,7 @@ import java.util.Map;
 import org.bgerp.app.cfg.ConfigMap;
 
 public class Config extends org.bgerp.app.cfg.Config {
-    /** Senders map, 0 - key for a default Sender. */
+    /** Senders map, 0 - key for a default Sender */
     private final Map<Integer, Sender> senders;
 
     protected Config(ConfigMap config) {

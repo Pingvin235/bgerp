@@ -13,9 +13,9 @@ import org.bgerp.model.base.IdTitle;
 public class Calendar extends IdTitle {
     private final Mode mode;
     // For WEEK mode
-    /** Operation time unit in minutes.  */
+    /** Operation time unit in minutes */
     private final long unitMinutes;
-    /** Day range. */
+    /** Day range */
     private final LocalTime dayTimeFrom;
     private final LocalTime dayTimeTo;
 

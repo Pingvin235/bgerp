@@ -4,9 +4,9 @@ import org.bgerp.plugin.pln.callboard.model.WorkTask;
 
 public class SlotRange {
     public final WorkTask task;
-    // с какого слота
+    // from which slot
     public final int slotFrom;
-    // сколько занимают
+    // how many they occupy
     int slotCount;
 
     SlotRange(WorkTask task, int slotFrom, int slotCount) {

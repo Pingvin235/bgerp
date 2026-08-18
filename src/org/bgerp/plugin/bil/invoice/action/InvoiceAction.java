@@ -156,11 +156,11 @@ public class InvoiceAction extends BaseAction {
     }
 
     /**
-     * Prepares all required data for print form generation.
+     * Prepares all required data for print form generation
      * @param conSet
-     * @param form all data are set as response data to the form.
-     * @param id invoice ID.
-     * @return type of invoice.
+     * @param form all data are set as response data to the form
+     * @param id invoice ID
+     * @return type of invoice
      * @throws Exception
      */
     public static InvoiceType doc(ConnectionSet conSet, DynActionForm form, int id) throws Exception {

@@ -61,8 +61,8 @@ public class Shift extends IdTitle {
 
         for (WorkTypeTime item : workTypeTimeList) {
             Utils.addSetupPair(result, "", "rule." + index + ".workTypeId", String.valueOf(item.getWorkTypeId()));
-            // TODO: Поддержка оригинального формата хранения для старой ЦРМки. Убрать в
-            // дальнейшем.
+            // TODO: Support for the original storage format for the old CRM. Remove
+            // in the future
             Utils.addSetupPair(result, "", "rule." + index + ".timeFrom",
                     "01/01/2010 " + WorkTypeTime.minutesToHourMin(item.getDayMinuteFrom()));
             Utils.addSetupPair(result, "", "rule." + index + ".timeTo",

@@ -9,7 +9,7 @@ import org.bgerp.util.sql.PreparedQuery;
 import ru.bgcrm.dao.CommonDAO;
 
 /**
- * Fluent invoice search DAO.
+ * Fluent invoice search DAO
  *
  * @author Shamil Vakhitov
  */
@@ -33,8 +33,8 @@ public class InvoiceSearchDAO extends CommonDAO {
     }
 
     /**
-     * Reverse order by date from desc, than ID desc.
-     * @return
+     * Reverse order by date from desc, than ID desc
+     * @return {@code this}
      */
     public InvoiceSearchDAO orderDefault() {
         this.orderDefault = true;

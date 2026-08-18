@@ -27,7 +27,7 @@ public class CallboardCache extends Cache<CallboardCache> {
         holder.flush(con);
     }
 
-    // конец статической части
+    // end of the static part
 
     private Map<Integer, WorkType> workTypeMap;
 
