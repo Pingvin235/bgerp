@@ -13,7 +13,7 @@ import org.bgerp.action.base.BaseAction;
 import org.bgerp.model.file.FileData;
 import org.bgerp.model.msg.config.MessageTypeConfig;
 import org.bgerp.plugin.msg.email.config.RecipientsConfig;
-import org.bgerp.plugin.msg.email.dao.EMailDAO;
+import org.bgerp.plugin.msg.email.dao.EmailDAO;
 import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -39,7 +39,7 @@ public class EMailAction extends BaseAction {
         for (var area : config.areas()) {
             executors.submit(() -> {
                 try (var con = setup.getDBSlaveConnectionFromPool()) {
-                    var dao = new EMailDAO(con);
+                    var dao = new EmailDAO(con);
 
                     List<ParameterEmailValue> emails = null;
 

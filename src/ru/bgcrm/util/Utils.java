@@ -304,7 +304,7 @@ public class Utils {
     }
 
     /**
-     * Is the string a valid Email address
+     * Is the string a valid email address
      * @param value the checked string
      * @return {@code true} if the string is a valid email address
      */

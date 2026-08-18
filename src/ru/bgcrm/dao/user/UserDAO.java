@@ -136,10 +136,10 @@ public class UserDAO extends CommonDAO {
     }
 
     /**
-     * Selects users by an Email-type parameter
+     * Selects users by an email-type parameter
      * @param searchResult the search result
-     * @param emailParamIdList the Email parameter IDs
-     * @param email Email, search is done by exact match and domain match
+     * @param emailParamIdList the email parameter IDs
+     * @param email the email, search is done by exact match and domain match
      */
     public void searchUserListByEmail(Pageable<ParameterSearchedObject<User>> searchResult,
             List<Integer> emailParamIdList, String email) {

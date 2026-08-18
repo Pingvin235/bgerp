@@ -57,14 +57,14 @@ public class PaidInvoiceConfig extends Config {
     }
 
     /**
-     * @return Email subject
+     * @return email subject
      */
     public String getEmailSubject() {
         return emailSubject;
     }
 
     /**
-     * @return Email text expression
+     * @return email text expression
      */
     public String getEmailTextExpression() {
         return emailTextExpression;

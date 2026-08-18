@@ -59,7 +59,7 @@ public class MessageContent {
     }
 
     /**
-     * Sets Email message content
+     * Sets email message content
      * @param message
      * @param msg
      * @throws Exception
