@@ -38,14 +38,6 @@ public class Config extends org.bgerp.app.cfg.Config {
         return Collections.unmodifiableList(result);
     }
 
-    /* private List<EventType> loadBalanceEventTypeList(ParameterMap config) {
-        var result = new ArrayList<EventType>();
-
-        for (int typeId : Utils.toIntegerList(config.get("balance.event.type.ids"))) {}
-
-        return Collections.unmodifiableList(result);
-    } */
-
     private List<Calendar> loadCalendarList(ConfigMap config) {
         var result = new ArrayList<Calendar>();
 

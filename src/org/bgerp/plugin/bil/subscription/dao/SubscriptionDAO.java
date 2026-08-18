@@ -127,36 +127,6 @@ public class SubscriptionDAO extends CommonDAO {
         return result;
     }
 
-   /*  public List<Position> getInvoicePositions(Config config, Subscription subscription, int subscriptionProcessId) throws SQLException {
-        var result = new ArrayList<Position>(20);
-
-        Integer limitId = Utils.getFirst(new ParamValueDAO(con).getParamList(subscriptionProcessId, config.getParamLimitId()));
-        if (limitId == null) {
-            log.debug("Undefined limit value");
-            return result;
-        }
-
-        try (var pq = new PreparedDelay(con, SQL_SELECT + "param_product_id.value, param_price.count, p.description"
-                + SQL_FROM + TABLE_PARAM_LISTCOUNT + "AS param_price")) {
-            addProductsJoin(pq, config, "param_price", subscriptionProcessId);
-            pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS + "AS p ON param_price.id=p.id");
-            pq.addQuery(SQL_WHERE + "param_price.param_id=? AND param_price.value=?");
-            pq.addInt(subscription.getParamLimitPriceId());
-            pq.addInt(limitId);
-
-            var rs = pq.executeQuery();
-            while (rs.next()) {
-                var pos = new Position();
-                pos.setId(rs.getString(1));
-                pos.setAmount(Utils.maskNullDecimal(rs.getBigDecimal(2)));
-                pos.setTitle(rs.getString(3));
-                result.add(pos);
-            }
-        }
-
-        return result;
-    } */
-
     private void addProductsJoin(PreparedQuery pq, Config config, String table, int subscriptionProcessId) throws SQLException {
         pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK
                 + "AS pl ON " + table + ".id=pl.process_id AND pl.object_id=? AND pl.object_type=?"

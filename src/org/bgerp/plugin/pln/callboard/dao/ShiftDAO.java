@@ -409,22 +409,6 @@ public class ShiftDAO extends CommonDAO {
                         Map<Date, WorkShift> dateWorkShift = new HashMap<>();
 
                         for (WorkShift workShift : shiftList) {
-                            /*
-                             * не понял зачем, закомментировал Boolean afterCloseGroup = true;
-                             *
-                             * for( UserGroup userGroup : UserCache.getUserGroupList( user ) ) { //проверяем
-                             * не выходят ли смены за пределы времени действия группы if(
-                             * userGroup.getGroupId() == entry.getKey() && userGroup.getDateTo() == null &&
-                             * userGroup.getDateFrom() != null && userGroup.getDateFrom().compareTo(
-                             * workShift.getDate() ) <= 0 ) { afterCloseGroup = false; break; } else if(
-                             * userGroup.getGroupId() == entry.getKey() && userGroup.getDateTo() != null &&
-                             * userGroup.getDateFrom() != null && userGroup.getDateFrom().compareTo(
-                             * workShift.getDate() ) <= 0 && userGroup.getDateTo().compareTo(
-                             * workShift.getDate() ) >= 0 ) { afterCloseGroup = false; break; } }
-                             *
-                             * if( afterCloseGroup ) continue;
-                             */
-
                             // if a shift with this date already exists, only the work type needs to be added to it
                             if (dateWorkShift.containsKey(workShift.getDate())) {
                                 dateWorkShift.get(workShift.getDate()).getWorkTypeTimeList()
