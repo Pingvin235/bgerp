@@ -24,7 +24,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="name" description="hidden input's name"%>
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="value" description="hidden input's current value"%>
-<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
+<%@ attribute name="onChange" description="JS call when the value was changed"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV style"%>
 <%@ attribute name="styleTextValue" description="current value's DIV style"%>
@@ -36,6 +36,14 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="list" type="java.util.Collection" description="List of values, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map of values, refer to description inside tag"%>
 <%@ attribute name="available" type="java.util.Collection" description="Set of allowed ids, refer to description inside tag"%>
+
+<%@ attribute name="onSelect" description="Deprecated 'onChange'"%>
+<c:if test="${not empty onSelect}">
+	${log.warnd("Deprecated attribute 'onSelect' was used in tag 'ui:combo-single', change it to 'onChange'")}
+	<c:if test="${empty onChange}">
+		<c:set var="onChange" value="${onSelect}"/>
+	</c:if>
+</c:if>
 
 <%@ attribute name="hiddenName" description="Deprecated 'name'"%>
 <c:if test="${not empty hiddenName}">
@@ -101,14 +109,14 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 			$(function () {
 				const $comboDiv = $('#${uiid}');
 
-				let onSelect = undefined;
-				<c:if test="${not empty onSelect}">
-					onSelect = function (item) {
-						${onSelect}
+				let onChange = undefined;
+				<c:if test="${not empty onChange}">
+					onChange = function (item) {
+						${onChange}
 					};
 				</c:if>
 
-				$$.ui.comboSingleInit($comboDiv, onSelect);
+				$$.ui.comboSingleInit($comboDiv, onChange);
 
 				<c:if test="${not empty disable}">
 					$comboDiv.unbind('click');

@@ -16,7 +16,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="hidden input's name"%>
 <%@ attribute name="value" description="hidden input's value"%>
-<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
+<%@ attribute name="onChange" description="JS call when the value was changed"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV CSS class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
@@ -30,6 +30,14 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag"%>
 <%@ attribute name="filter" description="values filtering JS code"%>
+
+<%@ attribute name="onSelect" description="Deprecated 'onChange'"%>
+<c:if test="${not empty onSelect}">
+	${log.warnd("Deprecated attribute 'onSelect' was used in tag 'ui:select-single', change it to 'onChange'")}
+	<c:if test="${empty onChange}">
+		<c:set var="onChange" value="${onSelect}"/>
+	</c:if>
+</c:if>
 
 <%@ attribute name="hiddenName" description="Deprecated 'name'"%>
 <c:if test="${not empty hiddenName}">
@@ -63,7 +71,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 	<script>
 		$(function () {
 			const source = ${ui.selectSingleSourceJson(list, availableIdSet, availableIdList, map, showId, showComment)};
-			$$.ui.select.single.init('${uiid}', source, '${value}', ${filter}, function ($hidden, $text) { ${onSelect} });
+			$$.ui.select.single.init('${uiid}', source, '${value}', ${filter}, function ($hidden, $text) { ${onChange} });
 		})
 	</script>
 </div>

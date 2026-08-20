@@ -4,13 +4,21 @@
 <%@ attribute name="id" description="input element id, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="input element name"%>
 <%@ attribute name="value" description="current value"%>
-<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
+<%@ attribute name="onChange" description="JS call when the value was changed"%>
 <%@ attribute name="size" description="input element size"%>
 <%@ attribute name="style" description="input element's CSS style"%>
 <%@ attribute name="styleClass" description="input element CSS class"%>
 <%@ attribute name="placeholder" description="input element placeholder"%>
 <%@ attribute name="title" description="input element title"%>
 <%@ attribute name="showOutButton" type="java.lang.Boolean" description="Show out button, default is 'true'"%>
+
+<%@ attribute name="onSelect" description="Deprecated 'onChange'"%>
+<c:if test="${not empty onSelect}">
+	${log.warnd("Deprecated attribute 'onSelect' was used in tag 'ui:input-text', change it to 'onChange'")}
+	<c:if test="${empty onChange}">
+		<c:set var="onChange" value="${onSelect}"/>
+	</c:if>
+</c:if>
 
 <c:set var="showOutButton" value="${(empty showOutButton) ? true : showOutButton}" />
 
@@ -27,9 +35,9 @@
 	<div style="display: flex;">
 		<input id="${uiid}" type="text" name="${name}" placeholder="${placeholder}" title="${title}"
 			style="${style}" class="${styleClass} w100p" size="${size}" value="${value}"
-			onkeypress="if ($$.keys.enterPressed(event)) { ${onSelect}; return false; }"/>
+			onkeypress="if ($$.keys.enterPressed(event)) { ${onChange}; return false; }"/>
 		<c:if test="${showOutButton}">
-			<ui:button type="out" onclick="${onSelect}" styleClass="ml05"/>
+			<ui:button type="out" onclick="${onChange}" styleClass="ml05"/>
 		</c:if>
 	</div>
 </div>

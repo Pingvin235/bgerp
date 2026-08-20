@@ -60,7 +60,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 		<div style="display: table-cell; width: 100%;">
 			<ui:select-single name="${uiid}-addingValue" style="width: 100%;"
 				showId="${showId}" showComment="${showComment}"
-				onSelect="
+				onChange="
 					const upDownIcons = \"${upDownIcons}\";
 					${onChange};
 					return $$.ui.select.mult.onSelect($hidden, $text, '${uiid}', '${name}', upDownIcons);
