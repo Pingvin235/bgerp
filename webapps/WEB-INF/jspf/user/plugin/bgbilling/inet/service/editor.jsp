@@ -35,7 +35,7 @@
 			<h2>Тип</h2>
 
 			<ui:select-single id="${typeSelectUiid}" name="typeId" value="${service.typeId}" list="${typeList}"
-				onSelect="${onSelectCode}" inputAttrs="${service.id gt 0 ? 'disabled' : ''}"
+				onChange="${onSelectCode}" inputAttrs="${service.id gt 0 ? 'disabled' : ''}"
 				style="width: 100%;"/>
 
 			<script>

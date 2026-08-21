@@ -11,7 +11,7 @@
 
 	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Filter')}" size="40"
 		title="${l.l('By ID, title, comment, configuration')}"
-		onSelect="$$.ajax.loadContent(this)"/>
+		onChange="$$.ajax.loadContent(this)"/>
 
 	<ui:page-control/>
 </html:form>

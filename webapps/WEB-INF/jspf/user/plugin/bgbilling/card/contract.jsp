@@ -46,7 +46,7 @@
 		<tr>
 			<td class="header" colspan="4"">Тип карт: <ui:combo-single
 					name="sid" value="${form.param.serviceId}"
-					list="${frd.serviceList}" onSelect="${script}" /></td>
+					list="${frd.serviceList}" onChange="${script}" /></td>
 		</tr>
 		<tr>
 			<td class="header">Статус</td>

@@ -13,7 +13,7 @@
 
 	<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Filter')}"
 		title="${l.l('Фильтр по содержимому конфигурации')}"
-		onSelect="$$.ajax.loadContent(this); return false;"/>
+		onChange="$$.ajax.loadContent(this); return false;"/>
 </html:form>
 
 <div style="display: inline-block;" class="ml2">

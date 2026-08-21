@@ -13,7 +13,7 @@
 	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<ui:input-text name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Filter')}" title="${l.l('Фильтр по наименованию, конфигурации')}"
-		onSelect="$$.ajax.loadContent(this); return false;"/>
+		onChange="$$.ajax.loadContent(this); return false;"/>
 
 	<ui:page-control/>
 </html:form>

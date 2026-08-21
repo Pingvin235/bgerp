@@ -6,7 +6,7 @@
 		<c:set var="templates" value="${templateConfig.templates.values()}"/>
 		<c:if test="${not empty templates}">
 			<h2>${l.l('Template')}</h2>
-			<ui:combo-single list="${templates}" onSelect="$$.message.templateLoad(this, '${l.l('Load template?')}')" widthTextValue="10em"/>
+			<ui:combo-single list="${templates}" onChange="$$.message.templateLoad(this, '${l.l('Load template?')}')" widthTextValue="10em"/>
 		</c:if>
 	</div>
 	<div class="w100p ${not empty templates ? 'pl1' : ''}">

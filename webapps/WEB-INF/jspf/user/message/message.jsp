@@ -30,7 +30,7 @@
 				<html:hidden property="returnUrl"/>
 
 				<ui:combo-single name="searchId" value="${form.param.searchId}" prefixText="${l.l('Поиск')}:" styleClass="mr1"
-					onSelect="$(this.form).find('>.filter').hide(); $(this.form).find('>.filter#' + this.value).show();">
+					onChange="$(this.form).find('>.filter').hide(); $(this.form).find('>.filter#' + this.value).show();">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${messageType.searchMap}">
 							<li value="${item.key}">${item.value.title}</li>

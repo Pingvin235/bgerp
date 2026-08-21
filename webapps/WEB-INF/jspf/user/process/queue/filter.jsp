@@ -320,7 +320,7 @@
 									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
 								</c:if>
 
-								<ui:combo-single value="${value}" name="${hiddenName}" prefixText="${l.l('Closed')}:" widthTextValue="40px" onSelect="${sendCommand}">
+								<ui:combo-single value="${value}" name="${hiddenName}" prefixText="${l.l('Closed')}:" widthTextValue="40px" onChange="${sendCommand}">
 									<jsp:attribute name="valuesHtml">
 										<li value="none">${l.l('All')}</li>
 										<li value="open">${l.l('No')}</li>

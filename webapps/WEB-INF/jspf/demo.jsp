@@ -139,11 +139,11 @@ cmd do && cmd undo
 	<div class="in-table-cell">
 		<div>
 			<b>&lt;ui:input-text&gt;</b><br/>
-			<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)"/>
+			<ui:input-text name="text" onChange="alert('Selected: ' + this.value)"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:input-text showOutButton="false"&gt;</b><br/>
-			<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)" showOutButton='false'/>
+			<ui:input-text name="text" onChange="alert('Selected: ' + this.value)" showOutButton='false'/>
 		</div>
 	</div>
 </div>
@@ -217,9 +217,9 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:combo-single&gt;</b><br/>
 
-		<c:set var="onSelect" value="console.log('this=', this, 'item=', item); alert('A value is chosen, see console log')"/>
+		<c:set var="onChange" value="console.log('this=', this, 'item=', item); alert('A value is chosen, see console log')"/>
 
-		<ui:combo-single name="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}" showFilter="true">
+		<ui:combo-single name="param" value="2" prefixText="Value:" widthTextValue="12em" onChange="${onChange}" showFilter="true">
 			<jsp:attribute name="valuesHtml">
 				<li value="1">First (current)</li>
 				<li value="2 test">Second</li>
@@ -228,7 +228,7 @@ cmd do && cmd undo
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<ui:combo-single name="param" value="2" style="width: 12em;" onSelect="${onSelect}">
+		<ui:combo-single name="param" value="2" style="width: 12em;" onChange="${onChange}">
 			<jsp:attribute name="valuesHtml">
 				<li value="1">First</li>
 				<li value="2">Second (current)</li>
@@ -237,7 +237,7 @@ cmd do && cmd undo
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<ui:combo-single name="param" widthTextValue="12em" list="${frd.comboSingeList}" onSelect="${onSelect}">
+		<ui:combo-single name="param" widthTextValue="12em" list="${frd.comboSingeList}" onChange="${onChange}">
 			<jsp:attribute name="valuesHtml">
 				<li value="-1">-- select --</li>
 			</jsp:attribute>
@@ -270,20 +270,20 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:select-single&gt;</b><br/>
 
-		<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, '$text=', $text); alert('A value is chosen, see console log')"/>
+		<c:set var="onChange" value="console.log('this=', this, '$hidden=', $hidden, '$text=', $text); alert('A value is chosen, see console log')"/>
 
 		<ui:select-single name="param" value="2" style="width: 10em;"
 			list="${frd.selectSingle1List}" availableIdSet="${frd.selectSingle1AvailableIdSet}"
-			onSelect="${onSelect}"/>
+			onChange="${onChange}"/>
 
 		<ui:select-single name="param" style="width: 15em;" map="${frd.selectSingle2Map}" availableIdList="${frd.selectSingle2AvailableIdList}"
-			onSelect="${onSelect}"/>
+			onChange="${onChange}"/>
 
 		<ui:select-single name="param" value="1" style="width: 10em;" list="${frd.selectSingle3List}" showId="1" showComment="1"
-			onSelect="${onSelect}"/>
+			onChange="${onChange}"/>
 
 		<ui:select-single name="param" value="2" style="width: 10em;" list="${frd.selectSingle4List}" inputAttrs="disabled"
-			onSelect="alert('Must not be selectable!')"/>
+			onChange="alert('Must not be selectable!')"/>
 	</div>
 
 	<div>
@@ -319,7 +319,7 @@ cmd do && cmd undo
 		</ui:combo-single><br/>
 
 		<ui:select-single name="param" value="2" style="width: 10em;" list="${frd.selectSingle1List}"
-			onSelect="console.log('this=', this, '$hidden=', $hidden); alert('Value is chosen, see console log')"/>
+			onChange="console.log('this=', this, '$hidden=', $hidden); alert('Value is chosen, see console log')"/>
 	</div>
 </div>
 

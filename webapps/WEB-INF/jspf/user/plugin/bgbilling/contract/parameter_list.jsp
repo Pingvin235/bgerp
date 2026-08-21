@@ -11,7 +11,7 @@
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
 			<ui:combo-single name="showEmptyParameters" value="${form.param.showEmptyParameters}" prefixText="Только заполненные:" widthTextValue="2em"
-				onSelect="$$.ajax.load(this.form, $('#${listUiid}'));">
+				onChange="$$.ajax.load(this.form, $('#${listUiid}'));">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">Да</li>
 					<li value="1">Нет</li>
@@ -19,7 +19,7 @@
 			</ui:combo-single>
 
 			<ui:combo-single name="onlyFromGroup" value="${form.param.onlyFromGroup}" prefixText="Только из группы:" widthTextValue="2em"
-				onSelect="$$.ajax.load(this.form, $('#${listUiid}'));">
+				onChange="$$.ajax.load(this.form, $('#${listUiid}'));">
 				<jsp:attribute name="valuesHtml">
 					<li value="1">Да</li>
 					<li value="0">Нет</li>
@@ -32,7 +32,7 @@
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 
 			<ui:combo-single list="${frd.group.values}" name="paramGroupId" value="${frd.group.id}" prefixText="Группа параметров (изменить):"
-				widthTextValue="12em" onSelect="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${listUiid}')))"/>
+				widthTextValue="12em" onChange="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${listUiid}')))"/>
 		</form>
 	</c:if>
 

@@ -12,7 +12,7 @@
 	<jsp:attribute name="valuesHtml">
 		<li value="-1">-- ${l.l('select report')} --</li>
 	</jsp:attribute>
-	<jsp:attribute name="onSelect">
+	<jsp:attribute name="onChange">
 		if (this.value)
 			$$.ajax.loadContent('/user/plugin/report/report.do?method=get&reportId=' + this.value, this);
 	</jsp:attribute>

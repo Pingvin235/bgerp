@@ -13,5 +13,5 @@
 
 	<ui:input-text
 		name="text" placeholder="${l.l('Value')}" title="${l.l('To search input a string and press Enter')}"
-		onSelect="this.form.searchBy.value='text'; $$.ajax.load(this.form, '#searchResult')" styleClass="ml1"/>
+		onChange="this.form.searchBy.value='text'; $$.ajax.load(this.form, '#searchResult')" styleClass="ml1"/>
 </div>

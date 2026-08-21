@@ -29,7 +29,7 @@
 			<td>${item.id}</td>
 			<td><ui:customer-link id="${item.id}" text="${item.title}"/></td>
 			<td nowrap="nowrap">
-				<ui:combo-single style="width: 100%;" list="${customerLinkRoleConfig.list}" onSelect="$$.process.link.customerRoleChanged(this)"/>
+				<ui:combo-single style="width: 100%;" list="${customerLinkRoleConfig.list}" onChange="$$.process.link.customerRoleChanged(this)"/>
 			</td>
 		</tr>
 	</c:forEach>

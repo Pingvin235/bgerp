@@ -31,7 +31,7 @@
 		onclick="$$.ajax.post('${url}').done(() => $$.ajax.loadContent('${urlList}', this) )">${l.l('Вставить')} [${markTypeString}]</button>
 
 	<ui:input-text name="filter" placeholder="${l.l('Filter')}" size="40" value="${form.param['filter']}"
-		onSelect="$$.ajax.loadContent(this)"
+		onChange="$$.ajax.loadContent(this)"
 		title="${l.l('Filter by ID, title, configuration')}"/>
 
 	<ui:page-control/>

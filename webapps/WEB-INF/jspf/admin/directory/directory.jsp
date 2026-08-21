@@ -8,7 +8,7 @@
 
 	<ui:combo-single name="directoryId" value="${form.param.directoryId}"
 		prefixText="${l.l('Directory')}:" widthTextValue="20em"
-		onSelect="$$.param.dirChanged($('#${uiid}')[0], item, this)">
+		onChange="$$.param.dirChanged($('#${uiid}')[0], item, this)">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${directoryList}">
 				<li value="${item.id}" action="${item.action}">${l.l(item.title)}</li>

@@ -16,7 +16,7 @@
 				</c:forEach>
 				<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Filter')}" size="40"
 					title="${l.l('По тексту сообщения')}"
-					onSelect="return $$.blow.search(this.form)"
+					onChange="return $$.blow.search(this.form)"
 				/>
 			</form>
 		</p:check>

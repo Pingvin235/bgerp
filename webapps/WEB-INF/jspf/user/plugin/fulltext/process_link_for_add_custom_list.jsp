@@ -20,7 +20,7 @@
 				<input type="hidden" name="processId" value="${form.id}"/>
 
 				<ui:input-text style="width: 100%;" name="filter" placeholder="${l.l('Строка поиска контрагента')}"
-					onSelect="$$.ajax.load($(this).closest('form'), $('#${resultUiid}'))"/>
+					onChange="$$.ajax.load($(this).closest('form'), $('#${resultUiid}'))"/>
 
 				<div id="${resultUiid}"></div>
 			</form>

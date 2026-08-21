@@ -24,7 +24,7 @@
 			</c:set>
 
 			<ui:select-single id="${typeSelectUiid}" name="typeId" value="${account.typeId}" list="${types}"
-					onSelect="${onSelectCode}" inputAttrs="${account.id gt 0 ? 'disabled' : ''}"
+					onChange="${onSelectCode}" inputAttrs="${account.id gt 0 ? 'disabled' : ''}"
 					style="width: 100%;"/>
 
 			<script>

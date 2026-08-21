@@ -8,7 +8,7 @@
 		<c:choose>
 			<c:when test="${frd.paramType eq 1}" >
 				<ui:input-text name="value" placeholder="Значение" styleClass="mt05 w100p"
-								onSelect="this.form.elements['searchBy'].value='parameter_text'; ${loadCommand}"/>
+								onChange="this.form.elements['searchBy'].value='parameter_text'; ${loadCommand}"/>
 			</c:when>
 
 			<c:when test="${frd.paramType eq 6}">
@@ -22,7 +22,7 @@
 
 			<c:when test="${frd.paramType eq 9}">
 				<ui:input-text name="value" placeholder="Телефон"
-					onSelect="this.form.elements['searchBy'].value='parameter_phone'; ${loadCommand}" />
+					onChange="this.form.elements['searchBy'].value='parameter_phone'; ${loadCommand}" />
 			</c:when>
 		</c:choose>
 	</u:sc>

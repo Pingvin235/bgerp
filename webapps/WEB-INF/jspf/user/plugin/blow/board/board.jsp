@@ -23,7 +23,7 @@
 	widthTextValue="15em"
 	prefixText="${l.l('План')}:"
 	list="${frd.boards}"
-	onSelect="$$.ajax.loadContent('${showUrl}&id=' + this.value, this)"/>
+	onChange="$$.ajax.loadContent('${showUrl}&id=' + this.value, this)"/>
 
 <shell:state moveSelector="#${uiid}"/>
 

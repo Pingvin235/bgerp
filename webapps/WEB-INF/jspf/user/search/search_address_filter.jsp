@@ -20,7 +20,7 @@
 		</div>
 		<div style="display: table-cell; width: 40%;" class="pl1">
 			<ui:input-text name="flat" styleClass="w100p" title="${l.l('Нажатие Enter - поиск по квартире')}" placeholder="${l.l('Квартира')}"
-				onSelect="this.form.elements['searchBy'].value='address';
+				onChange="this.form.elements['searchBy'].value='address';
 										$$.ajax.load(this.form , '#searchResult')"/>
 		</div>
 	</div>

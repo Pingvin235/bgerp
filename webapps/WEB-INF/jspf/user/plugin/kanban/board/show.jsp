@@ -16,7 +16,7 @@
 			widthTextValue="18em"
 			prefixText="${l.l('Очередь')}:"
 			list="${queues}"
-			onSelect="$$.ajax.loadContent('/user/plugin/kanban/board.do?queueId=' + this.value, this)"/>
+			onChange="$$.ajax.loadContent('/user/plugin/kanban/board.do?queueId=' + this.value, this)"/>
 
 		<shell:state moveSelector="#${queueSelectUiid}"/>
 

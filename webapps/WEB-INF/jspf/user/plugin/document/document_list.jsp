@@ -32,7 +32,7 @@
 				<ui:combo-single
 					id="${selectUiid}" name="patternId"
 					prefixText="Шаблон:" style="width: 100%;"
-					onSelect="${onChangeCode}">
+					onChange="${onChangeCode}">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${patternList}">
 							<li value="${item.id}" save="${item.resultSave}" stream="${item.resultStream}">${item.title}</li>

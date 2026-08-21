@@ -16,7 +16,7 @@
 	<ui:combo-single
 		name="typeId" value="${form.param.typeId}"
 		widthTextValue="15em"
-		onSelect="${script}">
+		onChange="${script}">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('All')}&nbsp;[${config.unprocessedMessagesCount}]</li>
 			<c:forEach var="item" items="${typeMap}">
@@ -32,7 +32,7 @@
 	<ui:combo-single
 		name="processed" value="${form.param.processed}"
 		prefixText="${l.l('Обработаны')}:" widthTextValue="3em"
-		onSelect="${script}">
+		onChange="${script}">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('No')}</li>
 			<li value="1">${l.l('Yes')}</li>
@@ -43,7 +43,7 @@
 		<ui:combo-single
 			name="read" value="${form.param.read}"
 			prefixText="${l.l('Read')}:" widthTextValue="3em"
-			onSelect="${script}">
+			onChange="${script}">
 			<jsp:attribute name="valuesHtml">
 				<li value="">${l.l('All')}</li>
 				<li value="0">${l.l('No')}</li>
@@ -58,7 +58,7 @@
 
 	<ui:combo-single
 		name="order" value="${form.param.order}" prefixText="${l.l('Сортировка')}:"
-		widthTextValue="7em" onSelect="${script}">
+		widthTextValue="7em" onChange="${script}">
 		<jsp:attribute name="valuesHtml">
 			<li value="1">${l.l('Обратная')}</li>
 			<li value="0">${l.l('Прямая')}</li>

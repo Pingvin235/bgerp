@@ -13,7 +13,7 @@
 	<html:hidden property="returnUrl"/>
 
 	${l.l('Shown')}&nbsp;<b>${listBuffer.size() + list.size()}</b>&nbsp;${l.l('records.shown.of')}&nbsp;<b>${form.page.recordCount}</b>
-	<ui:input-text name="filter" value="${form.param.filter}" onSelect="$$.ajax.load(this.form, $(this.form).parent())" placeholder="${l.l('ID or Description part')}" size="20" styleClass="ml05"/>
+	<ui:input-text name="filter" value="${form.param.filter}" onChange="$$.ajax.load(this.form, $(this.form).parent())" placeholder="${l.l('ID or Description part')}" size="20" styleClass="ml05"/>
 </html:form>
 
 <html:form action="${form.requestURI}">

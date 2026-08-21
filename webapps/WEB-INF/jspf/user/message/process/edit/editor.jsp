@@ -45,7 +45,7 @@
 
 				<ui:combo-single
 					id="${typeComboUiid}" name="typeId" widthTextValue="10em"
-					value="${value}" disable="${disable}" onSelect="${typeChangedScript}">
+					value="${value}" disable="${disable}" onChange="${typeChangedScript}">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${config.typeMap}">
 							<c:if test="${empty allowedTypeIds or allowedTypeIds.contains(item.key)}">

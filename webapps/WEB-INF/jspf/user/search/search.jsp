@@ -7,9 +7,9 @@
 		<c:set var="defaultForm" value="${form.permission['defaultForm']}"/>
 
 		<u:sc>
-			<c:set var="onSelect" value="$$.search.onObjectSelect()"/>
+			<c:set var="onChange" value="$$.search.onObjectSelect()"/>
 
-			<ui:combo-single id="searchForm" name="searchMode" prefixText="${l.l('Искать')}:" onSelect="${onSelect}">
+			<ui:combo-single id="searchForm" name="searchMode" prefixText="${l.l('Искать')}:" onChange="${onChange}">
 				<jsp:attribute name="valuesHtml">
 					<c:if test="${empty allowedForms or allowedForms.contains('customer')}">
 						<li value="customer">${l.l('Customer')}</li>
@@ -25,7 +25,7 @@
 
 			<script>
 				$(function () {
-					${onSelect}
+					${onChange}
 				})
 			</script>
 		</u:sc>
@@ -37,12 +37,12 @@
 
 				<ui:input-text
 					name="title" placeholder="${l.l('Title')}" title="${l.l('Для поиска введите подстороку названия и нажмите Enter')}"
-					onSelect="this.form.searchBy.value='title';
+					onChange="this.form.searchBy.value='title';
 							  $$.ajax.load(this.form, '#searchResult')"/>
 
 				<ui:input-text
 					name="id" placeholder="ID" title="${l.l('Для поиска введите код контрагента и нажмите Enter')}"
-					onSelect="this.form.searchBy.value='id';
+					onChange="this.form.searchBy.value='id';
 							$$.ajax.load(this.form, '#searchResult')"/>
 
 				<%@ include file="search_address_filter.jsp"%>
@@ -62,7 +62,7 @@
 
 				<ui:input-text name="id" placeholder="${l.l('Поиск процесса по ID')}"
 							title="${l.l('Для поиска введите код процесса и нажмите Enter')}"
-							onSelect="this.form.searchBy.value='id';
+							onChange="this.form.searchBy.value='id';
 									  $$.ajax.load(this.form, $('#searchResult')); return false;" />
 
 				<div style="display: flex;">

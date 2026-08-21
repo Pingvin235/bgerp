@@ -15,7 +15,7 @@
 	<html:text property="title" value="${customer.title}" disabled="${customer.titlePatternId ne -1}"/>
 
 	<h2>${l.l('Title pattern')}</h2>
-	<ui:combo-single name="titlePatternId" value="${customer.titlePatternId}" onSelect="
+	<ui:combo-single name="titlePatternId" value="${customer.titlePatternId}" onChange="
 		var form = $('#${formUiid}')[0];
 		form.elements['title'].disabled = form.elements.titlePatternId.value!=-1;
 		form.elements['titlePattern'].disabled = form.elements.titlePatternId.value!=0;

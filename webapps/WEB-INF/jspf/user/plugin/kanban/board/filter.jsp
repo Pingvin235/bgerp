@@ -21,7 +21,7 @@
 				<c:set var="title" value="${l.l('Type')}"/>
 				<c:set var="code">
 					<ui:combo-single name="typeId" value="${selectedTypeId}" prefixText="${l.l('Type')}:" widthTextValue="16em"
-						showFilter="true" onSelect="${submitScript}">
+						showFilter="true" onChange="${submitScript}">
 						<jsp:attribute name="valuesHtml">
 							<c:forEach var="t" items="${types}">
 								<li value="${t.id}">${t.title}</li>
@@ -37,7 +37,7 @@
 				<c:set var="title" value="${l.l('Closed')}"/>
 				<c:set var="value" value="${not empty form.param.openClose ? form.param.openClose : filterFromList.defaultValue}"/>
 				<c:set var="code">
-					<ui:combo-single value="${value}" name="openClose" prefixText="${l.l('Closed')}:" widthTextValue="60px" onSelect="${submitScript}">
+					<ui:combo-single value="${value}" name="openClose" prefixText="${l.l('Closed')}:" widthTextValue="60px" onChange="${submitScript}">
 						<jsp:attribute name="valuesHtml">
 							<li value="none">${l.l('All')}</li>
 							<li value="open">${l.l('No')}</li>
@@ -139,7 +139,7 @@
 				<c:set var="value" value="${form.param.sort}"/>
 			</c:if>
 
-			<ui:combo-single value="${value}" name="sort" prefixText="${l.l('Сорт.')}:" widthTextValue="60px" onSelect="${submitScript}">
+			<ui:combo-single value="${value}" name="sort" prefixText="${l.l('Сорт.')}:" widthTextValue="60px" onChange="${submitScript}">
 				<jsp:attribute name="valuesHtml">
 					<li value="0">- ${l.l('нет')} -</li>
 					<c:forEach var="mode" items="${queue.sortSet.modeList}">

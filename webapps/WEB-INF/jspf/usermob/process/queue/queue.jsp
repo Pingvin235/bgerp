@@ -22,7 +22,7 @@
 
 		<ui:combo-single name="id" valuesHtml="${valuesHtml}" value="${currentQueueId}"
 			prefixText="${l.l('Очередь')}:" style="width: 100%;"
-			onSelect="$$.ajax.load(this.form, $('#processQueueShow').parent())"/>
+			onChange="$$.ajax.load(this.form, $('#processQueueShow').parent())"/>
 
 		<%-- allowed for creation types --%>
 		<c:set var="createAllowedProcessList" value="${queue.createAllowedProcessList}"/>

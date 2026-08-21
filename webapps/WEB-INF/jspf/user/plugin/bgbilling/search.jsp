@@ -20,7 +20,7 @@
 
 			<c:set var="billingIds" value="${u.toSet(ctxUser.getPerm('/user/plugin/bgbilling/proto/contract:searchContract').get('billingIds'))}"/>
 
-			<ui:combo-single name="billingId" prefixText="Биллинг:" onSelect="$('#paramIdsDiv').html('')">
+			<ui:combo-single name="billingId" prefixText="Биллинг:" onChange="$('#paramIdsDiv').html('')">
 				<jsp:attribute name="valuesHtml">
 					<c:forEach items="${plugin.dbInfoManager.dbInfoList}" var="db">
 						<c:if test="${empty billingIds or billingIds.contains(db.id)}">
@@ -33,10 +33,10 @@
 			<c:set var="loadSearchResult" value="$$.ajax.load(this.form, $('#searchResult'))"/>
 
 			<ui:input-text name="title" placeholder="Номер договора"
-							onSelect="this.form.elements['searchBy'].value='title'; ${loadSearchResult}"/>
+							onChange="this.form.elements['searchBy'].value='title'; ${loadSearchResult}"/>
 
 			<ui:input-text name="comment" placeholder="Комментарий"
-							onSelect="this.form.elements['searchBy'].value='comment'; ${loadSearchResult}"/>
+							onChange="this.form.elements['searchBy'].value='comment'; ${loadSearchResult}"/>
 
 			<div>
 				Адрес:
@@ -47,7 +47,7 @@
 			<%@ include file="/WEB-INF/jspf/user/search/search_address_filter.jsp"%>
 
 			<ui:input-text name="id" placeholder="ID"
-							onSelect="this.form.elements['searchBy'].value='id'; ${loadSearchResult}"/>
+							onChange="this.form.elements['searchBy'].value='id'; ${loadSearchResult}"/>
 
 			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 				<c:param name="method" value="getParamList" />
@@ -62,7 +62,7 @@
 					<li value="9">Телефон</li>
 					<li value="6">Дата</li>
 				</jsp:attribute>
-				<jsp:attribute name="onSelect">$$.ajax.load('${url}'+'&billingId='+$("input[name='billingId']").val()+'&paramType='+$("input[name='paramType']").val(), $('#paramIdsDiv'))</jsp:attribute>
+				<jsp:attribute name="onChange">$$.ajax.load('${url}'+'&billingId='+$("input[name='billingId']").val()+'&paramType='+$("input[name='paramType']").val(), $('#paramIdsDiv'))</jsp:attribute>
 			</ui:combo-single>
 
 			<div id="paramIdsDiv" class="in-mb05">

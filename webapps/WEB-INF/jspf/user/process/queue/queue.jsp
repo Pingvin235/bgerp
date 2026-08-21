@@ -24,7 +24,7 @@
 
 					<ui:combo-single id="${id}"
 						value="${ctxUser.pers.queueLastSelected}"
-						onSelect="$$.process.queue.updateSelected(this.value); $$.process.queue.showSelected(this.value);"
+						onChange="$$.process.queue.updateSelected(this.value); $$.process.queue.showSelected(this.value);"
 						widthTextValue="18em"
 						prefixText="${l.l('Очередь')}:"
 						valuesHtml="${valuesHtml}"/>

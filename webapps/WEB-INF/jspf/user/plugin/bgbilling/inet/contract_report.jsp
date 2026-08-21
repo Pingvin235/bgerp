@@ -8,9 +8,9 @@
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
 
-	<c:set var="onSelect">$('#${uiid} #dateFilter').toggle( $('#${uiid}')[0].method.value == 'sessionLogContractList' )</c:set>
+	<c:set var="onChange">$('#${uiid} #dateFilter').toggle( $('#${uiid}')[0].method.value == 'sessionLogContractList' )</c:set>
 
-	<ui:combo-single name="method" value="${form.method}" prefixText="Тип:" onSelect="${onSelect}">
+	<ui:combo-single name="method" value="${form.method}" prefixText="Тип:" onChange="${onChange}">
 		<jsp:attribute name="valuesHtml">
 			<li value="sessionAliveContractList">Активные</li>
 			<li value="sessionLogContractList">История</li>
@@ -29,7 +29,7 @@
 
 	<script>
 		$(function () {
-			${onSelect}
+			${onChange}
 		})
 	</script>
 </html:form>

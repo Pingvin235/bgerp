@@ -28,7 +28,7 @@
 		</c:if>
 	</div>
 	<div style="width: 100%;" class="pl1">
-		<ui:select-single list="${frd.moduleList}" name="moduleId" value="${form.param.moduleId}" onSelect="${reload}"
+		<ui:select-single list="${frd.moduleList}" name="moduleId" value="${form.param.moduleId}" onChange="${reload}"
 			style="width: 100%;" placeholder="Фильтр по модулю"/>
 	</div>
 </html:form>

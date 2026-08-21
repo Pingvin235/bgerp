@@ -23,7 +23,7 @@
 								<input type="hidden" name="typeId" value="${type.id}"/>
 
 								<ui:combo-single name="direction" value="1" prefixText="Direction:" widthTextValue="4em"
-									onSelect="const isOut = this.value == 2;
+									onChange="const isOut = this.value == 2;
 									$(this.form.processId).toggle(isOut); $(this.form.customerId).toggle(isOut);">
 									<jsp:attribute name="valuesHtml">
 										<li value="1">IN</li>

@@ -50,7 +50,7 @@
 
 		<div>
 			<ui:combo-single list="${callboardList}" name="graphId" prefixText="График:" value="${form.param.graphId}" widthTextValue="100px"
-				id="callboardSelect-${uiid}" onSelect="${onSelectGroupScript}"/>
+				id="callboardSelect-${uiid}" onChange="${onSelectGroupScript}"/>
 		</div>
 
 		<div id="groupFilter">
@@ -448,7 +448,7 @@
 					</div>
 
 					<div class="pl05">
-						<ui:combo-single name="mode" widthTextValue="50px" onSelect="
+						<ui:combo-single name="mode" widthTextValue="50px" onChange="
 							$('#${uiid} #categories').toggle( this.value == 0 );
 							$('#${uiid} #shiftArea').toggle( this.value == 0 );
 							$('#${uiid} #teams').toggle( this.value == 1 );
@@ -462,7 +462,7 @@
 				</div>
 				<div id="categories">
 					<ui:select-single list="${allowOnlyCategories}" name="categoryId"
-						onSelect="var url = '/user/plugin/callboard/work.do?method=callboardAvailableShift&categoryId=' + this.value;
+						onChange="var url = '/user/plugin/callboard/work.do?method=callboardAvailableShift&categoryId=' + this.value;
 								$$.ajax.load( url, $('#${uiid} #shiftArea') );"
 						style="width: 100%;" placeholder="Категория смен"/>
 				</div>

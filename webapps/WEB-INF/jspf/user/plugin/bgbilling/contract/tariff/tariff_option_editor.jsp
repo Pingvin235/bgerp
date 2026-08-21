@@ -13,7 +13,7 @@
 
 	<div class="in-table-cell">
 		<ui:select-single list="${frd.availableOptionList}" name="optionId" value="${form.param.optionId}"
-			onSelect="var form = $(this).closest('form')[0]; form.method.value='tariffOptionEditor'; $$.ajax.load(form, $('#${uiid}').parent())"
+			onChange="var form = $(this).closest('form')[0]; form.method.value='tariffOptionEditor'; $$.ajax.load(form, $('#${uiid}').parent())"
 			style="width: 300px;" placeholder="Выберите опцию"/>
 
 		<div class="ml1" style="display: inline-block;">

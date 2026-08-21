@@ -14,7 +14,7 @@
 		</c:url>
 		<ui:button type="add" styleClass="mr1" onclick="$$.ajax.load('${url}', $(this.form).parent(), {control: this})"/>
 	</c:if>
-	<ui:input-text name="filter" value="${form.param.filter}" onSelect="$$.ajax.load(this.form, $(this.form).parent())"/>
+	<ui:input-text name="filter" value="${form.param.filter}" onChange="$$.ajax.load(this.form, $(this.form).parent())"/>
 	<ui:page-control/>
 </html:form>
 

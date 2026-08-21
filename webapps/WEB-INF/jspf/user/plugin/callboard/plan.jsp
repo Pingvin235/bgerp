@@ -37,7 +37,7 @@
 
 		<div>
 			<ui:combo-single list="${callboardList}" name="graphId" prefixText="План:" value="${form.param.graphId}" widthTextValue="100px" id="callboardSelect-${uiid}"
-				onSelect="${onSelectGroupScript}"/>
+				onChange="${onSelectGroupScript}"/>
 		</div>
 
 		<div id="groupFilter">

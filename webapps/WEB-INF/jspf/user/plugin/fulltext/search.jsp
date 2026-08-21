@@ -17,7 +17,7 @@
 			<ui:combo-single name="objectType" prefixText="${l.l('Искать')}:" list="${config.objectTypeList}"/>
 
 			<ui:input-text name="filter" placeholder="${l.l('Строка поиска')}"
-				onSelect="$$.ajax.load(this.form, '#searchResult');" />
+				onChange="$$.ajax.load(this.form, '#searchResult');" />
 		</html:form>
 	</c:otherwise>
 </c:choose>
