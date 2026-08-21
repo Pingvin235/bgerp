@@ -32,7 +32,7 @@
 			<div style="min-width: 350px; max-width: 350px;">
 				<c:set var="applyButtonUiid" value="${u:uiid()}"/>
 
-				<h2>${l.l('Allowed statuses')}</h2>
+				<h2>${l.l('Allowed Statuses')}</h2>
 				<ui:select-mult name="status"
 						showId="1" moveOn="true" style="width: 100%;"
 						list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"
@@ -42,11 +42,11 @@
 					style="${not empty properties.statusIds ? 'display: none;' : ''}">${l.l('Apply')}</button>
 
 				<c:if test="${not empty properties.statusIds}">
-					<h2>${l.l('Creating status')}</h2>
+					<h2>${l.l('Creation Status')}</h2>
 					<ui:combo-single name="createStatusId" value="${properties.createStatusId}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
 						styleClass="w100p" />
 
-					<h2>${l.l('Closing statuses')}</h2>
+					<h2>${l.l('Closure Statuses')}</h2>
 					<ui:select-mult name="closeStatusId" values="${properties.closeStatusIds}" list="${u.getObjectList(ctxProcessStatusList, properties.statusIds)}"
 						styleClass="w100p" />
 				</c:if>
@@ -64,7 +64,6 @@
 		</div>
 	</div>
 	<div id="${formUiid}-2" style="min-height: 500px;">
-		<h2>${l.l('Allowed status transitions matrix')}</h2>
 		<table class="data">
 			<tr>
 				<td>
@@ -133,7 +132,7 @@
 	</div>
 	<div id="${formUiid}-3" style="height: 500px;" class="in-inline-block">
 		<div style="width: 50%; height: 500px;">
-			<h2>${l.l('statuses.initial')}</h2>
+			<h2>${l.l('groups.creation')}</h2>
 			<div id="roleTabsBegin${formUiid}" class="layout-height-rest">
 				<c:set var="groups" value="${properties.groups}"/>
 				<c:set var="hiddenName" value="beginGroupRole"/>
@@ -141,7 +140,7 @@
 			</div>
 		</div><%--
 	--%><div style="width: 50%; height: 500px;" class="pl1">
-			<h2>${l.l('statuses.allowed')}</h2>
+			<h2>${l.l('groups.allowed')}</h2>
 			<div id="roleTabsAllowed${formUiid}" class="layout-height-rest">
 				<c:set var="groups" value="${properties.allowedGroups}"/>
 				<c:set var="hiddenName" value="allowedGroupRole"/>

@@ -26,21 +26,21 @@ import ru.bgcrm.util.Utils;
 public class TypeProperties {
     private static final Log log = Log.getLog();
 
-    /** Initial status. */
+    /** Creation status */
     private int createStatusId;
-    /** Closing statuses. */
+    /** Closure Statuses */
     private Set<Integer> closeStatusIds;
-    /** Statuses. */
+    /** Statuses */
     private List<Integer> statusIds = new ArrayList<>();
-    /** Parameters. */
+    /** Parameters */
     private List<Integer> parameterIds = new ArrayList<>();
-    /** String configuration. */
+    /** String configuration */
     private String config = "";
-    /** Parsed configuration. */
+    /** Parsed configuration */
     private ConfigMap configMap;
-    /** Initial groups. */
+    /** Creation groups */
     private ProcessGroups groups = new ProcessGroups();
-    /** Allowed groups. */
+    /** Allowed groups */
     private ProcessGroups allowedGroups = new ProcessGroups();
 
     private LastModify lastModify = new LastModify();

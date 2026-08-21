@@ -618,12 +618,11 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Process ID</en><ru>ID процесса</ru></p>
 	<p><en>Subtypes</en><ru>Подтипов</ru></p>
 	<p><en>Transition Matrix</en><ru>Матрица переходов</ru></p>
-	<p><en>Allowed statuses</en><ru>Разрешённые статусы</ru></p>
-	<p><en>Creating status</en><ru>Cтатус создания</ru></p>
-	<p><en>Closing statuses</en><ru>Статусы закрытия</ru></p>
-	<p><en>Allowed status transitions matrix</en><ru>Матрица разрешенных переходов статусов</ru></p>
-	<p><sys>statuses.initial</sys><en>Initial</en><ru>Начальные</ru></p>
-	<p><sys>statuses.allowed</sys><en>Allowed</en><ru>Разрешённые</ru></p>
+	<p><en>Allowed Statuses</en><ru>Разрешённые статусы</ru></p>
+	<p><en>Creation Status</en><ru>Cтатус создания</ru></p>
+	<p><en>Closure Statuses</en><ru>Статусы закрытия</ru></p>
+	<p><sys>groups.creation</sys><en>Creation</en><ru>Создание</ru></p>
+	<p><sys>groups.allowed</sys><en>Allowed</en><ru>Разрешённые</ru></p>
 	<p><en>Master Release</en><ru>Мастер релиз</ru></p>
 	<p><en>Author</en><ru>Автор</ru></p>
 	<p><en>Maintenance</en><ru>Обслуживание</ru></p>
