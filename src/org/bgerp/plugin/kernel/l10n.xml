@@ -617,7 +617,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Set</en><ru>Установить</ru></p>
 	<p><en>Process ID</en><ru>ID процесса</ru></p>
 	<p><en>Subtypes</en><ru>Подтипов</ru></p>
-	<p><en>Transition matrix</en><ru>Матрица переходов</ru></p>
+	<p><en>Transition Matrix</en><ru>Матрица переходов</ru></p>
 	<p><en>Allowed statuses</en><ru>Разрешённые статусы</ru></p>
 	<p><en>Creating status</en><ru>Cтатус создания</ru></p>
 	<p><en>Closing statuses</en><ru>Статусы закрытия</ru></p>

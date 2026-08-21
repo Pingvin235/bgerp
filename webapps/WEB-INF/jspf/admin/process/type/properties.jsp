@@ -23,7 +23,7 @@
 
 	<ul>
 		<li><a href="#${formUiid}-1">${l.l('Properties')}</a></li><%--
-	--%><li><a href="#${formUiid}-2">${l.l('Transition matrix')}</a></li><%--
+	--%><li><a href="#${formUiid}-2">${l.l('Transition Matrix')}</a></li><%--
 	--%><li><a href="#${formUiid}-3">${l.l('Groups')}</a></li>
 	</ul>
 
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="${formUiid}-2" style="height: 800px;">
+	<div id="${formUiid}-2" style="min-height: 500px;">
 		<h2>${l.l('Allowed status transitions matrix')}</h2>
 		<table class="data">
 			<tr>
