@@ -107,16 +107,18 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
                 }
             }
 
-            try {
-                InternetAddress addr = InternetAddress.parse(token)[0];
-                addr.validate();
+            if (Utils.notBlankString(token)) {
+                try {
+                    InternetAddress addr = InternetAddress.parse(token)[0];
+                    addr.validate();
 
-                computeIfAbsent(type, unused -> new ArrayList<>()).add(addr);
-            } catch (AddressException e) {
-                if (silent)
-                    log.debug("Incorrect email: {}", token);
-                else
-                    throw new BGMessageExceptionWithoutL10n("Incorrect email: {}", token);
+                    computeIfAbsent(type, unused -> new ArrayList<>()).add(addr);
+                } catch (AddressException e) {
+                    if (silent)
+                        log.debug("Incorrect email: {}", token);
+                    else
+                        throw new BGMessageExceptionWithoutL10n("Incorrect email: {}", token);
+                }
             }
         }
 

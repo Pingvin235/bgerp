@@ -113,22 +113,25 @@ public class MessageParser {
     }
 
     public String getTo() throws Exception {
-        // адреса пришлось выбирать из заголовков, т.к. getReciepients выдавал только по одному адресу каждого типа
-        StringBuilder to = new StringBuilder(100);
+        // the addresses had to be selected from the headers, since getReciepients only returned one address of each type
+        StringBuilder result = new StringBuilder(100);
 
         final String[] valuesTo = message.getHeader("To");
         if (valuesTo != null) {
-            extractAddresses(valuesTo, to);
+            extractAddresses(valuesTo, result);
         }
 
         String[] valuesCc = message.getHeader("CC");
         if (valuesCc != null) {
             StringBuilder cc = new StringBuilder(100);
             extractAddresses(valuesCc, cc);
-            to.append("; CC: ").append(cc);
+            if (result.length() > 0) {
+                result.append("; ");
+            }
+            result.append("CC: ").append(cc);
         }
 
-        return to.toString();
+        return result.toString();
     }
 
     private void extractAddresses(String[] values, StringBuilder result) {

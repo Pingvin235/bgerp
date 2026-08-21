@@ -70,6 +70,11 @@ public class AddressesTest {
         ));
         Assert.assertEquals(expected, Addresses.parse(lang, "test@bgerp.org; CC: test1@bgerp.org"));
 
+        expected = new Addresses(Map.of(
+            RecipientType.CC, List.of(new InternetAddress("test@bgerp.org"), new InternetAddress("test1@bgerp.org"))
+        ));
+        Assert.assertEquals(expected, Addresses.parse(lang, "; CC: test@bgerp.org, test1@bgerp.org"));
+
         BGMessageException exception = null;
         try {
             Addresses.parse(lang, "ddd");
