@@ -7,8 +7,8 @@
 
 <%@ attribute name="permTrees" required="true" type="java.util.Collection" description="List with root nodes of permission trees"%>
 <%@ attribute name="id" description="CSS ID for external div, if not defined than generated"%>
-<%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="values" type="java.util.Collection" description="current values"%>
+<%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="style" description="CSS style for external div"%>
 <%@ attribute name="styleClass" description="CSS classes for external div"%>
 <%@ attribute name="styleTextValue" description="CSS style of div with text value"%>

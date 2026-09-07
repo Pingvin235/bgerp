@@ -19,6 +19,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="checkbox input's name"%>
 <%@ attribute name="values" type="java.util.Collection" description="current values"%>
+<%@ attribute name="valuesHtml" description="HTML-text with values as li elements"%>
 <%@ attribute name="onChange" description="JS call when values were changed"%>
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="showFilter" description="Enable filter"%>
@@ -26,7 +27,6 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="styleClass" description="outer DIV class"%>
 <%@ attribute name="styleTextValue" description="current value's DIV style"%>
 <%@ attribute name="widthTextValue" description="current value's block width"%>
-<%@ attribute name="valuesHtml" description="HTML-text with values as li elements"%>
 
 <%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>

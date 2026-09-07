@@ -22,16 +22,16 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="hidden input's name"%>
-<%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="value" description="hidden input's current value"%>
+<%@ attribute name="valuesHtml" description="HTML-text with values as li elements, refer to description inside tag"%>
 <%@ attribute name="onChange" description="JS call when the value was changed"%>
+<%@ attribute name="disable" description="disable edits (TODO: use another color)"%>
+<%@ attribute name="prefixText" description="text prefix"%>
+<%@ attribute name="showFilter" type="java.lang.Boolean" description="Enable/disable Filter"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV style"%>
 <%@ attribute name="styleTextValue" description="current value's DIV style"%>
 <%@ attribute name="widthTextValue" description="current value's block width"%>
-<%@ attribute name="disable" description="disable edits (TODO: use another color)"%>
-<%@ attribute name="showFilter" type="java.lang.Boolean" description="Enable/disable Filter"%>
-<%@ attribute name="valuesHtml" description="HTML-text with values as li elements, refer to description inside tag"%>
 
 <%@ attribute name="list" type="java.util.Collection" description="List of values, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map of values, refer to description inside tag"%>
