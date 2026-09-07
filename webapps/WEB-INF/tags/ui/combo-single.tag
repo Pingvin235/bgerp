@@ -25,7 +25,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="value" description="hidden input's current value"%>
 <%@ attribute name="valuesHtml" description="HTML-text with values as li elements, refer to description inside tag"%>
 <%@ attribute name="onChange" description="JS call when the value was changed"%>
-<%@ attribute name="disable" description="disable edits (TODO: use another color)"%>
+<%@ attribute name="disabled" description="disabled edit"%>
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="showFilter" type="java.lang.Boolean" description="Enable/disable Filter"%>
 <%@ attribute name="style" description="outer DIV style"%>
@@ -69,7 +69,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 	</c:otherwise>
 </c:choose>
 
-<div class="btn-white combo ${styleClass}" id="${uiid}" style="${style}">
+<div class="btn-white combo ${not empty disabled ? ' disabled' : ' '} ${styleClass}" id="${uiid}" style="${style}">
 	<input type="hidden" name="${name}" value="${value}"/>
 
 	<c:if test="${not empty prefixText}">
@@ -118,7 +118,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 
 				$$.ui.combo.single.init($comboDiv, onChange);
 
-				<c:if test="${not empty disable}">
+				<c:if test="${not empty disabled}">
 					$comboDiv.unbind('click');
 				</c:if>
 			})

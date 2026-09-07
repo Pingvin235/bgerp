@@ -7,11 +7,15 @@
 	padding-left: 0;
 }
 
-/* можно посмотреть http://www.howtomake.com.ua/html-and-css/stilizaciya-vsex-elementov-form-s-pomoshhyu-css-i-jquery.html */
+/* TODO: check http://www.howtomake.com.ua/html-and-css/stilizaciya-vsex-elementov-form-s-pomoshhyu-css-i-jquery.html */
 .combo .text-pref {
 	color: var(--p-color);
 	padding-left: 0.5em;
 	white-space: nowrap;
+}
+
+.combo.disabled {
+	color: var(--p-color);
 }
 
 .combo .text-value {

@@ -250,6 +250,15 @@ cmd do && cmd undo
 				</jsp:attribute>
 			</ui:combo-single>
 		</div>
+
+		<ui:combo-single name="param" value="2" disabled="1" style="width: 12em;" onChange="$$.shell.message.show('Error', 'The element must be disabled!')" prefixText="Disabled:">
+			<jsp:attribute name="valuesHtml">
+				<li value="1">First</li>
+				<li value="2">Disabled Second (current)</li>
+				<li value="3">Third</li>
+				<li value="4">Fourth</li>
+			</jsp:attribute>
+		</ui:combo-single>
 	</div>
 
 	<div>
