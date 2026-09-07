@@ -4,65 +4,6 @@
 "use strict";
 
 $$.ui = new function () {
-	const comboSingleInit = ($comboDiv, onSelect) => {
-		const $drop = $comboDiv.find('ul.drop');
-		const $hidden = $comboDiv.find('input[type=hidden]');
-
-		const updateCurrentTitle = function () {
-			// by default the first item is selected
-			let $currentLi = $drop.find('li:not(.filter):first');
-
-			const currentValue = $hidden.val();
-
-			const $foundLi = $drop.find("li[value='" + currentValue + "']");
-			if ($foundLi.length !== 0) {
-				$currentLi = $foundLi;
-			}
-
-			let $currentTitle = $currentLi.find('span.title');
-			if ($currentTitle.length === 0) {
-				$currentTitle = $currentLi;
-				$hidden.val($currentLi.attr('value'));
-			}
-
-			$drop.find('li').removeAttr('selected');
-			$currentLi.attr('selected', '1');
-
-			$comboDiv.find('.text-value').html($currentTitle.html());
-		};
-
-		dropOnClick($comboDiv, $drop);
-
-		$drop.on('click', 'li:not(.filter)', function () {
-			$hidden.val($(this).attr("value"));
-			updateCurrentTitle();
-
-			if (onSelect) {
-				// to make 'this' equals to the hidden input
-				$hidden[0].onSelect = onSelect;
-				$hidden[0].onSelect(this);
-			}
-
-			$drop.hide();
-
-			return false;
-		});
-
-		updateCurrentTitle();
-	}
-
-	/**
-	 * Executes filtering in combo-single element
-	 * @param {*} input text input element
-	 */
-	const comboSingleFilter = (input) => {
-		const $input = $(input);
-		const mask = $input.val().toLowerCase();
-		$(input.parentNode.parentNode).find('li:gt(0)').each(function () {
-			const content = $(this).text().toLowerCase();
-			$(this).toggle(content.indexOf(mask) >= 0);
-		});
-	}
 
 	const comboInputs = ($div) => {
 		return $div.find("ul.drop li input");
@@ -543,8 +484,6 @@ $$.ui = new function () {
 	}
 
 	// public functions
-	this.comboSingleInit = comboSingleInit;
-	this.comboSingleFilter = comboSingleFilter;
 	this.comboInputs = comboInputs;
 	this.comboPermTreeCheckInit = comboPermTreeCheckInit;
 	this.dropsHide = dropsHide;

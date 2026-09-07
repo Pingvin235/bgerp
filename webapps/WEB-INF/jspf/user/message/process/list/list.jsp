@@ -197,7 +197,7 @@
 							});
 
 							$('#${targetProcessUiid} ul.drop').html(html);
-							$$.ui.comboSingleInit($('#${targetProcessUiid}'));
+							$$.ui.combo.single.init($('#${targetProcessUiid}'));
 						</c:set>
 
 						<%@ include file="editor_buttons.jsp"%>

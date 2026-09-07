@@ -99,7 +99,7 @@
 			<ui:button type="edit" styleClass="btn-small mr1"
 					onclick="$('#${showTdId}').hide(); $('#${editTdId}').show();
 							 buildOpenedCustomerList( $('#${editTdId}'), { id : '${customer.id}', title : '${u.escapeXml( customer.title )}' } );
-							 $$.ui.comboSingleInit( $('#${customerSelectUiid}') )"
+							 $$.ui.combo.single.init( $('#${customerSelectUiid}') )"
 					title="Изменить контрагента"/>
 
 			<c:choose>

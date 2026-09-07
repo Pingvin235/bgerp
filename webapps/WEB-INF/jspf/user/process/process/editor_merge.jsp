@@ -18,7 +18,7 @@
 			});
 
 			$('#${mergeProcessUiid} ul.drop').html(html);
-			$$.ui.comboSingleInit($('#${mergeProcessUiid}'));
+			$$.ui.combo.single.init($('#${mergeProcessUiid}'));
 		})
 	</script>
 

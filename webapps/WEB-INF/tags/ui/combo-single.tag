@@ -83,7 +83,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 	<ul class="drop" style="display: none;">
 		<c:if test="${showFilter}">
 			<li class="filter">
-				<input type="text" style="width: 100%;" placeholder="${l.l('Filter')}" onkeyup="$$.ui.comboSingleFilter(this)"/>
+				<input type="text" style="width: 100%;" placeholder="${l.l('Filter')}" onkeyup="$$.ui.combo.single.filter(this)"/>
 			</li>
 		</c:if>
 
@@ -116,7 +116,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 					};
 				</c:if>
 
-				$$.ui.comboSingleInit($comboDiv, onChange);
+				$$.ui.combo.single.init($comboDiv, onChange);
 
 				<c:if test="${not empty disable}">
 					$comboDiv.unbind('click');
