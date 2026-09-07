@@ -51,7 +51,7 @@
 	</div>
 
 	<script>
-		$$.ui.comboPermTreeCheckInit($("#${uiid}"));
+		$$.ui.combo.permTreeCheck.init($("#${uiid}"));
 		$("#${permTreeId}").Tree();
 	</script>
 </div>

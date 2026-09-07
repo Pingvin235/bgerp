@@ -9,40 +9,6 @@ $$.ui = new function () {
 		return $div.find("ul.drop li input");
 	}
 
-	const comboPermTreeCheckInit = ($comboDiv) => {
-		const $drop = $comboDiv.find(">.drop");
-		$$.ui.dropOnClick($comboDiv, $drop);
-
-		const updateText = function () {
-			// timeout allows to process first tree logic of selection children/parents
-			setTimeout(function () {
-				let checkedCount = 0;
-
-				$drop.find("li input[type=checkbox]").each(function () {
-					if (this.checked)
-						checkedCount++;
-				});
-
-				$comboDiv.find(">.text-value").text("[" + checkedCount + "]");
-			});
-		};
-
-		updateText();
-
-		// clean cross
-		$comboDiv.find(">.icon").click(function (event) {
-			$comboDiv.find("li input[type=checkbox]").each(function () {
-				this.checked = false;
-			});
-			updateText();
-			event.stopPropagation();
-		});
-
-		$drop.find("li input[type=checkbox]").click(function () {
-			updateText();
-		});
-	}
-
 	// close all visible drop-downs
 	const dropsHide = () => {
 		$(document).find(".drop:visible").hide();
@@ -485,7 +451,6 @@ $$.ui = new function () {
 
 	// public functions
 	this.comboInputs = comboInputs;
-	this.comboPermTreeCheckInit = comboPermTreeCheckInit;
 	this.dropsHide = dropsHide;
 	this.dropOnClick = dropOnClick;
 	this.dropShow = dropShow;

@@ -92,6 +92,47 @@ $$.ui.combo = new function () {
 		this.uncheck = uncheck;
 	}
 
+	// $$.ui.combo.permTreeCheck
+	this.permTreeCheck = new function () {
+
+		const init = ($comboDiv) => {
+			const $drop = $comboDiv.find(">.drop");
+			$$.ui.dropOnClick($comboDiv, $drop);
+
+			updateText($comboDiv, $drop);
+
+			// clean cross
+			$comboDiv.find(">.icon").click(function (event) {
+				$comboDiv.find("li input[type=checkbox]").each(function () {
+					this.checked = false;
+				});
+				updateText($comboDiv, $drop);
+				event.stopPropagation();
+			});
+
+			$drop.find("li input[type=checkbox]").click(function () {
+				updateText($comboDiv, $drop);
+			});
+		}
+
+		const updateText = function ($comboDiv, $drop) {
+			// timeout allows to process first tree logic of selection children/parents
+			setTimeout(function () {
+				let checkedCount = 0;
+
+				$drop.find("li input[type=checkbox]").each(function () {
+					if (this.checked)
+						checkedCount++;
+				});
+
+				$comboDiv.find(">.text-value").text("[" + checkedCount + "]");
+			});
+		};
+
+		// public functions
+		this.init = init;
+	}
+
 	// $$.ui.combo.single
 	this.single = new function () {
 
