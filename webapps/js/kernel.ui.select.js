@@ -1,5 +1,5 @@
 /*
- * Select UI element
+ * Select UI elements
  */
 "use strict";
 

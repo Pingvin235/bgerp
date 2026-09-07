@@ -69,8 +69,8 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 	<ul class="drop" style="display: none;">
 		<c:if test="${showFilter}">
 			<li class="in-table-cell">
-				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Filter" onkeyup="$$.ui.combocheck.filter(this)"/></div>
-				<div class="pl05"><div class="btn-white btn-icon" onclick='$$.ui.combocheck.uncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
+				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Filter" onkeyup="$$.ui.combo.check.filter(this)"/></div>
+				<div class="pl05"><div class="btn-white btn-icon" onclick='$$.ui.combo.check.uncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
 			</li>
 		</c:if>
 		<data><%--
@@ -126,7 +126,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 				}
 			</c:if>
 
-			$$.ui.combocheck.init($comboDiv, onChange);
+			$$.ui.combo.check.init($comboDiv, onChange);
 		})
 	</script>
 </div>

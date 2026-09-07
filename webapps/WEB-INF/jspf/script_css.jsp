@@ -61,7 +61,7 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.table.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.timer.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/kernel.ui.combocheck.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.ui.combo.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.datetime.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.input.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.select.js')}"></script>
