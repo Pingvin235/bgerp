@@ -253,13 +253,14 @@ public class ParamExpressionObject implements ExpressionObject {
 
     /**
      * Set parameter value(s) out of a string representation, the following parameter types are not supported:
-     * {@link Parameter.Type#ADDRESS}, {@link Parameter.Type#FILE}, {@link Parameter.Type#LIST}, {@link Parameter.Type#LISTCOUNT},
+     * {@link Parameter.Type#ADDRESS}, {@link Parameter.Type#FILE}, {@link Parameter.Type#LISTCOUNT},
      * {@link Parameter.Type#TREE}, {@link Parameter.Type#TREECOUNT}<br>
      * The {@code value} treated as:<br>
      * - {@link Parameter.Type#BLOB} - string value<br>
      * - {@link Parameter.Type#DATE} - formatted date string<br>
      * - {@link Parameter.Type#DATETIME} - formatted datetime string<br>
      * - {@link Parameter.Type#EMAIL} - comma-separated email addresses with possible display names<br>
+     * - {@link Parameter.Type#LIST} - comma-separated list value IDs<br>
      * - {@link Parameter.Type#MONEY} - dot-separated decimal number<br>
      * - {@link Parameter.Type#PHONE} - phone-separated phone numbers without format, only E164 digits<br>
      * - {@link Parameter.Type#TEXT} - string value<br>
@@ -270,7 +271,7 @@ public class ParamExpressionObject implements ExpressionObject {
     public void sval(int paramId, String value) throws SQLException {
         Parameter param = ParameterCache.getParameter(paramId);
         switch (Parameter.Type.of(param.getType())) {
-            case ADDRESS, FILE, LIST, LISTCOUNT, TREE, TREECOUNT -> {
+            case ADDRESS, FILE, LISTCOUNT, TREE, TREECOUNT -> {
                 throw new UnsupportedOperationException();
             }
             case BLOB -> {
@@ -284,6 +285,9 @@ public class ParamExpressionObject implements ExpressionObject {
             }
             case EMAIL -> {
                 paramDao.updateParamEmail(objectId, paramId, ParameterEmailValue.of(value));
+            }
+            case LIST -> {
+                paramDao.updateParamList(objectId, paramId, Utils.toIntegerSet(value));
             }
             case MONEY -> {
                 paramDao.updateParamMoney(objectId, paramId, Utils.parseBigDecimal(value));
