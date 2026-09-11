@@ -49,5 +49,6 @@ public class ProcessParamExpressionObject extends ParamExpressionObject {
     public void toContext(Map<String, Object> context) {
         context.put(KEY, this);
         context.put(KEY_SHORT, this);
+        this.context = context;
     }
 }

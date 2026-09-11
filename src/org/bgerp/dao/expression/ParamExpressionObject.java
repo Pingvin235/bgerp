@@ -1,5 +1,6 @@
 package org.bgerp.dao.expression;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ParameterCache;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
@@ -19,25 +21,35 @@ import org.bgerp.model.file.FileData;
 import org.bgerp.model.param.Parameter;
 import org.bgerp.util.Log;
 
+import ru.bgcrm.event.ParamChangedEvent;
+import ru.bgcrm.event.ParamChangingEvent;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
- * Expression object for retrieving object parameter values
+ * Expression object for accessing object parameter values
  *
  * @author Shamil Vakhitov
  */
 public class ParamExpressionObject implements ExpressionObject {
     private static final Log log = Log.getLog();
 
+    private final Connection con;
     private final ParamValueDAO paramDao;
     private final int objectId;
 
+    private boolean events;
+    /** for generated events */
+    protected Map<String, Object> context;
+
     public ParamExpressionObject(Connection con, int objectId) {
+        this.con = con;
         this.paramDao = new ParamValueDAO(con);
         this.objectId = objectId;
     }
@@ -45,6 +57,15 @@ public class ParamExpressionObject implements ExpressionObject {
     @Override
     public void toContext(Map<String, Object> context) {
         throw new UnsupportedOperationException("The expression object can't be added to context");
+    }
+
+    /**
+     * Sets param change events generation when using {@link #sval(int, String)}
+     * @return {@code this}
+     */
+    public ParamExpressionObject e() {
+        events = true;
+        return this;
     }
 
     /**
@@ -266,43 +287,65 @@ public class ParamExpressionObject implements ExpressionObject {
      * - {@link Parameter.Type#TEXT} - string value<br>
      * @param paramId the parameter ID
      * @param value the string representation
-     * @throws SQLException
+     * @throws Exception
      */
-    public void sval(int paramId, String value) throws SQLException {
+    @SuppressWarnings("unchecked")
+    public void sval(int paramId, String value) throws Exception {
         Parameter param = ParameterCache.getParameter(paramId);
+
+        Object paramValue = null;
+
         switch (Parameter.Type.of(param.getType())) {
             case ADDRESS, FILE, LISTCOUNT, TREE, TREECOUNT -> {
                 throw new UnsupportedOperationException();
             }
             case BLOB -> {
+                paramChangingProcess(param, paramValue = value);
                 paramDao.updateParamBlob(objectId, paramId, value);
             }
             case DATE -> {
-                paramDao.updateParamDate(objectId, paramId, TimeUtils.parse(value, param.getDateParamFormat()));
+                paramChangingProcess(param, paramValue = TimeUtils.parse(value, param.getDateParamFormat()));
+                paramDao.updateParamDate(objectId, paramId, (Date) paramValue);
             }
             case DATETIME -> {
-                paramDao.updateParamDateTime(objectId, paramId, TimeUtils.parse(value, param.getDateParamFormat()));
+                paramChangingProcess(param, paramValue = TimeUtils.parse(value, param.getDateParamFormat()));
+                paramDao.updateParamDateTime(objectId, paramId, (Date) paramValue);
             }
             case EMAIL -> {
-                paramDao.updateParamEmail(objectId, paramId, ParameterEmailValue.of(value));
+                paramChangingProcess(param, paramValue = ParameterEmailValue.of(value));
+                paramDao.updateParamEmail(objectId, paramId, (List<ParameterEmailValue>) paramValue);
             }
             case LIST -> {
-                paramDao.updateParamList(objectId, paramId, Utils.toIntegerSet(value));
+                paramChangingProcess(param, paramValue = Utils.toIntegerSet(value));
+                paramDao.updateParamList(objectId, paramId, (Set<Integer>) paramValue);
             }
             case MONEY -> {
-                paramDao.updateParamMoney(objectId, paramId, Utils.parseBigDecimal(value));
+                paramChangingProcess(param, paramValue = Utils.parseBigDecimal(value));
+                paramDao.updateParamMoney(objectId, paramId, (BigDecimal) paramValue);
             }
             case PHONE -> {
-                var phone = new ParameterPhoneValue();
+                var phoneValue = new ParameterPhoneValue();
                 for (String token : Utils.toList(value))
-                    phone.addItem(new ParameterPhoneValueItem(token, ""));
+                    phoneValue.addItem(new ParameterPhoneValueItem(token, ""));
 
-                paramDao.updateParamPhone(objectId, paramId, phone);
+                paramChangingProcess(param, paramValue = phoneValue);
+                paramDao.updateParamPhone(objectId, paramId, phoneValue);
             }
             case TEXT -> {
-                paramDao.updateParamText(objectId, paramId, value);
+                paramChangingProcess(param, paramValue = value);
+                paramDao.updateParamText(objectId, paramId, (String) paramValue);
             }
         }
+
+        if (events)
+            EventProcessor.processEvent(new ParamChangedEvent(DynActionForm.context(context), param, objectId, paramValue),
+                    new SingleConnectionSet(con));
+    }
+
+    private void paramChangingProcess(Parameter parameter, Object value) throws Exception {
+        if (events)
+            EventProcessor.processEvent(new ParamChangingEvent(DynActionForm.context(context), parameter, objectId, value),
+                    new SingleConnectionSet(con));
     }
 
     // DEPRECATED
