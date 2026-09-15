@@ -98,7 +98,7 @@ $$.ajax = new function () {
 	 * @param {String|HTMLFormElement|jQuery|HTMLButtonElement} input - source for requested URL
 	 * @param {HTMLElement|String|jQuery} target - target area element or selector of it
 	 * @param {Deferred} options.dfd - deferred, being resolved after all onLoad JS on chained loads are done
-	 * @param {Boolean} options.append  - append HTML into the element, deprecated
+	 * @param {Boolean} options.append   append HTML into the element, deprecated
 	 * @param {HtmlElement} options.control - will be passed to 'post' function
 	 * @returns deferred object of the loading process
 	 */

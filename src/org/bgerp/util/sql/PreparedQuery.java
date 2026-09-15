@@ -84,10 +84,10 @@ public class PreparedQuery implements AutoCloseable {
     }
 
     /**
-     * Changes position if the last parameter.
+     * Changes position of the last parameter.
      * Adding new parameters will be continued after this.
      * Closes existing {@link PreparedStatement} if exists and assigns it to {@code null}.
-     * @param pos 1 based position
+     * @param pos the position starting from 1
      * @throws SQLException
      */
     public void setPos(int pos) throws SQLException {
@@ -100,16 +100,16 @@ public class PreparedQuery implements AutoCloseable {
     /**
      * Adds int parameter in the prepared statement
      * @param value
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addInt(int value) {
         parameters.add(value);
         return this;
     }
 
-    /** Adds long parameter in the prepared statement
-     * @param value
-     * @return the current instance
+    /** Adds a long parameter in the prepared statement
+     * @param value the parameter
+     * @return {@code this}
      */
     public PreparedQuery addLong(long value) {
         parameters.add(value);
@@ -118,7 +118,7 @@ public class PreparedQuery implements AutoCloseable {
 
     /** Adds Decimal parameter in the prepared statement
      * @param value
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addBigDecimal(BigDecimal value) {
         parameters.add(value);
@@ -128,7 +128,7 @@ public class PreparedQuery implements AutoCloseable {
     /**
      * Adds int parameter in the prepared statement
      * @param value
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addString(String value) {
         parameters.add(value);
@@ -138,7 +138,7 @@ public class PreparedQuery implements AutoCloseable {
     /**
      * Adds Date parameter in the prepared statement
      * @param value
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addDate(Date value) {
         parameters.add(TimeUtils.convertDateToSqlDate(value));
@@ -148,7 +148,7 @@ public class PreparedQuery implements AutoCloseable {
     /**
      * Adds Timestamp parameter in the prepared statement
      * @param value
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addTimestamp(Timestamp value) {
         parameters.add(value);
@@ -158,7 +158,7 @@ public class PreparedQuery implements AutoCloseable {
     /**
      * Adds Timestamp parameter in the prepared statement
      * @param value
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addTimestamp(Date value) {
         parameters.add(TimeConvert.toTimestamp(value));
@@ -168,7 +168,7 @@ public class PreparedQuery implements AutoCloseable {
     /**
      * Adds Boolean parameter in the prepared statement
      * @param value
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addBoolean(Boolean value) {
         parameters.add(value);
@@ -178,7 +178,7 @@ public class PreparedQuery implements AutoCloseable {
     /**
      * Adds parameters with arbitrary types in the prepared statement
      * @param values
-     * @return the current instance
+     * @return {@code this}
      */
     public PreparedQuery addObjects(Object... values) {
         for (Object value : values)
