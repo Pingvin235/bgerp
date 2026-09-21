@@ -2,8 +2,6 @@ package ru.bgcrm.model.user;
 
 import java.util.List;
 
-import org.bgerp.app.l10n.Localization;
-import org.bgerp.app.l10n.Localizer;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,9 +9,8 @@ public class PermissionNodeTest {
     @Test
     public void testKernelTree() {
         var pl = org.bgerp.plugin.kernel.Plugin.INSTANCE;
-        var l = new Localizer(Localization.LANG_EN, Localization.getLocalization(pl));
 
-        var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
+        var node = new PermissionNode(null, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
         var p = node.findPermissionNode("ru.bgcrm.struts.action.admin.ProcessAction:queueList");
         Assert.assertTrue(p.getDescription().contains("<b>allowedQueueIds</b> -"));
 
@@ -42,9 +39,8 @@ public class PermissionNodeTest {
     @Test
     public void testTaskTree() {
         var pl = ru.bgcrm.plugin.task.Plugin.INSTANCE;
-        var l = new Localizer(Localization.LANG_EN, Localization.getLocalization(pl));
 
-        var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
+        var node = new PermissionNode(null, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
         Assert.assertEquals("Plugin Task", node.getTitle());
         Assert.assertEquals("Plugin Task", node.getTitlePath());
         Assert.assertEquals(1, node.getChildren().size());
@@ -53,10 +49,8 @@ public class PermissionNodeTest {
     @Test
     public void testBackupTree() {
         var pl = org.bgerp.plugin.svc.backup.Plugin.INSTANCE;
-        var plk = org.bgerp.plugin.kernel.Plugin.INSTANCE;
-        var l = new Localizer(Localization.LANG_EN, Localization.getLocalization(plk));
 
-        var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
+        var node = new PermissionNode(null, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
 
         var p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.admin.BackupAction:null");
         Assert.assertNotNull(p);

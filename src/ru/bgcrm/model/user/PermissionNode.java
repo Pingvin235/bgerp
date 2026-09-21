@@ -69,9 +69,7 @@ public class PermissionNode {
                 if (doc == null)
                     continue;
 
-                newPermissionTrees.add(new PermissionNode(null,
-                        Localization.getLocalizer(Localization.getLang(), p.getId()),
-                        doc.getDocumentElement()));
+                newPermissionTrees.add(new PermissionNode(null, doc.getDocumentElement()));
             }
 
             return permissionTrees = Collections.unmodifiableList(newPermissionTrees);
@@ -154,7 +152,7 @@ public class PermissionNode {
         this.title = title;
     }
 
-    PermissionNode(PermissionNode parent, Localizer l, Element node) {
+    PermissionNode(PermissionNode parent, Element node) {
         this(node.getAttribute("action"), node.getAttribute("title"));
         this.parent = parent;
 
@@ -167,7 +165,7 @@ public class PermissionNode {
             titlePath = title;
         }
 
-        loadChildren(l, node);
+        loadChildren(node);
 
         if (Utils.notEmptyString(action))
             description = XMLUtils.getElementText(node, Set.of("item")).trim();
@@ -228,14 +226,14 @@ public class PermissionNode {
         return result;
     }
 
-    private void loadChildren(Localizer l, Element node) {
+    private void loadChildren(Element node) {
         var actionFactory = node.getAttribute("actionFactory");
         if (Utils.notBlankString(actionFactory)) {
             for (TitledAction action : TitledActionFactory.create(actionFactory))
                 children.add(new PermissionNode(action.getAction(), action.getTitle()));
         } else {
             for (Element child : XMLUtils.selectElements(node, "item")) {
-                children.add(new PermissionNode(this, l, child));
+                children.add(new PermissionNode(this, child));
             }
         }
     }
