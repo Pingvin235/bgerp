@@ -188,5 +188,14 @@
 		<item title="Список договоров контрагента" action="/user/plugin/bgbilling/contract:customerContractList, ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:customerContractList"/>
 		<item title="Создание контрагента из договора" action="/user/plugin/bgbilling/contract:createCustomerFromContract, ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:createCustomerFromContract"/>
 		<item title="Каскадное копирование параметров" action="/user/plugin/bgbilling/contract:copyCustomerParamCascade, ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:copyCustomerParamCascade"/>
+
+		<!-- used only in BGBilling plugin for linking contracts to customers, after modifying that delete those completely -->
+		<item title="Привязки договора">
+			<item title="Просмотр привязок" action="ru.bgcrm.struts.action.LinkAction:linkList"/>
+			<item title="Добавление привязки" action="ru.bgcrm.struts.action.LinkAction:addLink"/>
+			<item title="Удаление привязки" action="ru.bgcrm.struts.action.LinkAction:deleteLink"/>
+			<item title="Удаление привязок объекта" action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo"/>
+			<item title="Удаление привязок определённого типа" action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType"/>
+		</item>
 	</item>
 </item>
