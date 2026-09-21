@@ -77,16 +77,16 @@
 	</item>
 
 	<item title="Process">
-		<item title="Queue" action="ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue, ru.bgcrm.struts.action.ProcessAction:queue">
-			<item title="Get Properties" action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet"/>
-			<item title="Show" action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow"/>
-			<item title="Process creation editor" action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree">
+		<item title="Queue" action="/user/process/queue:queue, ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue">
+			<item title="Get Properties" action="/user/process/queue:queueGet, ru.bgcrm.struts.action.ProcessQueueAction:queueGet"/>
+			<item title="Show" action="/user/process/queue:queueShow, ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow"/>
+			<item title="Process creation editor" action="/user/process/queue:typeTree, ru.bgcrm.struts.action.ProcessQueueAction:typeTree">
 				<b>onlyPermittedTypes</b> - 1 — only process types whose allowed groups include the current user; 0 — no restrictions
 			</item>
-			<item title="Action" action="ru.bgcrm.struts.action.ProcessQueueAction:processAction, ru.bgcrm.struts.action.ProcessAction:processDoCommands"/>
-			<item title="Processor" action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke"/>
-			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet"/>
-			<item allowAll="1" action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet"/>
+			<item title="Action" action="/user/process/queue:processAction, ru.bgcrm.struts.action.ProcessQueueAction:processAction"/>
+			<item title="Processor" action="/user/process/queue:processor, ru.bgcrm.struts.action.ProcessQueueAction:processor, /user/process/queue:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke"/>
+			<item allowAll="1" action="/user/process/queue:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet"/>
+			<item allowAll="1" action="/user/process/queue:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet"/>
 		</item>
 		<item title="Create" action="/user/process:processCreate, /user/process:processCreateGroups, ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate"/>
 		<item title="Card">

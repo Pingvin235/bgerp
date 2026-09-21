@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -14,7 +14,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.ProcessAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGIllegalArgumentException;
@@ -48,11 +47,12 @@ import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 import ru.bgcrm.model.process.queue.config.SavedPanelConfig;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
+import ru.bgcrm.struts.action.ProcessCommandExecutor;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/process/queue")
+@Action(path = "/user/process/queue", pathId = true)
 public class ProcessQueueAction extends ProcessAction {
     private static final Log log = Log.getLog();
 

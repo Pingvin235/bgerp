@@ -11,11 +11,9 @@
 <ui:menu-item title="${l.l('Сообщения')}" href="message/queue" icon="ti-email" action="/user/message:messageList" />
 
 <ui:menu-group title="${l.l('Процессы')}" icon="ti-control-shuffle">
-	<ui:menu-item title="${l.l('Process Queues')}" href="process/queue"
-		action="ru.bgcrm.struts.action.ProcessQueueAction:queue" />
+	<ui:menu-item title="${l.l('Process Queues')}" href="process/queue" action="/user/process/queue:queue" />
 
-	<ui:menu-item title="${l.l('My Processes')}" href="process/my"
-		action="/user/process:userProcessList"/>
+	<ui:menu-item title="${l.l('My Processes')}" href="process/my" action="/user/process:userProcessList" />
 
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_PROCESS_MENU_ITEMS%>"/>
 </ui:menu-group>

@@ -3,9 +3,9 @@ package org.bgerp.action.usermob;
 import java.sql.Connection;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.action.ProcessQueueAction;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.ProcessQueueAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
