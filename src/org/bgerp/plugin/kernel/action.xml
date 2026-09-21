@@ -112,22 +112,22 @@
 			<item title="View change log" action="/user/process:unionLog, ru.bgcrm.struts.action.ProcessAction:unionLog"/>
 
 			<item title="Related Processes">
-				<item action="/user/process/link/process:null, /user/process/link/process:showCategory, org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:showCategory, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
+				<item action="/user/process/link/process:null, /user/process/link/process:showCategory, org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:showCategory, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, /user/process/link:linkProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
 					title="View"/>
 				<item title="Add">
-					<item action="/user/process/link/process:addCreated, /user/process/link/process:linkProcessCreate, org.bgerp.action.ProcessLinkProcessAction:addCreated, org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
+					<item action="/user/process/link/process:addCreated, /user/process/link/process:linkProcessCreate, org.bgerp.action.ProcessLinkProcessAction:addCreated, org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, /user/process/link:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
 						title="Create a process and link it"/>
 					<item title="Link existing process to a Link Category" action="/user/process/link/process:addExisting, /user/process/link/process:linkProcessExisting, org.bgerp.action.ProcessLinkProcessAction:addExisting, org.bgerp.action.ProcessLinkProcessAction:linkProcessExisting"/>
 				</item>
-				<item title="Delete process link" action="/user/process/link/process:linkProcessDelete, org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete"/>
+				<item title="Delete process link" action="/user/process/link/process:linkProcessDelete, org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, /user/process/link:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete"/>
 			</item>
 		</item>
 
 		<item title="Object linked processes">
-			<item title="View linked processes" action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList">
+			<item title="View linked processes" action="/user/process/link:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList">
 				<b>onlyPermittedTypes</b> - 1 — only process types whose allowed groups include the current user; 0 — no restrictions
 			</item>
-			<item title="Create linked process" action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate"/>
+			<item title="Create linked process" action="/user/process/link:linkedProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate"/>
 		</item>
 
 		<item title="My processes" action="/user/process:userProcessList, ru.bgcrm.struts.action.ProcessAction:userProcessList"/>

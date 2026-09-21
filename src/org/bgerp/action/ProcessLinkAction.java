@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.sql.Connection;
 import java.util.List;
@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.action.ProcessAction;
-import org.bgerp.action.ProcessLinkProcessAction;
 import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.cache.ProcessQueueCache;
@@ -41,7 +39,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/process/link")
+@Action(path = "/user/process/link", pathId = true)
 public class ProcessLinkAction extends ProcessAction {
     private static final Log log = Log.getLog();
 

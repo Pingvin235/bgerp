@@ -40,7 +40,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.LinkAction;
-import ru.bgcrm.struts.action.ProcessLinkAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
