@@ -51,6 +51,7 @@ import ru.bgcrm.model.Lock;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.action.PoolAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -180,7 +181,7 @@ public abstract class BaseAction extends DispatchAction {
                 form.requestUrl(requestURI, request.getQueryString());
 
             try {
-                name = Utils.maskEmpty(name, "unspecified");
+                name = Utils.maskEmpty(name, Action.METHOD_UNSPECIFIED);
                 forward = (ActionForward) getInvoker(name).invoke(this, mapping, form, request, response, conSet);
             } catch (InvocationTargetException e) {
                 throw e.getCause();

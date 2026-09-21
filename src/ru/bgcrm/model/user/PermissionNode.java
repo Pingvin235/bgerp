@@ -13,10 +13,9 @@ import org.bgerp.action.base.Invoker;
 import org.bgerp.action.base.TitledAction;
 import org.bgerp.action.base.TitledActionFactory;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.l10n.Localization;
-import org.bgerp.app.l10n.Localizer;
 import org.bgerp.exec.CorrectPermissions;
 import org.bgerp.util.Log;
+
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,6 +25,7 @@ import com.google.common.annotations.VisibleForTesting;
 import javassist.NotFoundException;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -44,9 +44,8 @@ public class PermissionNode {
     @VisibleForTesting
     static final String FILE_NAME = "action.xml";
     private static final String DELIMITER = " / ";
-    public static final String ACTION_METHOD_UNSPECIFIED = "unspecified";
 
-    /** Root tree nodes. */
+    /** Root tree nodes */
     private static volatile List<PermissionNode> permissionTrees;
 
     /**
@@ -217,12 +216,12 @@ public class PermissionNode {
     /**
      * Selects action method name
      * @param action primary action class and method
-     * @return the method name or {@link #ACTION_METHOD_UNSPECIFIED}
+     * @return the method name or {@link Action#METHOD_UNSPECIFIED}
      */
     public static String actionMethod(String action) {
         String result = StringUtils.substringAfter(action, ":");
         if ("null".equals(result) || Utils.isBlankString(result))
-            result = ACTION_METHOD_UNSPECIFIED;
+            result = Action.METHOD_UNSPECIFIED;
         return result;
     }
 

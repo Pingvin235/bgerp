@@ -23,6 +23,7 @@ import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.model.user.PermissionNode;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
@@ -351,7 +352,7 @@ public class UtilFunction {
         result.append(a.getPath()).append(".do");
 
         String method = PermissionNode.actionMethod(action);
-        if (!PermissionNode.ACTION_METHOD_UNSPECIFIED.equals(method))
+        if (!Action.METHOD_UNSPECIFIED.equals(method))
             result.append("?").append(DynActionForm.PARAM_ACTION_METHOD).append("=").append(method);
 
         return result.toString();

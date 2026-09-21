@@ -29,6 +29,8 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface Action {
+        public static final String METHOD_UNSPECIFIED = "unspecified";
+
         String path();
         /**
          * @return the action ID is path, not class name
