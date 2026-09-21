@@ -50,13 +50,13 @@
 
 	<ui:menu-group title="${l.l('Процессы')}" icon="ti-control-shuffle">
 		<ui:menu-item title="${l.l('Статусы процессов')}" href="admin/process/status"
-			action="ru.bgcrm.struts.action.admin.ProcessAction:statusList" />
+			action="/admin/process:statusList" />
 
 		<ui:menu-item title="${l.l('Типы процессов')}" href="admin/process/type"
-			action="ru.bgcrm.struts.action.admin.ProcessAction:typeList" />
+			action="/admin/process:typeList" />
 
 		<ui:menu-item title="${l.l('Process Queues')}" href="admin/process/queue"
-			action="ru.bgcrm.struts.action.admin.ProcessAction:queueList" />
+			action="/admin/process:queueList" />
 	</ui:menu-group>
 
 

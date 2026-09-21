@@ -11,7 +11,7 @@ public class PermissionNodeTest {
         var pl = org.bgerp.plugin.kernel.Plugin.INSTANCE;
 
         var node = new PermissionNode(null, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
-        var p = node.findPermissionNode("ru.bgcrm.struts.action.admin.ProcessAction:queueList");
+        var p = node.findPermissionNode("/admin/process:queueList");
         Assert.assertTrue(p.getDescription().contains("<b>allowedQueueIds</b> -"));
 
         p = node.findPermissionNode("ru.bgcrm.struts.action.admin.AppAction:status");

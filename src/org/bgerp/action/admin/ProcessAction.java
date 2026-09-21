@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action.admin;
+package org.bgerp.action.admin;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Action(path = "/admin/process")
+@Action(path = "/admin/process", pathId = true)
 public class ProcessAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/process";
 

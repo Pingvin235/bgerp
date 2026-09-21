@@ -263,36 +263,36 @@
 
 		<item title="Процессы">
 			<item title="Статусы">
-				<item title="Просмотр статусов" action="ru.bgcrm.struts.action.admin.ProcessAction:statusList"/>
-				<item title="Просмотр статуса" action="ru.bgcrm.struts.action.admin.ProcessAction:statusGet"/>
-				<item title="Удаление статуса" action="ru.bgcrm.struts.action.admin.ProcessAction:statusDelete"/>
-				<item title="Изменение статуса" action="ru.bgcrm.struts.action.admin.ProcessAction:statusUpdate"/>
-				<item title="Просмотр в каких процессах используется статус" action="ru.bgcrm.struts.action.admin.ProcessAction:statusUseProcess"/>
+				<item title="Просмотр статусов" action="/admin/process:statusList, ru.bgcrm.struts.action.admin.ProcessAction:statusList"/>
+				<item title="Просмотр статуса" action="/admin/process:statusGet, ru.bgcrm.struts.action.admin.ProcessAction:statusGet"/>
+				<item title="Удаление статуса" action="/admin/process:statusDelete, ru.bgcrm.struts.action.admin.ProcessAction:statusDelete"/>
+				<item title="Изменение статуса" action="/admin/process:statusUpdate, ru.bgcrm.struts.action.admin.ProcessAction:statusUpdate"/>
+				<item title="Просмотр в каких процессах используется статус" action="/admin/process:statusUseProcess, ru.bgcrm.struts.action.admin.ProcessAction:statusUseProcess"/>
 			</item>
 			<item title="Типы">
-				<item title="Просмотр типов" action="ru.bgcrm.struts.action.admin.ProcessAction:typeList"/>
-				<item title="Просмотр типа" action="ru.bgcrm.struts.action.admin.ProcessAction:typeGet"/>
-				<item title="Изменение типа" action="ru.bgcrm.struts.action.admin.ProcessAction:typeUpdate"/>
-				<item title="Удаление типа" action="ru.bgcrm.struts.action.admin.ProcessAction:typeDelete"/>
-				<item title="Вставка типа" action="ru.bgcrm.struts.action.admin.ProcessAction:typeInsertMark"/>
-				<item title="Где используется" action="ru.bgcrm.struts.action.admin.ProcessAction:typeUsed"/>
-				<item title="Копировать тип" action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy"/>
+				<item title="Просмотр типов" action="/admin/process:typeList, ru.bgcrm.struts.action.admin.ProcessAction:typeList"/>
+				<item title="Просмотр типа" action="/admin/process:typeGet, ru.bgcrm.struts.action.admin.ProcessAction:typeGet"/>
+				<item title="Изменение типа" action="/admin/process:typeUpdate, ru.bgcrm.struts.action.admin.ProcessAction:typeUpdate"/>
+				<item title="Удаление типа" action="/admin/process:typeDelete, ru.bgcrm.struts.action.admin.ProcessAction:typeDelete"/>
+				<item title="Вставка типа" action="/admin/process:typeInsertMark, ru.bgcrm.struts.action.admin.ProcessAction:typeInsertMark"/>
+				<item title="Где используется" action="/admin/process:typeUsed, ru.bgcrm.struts.action.admin.ProcessAction:typeUsed"/>
+				<item title="Копировать тип" action="/admin/process:typeCopy, ru.bgcrm.struts.action.admin.ProcessAction:typeCopy"/>
 			</item>
 			<item title="Queue">
-				<item title="List" action="ru.bgcrm.struts.action.admin.ProcessAction:queueList">
+				<item title="List" action="/admin/process:queueList, ru.bgcrm.struts.action.admin.ProcessAction:queueList">
 					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
-				<item title="Edit" action="ru.bgcrm.struts.action.admin.ProcessAction:queueGet, ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate">
+				<item title="Edit" action="/admin/process:queueGet, ru.bgcrm.struts.action.admin.ProcessAction:queueGet, /admin/process:queueUpdate, ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate">
 					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
-				<item title="Duplicate" action="ru.bgcrm.struts.action.admin.ProcessAction:queueDuplicate"/>
-				<item title="Delete" action="ru.bgcrm.struts.action.admin.ProcessAction:queueDelete">
+				<item title="Duplicate" action="/admin/process:queueDuplicate, ru.bgcrm.struts.action.admin.ProcessAction:queueDuplicate"/>
+				<item title="Delete" action="/admin/process:queueDelete, ru.bgcrm.struts.action.admin.ProcessAction:queueDelete">
 					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
-				<item title="Просмотр свойств очереди" action="ru.bgcrm.struts.action.admin.ProcessAction:properties">
+				<item title="Просмотр свойств очереди" action="/admin/process:properties, ru.bgcrm.struts.action.admin.ProcessAction:properties">
 					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
-				<item title="Изменение свойств очереди" action="ru.bgcrm.struts.action.admin.ProcessAction:propertiesUpdate">
+				<item title="Изменение свойств очереди" action="/admin/process:propertiesUpdate, ru.bgcrm.struts.action.admin.ProcessAction:propertiesUpdate">
 					<b>allowedQueueIds</b> - comma-separated queue IDs
 				</item>
 			</item>

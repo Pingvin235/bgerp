@@ -51,7 +51,7 @@
 			<td>${item.id}</td>
 			<td>${item.title}</td>
 			<td>
-				<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:queueDuplicate">
+				<p:check action="/admin/process:queueDuplicate">
 					<button type="button" class="btn-grey btn-small icon" title="${l.l('Создать копию')}"
 						onclick="
 							if (!confirm('${l.l('Создать копию очереди?')}')) return;

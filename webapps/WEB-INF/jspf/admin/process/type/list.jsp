@@ -136,7 +136,7 @@
 				<c:set var="showId" value="${u:uiid()}"/>
 				<div class="buttons">
 					<c:set var="hideButtonsScript">$(this).closest('.buttons').hide();</c:set>
-					<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:typeUsed">
+					<p:check action="/admin/process:typeUsed">
 						<c:url var="showUrl" value="${form.requestURI}">
 							<c:param name="method" value="typeUsed" />
 							<c:param name="typeId" value="${item.id}" />
@@ -145,7 +145,7 @@
 						<button type="button" class="btn-grey btn-small icon" title="${l.l('Использующие очереди')}"
 							onclick="${hideButtonsScript} $$.ajax.load('${showUrl}', $('#${showId}'));"><i class="ti-search"></i></button>
 					</p:check>
-					<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy">
+					<p:check action="/admin/process:typeCopy">
 						<c:url var="showUrl" value="${form.requestURI}">
 							<c:param name="method" value="typeCopy" />
 							<c:param name="id" value="${item.id}"/>
