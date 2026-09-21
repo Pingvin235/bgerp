@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
@@ -11,7 +11,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/lock")
+@Action(path = "/user/lock", pathId = true)
 public class LockAction extends BaseAction {
     public ActionForward add(DynActionForm form, ConnectionSet conSet) throws Exception {
         String lockId = getLockId(form);
