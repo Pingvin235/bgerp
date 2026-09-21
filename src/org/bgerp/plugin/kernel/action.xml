@@ -355,7 +355,7 @@
 	</item>
 
 	<item allowAll="1" action="ru.bgcrm.struts.action.EmptyAction:null" notLogging="1"/>
-	<item allowAll="1" action="ru.bgcrm.struts.action.PoolAction:null" notLogging="1"/>
+	<item allowAll="1" action="/user/pool:null, ru.bgcrm.struts.action.PoolAction:null" notLogging="1"/>
 	<item allowAll="1" action="/user/lock:add, ru.bgcrm.struts.action.LockAction:add" notLogging="1"/>
 	<item allowAll="1" action="/user/lock:free, ru.bgcrm.struts.action.LockAction:free" notLogging="1"/>
 

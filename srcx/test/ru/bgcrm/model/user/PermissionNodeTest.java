@@ -29,11 +29,11 @@ public class PermissionNodeTest {
         Assert.assertFalse(p.isNotLogging());
         Assert.assertEquals("/admin/app:status", p.getAction());
 
-        p = node.findPermissionNode("ru.bgcrm.struts.action.PoolAction:null");
+        p = node.findPermissionNode("/user/pool:null");
         Assert.assertNotNull(p);
         Assert.assertTrue(p.isAllowAll());
         Assert.assertTrue(p.isNotLogging());
-        Assert.assertEquals("ru.bgcrm.struts.action.PoolAction:null", p.getAction());
+        Assert.assertEquals("/user/pool:null", p.getAction());
     }
 
     @Test

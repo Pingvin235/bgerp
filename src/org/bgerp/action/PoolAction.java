@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +13,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 
-@Action(path = "/user/pool")
+@Action(path = "/user/pool", pathId = true)
 public class PoolAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
