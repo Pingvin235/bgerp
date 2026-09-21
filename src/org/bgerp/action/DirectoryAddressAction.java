@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import java.sql.Connection;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/directory/address")
+@Action(path = "/user/directory/address", pathId = true)
 public class DirectoryAddressAction extends BaseAction {
     private static final String JSP_ADDRESS = PATH_JSP_USER + "/directory/address/address.jsp";
 

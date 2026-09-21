@@ -6,7 +6,7 @@
 <ui:menu-item title="${l.l('News')}" href="news" icon="ti-bell" action="/user/news:newsList" />
 
 <ui:menu-item title="${l.l('Адреса')}" href="directory/address" icon="ti-book"
-	action="ru.bgcrm.struts.action.DirectoryAddressAction:null" />
+	action="/user/directory/address:null" />
 
 <ui:menu-item title="${l.l('Сообщения')}" href="message/queue" icon="ti-email" action="/user/message:messageList" />
 

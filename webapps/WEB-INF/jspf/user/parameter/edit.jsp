@@ -81,7 +81,7 @@
 								<input type="text" name="house" value="${houseTitle}" onchange="this.form.houseId.value = ''"
 									placeholder="${l.l('Дом')}" title="${l.l('Дом')}" style="width: 100%" />
 							</div>
-							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
+							<p:check action="/user/directory/address:addressUpdate">
 								<c:url var="addUrl" value="/user/directory/address.do">
 									<c:param name="method" value="addressUpdate" />
 									<c:param name="addressHouseId" value="0" />

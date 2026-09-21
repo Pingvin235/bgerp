@@ -17,19 +17,19 @@
 		<item allowAll="1" action="/user/news:newsGet, org.bgerp.action.NewsAction:newsGet"/>
 	</item>
 	<item title="Address">
-		<item title="Directory" action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:addressGet, ru.bgcrm.struts.action.DirectoryAddressAction:address">
-			<item title="Edit" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
+		<item title="Directory" action="/user/directory/address:null, ru.bgcrm.struts.action.DirectoryAddressAction:null, /user/directory/address:addressGet, ru.bgcrm.struts.action.DirectoryAddressAction:addressGet, /user/directory/address:address, ru.bgcrm.struts.action.DirectoryAddressAction:address">
+			<item title="Edit" action="/user/directory/address:addressUpdate, ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
 				<b>cityIds</b> - comma-separated allowed city IDs
 			</item>
-			<item title="Delete" action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete">
+			<item title="Delete" action="/user/directory/address:addressDelete, ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete">
 				<b>cityIds</b> - comma-separated allowed city IDs
 			</item>
 		</item>
 		<item title="Search">
-			<item title="Street" action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch">
+			<item title="Street" action="/user/directory/address:streetSearch, ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch">
 				<b>cityIds</b> - comma-separated allowed city IDs
 			</item>
-			<item title="House" action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch"/>
+			<item title="House" action="/user/directory/address:houseSearch, ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch"/>
 		</item>
 	</item>
 	<item title="Customer" action="/user/customer:null, ru.bgcrm.struts.action.CustomerAction:null, ru.bgcrm.struts.action.CustomerAction:customer">

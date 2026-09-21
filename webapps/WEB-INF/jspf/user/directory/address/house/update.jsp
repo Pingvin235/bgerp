@@ -65,7 +65,7 @@
 	</div>
 
 	<div class="mt1 in-mr1">
-		<c:set var="update" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate')}"/>
+		<c:set var="update" value="${ctxUser.checkPerm('/user/directory/address:addressUpdate')}"/>
 		<c:choose>
 			<c:when test="${not empty form.param.inlineEditor}">
 				<c:if test="${update}">
