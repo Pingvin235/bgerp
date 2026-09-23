@@ -85,11 +85,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public org.bgerp.dao.Cleaner getCleaner() {
-        return Cleaner.INSTANCE;
-    }
-
-    @Override
     protected Map<String, List<String>> endpoints() {
         return Map.of(
             ENDPOINT_MESSAGE_EDITOR, List.of(ENDPOINT_MESSAGE_EDITOR)

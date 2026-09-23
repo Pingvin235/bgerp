@@ -18,7 +18,6 @@ import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.app.dist.lic.AppLicense;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
-import org.bgerp.dao.Cleaner;
 import org.bgerp.plugin.msg.email.message.MessageTypeEmail;
 import org.bgerp.util.Log;
 import org.bgerp.util.xml.XMLUtils;
@@ -221,13 +220,5 @@ public abstract class Plugin {
      */
     public Set<String> getObjectTypes() {
         return Collections.emptySet();
-    }
-
-    /**
-     * DB cleaner
-     * @return the cleaner, or {@code null}
-     */
-    public Cleaner getCleaner() {
-        return null;
     }
 }
