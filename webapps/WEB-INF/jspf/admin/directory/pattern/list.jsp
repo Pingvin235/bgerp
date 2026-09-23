@@ -31,7 +31,7 @@
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}', {control: this}).done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 			</td>
 
-			<td align="right">${item.id}</td>
+			<td>${item.id}</td>
 			<td>${item.title}</td>
 			<td>${item.pattern}</td>
 		</tr>

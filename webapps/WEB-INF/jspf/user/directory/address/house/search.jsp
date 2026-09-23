@@ -34,7 +34,7 @@
 			</c:url>
 
 			<%@ include file="../edit_td.jsp"%>
-			<td align="right">${item.id}</td>
+			<td>${item.id}</td>
 			<td nowrap="nowrap">${item.addressStreet.addressCity.addressCountry.title}</td>
 			<td nowrap="nowrap">${item.addressStreet.addressCity.title}</td>
 			<td nowrap="nowrap">${item.addressStreet.title}</td>

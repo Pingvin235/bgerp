@@ -6,17 +6,13 @@
 
 <table width="100%">
 	<tr>
-		<td align="right" nowrap="nowrap">Установленные тарифы:</td>
+		<td class="text-right" nowrap="nowrap">Установленные тарифы:</td>
 		<td width="100%"><b>${frd.tariffs}</b></td>
 	</tr>
 	<tr>
-		<td align="right">опции:</td>
+		<td class="text-right">опции:</td>
 		<td width="100%"><b>${frd.options}</b></td>
 	</tr>
-	<%-- <tr>
-		<td align="right">группы:</td>
-		<td width="100%"><b>${frd.groups}</b></td>
-	</tr> --%>
 </table>
 
 <script>
