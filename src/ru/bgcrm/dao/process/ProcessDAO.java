@@ -301,6 +301,8 @@ public class ProcessDAO extends CommonDAO {
 
     public void deleteProcess(int processId) throws SQLException {
         deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS + SQL_WHERE + "id=?");
+        deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS_STATUS + SQL_WHERE + "process_id=?");
+
         deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS_GROUP + SQL_WHERE + "process_id=?");
         deleteProcessData(processId, SQL_DELETE_FROM + TABLE_PROCESS_EXECUTOR + SQL_WHERE + "process_id=?");
 
