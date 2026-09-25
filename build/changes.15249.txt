@@ -1,1 +1,2 @@
 A: Delete process_status records for missing processes
+C: Move Comment and Configuration right in user editor

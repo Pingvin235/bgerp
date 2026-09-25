@@ -41,32 +41,6 @@
 				</ui:combo-single>
 			</div>
 		</div><%--
-	--%><div style="width: 20%;">
-			<h2>${l.l('Comment')}</h2>
-
-			<u:sc>
-				<c:set var="uiid" value="${u:uiid()}"/>
-				<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:first"/>
-				<c:set var="selectorTo" value="#${uiid}"/>
-				<textarea id="${uiid}" style="width: 100%; resize: none;" name="description">${user.comment}</textarea>
-				<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
-			</u:sc>
-
-			<c:if test="${empty perm['configDisable']}">
-				<h2>${l.l('Configuration')}</h2>
-				<c:set var="taUiid" value="${u:uiid()}"/>
-
-				<u:sc>
-					<c:set var="uiid" value="${u:uiid()}"/>
-					<div id="${uiid}">
-						<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:nth-of-type(2)"/>
-						<c:set var="selectorTo" value="#${uiid}"/>
-						<textarea id="${taUiid}" style="width: 100%; height: 100%; resize: none;" name="userConfig">${user.config}</textarea>
-						<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
-					</div>
-				</u:sc>
-			 </c:if>
-		</div><%--
 	--%><c:if test="${empty perm['permsetSet']}"><%--
 		--%><div style="width: 20%;">
 				<h2>${l.l('Permission Sets')}</h2>
@@ -100,6 +74,32 @@
 				<ui:select-mult list="${ctxProcessQueueList}" name="queue" values="${user.queueIds}" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
 	--%></c:if><%--
+	--%><div style="width: 20%;">
+			<h2>${l.l('Comment')}</h2>
+
+			<u:sc>
+				<c:set var="uiid" value="${u:uiid()}"/>
+				<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:first"/>
+				<c:set var="selectorTo" value="#${uiid}"/>
+				<textarea id="${uiid}" style="width: 100%; resize: none;" name="description">${user.comment}</textarea>
+				<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
+			</u:sc>
+
+			<c:if test="${empty perm['configDisable']}">
+				<h2>${l.l('Configuration')}</h2>
+				<c:set var="taUiid" value="${u:uiid()}"/>
+
+				<u:sc>
+					<c:set var="uiid" value="${u:uiid()}"/>
+					<div id="${uiid}">
+						<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:nth-of-type(2)"/>
+						<c:set var="selectorTo" value="#${uiid}"/>
+						<textarea id="${taUiid}" style="width: 100%; height: 100%; resize: none;" name="userConfig">${user.config}</textarea>
+						<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
+					</div>
+				</u:sc>
+			 </c:if>
+		</div><%--
 --%></div>
 
 	<u:sc>
