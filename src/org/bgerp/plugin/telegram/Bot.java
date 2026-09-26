@@ -169,7 +169,7 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage(chatId, config.getMsgAskPassword());
                 } else {
                     User user = UserCache.getUser(userData.login);
-                    if (user == null || !user.getPassword().equals(text)) {
+                    if (user == null || !UserCache.password(user.getId()).equals(text)) {
                         sendMessage(chatId, config.getMsgWrongPassword());
                         userMap.put(chatId, new UserData());
                         sendMessage(chatId, config.getMsgAskLogin());

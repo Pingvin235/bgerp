@@ -38,7 +38,7 @@ public class AuthAction extends BaseAction {
                 User user = UserCache.getUser(login);
                 if (user == null)
                     throw new BGMessageException("Incorrect login");
-                if (!user.getPassword().equals(pswd))
+                if (!UserCache.password(user.getId()).equals(pswd))
                     throw new BGMessageException("Incorrect password");
                 account.setObjectId(user.getId());
                 break;

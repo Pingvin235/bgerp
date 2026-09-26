@@ -45,15 +45,12 @@ public class UserCache extends Cache<UserCache> {
     private static final Map<Integer, String> USER_PASSWORDS = new ConcurrentHashMap<>();
 
     /**
-     * Get a user by ID with a password updated from {@link #USER_PASSWORDS}
+     * Get a user by ID
      * @param id the user ID
      * @return the matching user or {@code null}
      */
     public static User getUser(final int id) {
-        User result = HOLDER.getInstance().userMapById.get(id);
-        if (result != null && USER_PASSWORDS.containsKey(result.getId()))
-            result.setPassword(USER_PASSWORDS.get(result.getId()));
-        return result;
+        return HOLDER.getInstance().userMapById.get(id);
     }
 
     /**
@@ -63,6 +60,15 @@ public class UserCache extends Cache<UserCache> {
      */
     public static User getUser(final String login) {
         return HOLDER.getInstance().activeUserMapByLogin.get(login);
+    }
+
+    /**
+     * Selects a user password
+     * @param userId the user ID
+     * @return the password or {@code null}
+     */
+    public static String password(int userId) {
+        return USER_PASSWORDS.get(userId);
     }
 
     /**
@@ -297,6 +303,9 @@ public class UserCache extends Cache<UserCache> {
             };
 
             for (final User user : result.userList) {
+                if (user.getStatus() != User.STATUS_EXTERNAL)
+                    USER_PASSWORDS.put(user.getId(), user.getPassword());
+                user.setPassword("");
                 result.userMapById.put(user.getId(), user);
             }
 

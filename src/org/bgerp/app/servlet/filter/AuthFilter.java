@@ -135,7 +135,8 @@ public class AuthFilter implements Filter {
 
         // local user
         if (user != null && user.getStatus() == User.STATUS_ACTIVE) {
-            if (!password.equals(user.getPassword())) {
+            String userPassword = UserCache.password(user.getId());
+            if (!password.equals(userPassword)) {
                 log.debug("User ID: {} password is wrong", user.getId());
                 user = null;
             }

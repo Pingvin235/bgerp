@@ -7,6 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.base.BaseAction;
 import org.bgerp.cache.UserCache;
+import org.bgerp.model.base.IdTitleComment;
 
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -21,6 +22,7 @@ public class DirectoryUserAction extends BaseAction {
 
         form.setResponseData("list", UserCache.getUserList().stream()
             .filter(user -> user.getStatus() != User.STATUS_DISABLED && (groupIds.isEmpty() || !CollectionUtils.intersection(groupIds, user.getGroupIds()).isEmpty()))
+            .map(user -> new IdTitleComment(user.getId(), user.getTitle(), user.getComment()))
             .collect(Collectors.toList())
         );
 

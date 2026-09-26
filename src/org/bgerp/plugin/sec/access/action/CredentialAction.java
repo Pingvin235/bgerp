@@ -22,7 +22,7 @@ public class CredentialAction extends org.bgerp.action.base.BaseAction {
             throw new BGException("User not found: " + form.getId());
         }
 
-        String text = l.l("credentials.get.text", user.getTitle(), user.getLogin(), user.getPassword());
+        String text = l.l("credentials.get.text", user.getTitle(), user.getLogin(), UserCache.password(user.getId()));
         form.setResponseData("text", text);
 
         return json(conSet, form);

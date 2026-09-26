@@ -33,6 +33,7 @@ import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
+import org.bgerp.cache.UserCache;
 import org.bgerp.util.Log;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
@@ -151,8 +152,8 @@ public class TransferData {
             rootObject.put("method", request.getMethod());
 
             ObjectNode userObject = rootObject.putObject("user");
-            userObject.put("user", user.getLogin());
-            userObject.put("pswd", user.getPassword());
+            userObject.put("user", user.login());
+            userObject.put("pswd", user.password());
 
             ObjectNode paramsObject = rootObject.putObject("params");
             for (Map.Entry<String, Object> me : request.getParams().entrySet()) {
@@ -374,7 +375,7 @@ public class TransferData {
     public int uploadFile(String handler, BGServerFile bgServerFile, InputStream inputStream, User user) throws IOException, URISyntaxException {
         UserAccount userAccount = UserAccount.getUserAccount(dbInfo.getId(), user);
 
-        String userAndPswd = userAccount.getLogin() + ":" + userAccount.getPassword();
+        String userAndPswd = userAccount.login() + ":" + userAccount.password();
         final HttpURLConnection con = (HttpURLConnection) (new URI(url.toString() + "/upload").toURL()).openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/octet-stream");
@@ -444,7 +445,7 @@ public class TransferData {
     private byte[] postDataInternal(Request request, User user) throws IOException {
         UserAccount userAccount = UserAccount.getUserAccount(dbInfo.getId(), user);
         try {
-            return new RequestTask(request, userAccount.getLogin(), userAccount.getPassword()).call();
+            return new RequestTask(request, userAccount.login(), userAccount.password()).call();
         } catch (SocketTimeoutException e) {
             throw new BGException("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
         }
