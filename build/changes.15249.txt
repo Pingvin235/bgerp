@@ -1,2 +1,0 @@
-A: Delete process_status DB records for missing processes
-C: Move Comment and Configuration right in user editor

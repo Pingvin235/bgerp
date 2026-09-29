@@ -1,6 +1,31 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+29.09.2026 20:00:02 2609
+A: [15221] Plugin Yandex Messenger. https://bgerp.org/version/3.0/doc/plugin/msg/ymsg
+A: [15243] Gradle task 'vscode'. https://bgerp.org/version/3.0/doc/dev/#project-ide-vscode
+A: [15214] Plugin Get OLT. https://bgerp.org/version/3.0/doc/plugin/bgb/getolt
+F: [15246] Executors limit used one less maxCount value. https://bgerp.org/version/3.0/doc/kernel/process/index.html#setup-type-executor-restriction
+C: [15244] Optimization of generated process title and description. https://bgerp.org/version/3.0/doc/kernel/process/#setup-type-title
+C: [15114] BGBilling UI cleanup
+A: [15248] Remove process from Group Plan
+A: [15249] Delete process_status DB records for missing processes
+C: [15249] Move Comment and Configuration right in user editor
+A: [15238] Separated scroll for autocomplete drop-down
+A: [15238] Order by description for related processes
+C: [15215] Unified editor for parameter type 'listcount' with multiple values. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-listcount
+A: [15190] BGBilling module Voice accounts
+C: [15190] BGBilling improvements in modules Inet, NPay
+C: [15204] Message processing UI with tabs. https://bgerp.org/version/3.0/doc/kernel/message/#usage-queue
+A: [15245] Disabled mode for <ui:combo-single>
+C: [14776] Reorder and translate action permissions
+A: [15200] Clear log files
+A: [15231] BGBilling search contracts by address in message processing. https://bgerp.org/version/3.0/doc/plugin/bgbilling/index.html#setup-config-message-search-address
+A: [15242] Plugin Kanban - drag-and-drop Kanban board over process queues. https://bgerp.org/version/3.0/doc/plugin/pln/kanban
+C: [15233] Updated MariaDB in Docker to 12.3.2
+C: [15233] Updated Java in Docker to 25.0.3+9
+C: [15233] Updated Gradle to 9.5.1
+
 27.05.2026 14:28:20 2605
 
 27.05.2026 14:27:33 2605
