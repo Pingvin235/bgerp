@@ -22,7 +22,7 @@ task checkoutStable(type: Exec, description: 'Checks out the stable branch for t
     commandLine 'git', 'checkout', "stable-${->getBuild()}"
 }
 
-task publishReleaseFix(type: JavaExec, dependsOn: ['checkoutStable', 'clean', 'buildUpdate', 'buildDist'], description: 'Copies Stable Fix distribution to CDN server') {
+task publishReleaseFix(type: JavaExec, dependsOn: ['checkoutStable', 'clean', 'changesRss', 'buildUpdate', 'buildDist'], description: 'Copies Stable Fix distribution to CDN server') {
     doFirst {
         exec {
             workingDir projectDir
