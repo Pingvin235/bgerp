@@ -119,7 +119,7 @@ RUN set -eux; \
 
 # gitlab ci, bgerp
 #=================
-RUN apt-get update && apt-get install -y openssh-client rsync git-lfs zip unzip
+RUN apt-get update && apt-get install -y openssh-client rsync git-lfs zip unzip wget
 
 # bgerp files
 #============
