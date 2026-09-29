@@ -53,16 +53,7 @@ task publishCommit(type: Exec, description: 'Commits modifications over build *.
     mustRunAfter 'updateLibProperties'
     mustRunAfter 'changesFile'
     mustRunAfter 'changesRss'
-    doFirst {
-        exec {
-            workingDir projectDir
-            commandLine 'git', 'add', 'srcx/doc'
-        }
-        exec {
-            workingDir "$projectDir/build"
-            commandLine 'git', 'add', '*.properties', 'changes.txt', 'changes.*.txt'
-        }
-    }
+    mustRunAfter 'changesDoc'
     workingDir projectDir
-    commandLine 'git', 'commit', "-m PUBLISH ${->getBuild()}"
+    commandLine 'bash', '-c', "git add srcx/doc && cd $projectDir/build && git add *.properties changes.txt changes.*.txt && git commit -m 'PUBLISH ${->getBuild()}'"
 }
