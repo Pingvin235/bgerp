@@ -26,8 +26,6 @@ C: [15233] Updated MariaDB in Docker to 12.3.2
 C: [15233] Updated Java in Docker to 25.0.3+9
 C: [15233] Updated Gradle to 9.5.1
 
-27.05.2026 14:28:20 2605
-
 27.05.2026 14:27:33 2605
 A: [14795] Files count and total size
 C: [15147] Unified editor for parameter type 'treecount'. https://bgerp.org/version/3.0/doc/kernel/setup.html#param-treecount
