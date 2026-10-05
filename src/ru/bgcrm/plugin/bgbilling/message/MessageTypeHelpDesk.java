@@ -59,7 +59,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Bean
+@Bean(oldClasses = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk")
 public class MessageTypeHelpDesk extends MessageType {
     private static final Log log = Log.getLog();
 
