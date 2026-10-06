@@ -17,37 +17,7 @@ task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: '
     args "${->base.distsDirectory.get().asFile.path}", version, "${->getBuild()}"
 }
 
-task checkoutStable(type: Exec, description: 'Checks out the stable branch for the current build') {
-    workingDir projectDir
-    commandLine 'git', 'checkout', "stable-${->getBuild()}"
-}
-
-task publishReleaseFix(type: JavaExec, dependsOn: ['checkoutStable', 'clean', 'changesRss', 'buildUpdate', 'buildDist'], description: 'Copies Stable Fix distribution to CDN server') {
-    doFirst {
-        exec {
-            workingDir projectDir
-            commandLine 'bash', '-c', 'build/docker/bgerp/files.sh'
-        }
-        exec {
-            workingDir projectDir
-            commandLine 'docker', 'build', 'build/docker/bgerp', '-t', 'bgerp/bgerp'
-        }
-        exec {
-            workingDir projectDir
-            commandLine 'docker', 'push', 'bgerp/bgerp'
-        }
-    }
-    doLast {
-        exec {
-            workingDir projectDir
-            commandLine 'git', 'commit', '-m', "PUBLISH ${->getBuild()}", '--allow-empty'
-        }
-    }
-    classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.PublishRelease'
-    args "${->base.distsDirectory.get().asFile.path}", version, "${->getBuild()}"
-}
-
+// TODO: Rename to publishReleaseCommit
 task publishCommit(type: Exec, description: 'Commits modifications over build *.properties, changes.* and documentation files to GIT') {
     mustRunAfter 'updateProperties'
     mustRunAfter 'updateLibProperties'
@@ -56,4 +26,25 @@ task publishCommit(type: Exec, description: 'Commits modifications over build *.
     mustRunAfter 'changesDoc'
     workingDir projectDir
     commandLine 'bash', '-c', "git add srcx/doc && cd $projectDir/build && git add *.properties changes.txt changes.*.txt && git commit -m 'PUBLISH ${->getBuild()}'"
+}
+
+task publishReleaseDocker(type: Exec, dependsOn: ['buildUpdate', 'buildDist']) {
+    mustRunAfter 'publishRelease'
+    mustRunAfter 'publishReleaseFix'
+    commandLine 'bash', '-c', 'bash build/docker/bgerp/files.sh && docker build build/docker/bgerp -t bgerp/bgerp && docker push bgerp/bgerp'
+}
+
+task checkoutStable(type: Exec, description: 'Checks out the stable branch for the current build') {
+    workingDir projectDir
+    commandLine 'git', 'checkout', "stable-${->getBuild()}"
+}
+
+task publishReleaseFix(type: JavaExec, dependsOn: ['checkoutStable', 'clean', 'changesRss', 'buildUpdate', 'buildDist'], description: 'Copies Stable Fix distribution to CDN server') {
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.PublishRelease'
+    args "${->base.distsDirectory.get().asFile.path}", version, "${->getBuild()}"
+}
+
+task publishReleaseFixCommit(type: Exec) {
+    commandLine 'git', 'commit', '-m', "PUBLISH ${->getBuild()}", '--allow-empty'
 }
