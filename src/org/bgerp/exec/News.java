@@ -56,7 +56,7 @@ public class News extends Task {
 
             //Delete news: removing news-user links where the user points to a non-existent or deleted
             query = " DELETE nu.* FROM " + Tables.TABLE_NEWS_USER + " nu " + " LEFT JOIN " + TABLE_USER + " u ON nu.user_id=u.id "
-                    + " WHERE u.id IS NULL OR u.deleted=1 ";
+                    + " WHERE u.id IS NULL";
 
             ps = con.prepareStatement(query);
             ps.executeUpdate();
