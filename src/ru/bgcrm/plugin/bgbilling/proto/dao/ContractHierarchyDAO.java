@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.user.iface.UserAccount;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,7 +19,7 @@ public class ContractHierarchyDAO extends BillingDAO {
     private static final String CONTRACT_MODULE_ID = "contract";
     private static final String CONTRACT_HIERARCHY_MODULE_ID = "contract.hierarchy";
 
-    public ContractHierarchyDAO(User user, DBInfo dbInfo) {
+    public ContractHierarchyDAO(UserAccount user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 

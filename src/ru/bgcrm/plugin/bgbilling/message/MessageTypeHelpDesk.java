@@ -23,6 +23,7 @@ import org.bgerp.app.cfg.bean.annotation.Bean;
 import org.bgerp.app.event.EventProcessor;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.ProcessTypeCache;
+import org.bgerp.cache.UserCache;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.dao.process.ProcessLinkSearchDAO;
@@ -31,6 +32,7 @@ import org.bgerp.model.file.FileData;
 import org.bgerp.model.file.tmp.FileInfo;
 import org.bgerp.model.file.tmp.SessionTemporaryFiles;
 import org.bgerp.model.msg.Message;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageDAO;
@@ -54,6 +56,7 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdMessage;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
+import ru.bgcrm.plugin.bgbilling.transfer.BillingUserAccount;
 import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -65,7 +68,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
     private final String billingId;
 
-    private final User user;
+    private final UserAccount user;
     private final int processTypeId;
 
     // which status to move the process to when the HD topic opens
@@ -102,9 +105,7 @@ public class MessageTypeHelpDesk extends MessageType {
             throw new BGException("Billing user or password undefined.");
         }
 
-        user = new User();
-        user.setLogin(userName);
-        user.setPassword(userPassword);
+        user = BillingUserAccount.getUserAccount(userName, userPassword);
 
         processTypeId = config.getInt("processTypeId", 0);
         if (processTypeId <= 0) {
@@ -126,7 +127,7 @@ public class MessageTypeHelpDesk extends MessageType {
         newMessageEvent = config.getBoolean("newMessageEvent", false);
     }
 
-    public User getUser() {
+    public UserAccount getUser() {
         return user;
     }
 
@@ -232,7 +233,15 @@ public class MessageTypeHelpDesk extends MessageType {
                 openHdProcessTopicIds.put(rs.getInt(1), rs.getInt(2));
             ps.close();
 
-            DynActionForm form = new DynActionForm(user);
+            final int fakeUserId = -1042 - id;
+            final var fakeUser = new User();
+            fakeUser.setId(fakeUserId);
+            fakeUser.setLogin(user.getLogin());
+            fakeUser.setComment(Log.format("MessageTypeHelpDesk ID: {}", id));
+            UserCache.password(fakeUserId, user.getPassword());
+
+            DynActionForm form = new DynActionForm(fakeUser);
+
             HelpDeskDAO hdDao = new HelpDeskDAO(user, dbInfo);
 
             Pageable<Pair<HdTopic, List<HdMessage>>> result = new Pageable<>();

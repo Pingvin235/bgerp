@@ -11,6 +11,7 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.cache.UserCache;
 import org.bgerp.model.base.IdTitleComment;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 

@@ -3,8 +3,8 @@ package ru.bgcrm.plugin.bgbilling.proto.dao.directory;
 import java.util.List;
 
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.user.iface.UserAccount;
 
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
@@ -15,7 +15,7 @@ public class UserInfoDirectory extends Directory<UserInfo> {
     }
 
     @Override
-    protected List<UserInfo> list(User user) {
+    protected List<UserInfo> list(UserAccount user) {
         return new DirectoryDAO(user, dbInfo).getUserInfoList();
     }
 

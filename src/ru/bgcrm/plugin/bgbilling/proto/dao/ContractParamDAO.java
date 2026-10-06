@@ -19,6 +19,7 @@ import org.bgerp.dao.param.ParamValueDAO;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -58,7 +59,7 @@ public class ContractParamDAO extends BillingDAO {
         super(user, billingId);
     }
 
-    public ContractParamDAO(User user, DBInfo dbInfo) {
+    public ContractParamDAO(UserAccount user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 

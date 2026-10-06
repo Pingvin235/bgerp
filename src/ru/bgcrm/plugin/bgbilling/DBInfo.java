@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.cache.UserCache;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.sql.pool.ConnectionPool;
 
 import com.google.common.collect.BiMap;
@@ -122,7 +123,7 @@ public class DBInfo {
         return setup.get("copyParamMapping");
     }
 
-    public DBInfo loadUsers(User requestUser) {
+    public DBInfo loadUsers(UserAccount requestUser) {
         if (billingUserIdUserIdBiMap.isEmpty()) {
             synchronized (billingUserIdUserIdBiMap) {
                 Map<String, Integer> billingLoginUserId = new DirectoryDAO(requestUser, this).getUserList().stream()

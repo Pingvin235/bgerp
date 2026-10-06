@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.user.iface.UserAccount;
 
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
@@ -20,7 +21,7 @@ public class VoiceDAO extends BillingModuleDAO {
     private static final String MODULES_VOICE = "ru.bitel.bgbilling.modules.voice";
     private static final String INVENTORY_RESOURCE = "ru.bitel.oss.systems.inventory.resource";
 
-    public VoiceDAO(User user, String billingId, int moduleId) {
+    public VoiceDAO(UserAccount user, String billingId, int moduleId) {
         super(user, billingId, moduleId);
     }
 

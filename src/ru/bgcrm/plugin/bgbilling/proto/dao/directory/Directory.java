@@ -8,8 +8,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bgerp.model.base.Id;
+import org.bgerp.model.user.iface.UserAccount;
 
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 
@@ -34,17 +34,17 @@ public abstract class Directory <T extends Id> {
         this.directoryItemClass = directoryItemClass;
     }
 
-    public T get(User user, int id) {
+    public T get(UserAccount user, int id) {
         loadIfNeeded(user);
         return values.computeIfAbsent(id, this::missingValue);
     }
 
-    public Map<Integer, T> getValues(User user) {
+    public Map<Integer, T> getValues(UserAccount user) {
         loadIfNeeded(user);
         return values;
     }
 
-    private void loadIfNeeded(User user) {
+    private void loadIfNeeded(UserAccount user) {
         if (lastLoadVersion.get() > 0 && (System.currentTimeMillis() - lastLoadTime.get() < 10000L))
             return;
 
@@ -61,7 +61,7 @@ public abstract class Directory <T extends Id> {
         lastLoadVersion.set(version);
     }
 
-    protected abstract List<T> list(User user);
+    protected abstract List<T> list(UserAccount user);
 
     protected abstract T missingValue(int id);
 }

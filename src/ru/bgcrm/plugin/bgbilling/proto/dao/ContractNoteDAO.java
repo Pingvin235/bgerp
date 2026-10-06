@@ -119,7 +119,7 @@ public class ContractNoteDAO extends ContractDAO {
             note.setComment(text);
             note.setVisible(visible);
             note.setDateTime(new Date());
-            note.setUserId(dbInfo.loadUsers(user).getBillingUserId(user.getId()));
+            note.setUserId(dbInfo.loadUsers(user).getBillingUserId(((User) user).getId()));
 
             req.setParam("contractNote", note);
             transferData.postDataReturn(req, user);

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdTitleTreeItem;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,7 +37,7 @@ public class DirectoryDAO extends BillingDAO {
         super(user, billingId);
     }
 
-    public DirectoryDAO(User user, DBInfo dbInfo) {
+    public DirectoryDAO(UserAccount user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 

@@ -11,6 +11,7 @@ import org.bgerp.app.exception.BGException;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.file.FileData;
 import org.bgerp.model.msg.Message;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,7 +19,6 @@ import org.w3c.dom.Element;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
@@ -32,7 +32,7 @@ import ru.bgcrm.util.Utils;
 public class HelpDeskDAO extends BillingDAO {
     private static final String MODULE = "ru.bitel.bgbilling.plugins.helpdesk";
 
-    public HelpDeskDAO(User user, DBInfo dbInfo) {
+    public HelpDeskDAO(UserAccount user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 

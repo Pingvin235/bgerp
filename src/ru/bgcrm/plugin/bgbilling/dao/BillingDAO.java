@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
 import org.bgerp.app.exception.BGException;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,7 +26,7 @@ public class BillingDAO {
     private static final String PAGE_INDEX = "pageIndex";
     private static final String PAGE_SIZE = "pageSize";
 
-    protected User user;
+    protected UserAccount user;
     protected DBInfo dbInfo;
 
     protected TransferData transferData;
@@ -40,7 +41,7 @@ public class BillingDAO {
         return dbInfo.getVersion();
     }
 
-    public BillingDAO(User user, String billingId) {
+    public BillingDAO(UserAccount user, String billingId) {
         this.user = user;
         this.dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
         if (dbInfo == null) {
@@ -49,7 +50,7 @@ public class BillingDAO {
         init();
     }
 
-    public BillingDAO(User user, DBInfo dbInfo) {
+    public BillingDAO(UserAccount user, DBInfo dbInfo) {
         this.user = user;
         this.dbInfo = dbInfo;
 

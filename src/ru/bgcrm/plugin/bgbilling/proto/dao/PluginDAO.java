@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -13,7 +14,7 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 
 public class PluginDAO extends BillingDAO {
-    public PluginDAO(User user, DBInfo dbInfo) {
+    public PluginDAO(UserAccount user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 

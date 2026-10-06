@@ -33,7 +33,7 @@ import org.bgerp.action.base.BaseAction;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.exception.BGException;
 import org.bgerp.app.exception.BGMessageException;
-import org.bgerp.cache.UserCache;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.Log;
 import org.bgerp.util.xml.XMLUtils;
 import org.w3c.dom.Document;
@@ -49,7 +49,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.proto.dao.PluginDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.BGServerFile;
-import ru.bgcrm.plugin.bgbilling.transfer.UserAccount;
+import ru.bgcrm.plugin.bgbilling.transfer.BillingUserAccount;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -152,8 +152,8 @@ public class TransferData {
             rootObject.put("method", request.getMethod());
 
             ObjectNode userObject = rootObject.putObject("user");
-            userObject.put("user", user.login());
-            userObject.put("pswd", user.password());
+            userObject.put("user", user.getLogin());
+            userObject.put("pswd", user.getPassword());
 
             ObjectNode paramsObject = rootObject.putObject("params");
             for (Map.Entry<String, Object> me : request.getParams().entrySet()) {
@@ -292,7 +292,7 @@ public class TransferData {
      * @param user the user
      * @return the response document
      */
-    public Document postData(Request request, User user) {
+    public Document postData(Request request, UserAccount user) {
         try {
             Document doc = getDocument(new String(postDataInternal(request, user), RESPONSE_ENCODING));
 
@@ -311,7 +311,7 @@ public class TransferData {
      * @param user the user
      * @return the {@code data} element from the response
      */
-    public JsonNode postData(RequestJsonRpc request, User user) {
+    public JsonNode postData(RequestJsonRpc request, UserAccount user) {
         try {
             JsonNode rootNode = postDataInternal(request, user);
 
@@ -332,7 +332,7 @@ public class TransferData {
      * @param user the user
      * @return the {@code return} element from the response
      */
-    public JsonNode postDataReturn(RequestJsonRpc request, User user) {
+    public JsonNode postDataReturn(RequestJsonRpc request, UserAccount user) {
         return postData(request, user).path("return");
     }
 
@@ -342,7 +342,7 @@ public class TransferData {
      * @param user the user
      * @return the response bytes
      */
-    public byte[] postDataGetBytes(Request request, User user) {
+    public byte[] postDataGetBytes(Request request, UserAccount user) {
         try {
             return postDataInternal(request, user);
         } catch (Exception e) {
@@ -356,7 +356,7 @@ public class TransferData {
      * @param user the user
      * @return the response string
      */
-    public String postDataGetString(Request request, User user) {
+    public String postDataGetString(Request request, UserAccount user) {
         try {
             return new String(postDataGetBytes(request, user), RESPONSE_ENCODING);
         } catch (UnsupportedEncodingException e) {
@@ -372,10 +372,10 @@ public class TransferData {
      * @throws IOException
      * @throws URISyntaxException
      */
-    public int uploadFile(String handler, BGServerFile bgServerFile, InputStream inputStream, User user) throws IOException, URISyntaxException {
-        UserAccount userAccount = UserAccount.getUserAccount(dbInfo.getId(), user);
+    public int uploadFile(String handler, BGServerFile bgServerFile, InputStream inputStream, UserAccount user) throws IOException, URISyntaxException {
+        UserAccount userAccount = BillingUserAccount.getUserAccount(dbInfo.getId(), user);
 
-        String userAndPswd = userAccount.login() + ":" + userAccount.password();
+        String userAndPswd = userAccount.getLogin() + ":" + userAccount.getPassword();
         final HttpURLConnection con = (HttpURLConnection) (new URI(url.toString() + "/upload").toURL()).openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/octet-stream");
@@ -402,7 +402,7 @@ public class TransferData {
         return id;
     }
 
-    public void initSession(User user) {
+    public void initSession(UserAccount user) {
         if (dbInfo.getPluginSet() == null) {
             // since PluginDAO will call this same method, set pluginSet
             // right away so it's not null, otherwise infinite recursion
@@ -442,18 +442,18 @@ public class TransferData {
         }
     }
 
-    private byte[] postDataInternal(Request request, User user) throws IOException {
-        UserAccount userAccount = UserAccount.getUserAccount(dbInfo.getId(), user);
+    private byte[] postDataInternal(Request request, UserAccount user) throws IOException {
+        UserAccount userAccount = BillingUserAccount.getUserAccount(dbInfo.getId(), user);
         try {
-            return new RequestTask(request, userAccount.login(), userAccount.password()).call();
+            return new RequestTask(request, userAccount.getLogin(), userAccount.getPassword()).call();
         } catch (SocketTimeoutException e) {
             throw new BGException("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
         }
     }
 
-    private JsonNode postDataInternal(RequestJsonRpc request, User user) throws IOException, URISyntaxException {
+    private JsonNode postDataInternal(RequestJsonRpc request, UserAccount user) throws IOException, URISyntaxException {
         try {
-            return new RequestTaskJsonRpc(request, UserAccount.getUserAccount(dbInfo.getId(), user)).call();
+            return new RequestTaskJsonRpc(request, BillingUserAccount.getUserAccount(dbInfo.getId(), user)).call();
         } catch (SocketTimeoutException e) {
             throw new BGException("Время ожидания ответа от биллинга истекло! ({} мс).", timeOut);
         }
@@ -468,7 +468,7 @@ public class TransferData {
         return outValue;
     }
 
-    private void checkDocumentStatus(Document doc, User user) throws BGMessageException {
+    private void checkDocumentStatus(Document doc, UserAccount user) throws BGMessageException {
         String status = XMLUtils.selectText(doc, "/data/@status");
         if (!"ok".equals(status)) {
             throw new BGException("На запрос пользователя {} биллинг {} вернул ошибку {}", user.getLogin(), dbInfo.getId(),
@@ -476,7 +476,7 @@ public class TransferData {
         }
     }
 
-    private void checkDocumentStatus(JsonNode rootNode, User user) throws BGMessageException {
+    private void checkDocumentStatus(JsonNode rootNode, UserAccount user) throws BGMessageException {
         String status = rootNode.path("status").textValue();
         if (!"ok".equals(status)) {
             String exceptionType = rootNode.path("exception").textValue();

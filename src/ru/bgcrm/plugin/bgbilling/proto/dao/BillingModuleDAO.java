@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import ru.bgcrm.model.user.User;
+import org.bgerp.model.user.iface.UserAccount;
+
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 
@@ -15,12 +16,12 @@ public class BillingModuleDAO extends BillingDAO {
         this.moduleId = moduleId;
     }
 
-    public BillingModuleDAO(User user, DBInfo dbInfo, int moduleId) {
+    public BillingModuleDAO(UserAccount user, DBInfo dbInfo, int moduleId) {
         super(user, dbInfo);
         setModuleId(moduleId);
     }
 
-    public BillingModuleDAO(User user, String billingId, int moduleId) {
+    public BillingModuleDAO(UserAccount user, String billingId, int moduleId) {
         super(user, billingId);
         setModuleId(moduleId);
     }

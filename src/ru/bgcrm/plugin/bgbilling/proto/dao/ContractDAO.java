@@ -28,6 +28,7 @@ import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.param.Parameter;
+import org.bgerp.model.user.iface.UserAccount;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.xml.XMLUtils;
@@ -97,7 +98,7 @@ public class ContractDAO extends BillingDAO {
         super(user, billingId);
     }
 
-    private ContractDAO(User user, DBInfo dbInfo) {
+    private ContractDAO(UserAccount user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.user.iface.UserAccount;
 
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.proto.dao.VoiceDAO;
 
@@ -15,7 +15,7 @@ public class VoiceAccountTypeDirectory extends Directory<IdTitle> {
     }
 
     @Override
-    protected List<IdTitle> list(User user) {
+    protected List<IdTitle> list(UserAccount user) {
         return new VoiceDAO(user, dbInfo.getId(), moduleId).getAccountTypes().stream()
             .map(item -> new IdTitle(item.getId(), item.getTitle()))
             .collect(Collectors.toList());
