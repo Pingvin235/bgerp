@@ -195,7 +195,7 @@ dependencies {
     implementation 'com.cronutils:cron-utils:9.2.1'
 
     // documentation library
-    doc 'org.pzdcdoc:pzdcdoc:2.8'
+    doc 'org.pzdcdoc:pzdcdoc:2.9'
 
     // tool libraries
     tool 'org.apache.ant:ant:1.10.12'
