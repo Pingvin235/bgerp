@@ -21,7 +21,7 @@ public class CustomAction extends BaseAction {
     public static final Files CUSTOM_SRC = new Files(CustomAction.class, "custom", "custom",
             new Options().withDownloadEnabled().withOrder(Order.NORMAL_FS), "*");
     public static final Files CUSTOM_JAR = new Files(CustomAction.class, "customJar", "lib/app",
-            new Options().withDeletionEnabled(), "custom.jar");
+            new Options().withDownloadEnabled().withDeletionEnabled(), "custom.jar");
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
@@ -34,6 +34,10 @@ public class CustomAction extends BaseAction {
 
     public ActionForward deleteCustomJar(DynActionForm form, ConnectionSet conSet) throws Exception {
         return json(conSet, CUSTOM_JAR.delete(form));
+    }
+
+    public ActionForward downloadCustomJar(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return CUSTOM_JAR.download(form);
     }
 
     public ActionForward compile(DynActionForm form, ConnectionSet conSet) throws Exception {
