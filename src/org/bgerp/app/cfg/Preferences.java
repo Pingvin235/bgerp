@@ -32,6 +32,19 @@ public class Preferences extends ConfigMap {
 
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{@([\\w\\.:]+)\\}");
 
+    /**
+     * Inserts includes placed with <pre>include.ID=1</pre> expressions
+     * @param configDao DAO for getting includes
+     * @param config key-value lines of main configuration
+     * @param validate check existence of includes configurations, variables
+     * @throws BGMessageException
+     * @throws SQLException
+     */
+    public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGMessageException, SQLException {
+        Iterable<String> includes = Config.getIncludes(configDao, new Preferences(config), validate);
+        return new Preferences(config, includes, validate);
+    }
+
     protected final ConcurrentHashMap<String, String> data = new ConcurrentHashMap<>();
 
     public Preferences() {
@@ -225,16 +238,9 @@ public class Preferences extends ConfigMap {
         return line;
     }
 
-    /**
-     * Inserts includes placed with <pre>include.ID=1</pre> expressions
-     * @param configDao DAO for getting includes
-     * @param config key-value lines of main configuration
-     * @param validate check existence of includes configurations, variables
-     * @throws BGMessageException
-     * @throws SQLException
-     */
-    public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGMessageException, SQLException {
-        Iterable<String> includes = Config.getIncludes(configDao, new Preferences(config), validate);
-        return new Preferences(config, includes, validate);
+    @Deprecated
+    public String set(String key, String value) {
+        log.warndMethod("set", "put");
+        return put(key, value);
     }
 }
