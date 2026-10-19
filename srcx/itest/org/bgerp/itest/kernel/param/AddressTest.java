@@ -23,6 +23,7 @@ public class AddressTest {
     public static volatile AddressHouse houseUfa6;
 
     public static volatile AddressCity citySterlitamak;
+    public static volatile AddressHouse houseSterlitamak1;
 
     public static volatile AddressCity cityMuenchen;
     public static volatile AddressHouse houseMuenchen;
@@ -62,6 +63,9 @@ public class AddressTest {
         Assert.assertTrue(houseUfa7f1.getId() > 0 );
 
         citySterlitamak = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("Стерлитамак"));
+        street = dao.updateAddressStreet(new AddressItem().withCityId(citySterlitamak.getId()).withTitle("Ленина проспект"));
+        houseSterlitamak1 = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId())
+            .withPostIndex("453107").withHouseAndFrac("1").withComment("Красная линия"));
 
         country = dao.updateAddressCountry(new AddressCountry().withTitle("Bayern"));
         cityMuenchen = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("München"));
