@@ -29,7 +29,7 @@ abstract class ProcessTextConfig extends Config {
         return ProcessExpressionObject.called(expression, event);
     }
 
-    public boolean isProcessLinkUsed() {
+    public boolean isLinkUsed() {
         return ProcessLinkExpressionObject.called(expression);
     }
 

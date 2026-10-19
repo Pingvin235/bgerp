@@ -26,7 +26,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Test(groups = "processTitle", dependsOnGroups = { "process", "processParam", "message" })
 public class ProcessTitleTest {
-    private static final String TITLE = "Kernel Process Title";
+    private static final String TITLE = "Kernel Process Generated Title";
     private static final String DESCRIPTION =  TITLE + " with special chars: <> \" '";
 
     private int paramListId;

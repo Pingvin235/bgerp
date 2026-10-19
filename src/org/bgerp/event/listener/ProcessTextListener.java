@@ -11,6 +11,9 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ParamChangedEvent;
+import ru.bgcrm.event.link.LinkAddedEvent;
+import ru.bgcrm.event.link.LinkAddingEvent;
+import ru.bgcrm.event.link.LinkRemovedEvent;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -27,15 +30,17 @@ public class ProcessTextListener {
 
     public ProcessTextListener() {
         EventProcessor.subscribe((e, conSet) -> processChanged(e, conSet), ProcessChangedEvent.class);
+        EventProcessor.subscribe((e, conSet) -> linkChanged(e, conSet), LinkAddedEvent.class);
+        EventProcessor.subscribe((e, conSet) -> linkChanged(e, conSet), LinkRemovedEvent.class);
         EventProcessor.subscribe((e, conSet) -> paramChanged(e, conSet), ParamChangedEvent.class);
     }
 
     private void processChanged(ProcessChangedEvent e, ConnectionSet conSet) throws SQLException {
         var process = e.getProcess();
 
-        ConfigMap configMap = process.getType().getProperties().getConfigMap();
-
         log.debug("processChanged ID: {}, event: {}", process.getId(), e);
+
+        ConfigMap configMap = process.getType().getProperties().getConfigMap();
 
         var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
         if (titleConfig != null && titleConfig.isProcessUsed(e))
@@ -46,16 +51,33 @@ public class ProcessTextListener {
             updateProcessDescription(e.getForm(), conSet, process, descriptionConfig.getExpression());
     }
 
+    private void linkChanged(LinkAddingEvent e, ConnectionSet conSet) throws Exception {
+        var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(e.getLink().getObjectId());
+
+        log.debug("linkChanged processId: {}, event: {}", process.getId(), e);
+
+        ConfigMap configMap = process.getType().getProperties().getConfigMap();
+
+        var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
+        if (titleConfig != null && titleConfig.isLinkUsed())
+            updateProcessTitle(e.getForm(), conSet, process, titleConfig.getExpression());
+
+        var descriptionConfig  = configMap.getConfig(ProcessDescriptionConfig.class);
+        if (descriptionConfig != null && descriptionConfig.isLinkUsed())
+            updateProcessDescription(e.getForm(), conSet, process, descriptionConfig.getExpression());
+    }
+
     private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws Exception {
         // the listener can preliminary scan all process types to store param IDs, used for title and description generation, and use that IDs in the condition
         if (!Process.OBJECT_TYPE.equals(e.getParameter().getObjectType()))
             return;
 
         var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(e.getObjectId());
-        ConfigMap configMap = process.getType().getProperties().getConfigMap();
         Integer paramId = e.getParameter().getId();
 
         log.debug("paramChanged processId: {}, paramId: {}", process.getId(), paramId);
+
+        ConfigMap configMap = process.getType().getProperties().getConfigMap();
 
         var titleConfig = configMap.getConfig(ProcessTitleConfig.class);
         if (titleConfig != null && titleConfig.isParamUsed(paramId))
