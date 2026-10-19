@@ -1,1 +1,2 @@
 A: Multiple groups per day in Group Plan. https://bgerp.org/change/0/doc/plugin/pln/grpl
+A: Delete Process Time in Group Plan. https://bgerp.org/change/0/doc/plugin/pln/grpl/#usage
