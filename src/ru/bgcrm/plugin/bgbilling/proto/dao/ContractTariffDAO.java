@@ -17,6 +17,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff.ContractTariffOptionData;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractPersonalTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffGroup;
@@ -589,7 +590,18 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
     }
 
     public void activateContractOption(int contractId, int optionId, int modeId, boolean web) {
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("9.2") > 0) {
+            var data = new ContractTariffOptionData();
+            data.setContractId(contractId);
+            data.setOptionId(optionId);
+            data.setModeId(modeId);
+            data.setWeb(web);
+
+            RequestJsonRpc req = new RequestJsonRpc(TARIFF_OPTION_SERVICE_MODULE_ID, "TariffOptionService", "contractTariffOptionActivate");
+            req.setParam("contractTariffOptionData", data);
+
+            transferData.postData(req, user);
+        } else if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(TARIFF_OPTION_SERVICE_MODULE_ID, "TariffOptionService", "contractTariffOptionActivate");
             req.setParamContractId(contractId);
             req.setParam("optionId", optionId);
@@ -597,7 +609,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
             req.setParam("web", false);
 
             transferData.postData(req, user);
-        }else {
+        } else {
             Request request = new Request();
             request.setModule(TARIFF_OPTION_MODULE_ID);
             request.setAction("ContractTariffOption");
