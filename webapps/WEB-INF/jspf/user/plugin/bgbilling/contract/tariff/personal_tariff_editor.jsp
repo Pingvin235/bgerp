@@ -26,5 +26,5 @@
 		</div>
 	</div>
 
-	<%@ include file="/WEB-INF/jspf/ok_cancel_in_form.jsp"%>
+	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>

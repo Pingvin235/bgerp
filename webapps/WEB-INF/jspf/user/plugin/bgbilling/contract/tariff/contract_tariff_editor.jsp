@@ -63,5 +63,5 @@
 		<textarea name="comment" rows="10" style="width:100%; resize: vertical;">${contractTariff.comment}</textarea>
 	</div>
 
-	<%@ include file="/WEB-INF/jspf/ok_cancel_in_form.jsp"%>
+	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
