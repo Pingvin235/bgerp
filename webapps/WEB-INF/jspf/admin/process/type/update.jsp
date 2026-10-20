@@ -34,4 +34,4 @@
 	</div>
 </html:form>
 
-<shell:state text="${l.l('Редактор типа')}" help="kernel/process/index.html#type"/>
+<shell:state text="${l.l('Editor')}" help="kernel/process/#setup-type"/>

@@ -70,7 +70,7 @@
 					<input type="checkbox"
 						title="${l.l('Выделить или снять выделение всех')}"
 						onchange="$('#${formUiid}-2 input[name=checker]').prop('checked', this.checked).trigger('change');"/>
-					С: &#8595; На: &#8594;
+					${l.l('status.From')}: &#8595; ${l.l('status.To')}: &#8594;
 				</td>
 				<c:forEach var="itemTo" items="${statusList}" varStatus="statusTo">
 					<td>
@@ -169,4 +169,4 @@
 	})
 </script>
 
-<shell:state text="${l.l('Свойства типа')}: ${processType.title} #${processType.id}" help="kernel/process/index.html#type"/>
+<shell:state text="${l.l('Properties')}: ${processType.title} #${processType.id}" help="kernel/process/index.html#type"/>

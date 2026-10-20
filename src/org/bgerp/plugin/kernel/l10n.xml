@@ -295,9 +295,9 @@
 	<p><ru>Не найдены файлы обновлений.</ru><en>Update files not found.</en></p>
 	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
 	<p><ru>Копировать свойства другого типа</ru><en>Copy properties from another type</en></p>
-	<p><ru>Редактор типа</ru><en>Type editor</en></p>
 	<p><en>Restore</en><ru>Восстановить</ru></p>
-	<p><ru>Свойства типа</ru><en>Type properties</en></p>
+	<p><sys>status.From</sys><en>From</en><ru>С</ru></p>
+	<p><sys>status.To</sys><en>To</en><ru>На</ru></p>
 	<p><ru>Название фильтра</ru><en>Filter title</en></p>
 	<p><ru>Введите название!</ru><en>Input title!</en></p>
 	<p><ru>Скрыть</ru><en>Hide</en></p>
