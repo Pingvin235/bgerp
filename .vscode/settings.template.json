@@ -10,21 +10,23 @@
         "target": true,
         "tmp": true
     },
+    // Gradle task 'vscode' relies on Windows path here in settings.template.json
     "java.jdt.ls.java.home": "C:\\Java\\jdk25",
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.format.settings.url": ".vscode/formatter.xml",
     "files.trimTrailingWhitespace": true,
     "editor.renderWhitespace": "all",
-    "editor.fontSize": 12,
-    "terminal.integrated.fontSize": 12,
-    "debug.console.fontSize": 12,
+    "editor.fontSize": 11,
+    "terminal.integrated.fontSize": 11,
+    "debug.console.fontSize": 11,
     "cSpell.words": [
-        "bgerp",
         "bgcrm",
-        "servlet",
-        "listcount",
-        "warnd",
+        "bgerp",
         "combocheck",
-        "pers"
+        "listcount",
+        "pers",
+        "servlet",
+        "strikethrough",
+        "warnd"
     ]
 }
