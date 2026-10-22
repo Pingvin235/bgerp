@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.model.balance;
+package ru.bgcrm.plugin.bgbilling.proto.model.contract.balance;
 
 import java.math.BigDecimal;
 

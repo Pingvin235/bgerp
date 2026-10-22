@@ -21,11 +21,11 @@ import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.directory.ChargeTypeDirectory;
 import ru.bgcrm.plugin.bgbilling.proto.dao.directory.PaymentTypeDirectory;
 import ru.bgcrm.plugin.bgbilling.proto.dao.directory.UserInfoDirectory;
-import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractAccount;
-import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractBalanceDetail;
-import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractBalanceGeneral;
-import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractCharge;
-import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractPayment;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.balance.ContractAccount;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.balance.ContractBalanceDetail;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.balance.ContractBalanceGeneral;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.balance.ContractCharge;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.balance.ContractPayment;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
