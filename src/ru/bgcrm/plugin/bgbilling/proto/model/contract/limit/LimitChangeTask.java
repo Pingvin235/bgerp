@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.model.limit;
+package ru.bgcrm.plugin.bgbilling.proto.model.contract.limit;
 
 import java.math.BigDecimal;
 import java.util.Date;

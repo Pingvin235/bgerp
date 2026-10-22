@@ -61,9 +61,9 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractCreateData;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.ContractSearchDto;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.limit.LimitChangeTask;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.limit.LimitLogItem;
 import ru.bgcrm.plugin.bgbilling.proto.model.entity.EntityAttr;
-import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
-import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
