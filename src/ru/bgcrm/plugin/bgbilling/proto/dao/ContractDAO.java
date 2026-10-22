@@ -98,7 +98,7 @@ public class ContractDAO extends BillingDAO {
         super(user, billingId);
     }
 
-    private ContractDAO(UserAccount user, DBInfo dbInfo) {
+    public ContractDAO(UserAccount user, DBInfo dbInfo) {
         super(user, dbInfo);
     }
 

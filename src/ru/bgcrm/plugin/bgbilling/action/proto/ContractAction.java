@@ -32,6 +32,7 @@ import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
+import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
@@ -784,15 +785,17 @@ public class ContractAction extends BaseAction {
     }
 
     public ActionForward limit(DynActionForm form, ConnectionSet conSet) {
-        String billingId = form.getParam("billingId");
+        var dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(form.getParam("billingId"));
         Integer contractId = form.getParamInt("contractId");
 
         Pageable<LimitLogItem> limitList = new Pageable<>(form);
         List<LimitChangeTask> taskList = new ArrayList<>();
 
-        BigDecimal limit = new ContractDAO(form.getUser(), billingId).limit(contractId, limitList, taskList);
+        BigDecimal limit = new ContractDAO(form.getUser(), dbInfo).limit(contractId, limitList, taskList);
 
         form.setResponseData("limit", limit);
+        form.setResponseData("limitValues", Utils.toList(dbInfo.getGuiConfigValues().get("contract.limit.values",
+                "=-1000;=-500;=-300;=-150;=-50;=-30;=-10;=0;-5/1;-50/1;-100/1;-15/3;-50/3;-100/3")));
         form.setResponseData("taskList", taskList);
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/limit.jsp");

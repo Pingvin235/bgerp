@@ -3,8 +3,8 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<div id="${uiid}">
-	<html:form action="/user/plugin/bgbilling/proto/contract" onsubmit="return false;" style="white-space: nowrap; display: inline-block;">
+<div id="${uiid}" class="in-table-cell">
+	<html:form action="${form.requestURI}" onsubmit="return false;" styleClass="nowrap">
 		<input type="hidden" name="method" value="updateLimit"/>
 		<html:hidden property="contractId"/>
 		<html:hidden property="billingId"/>
@@ -19,7 +19,7 @@
 				onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))">Изменить</button>
 	</html:form>
 
-	<html:form action="/user/plugin/bgbilling/proto/contract" style="width: 100%;">
+	<html:form action="${form.requestURI}" styleClass="w100p">
 		<input type="hidden" name="method" value="limit"/>
 		<html:hidden property="contractId"/>
 		<html:hidden property="billingId"/>
@@ -28,7 +28,27 @@
 	</html:form>
 </div>
 
-<table class="data hl">
+<c:set var="limitValues" value="${frd.limitValues}"/>
+<c:if test="${not empty limitValues}">
+	<html:form action="${form.requestURI}" styleClass="in-mt05 in-mr05">
+		<input type="hidden" name="method" value="updateLimit"/>
+		<html:hidden property="contractId"/>
+		<html:hidden property="billingId"/>
+		<input type="hidden" name="value"/>
+		<input type="hidden" name="period"/>
+
+		<c:forEach var="value" items="${limitValues}">
+			<c:set var="valueClear" value="${value.replace('=', '')}"/>
+			<button onclick="
+				this.form.value.value = '${su.substringBefore(valueClear, '/')}';
+				this.form.period.value  = '${su.substringAfter(valueClear, '/')}';
+				$$.ajax.post(this).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()));
+			" type="button" class="btn-grey">${value}</button>
+		</c:forEach>
+	</html:form>
+</c:if>
+
+<table class="data hl mt1">
 	<tr>
 		<td>Время</td>
 		<td>Пользователь</td>
@@ -62,7 +82,7 @@
 	<c:forEach var="item" items="${frd.taskList}">
 		<tr>
 			<td>
-				<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
+				<c:url var="url" value="${form.requestURI}.do">
 					<c:param name="method" value="deleteLimitTask"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="contractId" value="${form.param.contractId}"/>
