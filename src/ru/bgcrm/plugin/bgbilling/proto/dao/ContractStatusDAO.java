@@ -20,9 +20,9 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.directory.UserInfoDirectory;
-import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
-import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatusFutureTask;
-import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatusLogItem;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.status.ContractStatus;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.status.ContractStatusFutureTask;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.status.ContractStatusLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

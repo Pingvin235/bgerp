@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.model.status;
+package ru.bgcrm.plugin.bgbilling.proto.model.contract.status;
 
 import java.util.Date;
 
