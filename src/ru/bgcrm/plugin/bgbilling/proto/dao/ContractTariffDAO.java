@@ -17,11 +17,11 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff.ContractPersonalTariff;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff.ContractTariff;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff.ContractTariffGroup;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff.ContractTariffOption;
 import ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff.ContractTariffOptionData;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractPersonalTariff;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffGroup;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffOption;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

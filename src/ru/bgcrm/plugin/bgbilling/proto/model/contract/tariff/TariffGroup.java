@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.bgbilling.proto.model.tariff;
+package ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff;
 
 import java.util.List;
 

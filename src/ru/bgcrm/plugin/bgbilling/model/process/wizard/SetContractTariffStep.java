@@ -14,7 +14,7 @@ import ru.bgcrm.model.process.wizard.base.StepData;
 import ru.bgcrm.model.process.wizard.base.WizardData;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
-import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
+import ru.bgcrm.plugin.bgbilling.proto.model.contract.tariff.ContractTariff;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
