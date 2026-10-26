@@ -450,15 +450,14 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processTypeUpdate(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form);
-        Process process = getProcess(processDAO, form.getId());
+        Process process = getProcess(new ProcessDAO(con, form), form.getId());
         int typeId = form.getParamInt("typeId", Utils::isPositive);
         processTypeUpdate(form, process, con, typeId);
 
         return json(con, form);
     }
 
-    private static void processTypeUpdate(DynActionForm form, Process process, Connection con, Integer typeId) throws Exception {
+    public static void processTypeUpdate(DynActionForm form, Process process, Connection con, int typeId) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form);
         processDoEvent(form, process, new ProcessChangingEvent(form, process, typeId, ProcessChangingEvent.MODE_TYPE_CHANGING), con);
         process.setTypeId(typeId);
@@ -474,12 +473,17 @@ public class ProcessAction extends BaseAction {
         Process process = getProcess(processDAO, form.getId());
         String description = form.getParam("description");
 
+        processDescriptionUpdate(form, con, process, description);
+
+        return json(con, form);
+    }
+
+    public static void processDescriptionUpdate(DynActionForm form, Connection con, Process process, String description) throws Exception {
+        ProcessDAO processDAO = new ProcessDAO(con, form);
         processDoEvent(form, process, new ProcessChangingEvent(form, process, description, ProcessChangingEvent.MODE_DESCRIPTION_CHANGING), con);
         process.setDescription(description);
         processDAO.updateProcess(process);
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_DESCRIPTION_CHANGED), con);
-
-        return json(con, form);
     }
 
     public ActionForward processDescriptionAdd(DynActionForm form, Connection con) throws Exception {

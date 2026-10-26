@@ -51,14 +51,23 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Delete the current process
+     * Deletes the current process
      */
     public void delete() throws Exception {
         ProcessAction.processDelete(form, con, process);
     }
 
     /**
-     * Add execution groups in the process
+     * Updates the process' description
+     * @param value the value
+     * @throws Exception
+     */
+    public void setDescription(String value) throws Exception {
+        ProcessAction.processDescriptionUpdate(form, con, process, value);
+    }
+
+    /**
+     * Adds execution groups in the process
      * @param groupIds the group IDs
      * @param roleId the role ID
      * @throws Exception
@@ -78,7 +87,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Delete execution groups and related executors in the process
+     * Deletes execution groups and related executors in the process
      * @param ids the group IDs
      */
     public void deleteGroups(Set<Integer> ids) throws Exception {
@@ -92,7 +101,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Add executors in the process. Execution groups must be already set there.
+     * Adds executors in the process. Execution groups must be already set there.
      * Any of added executors must have only one of the process execution groups.
      * @param ids the executor user IDs
      * @throws BGMessageException not any of added executors have only one of the process execution groups
@@ -148,7 +157,7 @@ public class ProcessChangeExpressionObject extends ExpressionContextAccessingObj
     }
 
     /**
-     * Delete process executors
+     * Deletes process executors
      * @param ids the executor user IDs
      */
     public void deleteExecutors(Set<Integer> ids) throws Exception {
