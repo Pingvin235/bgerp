@@ -69,7 +69,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select address parameter values strings
+     * Selects address parameter values strings
      * @param paramId the parameter ID
      * @param formatName optional address format, {@code null} for using the default one
      * @return list of address strings
@@ -86,7 +86,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select set with city IDs of parameter with type {@code address}
+     * Selects set with city IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -102,7 +102,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select set with street IDs of parameter with type {@code address}
+     * Selects set with street IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -118,7 +118,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select set with quarter IDs of parameter with type {@code address}
+     * Selects set with quarter IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -134,7 +134,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select set with area IDs of parameter with type {@code address}
+     * Selects set with area IDs of parameter with type {@code address}
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -168,7 +168,30 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select value IDs of {@code list} and {@code listcount} parameter types
+     * Selects value of {@code date} and {@code datetime} parameter types
+     * @param paramId the parameter ID
+     * @return the value or {@code null}
+     */
+    public Date dateValue(int paramId) {
+        Date result = null;
+
+        try {
+            Parameter param = ParameterCache.getParameter(paramId);
+            if (param == null || (!Parameter.TYPE_DATE.equals(param.getType()) && !Parameter.TYPE_DATETIME.equals(param.getType()))) {
+                log.error("Param not found with ID: " + paramId + " or has no 'date'/'datetime' type");
+                return result;
+            }
+
+            result = Parameter.TYPE_DATE.equals(param.getType()) ? paramDao.getParamDate(objectId, paramId) : paramDao.getParamDateTime(objectId, paramId);
+        } catch (SQLException e) {
+            log.error(e);
+        }
+
+        return result;
+    }
+
+    /**
+     * Selects value IDs of {@code list} and {@code listcount} parameter types
      * @param paramId the parameter ID
      * @return not {@code null} set of values
      */
@@ -191,7 +214,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select parameter values for the current object
+     * Selects parameter values for the current object
      * @param paramId the parameter ID
      * @param format optional format of the result:<br>
      * <br>{@code nf} for param type {@code phone} returns {@link ru.bgcrm.model.param.ParameterPhoneValue} object
@@ -255,7 +278,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select parameter values for the current object
+     * Selects parameter values for the current object
      * @param paramId the parameter ID
      * @return string representation of the parameter value
      */
@@ -264,7 +287,7 @@ public class ParamExpressionObject implements ExpressionObject {
     }
 
     /**
-     * Select parameter values for the current object
+     * Selects parameter values for the current object
      * @param paramId the parameter ID
      * @return string representation of the parameter value
      */
