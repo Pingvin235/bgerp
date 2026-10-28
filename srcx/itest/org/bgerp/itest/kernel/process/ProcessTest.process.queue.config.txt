@@ -85,7 +85,6 @@ processor.{@inc:cnt}.title=Print Report (P)
 processor.{@cnt}.class=DefaultMarkedProcessor
 # ID 100 comes from configuration of plugin Document
 processor.{@cnt}.commands=print:100
-processor.{@cnt}.responseType=file
 
 # TODO: deleteGroups
 

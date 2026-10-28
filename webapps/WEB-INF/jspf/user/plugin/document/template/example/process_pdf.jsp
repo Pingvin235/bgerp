@@ -2,13 +2,13 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
-Пример документа PDF, генерируемого из карточки процесса, вкладка "Документы".
+Example PDF document generated from a process card, tab "Documents".
 
-Как настроить:
+How to configure:
 
-1) В конфигурации сервера:
-# пример документа PDF в карточке процесса
-document:pattern.103.title=Пример процесс PDF
+1) In server configuration:
+# example PDF document in the process card
+document:pattern.103.title=Example Process PDF
 document:pattern.103.scope=process
 document:pattern.103.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
 document:pattern.103.type=pdfForm
@@ -18,21 +18,21 @@ document:pattern.103.documentTitle=document.pdf
 document:pattern.103.result=stream,save
 document:pattern.103.flattening=1
 
-2) В конфигурации типа процесса:
+2) In process type configuration:
 document:processShowDocuments=1
 document:processCreateDocumentsAllowedTemplates+=,103
 
-В карточке процессы во вкладке "Документы" должен появиться "Пример процесс PDF"
-с возможностью как сгенерировать "на лету", так и сохранть сгенерированный документ.
+In the process card, on the "Documents" tab, "Example Process PDF" should appear
+with the ability to both generate it "on the fly" and save the generated document.
 --%>
 
 <%--
-Пример документа PDF, генерируемого из очереди процессов.
+Example PDF document generated from a process queue.
 
-Как настроить:
+How to configure:
 
-1) В конфигурации сервера:
-# пример документа PDF в очереди процессов
+1) In server configuration:
+# example PDF document in the process queue
 document:pattern.104.scope=processQueue
 document:pattern.104.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
 document:pattern.104.type=pdfForm
@@ -41,21 +41,20 @@ document:pattern.104.file=docpattern/example/process.pdf
 document:pattern.104.documentTitle=document.pdf
 document:pattern.104.flattening=1
 
-2) В конфигурации очереди процессов:
-# обработчик печати
-processor.6.title=Пример документа очередь PDF
-processor.6.class=DefaultMarkedProcessor
-processor.6.commands=print:104
-processor.6.responseType=file
+2) In process queue configuration:
+# print handler
+processor.{@inc:cnt}.title=Example Queue PDF Document
+processor.{@cnt}.class=DefaultMarkedProcessor
+processor.{@cnt}.commands=print:104
 
-В меню "Ещё" очереди процессов должен появиться пункт "Пример документа очередь PDF".
+A menu item "Example Queue PDF Document" should appear in the process queue's "More" menu.
 --%>
 
-<%-- установите ваши значения параметров --%>
+<%-- set your parameter ID --%>
 <c:set var="PROCESS_PARAM_ADDRESS" value="35"/>
 
-<%-- это просто отладка --%>
-Событие: ${event}
+<%-- this is just for debugging --%>
+Event: ${event}
 
 <u:newInstance var="processDao" clazz="ru.bgcrm.dao.process.ProcessDAO">
 	<u:param value="${conSlave}"/>
@@ -82,7 +81,7 @@ processor.6.responseType=file
 	</c:forEach>
 </c:set>
 
-<%-- установка переменных для шаблона --%>
+<%-- setting template variables --%>
 ${field.set('number', processId)}
 ${field.set('executors', u.getObjectTitles(ctxUserList, process.getExecutorIds()))}
 ${field.set('abonent', abonent)}

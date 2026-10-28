@@ -2,25 +2,24 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
-Пример документа HTML, генерируемого из очереди процессов.
+Example HTML document generated from a process queue.
 
-Как настроить:
+How to configure:
 
-1) В конфигурации сервера:
-# пример документа HTML очереди процессов
+1) In server configuration:
+# example HTML document for a process queue
 document:pattern.100.scope=processQueue
 document:pattern.100.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
 document:pattern.100.type=jspHtml
 document:pattern.100.jsp=/WEB-INF/jspf/user/plugin/document/template/example/process_queue_processor_html.jsp
 
-2) В конфигурации очереди процессов:
-# обработчик печати
-processor.5.title=Пример документа очередь HTML
+2) In process queue configuration:
+# print handler
+processor.5.title=Example Queue HTML Document
 processor.5.class=DefaultMarkedProcessor
 processor.5.commands=print:100
-processor.5.responseType=file
 
-В меню "Ещё" очереди процессов должен появиться пункт "Пример документа очередь HTML".
+A menu item "Example Queue HTML Document" should appear in the process queue's "More" menu.
  --%>
 
 <%-- set your param IDs in configuration --%>
@@ -33,17 +32,17 @@ processor.5.responseType=file
 	</head>
 	<body>
 		<div style="text-align: center; font-weight: bold;" class="mb1">
-			Пример документа очередь HTML
+			Example Queue HTML Document
 		</div>
 		<div>
-			Событие: ${event}<br/><br/>
+			Event: ${event}<br/><br/>
 
 			<table class="data">
 				<tr>
-					<td>ID процесса</td>
-					<td>Исполнители</td>
-					<td>Адрес</td>
-					<td>Услуги</td>
+					<td>Process ID</td>
+					<td>Executors</td>
+					<td>Address</td>
+					<td>Services</td>
 				</tr>
 
 				<u:newInstance var="processDao" clazz="ru.bgcrm.dao.process.ProcessDAO">
@@ -65,7 +64,7 @@ processor.5.responseType=file
 							</c:forEach>
 						</td>
 						<td>
-							Услуги: <%--${paramDao.getParamListWithTitles(processId, PROCESS_PARAM_LIST)} --%>
+							Services: <%--${paramDao.getParamListWithTitles(processId, PROCESS_PARAM_LIST)} --%>
 						</td>
 					</tr>
 				</c:forEach>

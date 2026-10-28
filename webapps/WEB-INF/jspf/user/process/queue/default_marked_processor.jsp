@@ -1,15 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="config" value="${processor.configMap.getConfig('ru.bgcrm.event.listener.DefaultMarkedProcessor$Config')}"/>
-
 <div class="in-inline-block in-mr1-all" style="display: inline-block;">
 	<c:choose>
 		<c:when test="${processor.htmlReport}">
 			<div class="bold">${l.l('Select processes in the table for making a report')}</div>
 		</c:when>
 		<c:otherwise>
-			<c:forEach var="command" items="${config.commandList}">
+			<c:forEach var="command" items="${processor.commands}">
 				<c:choose>
 					<c:when test="${command.name eq 'setStatus'}">
 						<div>
@@ -41,7 +39,7 @@
 					</c:when>
 					<c:when test="${command.name eq 'setParam'}">
 						<u:sc>
-							<%-- загадочная проблема: если переменную тут попытаться назвать param, то она уже есть и её не переопределить.. --%>
+							<%-- variable 'param' already exists here --%>
 							<c:set var="p" value="${ctxParameterMap[command.paramId]}"/>
 							<div>
 								<c:choose>

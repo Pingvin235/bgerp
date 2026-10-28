@@ -49,26 +49,6 @@ public class DefaultMarkedProcessor extends Processor {
     private static final String COMMAND_SET_PARAM = ProcessCommandExecutor.COMMAND_SET_PARAM;
     private static final String COMMAND_PRINT = "print";
 
-    public static class Config extends org.bgerp.app.cfg.Config {
-        private final List<Command> commandList = new ArrayList<>();
-        private final String doExpression;
-
-        public Config(ConfigMap config) {
-            super(null);
-
-            String commands = config.get("commands", "");
-            for (String command : commands.split(";"))
-                commandList.add(new Command(command));
-
-            doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
-        }
-
-        @Dynamic
-        public List<Command> getCommandList() {
-            return commandList;
-        }
-    }
-
     public static class Command {
         private final String name;
         // for setStatus - status IDs, for setExecutors - executor group IDs
@@ -110,11 +90,25 @@ public class DefaultMarkedProcessor extends Processor {
 
     // end of static part
 
-    private final ConfigMap configMap;
+    private final List<Command> commands;
+    private final String doExpression;
 
     public DefaultMarkedProcessor(int id, ConfigMap configMap) {
         super(id, configMap);
-        this.configMap = configMap;
+
+        List<Command> commands = new ArrayList<>();
+        for (String command : Utils.toList(configMap.get("commands")))
+            commands.add(new Command(command));
+
+        this.commands = Collections.unmodifiableList(commands);
+
+        doExpression = configMap.get(Expression.DO_EXPRESSION_CONFIG_KEY);
+    }
+
+    @Dynamic
+    @Override
+    public boolean isHtmlReport() {
+        return commands.size() == 1 && commands.get(0).getName().equals(COMMAND_PRINT);
     }
 
     @Override
@@ -122,15 +116,19 @@ public class DefaultMarkedProcessor extends Processor {
         return "/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp";
     }
 
+    @Dynamic
+    public List<Command> getCommands() {
+        return commands;
+    }
+
     @Override
     public void process(ProcessMarkedActionEvent e, ConnectionSet conSet) throws Exception {
         DynActionForm form = e.getForm();
 
-        Config config = configMap.getConfig(Config.class);
-        Command firstCommand = Utils.getFirst(config.commandList);
+        Command firstCommand = Utils.getFirst(commands);
 
         // print command can be only alone
-        if (config.commandList.size() == 1 && firstCommand.getName().equals(COMMAND_PRINT)) {
+        if (commands.size() == 1 && firstCommand.getName().equals(COMMAND_PRINT)) {
             ru.bgcrm.plugin.document.Config documentConfig = Setup.getSetup().getConfig(ru.bgcrm.plugin.document.Config.class);
 
             Pattern pattern = documentConfig.getPattern("processQueue", firstCommand.getPatternId());
@@ -195,7 +193,7 @@ public class DefaultMarkedProcessor extends Processor {
             for (int processId : e.getProcessIds()) {
                 Process process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(processId);
 
-                for (Command command : config.commandList) {
+                for (Command command : commands) {
                     String name = command.getName();
                     if (name.equals(COMMAND_SET_STATUS)) {
                         int statusId = e.getForm().getParamInt("statusId");
@@ -229,9 +227,9 @@ public class DefaultMarkedProcessor extends Processor {
                     }
                 }
 
-                if (Utils.notBlankString(config.doExpression)) {
-                    log.debug("Executing expression: {}", config.doExpression);
-                    Expression.init(conSet, e, process).execute(config.doExpression);
+                if (Utils.notBlankString(doExpression)) {
+                    log.debug("Executing expression: {}", doExpression);
+                    Expression.init(conSet, e, process).execute(doExpression);
                 }
 
                 conSet.commit();
