@@ -73,22 +73,24 @@ sort.combo.1.default=3
 sort.combo.2.default=2
 
 # processors
-processor.{@inc:cnt}.title=Set Status (P)
+processor.{@inc:cnt}.title=Set Status (DefaultMarkedProcessor)
 processor.{@cnt}.class=DefaultMarkedProcessor
 processor.{@cnt}.commands=setStatus:{@STATUS_OPEN_ID},{@STATUS_PROGRESS_ID},{@STATUS_WAIT_ID}
 
-processor.{@inc:cnt}.title=Delete Processes (P)
+processor.{@inc:cnt}.title=Delete Processes (DefaultMarkedProcessor)
 processor.{@cnt}.class=DefaultMarkedProcessor
 processor.{@cnt}.doExpression=delete()
 
-processor.{@inc:cnt}.title=Print Report (P)
+processor.{@inc:cnt}.title=Print Report (DefaultMarkedProcessor)
 processor.{@cnt}.class=DefaultMarkedProcessor
 # ID 100 comes from configuration of plugin Document
 processor.{@cnt}.commands=print:100
 
-# TODO: deleteGroups
+processor.{@inc:cnt}.title=Description Prefix (DemoProcessor)
+processor.{@cnt}.class=DemoProcessor
 
-# TODO: Move to OpenIfaceTest
+# TODO: Move to OpenIfaceTest everything below
+
 # url ending for open interface
 openUrl=test
 
