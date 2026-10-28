@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +62,7 @@ public class Queue extends IdTitle {
 
     private final FilterList filterList = new FilterList();
 
-    private final Map<Integer, Processor> processorMap = new HashMap<>();
+    private final Map<Integer, Processor> processorMap = new LinkedHashMap<>();
     private final List<ProcessAction> actionList = new ArrayList<>();
     private final List<IdTitle> createAllowedProcessList = new ArrayList<>();
 
