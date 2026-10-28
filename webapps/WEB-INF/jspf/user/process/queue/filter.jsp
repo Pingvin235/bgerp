@@ -179,11 +179,10 @@
 								w.print();
 							}, false);
 						</c:if>
+						$(this.form).hide();
 					} else {
-						$$.ajax.post($$.ajax.formUrl(this.form) + debug).done(() => { ${sendCommand} });
+						$$.ajax.post($$.ajax.formUrl(this.form) + debug).done(() => { ${sendCommand} ; $(this.form).hide(); });
 					}
-
-					$(this.form).hide();
 				</c:set>
 
 				<button id="okButton" type="button" class="btn-grey" onclick="${doScript}">OK</button>
