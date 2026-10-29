@@ -1,2 +1,3 @@
 C: Update MariaDB in Docker to 12.3.3
 C: Update Java in Docker to 25.0.5+8
+C: Update Gradle to 9.8.2
