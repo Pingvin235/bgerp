@@ -1,0 +1,2 @@
+C: Update MariaDB in Docker to 12.3.3
+C: Update Java in Docker to 25.0.5+8

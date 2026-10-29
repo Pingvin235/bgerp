@@ -1,5 +1,5 @@
 # https://github.com/MariaDB/mariadb-docker/blob/master/12.3/Dockerfile
-FROM mariadb:12.3.2-noble
+FROM mariadb:12.3.3-noble
 
 # mysql
 #======
@@ -50,35 +50,19 @@ RUN set -eux; \
     locale-gen en_US.UTF-8; \
     rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_VERSION=jdk-25.0.3+9
+ENV JAVA_VERSION=jdk-25.0.5+8
 
 RUN set -eux; \
     ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in \
-       amd64) \
-         ESUM='69264a7a211bf5029830d07bc3370f879769d62ebc5b5488e90c9343a2da0e1f'; \
-         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_x64_linux_hotspot_25.0.3_9.tar.gz'; \
-         ;; \
-       arm64) \
-         ESUM='3e4287cb98870ba824ed698854bdc27cff984254caf66dd12cc291e7bfdde26b'; \
-         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_aarch64_linux_hotspot_25.0.3_9.tar.gz'; \
-         ;; \
-       ppc64el) \
-         ESUM='72b0fbb201716ca465ab704ec0fb12971abab3fdde5ae8d03b125a273522cf05'; \
-         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_ppc64le_linux_hotspot_25.0.3_9.tar.gz'; \
-         ;; \
-       riscv64) \
-         ESUM='3b23af7f7dfe82e1dc66509cb825d82d08372f2e7f66ae85a7fdb42a4c84bfcc'; \
-         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_riscv64_linux_hotspot_25.0.3_9.tar.gz'; \
-         ;; \
-       s390x) \
-         ESUM='24b497d10acb6ee706ca30e1c8a929785c250cad54c5c12f1f8f93c3c06a53f7'; \
-         BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_s390x_linux_hotspot_25.0.3_9.tar.gz'; \
-         ;; \
-       *) \
-         echo "Unsupported arch: ${ARCH}"; \
-         exit 1; \
-         ;; \
+        amd64) \
+            ESUM='68982529869257d0ee6b824ec5aa270ff8b118bb438670da0b97ebdab178d7fb'; \
+            BINARY_URL='https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.5%2B8/OpenJDK25U-jdk_x64_linux_hotspot_25.0.5_8.tar.gz'; \
+            ;; \
+        *) \
+            echo "Unsupported arch: ${ARCH}"; \
+            exit 1; \
+            ;; \
     esac; \
     savedAptMark="$(apt-mark showmanual)"; \
     apt-get update; \
