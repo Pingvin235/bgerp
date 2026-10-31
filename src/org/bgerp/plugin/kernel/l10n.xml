@@ -295,7 +295,6 @@
 	<p><en>Restore</en><ru>Восстановить</ru></p>
 	<p><sys>status.From</sys><en>From</en><ru>С</ru></p>
 	<p><sys>status.To</sys><en>To</en><ru>На</ru></p>
-	<p><ru>Название фильтра</ru><en>Filter title</en></p>
 	<p><ru>Введите название!</ru><en>Input title!</en></p>
 	<p><ru>Скрыть</ru><en>Hide</en></p>
 	<p><ru>Отобразить</ru><en>Show</en></p>

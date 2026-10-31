@@ -41,9 +41,9 @@
 				$$.ui.menuInit($("#${uiidMoreButton}"), $("#${uiidMoreMenu}"), "left");
 			})
 		</script>
-	</button>
+	</button><%--
 
-	<ui:popup-menu id="${uiidMoreMenu}">
+--%><ui:popup-menu id="${uiidMoreMenu}">
 		<c:if test="${queue.configMap['allowCreateProcess'] ne 0}">
 			<li draggable="true"><a onclick="$('#processQueueShow').hide(); $('#processQueueCreateProcess').show();">${l.l('Create Process')}</a></li>
 		</c:if>
@@ -132,28 +132,9 @@
 			</c:set>
 			<li><a onclick="${xls}">${l.l('Выгрузка в Excel')}</a></li>
 		</c:if>
-	</ui:popup-menu>
-
-	<%-- панель для кнопок из Ещё --%>
-	<div id="dropMoreArea" style="display: inline-block;">
-
-		<script>
-			$("#dropMoreArea").attr("title", "Вы можете перетащить сюда кнопки из Ещё");
-
-			$( "#processQueueFilter > div > div > ul > li[draggable=true]").each(function()
-			{
-				$(this).on('dragstart', moreHandleDragStart);
-				$(this).on('dragend', filterHandleDragEnd);
-			});
-			$("#dropMoreArea").on('dragover', filterHandleDragOver);
-			$("#dropMoreArea").on('dragdrop', moreHandleDrop);
-			$("#dropMoreArea").on('dragenter', filterHandleDragEnter);
-			$("#dropMoreArea").on('dragleave', filterHandleDragLeave);
-		</script>
-	</div>
-
-	<%-- processors --%>
-	<div style="display: inline-block;">
+	</ui:popup-menu><%--
+	processors
+--%><div style="display: inline-block;">
 		<c:forEach var="processor" items="${queue.getProcessors('user')}">
 			<form action="/user/process/queue.do" id="${addActionFormUiid}-${processor.id}" style="display: none;" class="in-mb1-all">
 				<input type="hidden" name="method" value="processor"/>
@@ -194,22 +175,20 @@
 				<button type="button" class="btn-white ml05 mr1" onclick="$(this.form).hide();">${l.l('Cancel')}</button>
 			</form>
 		</c:forEach>
-	</div>
-
-	<%-- saving filter --%>
-	<form action="/user/process/queue.do" style="display: none;" id="${saveFilterFormUiid}" class="mb1 mr1">
-		${l.l('Название фильтра')}:
+	</div><%--
+	saving filter
+--%><form action="/user/process/queue.do" style="display: none;" id="${saveFilterFormUiid}" class="mb1 mr1 in-mr05">
 		<input type="hidden" name="method" value="queueSavedFilterSet"/>
 		<input type="hidden" name="queueId" value="${queue.id}"/>
 		<input type="hidden" name="command" value="add"/>
 		<input type="hidden" name="url"/>
-		<input type="text" name="title" size="20"/>
+		<input type="text" name="title" placeholder="${l.l('Title')}" size="20"/>
 
-		<button type="button" class="btn-grey"
-			onclick="if( this.form.title.value == '' ){ alert('${l.l('Введите название!')}'); return; }
+		<ui:button type="ok"
+			onclick="if (this.form.title.value == '') { alert('${l.l('Введите название!')}'); return; }
 					this.form.url.value = $$.ajax.formUrl($('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId']);
-					$$.ajax.post(this).done(() => { processQueueFilterSetSelect(${queue.id}) })">OK</button>
-		<button type="button" class="btn-grey" onclick="$(this.form).hide()">${l.l('Cancel')}</button>
+					$$.ajax.post(this).done(() => { processQueueFilterSetSelect(${queue.id}) })"/>
+		<ui:button type="cancel" onclick="$(this.form).hide()"/>
 	</form>
 
 	<%-- saved filters --%>
