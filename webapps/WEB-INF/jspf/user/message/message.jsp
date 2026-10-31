@@ -92,7 +92,7 @@
 											const url = '/user/message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent('${form.returnUrl}');
 											$$.ajax.load(url, $('#${uiid}').parent());
 											// TODO: Reload unprocessed messages list.
-										});">${l.l('Создать процесс')}</button>
+										});">${l.l('Create Process')}</button>
 								</div>
 							</div>
 						</form>

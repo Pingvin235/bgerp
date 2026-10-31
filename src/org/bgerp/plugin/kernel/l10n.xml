@@ -265,18 +265,15 @@
 	<p><ru>Кому</ru><en>To</en></p>
 	<p><ru>Обработаны</ru><en>Processed</en></p>
 	<p><ru>Сортировка</ru><en>Sorting</en></p>
-	<p><ru>Создать процесс</ru><en>Create process</en></p>
-	<p><ru>Фильтр - вернуться в полный</ru><en>Filter - return to full</en></p>
-	<p><ru>Фильтр - удалить</ru><en>Filter - delete</en></p>
-	<p><ru>Фильтр - извлечь в полный</ru><en>Filter - extract to full</en></p>
-	<p><ru>Фильтр - счетчик на панель</ru><en>Filter - counter on panel</en></p>
-	<p><ru>Фильтр - счетчик убрать с панели</ru><en>Filter - delete counter from panel</en></p>
-	<p><ru>Фильтр - сохранённые</ru><en>Filter - saved</en></p>
-	<p><ru>Фильтр - сохранить</ru><en>Filter - save</en></p>
+	<p><en>Create Process</en><ru>Создать процесс</ru></p>
+	<p><en>Back to Full</en><ru>Вернуться в полный</ru></p>
+	<p><en>Delete saved filter?</en><ru>Удалить сохранённый фильтр?</ru></p>
+	<p><en>Extract to Full</en><ru>Извлечь в полный</ru></p>
+	<p><en>Counter on Panel</en><ru>Счетчик на панель</ru></p>
+	<p><en>Delete Counter from Panel</en><ru>Удалить счетчик с панели</ru></p>
+	<p><en>Saved</en><ru>Cохранённые</ru></p>
 	<p><en>Reset the full filter?</en><ru>Сбросить полный фильтр?</ru></p>
-	<p><ru>Фильтр - сброс</ru><en>Filter - reset</en></p>
-	<p><ru>Фильтр не выбран</ru><en>Filter - not selected</en></p>
-	<p><ru>Удалить сохранённый фильтр</ru><en>Delete saved filter</en></p>
+	<p><en>Filter is not selected</en><ru>Фильтр не выбран</ru></p>
 	<p><ru>Выгрузка в Excel</ru><en>Export to Excel</en></p>
 	<p><ru>Класс выполнен, проверьте логи</ru><en>Class was executed, check logs</en></p>
 	<p><ru>Класс запущен в отдельном потоке,\nвывод в логах.</ru><en>Class was started in a separated thread,\nsee output in logs.</en></p>
