@@ -1,5 +1,6 @@
 package ru.bgcrm.model.process.queue;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -339,8 +340,13 @@ public class Queue extends IdTitle {
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("processor.").entrySet()) {
             Processor p = new Processor(me.getKey(), me.getValue());
             if (Utils.notBlankString(p.getClassName())) {
-                Class<?> clazz = Bean.getClass(p.getClassName());
-                p = (Processor) clazz.getDeclaredConstructor(int.class, ConfigMap.class).newInstance(me.getKey(), me.getValue());
+                try {
+                    Class<?> clazz = Bean.getClass(p.getClassName());
+                    p = (Processor) clazz.getDeclaredConstructor(int.class, ConfigMap.class).newInstance(me.getKey(), me.getValue());
+                } catch (ClassNotFoundException e) {
+                    log.error("No processor class found: {}", p.getClassName());
+                    continue;
+                }
             } else if (Utils.isBlankString(p.getPageUrl())) {
                 log.error("For processor {} in process queue {} defined neither 'page.url' or 'className'", me.getKey(), id);
                 continue;
