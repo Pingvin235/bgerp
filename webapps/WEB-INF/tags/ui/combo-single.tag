@@ -27,7 +27,8 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="onChange" description="JS call when the value was changed"%>
 <%@ attribute name="disabled" description="disabled edit"%>
 <%@ attribute name="prefixText" description="text prefix"%>
-<%@ attribute name="showFilter" type="java.lang.Boolean" description="Enable/disable Filter"%>
+<%@ attribute name="showFilter" type="java.lang.Boolean" description="enable filter"%>
+<%@ attribute name="title" description="outer DIV title"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV style"%>
 <%@ attribute name="styleTextValue" description="current value's DIV style"%>
@@ -69,7 +70,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 	</c:otherwise>
 </c:choose>
 
-<div class="btn-white combo ${not empty disabled ? ' disabled' : ' '} ${styleClass}" id="${uiid}" style="${style}">
+<div class="btn-white combo ${not empty disabled ? ' disabled' : ' '} ${styleClass}" id="${uiid}" style="${style}" ${not empty title ? ' title="'.concat(title).concat('"') : ''}>
 	<input type="hidden" name="${name}" value="${value}"/>
 
 	<c:if test="${not empty prefixText}">

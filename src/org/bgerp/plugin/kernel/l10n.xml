@@ -382,6 +382,7 @@
 	<p><ru>Буфер открытых объектов</ru><en>Buffer of opened objects</en></p>
 	<p><ru>Выделить все / снять выделение</ru><en>Select / deselect all</en></p>
 	<p><ru>Создать и привязать</ru><en>Create and link</en></p>
+	<p><en>You can drag rarely used filters here</en><ru>Вы можете перетащить сюда редко используемые фильтры</ru></p>
 	<p><ru>Общие фильтры</ru><en>Common filters</en></p>
 	<p><ru>Импорт себе общего фильтра</ru><en>Import common filter</en></p>
 	<p><ru>Экспорт своего фильтра в общие</ru><en>Export filter to common</en></p>

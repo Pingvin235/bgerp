@@ -1,16 +1,16 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Tag box" %>
-<%@ include file="/WEB-INF/jspf/taglibs.jsp" %>
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Tag box"%>
+<%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="id" description="id of the input, auto generated if not explicitly specified" %>
+<%@ attribute name="id" description="id of the input, auto generated if not explicitly specified"%>
 <%@ attribute name="name" description="input's name" required="true"%>
-<%@ attribute name="value" description="input's value" %>
-<%@ attribute name="placeholder" description="input's placeholder" %>
-<%@ attribute name="title" description="input's title" %>
-<%@ attribute name="style" description="input's style" %>
-<%@ attribute name="choices" description="data to choose from" %>
-<%@ attribute name="showOptions" description="show options on focus" %>
-<%@ attribute name="url" description="URL for AJAX request to get values for autocomplete" %>
-<%@ attribute name="preload" type="java.lang.Boolean" description="Send AJAX request upfront" %>
+<%@ attribute name="value" description="input's value"%>
+<%@ attribute name="placeholder" description="input's placeholder"%>
+<%@ attribute name="title" description="input's title"%>
+<%@ attribute name="style" description="input's style"%>
+<%@ attribute name="choices" description="data to choose from"%>
+<%@ attribute name="showOptions" description="show options on focus"%>
+<%@ attribute name="url" description="URL for AJAX request to get values for autocomplete"%>
+<%@ attribute name="preload" type="java.lang.Boolean" description="Send AJAX request upfront"%>
 
 <c:choose>
 	<c:when test="${not empty id}">

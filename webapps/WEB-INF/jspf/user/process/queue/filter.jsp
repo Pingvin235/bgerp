@@ -208,7 +208,7 @@
 				</c:if>
 		</c:forEach>
 
-		<ui:combo-single prefixText="${l.l('Filter')}:" widthTextValue="4em" styleClass="dropFilterArea" title="Вы можете перетащить сюда редко используемые фильтры"/>
+		<ui:combo-single prefixText="${l.l('Filter')}:" widthTextValue="4em" styleClass="dropFilterArea" title="${l.l('You can drag rarely used filters here')}"/>
 
 		<script>
 			$("div[draggable=true]").each(function(){
