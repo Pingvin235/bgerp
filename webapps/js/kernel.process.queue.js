@@ -358,8 +358,55 @@ function setFilterStatusRare( filterId, value )
 	$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setRareStatus', filterId: filterId, rare: value, queueId: queueId }));
 }
 
-//Drag&Drop filters --- end ----
+//Drag&Drop filters
+function filterHandleDragStart(e) {
+	this.style.opacity = '0.4';
 
+	e.originalEvent.dataTransfer.effectAllowed = 'move';
+	e.originalEvent.dataTransfer.setData('text/html', $(this).attr("id"));
+}
+
+function filterHandleDragOver(e) {
+	if (e.preventDefault) {
+		e.preventDefault();
+	}
+
+	e.originalEvent.dataTransfer.dropEffect = 'move';
+	return false;
+}
+
+function filterHandleDragEnter(e) {
+	this.classList.add('over');
+}
+
+function filterHandleDragLeave(e) {
+	this.classList.remove('over');
+}
+
+function filterHandleDragEnd(e) {
+	this.style.opacity = '';
+}
+
+function filterHandleDrop(e) {
+	if (e.preventDefault) e.preventDefault();
+	if (e.stopPropagation) e.stopPropagation();
+
+	var filterButtonId = e.originalEvent.dataTransfer.getData('text/html');
+	var allDraggableButtons = $("#savedFilters div[draggable=true]").length;
+	var rareDraggableButtons = $("div.dropFilterArea ul div").length;
+
+	if ($(this).attr("id") == "savedFilters") {
+		moveFilterToMain(this, filterButtonId, e);
+	}
+	else if ((allDraggableButtons - rareDraggableButtons) == 1)//Если на панели осталсz один фильтр и его пытаются перенести в редко используемые
+	{
+		alert("Вы не можете сделать все фильтры редко используемыми.");
+	}
+	else {
+		moveFilterToRare(this, filterButtonId);
+	}
+	return false;
+}
 
 function updateSelectedFilterAndOpen( queueId, filterId )
 {

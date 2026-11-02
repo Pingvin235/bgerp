@@ -208,11 +208,9 @@
 				</c:if>
 		</c:forEach>
 
-		<ui:combo-single prefixText="${l.l('Filter')}:" widthTextValue="4em" styleClass="dropFilterArea"/>
+		<ui:combo-single prefixText="${l.l('Filter')}:" widthTextValue="4em" styleClass="dropFilterArea" title="Вы можете перетащить сюда редко используемые фильтры"/>
 
 		<script>
-			$("div.combo.dropFilterArea").attr("title", "Вы можете перетащить сюда редко используемые фильтры");
-
 			$("div[draggable=true]").each(function(){
 				$(this).on('dragstart', filterHandleDragStart);
 				$(this).on('dragend', filterHandleDragEnd);
