@@ -1,0 +1,4 @@
+# When creating a new process of this type, these execution groups can be selected:
+- Kernel Process Creation Group 1
+- Kernel Process Creation Group 2
+- Kernel Process Creation Group 3
