@@ -96,11 +96,11 @@ ul.ui-autocomplete.ui-menu {
 	<%@ include file="/WEB-INF/jspf/css/button.white.gradient.jsp"%>
 }
 
-/*.ui-datepicker .ui-datepicker-buttonpane button.btn-close,*/
+/*.ui-datepicker .ui-datepicker-buttonpane button.btn-close,
 .ui-dialog .ui-dialog-buttonset button {
 	font-size: 1.1em;
 	color: #000;
-}
+}*/
 
 /* Override re-authorization dialog styles */
 .ui-dialog .ui-dialog-titlebar,

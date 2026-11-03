@@ -4,7 +4,6 @@
 .btn-blue, .btn-grey, .btn-white, .btn-green, .btn-white-hover {
 	padding: 0.6em 1em;
 	text-align: center;
-	/* white-space: nowrap; a customer wanted to see all the text in process queue filters */
 }
 
 button.btn-grey, button.btn-white {
@@ -13,7 +12,7 @@ button.btn-grey, button.btn-white {
 
 .btn-blue.icon, .btn-grey.icon, .btn-white.icon, .btn-green.icon, .btn-white-hover.icon,
 .btn-blue.btn-icon, .btn-grey.btn-icon, .btn-white.btn-icon, .btn-green.btn-icon, .btn-white-hover.btn-icon {
-	padding: 0.6em 0.75em;
+	padding: 0.6em 0.75em !important;
 }
 
 .btn-small {
@@ -63,11 +62,13 @@ button.btn-grey, button.btn-white {
 	<%@ include file="/WEB-INF/jspf/css/button.green.active.gradient.jsp"%>
 }
 
-.btn-grey {
-	color: #fff;
-	border-radius: 3px;
-	border: 1px solid #81838a;
-	box-shadow: 1px 1px 3px #c5c5c5;
+.btn-grey,
+/* jQuery UI dialog */
+.ui-dialog .ui-dialog-buttonset button.btn-grey {
+	color: #fff !important;
+	border-radius: 3px !important;
+	border: 1px solid #81838a !important;
+	box-shadow: 1px 1px 3px #c5c5c5 !important;
 	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
 	<%@ include file="/WEB-INF/jspf/css/button.grey.gradient.jsp"%>
 }
@@ -80,10 +81,12 @@ button.btn-grey, button.btn-white {
 	<%@ include file="/WEB-INF/jspf/css/button.grey.active.gradient.jsp"%>
 }
 
-.btn-white {
-	color: #000;
-	border-radius: 3px;
-	border: 1px solid #c8c8c8;
+.btn-white,
+/* jQuery UI dialog */
+.ui-dialog .ui-dialog-buttonset button.btn-white {
+	color: #000 !important;
+	border-radius: 3px !important;
+	border: 1px solid #c8c8c8 !important;
 	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
 	<%@ include file="/WEB-INF/jspf/css/button.white.gradient.jsp"%>
 }
