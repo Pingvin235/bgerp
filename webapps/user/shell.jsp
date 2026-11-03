@@ -25,8 +25,7 @@
 			<span class="right">
 				<span id="filterCounterPanel"></span>
 
-				<div id="colorPickerModal" style="display: none;">
-					<span>${l.l('Цвет для счетчика фильтра')}:</span>
+				<div id="colorPickerModal" style="display: none;" title="${l.l('Choose the color')}">
 					<span class='colorPicker-picker' style='display: inline-block;'></span>
 					<script>$(".colorPicker-picker").colorPicker();</script>
 				</div>

@@ -396,7 +396,7 @@
 	<p><ru>Найдено</ru><en>Found</en></p>
 	<p><ru>отображено</ru><en>shown</en></p>
 	<p><ru>Закрыл</ru><en>Closed by</en></p>
-	<p><ru>Цвет для счетчика фильтра</ru><en>Color for filter's counter</en></p>
+	<p><en>Choose the color</en><ru>Выберите цвет</ru></p>
 	<p><ru>Удалить выбранные</ru><en>Delete Selected</en></p>
 	<p><ru>Дата от</ru><en>Date from</en></p>
 	<p><ru>Дата по</ru><en>Date to</en></p>

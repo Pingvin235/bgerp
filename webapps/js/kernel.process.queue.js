@@ -454,103 +454,81 @@ function generateUrlForFilterCounter() {
 	return urlArray;
 }
 
-function addCounterToPanel( buttonId, queueId, buttonName, queueName, color, url, addOnStart )
-{
-	var filterQueueName = queueName;
-	var filterButtonName = buttonName;
-	var filterButtonCount = "X";
-	var filterButtonId = buttonId;
-	var filterColor = color;
-
-	if ( !addOnStart )
-	{
-		filterQueueName = $("#processQueueSelect > .text-value > div").html() + ":";
-		queueId = $("#processQueueSelect > input[type=hidden]").val();
-		filterButtonId = $("#savedFilters:visible .btn-blue").attr("id");
-
-		if ( filterButtonId == undefined )
-		{
-			alert("Вы не выбрали ни одного фильтра");
+function addCounterToPanel(buttonId, queueId, buttonName, queueName, color, url) {
+	if (!buttonId) {
+		buttonId = $("#savedFilters:visible .btn-blue").attr("id");
+		if (!buttonId) {
+			console.error("No filter selected");
 			return;
 		}
 
-		if ( $("#savedFilters .btn-blue").html().indexOf("]") > -1 )
-		{
-			filterButtonName = $("#savedFilters:visible .btn-blue").html().split("] ")[1];
+		queueId = $("#processQueueSelect > input[type=hidden]").val();
+
+		if ($("#savedFilters .btn-blue").html().indexOf("]") > -1) {
+			buttonName = $("#savedFilters:visible .btn-blue").html().split("] ")[1];
 		}
-		else
-		{
-			filterButtonName = $("#savedFilters:visible .btn-blue").html();
+		else {
+			buttonName = $("#savedFilters:visible .btn-blue").html();
 		}
 
-		if ( filterButtonCount == undefined )
-		{
-			filterButtonCount = "X";
-		}
+		queueName = $("#processQueueSelect > .text-value > div").html() + ":";
 
-		if( url == undefined )
-		{
-			url = $("#"+queueId+"-"+filterButtonId).attr("action");
-			if ( url == undefined ){alert("Ошибка добавления, попробуйте еще раз."); return;}
+		if (!url) {
+			url = $("#" + queueId + "-" + buttonId).attr("action");
 		}
 		$("#colorPickerModal > div.colorPicker-picker").css("background-color", "#005589");
 		$("#colorPickerModal > div.colorPicker-picker").css("display", "inline-block");
 		$("#colorPickerModal").show();
 
-		$( "#colorPickerModal" ).dialog({
+		$("#colorPickerModal").dialog({
 			modal: true,
-			buttons:
-			{
-				Ok: function()
+			buttons: [
 				{
-					filterColor = $("#colorPickerModal > div.colorPicker-picker").css("background-color");
-					if ( filterColor == undefined ){ filterColor = "" };
-					$("#colorPickerModal").hide();
-					$( this ).dialog( "close" );
-					$("#filterCounterPanel").prepend("<a style='margin-left: 4px; color:"+filterColor+";' id='panelFilterCounter-" + queueId + "-" + filterButtonId + "' queue="+queueId+" url="+url+" title='"+ filterQueueName + " " + filterButtonName +"' onclick='updateSelectedFilterAndOpen("+ queueId +","+ filterButtonId+ ")' href='#'>"+filterButtonCount+" </a>");
-					$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setStatusCounterOnPanel', filterId: filterButtonId, queueId: queueId, color: filterColor, statusCounterOnPanel: true, title: filterButtonName, queueName: filterQueueName }));
+					text: 'OK',
+					class: 'btn-grey',
+					click: function () {
+						const color = $("#colorPickerModal > div.colorPicker-picker").css("background-color") || "";
+						$("#colorPickerModal").hide();
+						$(this).dialog("close");
+						$("#filterCounterPanel").prepend("<a style='margin-left: 4px; color:" + color + ";' id='panelFilterCounter-" + queueId + "-" + buttonId + "' queue=" + queueId + " url=" + url + " title='" + queueName + " " + buttonName + "' onclick='updateSelectedFilterAndOpen(" + queueId + "," + buttonId + ")' href=''>X </a>");
+						$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setStatusCounterOnPanel', filterId: buttonId, queueId: queueId, color: color, statusCounterOnPanel: true, title: buttonName, queueName: queueName }));
+					}
 				},
-				Cancel: function()
 				{
-					filterColor = "";
-					$("#colorPickerModal").hide();
-					$( this ).dialog( "close" );
-					$("#filterCounterPanel").prepend("<a style='margin-left: 4px; color:"+filterColor+";' id='panelFilterCounter-" + queueId + "-" + filterButtonId + "' queue="+queueId+" url="+url+" title='"+ filterQueueName + " " + filterButtonName +"' onclick='updateSelectedFilterAndOpen("+ queueId +","+ filterButtonId+ ")' href='#'>"+filterButtonCount+" </a>");
-					$$.ajax.post("/user/process/queue.do" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setStatusCounterOnPanel', filterId: filterButtonId, queueId: queueId, color: filterColor, statusCounterOnPanel: true, title: filterButtonName, queueName: filterQueueName }));
+					text: 'Cancel',
+					class: 'btn-white ml1',
+					click: function () {
+						$("#colorPickerModal").hide();
+						$(this).dialog("close");
+					}
 				}
-			}
+			]
 		});
 	}
-	else
-	{
-		if ( filterColor == undefined ){ filterColor = "" };
-		$("#filterCounterPanel").append("<a style='margin-left: 4px; color:"+filterColor+";' id='panelFilterCounter-" + queueId + "-" + filterButtonId + "' queue="+queueId+" url="+url+" title='"+ filterQueueName + " " + filterButtonName +"' onclick='updateSelectedFilterAndOpen("+ queueId +","+ filterButtonId+ ")' href=''>"+filterButtonCount+" </a>");
+	else {
+		color = color || "";
+		$("#filterCounterPanel").append("<a style='margin-left: 4px; color:" + color + ";' id='panelFilterCounter-" + queueId + "-" + buttonId + "' queue=" + queueId + " url=" + url + " title='" + queueName + " " + buttonName + "' onclick='updateSelectedFilterAndOpen(" + queueId + "," + buttonId + ")' href=''>X </a>");
 	}
 
-	$("#filterCounterPanel > a").each(function()
-			{
-				$(this).click(function(event)
-						{event.preventDefault();});
-			});
+	$("#filterCounterPanel > a").each(function () {
+		$(this).click(function (event) { event.preventDefault(); });
+	});
 }
 
-function delCounterFromPanel()
-{
-	var queueId = $("#processQueueSelect > input[type=hidden]").val();
-	var filterButtonId = $("#savedFilters:visible .btn-blue").attr("id");
+function delCounterFromPanel() {
+	const queueId = $("#processQueueSelect > input[type=hidden]").val();
+	const filterButtonId = $("#savedFilters:visible .btn-blue").attr("id");
 
-	if ( filterButtonId == undefined )
-	{
-		alert("Вы не выбрали ни одного фильтра");
+	if (!filterButtonId) {
+		console.error("No filter selected");
 		return;
 	}
 
-	if( !confirm( 'Удалить счетчик фильтра с панели?' ) )
-	{
+	if (!$$.confirm.del()) {
 		return;
 	}
 
-	$("a#panelFilterCounter-" + queueId + "-" + filterButtonId ).remove();
+	$("a#panelFilterCounter-" + queueId + "-" + filterButtonId).remove();
 
 	$$.ajax.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({ method: 'queueSavedFilterSet', command: 'setStatusCounterOnPanel', filterId: filterButtonId, queueId: queueId, statusCounterOnPanel: false }));
 }
@@ -562,27 +540,26 @@ $$.event.addProcessor('ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent', (
 
 
 $$.event.addProcessor('ru.bgcrm.event.client.FilterCounterEvent', (event) => {
-	var queueId = $("#processQueueSelect > input[type=hidden]").val();
-
-	var filters = event["filters"];
+	const filters = event.filters;
 	$("#filterCounterPanel").empty();
-	for (var key in filters) {
-		addCounterToPanel(key, filters[key]["queueId"], filters[key]["title"], filters[key]["queueName"], filters[key]["color"], filters[key]["url"], true);
+	for (const key in filters) {
+		const filter = filters[key];
+		addCounterToPanel(key, filter.queueId, filters[key].title, filters[key].queueName, filters[key].color, filters[key].url);
 	}
 
-	var count = event["count"];
+	const count = event["count"];
 
-	for (var queueId in count) {
-		for (var btnId in count[queueId]) {
+	for (const queueId in count) {
+		for (const btnId in count[queueId]) {
 			$("#savedFilters > div[draggable=true]").each(function () {
 				if (count[queueId][btnId] == -1) {
 					count[queueId][btnId] = "X";
 				}
 
-				var buttonId = $(this).attr("id");
+				const buttonId = $(this).attr("id");
 
 				if (buttonId == btnId) {
-					var textValue = $(this).html();
+					const textValue = $(this).html();
 					if (textValue.split("] ").length > 1) {
 						$(this).html("[" + count[queueId][btnId] + "] " + textValue.split("] ")[1]);
 					}
