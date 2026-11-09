@@ -52,4 +52,4 @@
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
-<shell:state text="${l.l('Editor')}"/>
+<shell:state text="${l.l('Editor')}" help="plugin/dispatch/index.html#usage"/>

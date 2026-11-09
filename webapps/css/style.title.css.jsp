@@ -37,6 +37,7 @@
 #title > .status > .wrap > .center {
 	width: 100%;
 	text-align: center;
+	white-space: nowrap;
 }
 
 #title > .status > .wrap > .center > .state {

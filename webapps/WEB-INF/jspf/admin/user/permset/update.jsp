@@ -69,7 +69,7 @@
 	<ui:form-ok-cancel/>
 </html:form>
 
-<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user"/>
+<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user-permission-set"/>
 
 <script>
 	$$.ui.codeMirror('${taUiid}');

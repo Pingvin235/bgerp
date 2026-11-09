@@ -75,4 +75,4 @@
 </table>
 
 <shell:title text="${l.l('Permission Sets')}"/>
-<shell:state/>
+<shell:state help="kernel/setup.html#user-permission-set"/>

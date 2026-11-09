@@ -36,8 +36,6 @@
 
 					<script>
 						$(function () {
-							$('#${id}').appendTo($$.shell.$state());
-
 							<c:forEach items="${frd.list}" var="item">
 								<c:if test="${savedPanelMap.contains(item.id)}">
 									addToPanelScript('${item.id}', '${item.title}');
@@ -47,6 +45,8 @@
 							$$.process.queue.showSelected(${queueId});
 						})
 					</script>
+
+					<shell:state moveSelector="#${id}" help="kernel/process/queue.html#usage"/>
 				</c:when>
 				<c:otherwise>
 					${l.l("The user doesn't have allowed queues")}

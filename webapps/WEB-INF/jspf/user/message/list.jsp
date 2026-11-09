@@ -82,4 +82,4 @@
 </div>
 
 <shell:title text="${l.l('Сообщения')}"/>
-<shell:state help="kernel/message.html"/>
+<shell:state help="kernel/message#usage"/>

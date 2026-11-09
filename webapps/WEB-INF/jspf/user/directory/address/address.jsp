@@ -115,7 +115,7 @@
 					<span class='title'>${l.l('Адресный справочник')}</span>
 				</c:set>
 				<shell:title text="${title}"/>
-				<shell:state/>
+				<shell:state help="kernel/setup.html#address"/>
 			</u:sc>
 
 			<c:set var="paddingLeft" value="pl1"/>

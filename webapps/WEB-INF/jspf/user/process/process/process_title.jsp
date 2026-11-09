@@ -18,5 +18,5 @@
 	</c:if>
 
 	<shell:title text="${title}"/>
-	<shell:state text=""/>
+	<shell:state help="kernel/process#usage"/>
 </u:sc>

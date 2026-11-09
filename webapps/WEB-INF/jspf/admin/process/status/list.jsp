@@ -68,4 +68,4 @@
 </table>
 
 <shell:title text="${l.l('Статусы процессов')}"/>
-<shell:state help="kernel/process/index.html#status"/>
+<shell:state help="kernel/process#setup-status"/>

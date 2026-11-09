@@ -49,4 +49,4 @@
 </table>
 
 <shell:title text="${l.l('My Processes')}"/>
-<shell:state/>
+<shell:state help="kernel/process#usage-my-process"/>

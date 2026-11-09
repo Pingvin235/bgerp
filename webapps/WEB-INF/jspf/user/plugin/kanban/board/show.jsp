@@ -18,7 +18,7 @@
 			list="${queues}"
 			onChange="$$.ajax.loadContent('/user/plugin/kanban/board.do?queueId=' + this.value, this)"/>
 
-		<shell:state moveSelector="#${queueSelectUiid}"/>
+		<shell:state moveSelector="#${queueSelectUiid}" help="plugin/pln/kanban#usage"/>
 
 		<c:choose>
 			<c:when test="${empty queue}">

@@ -56,3 +56,4 @@
 </table>
 
 <shell:title text="Action Log"/>
+<shell:state help="plugin/svc/log#usage"/>

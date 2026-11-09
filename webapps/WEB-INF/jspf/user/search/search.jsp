@@ -121,3 +121,4 @@
 </script>
 
 <shell:title text="${l.l('Поиск')}"/>
+<shell:state help="kernel#search-usage"/>

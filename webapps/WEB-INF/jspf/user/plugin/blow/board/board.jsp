@@ -25,7 +25,7 @@
 	list="${frd.boards}"
 	onChange="$$.ajax.loadContent('${showUrl}&id=' + this.value, this)"/>
 
-<shell:state moveSelector="#${uiid}"/>
+<shell:state moveSelector="#${uiid}" help="plugin/pln/blow#usage"/>
 
 <shell:title text="${l.l('Blow план')}"/>
 

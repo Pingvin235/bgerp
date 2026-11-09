@@ -104,4 +104,4 @@
 </script>
 
 <shell:title text="${l.l('News')}"/>
-<shell:state help="kernel/news.html"/>
+<shell:state help="kernel#news"/>

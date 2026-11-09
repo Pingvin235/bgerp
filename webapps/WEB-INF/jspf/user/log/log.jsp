@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <div id="${uiid}">
-	<form action="${form.requestURI}" onsubmit="return false;" style="display: inline-block;">
+	<form action="${form.requestURI}" onsubmit="return false;" style="display: inline-block;" class="ml1">
 		<input type="hidden" name="method" value="log"/>
 		<ui:toggle name="enable" value="${frd.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
 	</form>
@@ -12,7 +12,7 @@
 </div>
 
 <shell:title text="Log (${u.countLines(frd.log)})"/>
-<shell:state help="kernel/tool.html#session-log" moveSelector="#${uiid} > form"/>
+<shell:state moveSelector="#${uiid} > form" help="kernel#session-log"/>
 
 <script>
 	$(function () {

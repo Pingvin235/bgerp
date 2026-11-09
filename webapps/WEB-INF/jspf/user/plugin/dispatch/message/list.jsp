@@ -55,4 +55,4 @@
 </table>
 
 <shell:title text="${l.l('Сообщения рассылок')}"/>
-<shell:state/>
+<shell:state help="plugin/dispatch/index.html#usage"/>

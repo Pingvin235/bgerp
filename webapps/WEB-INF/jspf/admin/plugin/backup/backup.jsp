@@ -88,3 +88,4 @@
 </form>
 
 <shell:title text="Backup"/>
+<shell:state help="plugin/svc/backup#usage"/>

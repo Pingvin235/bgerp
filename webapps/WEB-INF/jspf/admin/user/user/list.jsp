@@ -105,4 +105,4 @@
 </table>
 
 <shell:title text="${l.l('Users')}"/>
-<shell:state/>
+<shell:state help="kernel/setup.html#user-user"/>

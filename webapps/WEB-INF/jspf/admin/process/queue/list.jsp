@@ -65,3 +65,4 @@
 </table>
 
 <shell:title text="${l.l('Process Queues')}"/>
+<shell:state help="kernel/process/queue.html#setup"/>

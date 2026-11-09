@@ -17,4 +17,4 @@
 </p:check>
 
 <shell:title text="${l.l('License')}"/>
-<shell:state error="${license.error}" help="kernel/setup.html#license"/>
+<shell:state error="${license.error}" help="kernel/setup.html#config-license"/>

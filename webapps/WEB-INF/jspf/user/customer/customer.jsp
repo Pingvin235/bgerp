@@ -147,7 +147,7 @@
 	<shell:title>
 		<jsp:attribute name="text"><span class='title' id='customer_title_${customer.id}'></span></jsp:attribute>
 	</shell:title>
-	<shell:state/>
+	<shell:state help="kernel/customer.html#usage"/>
 
 	<script>
 		$(function () {

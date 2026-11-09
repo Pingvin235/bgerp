@@ -114,4 +114,4 @@
 </table>
 
 <shell:title text="${l.l('User Groups')}"/>
-<shell:state/>
+<shell:state help="kernel/setup.html#user-group"/>

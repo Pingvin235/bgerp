@@ -169,4 +169,4 @@
 	})
 </script>
 
-<shell:state text="${l.l('Properties')}: ${processType.title} #${processType.id}" help="kernel/process/index.html#type"/>
+<shell:state text="${l.l('Properties')}: ${processType.title} #${processType.id}" help="kernel/process#setup-type"/>

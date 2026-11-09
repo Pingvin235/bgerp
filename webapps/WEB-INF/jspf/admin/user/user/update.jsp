@@ -165,7 +165,7 @@
 	</div>
 </c:if>
 
-<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user"/>
+<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user-user"/>
 
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>
 

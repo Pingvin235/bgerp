@@ -49,3 +49,4 @@
 </table>
 
 <shell:title text="${l.l('Рассылки')}"/>
+<shell:state help="plugin/dispatch/index.html#usage"/>

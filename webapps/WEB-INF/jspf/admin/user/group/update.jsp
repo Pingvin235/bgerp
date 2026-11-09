@@ -55,7 +55,7 @@
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
-<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user"/>
+<shell:state text="${l.l('Editor')}" help="kernel/setup.html#user-group"/>
 
 <script>
 	$(function () {

@@ -163,4 +163,4 @@
 </table>
 
 <shell:title text="${l.l('Типы процессов')}"/>
-<shell:state help="kernel/process/index.html#type"/>
+<shell:state help="kernel/process#setup-type"/>

@@ -77,12 +77,12 @@
 <c:set var="rnd" value="${u:newInstance0('java.util.Random').nextInt(3)}"/>
 <c:choose>
 	<c:when test="${rnd == 0}">
-		<shell:state text="Demo State" help="project/index.html#mvc-iface-demo"/>
+		<shell:state text="Demo State" help="dev#mvc-iface-demo"/>
 	</c:when>
 	<c:when test="${rnd == 1}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<button id="${uiid}" class="btn-white">Demo State Component</button>
-		<shell:state moveSelector="#${uiid}"/>
+		<shell:state moveSelector="#${uiid}" help="dev#mvc-iface-demo"/>
 	</c:when>
 	<c:otherwise>
 		<shell:state error="Demo State Error"/>
