@@ -3,5 +3,4 @@ fulltext:entry.customer.paramIds=*
 fulltext:entry.process.paramIds=*
 fulltext:entry.message.paramIds=*
 
-# full text indexing task
 scheduler.task.fulltext.class=FullTextUpdate
