@@ -93,7 +93,7 @@
 	<p><ru>Создать</ru><en>Create</en></p>
 	<p><ru>Поиск</ru><en>Search</en></p>
 	<p><en>News</en><ru>Новости</ru></p>
-	<p><ru>Адреса</ru><en>Addresses</en></p>
+	<p><en>Addresses</en><ru>Адреса</ru></p>
 	<p><en>Permission Sets</en><ru>Наборы прав</ru></p>
 	<p><en>Groups</en><ru>Группы</ru></p>
 	<p><ru>Пользователи</ru><en>Users</en></p>
@@ -232,7 +232,6 @@
 	<p><ru>РАЙОН</ru><en>AREA</en></p>
 	<p><ru>КВАРТАЛ</ru><en>QUARTER</en></p>
 	<p><ru>Дом</ru><en>House</en></p>
-	<p><ru>Адресный справочник</ru><en>Address directory</en></p>
 	<p><ru>Создать нового контрагента</ru><en>Create new customer</en></p>
 	<p><ru>Редактор дома</ru><en>House editor</en></p>
 	<p><ru>Район</ru><en>Area</en></p>

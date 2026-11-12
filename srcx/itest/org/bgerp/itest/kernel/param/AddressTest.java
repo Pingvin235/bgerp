@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.dao.param.ParamValueDAO;
+import org.bgerp.itest.helper.ParamHelper;
+import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.param.Parameter;
 import org.bgerp.util.sql.LikePattern;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,6 +22,8 @@ import ru.bgcrm.model.param.address.AddressItem;
 
 @Test(groups = "address", dependsOnGroups = "config")
 public class AddressTest {
+    private int paramFloorsId;
+
     public static volatile AddressCity cityUfa;
     public static volatile AddressHouse houseUfa7f1;
     public static volatile AddressHouse houseUfa6;
@@ -29,13 +35,15 @@ public class AddressTest {
     public static volatile AddressHouse houseMuenchen;
 
     @Test
-    public void config() throws Exception {
-        // TODO: Add different format types.
+    public void param() throws Exception {
+        paramFloorsId = ParamHelper.addParam(AddressHouse.OBJECT_TYPE, Parameter.TYPE_LIST, "Floors", 2, "",
+                ResourceHelper.getResource(this, "param.floors.values.txt"));
     }
 
-    @Test
+    @Test(dependsOnMethods = "param")
     public void directory() throws Exception {
         var dao = new AddressDAO(DbTest.conRoot);
+        var paramDao = new ParamValueDAO(DbTest.conRoot);
 
         var country = dao.updateAddressCountry(new AddressCountry().withTitle("Башкортостан"));
         // for BGBilling Demo: Уфа (1) Ленина (1) 14 (1)
@@ -57,15 +65,19 @@ public class AddressTest {
         houseUfa7f1 = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId())
             .withAreaId(area.getId()).withQuarterId(quarter.getId())
             .withPostIndex("450103").withHouseAndFrac("7/1").withComment("Код домофона: 666"));
+        Assert.assertTrue(houseUfa7f1.getId() > 0);
+        paramDao.updateParamList(houseUfa7f1.getId(), paramFloorsId, Set.of(10));
+
         houseUfa6 = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId())
             .withAreaId(area.getId()).withQuarterId(quarter.getId())
             .withPostIndex("450103").withHouseAndFrac("6").withComment("Чокнутая консьержка"));
-        Assert.assertTrue(houseUfa7f1.getId() > 0 );
+        paramDao.updateParamList(houseUfa6.getId(), paramFloorsId, Set.of(10));
 
         citySterlitamak = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("Стерлитамак"));
         street = dao.updateAddressStreet(new AddressItem().withCityId(citySterlitamak.getId()).withTitle("Ленина проспект"));
         houseSterlitamak1 = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId())
             .withPostIndex("453107").withHouseAndFrac("1").withComment("Красная линия"));
+        paramDao.updateParamList(houseSterlitamak1.getId(), paramFloorsId, Set.of(5));
 
         country = dao.updateAddressCountry(new AddressCountry().withTitle("Bayern"));
         cityMuenchen = dao.updateAddressCity(new AddressCity().withCountryId(country.getId()).withTitle("München"));
@@ -75,6 +87,7 @@ public class AddressTest {
         houseMuenchen = dao.updateAddressHouse(new AddressHouse().withStreetId(street.getId()).withAreaId(area.getId())
             .withPostIndex("81247").withHouseAndFrac("99a").withComment("Nette Leute"));
         Assert.assertTrue(houseMuenchen.getId() > 0);
+        paramDao.updateParamList(houseMuenchen.getId(), paramFloorsId, Set.of(2));
     }
 
     @Test(dependsOnMethods = "directory")

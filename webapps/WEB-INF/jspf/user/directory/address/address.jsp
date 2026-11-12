@@ -112,7 +112,7 @@
 
 			<u:sc>
 				<c:set var="title">
-					<span class='title'>${l.l('Адресный справочник')}</span>
+					<span class='title'>${l.l('Addresses')}</span>
 				</c:set>
 				<shell:title text="${title}"/>
 				<shell:state help="kernel/setup.html#address"/>
