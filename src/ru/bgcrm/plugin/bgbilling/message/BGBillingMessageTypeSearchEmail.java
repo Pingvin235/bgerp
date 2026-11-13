@@ -14,7 +14,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Bean(oldClasses = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchEmail")
+@Bean(oldNames = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchEmail")
 public class BGBillingMessageTypeSearchEmail extends MessageTypeSearchBilling {
     private final Set<Integer> paramIds;
 

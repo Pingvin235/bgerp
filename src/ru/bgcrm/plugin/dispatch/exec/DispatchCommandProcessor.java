@@ -28,7 +28,7 @@ import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
-@Bean(oldClasses = "ru.bgcrm.plugin.dispatch.CommandProcessor")
+@Bean(oldNames = "ru.bgcrm.plugin.dispatch.CommandProcessor")
 public class DispatchCommandProcessor extends Task {
     private static final Log log = Log.getLog();
 

@@ -14,7 +14,7 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Utils;
 
-@Bean(oldClasses = "ru.bgcrm.model.customer.config.ProcessLinkModesConfig")
+@Bean(oldNames = "ru.bgcrm.model.customer.config.ProcessLinkModesConfig")
 public class ProcessCustomerLinkRoleConfig extends Config {
     private static final Log log = Log.getLog();
 

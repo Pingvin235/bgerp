@@ -15,7 +15,7 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.Tables;
 
-@Bean(oldClasses = "org.bgerp.scheduler.task.NewsManager")
+@Bean(oldNames = "org.bgerp.scheduler.task.NewsManager")
 public class News extends Task {
     private static final Log log = Log.getLog();
 

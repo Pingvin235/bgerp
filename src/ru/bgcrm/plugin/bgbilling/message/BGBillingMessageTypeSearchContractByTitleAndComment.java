@@ -20,7 +20,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Bean(oldClasses = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByTitleAndComment")
+@Bean(oldNames = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByTitleAndComment")
 public class BGBillingMessageTypeSearchContractByTitleAndComment extends MessageTypeSearchBilling {
     private static final Log log = Log.getLog();
 

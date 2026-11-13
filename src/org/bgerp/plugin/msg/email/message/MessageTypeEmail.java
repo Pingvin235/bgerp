@@ -60,7 +60,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Bean(oldClasses = "ru.bgcrm.dao.message.MessageTypeEmail")
+@Bean(oldNames = "ru.bgcrm.dao.message.MessageTypeEmail")
 public class MessageTypeEmail extends MessageType {
     private static final Log log = Log.getLog();
 

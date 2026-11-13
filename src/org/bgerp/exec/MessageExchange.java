@@ -14,7 +14,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.util.Utils;
 
-@Bean(oldClasses = "ru.bgcrm.worker.MessageExchange")
+@Bean(oldNames = "ru.bgcrm.worker.MessageExchange")
 public class MessageExchange extends Task {
     private static final Log log = Log.getLog();
 

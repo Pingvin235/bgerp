@@ -48,10 +48,11 @@ public class Bean {
 
             var an = clazz.getDeclaredAnnotation(org.bgerp.app.cfg.bean.annotation.Bean.class);
             if (an != null)
-                for (String name : an.oldClasses()) {
+                for (String name : an.oldNames()) {
                     beanClassesOldNames.put(name, clazz);
 
-                    simpleName = StringUtils.substringAfterLast(name, ".");
+                    final int pos = name.lastIndexOf(".");
+                    simpleName = pos > 0 ? name.substring(pos + 1) : name;
                     beanClass = beanClassesOldNames.get(simpleName);
                     if (beanClass != null)
                         log.debug("Bean class OLD simple name {} conflicts to an existing {}", simpleName, beanClass.getName());

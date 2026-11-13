@@ -23,7 +23,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
  *
  * @author Shamil Vakhitov
  */
-@Bean(oldClasses = "ru.bgcrm.plugin.task.TaskRunner")
+@Bean(oldNames = "ru.bgcrm.plugin.task.TaskRunner")
 public class TaskRunner extends org.bgerp.app.exec.scheduler.Task {
     private static final Log log = Log.getLog();
 

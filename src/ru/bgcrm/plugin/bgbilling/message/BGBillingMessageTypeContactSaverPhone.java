@@ -18,7 +18,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Bean(oldClasses = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeContactSaverPhone")
+@Bean(oldNames = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeContactSaverPhone")
 public class BGBillingMessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTypeContactSaver {
     private final int paramId;
 

@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Bean {
     /**
-     * @return old bean full class names, which can be still used in configurations
+     * @return old bean names, which can be still used in configurations; often full class names
      */
-    String[] oldClasses() default {};
+    String[] oldNames() default {};
 }

@@ -19,7 +19,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Bean(oldClasses = "ru.bgcrm.plugin.bgbilling.model.process.wizard.FillParamsStep")
+@Bean(oldNames = "ru.bgcrm.plugin.bgbilling.model.process.wizard.FillParamsStep")
 public class FillContractParamsStep extends BaseStep {
     private final List<Integer> parameterIds;
     private final List<Integer> checkParamIds;

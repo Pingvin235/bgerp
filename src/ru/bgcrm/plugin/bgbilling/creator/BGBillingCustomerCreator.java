@@ -10,11 +10,11 @@ import org.bgerp.util.Log;
 /**
  * Scheduler task for importing customers from billing servers
  */
-@Bean
-public class CustomerCreator extends Task {
+@Bean(oldNames = "CustomerCreator")
+public class BGBillingCustomerCreator extends Task {
     private static final Log log = Log.getLog();
 
-    public CustomerCreator() {
+    public BGBillingCustomerCreator() {
         super(null);
     }
 

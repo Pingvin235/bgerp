@@ -22,7 +22,7 @@ import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.DispatchMessage;
 import ru.bgcrm.util.sql.SQLUtils;
 
-@Bean(oldClasses = "ru.bgcrm.plugin.dispatch.MessageSender")
+@Bean(oldNames = "ru.bgcrm.plugin.dispatch.MessageSender")
 public class DispatchMessageSender extends Task {
     private static final Log log = Log.getLog();
 

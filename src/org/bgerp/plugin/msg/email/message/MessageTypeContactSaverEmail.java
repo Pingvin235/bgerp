@@ -21,7 +21,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Bean(oldClasses = "ru.bgcrm.dao.message.MessageTypeContactSaverEmail")
+@Bean(oldNames = "ru.bgcrm.dao.message.MessageTypeContactSaverEmail")
 public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
     private static final List<IdTitled> MODE_LIST = List.of(
         new IdTitled(0, "Не сохранять"),
