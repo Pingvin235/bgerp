@@ -61,7 +61,7 @@ cmd do && cmd undo
 
 		<ui:toggle name="test" value="0" title="Toggle"
 			prefixText="Toggle" textOn="ON" textOff="OFF"
-			onChange="console.log('Is checked: ', this.checked);"/>
+			onChange="alert('Value: ' + this.checked);"/>
 	</div>
 
 	<h2>Small (for tables)</h2>
@@ -76,7 +76,7 @@ cmd do && cmd undo
 		<ui:toggle styleClass="btn-toggle-small" name="test" value="1"
 			prefixText="Prefix"
 			textOn="ON" textOff="OFF"
-			onChange="console.log('Is checked: ', this.checked);"/>
+			onChange="alert('Value: ' + this.checked);"/>
 	</div>
 
 	<h2>Toolbar</h2>
@@ -139,11 +139,11 @@ cmd do && cmd undo
 	<div class="in-table-cell">
 		<div>
 			<b>&lt;ui:input-text&gt;</b><br/>
-			<ui:input-text name="text" onChange="alert('Selected: ' + this.value)"/>
+			<ui:input-text name="text" onChange="alert('Value: ' + this.value)"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:input-text showOutButton="false"&gt;</b><br/>
-			<ui:input-text name="text" onChange="alert('Selected: ' + this.value)" showOutButton='false'/>
+			<ui:input-text name="text" onChange="alert('Value: ' + this.value)" showOutButton='false'/>
 		</div>
 	</div>
 </div>
@@ -217,7 +217,7 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:combo-single&gt;</b><br/>
 
-		<c:set var="onChange" value="console.log('this=', this, 'item=', item); alert('A value is chosen, see console log')"/>
+		<c:set var="onChange" value="console.log('this=', this, 'item=', item); alert('Value was changed, see console log')"/>
 
 		<ui:combo-single name="param" value="2" prefixText="Value:" widthTextValue="12em" onChange="${onChange}" showFilter="true">
 			<jsp:attribute name="valuesHtml">
@@ -265,7 +265,7 @@ cmd do && cmd undo
 		<b>&lt;ui:combo-check&gt;</b><br/>
 
 		<ui:combo-check prefixText="Status:" name="param" list="${frd.comboCheckList}" values="${frd.comboCheckValues}"
-			onChange="console.log('this=', this); alert('Values are chosen, see console log')"
+			onChange="console.log('this=', this); alert('Value was changed, see console log')"
 			widthTextValue="15em" showFilter="true">
 			<jsp:attribute name="valuesHtml">
 				<li>
@@ -279,7 +279,7 @@ cmd do && cmd undo
 	<div>
 		<b>&lt;ui:select-single&gt;</b><br/>
 
-		<c:set var="onChange" value="console.log('this=', this, '$hidden=', $hidden, '$text=', $text); alert('A value is chosen, see console log')"/>
+		<c:set var="onChange" value="console.log('this=', this, '$hidden=', $hidden, '$text=', $text); alert('Value was changed, see console log')"/>
 
 		<ui:select-single name="param" value="2" style="width: 10em;"
 			list="${frd.selectSingle1List}" availableIdSet="${frd.selectSingle1AvailableIdSet}"
@@ -328,7 +328,7 @@ cmd do && cmd undo
 		</ui:combo-single><br/>
 
 		<ui:select-single name="param" value="2" style="width: 10em;" list="${frd.selectSingle1List}"
-			onChange="console.log('this=', this, '$hidden=', $hidden); alert('Value is chosen, see console log')"/>
+			onChange="console.log('this=', this, '$hidden=', $hidden); alert('Value was changed, see console log')"/>
 	</div>
 </div>
 
@@ -341,14 +341,14 @@ cmd do && cmd undo
 			<b>&lt;ui:tree-single&gt;</b>
 			<ui:tree-single rootNode="${frd.treeRootNode}"
 				name="nodeId" value="3" nameTitle="nodeTitle" selectableFolder="false"
-				onChange="console.log('this=', this); alert('Value is chosen, see console log')"
+				onChange="console.log('this=', this); alert('Value was changed, see console log')"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>
 		<div style="flex-grow: 1;">
 			<b>&lt;ui:tree-single&gt; (selectableFolder)</b>
 			<ui:tree-single rootNode="${frd.treeRootNode}"
 				name="nodeId" value="3" nameTitle="nodeTitle"
-				onChange="console.log('this=', this); alert('Value is chosen, see console log')"
+				onChange="console.log('this=', this); alert('Value was changed, see console log')"
 				styleClass="mt1" style="height: 20em; overflow: auto;" />
 		</div>
 	</div>
