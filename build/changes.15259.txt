@@ -1,0 +1,1 @@
+A: Show 'Run' columns for running Scheduler only. https://bgerp.org/change/0/doc/kernel/setup.html#scheduler
