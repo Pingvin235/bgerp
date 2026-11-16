@@ -7,9 +7,9 @@
 <%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
 <%@ attribute name="parameter" type="java.lang.Object" description="provides access to the configuration when editing object's parameter"%>
 <%@ attribute name="value" description="current value in defined format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
+<%@ attribute name="onChange" description="JS call when the value was changed"%>
 <%@ attribute name="styleClass" description="CSS-classes for input"%>
 <%@ attribute name="placeholder" description="placeholder for input"%>
-<%@ attribute name="saveCommand" description="command used to save the value upon closure"%>
 
 <%@ attribute name="paramName" description="Deprecated 'name'"%>
 <c:if test="${not empty paramName}">
@@ -60,7 +60,13 @@
 				"stepMinute" : 5,
 
 				onClose: function () {
-					${saveCommand}
+					<c:if test="${not empty onChange}">
+						const onChange = function () {
+							${onChange}
+						};
+						$input[0].onChange = onChange;
+						$input[0].onChange();
+					</c:if>
 				}
 
 				<c:if test="${type eq 'ymd'}">

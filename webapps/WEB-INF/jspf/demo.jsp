@@ -154,21 +154,21 @@ cmd do && cmd undo
 	<form action="${form.requestURI}" class="in-table-cell">
 		<div>
 			<b>&lt;ui:date-time&gt;</b><br/>
-			<ui:date-time name="date"/>
+			<ui:date-time name="date" onChange="alert('Value: ' + this.value)"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:date-time type="ymdh"&gt;</b><br/>
-			<ui:date-time type="ymdh" name="dateh"/>
+			<ui:date-time type="ymdh" name="dateh" onChange="alert('Value: ' + this.value)"/>
 		</div>
 		<div class="pl1">
 			<b>&lt;ui:date-time type="ymdhm"&gt;</b><br/>
-			<ui:date-time type="ymdhm" name="datehm"/>
+			<ui:date-time type="ymdhm" name="datehm" onChange="alert('Value: ' + this.value)"/>
 		</div>
 		<div class="pl1">
 			<c:set var="uiid" value="${u:uiid()}"/>
 			<b>&lt;ui:date-time type="ymdhms" selector="#${uiid}"&gt;</b> [<a href="#" onclick="$$.ui.inputFocus('${uiid}'); return false;">focus</a>]<br/>
 			<input type="text" name="datehms" id="${uiid}"/>
-			<ui:date-time type="ymdhms" selector="#${uiid}"/>
+			<ui:date-time type="ymdhms" selector="#${uiid}" onChange="alert('Value: ' + this.value)"/>
 		</div>
 
 		<br/>

@@ -145,7 +145,7 @@
 				<c:set var="hideButtons" value="1"/>
 				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
 				<input type="text" name="value" value="${tu.format(frd.value, type)}" id="${focusFieldUiid}" ${changeAttrs}/>
-				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
+				<ui:date-time selector="#${focusFieldUiid}" type="${type}" onChange="${saveCommand}"/>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'email'}">
