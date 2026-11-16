@@ -1,1 +1,2 @@
 A: Show 'Run' columns for running Scheduler only. https://bgerp.org/change/0/doc/kernel/setup.html#scheduler
+A: Mark misconfigured Scheduler task. https://bgerp.org/change/0/doc/kernel/setup.html#scheduler

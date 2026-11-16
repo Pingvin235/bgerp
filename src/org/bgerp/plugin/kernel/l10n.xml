@@ -665,6 +665,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>call.in</sys><en>Incoming</en><ru>Входящий</ru></p>
 	<p><sys>call.out</sys><en>Outgoing</en><ru>Исходящий</ru></p>
 	<p><en>Running task</en><ru>Задача выполняется</ru></p>
+	<p><en>Running class</en><ru>Класс выполняется</ru></p>
+	<p><en>Misconfigured</en><ru>Ошибка конфигурации</ru></p>
 	<p><en>Print</en><ru>Печать</ru></p>
 	<p><en>Main Properties</en><ru>Основные свойства</ru></p>
 	<p><en>Save/Cancel via OK/Cancel</en><ru>сохранение/отмена по OK/Отмена</ru></p>

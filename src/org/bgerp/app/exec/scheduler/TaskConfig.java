@@ -136,6 +136,12 @@ public class TaskConfig implements IdTitle<String> {
         if (RUNNING_CLASSES.contains(clazz))
             return "Running class";
 
+        try {
+            taskInstance();
+        } catch (Exception e) {
+            return "Misconfigured";
+        }
+
         return null;
     }
 
