@@ -34,6 +34,8 @@
 						<c:set var="queueId" value="${ctxUser.pers.queueLastSelected}"/>
 					</c:if>
 
+					<shell:state moveSelector="#${id}" help="kernel/process/queue.html#usage"/>
+
 					<script>
 						$(function () {
 							<c:forEach items="${frd.list}" var="item">
@@ -45,8 +47,6 @@
 							$$.process.queue.showSelected(${queueId});
 						})
 					</script>
-
-					<shell:state moveSelector="#${id}" help="kernel/process/queue.html#usage"/>
 				</c:when>
 				<c:otherwise>
 					${l.l("The user doesn't have allowed queues")}
