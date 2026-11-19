@@ -1,3 +1,14 @@
 filter.{@inc:cnt}.type=openClose
 filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=status
+
+column.1.title=ID
+column.1.value=id
+column.3.title=Description
+column.3.value=descriptionLink
+column.5.title=Status
+column.5.value=status_title
+column.7.title=Executors
+column.7.value=executors
+column.9.title=Created
+column.9.value=create_dt
