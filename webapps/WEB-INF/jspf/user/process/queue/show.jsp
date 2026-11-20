@@ -10,12 +10,12 @@
 	<ui:page-control pageFormSelector="${pageFormSelector}" nextCommand="${nextCommand}"/>
 </div>
 
-<%-- обновление очереди по переходу в неё --%>
+<%-- refresh the queue when navigating to it --%>
 <script>
 	$(function () {
 		const $contentDiv = $('#content > #process-queue');
 
-		// т.к. каждый раз UIID промотчика страниц разный - переопределение onShow
+		// since the page pager UIID differs each time, override onShow
 		$contentDiv.data('onShow', function () {
 			$("#${uiid} button[name='pageControlRefreshButton']").click();
 			$$.debug( 'processQueue', 'refresh queue', $("#${uiid} button[name='pageControlRefreshButton']") );

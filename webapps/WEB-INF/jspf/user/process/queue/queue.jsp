@@ -56,11 +56,11 @@
 	</table>
 
 	<div id="processQueueFilter">
-		<%-- сюда динамически грузится фильтр --%>
+		<%-- the filter is dynamically loaded here --%>
 	</div>
 
 	<div id="processQueueData">
-		<%-- сюда динамически грузится вывод очереди --%>
+		<%-- the queue output is dynamically loaded here --%>
 	</div>
 </div>
 
@@ -69,10 +69,10 @@
 	<input type="hidden" name="method" value="processCreate"/>
 
 	<div id="typeTree">
-		<%-- сюда динамически грузится дерево типов для очереди --%>
+		<%-- the queue process type tree is dynamically loaded here --%>
 	</div>
 	<div id="groupSelect">
-		<%-- сюда динамически грузятся группы решения --%>
+		<%-- the execution groups are dynamically loaded here --%>
 	</div>
 	<div id="constPart" class="mt05">
 		<h2>${l.l('Description')}</h2>

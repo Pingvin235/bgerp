@@ -56,7 +56,7 @@
 			<li><a onclick="${script}">${l.l('Print')}</a></li>
 		</c:if>
 
-		<%-- обращение к плагину, не совсем корректно, в перспективе лучше сделать точку расширения --%>
+		<%-- Accessing the plugin this way is not quite correct; an extension point should be provided in the future --%>
 		<c:set var="printConfig" value="${queue.configMap.getConfig('ru.bgcrm.model.process.queue.config.PrintQueueConfig')}"/>
 		<c:if test="${not empty printConfig and not empty printConfig.printTypes}">
 			<c:forEach var="item" items="${printConfig.printTypes}">
@@ -232,11 +232,11 @@
 		</div>
 	</div>
 
-	<%-- Set используется для установки статусов отображаемым фильтрам --%>
+	<%-- Set is used to set statuses for the displayed filters --%>
 	<c:set var="selectedFiltersStr" value="${ctxUser.pers['queueSelectedFilters'.concat(queue.id)]}"/>
 	<c:set var="selectedFilters" value="${u.toIntegerSet(selectedFiltersStr)}"/>
 
-	<%-- полный фильтр --%>
+	<%-- full filter --%>
 	<form action="/user/process/queue.do" id="${queue.id}-0" ${currentSavedFilterSetId le 0 ? "active='1'" : "style='display: none;'"} class="in-inline-block in-mr05 in-mb1-all">
 		<input type="hidden" name="savedFilterSetId" value="0"/>
 		<input type="hidden" name="selectedFilters" value="${selectedFiltersStr}"/>

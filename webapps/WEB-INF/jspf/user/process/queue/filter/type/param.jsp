@@ -41,7 +41,7 @@
 							<c:set var="fields" value="city;street;house"/>
 						</c:if>
 
-						<%-- город, улица и дом - обязательные поля --%>
+						<%-- city, street, and house are required fields --%>
 						<c:if test="${!fields.contains('house')}">
 							<c:set var="fields" value="house;${fields}"/>
 						</c:if>

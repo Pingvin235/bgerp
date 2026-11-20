@@ -122,7 +122,7 @@ Incoming variables:
 						</c:forEach>
 					</c:when>
 
-					<%-- TODO: Код этот должен быть по-правильному в плагине BGBilling --%>
+					<%-- TODO: This code should properly belong to BGBilling plugin --%>
 					<c:when test="${column.value.startsWith('linkObject:contract' ) or
 									column.value.startsWith('linkedObject:contract')}">
 						<c:forEach var="contractInfo" items="${col.split(',')}">
