@@ -1,3 +1,4 @@
 A: Show 'Run' columns for running Scheduler only. https://bgerp.org/change/0/doc/kernel/setup.html#scheduler
 A: Mark misconfigured Scheduler task. https://bgerp.org/change/0/doc/kernel/setup.html#scheduler
 A: Attribute 'onChange' for <ui:date-time>
+A: Scheduler task GroupPlanBackToQueue. https://bgerp.org/change/0/doc/plugin/pln/grpl#setup-scheduler
