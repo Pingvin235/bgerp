@@ -221,7 +221,9 @@
 			$(".dropFilterArea").on('dragleave', filterHandleDragLeave);
 		</script>
 
+		<%-- the functionality was hidden at 20.11.2026, remove it completely later if no one is interested about
 		<button class="btn-white btn-icon" onclick="showCommonFiltersMenu()" title="${l.l('Общие фильтры')}"><i class="ti-filter"></i></button>
+		--%>
 
 		<div id="commonFiltersPanel" class="box" style="display:none;">
 			<button onclick="importFilterFromCommons()" title="${l.l('Импорт себе общего фильтра')}" class="btn-white btn-icon"><i class="ti-arrow-left"></i></button>
