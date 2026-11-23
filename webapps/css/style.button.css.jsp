@@ -84,7 +84,7 @@ button.btn-grey, button.btn-white {
 .btn-white,
 /* jQuery UI dialog */
 .ui-dialog .ui-dialog-buttonset button.btn-white {
-	color: #000 !important;
+	color: #000;
 	border-radius: 3px !important;
 	border: 1px solid #c8c8c8 !important;
 	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
