@@ -34,7 +34,7 @@ import ru.bgcrm.util.AdminPortListener;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path="/admin/app", pathId = true)
+@Action(path="/admin/app")
 public class AppAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/app";
 

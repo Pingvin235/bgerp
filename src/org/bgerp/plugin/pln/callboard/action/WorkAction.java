@@ -78,7 +78,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/plugin/callboard/work", pathId = true)
+@Action(path = "/user/plugin/callboard/work")
 public class WorkAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 

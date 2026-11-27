@@ -9,7 +9,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/cashcheck", pathId = true)
+@Action(path = "/user/plugin/bgbilling/proto/cashcheck")
 public class CashCheckAction extends ContractAction {
     public ActionForward registratorList(DynActionForm form, ConnectionSet conSet) {
         String billingId = form.getParam("billingId");

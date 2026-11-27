@@ -24,7 +24,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/message/call", pathId = true)
+@Action(path = "/user/message/call")
 public class MessageCallAction extends BaseAction {
 
     public ActionForward numberRegister(DynActionForm form, ConnectionSet conSet) throws Exception {

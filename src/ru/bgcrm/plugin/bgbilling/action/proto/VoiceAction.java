@@ -19,7 +19,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/voice", pathId = true)
+@Action(path = "/user/plugin/bgbilling/proto/voice")
 public class VoiceAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/voice";
 

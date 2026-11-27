@@ -13,7 +13,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
  * @author Shamil Vakhitov
  */
 @Deprecated
-@Action(path = "/user/empty", pathId = true)
+@Action(path = "/user/empty")
 public class EmptyAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {

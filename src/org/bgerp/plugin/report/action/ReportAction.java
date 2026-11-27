@@ -17,7 +17,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
  *
  * @author Shamil Vakhitov
  */
-@Action(path = "/user/plugin/report/report", pathId = true)
+@Action(path = "/user/plugin/report/report")
 public class ReportAction extends BaseAction {
 
     @Override

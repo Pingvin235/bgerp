@@ -16,7 +16,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/dispatch/dispatch", pathId = true)
+@Action(path = "/user/plugin/dispatch/dispatch")
 public class DispatchAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 

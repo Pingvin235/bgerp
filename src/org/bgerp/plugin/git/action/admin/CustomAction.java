@@ -13,7 +13,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/plugin/git/custom", pathId = true)
+@Action(path = "/admin/plugin/git/custom")
 public class CustomAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 

@@ -82,7 +82,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/process", pathId = true)
+@Action(path = "/user/process")
 public class ProcessAction extends BaseAction {
     private static final Log log = Log.getLog();
 

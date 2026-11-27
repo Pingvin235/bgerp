@@ -33,7 +33,7 @@ import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/admin/user", pathId = true)
+@Action(path = "/admin/user")
 public class UserAction extends org.bgerp.action.base.BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/user";
 

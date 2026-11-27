@@ -27,7 +27,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.inet.IpNet;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/inet", pathId = true)
+@Action(path = "/user/plugin/bgbilling/proto/inet")
 public class InetAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/inet";
 

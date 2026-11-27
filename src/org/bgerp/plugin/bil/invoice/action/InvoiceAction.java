@@ -35,7 +35,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/invoice/invoice", pathId = true)
+@Action(path = "/user/plugin/invoice/invoice")
 public class InvoiceAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 

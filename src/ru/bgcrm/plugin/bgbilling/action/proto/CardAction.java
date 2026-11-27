@@ -17,7 +17,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/card", pathId = true)
+@Action(path = "/user/plugin/bgbilling/proto/card")
 public class CardAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/card";
 

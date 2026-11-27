@@ -52,7 +52,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/process/queue", pathId = true)
+@Action(path = "/user/process/queue")
 public class ProcessQueueAction extends ProcessAction {
     private static final Log log = Log.getLog();
 

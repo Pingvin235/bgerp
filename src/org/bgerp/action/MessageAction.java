@@ -59,7 +59,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/message", pathId = true)
+@Action(path = "/user/message")
 public class MessageAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/message";
     /**

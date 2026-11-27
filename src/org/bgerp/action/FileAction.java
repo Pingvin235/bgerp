@@ -25,7 +25,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/file", pathId = true)
+@Action(path = "/user/file")
 public class FileAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, Connection con) throws SQLException, FileNotFoundException {

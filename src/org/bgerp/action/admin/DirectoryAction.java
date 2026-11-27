@@ -37,7 +37,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Action(path = "/admin/directory", pathId = true)
+@Action(path = "/admin/directory")
 public class DirectoryAction extends BaseAction {
     public static final class Directory extends IdStringTitle {
         private final String action;

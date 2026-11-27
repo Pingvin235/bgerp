@@ -58,7 +58,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/proto/contract", pathId = true)
+@Action(path = "/user/plugin/bgbilling/proto/contract")
 public class ContractAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
     private static final String PATH_JSP_CONTRACT = PATH_JSP + "/contract";

@@ -14,7 +14,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/plugin/backup/backup", pathId = true)
+@Action(path = "/admin/plugin/backup/backup")
 public class BackupAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 

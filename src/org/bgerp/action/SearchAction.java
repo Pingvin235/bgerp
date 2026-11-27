@@ -23,7 +23,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/search", pathId = true)
+@Action(path = "/user/search")
 public class SearchAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/search";
     private static final String JSP_DEFAULT = PATH_JSP + "/search.jsp";

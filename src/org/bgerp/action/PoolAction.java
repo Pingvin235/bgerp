@@ -13,7 +13,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 
-@Action(path = "/user/pool", pathId = true)
+@Action(path = "/user/pool")
 public class PoolAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {

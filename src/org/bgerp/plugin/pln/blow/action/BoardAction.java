@@ -29,7 +29,7 @@ import org.bgerp.plugin.pln.blow.model.Board;
 import org.bgerp.plugin.pln.blow.model.BoardConfig;
 import org.bgerp.plugin.pln.blow.model.BoardsConfig;
 
-@Action(path = "/user/plugin/blow/board", pathId = true)
+@Action(path = "/user/plugin/blow/board")
 public class BoardAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/board";
 

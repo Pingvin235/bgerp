@@ -40,7 +40,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/document/document", pathId = true)
+@Action(path = "/user/plugin/document/document")
 public class DocumentAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 

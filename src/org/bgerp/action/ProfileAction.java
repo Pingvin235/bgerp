@@ -19,7 +19,7 @@ import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/profile", pathId = true)
+@Action(path = "/user/profile")
 public class ProfileAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/profile";
 

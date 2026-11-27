@@ -27,7 +27,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/directory/address", pathId = true)
+@Action(path = "/user/directory/address")
 public class DirectoryAddressAction extends BaseAction {
     private static final String JSP_ADDRESS = PATH_JSP_USER + "/directory/address/address.jsp";
 

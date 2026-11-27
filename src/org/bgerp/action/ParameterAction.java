@@ -67,7 +67,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/parameter", pathId = true)
+@Action(path = "/user/parameter")
 public class ParameterAction extends BaseAction {
     protected static final String PATH_JSP = PATH_JSP_USER + "/parameter";
 

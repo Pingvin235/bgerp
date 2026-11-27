@@ -22,7 +22,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/run", pathId = true)
+@Action(path = "/admin/run")
 public class RunAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/run";
 

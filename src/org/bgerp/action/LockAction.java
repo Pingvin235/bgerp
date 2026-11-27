@@ -11,7 +11,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/lock", pathId = true)
+@Action(path = "/user/lock")
 public class LockAction extends BaseAction {
     public ActionForward add(DynActionForm form, ConnectionSet conSet) throws Exception {
         String lockId = getLockId(form);

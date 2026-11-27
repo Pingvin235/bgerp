@@ -39,7 +39,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Action(path = "/user/plugin/bgbilling/contract", pathId = true)
+@Action(path = "/user/plugin/bgbilling/contract")
 public class ContractAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 

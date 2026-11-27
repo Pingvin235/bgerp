@@ -14,7 +14,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/calendar/calendar", pathId = true)
+@Action(path = "/user/plugin/calendar/calendar")
 public class CalendarAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 

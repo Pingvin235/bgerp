@@ -25,7 +25,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/user/plugin/email/email", pathId = true)
+@Action(path = "/user/plugin/email/email")
 public class EMailAction extends BaseAction {
     public ActionForward recipients(DynActionForm form, ConnectionSet conSet) throws Exception {
         int processId = form.getParamInt("processId", Utils::isPositive);

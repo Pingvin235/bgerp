@@ -35,7 +35,7 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
         /**
          * @return the action ID is path, not class name
          */
-        boolean pathId() default false;
+        boolean pathId() default true;
     }
 
     /**

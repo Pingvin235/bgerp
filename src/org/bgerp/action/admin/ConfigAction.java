@@ -26,7 +26,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/admin/config", pathId = true)
+@Action(path = "/admin/config")
 public class ConfigAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/config";
 
