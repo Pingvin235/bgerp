@@ -7,7 +7,7 @@
 	<html:hidden property="method"/>
 	<html:hidden property="processId"/>
 
-	<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:create">
+	<p:check action="/user/plugin/invoice/invoice:create">
 		<c:url var="url" value="${form.requestURI}">
 			<c:param name="method" value="create"/>
 			<c:param name="processId" value="${form.param.processId}"/>
@@ -36,7 +36,7 @@
 			<td>
 				<c:set var="menuUiid" value="${u:uiid()}"/>
 				<ui:popup-menu id="${menuUiid}">
-					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:get">
+					<p:check action="/user/plugin/invoice/invoice:get">
 						<c:url var="url" value="${form.requestURI}">
 							<c:param name="method" value="get"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -51,7 +51,7 @@
 
 					<c:choose>
 						<c:when test="${not empty item.paymentDate}">
-							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:unpaid">
+							<p:check action="/user/plugin/invoice/invoice:unpaid">
 								<c:url var="url" value="${form.requestURI}">
 									<c:param name="method" value="unpaid"/>
 									<c:param name="id" value="${item.id}"/>
@@ -64,7 +64,7 @@
 							</p:check>
 						</c:when>
 						<c:otherwise>
-							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:paid">
+							<p:check action="/user/plugin/invoice/invoice:paid">
 								<c:url var="url" value="${form.requestURI}">
 									<c:param name="method" value="paid"/>
 									<c:param name="id" value="${item.id}"/>
@@ -78,7 +78,7 @@
 						</c:otherwise>
 					</c:choose>
 
-					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:delete">
+					<p:check action="/user/plugin/invoice/invoice:delete">
 						<c:url var="url" value="${form.requestURI}">
 							<c:param name="method" value="delete"/>
 							<c:param name="id" value="${item.id}"/>
@@ -96,7 +96,7 @@
 			<td class="nowrap">${tu.format(item.dateFrom, 'ymd')} - ${tu.format(item.dateTo, 'ymd')}</td>
 			<td>
 				<c:choose>
-					<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc')}">
+					<c:when test="${ctxUser.checkPerm('/user/plugin/invoice/invoice:doc')}">
 						<c:url var="url" value="${form.requestURI}">
 							<c:param name="method" value="doc"/>
 							<c:param name="id" value="${item.id}"/>

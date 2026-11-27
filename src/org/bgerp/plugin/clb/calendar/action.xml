@@ -1,4 +1,5 @@
 <item title="Plugin Calendar">
+	<item title="Calendar" action="/user/plugin/calendar/calendar:null, org.bgerp.plugin.calendar.action.CalendarAction:null"/>
 	<item title="Balance">
 		<item title="Show" action="org.bgerp.plugin.calendar.action.ActionBalance:show"/>
 	</item>

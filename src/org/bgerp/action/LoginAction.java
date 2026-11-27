@@ -11,7 +11,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-@Action(path = "/login")
+@Action(path = "/login", pathId = true)
 public class LoginAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {

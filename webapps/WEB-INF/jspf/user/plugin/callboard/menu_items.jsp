@@ -3,11 +3,11 @@
 
 <ui:menu-group title="${l.l('Организация работ')}" icon="ti-agenda">
 	<ui:menu-item title="${l.l('Календарь рабочих дней')}" href="callboard/calendar"
-		action="org.bgerp.plugin.pln.callboard.action.WorkAction:workDaysCalendarList" />
+		action="/user/plugin/callboard/work:workDaysCalendarList" />
 
 	<ui:menu-item title="${l.l('График дежурств')}" href="callboard"
-		action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGet" />
+		action="/user/plugin/callboard/work:callboardGet" />
 
 	<ui:menu-item title="${l.l('План работ')}" href="callboard/workplan"
-		action="org.bgerp.plugin.pln.callboard.action.WorkAction:planGet" />
+		action="/user/plugin/callboard/work:planGet" />
 </ui:menu-group>

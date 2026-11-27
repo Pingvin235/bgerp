@@ -191,11 +191,11 @@
 
 		<!-- used only in BGBilling plugin for linking contracts to customers, after modifying that delete those completely -->
 		<item title="Привязки договора">
-			<item title="Просмотр привязок" action="ru.bgcrm.struts.action.LinkAction:linkList"/>
-			<item title="Добавление привязки" action="ru.bgcrm.struts.action.LinkAction:addLink"/>
-			<item title="Удаление привязки" action="ru.bgcrm.struts.action.LinkAction:deleteLink"/>
-			<item title="Удаление привязок объекта" action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo"/>
-			<item title="Удаление привязок определённого типа" action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType"/>
+			<item title="Просмотр привязок" action="/user/link:linkList, ru.bgcrm.struts.action.LinkAction:linkList"/>
+			<item title="Добавление привязки" action="/user/link:addLink, ru.bgcrm.struts.action.LinkAction:addLink"/>
+			<item title="Удаление привязки" action="/user/link:deleteLink, ru.bgcrm.struts.action.LinkAction:deleteLink"/>
+			<item title="Удаление привязок объекта" action="/user/link:deleteLinksTo, ru.bgcrm.struts.action.LinkAction:deleteLinksTo"/>
+			<item title="Удаление привязок определённого типа" action="/user/link:deleteLinksWithType, ru.bgcrm.struts.action.LinkAction:deleteLinksWithType"/>
 		</item>
 	</item>
 </item>

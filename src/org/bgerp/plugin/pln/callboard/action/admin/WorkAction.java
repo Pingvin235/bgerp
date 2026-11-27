@@ -29,7 +29,7 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-@Action(path = "/admin/plugin/callboard/work")
+@Action(path = "/admin/plugin/callboard/work", pathId = true)
 public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 

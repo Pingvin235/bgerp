@@ -1,14 +1,14 @@
 <item title="Plugin Dispatch">
 	<item title="Dispatch">
-		<item title="List" action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchList, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchList"/>
-		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchUpdate, ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchGet,
+		<item title="List" action="/user/plugin/dispatch/dispatch:dispatchList, ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchList, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchList"/>
+		<item action="/user/plugin/dispatch/dispatch:dispatchUpdate, /user/plugin/dispatch/dispatch:dispatchGet, ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchUpdate, ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchGet,
 			ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchUpdate, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchGet" title="Edit"/>
-		<item title="Delete" action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchDelete, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchDelete"/>
+		<item title="Delete" action="/user/plugin/dispatch/dispatch:dispatchDelete, ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchDelete, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchDelete"/>
 	</item>
 	<item title="Message">
-		<item title="List" action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageList, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageList"/>
-		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageUpdate, ru.bgcrm.plugin.dispatch.action.DispatchAction:messageGet,
+		<item title="List" action="/user/plugin/dispatch/dispatch:messageList, ru.bgcrm.plugin.dispatch.action.DispatchAction:messageList, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageList"/>
+		<item action="/user/plugin/dispatch/dispatch:messageUpdate, /user/plugin/dispatch/dispatch:messageGet, ru.bgcrm.plugin.dispatch.action.DispatchAction:messageUpdate, ru.bgcrm.plugin.dispatch.action.DispatchAction:messageGet,
 		ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageUpdate, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageGet" title="Edit"/>
-		<item title="Delete" action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageDelete, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageDelete"/>
+		<item title="Delete" action="/user/plugin/dispatch/dispatch:messageDelete, ru.bgcrm.plugin.dispatch.action.DispatchAction:messageDelete, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageDelete"/>
 	</item>
 </item>

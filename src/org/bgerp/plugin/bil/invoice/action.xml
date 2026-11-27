@@ -1,11 +1,11 @@
 <item title="Plugin Invoice">
 	<item title="Invoice">
-		<item title="List" action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:list, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:list"/>
-		<item title="Create" action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:create, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:create"/>
-		<item title="Document" action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:doc"/>
-		<item title="Update" action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:get, org.bgerp.plugin.bil.invoice.action.InvoiceAction:update, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:get, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:update"/>
-		<item title="Paid" action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:paid, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:paid"/>
-		<item title="Unpaid" action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:unpaid, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:unpaid"/>
-		<item title="Delete" action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:delete, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:delete"/>
+		<item title="List" action="/user/plugin/invoice/invoice:list, org.bgerp.plugin.bil.invoice.action.InvoiceAction:list, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:list"/>
+		<item title="Create" action="/user/plugin/invoice/invoice:create, org.bgerp.plugin.bil.invoice.action.InvoiceAction:create, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:create"/>
+		<item title="Document" action="/user/plugin/invoice/invoice:doc, org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:doc"/>
+		<item title="Update" action="/user/plugin/invoice/invoice:get, /user/plugin/invoice/invoice:update, org.bgerp.plugin.bil.invoice.action.InvoiceAction:get, org.bgerp.plugin.bil.invoice.action.InvoiceAction:update, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:get, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:update"/>
+		<item title="Paid" action="/user/plugin/invoice/invoice:paid, org.bgerp.plugin.bil.invoice.action.InvoiceAction:paid, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:paid"/>
+		<item title="Unpaid" action="/user/plugin/invoice/invoice:unpaid, org.bgerp.plugin.bil.invoice.action.InvoiceAction:unpaid, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:unpaid"/>
+		<item title="Delete" action="/user/plugin/invoice/invoice:delete, org.bgerp.plugin.bil.invoice.action.InvoiceAction:delete, org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:delete"/>
 	</item>
 </item>

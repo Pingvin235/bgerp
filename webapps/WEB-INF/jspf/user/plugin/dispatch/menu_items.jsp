@@ -3,8 +3,8 @@
 
 <ui:menu-group title="${l.l('Рассылки')}">
 	<ui:menu-item title="${l.l('Рассылки')}" href="dispatch"
-		action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchList" />
+		action="/user/plugin/dispatch/dispatch:dispatchList" />
 
 	<ui:menu-item title="${l.l('Сообщения рассылок')}" href="dispatch/message"
-		action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageList" />
+		action="/user/plugin/dispatch/dispatch:messageList" />
 </ui:menu-group>

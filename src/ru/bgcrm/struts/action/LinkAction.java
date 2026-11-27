@@ -27,7 +27,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 
-@Action(path = "/user/link")
+@Action(path = "/user/link", pathId = true)
 public class LinkAction extends BaseAction {
     private static final String PARAM_PREFIX = "c:";
     private static final int PARAM_PREFIX_LENGTH = PARAM_PREFIX.length();

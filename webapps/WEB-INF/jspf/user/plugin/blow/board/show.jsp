@@ -8,7 +8,7 @@
 	<div class="in-table-cell mb1">
 		<%@ include file="filters.jsp"%>
 
-		<p:check action="org.bgerp.plugin.pln.blow.action.BoardAction:search">
+		<p:check action="/user/plugin/blow/board:search">
 			<form action="${form.requestURI}">
 				<input type="hidden" name="method" value="search"/>
 				<c:forEach var="id" items="${frd.processIds}">

@@ -176,9 +176,9 @@
 		<item title="List of Users" action="/user/directory/user:userList, ru.bgcrm.struts.action.UserAction:userList"/>
 	</item>
 
-	<item title="Download File" action="org.bgerp.action.FileAction:null, ru.bgcrm.struts.action.FileAction:null">
-		<item allowAll="1" action="org.bgerp.action.FileAction:temporaryUpload"/>
-		<item allowAll="1" action="org.bgerp.action.FileAction:temporaryDelete"/>
+	<item title="Download File" action="/user/file:null, org.bgerp.action.FileAction:null, ru.bgcrm.struts.action.FileAction:null">
+		<item allowAll="1" action="/user/file:temporaryUpload, org.bgerp.action.FileAction:temporaryUpload"/>
+		<item allowAll="1" action="/user/file:temporaryDelete, org.bgerp.action.FileAction:temporaryDelete"/>
 	</item>
 
 	<item title="Administration">
@@ -340,11 +340,11 @@
 		</item>
 	</item>
 
-	<item allowAll="1" action="ru.bgcrm.struts.action.EmptyAction:null" notLogging="1"/>
+	<item allowAll="1" action="/user/empty:null, ru.bgcrm.struts.action.EmptyAction:null" notLogging="1"/>
 	<item allowAll="1" action="/user/pool:null, ru.bgcrm.struts.action.PoolAction:null" notLogging="1"/>
 	<item allowAll="1" action="/user/lock:add, ru.bgcrm.struts.action.LockAction:add" notLogging="1"/>
 	<item allowAll="1" action="/user/lock:free, ru.bgcrm.struts.action.LockAction:free" notLogging="1"/>
 
-	<item allowAll="1" action="org.bgerp.action.LoginAction:null" notLogging="1"/>
-	<item allowAll="1" action="org.bgerp.action.LoginAction:logout" notLogging="1"/>
+	<item allowAll="1" action="/login:null, org.bgerp.action.LoginAction:null" notLogging="1"/>
+	<item allowAll="1" action="/login:logout, org.bgerp.action.LoginAction:logout" notLogging="1"/>
 </item>

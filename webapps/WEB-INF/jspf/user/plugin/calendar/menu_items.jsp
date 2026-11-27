@@ -2,5 +2,5 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <ui:menu-item title="${l.l('Calendar')}" icon="ti-calendar" href="calendar"
-	action="org.bgerp.plugin.calendar.action.CalendarAction:null" />
+	action="/user/plugin/calendar/calendar:null" />
 

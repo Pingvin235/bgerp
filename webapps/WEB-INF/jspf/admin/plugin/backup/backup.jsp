@@ -21,7 +21,7 @@
 <c:set var="files" value="<%=org.bgerp.plugin.svc.backup.action.admin.BackupAction.FILE_BACKUP%>"/>
 
 <c:set var="deletionAllowed" value="${ctxUser.checkPerm(files.deletePermissionAction)}"/>
-<c:set var="restoreAllowed" value="${ctxUser.checkPerm('org.bgerp.plugin.svc.backup.action.admin.BackupAction:restore')}"/>
+<c:set var="restoreAllowed" value="${ctxUser.checkPerm('/admin/plugin/backup/backup:restore')}"/>
 
 <c:set var="cleanupCandidates" value="${config.cleanupCandidates(files)}"/>
 

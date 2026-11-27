@@ -1,8 +1,8 @@
 <item title="Plugin Backup">
-	<item title="Backup" action="org.bgerp.plugin.svc.backup.action.admin.BackupAction:null">
-		<item title="Create" action="org.bgerp.plugin.svc.backup.action.admin.BackupAction:backup"/>
-		<item title="Restore To" action="org.bgerp.plugin.svc.backup.action.admin.BackupAction:restore"/>
-		<item title="Download" action="org.bgerp.plugin.svc.backup.action.admin.BackupAction:downloadFileBackup"/>
-		<item title="Delete" action="org.bgerp.plugin.svc.backup.action.admin.BackupAction:deleteFileBackup"/>
+	<item title="Backup" action="/admin/plugin/backup/backup:null, org.bgerp.plugin.svc.backup.action.admin.BackupAction:null">
+		<item title="Create" action="/admin/plugin/backup/backup:backup, org.bgerp.plugin.svc.backup.action.admin.BackupAction:backup"/>
+		<item title="Restore To" action="/admin/plugin/backup/backup:restore, org.bgerp.plugin.svc.backup.action.admin.BackupAction:restore"/>
+		<item title="Download" action="/admin/plugin/backup/backup:downloadFileBackup, org.bgerp.plugin.svc.backup.action.admin.BackupAction:downloadFileBackup"/>
+		<item title="Delete" action="/admin/plugin/backup/backup:deleteFileBackup, org.bgerp.plugin.svc.backup.action.admin.BackupAction:deleteFileBackup"/>
 	</item>
 </item>

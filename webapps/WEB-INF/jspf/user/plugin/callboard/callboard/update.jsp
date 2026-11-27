@@ -23,7 +23,7 @@
 	<c:param name="graphId" value="${form.param.graphId}" />
 </c:url>
 
-<c:set var="perm" value="${ctxUser.getPerm('org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGet')}"/>
+<c:set var="perm" value="${ctxUser.getPerm('/user/plugin/callboard/work:callboardGet')}"/>
 <c:set var="allowOnlyGroups" value="${u.toIntegerSet(perm['allowOnlyGroups'])}"/>
 
 <div id="${uiid}">
@@ -497,7 +497,7 @@
 			<table class="hdata minimal">
 				<tr class="header">
 					<td class="shiftUser">
-						<p:check action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGetTabel">
+						<p:check action="/user/plugin/callboard/work:callboardGetTabel">
 							<c:if test="${not empty callboard.tabelConfig}">
 								<a href="/user/plugin/callboard/work.do?method=callboardGetTabel&graphId=${form.param.graphId}&fromDate=${form.param.fromDate}&toDate=${form.param.toDate}">Табель</a>
 							</c:if>

@@ -2,4 +2,4 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <ui:menu-item title="${l.l('Blow план')}" href="blow/board" icon="ti-layout"
-	action="org.bgerp.plugin.pln.blow.action.BoardAction:board" />
+	action="/user/plugin/blow/board:board" />
